@@ -1,3 +1,7 @@
+# Lock file
+logs
+*.lock
+
 # Logs
 logs
 *.log
