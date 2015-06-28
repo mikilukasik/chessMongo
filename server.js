@@ -227,6 +227,14 @@ function pushTableState(tableNo){
 	
 	//allChats[tableNo].push(sTable) //logging past tables as chat
 		
+	//s	
+	var collection = db.get('tables');
+    collection.find({},{},function(e,docs){
+        allChats[tableNo].push(docs[0])
+    });	
+	
+	//e
+	
 	
 	allPastTables[tableNo].push(sTable) //remember this state
 	allPastTables[tableNo].forEach(function(tableTempState){	//check all past states
