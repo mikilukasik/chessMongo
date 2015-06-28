@@ -3,11 +3,11 @@
 var express = require('express');
 var morgan = require('morgan');
 var app = express();
-
+//
 var mongo = require('mongodb');
 var monk = require('monk');
-var db = monk('localhost:27017/nodetest1');
-
+var db = monk('localhost:27017/chessdb');
+//
 //http://stackoverflow.com/questions/5797852/in-node-js-how-do-i-include-functions-from-my-other-files
 var fs = require('fs');
 
@@ -17,11 +17,12 @@ eval(fs.readFileSync('public/brandNewAi.js')+'');
 
 //var t1const=11
 
+//clear this bullshit
 var activeGames=[]
 activeGames[0]=[]		//tablenum
 activeGames[1]=[]		//?
 var tablesLastMoved=[]
-
+//
 
 
 
@@ -29,6 +30,14 @@ var tablesLastMoved=[]
 
 app.use(express.static('public'))
 app.use(morgan("combined"))
+
+// Make our db accessible to our router
+app.use(function(req,res,next){
+    req.db = db;
+    next();
+});
+//
+
 
 
 
@@ -216,8 +225,8 @@ function pushTableState(tableNo){
 	var sTable=getSimpleTableState(allTables[tableNo])
 	var sCount=0
 	
-	allChats[tableNo].push(sTable) //logging
-	
+	//allChats[tableNo].push(sTable) //logging past tables as chat
+		
 	
 	allPastTables[tableNo].push(sTable) //remember this state
 	allPastTables[tableNo].forEach(function(tableTempState){	//check all past states
