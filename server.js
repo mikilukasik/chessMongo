@@ -3,17 +3,27 @@
 var express = require('express');
 var morgan = require('morgan');
 var app = express();
-var t1const=11
-var activeGames=[]
-activeGames[0]=[]
-activeGames[1]=[]
-var tablesLastMoved=[]
+
+var mongo = require('mongodb');
+var monk = require('monk');
+var db = monk('localhost:27017/nodetest1');
+
 //http://stackoverflow.com/questions/5797852/in-node-js-how-do-i-include-functions-from-my-other-files
 var fs = require('fs');
 
 // file is included here:
 eval(fs.readFileSync('public/brandNewAi.js')+'');
 //http://stackoverflow.com/questions/5797852/in-node-js-how-do-i-include-functions-from-my-other-files
+
+//var t1const=11
+
+var activeGames=[]
+activeGames[0]=[]		//tablenum
+activeGames[1]=[]		//?
+var tablesLastMoved=[]
+
+
+
 
 
 
@@ -66,12 +76,12 @@ var tempRandomConst=0
 // setInterval(function(){
 // 	console.log('a')
 // },5)
-setInterval(function(){
-	// active games
+// setInterval(function(){
+// 	// active games
 	
 	
 	
-},300)
+// },300)
 	
 	
 setInterval(function(){
@@ -197,7 +207,7 @@ setInterval(function(){
 		 }
 		 console.log('lefutott')
 	
-	},1000);
+	},2000);
 
 
 

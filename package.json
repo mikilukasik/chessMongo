@@ -1,24 +1,15 @@
 {
-  "name": "ChessNew",
-  "version": "1.0.0",
-  "description": "Miki elso JS programja",
-  "main": "server.js",
+  "name": "chessMongo",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node ./bin/www"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mikilukasik/ChessNew.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mikilukasik/ChessNew/issues"
-  },
-  "homepage": "https://github.com/mikilukasik/ChessNew",
   "dependencies": {
-    "express": "^4.12.4",
-    "morgan": "^1.5.3"
+    "express": "~4.12.4",
+    "jade": "~1.9.2",
+    "morgan": "~1.5.3",
+    "mongodb": "~2.0.33",
+    "monk": "~1.0.1"
   }
 }
