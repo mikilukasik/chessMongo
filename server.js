@@ -36,7 +36,7 @@ var firstFreeTable=0
 //temp
 
 var tempPracticeTable=new Dbtable(Math.floor(Math.random()*10000)+10000)
-
+tempPracticeTable.wNext=false
 // Submit to the DB
 dbTables.insert(tempPracticeTable, function (err, doc) {});
 //temp end

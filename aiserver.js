@@ -46,19 +46,13 @@ var mongoTable=[]
   mongodb.connect(cn, function(err, db) {
     db.collection("tables").findOne({tableNum: Number(req.query.t)},function(err2, tableFromDb) {
       console.log("loaded", err2, tableFromDb)
-      mongoTable = tableFromDb.table;
-      // console.log(tableFromDb)
-      // console.log(mongoTable)
+      if(!err2){
       
-      // if(req.query.p==2){			//2 stands for white
-    	//    var result=ai(mongoTable,true)
-      // }else{
-    	//    var result=ai(mongoTable,false)
-    	  
-      // }
-      
-      var result=ai(mongoTable,tableFromDb.wNext)
-      result1=result[1][0]
+        mongoTable = tableFromDb.table;
+        
+        var result=ai(mongoTable,tableFromDb.wNext)
+        result1=result[1][0]
+      }
      	res.json({aichoice: result1, fullchoicetable: result});
 
     
