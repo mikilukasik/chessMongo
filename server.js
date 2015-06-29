@@ -26,6 +26,33 @@ app.use(function(req,res,next){
     next();
 });
 //
+var dbTables=db.get('tables');
+
+
+
+
+var firstFreeTable=0
+
+//temp
+firstFreeTable++
+var tempPracticeTable=new Dbtable(firstFreeTable)
+firstFreeTable++
+
+
+// Submit to the DB
+    dbTables.insert(tempPracticeTable, function (err, doc) {
+        // if (err) {
+        //     // If it failed, return error
+        //     res.send("There was a problem adding the information to the database.");
+        // }
+        // else {
+        //     // And forward to success page
+        //     res.redirect("userlist");
+        // }
+    });
+//temp end
+
+
 
 var t1const=2.5
 
@@ -74,7 +101,7 @@ var lobbyPollNum=0
 var lobbyChat=[]
 var allChats=[]
 
-var firstFreeTable=0
+
 
 var aiOn=[]
 
