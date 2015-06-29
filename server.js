@@ -15,7 +15,7 @@ var fs = require('fs');
 eval(fs.readFileSync('public/brandNewAi.js')+'');
 //http://stackoverflow.com/questions/5797852/in-node-js-how-do-i-include-functions-from-my-other-files
 
-//var t1const=11
+var t1const=11
 
 //clear this bullshit
 var activeGames=[]
@@ -230,7 +230,7 @@ function pushTableState(tableNo){
 	//s	
 	var collection = db.get('tables');
     collection.find({},{},function(e,docs){
-        allChats[tableNo].push(docs[0])
+        allChats[tableNo].push(docs[0].table)
     });	
 	
 	//e
