@@ -9,6 +9,7 @@ var hitValueConst=0.5
 var t1const=2.5
 var t2const=1
 var dontHitConst=0.8
+var dletters = ["a","b","c","d","e","f","g","h"]
 
 function getSimpleTableState(itable){
 	var tempString=""

@@ -53,7 +53,7 @@ var Dbtable=function (tableNum) {	//class
 	
 
   
-  // allTables[tNo]=addMovesToTable(allTables[tNo],true)
-  // protectPieces(allTables[tNo],true)
-  // protectPieces(allTables[tNo],false)
+  this.table=addMovesToTable(this.table,true)
+  protectPieces(this.table,true)
+  protectPieces(this.table,false)
 }

@@ -34,22 +34,11 @@ var dbTables=db.get('tables');
 var firstFreeTable=0
 
 //temp
-firstFreeTable++
-var tempPracticeTable=new Dbtable(firstFreeTable)
-firstFreeTable++
 
+var tempPracticeTable=new Dbtable(Math.floor(Math.random()*10000)+10000)
 
 // Submit to the DB
-    dbTables.insert(tempPracticeTable, function (err, doc) {
-        // if (err) {
-        //     // If it failed, return error
-        //     res.send("There was a problem adding the information to the database.");
-        // }
-        // else {
-        //     // And forward to success page
-        //     res.redirect("userlist");
-        // }
-    });
+dbTables.insert(tempPracticeTable, function (err, doc) {});
 //temp end
 
 
