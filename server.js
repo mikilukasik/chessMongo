@@ -13,6 +13,7 @@ var fs = require('fs');
 
 // file is included here:
 eval(fs.readFileSync('public/brandNewAi.js')+'');
+eval(fs.readFileSync('public/tableClass.js')+'');
 //http://stackoverflow.com/questions/5797852/in-node-js-how-do-i-include-functions-from-my-other-files
 
 var t1const=11
