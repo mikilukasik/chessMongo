@@ -1,24 +1,33 @@
-//app.listen 80801
 
+//
 var express = require('express');
 var morgan = require('morgan');
 var app = express();
-
-var activeGames=[]
-activeGames[0]=[]
-activeGames[1]=[]
-var tablesLastMoved=[]
+//
+var mongo = require('mongodb');
+var monk = require('monk');
+var db = monk('localhost:27017/chessdb');
+//
 //http://stackoverflow.com/questions/5797852/in-node-js-how-do-i-include-functions-from-my-other-files
 var fs = require('fs');
 
 // file is included here:
 eval(fs.readFileSync('public/brandNewAi.js')+'');
+eval(fs.readFileSync('public/tableClass.js')+'');
 //http://stackoverflow.com/questions/5797852/in-node-js-how-do-i-include-functions-from-my-other-files
-
 
 
 app.use(express.static('public'))
 app.use(morgan("combined"))
+
+// Make our db accessible to our router
+app.use(function(req,res,next){
+    req.db = db;
+    next();
+});
+//
+var dbTables=db.get('tables');
+
 
 
 
@@ -28,10 +37,19 @@ var dletters = ["a","b","c","d","e","f","g","h"]
 
 
 app.get('/aiChoice', function (req, res) {
-	var startTime=(new Date()).getTime()
+	
   
   //itt mongobul ko szedni a tablat nemalltablesbol
-  var mongoTable= 0//nem allTables[req.query.t]
+  dbTables.find({"tableNum":req.query.t}).toArray(function(err, results){
+    console.log(results); // output all records
+});
+  //     console.log("tables loaded", err, thisDbTable)
+  //     var mongoTable = thisDbTable[1];
+   //console.log(mongoTable)
+      
+  // });
+      
+  //0//nem allTables[req.query.t]
 	
   if(req.query.p==2){			//2 stands for white
 	   var result=ai(mongoTable,true)
