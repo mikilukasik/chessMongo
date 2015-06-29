@@ -1,5 +1,7 @@
 
-//
+//app.listen(16789
+
+
 var express = require('express');
 var morgan = require('morgan');
 var app = express();
@@ -39,47 +41,19 @@ var dletters = ["a","b","c","d","e","f","g","h"]
 
 
 app.get('/aiChoice', function (req, res) {
-//var mongoTable=[]
-  
- 
-  
-mongodb.connect(cn, function(err, db) {
+
+  mongodb.connect(cn, function(err, db) {
     db.collection("tables").findOne({tableNum: Number(req.query.t)},function(err2, tableFromDb) {
-      //console.log("loaded", err2, tableFromDb)
+   
       if(!(tableFromDb==null)){
-      
-        //mongoTable = tableFromDb.table;
-        
         var result=ai(tableFromDb.table,tableFromDb.wNext)
         var result1=result[1][0]
       }
-     	res.json({aichoice: result1, fullchoicetable: result});
-
+      res.json({aichoice: result1, fullchoicetable: result});
     
+    });
   });
-})
-  
-  
-  
-//   dbTables.find({"tableNum":req.query.t}).toArray(function(err, results){
-//     console.log(results); // output all records
-// });
-  //     console.log("tables loaded", err, thisDbTable)
-  //     var mongoTable = thisDbTable[1];
-   //console.log(mongoTable)
-      
-  // });
-      
-  //0//nem allTables[req.query.t]
-	
-  // if(req.query.p==2){			//2 stands for white
-	//    var result=ai(mongoTable,true)
-  // }else{
-	//   var result=ai(mongoTable,false)
-	  
-  // }
-  // result1=result[1][0]
- 	// res.json({aichoice: result1, fullchoicetable: result});
+
 
 });
 
@@ -88,7 +62,7 @@ mongodb.connect(cn, function(err, db) {
 
 
 
-var server = app.listen(80801, function () {
+var server = app.listen(16789, function () {
 
   var host = server.address().address;
   var port = server.address().port;
