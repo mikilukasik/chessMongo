@@ -16,14 +16,6 @@ eval(fs.readFileSync('public/brandNewAi.js')+'');
 eval(fs.readFileSync('public/tableClass.js')+'');
 //http://stackoverflow.com/questions/5797852/in-node-js-how-do-i-include-functions-from-my-other-files
 
-var t1const=11
-
-//clear this bullshit
-var activeGames=[]
-activeGames[0]=[]		//tablenum
-activeGames[1]=[]		//?
-var tablesLastMoved=[]
-//
 
 
 
@@ -39,6 +31,14 @@ app.use(function(req,res,next){
 });
 //
 
+var t1const=11
+
+//clear this bullshit
+var activeGames=[]
+activeGames[0]=[]		//tablenum
+activeGames[1]=[]		//?
+var tablesLastMoved=[]
+//
 
 
 
