@@ -49,10 +49,14 @@ app.get('/aiChoice', function (req, res) {
         var result=ai(tableFromDb.table,tableFromDb.wNext)
         var result1=result[1][0]
       }
+      db.close()
       res.json({aichoice: result1, fullchoicetable: result});
     
     });
+    //db.close()
   });
+  
+  
 
 
 });
