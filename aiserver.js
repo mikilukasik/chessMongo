@@ -39,25 +39,25 @@ var dletters = ["a","b","c","d","e","f","g","h"]
 
 
 app.get('/aiChoice', function (req, res) {
-var mongoTable=[]
+//var mongoTable=[]
   
-  //itt mongobul ko szedni a tablat nemalltablesbol
+ 
   
-  mongodb.connect(cn, function(err, db) {
+mongodb.connect(cn, function(err, db) {
     db.collection("tables").findOne({tableNum: Number(req.query.t)},function(err2, tableFromDb) {
       //console.log("loaded", err2, tableFromDb)
       if(!(tableFromDb==null)){
       
-        mongoTable = tableFromDb.table;
+        //mongoTable = tableFromDb.table;
         
-        var result=ai(mongoTable,tableFromDb.wNext)
+        var result=ai(tableFromDb.table,tableFromDb.wNext)
         var result1=result[1][0]
       }
      	res.json({aichoice: result1, fullchoicetable: result});
 
     
   });
-  })
+})
   
   
   
