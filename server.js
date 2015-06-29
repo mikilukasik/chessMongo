@@ -33,13 +33,13 @@ var dbTables=db.get('tables');
 
 var firstFreeTable=0
 
-//temp
+// //temp
 
-var tempPracticeTable=new Dbtable(Math.floor(Math.random()*10000)+10000)
-tempPracticeTable.wNext=false
-// Submit to the DB
-dbTables.insert(tempPracticeTable, function (err, doc) {});
-//temp end
+// var tempPracticeTable=new Dbtable(Math.floor(Math.random()*10000)+10000)
+// tempPracticeTable.wNext=false
+// // Submit to the DB
+// dbTables.insert(tempPracticeTable, function (err, doc) {});
+// //temp end
 
 
 
@@ -604,6 +604,6 @@ var server = app.listen(80, function () {
   var host = server.address().address;
   var port = server.address().port;
 
-  console.log('Example app listening at http://%s:%s', host, port);
+  console.log('app listening at http://%s:%s', host, port);
 
 });
