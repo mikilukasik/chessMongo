@@ -50,12 +50,14 @@ var mongoTable=[]
       // console.log(tableFromDb)
       // console.log(mongoTable)
       
-      if(req.query.p==2){			//2 stands for white
-    	   var result=ai(mongoTable,true)
-      }else{
-    	   var result=ai(mongoTable,false)
+      // if(req.query.p==2){			//2 stands for white
+    	//    var result=ai(mongoTable,true)
+      // }else{
+    	//    var result=ai(mongoTable,false)
     	  
-      }
+      // }
+      
+      var result=ai(mongoTable,tableFromDb.wNext)
       result1=result[1][0]
      	res.json({aichoice: result1, fullchoicetable: result});
 
