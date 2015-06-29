@@ -21,7 +21,6 @@ var Dbtable=function (tableNum) {	//class
 		}
 	}
 	
-			// [3] is isInItsOriginalPosition for king and rook or CanBeHitEnPass for pawns
 	for (var i = 0; i < 8; i++) {									//row of white pawns
 		
 		this.table[i][1]=[2,1,false,false,false]//,pawnCanMove]
@@ -29,6 +28,8 @@ var Dbtable=function (tableNum) {	//class
 	for (var i = 0; i < 8; i++) {									//row of black pawns
 		this.table[i][6]=[1,1,false,false,false]//,pawnCanMove]
 	}
+	
+	
 	this.table[0][0]=[2,4,false,true,false]//,rookCanMove]				//rooks
 	this.table[7][0]=[2,4,false,true,false]//,rookCanMove]
 	this.table[0][7]=[1,4,false,true,false]//,rookCanMove]
