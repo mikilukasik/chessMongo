@@ -17,10 +17,6 @@ eval(fs.readFileSync('public/tableClass.js')+'');
 //http://stackoverflow.com/questions/5797852/in-node-js-how-do-i-include-functions-from-my-other-files
 
 
-
-
-
-
 app.use(express.static('public'))
 app.use(morgan("combined"))
 
@@ -31,7 +27,7 @@ app.use(function(req,res,next){
 });
 //
 
-var t1const=11
+var t1const=2.5
 
 //clear this bullshit
 var activeGames=[]
