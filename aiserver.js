@@ -4,9 +4,11 @@ var express = require('express');
 var morgan = require('morgan');
 var app = express();
 //
-var mongo = require('mongodb');
-var monk = require('monk');
-var db = monk('localhost:27017/chessdb');
+var mongodb = require('mongodb');
+//var monk = require('monk');
+//var db = monk('localhost:27017/chessdb');
+var cn='mongodb://localhost:27017/chessdb'
+
 //
 //http://stackoverflow.com/questions/5797852/in-node-js-how-do-i-include-functions-from-my-other-files
 var fs = require('fs');
@@ -21,12 +23,12 @@ app.use(express.static('public'))
 app.use(morgan("combined"))
 
 // Make our db accessible to our router
-app.use(function(req,res,next){
-    req.db = db;
-    next();
-});
+// app.use(function(req,res,next){
+//     req.db = db;
+//     next();
+// });
 //
-var dbTables=db.get('tables');
+//var dbTables=db.get('tables');
 
 
 
@@ -37,12 +39,35 @@ var dletters = ["a","b","c","d","e","f","g","h"]
 
 
 app.get('/aiChoice', function (req, res) {
-	
+var mongoTable=[]
   
   //itt mongobul ko szedni a tablat nemalltablesbol
-  dbTables.find({"tableNum":req.query.t}).toArray(function(err, results){
-    console.log(results); // output all records
-});
+  
+  mongodb.connect(cn, function(err, db) {
+    db.collection("tables").findOne({tableNum: Number(req.query.t)},function(err2, tableFromDb) {
+      console.log("loaded", err2, tableFromDb)
+      mongoTable = tableFromDb.table;
+      // console.log(tableFromDb)
+      // console.log(mongoTable)
+      
+      if(req.query.p==2){			//2 stands for white
+    	   var result=ai(mongoTable,true)
+      }else{
+    	   var result=ai(mongoTable,false)
+    	  
+      }
+      result1=result[1][0]
+     	res.json({aichoice: result1, fullchoicetable: result});
+
+    
+  });
+  })
+  
+  
+  
+//   dbTables.find({"tableNum":req.query.t}).toArray(function(err, results){
+//     console.log(results); // output all records
+// });
   //     console.log("tables loaded", err, thisDbTable)
   //     var mongoTable = thisDbTable[1];
    //console.log(mongoTable)
@@ -51,14 +76,14 @@ app.get('/aiChoice', function (req, res) {
       
   //0//nem allTables[req.query.t]
 	
-  if(req.query.p==2){			//2 stands for white
-	   var result=ai(mongoTable,true)
-  }else{
-	  var result=ai(mongoTable,false)
+  // if(req.query.p==2){			//2 stands for white
+	//    var result=ai(mongoTable,true)
+  // }else{
+	//   var result=ai(mongoTable,false)
 	  
-  }
-  result1=result[1][0]
- 	res.json({aichoice: result1, fullchoicetable: result});
+  // }
+  // result1=result[1][0]
+ 	// res.json({aichoice: result1, fullchoicetable: result});
 
 });
 
