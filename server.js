@@ -240,9 +240,20 @@ var tempRandomConst=0
 var firstFreeTable=0
 mongodb.connect(cn, function(err, db) {
 	db.collection("tables").findOne({tableNum: "xData"},function(err2, xData) {
-		
-		firstFreeTable=xData.firstFreeTable
-		
+		if(xData==null){
+			console.log("can't find firstfreetable info in db")
+			
+			mongodb.connect(cn, function(err, db) {
+				
+			
+					db.collection("tables").insert({"tableNum": "xData","firstFreeTable":1}, function(err3,res){})
+					db.close()
+				
+			});
+			firstFreeTable=1
+		}else{
+			firstFreeTable=xData.firstFreeTable
+		}
 		
 		db.close()
 	});
