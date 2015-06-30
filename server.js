@@ -275,36 +275,33 @@ app.get('/move', function (req, res) {
   // }
 	
  var moveStr=String(req.query.m)
- //var stringToCompare=string(allMoves[allMoves.length-1])
- //if (!(moveStr==stringToCompare.substring(2,6))){
+ 
 	var toPush=  String(allTables[req.query.t][dletters.indexOf(moveStr[0])][moveStr[1]-1][0])+
 		allTables[req.query.t][dletters.indexOf(moveStr[0])][moveStr[1]-1][1]+
 		moveStr+
 		allTables[req.query.t][dletters.indexOf(moveStr[2])][moveStr[3]-1][0]+
 		allTables[req.query.t][dletters.indexOf(moveStr[2])][moveStr[3]-1][1]
 	
-	if(!(toPush==allMoves[allMoves.length-1])){
+	if(!(toPush==allMoves[req.query.t][allMoves[req.query.t].length-1])){
 		allMoves[req.query.t].push(toPush)
 	  	allTables[req.query.t]=moveIt(moveStr,allTables[req.query.t])
 		  
-		  //trick here:
-		 // allTables[req.query.t]=moveIt(ai(allTables[req.query.t],false),allTables[req.query.t])
-		   allWNexts[req.query.t]=!allWNexts[req.query.t]
-	  allTables[req.query.t]=addMovesToTable(allTables[req.query.t],allWNexts[req.query.t])
-	  // protectPieces(allTables[req.query.t],true)
-	  // protectPieces(allTables[req.query.t],false)
-	}
+		
+		  allWNexts[req.query.t]=!allWNexts[req.query.t]
+		  allTables[req.query.t]=addMovesToTable(allTables[req.query.t],allWNexts[req.query.t])
+		 
+		}
   var result=allTables[req.query.t]
   //pushTableState(req.query.t)
  
   pollNum[req.query.t]++
   
-  	var resultDbTable={
-		  "wNext" : allWNexts[req.query.t],
-		  "table" : allTables[req.query.t],
-		  "pollNum" : pollNum[req.query.t]
-		  //"aiOn" : false
-	  }
+  	// var resultDbTable={
+	// 	  "wNext" : allWNexts[req.query.t],
+	// 	  "table" : allTables[req.query.t],
+	// 	  "pollNum" : pollNum[req.query.t]
+	// 	  //"aiOn" : false
+	//   }
 	  
 	  
 	  

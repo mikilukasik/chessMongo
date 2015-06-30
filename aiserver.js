@@ -18,8 +18,7 @@ eval(fs.readFileSync('public/brandNewAi.js')+'');
 eval(fs.readFileSync('public/tableClass.js')+'');
 
 
-//?:
-//var dletters = ["a","b","c","d","e","f","g","h"]
+var dletters = ["a","b","c","d","e","f","g","h"]
 
 //temp
 
@@ -37,11 +36,41 @@ mongodb.connect(cn, function(err, db) {
 app.get('/moveInDb', function (req, res) {
 
   mongodb.connect(cn, function(err, db) {
-     db.collection("tables").findOne({tableNum: Number(req.query.t)},function(err2, tableInDb) {
+      db.collection("tables").findOne({tableNum: Number(req.query.t)},function(err2, tableInDb) {
      
      
-      console.log(req.query.t)
-      tableInDb.table=moveIt(req.query.m,tableInDb.table)
+      var moveStr=String(req.query.m)
+
+      
+      var toPush=  String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1]-1][0])+
+                    tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1]-1][1]+
+                    moveStr+
+                    tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3]-1][0]+
+                    tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3]-1][1]
+      
+      if(!(toPush==tableInDb.moves[tableInDb.moves.length-1])){
+        tableInDb.moves.push(toPush)
+        tableInDb.table=moveIt(moveStr,tableInDb.table)
+        tableInDb.wNext=!tableInDb.wNext
+        tableInDb.pollNum++
+        
+        
+        tableInDb.table=addMovesToTable(tableInDb.table,tableInDb.wNext)
+      
+      }
+           
+     
+     
+     
+     
+     
+     
+     
+      
+      
+      
+      
+      
       
       db.collection("tables").save(tableInDb, function(err3,res){})
       db.close()
