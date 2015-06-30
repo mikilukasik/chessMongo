@@ -462,18 +462,7 @@ app.get('/startGame', function (req, res) {
 	var wPNum=players[0].indexOf(req.query.w)
 	var bPNum=players[0].indexOf(req.query.b)
 	
-	firstFreeTable++
 	
-	mongodb.connect(cn, function(err, db) {
-		db.collection("tables").findOne({tableNum: "xData"},function(err2, xData) {
-			
-			xData.firstFreeTable=firstFreeTable
-			
-			db.collection("tables").save(xData, function(err3,res){})
-			db.close()
-		});
-	});
-  
 	
 	var initedTable=new Dbtable(firstFreeTable,req.query.w,req.query.b)
 	
@@ -497,7 +486,20 @@ app.get('/startGame', function (req, res) {
 	players[4][bPNum]=firstFreeTable
 
 	players[5][wPNum]=req.query.b;		//give them the opponents name
-	players[5][bPNum]=req.query.w;		
+	players[5][bPNum]=req.query.w;	
+	
+	firstFreeTable++
+	
+	mongodb.connect(cn, function(err, db) {
+		db.collection("tables").findOne({tableNum: "xData"},function(err2, xData) {
+			
+			xData.firstFreeTable=firstFreeTable
+			
+			db.collection("tables").save(xData, function(err3,res){})
+			db.close()
+		});
+	});
+  	
  
  	res.json({none: 0});
 
