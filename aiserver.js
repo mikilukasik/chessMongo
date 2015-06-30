@@ -20,16 +20,15 @@ eval(fs.readFileSync('public/tableClass.js')+'');
 
 var dletters = ["a","b","c","d","e","f","g","h"]
 
-//temp
+// //temp
 
-var tempPracticeTable=new Dbtable(Math.floor(Math.random()*10000)+10000)
-tempPracticeTable.wNext="dfsdsfsdfdfsdfsdf"
-// Submit to the DB
-mongodb.connect(cn, function(err, db) {
-    db.collection("tables").insert(tempPracticeTable, function (err, doc) {});
-    db.close()
-})
-//temp end
+// var tempPracticeTable=new Dbtable(Math.floor(Math.random()*10000)+10000)
+// // Submit to the DB
+// mongodb.connect(cn, function(err, db) {
+//     db.collection("tables").insert(tempPracticeTable, function (err, doc) {});
+//     db.close()
+// })
+// //temp end
 
 
 
