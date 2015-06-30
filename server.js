@@ -299,6 +299,17 @@ app.get('/move', function (req, res) {
  
   pollNum[req.query.t]++
   
+  	var resultDbTable={
+		  "wNext" : allWNexts[req.query.t],
+		  "table" : allTables[req.query.t],
+		  "pollNum" : pollNum[req.query.t]
+		  //"aiOn" : false
+	  }
+	  
+	  
+	  
+	  
+	  
  	res.json({table: result});
  
 });

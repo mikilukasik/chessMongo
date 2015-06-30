@@ -4,38 +4,57 @@
 
 var express = require('express');
 var morgan = require('morgan');
-var app = express();
-//
 var mongodb = require('mongodb');
-//var monk = require('monk');
-//var db = monk('localhost:27017/chessdb');
-var cn='mongodb://localhost:27017/chessdb'
-
-//
-//http://stackoverflow.com/questions/5797852/in-node-js-how-do-i-include-functions-from-my-other-files
 var fs = require('fs');
 
-// file is included here:
-eval(fs.readFileSync('public/brandNewAi.js')+'');
-eval(fs.readFileSync('public/tableClass.js')+'');
-//http://stackoverflow.com/questions/5797852/in-node-js-how-do-i-include-functions-from-my-other-files
-
+var app = express();
 
 app.use(express.static('public'))
 app.use(morgan("combined"))
 
-// Make our db accessible to our router
-// app.use(function(req,res,next){
-//     req.db = db;
-//     next();
-// });
-//
-//var dbTables=db.get('tables');
+var cn='mongodb://localhost:27017/chessdb'
+
+eval(fs.readFileSync('public/brandNewAi.js')+'');
+eval(fs.readFileSync('public/tableClass.js')+'');
+
+
+//?:
+//var dletters = ["a","b","c","d","e","f","g","h"]
+
+//temp
+
+var tempPracticeTable=new Dbtable(Math.floor(Math.random()*10000)+10000)
+tempPracticeTable.wNext="dfsdsfsdfdfsdfsdf"
+// Submit to the DB
+mongodb.connect(cn, function(err, db) {
+    db.collection("tables").insert(tempPracticeTable, function (err, doc) {});
+    db.close()
+})
+//temp end
 
 
 
+app.get('/moveInDb', function (req, res) {
 
-var dletters = ["a","b","c","d","e","f","g","h"]
+  mongodb.connect(cn, function(err, db) {
+     db.collection("tables").findOne({tableNum: Number(req.query.t)},function(err2, tableInDb) {
+     
+     
+      console.log(req.query.t)
+      tableInDb.table=moveIt(req.query.m,tableInDb.table)
+      
+      db.collection("tables").save(tableInDb, function(err3,res){})
+      db.close()
+    });
+    
+    
+    
+    //db.close()
+    res.json({});
+    
+  });
+});
+
 
 
 
@@ -44,21 +63,21 @@ app.get('/aiChoice', function (req, res) {
 
   mongodb.connect(cn, function(err, db) {
     db.collection("tables").findOne({tableNum: Number(req.query.t)},function(err2, tableFromDb) {
-   
+    
       if(!(tableFromDb==null)){
         var result=ai(tableFromDb.table,tableFromDb.wNext)
         var result1=result[1][0]
+        
+        var sendJson={aichoice: result1, fullchoicetable: result}
+      }else{
+        var sendJson={error:"error"}
       }
+      
       db.close()
-      res.json({aichoice: result1, fullchoicetable: result});
+      res.json(sendJson);
     
     });
-    //db.close()
   });
-  
-  
-
-
 });
 
 
