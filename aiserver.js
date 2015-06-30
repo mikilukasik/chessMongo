@@ -37,17 +37,15 @@ app.get('/moveInDb', function (req, res) {
   mongodb.connect(cn, function(err, db) {
       db.collection("tables").findOne({tableNum: Number(req.query.t)},function(err2, tableInDb) {
      
-     
       var moveStr=String(req.query.m)
-
-      
+ 
       var toPush=  String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1]-1][0])+
                     tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1]-1][1]+
                     moveStr+
                     tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3]-1][0]+
                     tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3]-1][1]
       
-      if(!(toPush==tableInDb.moves[tableInDb.moves.length-1])){
+     // if(!(toPush==tableInDb.moves[tableInDb.moves.length-1])){
         tableInDb.moves.push(toPush)
         tableInDb.table=moveIt(moveStr,tableInDb.table)
         tableInDb.wNext=!tableInDb.wNext
@@ -56,21 +54,8 @@ app.get('/moveInDb', function (req, res) {
         
         tableInDb.table=addMovesToTable(tableInDb.table,tableInDb.wNext)
       
-      }
-           
+      //}
      
-     
-     
-     
-     
-     
-     
-      
-      
-      
-      
-      
-      
       db.collection("tables").save(tableInDb, function(err3,res){})
       db.close()
     });
