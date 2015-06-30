@@ -17,20 +17,7 @@ var cn='mongodb://localhost:27017/chessdb'
 eval(fs.readFileSync('public/brandNewAi.js')+'');
 eval(fs.readFileSync('public/tableClass.js')+'');
 
-
 var dletters = ["a","b","c","d","e","f","g","h"]
-
-// //temp
-
-// var tempPracticeTable=new Dbtable(Math.floor(Math.random()*10000)+10000)
-// // Submit to the DB
-// mongodb.connect(cn, function(err, db) {
-//     db.collection("tables").insert(tempPracticeTable, function (err, doc) {});
-//     db.close()
-// })
-// //temp end
-
-
 
 app.get('/moveInDb', function (req, res) {
 
@@ -39,11 +26,11 @@ app.get('/moveInDb', function (req, res) {
      
       var moveStr=String(req.query.m)
  
-      var toPush=  String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1]-1][0])+
-                    tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1]-1][1]+
-                    moveStr+
-                    tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3]-1][0]+
-                    tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3]-1][1]
+      var toPush=  String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1]-1][0])+  //color of whats moving
+                    tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1]-1][1]+         //piece
+                    moveStr+                                                                //the string
+                    tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3]-1][0]+         //color of whats hit
+                    tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3]-1][1]          //piece
       
      // if(!(toPush==tableInDb.moves[tableInDb.moves.length-1])){
         tableInDb.moves.push(toPush)

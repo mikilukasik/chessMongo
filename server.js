@@ -21,27 +21,9 @@ eval(fs.readFileSync('public/tableClass.js')+'');
 app.use(express.static('public'))
 app.use(morgan("combined"))
 
-// Make our db accessible to our router
-// app.use(function(req,res,next){
-//     req.db = db;
-//     next();
-// });
-// //
-//var dbTables=db.get('tables');
-
-
 
 
 var firstFreeTable=0
-
-// //temp
-
-// var tempPracticeTable=new Dbtable(Math.floor(Math.random()*10000)+10000)
-// tempPracticeTable.wNext=false
-// // Submit to the DB
-// dbTables.insert(tempPracticeTable, function (err, doc) {});
-// //temp end
-
 
 
 var t1const=2.5
@@ -56,11 +38,6 @@ var tablesLastMoved=[]
 
 
 var dletters = ["a","b","c","d","e","f","g","h"]
-//var dfigures = ["","King","Queen","Rook","Bishop","Knight","Pawn"]
-
-//this looks like a stinking hack.. 
-//var dcolors = ["","Black","White"]
-
 
 var allTables=[]
 var allPastTables=[]
@@ -232,84 +209,70 @@ var tempRandomConst=0
 										
 									// 	},2000);
 									
-
-//need this to avoid loop:
-// function pushTableState(tableNo){
-	
-// 	var sTable=getSimpleTableState(allTables[tableNo])
-// 	var sCount=0
-	
-// 	//allChats[tableNo].push(sTable) //logging past tables as chat
-		
-// 	//s	
-// 	var collection = db.get('tables');
-//     collection.find({},{},function(e,docs){
-//         allChats[tableNo].push(docs[0].table)
-//     });	
-	
-// 	//e
-	
-	
-// 	allPastTables[tableNo].push(sTable) //remember this state
-// 	allPastTables[tableNo].forEach(function(tableTempState){	//check all past states
-// 		if (tableTempState==sTable)sCount++			//count how many times this occured
-// 	})
-	
-// 	return sCount
-	
-// }
-//need end
+							
+							//need this to avoid loop:
+							// function pushTableState(tableNo){
+								
+							// 	var sTable=getSimpleTableState(allTables[tableNo])
+							// 	var sCount=0
+								
+							// 	//allChats[tableNo].push(sTable) //logging past tables as chat
+									
+							// 	//s	
+							// 	var collection = db.get('tables');
+							//     collection.find({},{},function(e,docs){
+							//         allChats[tableNo].push(docs[0].table)
+							//     });	
+								
+							// 	//e
+								
+								
+							// 	allPastTables[tableNo].push(sTable) //remember this state
+							// 	allPastTables[tableNo].forEach(function(tableTempState){	//check all past states
+							// 		if (tableTempState==sTable)sCount++			//count how many times this occured
+							// 	})
+								
+							// 	return sCount
+								
+							// }
+							//need end
 
 
 
 app.get('/move', function (req, res) {
-	//remember when last moved:
-	// if(activeGames[0].indexOf(req.query.t)==-1){
-  	// 	activeGames[0].push(req.query.t)
-  	// 	activeGames[1].push((new Date()).getTime())
-  		
-  	// 	//activeGames.sort(sortactiveGames)
-  	// 	lobbyPollNum++
-  
-  // }else{
-  	// 	activeGames[1][activeGames[0].indexOf(req.query.t)]=(new Date()).getTime()
-  // }
-	
- var moveStr=String(req.query.m)
+
+  mongodb.connect(cn, function(err, db) {
+      db.collection("tables").findOne({tableNum: Number(req.query.t)},function(err2, tableInDb) {
+     
+      var moveStr=String(req.query.m)
  
-	var toPush=  String(allTables[req.query.t][dletters.indexOf(moveStr[0])][moveStr[1]-1][0])+
-		allTables[req.query.t][dletters.indexOf(moveStr[0])][moveStr[1]-1][1]+
-		moveStr+
-		allTables[req.query.t][dletters.indexOf(moveStr[2])][moveStr[3]-1][0]+
-		allTables[req.query.t][dletters.indexOf(moveStr[2])][moveStr[3]-1][1]
-	
-	if(!(toPush==allMoves[req.query.t][allMoves[req.query.t].length-1])){
-		allMoves[req.query.t].push(toPush)
-	  	allTables[req.query.t]=moveIt(moveStr,allTables[req.query.t])
-		  
-		
-		  allWNexts[req.query.t]=!allWNexts[req.query.t]
-		  allTables[req.query.t]=addMovesToTable(allTables[req.query.t],allWNexts[req.query.t])
-		 
-		}
-  var result=allTables[req.query.t]
-  //pushTableState(req.query.t)
- 
-  pollNum[req.query.t]++
-  
-  	// var resultDbTable={
-	// 	  "wNext" : allWNexts[req.query.t],
-	// 	  "table" : allTables[req.query.t],
-	// 	  "pollNum" : pollNum[req.query.t]
-	// 	  //"aiOn" : false
-	//   }
-	  
-	  
-	  
-	  
-	  
- 	res.json({table: result});
- 
+      var toPush=  String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1]-1][0])+  //color of whats moving
+                    tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1]-1][1]+         //piece
+                    moveStr+                                                                //the string
+                    tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3]-1][0]+         //color of whats hit
+                    tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3]-1][1]          //piece
+      
+     // if(!(toPush==tableInDb.moves[tableInDb.moves.length-1])){
+        tableInDb.moves.push(toPush)
+        tableInDb.table=moveIt(moveStr,tableInDb.table)
+        tableInDb.wNext=!tableInDb.wNext
+        tableInDb.pollNum++
+        
+        
+        tableInDb.table=addMovesToTable(tableInDb.table,tableInDb.wNext)
+      
+      //}
+     
+      db.collection("tables").save(tableInDb, function(err3,res){})
+      db.close()
+    });
+    
+    
+    
+    //db.close()
+    res.json({});
+    
+  });
 });
 
 
@@ -357,20 +320,41 @@ app.get('/startAiGame', function (req, res) {
 
 });
 app.get('/getTPollNum', function (req, res) {
-  //console.log(req)
-  
- // var result=allTables[req.query.t]
-  
- 	res.json({tablepollnum: pollNum[req.query.t]});
+ 
+  mongodb.connect(cn, function(err, db) {
+      db.collection("tables").findOne({tableNum: Number(req.query.t)},function(err2, tableInDb) {
+     
+       
+        var passPollNum=tableInDb.pollNum
+    
+    
+      db.close()
+	 res.json({tablepollnum: passPollNum});
 
+
+    });
+    
+  });
+ 	
 });
 app.get('/getTable', function (req, res) {
-  //console.log(req)
-  
-  var result=allTables[req.query.t]
-  
- 	res.json({table: result, next: allWNexts[req.query.t], allmoves: allMoves[req.query.t], chat: allChats[req.query.t]});//, pollnum: pollNum[req.query.t]});
+ 
+  mongodb.connect(cn, function(err, db) {
+      db.collection("tables").findOne({tableNum: Number(req.query.t)},function(err2, tableInDb) {
+     
+        var passMoves=tableInDb.moves
+        var passTable=tableInDb.table
+        var passWnext=tableInDb.wNext
+        var passPollNum=tableInDb.pollNum
+        var passChat=tableInDb.chat
+    
+      db.close()
+	  res.json({table: passTable, next: passWnext, allmoves: passMoves, chat: passChat});//, pollnum: pollNum[req.query.t]});
 
+    });
+    
+  });
+ 	
 });
 
 
@@ -379,12 +363,22 @@ app.get('/chat', function (req, res) {
   //console.log(req)
   
   
-
-  allChats[req.query.t].push(req.query.c)
+ mongodb.connect(cn, function(err, db) {
+      db.collection("tables").findOne({tableNum: Number(req.query.t)},function(err2, tableInDb) {
+     
+      tableInDb.chat.push(req.query.c)
+      tableInDb.pollNum++
+	   
+	  var passChat=tableInDb.chat
+      
+	  db.collection("tables").save(tableInDb, function(err3,res){})
+      db.close()
+	  res.json({chat: tableInDb.chat});
+    });
+    
+  });
   
-  pollNum[req.query.t]++
-  
- 	res.json({chat: allChats[req.query.t]});
+ 	
 
 });
 
@@ -526,99 +520,99 @@ app.get('/getLobby', function (req, res) {
 
 });
 
-function initTable(tNo){
-		aiOn[tNo]=false
-		allPastTables[tNo]=[]
+// function initTable(tNo){
+// 		aiOn[tNo]=false
+// 		allPastTables[tNo]=[]
 		
-//randomConst[tNo]=5//Math.random()*100
-						//if(Math.random()>0.5){randomConst[tNo]=1/randomConst[tNo]}
+// //randomConst[tNo]=5//Math.random()*100
+// 						//if(Math.random()>0.5){randomConst[tNo]=1/randomConst[tNo]}
 
 	
-	pollNum[tNo]=1
+// 	pollNum[tNo]=1
 
-//function initTable(){	
-	allWNexts[tNo]=true
-	allChats[tNo]=[]
-	allMoves[tNo]=[]
-	//var tempString=""							
-	//var 
-	allTables[tNo] = new Array(8)							//create 8x8 array
-	for (var i = 0; i < 8; i++) {
-		allTables[tNo][i] = new Array(8)
-	}
+// //function initTable(){	
+// 	allWNexts[tNo]=true
+// 	allChats[tNo]=[]
+// 	allMoves[tNo]=[]
+// 	//var tempString=""							
+// 	//var 
+// 	allTables[tNo] = new Array(8)							//create 8x8 array
+// 	for (var i = 0; i < 8; i++) {
+// 		allTables[tNo][i] = new Array(8)
+// 	}
 	
 
 
-	for(j=2; j<6; j++){ 							//make the blanks blank
-		for(i=0; i<8; i++){
-			allTables[tNo][i][j]=[0,0,false,false,false]//,blankFunction]		
-			//[][]=[color,piece,selected,isInItsOriginalPosition for king and rook or CanBeHitEnPass for pawns,highLighted,canMoveTo]
-		}
-	}
+// 	for(j=2; j<6; j++){ 							//make the blanks blank
+// 		for(i=0; i<8; i++){
+// 			allTables[tNo][i][j]=[0,0,false,false,false]//,blankFunction]		
+// 			//[][]=[color,piece,selected,isInItsOriginalPosition for king and rook or CanBeHitEnPass for pawns,highLighted,canMoveTo]
+// 		}
+// 	}
 
 
 
 
-	//wNext=true
+// 	//wNext=true
 
 
 
-	// [3] is isInItsOriginalPosition for king and rook or CanBeHitEnPass for pawns
+// 	// [3] is isInItsOriginalPosition for king and rook or CanBeHitEnPass for pawns
 	
-	for (var i = 0; i < 8; i++) {									//row of white pawns
+// 	for (var i = 0; i < 8; i++) {									//row of white pawns
 		
-		allTables[tNo][i][1]=[2,1,false,false,false]//,pawnCanMove]
-	}
-	for (var i = 0; i < 8; i++) {									//row of black pawns
-		allTables[tNo][i][6]=[1,1,false,false,false]//,pawnCanMove]
-	}
-	allTables[tNo][0][0]=[2,4,false,true,false]//,rookCanMove]				//rooks
-	allTables[tNo][7][0]=[2,4,false,true,false]//,rookCanMove]
-	allTables[tNo][0][7]=[1,4,false,true,false]//,rookCanMove]
-	allTables[tNo][7][7]=[1,4,false,true,false]//,rookCanMove]
+// 		allTables[tNo][i][1]=[2,1,false,false,false]//,pawnCanMove]
+// 	}
+// 	for (var i = 0; i < 8; i++) {									//row of black pawns
+// 		allTables[tNo][i][6]=[1,1,false,false,false]//,pawnCanMove]
+// 	}
+// 	allTables[tNo][0][0]=[2,4,false,true,false]//,rookCanMove]				//rooks
+// 	allTables[tNo][7][0]=[2,4,false,true,false]//,rookCanMove]
+// 	allTables[tNo][0][7]=[1,4,false,true,false]//,rookCanMove]
+// 	allTables[tNo][7][7]=[1,4,false,true,false]//,rookCanMove]
 
-	allTables[tNo][1][0]=[2,3,false,true,false]//,horseCanMove]					//knights
-	allTables[tNo][6][0]=[2,3,false,true,false]//,horseCanMove]
-	allTables[tNo][1][7]=[1,3,false,true,false]//,horseCanMove]
-	allTables[tNo][6][7]=[1,3,false,true,false]//,horseCanMove]
+// 	allTables[tNo][1][0]=[2,3,false,true,false]//,horseCanMove]					//knights
+// 	allTables[tNo][6][0]=[2,3,false,true,false]//,horseCanMove]
+// 	allTables[tNo][1][7]=[1,3,false,true,false]//,horseCanMove]
+// 	allTables[tNo][6][7]=[1,3,false,true,false]//,horseCanMove]
 	
-	allTables[tNo][2][0]=[2,2,false,true,false]//,bishopCanMove]				//bishops
-	allTables[tNo][5][0]=[2,2,false,true,false]//,bishopCanMove]
-	allTables[tNo][2][7]=[1,2,false,true,false]//,bishopCanMove]
-	allTables[tNo][5][7]=[1,2,false,true,false]//,bishopCanMove]
+// 	allTables[tNo][2][0]=[2,2,false,true,false]//,bishopCanMove]				//bishops
+// 	allTables[tNo][5][0]=[2,2,false,true,false]//,bishopCanMove]
+// 	allTables[tNo][2][7]=[1,2,false,true,false]//,bishopCanMove]
+// 	allTables[tNo][5][7]=[1,2,false,true,false]//,bishopCanMove]
 
-	allTables[tNo][3][0]=[2,5,false,true,false]//,queenCanMove]				//w queen
-	allTables[tNo][4][0]=[2,9,false,true,false]//,kingCanMove]				//w king
+// 	allTables[tNo][3][0]=[2,5,false,true,false]//,queenCanMove]				//w queen
+// 	allTables[tNo][4][0]=[2,9,false,true,false]//,kingCanMove]				//w king
 	
-	allTables[tNo][3][7]=[1,5,false,true,false]//,queenCanMove]				//b q
-	allTables[tNo][4][7]=[1,9,false,true,false]//,kingCanMove]				//b k
+// 	allTables[tNo][3][7]=[1,5,false,true,false]//,queenCanMove]				//b q
+// 	allTables[tNo][4][7]=[1,9,false,true,false]//,kingCanMove]				//b k
 	
-	//console.log("initTable done")
+// 	//console.log("initTable done")
 	
-//}
-  console.log(allTables[tNo])
+// //}
+//   console.log(allTables[tNo])
   
-  allTables[tNo]=addMovesToTable(allTables[tNo],true)
-  protectPieces(allTables[tNo],true)
-  protectPieces(allTables[tNo],false)
-}
-app.get('/initTable', function (req,res) {
-	if(activeGames[0].indexOf(req.query.t)==-1){
-  		activeGames[0].push(req.query.t)
-  		activeGames[1].push((new Date()).getTime())
+//   allTables[tNo]=addMovesToTable(allTables[tNo],true)
+//   protectPieces(allTables[tNo],true)
+//   protectPieces(allTables[tNo],false)
+// }
+// app.get('/initTable', function (req,res) {
+// 	if(activeGames[0].indexOf(req.query.t)==-1){
+//   		activeGames[0].push(req.query.t)
+//   		activeGames[1].push((new Date()).getTime())
   		
-  		//activeGames.sort(sortactiveGames)
-  		lobbyPollNum++
+//   		//activeGames.sort(sortactiveGames)
+//   		lobbyPollNum++
   
-  }else{
-  		activeGames[1][activeGames[0].indexOf(req.query.p)]=(new Date()).getTime()
-  }
-	initTable(req.query.t)
-  var result=allTables[req.query.t]
+//   }else{
+//   		activeGames[1][activeGames[0].indexOf(req.query.p)]=(new Date()).getTime()
+//   }
+// 	initTable(req.query.t)
+//   var result=allTables[req.query.t]
 
-	res.json({table: result});
+// 	res.json({table: result});
 
-});//
+// });//
 
 
 var server = app.listen(80, function () {

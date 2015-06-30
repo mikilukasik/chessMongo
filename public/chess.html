@@ -315,23 +315,23 @@ function initTable(){
 	//table = new Array(8)							
 
 
-	if(!(opponentsName=="Spectator")){
-		var tempTable=$.ajax({
-		    type: 'GET',
-		    url: '/initTable?t='+tableNum,
-		    dataType: 'json',
-		    success: function() { },
-		    data: {},
-		    async: true
-		});
+	// if(!(opponentsName=="Spectator")){
+	// 	var tempTable=$.ajax({
+	// 	    type: 'GET',
+	// 	    url: '/initTable?t='+tableNum,
+	// 	    dataType: 'json',
+	// 	    success: function() { },
+	// 	    data: {},
+	// 	    async: true
+	// 	});
 	
 
 
-		table=tempTable.responseJSON.table
+	// 	table=tempTable.responseJSON.table
 	
 
-		console.log("initTable done")
-	}
+	// 	console.log("initTable done")
+	// }
 	
 }
 function showTable(){								//this will update the displayed table from the array
@@ -619,7 +619,7 @@ function clearHighlights(){
 function letsPlay(){
 	drawTable()
 	//if(prompt('Reset ongoing game?  (yes/no)')=='yes'){
-		initTable()  
+		//initTable()  
 	//}
 	refreshTable()
 	
