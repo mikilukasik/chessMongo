@@ -9,54 +9,13 @@ var fs = require('fs');
 
 var app = express();
 
-app.use(express.static('public'))
+//app.use(express.static('public'))
 app.use(morgan("combined"))
 
 var cn='mongodb://localhost:27017/chessdb'
 
 eval(fs.readFileSync('public/brandNewAi.js')+'');
-eval(fs.readFileSync('public/tableClass.js')+'');
-
-var dletters = ["a","b","c","d","e","f","g","h"]
-
-app.get('/moveInDb', function (req, res) {
-
-  mongodb.connect(cn, function(err, db) {
-      db.collection("tables").findOne({tableNum: Number(req.query.t)},function(err2, tableInDb) {
-     
-      var moveStr=String(req.query.m)
- 
-      var toPush=  String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1]-1][0])+  //color of whats moving
-                    tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1]-1][1]+         //piece
-                    moveStr+                                                                //the string
-                    tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3]-1][0]+         //color of whats hit
-                    tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3]-1][1]          //piece
-      
-     // if(!(toPush==tableInDb.moves[tableInDb.moves.length-1])){
-        tableInDb.moves.push(toPush)
-        tableInDb.table=moveIt(moveStr,tableInDb.table)
-        tableInDb.wNext=!tableInDb.wNext
-        tableInDb.pollNum++
-        
-        
-        tableInDb.table=addMovesToTable(tableInDb.table,tableInDb.wNext)
-      
-      //}
-     
-      db.collection("tables").save(tableInDb, function(err3,res){})
-      db.close()
-    });
-    
-    
-    
-    //db.close()
-    res.json({});
-    
-  });
-});
-
-
-
+//eval(fs.readFileSync('public/tableClass.js')+'');
 
 
 app.get('/aiChoice', function (req, res) {
@@ -68,7 +27,7 @@ app.get('/aiChoice', function (req, res) {
         var result=ai(tableFromDb.table,tableFromDb.wNext)
         var result1=result[1][0]
         
-        var sendJson={aichoice: result1, fullchoicetable: result}
+        var sendJson={aimove: result1, fulltable: result}
       }else{
         var sendJson={error:"error"}
       }

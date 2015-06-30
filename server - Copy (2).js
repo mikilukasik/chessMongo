@@ -2,8 +2,6 @@
 //
 var express = require('express');
 var morgan = require('morgan');
-var http = require('http');
-
 var app = express();
 //
 var mongodb = require('mongodb');
@@ -25,6 +23,7 @@ app.use(morgan("combined"))
 
 
 
+var firstFreeTable=0
 
 
 var t1const=2.5
@@ -236,17 +235,9 @@ var tempRandomConst=0
 							// 	return sCount
 								
 							// }
-						//need end
-var firstFreeTable=0
-mongodb.connect(cn, function(err, db) {
-	db.collection("tables").findOne({tableNum: "xData"},function(err2, xData) {
-		
-		firstFreeTable=xData.firstFreeTable
-		
-		
-		db.close()
-	});
-});
+							//need end
+
+
 
 app.get('/move', function (req, res) {
 
@@ -286,83 +277,28 @@ app.get('/move', function (req, res) {
 
 
 app.get('/aiMove', function (req, res) {
-	// var tempConst=t1const
-	// if(activeGames[0].indexOf(req.query.t)==-1){
-  	// 	activeGames[0].push(req.query.t)
-  	// 	activeGames[1].push((new Date()).getTime())
+	var tempConst=t1const
+	if(activeGames[0].indexOf(req.query.t)==-1){
+  		activeGames[0].push(req.query.t)
+  		activeGames[1].push((new Date()).getTime())
   		
-  	// 	//activeGames.sort(sortactiveGames)
-  	// 	lobbyPollNum++
+  		//activeGames.sort(sortactiveGames)
+  		lobbyPollNum++
   
-  // }else{
-  	// 	activeGames[1][activeGames[0].indexOf(req.query.t)]=(new Date()).getTime()
-  // }
-  // t1const=11
-  
-  
-  	var options = {
-	  host: 'localhost',
-	  port: 16789,
-	  path: '/aichoice?t='+req.query.t
-	};
-
-	http.request(options, function(response) {
-	  var str = {};
-	
-	  //another chunk of data has been recieved, so append it to `str`
-	  response.on('data', function (chunk) {
-	    str = JSON.parse(chunk);
-	  });
-	
-	  //the whole response has been recieved, so we just print it out here
-	  response.on('end', function () {
-	    //res.json(str);
-/////////		
-  mongodb.connect(cn, function(err, db) {
-      db.collection("tables").findOne({tableNum: Number(req.query.t)},function(err2, tableInDb) {
-      // console.log(str)
-	  // console.log('dssdfsdgs')
-      var moveStr=String(str.aimove)
+  }else{
+  		activeGames[1][activeGames[0].indexOf(req.query.t)]=(new Date()).getTime()
+  }
+  t1const=11
+  if(req.query.p==2){			//2 stands for white
+	   var result=ai(allTables[req.query.t],true)
+  }else{
+	  var result=ai(allTables[req.query.t],false)
+	  
+  }
+  t1const=tempConst
+  result1=result[1][0]
  
-      var toPush=  String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1]-1][0])+  //color of whats moving
-                    tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1]-1][1]+         //piece
-                    moveStr+                                                                //the string
-                    tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3]-1][0]+         //color of whats hit
-                    tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3]-1][1]          //piece
-      
-     // if(!(toPush==tableInDb.moves[tableInDb.moves.length-1])){
-        tableInDb.moves.push(toPush)
-        tableInDb.table=moveIt(moveStr,tableInDb.table)
-        tableInDb.wNext=!tableInDb.wNext
-        tableInDb.pollNum++
-        
-        
-        tableInDb.table=addMovesToTable(tableInDb.table,tableInDb.wNext)
-      
-      //}
-     
-      db.collection("tables").save(tableInDb, function(err3,res){})
-      db.close()
-    });
-    
-    
-    
-    //db.close()
-    //res.json({});
-    
-  });
-  /////////
-		
-		
-		
-		
-	  });
-	}).end();
-
-
-
- 	res.json({});
- 	//res.json({aimove: 1, fulltable: 0});
+ 	res.json({aimove: result1, fulltable: result});
 
 });
 
@@ -453,18 +389,7 @@ app.get('/startGame', function (req, res) {
 	
 	firstFreeTable++
 	
-	mongodb.connect(cn, function(err, db) {
-		db.collection("tables").findOne({tableNum: "xData"},function(err2, xData) {
-			
-			xData.firstFreeTable=firstFreeTable
-			
-			db.collection("tables").save(xData, function(err3,res){})
-			db.close()
-		});
-	});
-  
-	
-	var initedTable=new Dbtable(firstFreeTable,req.query.w,req.query.b)
+	var initedTable=new Dbtable(firstFreeTable)
 	
 		
 	
@@ -552,6 +477,7 @@ function clearInactiveGames(){
 
 		}
 
+
 	}
 }
 
@@ -590,9 +516,103 @@ app.get('/getLobby', function (req, res) {
   	}
   	
   
+ 	//res.json({players: players[0], lobbypollnum: lobbyPollNum, lobbychat: lobbyChat});
+
 });
 
+// function initTable(tNo){
+// 		aiOn[tNo]=false
+// 		allPastTables[tNo]=[]
+		
+// //randomConst[tNo]=5//Math.random()*100
+// 						//if(Math.random()>0.5){randomConst[tNo]=1/randomConst[tNo]}
 
+	
+// 	pollNum[tNo]=1
+
+// //function initTable(){	
+// 	allWNexts[tNo]=true
+// 	allChats[tNo]=[]
+// 	allMoves[tNo]=[]
+// 	//var tempString=""							
+// 	//var 
+// 	allTables[tNo] = new Array(8)							//create 8x8 array
+// 	for (var i = 0; i < 8; i++) {
+// 		allTables[tNo][i] = new Array(8)
+// 	}
+	
+
+
+// 	for(j=2; j<6; j++){ 							//make the blanks blank
+// 		for(i=0; i<8; i++){
+// 			allTables[tNo][i][j]=[0,0,false,false,false]//,blankFunction]		
+// 			//[][]=[color,piece,selected,isInItsOriginalPosition for king and rook or CanBeHitEnPass for pawns,highLighted,canMoveTo]
+// 		}
+// 	}
+
+
+
+
+// 	//wNext=true
+
+
+
+// 	// [3] is isInItsOriginalPosition for king and rook or CanBeHitEnPass for pawns
+	
+// 	for (var i = 0; i < 8; i++) {									//row of white pawns
+		
+// 		allTables[tNo][i][1]=[2,1,false,false,false]//,pawnCanMove]
+// 	}
+// 	for (var i = 0; i < 8; i++) {									//row of black pawns
+// 		allTables[tNo][i][6]=[1,1,false,false,false]//,pawnCanMove]
+// 	}
+// 	allTables[tNo][0][0]=[2,4,false,true,false]//,rookCanMove]				//rooks
+// 	allTables[tNo][7][0]=[2,4,false,true,false]//,rookCanMove]
+// 	allTables[tNo][0][7]=[1,4,false,true,false]//,rookCanMove]
+// 	allTables[tNo][7][7]=[1,4,false,true,false]//,rookCanMove]
+
+// 	allTables[tNo][1][0]=[2,3,false,true,false]//,horseCanMove]					//knights
+// 	allTables[tNo][6][0]=[2,3,false,true,false]//,horseCanMove]
+// 	allTables[tNo][1][7]=[1,3,false,true,false]//,horseCanMove]
+// 	allTables[tNo][6][7]=[1,3,false,true,false]//,horseCanMove]
+	
+// 	allTables[tNo][2][0]=[2,2,false,true,false]//,bishopCanMove]				//bishops
+// 	allTables[tNo][5][0]=[2,2,false,true,false]//,bishopCanMove]
+// 	allTables[tNo][2][7]=[1,2,false,true,false]//,bishopCanMove]
+// 	allTables[tNo][5][7]=[1,2,false,true,false]//,bishopCanMove]
+
+// 	allTables[tNo][3][0]=[2,5,false,true,false]//,queenCanMove]				//w queen
+// 	allTables[tNo][4][0]=[2,9,false,true,false]//,kingCanMove]				//w king
+	
+// 	allTables[tNo][3][7]=[1,5,false,true,false]//,queenCanMove]				//b q
+// 	allTables[tNo][4][7]=[1,9,false,true,false]//,kingCanMove]				//b k
+	
+// 	//console.log("initTable done")
+	
+// //}
+//   console.log(allTables[tNo])
+  
+//   allTables[tNo]=addMovesToTable(allTables[tNo],true)
+//   protectPieces(allTables[tNo],true)
+//   protectPieces(allTables[tNo],false)
+// }
+// app.get('/initTable', function (req,res) {
+// 	if(activeGames[0].indexOf(req.query.t)==-1){
+//   		activeGames[0].push(req.query.t)
+//   		activeGames[1].push((new Date()).getTime())
+  		
+//   		//activeGames.sort(sortactiveGames)
+//   		lobbyPollNum++
+  
+//   }else{
+//   		activeGames[1][activeGames[0].indexOf(req.query.p)]=(new Date()).getTime()
+//   }
+// 	initTable(req.query.t)
+//   var result=allTables[req.query.t]
+
+// 	res.json({table: result});
+
+// });//
 
 
 var server = app.listen(80, function () {

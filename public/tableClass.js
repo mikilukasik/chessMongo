@@ -1,5 +1,8 @@
-var Dbtable=function (tableNum) {	//class
+var Dbtable=function (tableNum,wName,bName) {	//class
+	
 	this.tableNum = tableNum,
+	this.wName=wName,
+	this.bName=bName,
 	
 	this.wNext=true,
 	this.aiOn=false,
