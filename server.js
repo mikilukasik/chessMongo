@@ -328,7 +328,8 @@ app.get('/aiMove', function (req, res) {
 	  //the whole response has been recieved, so we just print it out here
 	  response.on('end', function () {
 	    //res.json(str);
-/////////		
+/////////
+	if(!(str==null))	{
   mongodb.connect(cn, function(err, db) {
       db.collection("tables").findOne({tableNum: Number(req.query.t)},function(err2, tableInDb) {
       // console.log(str)
@@ -363,7 +364,7 @@ app.get('/aiMove', function (req, res) {
     
   });
   /////////
-		
+		}
 		
 		
 		
@@ -399,9 +400,9 @@ app.get('/getTPollNum', function (req, res) {
   mongodb.connect(cn, function(err, db) {
       db.collection("tables").findOne({tableNum: Number(req.query.t)},function(err2, tableInDb) {
      
-       
+       if(!(tableInDb==null)){
         var passPollNum=tableInDb.pollNum
-    
+	   }
     
       db.close()
 	 res.json({tablepollnum: passPollNum});
