@@ -377,23 +377,23 @@ app.get('/aiMove', function (req, res) {
 
 });
 
-app.get('/startAiGame', function (req, res) {
+// app.get('/startAiGame', function (req, res) {
 
-  //randomConst=Math.random()*20
+//   //randomConst=Math.random()*20
 					
-  firstFreeTable++
-  initTable(firstFreeTable)
-  aiOn[firstFreeTable]=true
+//   firstFreeTable++
+//   initTable(firstFreeTable)
+//   aiOn[firstFreeTable]=true
   
-  tempRandomConst=Math.random()*100
-	if(Math.random()>0.5){tempRandomConst=1/tempRandomConst}
-	console.log(tempRandomConst)
-	// var randomConst=[]
-	randomConst[firstFreeTable]=tempRandomConst
-	console.log(randomConst[firstFreeTable])
- 	res.json({tableno: firstFreeTable});
+//   tempRandomConst=Math.random()*100
+// 	if(Math.random()>0.5){tempRandomConst=1/tempRandomConst}
+// 	console.log(tempRandomConst)
+// 	// var randomConst=[]
+// 	randomConst[firstFreeTable]=tempRandomConst
+// 	console.log(randomConst[firstFreeTable])
+//  	res.json({tableno: firstFreeTable});
 
-});
+// });
 app.get('/getTPollNum', function (req, res) {
  
   mongodb.connect(cn, function(err, db) {
