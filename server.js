@@ -402,6 +402,8 @@ app.get('/getTPollNum', function (req, res) {
      
        if(!(tableInDb==null)){
         var passPollNum=tableInDb.pollNum
+	   }else{
+		   var passPollNum=0
 	   }
     
       db.close()
