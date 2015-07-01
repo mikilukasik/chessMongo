@@ -4,6 +4,10 @@
 <title>Chess</title>
 <script src="jquery.js"></script>
 <script src="brandNewAi.js"></script>
+
+<link rel="stylesheet" type="text/css" href="forblink.css">
+<!--
+<style src="forblink.css"></style>-->
 <!-- <script src="ai2.js"></script> -->
 <!-- <script src="trialfunc.js"></script>
  -->
@@ -384,11 +388,17 @@ function showTableStatus(){								//this will update the displayed status
 	$(".statusCell").append(thisStatus)
 
 	$(".isItYourTurn").empty()
+	$(".blink").empty()
+	
 	if(wNext==wPlayer){
-		$(".isItYourTurn").append($("<div>Your turn</div>"))
+		$(".blink").append($("<div>Your turn</div>"))
+		
+		
+		
 	}else{
 		
 		$(".isItYourTurn").append($("<div>Please wait..</div>"))
+		
 	}
 	
 }
@@ -641,7 +651,16 @@ function letsPlay(){
 			<td>
 				<table class="leftTable">
 					<tr class="yourTurnTr">
-						<td class="isItYourTurn"></td>
+						<td class="blink">
+							
+							
+						</td>
+					</tr>
+					<tr class="yourTurnTr">
+						<td class="isItYourTurn">
+							
+							
+						</td>
 						
 					</tr>
 					<tr class="statusTr">
