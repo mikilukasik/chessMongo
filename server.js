@@ -425,7 +425,7 @@ app.get('/getTable', function (req, res) {
         var passWnext=tableInDb.wNext
         var passPollNum=tableInDb.pollNum
         var passChat=tableInDb.chat
-		}else{
+	}else{
 		var passMoves=0.0
         var passTable=0.0
         var passWnext=0.0
