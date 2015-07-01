@@ -73,9 +73,170 @@ var allChats=[]
 var aiOn=[]
 
 var tempRandomConst=0
-
-//var firstFreeTable=0
-function getFFTable(){
+// setInterval(function(){
+// 	console.log('a')
+// },5)
+// setInterval(function(){
+// 	// active games
+	
+	
+	
+// },300)
+	
+									// ai plays against itself:
+									// setInterval(function(){
+									// 		 console.log('elindult')
+										
+									// 	 	//for(var xx=1; xx<allTables.length; xx++){
+									// 			 var xx=Math.floor(Math.random()*(allTables.length-1))+1
+									// 			 if(aiOn[xx]){
+									// 				 aiOn[xx]=false
+									// 				 console.log('aimove on table '+xx+' started..')
+									// 				//console.log(xx)
+													
+									// 				if(allWNexts[xx]){
+									// 					t1const=1
+									// 				}else{
+									// 					t1const=randomConst[xx]
+									// 				}
+													
+									// 						if(activeGames[0].indexOf(xx)==-1){
+									// 					  		activeGames[0].push(xx)
+									// 					  		activeGames[1].push((new Date()).getTime())
+														  		
+									// 					  		//activeGames.sort(sortactiveGames)
+									// 					  		lobbyPollNum++
+														  
+									// 					  }else{
+									// 					  		activeGames[1][activeGames[0].indexOf(xx)]=(new Date()).getTime()
+									// 					  }
+									// 					var thisAiMove=ai(allTables[xx],allWNexts[xx])
+									// 					console.log('aimove on table '+xx+' generated')	
+														
+														
+									// 					if (!(thisAiMove[1]===undefined)){
+															
+															
+														  
+									// 					   allTables[xx]=moveIt(thisAiMove[1][0],allTables[xx])
+									// 					   pollNum[xx]++
+														   
+									// 					   if(pushTableState(xx)==3){
+									// 						   //got into a loop
+									// 						   //validate table by remaining pieces
+															   
+									// 						   var chatTemp=allChats[xx]
+															
+														   
+														
+															
+									// 						lobbyChat.push(' ')
+									// 						lobbyChat.push('   ------ AI START ------ ')
+															
+									// 						lobbyChat.push('Table: '+xx)
+															
+															
+									// 						lobbyChat.push('t1const: '+randomConst[xx])
+									// 						lobbyChat.push('looped. ')
+									// 						lobbyChat.push('Value:'+getTableData(allTables[xx],false)[0])
+									// 						lobbyChat.push('   ------ AI END ------ ')
+									// 						lobbyPollNum++
+															
+									// 						//aiOn[xx]=true
+									// 						var tempRandomConst=Math.random()*100
+									// 						if(Math.random()>0.5){tempRandomConst=1/tempRandomConst}
+															
+									// 						//console.log(tempRandomConst)
+															
+									// 						randomConst[xx]=tempRandomConst
+									// 						initTable(xx)
+									// 						allChats[xx]=chatTemp
+									// 						console.log('aimove on table '+xx+' reset.')
+									// 						aiOn[xx]=true
+															   
+									// 					   }
+														   
+									// 					   allChats[xx].push(' ')
+									// 					   allChats[xx].push('wN '+allWNexts[xx])
+									// 					   allChats[xx].push('Move: '+thisAiMove[1][0])
+									// 					   allChats[xx].push('t1const '+t1const)
+									// 					   // allChats[xx].push('randomConst '+randomConst[xx])
+														   					   
+									// 					   console.log('aimove on table '+xx+' moved.')	
+									// 					   allWNexts[xx]=!allWNexts[xx]
+									// 					   aiOn[xx]=true
+									// 					}else{
+									// 						var chatTemp=allChats[xx]
+															
+														   
+									// 					//store stats here
+														
+														
+									// 						// initTable(xx)
+															
+									// 						lobbyChat.push(' ')
+									// 						lobbyChat.push('   ------ AI START ------ ')
+															
+									// 						lobbyChat.push('Table: '+xx)
+															
+															
+									// 						lobbyChat.push('t1const: '+randomConst[xx])
+									// 						lobbyChat.push('won: '+allWNexts[xx])
+									// 						lobbyChat.push('Value:'+getTableData(allTables[xx],false)[0])
+															
+									// 						lobbyChat.push('   ------ AI END ------ ')
+									// 						lobbyPollNum++
+															
+									// 						//aiOn[xx]=true
+									// 						var tempRandomConst=Math.random()*100
+									// 						if(Math.random()>0.5){tempRandomConst=1/tempRandomConst}
+															
+									// 						//console.log(tempRandomConst)
+															
+									// 						randomConst[xx]=tempRandomConst
+									// 						initTable(xx)
+									// 						allChats[xx]=chatTemp
+									// 						console.log('aimove on table '+xx+' reset.')
+									// 						aiOn[xx]=true
+																				
+									// 					}
+													 
+													 
+													 
+									// 			 //}
+									// 		 }
+									// 		 console.log('lefutott')
+										
+									// 	},2000);
+									
+							
+							//need this to avoid loop:
+							// function pushTableState(tableNo){
+								
+							// 	var sTable=getSimpleTableState(allTables[tableNo])
+							// 	var sCount=0
+								
+							// 	//allChats[tableNo].push(sTable) //logging past tables as chat
+									
+							// 	//s	
+							// 	var collection = db.get('tables');
+							//     collection.find({},{},function(e,docs){
+							//         allChats[tableNo].push(docs[0].table)
+							//     });	
+								
+							// 	//e
+								
+								
+							// 	allPastTables[tableNo].push(sTable) //remember this state
+							// 	allPastTables[tableNo].forEach(function(tableTempState){	//check all past states
+							// 		if (tableTempState==sTable)sCount++			//count how many times this occured
+							// 	})
+								
+							// 	return sCount
+								
+							// }
+						//need end
+var firstFreeTable=0
 mongodb.connect(cn, function(err, db) {
 	db.collection("tables").findOne({tableNum: "xData"},function(err2, xData) {
 		if(xData==null){
@@ -88,17 +249,14 @@ mongodb.connect(cn, function(err, db) {
 					db.close()
 				
 			});
-			var fft=1
+			firstFreeTable=1
 		}else{
-			var fft=xData.firstFreeTable
+			firstFreeTable=xData.firstFreeTable
 		}
 		
 		db.close()
-		return fft
 	});
 });
-
-}
 
 app.get('/move', function (req, res) {
 
@@ -313,7 +471,6 @@ app.get('/startGame', function (req, res) {
 	var wPNum=players[0].indexOf(req.query.w)
 	var bPNum=players[0].indexOf(req.query.b)
 	
-	var firstFreeTable=getFFTable()
 	
 	
 	var initedTable=new Dbtable(firstFreeTable,req.query.w,req.query.b)
@@ -340,12 +497,12 @@ app.get('/startGame', function (req, res) {
 	players[5][wPNum]=req.query.b;		//give them the opponents name
 	players[5][bPNum]=req.query.w;	
 	
-	//firstFreeTable++
+	firstFreeTable++
 	
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables").findOne({tableNum: "xData"},function(err2, xData) {
 			
-			xData.firstFreeTable++
+			xData.firstFreeTable=firstFreeTable
 			
 			db.collection("tables").save(xData, function(err3,res){})
 			db.close()
