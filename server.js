@@ -8,8 +8,8 @@ var app = express();
 //
 var mongodb = require('mongodb');
 //var monk = require('monk');
-//var db = monk('localhost:27017/chessdb');
-var cn='mongodb://localhost:27017/chessdb'
+//var db = monk('localhost:17890/chessdb');
+var cn='mongodb://localhost:17890/chessdb'
 //
 //http://stackoverflow.com/questions/5797852/in-node-js-how-do-i-include-functions-from-my-other-files
 var fs = require('fs');
