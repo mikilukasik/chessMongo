@@ -329,11 +329,12 @@ app.get('/aiMove', function (req, res) {
 	  response.on('end', function () {
 	    //res.json(str);
 /////////
-	if(!(str==null))	{
+	
   mongodb.connect(cn, function(err, db) {
       db.collection("tables").findOne({tableNum: Number(req.query.t)},function(err2, tableInDb) {
       // console.log(str)
 	  // console.log('dssdfsdgs')
+	 if(!(str==null||tableInDb==null))	{
       var moveStr=String(str.aimove)
  
       var toPush=  String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1]-1][0])+  //color of whats moving
@@ -354,7 +355,9 @@ app.get('/aiMove', function (req, res) {
       //}
      
       db.collection("tables").save(tableInDb, function(err3,res){})
-      db.close()
+      
+	  }
+	  db.close()
     });
     
     
@@ -364,7 +367,7 @@ app.get('/aiMove', function (req, res) {
     
   });
   /////////
-		}
+		
 		
 		
 		

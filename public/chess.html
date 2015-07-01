@@ -166,7 +166,7 @@ var aiCount =0
 					//tempMoveString=getAiMove(!wPlayer)
 					//refreshTable()
 					if(aiCount==2&&opponentsName=="Computer"){
-						makeAMove(getAiMove(!wPlayer))
+						getAiMove(!wPlayer)
 						//refreshTable()
 					}
 				}
@@ -454,11 +454,11 @@ function getAiMove(whosMove){
 			    async: false
 			});
 			//wNext=!wNext
-			tempTable.responseJSON.fulltable.forEach(function(thisline){
-				console.log(thisline[0]+' '+thisline[1]+' '+thisline[2]+' '+thisline[3])
+			// tempTable.responseJSON.fulltable.forEach(function(thisline){
+			// 	console.log(thisline[0]+' '+thisline[1]+' '+thisline[2]+' '+thisline[3])
 				
 				 
-			})
+			// })
 			return tempTable.responseJSON.aimove
 }
 function makeAMove(whatMove){
