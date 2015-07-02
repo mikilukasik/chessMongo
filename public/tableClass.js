@@ -11,6 +11,9 @@ var Dbtable=function (tableNum,wName,bName) {	//class
 	this.pollNum=1,
 	this.allPastTables=[]
 	
+	this.created=new Date()
+	this.moved=this.created
+	
 	this.table = new Array(8)							//create 8x8 array
 	for (var i = 0; i < 8; i++) {
 		this.table[i] = new Array(8)

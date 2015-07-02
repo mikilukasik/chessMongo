@@ -276,6 +276,7 @@ app.get('/move', function (req, res) {
         tableInDb.table=moveIt(moveStr,tableInDb.table)
         tableInDb.wNext=!tableInDb.wNext
         tableInDb.pollNum++
+		tableInDb.moved=new Date()
         
         
         tableInDb.table=addMovesToTable(tableInDb.table,tableInDb.wNext)
@@ -347,6 +348,7 @@ app.get('/aiMove', function (req, res) {
         tableInDb.table=moveIt(moveStr,tableInDb.table)
         tableInDb.wNext=!tableInDb.wNext
         tableInDb.pollNum++
+		tableInDb.moved=new Date()
         
         
         tableInDb.table=addMovesToTable(tableInDb.table,tableInDb.wNext)
