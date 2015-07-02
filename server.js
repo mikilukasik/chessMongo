@@ -2,27 +2,22 @@
 var express = require('express');
 var morgan = require('morgan');
 var http = require('http');
-
-var app = express();
-//
+var fs = require('fs');
 var mongodb = require('mongodb');
 
-var cn = 'mongodb://localhost:17890/chessdb'
-	//
-	//http://stackoverflow.com/questions/5797852/in-node-js-how-do-i-include-functions-from-my-other-files
-var fs = require('fs');
 
-// file is included here:
-eval(fs.readFileSync('public/brandNewAi.js') + '');
-eval(fs.readFileSync('public/tableClass.js') + '');
-//http://stackoverflow.com/questions/5797852/in-node-js-how-do-i-include-functions-from-my-other-files
+var app = express();
 
 app.use(express.static('public'))
 app.use(morgan("combined"))
 
+var cn = 'mongodb://localhost:17890/chessdb'
+
+eval(fs.readFileSync('public/brandNewAi.js') + '');
+eval(fs.readFileSync('public/tableClass.js') + '');
+//http://stackoverflow.com/questions/5797852/in-node-js-how-do-i-include-functions-from-my-other-files
+
 var t1const = 11
-
-
 var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
 
 var players = []
@@ -44,6 +39,8 @@ var lobbyChat = []
 	
 
 var firstFreeTable = 0
+
+
 mongodb.connect(cn, function(err, db) {
 	db.collection("tables")
 		.findOne({
