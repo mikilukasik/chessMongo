@@ -22,28 +22,11 @@ app.use(morgan("combined"))
 
 var t1const = 11
 
-//clear this bullshit
-//var activeGames=[]
-//activeGames[0]=[]		//tablenum
-///activeGames[1]=[]		//?
-//var tablesLastMoved=[]
-//
 
 var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
 
-//var allTables=[]
-//var allPastTables=[]
-//var table=[]
-//var allMoves=[]
-// var allStepsStringHTML=""
-//var allStepsStringHTML=[]
-
-// var pollNum=0
-//var pollNum=[]
-//var allWNexts=[]
 var players = []
-	//var randomConst=[]
-
+	
 var playerDisconnectConst = 15000 //15sec
 var gameInactiveConst = 300000 //5min
 
@@ -58,11 +41,7 @@ players[5] = [] //opponents name
 
 var lobbyPollNum = 0
 var lobbyChat = []
-	//var allChats=[]
-
-//var aiOn=[]
-
-//var tempRandomConst=0
+	
 
 var firstFreeTable = 0
 mongodb.connect(cn, function(err, db) {
@@ -176,17 +155,12 @@ app.get('/aiMove', function(req, res) {
 
 								tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
 
-								//}
-
 								db.collection("tables")
 									.save(tableInDb, function(err3, res) {})
 
 							}
 							db.close()
 						});
-
-					//db.close()
-					//res.json({});
 
 				});
 				/////////
@@ -250,8 +224,7 @@ app.get('/getTable', function(req, res) {
 					next: passWnext,
 					allmoves: passMoves,
 					chat: passChat
-				}); //, pollnum: pollNum[req.query.t]});
-
+				}); 
 			});
 
 	});
@@ -259,8 +232,7 @@ app.get('/getTable', function(req, res) {
 });
 
 app.get('/chat', function(req, res) {
-	//console.log(req)
-
+	
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
@@ -296,7 +268,7 @@ app.get('/startGame', function(req, res) {
 				.insert(initedTable, function(err, doc) {});
 			db.close()
 		})
-		//temp end
+		
 
 	//?dbTables.insert(initedTable, function (err, doc) {});
 
@@ -385,19 +357,6 @@ function clearDisconnectedPlayers() {
 	//clearInactiveGames()
 }
 
-// function clearInactiveGames() {
-// 	for (var i = activeGames.length - 1; i >= 0; i--) {
-
-// 		if (activeGames[1][i] + gameInactiveConst < (new Date())
-// 			.getTime()) {
-// 			activeGames[1].splice(i, 1)
-// 			activeGames[0].splice(i, 1)
-// 			lobbyPollNum++
-
-// 		}
-
-// 	}
-// }
 
 app.get('/getLobby', function(req, res) {
 	//console.log(req)
