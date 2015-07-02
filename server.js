@@ -47,14 +47,15 @@ mongodb.connect(cn, function(err, db) {
 			tableNum: "xData"
 		}, function(err2, xData) {
 			if (xData == null) {
-				console.log("can't find firstfreetable info in db")
+				console.log("can't find firstfreetable info in db, creating new xData document..")
 
 				mongodb.connect(cn, function(err, db) {
 
 					db.collection("tables")
 						.insert({
 							"tableNum": "xData",
-							"firstFreeTable": 1
+							"firstFreeTable": 1,
+							"lobbyChat": []
 						}, function(err3, res) {})
 					db.close()
 
@@ -328,13 +329,25 @@ app.get('/watchGame', function(req, res) {
 
 app.get('/lobbyChat', function(req, res) {
 	//console.log(req)
+	mongodb.connect(cn, function(err, db) {
+		db.collection("tables")
+			.findOne({
+				tableNum: "xData"
+			}, function(err2, xData) {
 
-	lobbyChat.push(req.query.c)
+				xData.lobbyChat.push(req.query.c)
+
+				db.collection("tables")
+					.save(xData, function(err3, res) {})
+				db.close()
+			});
+	});
+	
 
 	lobbyPollNum++
 
 	res.json({
-		lobbychat: lobbyChat
+		//lobbychat: lobbyChat
 	});
 
 });
@@ -385,7 +398,7 @@ app.get('/getLobby', function(req, res) {
 			players: players[0],
 			games: [],//[activeGames],
 			lobbypollnum: lobbyPollNum,
-			lobbychat: lobbyChat,
+			lobbychat: [],//lobbyChat,
 			asktoopen: true,
 			opentablenum: openTableNum,
 			opentablecolor: openTableColor,
@@ -393,14 +406,44 @@ app.get('/getLobby', function(req, res) {
 		});
 
 	} else {
-		res.json({
-			players: players[0],
-			games: [],//activeGames[0],
-			lobbypollnum: lobbyPollNum,
-			lobbychat: lobbyChat,
-			asktoopen: false
+		
+		mongodb.connect(cn, function(err, db) {
+			db.collection("tables")
+				.findOne({
+					tableNum: "xData"
+				}, function(err2, xData) {
+					if (xData == null) {
+						console.log("can't find xData in db, creating..")
+		
+						mongodb.connect(cn, function(err, db) {
+		
+							db.collection("tables")
+								.insert({
+									"tableNum": "xData",
+									"firstFreeTable": 1,
+									"lobbyChat": []
+								}, function(err3, res) {})
+							db.close()
+		
+						});
+						var resLChat = []
+					} else {
+						var resLChat = xData.lobbyChat
+					}
+					db.close()
+					///////
+					res.json({
+						players: players[0],
+						games: [],//activeGames[0],
+						lobbypollnum: lobbyPollNum,
+						lobbychat: resLChat,
+						asktoopen: false
+					});
+					///////
+					
+				});
 		});
-
+		
 	}
 
 });
