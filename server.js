@@ -83,7 +83,7 @@ mongodb.connect(cn, function(err, db) {
 setInterval(function(){
 	
 	mongodb.connect(cn, function(err, db) {
-		var laterThan = new Date()-gameInactiveConst
+		var laterThan = new Date().getTime()-gameInactiveConst
 		db.collection("tables")
 			.find({
 				"moved": {"$gte": laterThan} 
@@ -137,7 +137,7 @@ app.get('/move', function(req, res) {
 				tableInDb.table = moveIt(moveStr, tableInDb.table)
 				tableInDb.wNext = !tableInDb.wNext
 				tableInDb.pollNum++
-					tableInDb.moved = new Date()-1
+					tableInDb.moved = new Date().getTime()
 
 				tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
 
@@ -196,7 +196,7 @@ app.get('/aiMove', function(req, res) {
 									tableInDb.table = moveIt(moveStr, tableInDb.table)
 									tableInDb.wNext = !tableInDb.wNext
 									tableInDb.pollNum++
-									tableInDb.moved = new Date()
+									tableInDb.moved = new Date().getTime()
 	
 									tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
 	
