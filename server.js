@@ -40,6 +40,23 @@ var lobbyChat = []
 
 var firstFreeTable = 0
 
+function createXData(){
+	console.log("can't find xData in db, creating..")
+		
+	mongodb.connect(cn, function(err, db) {
+
+		db.collection("tables")
+			.insert({
+				"tableNum": "xData",
+				"firstFreeTable": 1,
+				"lobbyChat": [],
+				"activeTables": []
+			}, function(err3, res) {})
+		db.close()
+
+	});
+}
+
 
 mongodb.connect(cn, function(err, db) {
 	db.collection("tables")
@@ -47,27 +64,51 @@ mongodb.connect(cn, function(err, db) {
 			tableNum: "xData"
 		}, function(err2, xData) {
 			if (xData == null) {
-				console.log("can't find firstfreetable info in db, creating new xData document..")
+				
 
-				mongodb.connect(cn, function(err, db) {
-
-					db.collection("tables")
-						.insert({
-							"tableNum": "xData",
-							"firstFreeTable": 1,
-							"lobbyChat": []
-						}, function(err3, res) {})
-					db.close()
-
-				});
+				createXData();
+				
 				firstFreeTable = 1
 			} else {
 				firstFreeTable = xData.firstFreeTable
 			}
+			
+			
 
 			db.close()
 		});
 });
+
+// setInterval(function(){
+	
+// 	mongodb.connect(cn, function(err, db) {
+// 		db.collection("tables")
+// 			.find({
+// 				moved: {$gte: new Date()-gameInactiveConst}
+// 			}, function(err2, actGames) {
+				
+				
+// 				mongodb.connect(cn, function(err, db2) {
+// 					db2.collection("tables")
+// 						.findOne({
+// 							tableNum: "xData"
+// 						}, function(err4, xData) {
+			
+// 							xData.activeTables = actGames
+// 			console.log('eddig jo')
+// 							db2.collection("tables")
+// 								.save(xData, function(err3, res) {})
+// 								console.log('eddig dddjo')
+// 							db2.close()
+// 						});
+// 				});
+	
+// 				db.close()
+// 			});
+// 	});
+
+	
+// },3000);
 
 app.get('/move', function(req, res) {
 
@@ -413,19 +454,9 @@ app.get('/getLobby', function(req, res) {
 					tableNum: "xData"
 				}, function(err2, xData) {
 					if (xData == null) {
-						console.log("can't find xData in db, creating..")
-		
-						mongodb.connect(cn, function(err, db) {
-		
-							db.collection("tables")
-								.insert({
-									"tableNum": "xData",
-									"firstFreeTable": 1,
-									"lobbyChat": []
-								}, function(err3, res) {})
-							db.close()
-		
-						});
+						
+						createXData()
+						
 						var resLChat = []
 					} else {
 						var resLChat = xData.lobbyChat

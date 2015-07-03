@@ -25,9 +25,13 @@ app.get('/aiChoice', function (req, res) {
     
       if(!(tableFromDb==null)){
         var result=ai(tableFromDb.table,tableFromDb.wNext)
-        var result1=result[1][0]
-        
-        var sendJson={aimove: result1, fulltable: result}
+        if(result.length>1){  //if there are any moves
+          var result1=result[1][0]
+          
+          var sendJson={aimove: result1, fulltable: result}
+        }else{
+          var sendJson={aimove: "", fulltable: result}
+        }
       }else{
         var sendJson={error:"error"}
       }
