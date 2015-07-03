@@ -78,37 +78,38 @@ mongodb.connect(cn, function(err, db) {
 			db.close()
 		});
 });
-
-// setInterval(function(){
+//{"$gte": 3}
+setInterval(function(){
 	
-// 	mongodb.connect(cn, function(err, db) {
-// 		db.collection("tables")
-// 			.find({
-// 				moved: {$gte: new Date()-gameInactiveConst}
-// 			}, function(err2, actGames) {
+	mongodb.connect(cn, function(err, db) {
+		var laterThan = new Date()-gameInactiveConst
+		db.collection("tables")
+			.find({
+				"moved": {"$gte": laterThan} 
+			}).toArray(function(err2, actGames) {
 				
+				console.log('eddig jo')
 				
-// 				mongodb.connect(cn, function(err, db2) {
-// 					db2.collection("tables")
-// 						.findOne({
-// 							tableNum: "xData"
-// 						}, function(err4, xData) {
+					db.collection("tables")
+						.findOne({
+							"tableNum": "xData"
+						}, function(err4, xData) {
+			//console.log('eddig dddjo')
+							xData.activeTables = actGames
 			
-// 							xData.activeTables = actGames
-// 			console.log('eddig jo')
-// 							db2.collection("tables")
-// 								.save(xData, function(err3, res) {})
-// 								console.log('eddig dddjo')
-// 							db2.close()
-// 						});
-// 				});
-	
-// 				db.close()
-// 			});
-// 	});
+							db.collection("tables")
+								.save(xData, function(err3, res) {db.close()})
+								console.log('eddig dddjo')
+							
+						});
+				
+				
+			});
+			//db.close()
+	});
 
 	
-// },3000);
+},3000);
 
 app.get('/move', function(req, res) {
 
@@ -131,7 +132,7 @@ app.get('/move', function(req, res) {
 				tableInDb.table = moveIt(moveStr, tableInDb.table)
 				tableInDb.wNext = !tableInDb.wNext
 				tableInDb.pollNum++
-					tableInDb.moved = new Date()
+					tableInDb.moved = new Date()-1
 
 				tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
 
@@ -178,7 +179,7 @@ app.get('/aiMove', function(req, res) {
 							// console.log('dssdfsdgs')
 							if (!(str == null || tableInDb == null)) {
 								var moveStr = String(str.aimove)
-								if(!(moveStr=="")){
+								if(!(moveStr=="")){   			//there's at least 1 move
 									var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
 										tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
 										moveStr + //the string
