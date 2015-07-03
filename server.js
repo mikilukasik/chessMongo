@@ -24,6 +24,7 @@ var players = []
 	
 var playerDisconnectConst = 15000 //15sec
 var gameInactiveConst = 300000 //5min
+var checkActGamesConst = 3000
 
 players[0] = [] //player names
 
@@ -86,20 +87,24 @@ setInterval(function(){
 		db.collection("tables")
 			.find({
 				"moved": {"$gte": laterThan} 
+			},{
+				"tableNum":true,
+				"wName":true,
+				"bName":true
 			}).toArray(function(err2, actGames) {
 				
-				console.log('eddig jo')
+				
 				
 					db.collection("tables")
 						.findOne({
 							"tableNum": "xData"
 						}, function(err4, xData) {
-			//console.log('eddig dddjo')
+			
 							xData.activeTables = actGames
 			
 							db.collection("tables")
 								.save(xData, function(err3, res) {db.close()})
-								console.log('eddig dddjo')
+								console.log('activegames checked.')
 							
 						});
 				
@@ -109,7 +114,7 @@ setInterval(function(){
 	});
 
 	
-},3000);
+},checkActGamesConst);
 
 app.get('/move', function(req, res) {
 
