@@ -178,25 +178,25 @@ app.get('/aiMove', function(req, res) {
 							// console.log('dssdfsdgs')
 							if (!(str == null || tableInDb == null)) {
 								var moveStr = String(str.aimove)
-
-								var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
-									tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
-									moveStr + //the string
-									tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][0] + //color of whats hit
-									tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][1] //piece
-
-								// if(!(toPush==tableInDb.moves[tableInDb.moves.length-1])){
-								tableInDb.moves.push(toPush)
-								tableInDb.table = moveIt(moveStr, tableInDb.table)
-								tableInDb.wNext = !tableInDb.wNext
-								tableInDb.pollNum++
-								tableInDb.moved = new Date()
-
-								tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
-
-								db.collection("tables")
-									.save(tableInDb, function(err3, res) {})
-
+								if(!(moveStr=="")){
+									var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
+										tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
+										moveStr + //the string
+										tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][0] + //color of whats hit
+										tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][1] //piece
+	
+									// if(!(toPush==tableInDb.moves[tableInDb.moves.length-1])){
+									tableInDb.moves.push(toPush)
+									tableInDb.table = moveIt(moveStr, tableInDb.table)
+									tableInDb.wNext = !tableInDb.wNext
+									tableInDb.pollNum++
+									tableInDb.moved = new Date()
+	
+									tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
+	
+									db.collection("tables")
+										.save(tableInDb, function(err3, res) {})
+								}
 							}
 							db.close()
 						});
