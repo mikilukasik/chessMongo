@@ -396,18 +396,18 @@ function showTableStatus(){								//this will update the displayed status
 
 	$(".isItYourTurn").empty()
 	$(".blink").empty()
-	
-	if(wNext==wPlayer){
-		$(".blink").append($("<div>Your turn</div>"))
-		
-		
-		
-	}else{
-		
-		$(".isItYourTurn").append($("<div>Please wait..</div>"))
-		
+	if(!(opponentsName=="Spectator")){
+		if(wNext==wPlayer){
+			$(".blink").append($("<div>Your turn</div>"))
+			
+			
+			
+		}else{
+			
+			$(".isItYourTurn").append($("<div>Please wait..</div>"))
+			
+		}
 	}
-	
 }
 
 function showChat(){								//this will update the chat field 
