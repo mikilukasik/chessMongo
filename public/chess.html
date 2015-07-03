@@ -374,7 +374,14 @@ function showTableStatus(){								//this will update the displayed status
 
 			
 	$(".statusCell").empty();
-	var thisStatusStr = "<span>Opponent:<br>"+opponentsName+"</span><br><span>tableNum:<br>"+tableNum+"</span><br>"
+	if(opponentsName="Spectator"){
+		var thisStatusStr = "<span>"+opponentsName+"</span><br><span>tableNum:<br>"+tableNum+"</span><br>"
+
+	}else{
+		
+		var thisStatusStr = "<span>Opponent:<br>"+opponentsName+"</span><br><span>tableNum:<br>"+tableNum+"</span><br>"
+
+	}	
 	allMoves.forEach(function(thisMoveStr){
 
 		var thisSFigure = '<img src="cPiecesPng/'+thisMoveStr.substring(0,2)+'.png" height=18></img>'
