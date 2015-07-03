@@ -122,8 +122,8 @@ function showLobby(lobbyChatLines,players,games,lobbyPollNum){
 	
 	games.forEach(function(game){
 
-			var thisfunc="askToWatch('"+game+"')"	//tricky
-			gamesHTML = gamesHTML+'<span class="pointed" onclick="'+thisfunc+'">'+game+'</span><br>'
+			var thisfunc="askToWatch('"+game.tableNum+"')"	//tricky
+			gamesHTML = gamesHTML+'<span class="pointed" onclick="'+thisfunc+'">Table '+game.tablenum+' '+game.wName+' vs '+game.bName+'</span><br>'
 		
 		
 	})

@@ -464,14 +464,18 @@ app.get('/getLobby', function(req, res) {
 						createXData()
 						
 						var resLChat = []
+						var resAGames = []
+						
 					} else {
+						
 						var resLChat = xData.lobbyChat
+						var resAGames = xData.activeTables
 					}
 					db.close()
 					///////
 					res.json({
 						players: players[0],
-						games: [],//activeGames[0],
+						games: resAGames,
 						lobbypollnum: lobbyPollNum,
 						lobbychat: resLChat,
 						asktoopen: false
