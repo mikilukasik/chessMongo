@@ -90,7 +90,7 @@ function protectPieces(originalTable, whitePlayer) {
 }
 
 function addMovesToTable(originalTable, whiteNext) {
-	var myCol = 1;	if(whitePlayer)myCol++	//myCol is 2 when white
+	var myCol = 1;	if(whiteNext)myCol++	//myCol is 2 when white
 	
 	var tableWithMoves = new Array(8)
 	for(var i = 0; i < 8; i++) {
