@@ -198,13 +198,10 @@ function coordsToMoveString(a, b, c, d) {
 	return dletters[a] + (b + 1) + dletters[c] + (d + 1)
 }
 
-function blankFunction() {
-	alert("blankFunction called");
 
-}
 
 function getTableData(origTable, isWhite) {
-	var returnArray = [] // elso elem az osszes babu ertekenek osszge, aztan az osszes babu koordinataja
+	var returnArray = [] // elso elem will be az osszes babu ertekenek osszge, aztan az osszes babu koordinataja
 	var tableValue = 0
 	var myTempPieces = []
 	if(isWhite) {
@@ -236,10 +233,12 @@ function getTableData(origTable, isWhite) {
 }
 
 function whatsThere(i, j, aiTable) {
-	var pieceThere = []
+	//var pieceThere = []
 
 	if(i >= 0 && j >= 0 && i < 8 && j < 8) {
-		pieceThere.push(aiTable[i][j][0], aiTable[i][j][1], aiTable[i][j][2], aiTable[i][j][3]) //,aiTable[i][j][3])
+		
+		var pieceThere = aiTable[i][j]
+		//pieceThere.push(aiTable[i][j][0], aiTable[i][j][1], aiTable[i][j][2], aiTable[i][j][3]) //,aiTable[i][j][3])
 	}
 
 	return pieceThere
