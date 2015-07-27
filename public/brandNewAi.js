@@ -102,7 +102,7 @@ function addMovesToTable(originalTable, whiteNext) {
 
 			})
 			if(originalTable[i][j][0] == myCol) {
-				tableWithMoves[i][j][5] = canMove(originalTable[i][j][1], i, j, whiteNext, originalTable)
+				tableWithMoves[i][j][5] = canMove(i, j, whiteNext, originalTable)
 			} else {
 				tableWithMoves[i][j][5] == []
 			}
@@ -113,9 +113,10 @@ function addMovesToTable(originalTable, whiteNext) {
 
 }
 
-function canMove(what, k, l, isWhite, moveTable) {
+function canMove(k, l, isWhite, moveTable) {
+	//var what=moveTable[k][l][1]
 	var possibleMoves = []
-	switch(what) {
+	switch(moveTable[k][l][1]) {
 		// case 0:
 
 		case 1:
@@ -147,7 +148,7 @@ function canMove(what, k, l, isWhite, moveTable) {
 	}
 
 	for(var i = possibleMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
-		if(getBestHit(moveIt(coordsToMoveString(k, l, possibleMoves[i][0], possibleMoves[i][1]), moveTable), !isWhite) == 9) {
+		if(getBestHit(moveIt(coordsToMoveString(k, l, possibleMoves[i][0], possibleMoves[i][1]), moveTable), !isWhite) == 9) { //sakkba lepnenk
 			possibleMoves.splice(i, 1)
 		}
 	}
