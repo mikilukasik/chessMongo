@@ -237,8 +237,9 @@ function whatsThere(i, j, aiTable) {
 
 	if(i >= 0 && j >= 0 && i < 8 && j < 8) {
 		
-		//var pieceThere = aiTable[i][j].slice(0,4)
-		pieceThere.push(aiTable[i][j][0], aiTable[i][j][1], aiTable[i][j][2], aiTable[i][j][3]) //,aiTable[i][j][3])
+		//var 
+		pieceThere.push(aiTable[i][j].slice(0,4))
+		//pieceThere.push(aiTable[i][j][0], aiTable[i][j][1], aiTable[i][j][2], aiTable[i][j][3]) //,aiTable[i][j][3])
 	}
 
 	return pieceThere
