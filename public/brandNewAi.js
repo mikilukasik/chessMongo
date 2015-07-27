@@ -142,18 +142,9 @@ function canMove(k, l, isWhite, moveTable) {
 			break;
 		case 9:
 			possibleMoves = kingCanMove(k, l, isWhite, moveTable)
-
-			break;
-
-	}
-
-	for(var i = possibleMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
-		if(getBestHit(moveIt(coordsToMoveString(k, l, possibleMoves[i][0], possibleMoves[i][1]), moveTable), !isWhite) == 9) { //sakkba lepnenk
-			possibleMoves.splice(i, 1)
-		}
-	}
-
-	if(what == 9 && moveTable[k][l][3]) { //lesznek sanc lepesek is a possibleMoves tombben: kiraly nem mozdult meg
+			
+			
+				if(moveTable[k][l][3]) { //lesznek sanc lepesek is a possibleMoves tombben: kiraly nem mozdult meg
 		if(getBestHit(moveTable, !isWhite) == 9) { // de sakkban allunk
 			for(var spliceCount = possibleMoves.length - 1; spliceCount >= 0; spliceCount--) {
 				if(possibleMoves[spliceCount][1] == l && (possibleMoves[spliceCount][0] == k - 2 || possibleMoves[spliceCount][0] == k + 2)) {
@@ -185,6 +176,18 @@ function canMove(k, l, isWhite, moveTable) {
 		}
 
 	}
+
+
+			break;
+
+	}
+
+	for(var i = possibleMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
+		if(getBestHit(moveIt(coordsToMoveString(k, l, possibleMoves[i][0], possibleMoves[i][1]), moveTable), !isWhite) == 9) { //sakkba lepnenk
+			possibleMoves.splice(i, 1)
+		}
+	}
+
 
 	return possibleMoves
 
