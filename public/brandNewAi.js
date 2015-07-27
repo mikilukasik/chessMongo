@@ -814,8 +814,8 @@ function getAllMoves(rawTableData,tableToMoveOn,whiteNext,hitItsOwn){
 	// var moveArrays=[]
 	// var moveStrings=[]
 	var tableData=rawTableData[1]
-	// thisArray=[]
-	// thisStrArray=[]
+	thisArray=[]
+	thisStrArray=[]
 	//var whiteNext=false
 	//if (tableToMoveOn[tableData[0][1]][tableData[0][0]][0]=2){
 		//whiteNext=true
