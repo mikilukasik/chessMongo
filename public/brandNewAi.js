@@ -75,9 +75,10 @@ function getSimpleTableState(itable) {
 function protectPieces(originalTable, whitePlayer) {
 
 	//var flippedMoves=
-	var myCol = 1;	if(whitePlayer)myCol++	//myCol is 2 when white
-	
-	getAllMoves(getTableData(originalTable, whitePlayer), originalTable, whitePlayer, true). //moves include to hit my own 
+	var myCol = 1;
+	if(whitePlayer) myCol++ //myCol is 2 when white
+
+		getAllMoves(getTableData(originalTable, whitePlayer), originalTable, whitePlayer, true). //moves include to hit my own 
 		//true stands for letMeHitMyOwn
 
 	forEach(function(thisMoveCoords) {
@@ -90,9 +91,10 @@ function protectPieces(originalTable, whitePlayer) {
 }
 
 function addMovesToTable(originalTable, whiteNext) {
-	var myCol = 1;	if(whiteNext)myCol++	//myCol is 2 when white
-	
-	var tableWithMoves = new Array(8)
+	var myCol = 1;
+	if(whiteNext) myCol++ //myCol is 2 when white
+
+		var tableWithMoves = new Array(8)
 	for(var i = 0; i < 8; i++) {
 		tableWithMoves[i] = new Array(8)
 		for(var j = 0; j < 8; j++) {
@@ -114,7 +116,7 @@ function addMovesToTable(originalTable, whiteNext) {
 }
 
 function canMove(k, l, isWhite, moveTable) {
-	var what=moveTable[k][l][1]
+	var what = moveTable[k][l][1]
 	var possibleMoves = []
 	switch(what) {
 		// case 0:
@@ -142,41 +144,39 @@ function canMove(k, l, isWhite, moveTable) {
 			break;
 		case 9:
 			possibleMoves = kingCanMove(k, l, isWhite, moveTable)
-			
-			
-				if(moveTable[k][l][3]) { //lesznek sanc lepesek is a possibleMoves tombben: kiraly nem mozdult meg
-		if(getBestHit(moveTable, !isWhite) == 9) { // de sakkban allunk
-			for(var spliceCount = possibleMoves.length - 1; spliceCount >= 0; spliceCount--) {
-				if(possibleMoves[spliceCount][1] == l && (possibleMoves[spliceCount][0] == k - 2 || possibleMoves[spliceCount][0] == k + 2)) {
-					possibleMoves.splice(spliceCount, 1)
+
+			if(moveTable[k][l][3]) { //lesznek sanc lepesek is a possibleMoves tombben: kiraly nem mozdult meg
+				if(getBestHit(moveTable, !isWhite) == 9) { // de sakkban allunk
+					for(var spliceCount = possibleMoves.length - 1; spliceCount >= 0; spliceCount--) {
+						if(possibleMoves[spliceCount][1] == l && (possibleMoves[spliceCount][0] == k - 2 || possibleMoves[spliceCount][0] == k + 2)) {
+							possibleMoves.splice(spliceCount, 1)
+						}
+					}
+
 				}
+
+				// remove the sakkot atugrani sem er
+				var removeKmin2 = true
+				var removeKplus2 = true
+				var removeThis = false
+				for(var i = possibleMoves.length - 1; i >= 0; i--) {
+					if(possibleMoves[i][1] == l && possibleMoves[i][0] == k - 1) removeKmin2 = false
+					if(possibleMoves[i][1] == l && possibleMoves[i][0] == k + 1) removeKplus2 = false
+				}
+
+				for(var i = possibleMoves.length - 1; i >= 0; i--) {
+					if(possibleMoves[i][1] == l && possibleMoves[i][0] == k - 2 && removeKmin2) {
+						//possibleMoves.splice(i,1)
+						removeThis = true
+							//console.log("to be removed")
+					}
+					if((possibleMoves[i][1] == l && possibleMoves[i][0] == k + 2 && removeKplus2) || removeThis) {
+						possibleMoves.splice(i, 1)
+							//console.log("removed")
+					}
+				}
+
 			}
-
-		}
-
-		// remove the sakkot atugrani sem er
-		var removeKmin2 = true
-		var removeKplus2 = true
-		var removeThis = false
-		for(var i = possibleMoves.length - 1; i >= 0; i--) {
-			if(possibleMoves[i][1] == l && possibleMoves[i][0] == k - 1) removeKmin2 = false
-			if(possibleMoves[i][1] == l && possibleMoves[i][0] == k + 1) removeKplus2 = false
-		}
-
-		for(var i = possibleMoves.length - 1; i >= 0; i--) {
-			if(possibleMoves[i][1] == l && possibleMoves[i][0] == k - 2 && removeKmin2) {
-				//possibleMoves.splice(i,1)
-				removeThis = true
-					//console.log("to be removed")
-			}
-			if((possibleMoves[i][1] == l && possibleMoves[i][0] == k + 2 && removeKplus2) || removeThis) {
-				possibleMoves.splice(i, 1)
-					//console.log("removed")
-			}
-		}
-
-	}
-
 
 			break;
 
@@ -188,14 +188,11 @@ function canMove(k, l, isWhite, moveTable) {
 		}
 	}
 
-
 	return possibleMoves
 
 }
 
 function coordsToMoveString(a, b, c, d) {
-
-	
 
 	return dletters[a] + (b + 1) + dletters[c] + (d + 1)
 }
@@ -240,12 +237,9 @@ function getTableData(origTable, isWhite) {
 function whatsThere(i, j, aiTable) {
 	var pieceThere = []
 
-	
 	if(i >= 0 && j >= 0 && i < 8 && j < 8) {
 		pieceThere.push(aiTable[i][j][0], aiTable[i][j][1], aiTable[i][j][2], aiTable[i][j][3]) //,aiTable[i][j][3])
 	}
-
-	
 
 	return pieceThere
 }
@@ -276,13 +270,11 @@ function pushAid(x, y, hanyadik, milegyen, fromTable, someboolean, whatHits) {
 
 		////////////////////////////////
 
-		
 		if(bestHit < thisHit) {
 			bestHit = thisHit
 				//alert(bestHit)
 		}
 
-		
 		return true
 
 	};
@@ -343,8 +335,6 @@ function pawnCanMove(k, l, isWhite, moveTable) {
 
 	}
 
-	
-
 	return canMoveTo
 
 }
@@ -361,7 +351,6 @@ function rookCanMove(k, l, isWhite, moveTable) {
 		var nc = 2
 	}
 
-	
 	var goFurther = [true, true, true, true]
 	for(var moveCount = 1; moveCount < 8; moveCount++) {
 		if(goFurther[0]) {
@@ -404,7 +393,6 @@ function bishopCanMove(k, l, isWhite, moveTable) {
 		var nc = 2
 	}
 
-	
 	var goFurther = [true, true, true, true]
 	for(var moveCount = 1; moveCount < 8; moveCount++) {
 		if(goFurther[0]) {
@@ -447,7 +435,6 @@ function queenCanMove(k, l, isWhite, moveTable) {
 		var nc = 2
 	}
 
-	
 	var goFurther = [true, true, true, true, true, true, true, true]
 	for(var moveCount = 1; moveCount < 8; moveCount++) {
 		if(goFurther[0]) {
@@ -504,7 +491,7 @@ function queenCanMove(k, l, isWhite, moveTable) {
 }
 
 function kingCanMove(k, l, isWhite, moveTable) {
-	
+
 	canMoveTo = []
 
 	if(!isWhite) {
@@ -534,27 +521,21 @@ function kingCanMove(k, l, isWhite, moveTable) {
 	pushAid(k, l + moveCount, 0, c, moveTable, true, 9)
 	pushAid(k, l - moveCount, 0, c, moveTable, true, 9)
 
-	
-
 	//sanc
 	if(moveTable[k][l][3]) { //if the king hasnt moved yet, 
-		
 
 		// ha nincs sakkban, nem is ugrik at sakkot, minden ures kozotte
 
-		
-		if(moveTable[0][l][3] && 			// unmoved rook on [0][l]
+		if(moveTable[0][l][3] && // unmoved rook on [0][l]
 			whatsThere(1, l, moveTable)[0] == 0 && whatsThere(2, l, moveTable)[0] == 0 && whatsThere(3, l, moveTable)[0] == 0) { //empty between
-				
-				pushAid(2, l, 0, 0, moveTable) //mark that cell if empty
+
+			pushAid(2, l, 0, 0, moveTable) //mark that cell if empty
 
 		}
 		if(moveTable[7][l][3] && whatsThere(5, l, moveTable)[0] == 0 && whatsThere(6, l, moveTable)[0] == 0) { // unmoved rook on [7][l] && empty between
 			pushAid(6, l, 0, 0, moveTable) //mark that cell if empty
 
 		}
-
-		
 
 	}
 
@@ -845,23 +826,10 @@ function moveIt(moveString, intable) {
 
 	}
 
-	// calculate hitvalue and leave it for ai in global variable		//change this to local!!
-
-	// if(thistable[dletters.indexOf(moveString[2])][moveString[3]-1][1]==9){		//ha kiralyt ut
-	// 	hitValue=20 					//this global val. will be captured in another function
-	// }else{
-	// 	if(intable[dletters.indexOf(moveString[2])][moveString[3]-1][6]){  //alert('protectedHit')	//ha protectedre lep
-	// 		hitValue=thistable[dletters.indexOf(moveString[2])][moveString[3]-1][1]-	//hitvaluebol kivonja amivel lep
-	// 			thistable[dletters.indexOf(moveString[0])][moveString[1]-1][1]	
-	// 		if(hitValue<0){
-	// 			hitValue=0
-	// 		}												//negaive is 0
-	// 	}else{
+	
 	hitValue = thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][1] //normal hivalue
 
-	// 	}
-
-	// }
+	
 
 	thistable[dletters.indexOf(moveString[2])][moveString[3] - 1] =
 		thistable[dletters.indexOf(moveString[0])][moveString[1] - 1]
