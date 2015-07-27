@@ -202,12 +202,6 @@ function blankFunction() {
 
 }
 
-function isEven(n) {
-	return n == parseFloat(n) ? !(n % 2) : void 0;
-}
-
-//newAi
-
 function getTableData(origTable, isWhite) {
 	var returnArray = [] // elso elem az osszes babu ertekenek osszge, aztan az osszes babu koordinataja
 	var tableValue = 0
@@ -241,11 +235,11 @@ function getTableData(origTable, isWhite) {
 }
 
 function whatsThere(i, j, aiTable) {
-	var pieceThere = []
+	//var pieceThere = []
 
-	//if(aiCalled){
+	
 	if(i >= 0 && j >= 0 && i < 8 && j < 8) {
-		pieceThere.push(aiTable[i][j][0], aiTable[i][j][1], aiTable[i][j][2], aiTable[i][j][3]) //,aiTable[i][j][3])
+		var pieceThere=[aiTable[i][j][0], aiTable[i][j][1], aiTable[i][j][2], aiTable[i][j][3]]
 	}
 
 	
