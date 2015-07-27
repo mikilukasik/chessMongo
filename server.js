@@ -170,9 +170,7 @@ app.get('/aiMove', function(req, res) {
 				str = JSON.parse(chunk);
 			});
 
-			//the whole response has been recieved, so we just print it out here
 			response.on('end', function() {
-				//res.json(str);
 				/////////
 
 				mongodb.connect(cn, function(err, db) {
