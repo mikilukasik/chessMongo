@@ -75,13 +75,8 @@ function getSimpleTableState(itable) {
 function protectPieces(originalTable, whitePlayer) {
 
 	//var flippedMoves=
-
-	if(whitePlayer) {
-		var myCol = 2
-	} else {
-		var myCol = 1
-	}
-
+	var myCol = 1;	if(whitePlayer)myCol++	//myCol is 2 when white
+	
 	getAllMoves(getTableData(originalTable, whitePlayer), originalTable, whitePlayer, true). //moves include to hit my own 
 		//true stands for letMeHitMyOwn
 
@@ -95,11 +90,8 @@ function protectPieces(originalTable, whitePlayer) {
 }
 
 function addMovesToTable(originalTable, whiteNext) {
-	if(whiteNext) {
-		var myCol = 2
-	} else {
-		var myCol = 1
-	}
+	var myCol = 1;	if(whitePlayer)myCol++	//myCol is 2 when white
+	
 	var tableWithMoves = new Array(8)
 	for(var i = 0; i < 8; i++) {
 		tableWithMoves[i] = new Array(8)
