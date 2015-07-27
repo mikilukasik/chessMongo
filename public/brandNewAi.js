@@ -155,7 +155,7 @@ function canMove(k, l, isWhite, moveTable) {
 		}
 	}
 
-	if(moveTable[k][l][3]) { //lesznek sanc lepesek is a possibleMoves tombben: kiraly nem mozdult meg
+	if(what==9&&moveTable[k][l][3]) { //lesznek sanc lepesek is a possibleMoves tombben: kiraly nem mozdult meg
 		if(getBestHit(moveTable, !isWhite) == 9) { // de sakkban allunk
 			for(var spliceCount = possibleMoves.length - 1; spliceCount >= 0; spliceCount--) {
 				if(possibleMoves[spliceCount][1] == l && (possibleMoves[spliceCount][0] == k - 2 || possibleMoves[spliceCount][0] == k + 2)) {
