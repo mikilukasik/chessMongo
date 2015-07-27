@@ -1134,7 +1134,7 @@ function createFirstTableState(cfTable,cfColor){
 
 
 
-		tTable2Value/=10
+		tTable2Value/=15
 		if (tTable2Value<0){
 			tTableValue*=dontHitConst
 		}
