@@ -114,9 +114,9 @@ function addMovesToTable(originalTable, whiteNext) {
 }
 
 function canMove(k, l, isWhite, moveTable) {
-	//var what=moveTable[k][l][1]
+	var what=moveTable[k][l][1]
 	var possibleMoves = []
-	switch(moveTable[k][l][1]) {
+	switch(what) {
 		// case 0:
 
 		case 1:
