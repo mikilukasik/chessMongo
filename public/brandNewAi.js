@@ -156,10 +156,11 @@ function canMove(k, l, isWhite, moveTable) {
 	}
 
 	if(what==9&&moveTable[k][l][3]) { //lesznek sanc lepesek is a possibleMoves tombben: kiraly nem mozdult meg
+		
 		if(getBestHit(moveTable, !isWhite) == 9) { // de sakkban allunk
 			for(var spliceCount = possibleMoves.length - 1; spliceCount >= 0; spliceCount--) {
 				if(possibleMoves[spliceCount][1] == l && (possibleMoves[spliceCount][0] == k - 2 || possibleMoves[spliceCount][0] == k + 2)) {
-					possibleMoves.splice(spliceCount, 1)
+					possibleMoves.splice(spliceCount, 1)	//remove
 				}
 			}
 
@@ -167,11 +168,11 @@ function canMove(k, l, isWhite, moveTable) {
 
 		// remove the sakkot atugrani sem er
 
-		var removeKmin2 = true //alapbol leszedi
+		var removeKmin2 = true //alapbol leszedne
 		var removeKplus2 = true
 			//var removeThis = false
-		for(var i = possibleMoves.length - 1; i >= 0; i--) { //ha van koztes lepes
-			if(possibleMoves[i][1] == l && possibleMoves[i][0] == k - 1) removeKmin2 = false //ha van koztes lepes, ne szedd le
+		for(var i = possibleMoves.length - 1; i >= 0; i--) { //
+			if(possibleMoves[i][1] == l && possibleMoves[i][0] == k - 1) removeKmin2 = false //de ha van koztes lepes, ne szedd le
 			if(possibleMoves[i][1] == l && possibleMoves[i][0] == k + 1) removeKplus2 = false
 		}
 
