@@ -145,39 +145,6 @@ function canMove(k, l, isWhite, moveTable) {
 		case 9:
 			possibleMoves = kingCanMove(k, l, isWhite, moveTable)
 
-			if(moveTable[k][l][3]) { //lesznek sanc lepesek is a possibleMoves tombben: kiraly nem mozdult meg
-				if(getBestHit(moveTable, !isWhite) == 9) { // de sakkban allunk
-					for(var spliceCount = possibleMoves.length - 1; spliceCount >= 0; spliceCount--) {
-						if(possibleMoves[spliceCount][1] == l && (possibleMoves[spliceCount][0] == k - 2 || possibleMoves[spliceCount][0] == k + 2)) {
-							possibleMoves.splice(spliceCount, 1)
-						}
-					}
-
-				}
-
-				// remove the sakkot atugrani sem er
-				var removeKmin2 = true
-				var removeKplus2 = true
-				var removeThis = false
-				for(var i = possibleMoves.length - 1; i >= 0; i--) {
-					if(possibleMoves[i][1] == l && possibleMoves[i][0] == k - 1) removeKmin2 = false
-					if(possibleMoves[i][1] == l && possibleMoves[i][0] == k + 1) removeKplus2 = false
-				}
-
-				for(var i = possibleMoves.length - 1; i >= 0; i--) {
-					if(possibleMoves[i][1] == l && possibleMoves[i][0] == k - 2 && removeKmin2) {
-						//possibleMoves.splice(i,1)
-						removeThis = true
-							//console.log("to be removed")
-					}
-					if((possibleMoves[i][1] == l && possibleMoves[i][0] == k + 2 && removeKplus2) || removeThis) {
-						possibleMoves.splice(i, 1)
-							//console.log("removed")
-					}
-				}
-
-			}
-
 			break;
 
 	}
@@ -186,6 +153,39 @@ function canMove(k, l, isWhite, moveTable) {
 		if(getBestHit(moveIt(coordsToMoveString(k, l, possibleMoves[i][0], possibleMoves[i][1]), moveTable), !isWhite) == 9) { //sakkba lepnenk
 			possibleMoves.splice(i, 1)
 		}
+	}
+
+	if(moveTable[k][l][3]) { //lesznek sanc lepesek is a possibleMoves tombben: kiraly nem mozdult meg
+		if(getBestHit(moveTable, !isWhite) == 9) { // de sakkban allunk
+			for(var spliceCount = possibleMoves.length - 1; spliceCount >= 0; spliceCount--) {
+				if(possibleMoves[spliceCount][1] == l && (possibleMoves[spliceCount][0] == k - 2 || possibleMoves[spliceCount][0] == k + 2)) {
+					possibleMoves.splice(spliceCount, 1)
+				}
+			}
+
+		}
+
+		// remove the sakkot atugrani sem er
+
+		var removeKmin2 = true //alapbol leszedi
+		var removeKplus2 = true
+			//var removeThis = false
+		for(var i = possibleMoves.length - 1; i >= 0; i--) { //ha van koztes lepes
+			if(possibleMoves[i][1] == l && possibleMoves[i][0] == k - 1) removeKmin2 = false //ha van koztes lepes, ne szedd le
+			if(possibleMoves[i][1] == l && possibleMoves[i][0] == k + 1) removeKplus2 = false
+		}
+
+		for(var i = possibleMoves.length - 1; i >= 0; i--) { //itt szedi le a sanclepeseket
+			if(possibleMoves[i][1] == l &&
+				((possibleMoves[i][0] == k - 2 && removeKmin2) ||
+					(possibleMoves[i][0] == k + 2 && removeKplus2))) {
+
+				possibleMoves.splice(i, 1)
+
+			}
+
+		}
+
 	}
 
 	return possibleMoves
@@ -826,10 +826,7 @@ function moveIt(moveString, intable) {
 
 	}
 
-	
 	hitValue = thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][1] //normal hivalue
-
-	
 
 	thistable[dletters.indexOf(moveString[2])][moveString[3] - 1] =
 		thistable[dletters.indexOf(moveString[0])][moveString[1] - 1]
