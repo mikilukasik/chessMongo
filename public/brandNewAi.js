@@ -191,7 +191,7 @@ function canMove(what, k, l, isWhite, moveTable) {
 
 function coordsToMoveString(a, b, c, d) {
 
-	//console.log( dletters[a]+(b+1)+dletters[c]+(d+1))
+	
 
 	return dletters[a] + (b + 1) + dletters[c] + (d + 1)
 }
@@ -247,12 +247,7 @@ function whatsThere(i, j, aiTable) {
 		pieceThere.push(aiTable[i][j][0], aiTable[i][j][1], aiTable[i][j][2], aiTable[i][j][3]) //,aiTable[i][j][3])
 	}
 
-	// }
-	// else{
-	// 	if (onBoard(j,8-i)) {
-	// 		pieceThere.push(table[j][8-i][0],table[j][8-i][1],table[j][8-i][3])
-	// 	}
-	// }
+	
 
 	return pieceThere
 }
@@ -283,14 +278,13 @@ function pushAid(x, y, hanyadik, milegyen, fromTable, someboolean, whatHits) {
 
 		////////////////////////////////
 
-		//if (thisHit==2){alert('hit 2')}
-
+		
 		if(bestHit < thisHit) {
 			bestHit = thisHit
 				//alert(bestHit)
 		}
 
-		//besthit=10}//whatsThere(x,y,fromTable)[1]}
+		
 		return true
 
 	};
@@ -351,34 +345,11 @@ function pawnCanMove(k, l, isWhite, moveTable) {
 
 	}
 
-	// }else{
-	// 	if(pushAid(k-1,l,0,0)&&k==7){pushAid(k-2,l,0,0)}
-	// 	pushAid(k-1,l-1,0,1)
-	// 	pushAid(k-1,l+1,0,1)
-
-	// }
+	
 
 	return canMoveTo
 
 }
-// function bPawnCanMove(k,l,isWhite){
-// 	canMoveTo=[]
-// var hitIt=false
-
-// 	if(aiCalled){
-// if(pushAid(k,l-1,0,0)&&l==6){pushAid(k,l-2,0,0)}
-// pushAid(k-1,l-1,0,2)
-// pushAid(k+1,l-1,0,2)
-
-// }else{
-// 	if(pushAid(k+1,l,0,0)&&k==2){pushAid(k+2,l,0,0)}
-// 	pushAid(k+1,l-1,0,2)
-// 	pushAid(k+1,l+1,0,2)
-
-// }
-
-// 	return canMoveTo
-// }
 
 function rookCanMove(k, l, isWhite, moveTable) {
 	canMoveTo = []
@@ -392,15 +363,7 @@ function rookCanMove(k, l, isWhite, moveTable) {
 		var nc = 2
 	}
 
-	// }else {
-	// 	if(table[l][8-k][0]==1){
-	// 		var c=2
-	// 		var nc=1
-	// 	}else{
-	// 		var c=1
-	// 		var nc=2
-	// 	}
-	// }
+	
 	var goFurther = [true, true, true, true]
 	for(var moveCount = 1; moveCount < 8; moveCount++) {
 		if(goFurther[0]) {
@@ -443,16 +406,7 @@ function bishopCanMove(k, l, isWhite, moveTable) {
 		var nc = 2
 	}
 
-	// }
-	// else {
-	// 	if(table[l][8-k][0]==1){
-	// 		var c=2
-	// 		var nc=1
-	// 	}else{
-	// 		var c=1
-	// 		var nc=2
-	// 	}
-	// }
+	
 	var goFurther = [true, true, true, true]
 	for(var moveCount = 1; moveCount < 8; moveCount++) {
 		if(goFurther[0]) {
@@ -495,16 +449,7 @@ function queenCanMove(k, l, isWhite, moveTable) {
 		var nc = 2
 	}
 
-	// }
-	// else {
-	// 	if(table[l][8-k][0]==1){
-	// 		var c=2
-	// 		var nc=1
-	// 	}else{
-	// 		var c=1
-	// 		var nc=2
-	// 	}
-	// }
+	
 	var goFurther = [true, true, true, true, true, true, true, true]
 	for(var moveCount = 1; moveCount < 8; moveCount++) {
 		if(goFurther[0]) {
@@ -561,7 +506,7 @@ function queenCanMove(k, l, isWhite, moveTable) {
 }
 
 function kingCanMove(k, l, isWhite, moveTable) {
-	//sancolni is kene tudni
+	
 	canMoveTo = []
 
 	if(!isWhite) {
@@ -591,27 +536,27 @@ function kingCanMove(k, l, isWhite, moveTable) {
 	pushAid(k, l + moveCount, 0, c, moveTable, true, 9)
 	pushAid(k, l - moveCount, 0, c, moveTable, true, 9)
 
-	//console.log("mit keres itt")
+	
 
 	//sanc
 	if(moveTable[k][l][3]) { //if the king hasnt moved yet, 
-		//if(l==0){		
+		
 
-		// ja nincs sakkban, nem is ugrik at sakkot, minden ures kozotte
+		// ha nincs sakkban, nem is ugrik at sakkot, minden ures kozotte
 
-		//white king
-		if(moveTable[0][l][3] && whatsThere(1, l, moveTable)[0] == 0 && whatsThere(2, l, moveTable)[0] == 0 && whatsThere(3, l, moveTable)[0] == 0) { // unmoved rook on [0][l]
-			pushAid(2, l, 0, 0, moveTable) //mark that cell if empty
+		
+		if(moveTable[0][l][3] && 			// unmoved rook on [0][l]
+			whatsThere(1, l, moveTable)[0] == 0 && whatsThere(2, l, moveTable)[0] == 0 && whatsThere(3, l, moveTable)[0] == 0) { //empty between
+				
+				pushAid(2, l, 0, 0, moveTable) //mark that cell if empty
 
 		}
-		if(moveTable[7][l][3] && whatsThere(5, l, moveTable)[0] == 0 && whatsThere(6, l, moveTable)[0] == 0) { // unmoved rook on [7][l]
+		if(moveTable[7][l][3] && whatsThere(5, l, moveTable)[0] == 0 && whatsThere(6, l, moveTable)[0] == 0) { // unmoved rook on [7][l] && empty between
 			pushAid(6, l, 0, 0, moveTable) //mark that cell if empty
 
 		}
 
-		//}else{								//black king
-
-		//}
+		
 
 	}
 
