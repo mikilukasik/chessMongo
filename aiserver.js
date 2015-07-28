@@ -27,7 +27,7 @@ app.get('/aiChoice', function (req, res) {
         var timeAtStart=new Date().getTime()
         var result=ai(tableFromDb.table,tableFromDb.wNext)
         var timeItTook=new Date().getTime()-timeAtStart
-        console.log(timeItTook)
+        console.log(timeItTook+" ms")
         if(result.length>1){  //if there are any moves
           var result1=result[1][0]
           
