@@ -129,7 +129,7 @@ function captured(table,color){
 					if(table[movesto[0]][movesto[1]][1]==2){
 						
 						console.log('give true')
-						return true
+						return 'true'
 					}
 				})
 				//do stuff and exit loop
