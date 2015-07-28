@@ -150,14 +150,14 @@ function canMove(k, l, isWhite, moveTable) {
 	}
 
 	for(var i = possibleMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
-		if(getBestHit(moveIt(coordsToMoveString(k, l, possibleMoves[i][0], possibleMoves[i][1]), moveTable), !isWhite) == 9) { //sakkba lepnenk
+		if(trickGetBestHit(moveIt(coordsToMoveString(k, l, possibleMoves[i][0], possibleMoves[i][1]), moveTable), !isWhite) == 9) { //sakkba lepnenk
 			possibleMoves.splice(i, 1)
 		}
 	}
 
 	if(what==9&&moveTable[k][l][3]) { //lesznek sanc lepesek is a possibleMoves tombben: kiraly nem mozdult meg
 		
-		if(getBestHit(moveTable, !isWhite) == 9) { // de sakkban allunk
+		if(trickGetBestHit(moveTable, !isWhite) == 9) { // de sakkban allunk
 			for(var spliceCount = possibleMoves.length - 1; spliceCount >= 0; spliceCount--) {
 				if(possibleMoves[spliceCount][1] == l && (possibleMoves[spliceCount][0] == k - 2 || possibleMoves[spliceCount][0] == k + 2)) {
 					possibleMoves.splice(spliceCount, 1)	//remove
@@ -695,6 +695,21 @@ function getAllMoves(rawTableData, tableToMoveOn, whiteNext, hitItsOwn) {
 }
 
 function getBestHit(tableToValidate, wNx, returnMoves) {
+	bestHit = 0
+
+	var myMoves =
+		getAllMoves(getTableData(tableToValidate, wNx), tableToValidate, wNx)
+
+	var mybest = bestHit
+	bestHit = 0
+
+	if(returnMoves) return myMoves
+	return [mybest]
+
+}
+
+
+function trickGetBestHit(tableToValidate, wNx, returnMoves) {
 	bestHit = 0
 
 	var myMoves =
