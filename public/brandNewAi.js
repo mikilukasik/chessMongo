@@ -233,14 +233,14 @@ function getTableData(origTable, isWhite) {
 }
 
 function whatsThere(i, j, aiTable) {
-	var pieceThere = []
+	//var pieceThere = []
 
 	if(i > -1 && j > -1 && i < 8 && j < 8) {
 	
-		pieceThere=aiTable[i][j]
+		return aiTable[i][j]
 	}
 
-	return pieceThere
+	return []
 }
 
 function pushAid(x, y, hanyadik, milegyen, fromTable, someboolean, whatHits) {
