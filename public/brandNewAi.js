@@ -117,7 +117,7 @@ function addMovesToTable(originalTable, whiteNext) {
 
 function captured(table,color){
 	var myCol = 1;
-	var returnAid=false
+	//var returnAid=false
 	var tempMoves=[]
 	if(color) myCol++ //myCol is 2 when white
 	for (var i=0;i<8;i++){
@@ -125,16 +125,16 @@ function captured(table,color){
 			
 			if(table[i][j][1]==9&&table[i][j][0]==myCol){
 				//itt a kiraly
-				console.log('megvan a kircso'+i+j)
+				//console.log('megvan a kircso'+i+j)
 				
 				tempMoves=bishopCanMove(i,j,color,table)
 				
 				for (var tempMoveCount=0;tempMoveCount<tempMoves.length;tempMoveCount++){
-					if(table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1]==2){
+					if(table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1]==5 ||
+						table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1]==2){
 						
-						console.log('give true')
-						returnAid=true;
-						return('a');
+						
+						return true;
 					}
 
 				}
@@ -143,7 +143,7 @@ function captured(table,color){
 			}
 		}	
 	}
-	return returnAid //temp
+	return false //temp
 }
 
 function canMove(k, l, isWhite, moveTable) {
