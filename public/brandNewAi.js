@@ -122,7 +122,7 @@ function captured(table,color){
 		for (var j=0;j<8;j++){
 			if(table[i][j][1]==9&&table[i][j][0]==myCol){
 				//itt a kiraly
-				bishopCanMove(i,j,color,table).forEach(function(movesTo){
+				bishopCanMove(i,j,color,table).forEach(function(movesto){
 					if(table[movesto[0]][movesto[1]][1]==2){
 						return true
 					}
