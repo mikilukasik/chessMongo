@@ -127,7 +127,7 @@ function captured(table,color){
 				bishopCanMove(i,j,color,table).forEach(function(movesto){
 					if(table[movesto[0]][movesto[1]][1]==2){
 						
-						
+						console.log('give true')
 						return true
 					}
 				})
