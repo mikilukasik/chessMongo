@@ -120,8 +120,10 @@ function captured(table,color){
 	if(color) myCol++ //myCol is 2 when white
 	for (var i=0;i<8;i++){
 		for (var j=0;j<8;j++){
+			
 			if(table[i][j][1]==9&&table[i][j][0]==myCol){
 				//itt a kiraly
+				console.log('megvan a kircso'+i+j)
 				bishopCanMove(i,j,color,table).forEach(function(movesto){
 					if(table[movesto[0]][movesto[1]][1]==2){
 						return true
