@@ -115,7 +115,23 @@ function addMovesToTable(originalTable, whiteNext) {
 
 }
 
+function captured(table,color){
+	var myCol = 1;
+	if(whitePlayer) myCol++ //myCol is 2 when white
+	for (var i=0;i<8;i++){
+		for (var j=0;j<8;j++){
+			if(table[i][j][1]==9&&table[i][j][0]==myCol){
+				//itt a kiraly
+				//do stuff and exit loop
+			}
+		}	
+	}
+}
+
 function canMove(k, l, isWhite, moveTable) {
+	
+	
+	
 	var what = moveTable[k][l][1]
 	var possibleMoves = []
 	switch(what) {
