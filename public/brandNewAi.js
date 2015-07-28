@@ -182,14 +182,14 @@ function canMove(k, l, isWhite, moveTable) {
 	}
 
 	for(var i = possibleMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
-		if(captured(moveIt(coordsToMoveString(k, l, possibleMoves[i][0], possibleMoves[i][1]), moveTable), !isWhite)) { //sakkba lepnenk
+		if(captured(moveIt(coordsToMoveString(k, l, possibleMoves[i][0], possibleMoves[i][1]), moveTable), isWhite)) { //sakkba lepnenk
 			possibleMoves.splice(i, 1)
 		}
 	}
 
 	if(what==9&&moveTable[k][l][3]) { //lesznek sanc lepesek is a possibleMoves tombben: kiraly nem mozdult meg
 		
-		if(captured(moveTable, !isWhite)) { // de sakkban allunk
+		if(captured(moveTable, isWhite)) { // de sakkban allunk
 			for(var spliceCount = possibleMoves.length - 1; spliceCount >= 0; spliceCount--) {
 				if(possibleMoves[spliceCount][1] == l && (possibleMoves[spliceCount][0] == k - 2 || possibleMoves[spliceCount][0] == k + 2)) {
 					possibleMoves.splice(spliceCount, 1)	//remove
