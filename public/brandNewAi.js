@@ -131,7 +131,7 @@ function captured(table,color){
 						
 						console.log('give true')
 						returnAid=true
-						return ('a');
+						return('a');
 					}
 				})
 				//do stuff and exit loop
