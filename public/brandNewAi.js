@@ -129,7 +129,7 @@ function captured(table,color){
 				
 				tempMoves=bishopCanMove(i,j,color,table)
 				
-				for (var tempMoveCount=0;tempMoveCount>tempMoves.length;tempMoveCount++){
+				for (var tempMoveCount=0;tempMoveCount<tempMoves.length;tempMoveCount++){
 					if(table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1]==2){
 						
 						console.log('give true')
