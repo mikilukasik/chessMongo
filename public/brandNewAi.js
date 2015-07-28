@@ -865,8 +865,8 @@ function moveIt(moveString, intable) {
 		thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][3] = false
 	}
 	//wNext=!wNext
-	protectPieces(thistable, true)
-	protectPieces(thistable, false)
+	//protectPieces(thistable, true)
+	//protectPieces(thistable, false)
 	return thistable
 }
 
