@@ -118,6 +118,7 @@ function addMovesToTable(originalTable, whiteNext) {
 function captured(table,color){
 	var myCol = 1;
 	var returnAid=false
+	var tempMoves=[]
 	if(color) myCol++ //myCol is 2 when white
 	for (var i=0;i<8;i++){
 		for (var j=0;j<8;j++){
@@ -125,15 +126,19 @@ function captured(table,color){
 			if(table[i][j][1]==9&&table[i][j][0]==myCol){
 				//itt a kiraly
 				console.log('megvan a kircso'+i+j)
-				bishopCanMove(i,j,color,table).forEach(function(movesto){
-					console.log('aa'+movesto[0]+movesto[1])
-					if(table[movesto[0]][movesto[1]][1]==2){
+				
+				tempMoves=bishopCanMove(i,j,color,table)
+				
+				for (var tempMoveCount=0;tempMoveCount>tempMoves.length;tempMoveCount++){
+					if(table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1]==2){
 						
 						console.log('give true')
-						returnAid=true
+						returnAid=true;
 						return('a');
 					}
-				})
+
+				}
+									//})
 				//do stuff and exit loop
 			}
 		}	
