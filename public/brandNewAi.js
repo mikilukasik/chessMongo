@@ -117,6 +117,7 @@ function addMovesToTable(originalTable, whiteNext) {
 
 function captured(table,color){
 	var myCol = 1;
+	var returnAid=false
 	if(color) myCol++ //myCol is 2 when white
 	for (var i=0;i<8;i++){
 		for (var j=0;j<8;j++){
@@ -129,14 +130,14 @@ function captured(table,color){
 					if(table[movesto[0]][movesto[1]][1]==2){
 						
 						console.log('give true')
-						return 'true'
+						returnAid=true
 					}
 				})
 				//do stuff and exit loop
 			}
 		}	
 	}
-	return false //temp
+	return returnAid //temp
 }
 
 function canMove(k, l, isWhite, moveTable) {
