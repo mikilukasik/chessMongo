@@ -126,13 +126,7 @@ function captured(table,color){
 				console.log('megvan a kircso'+i+j)
 				bishopCanMove(i,j,color,table).forEach(function(movesto){
 					if(table[movesto[0]][movesto[1]][1]==2){
-						console.log('---------------------------------------------------')
-						console.log('---------------------------------------------------')
-						console.log('---------------------------------------------------')
-						console.log('---------------------------------------------------')
-						console.log('---------------------------------------------------')
-						console.log('---------------------------------------------------')
-						console.log('---------------------------------------------------')
+						
 						
 						return true
 					}
@@ -184,6 +178,13 @@ function canMove(k, l, isWhite, moveTable) {
 	for(var i = possibleMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
 		if(captured(moveIt(coordsToMoveString(k, l, possibleMoves[i][0], possibleMoves[i][1]), moveTable), isWhite)) { //sakkba lepnenk
 			possibleMoves.splice(i, 1)
+			console.log('---------------------------------------------------')
+						console.log('---------------------------------------------------')
+						console.log('---------------------------------------------------')
+						console.log('---------------------------------------------------')
+						console.log('---------------------------------------------------')
+						console.log('---------------------------------------------------')
+						console.log('---------------------------------------------------')
 		}
 	}
 
