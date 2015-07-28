@@ -125,6 +125,7 @@ function captured(table,color){
 				//itt a kiraly
 				console.log('megvan a kircso'+i+j)
 				bishopCanMove(i,j,color,table).forEach(function(movesto){
+					console.log('aa'+movesto[0]+movesto[1])
 					if(table[movesto[0]][movesto[1]][1]==2){
 						
 						console.log('give true')
