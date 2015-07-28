@@ -252,7 +252,7 @@ function pushAid(x, y, hanyadik, milegyen, fromTable, someboolean, whatHits) {
 		//////////////////////////
 		var thisHit = 0
 		if(fromTable[x][y][1] == 9) { //ha kiralyt ut
-			thisHit = 9 //this global val. will be captured in another function
+			thisHit = 9 //??doubt it??>this global val. will be captured in another function
 		} else {
 			if(fromTable[x][y][6]) { //alert('protectedHit')	//ha protectedre lep
 				thisHit = fromTable[x][y][1] - //thisHitbol kivonja amivel lep
@@ -709,17 +709,17 @@ function getBestHit(tableToValidate, wNx, returnMoves) {
 
 }
 
-function trickTheBestHitFunc(tableToValidate, wNx) {
-	bestHit = 0
+// function trickTheBestHitFunc(tableToValidate, wNx) {
+// 	bestHit = 0
 
-	var myMoves = getAllMoves(getTableData(tableToValidate, wNx), tableToValidate, wNx)
+// 	var myMoves = getAllMoves(getTableData(tableToValidate, wNx), tableToValidate, wNx)
 
-	var mybest = bestHit
-	bestHit = 0
+// 	var mybest = bestHit
+// 	bestHit = 0
 
-	return [mybest]
+// 	return [mybest]
 
-}
+// }
 
 function sortAiArray(a, b) {
 	if(typeof(a[0]) == "boolean") {
