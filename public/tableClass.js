@@ -59,7 +59,7 @@ var Dbtable=function (tableNum,wName,bName) {	//class
 	
 
   
-  //this.table=addMovesToTable(this.table,true)
+  this.table=addMovesToTable(this.table,true)
   //protectPieces(this.table,true)
   //protectPieces(this.table,false)
 }
