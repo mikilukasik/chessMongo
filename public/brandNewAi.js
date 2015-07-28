@@ -126,6 +126,14 @@ function captured(table,color){
 				console.log('megvan a kircso'+i+j)
 				bishopCanMove(i,j,color,table).forEach(function(movesto){
 					if(table[movesto[0]][movesto[1]][1]==2){
+						console.log('---------------------------------------------------')
+						console.log('---------------------------------------------------')
+						console.log('---------------------------------------------------')
+						console.log('---------------------------------------------------')
+						console.log('---------------------------------------------------')
+						console.log('---------------------------------------------------')
+						console.log('---------------------------------------------------')
+						
 						return true
 					}
 				})
