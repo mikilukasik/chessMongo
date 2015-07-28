@@ -132,12 +132,49 @@ function captured(table,color){
 				for (var tempMoveCount=0;tempMoveCount<tempMoves.length;tempMoveCount++){
 					if(table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1]==5 ||
 						table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1]==2){
-						
-						
-						return true;
+							return true;
 					}
 
 				}
+				
+				tempMoves=rookCanMove(i,j,color,table)
+				
+				for (var tempMoveCount=0;tempMoveCount<tempMoves.length;tempMoveCount++){
+					if(table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1]==5 ||
+						table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1]==4){
+							return true;
+					}
+
+				}
+				
+				tempMoves=horseCanMove(i,j,color,table)
+				
+				for (var tempMoveCount=0;tempMoveCount<tempMoves.length;tempMoveCount++){
+					if(table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1]==3){
+							return true;
+					}
+
+				}
+				
+				tempMoves=pawnCanMove(i,j,color,table)
+				
+				for (var tempMoveCount=0;tempMoveCount<tempMoves.length;tempMoveCount++){
+					if(table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1]==1){
+							return true;
+					}
+
+				}
+				
+				tempMoves=kingCanMove(i,j,color,table)
+				
+				for (var tempMoveCount=0;tempMoveCount<tempMoves.length;tempMoveCount++){
+					if(table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1]==9){
+							return true;
+					}
+
+				}
+				
+				
 									//})
 				//do stuff and exit loop
 			}
