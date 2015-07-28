@@ -237,7 +237,7 @@ function whatsThere(i, j, aiTable) {
 
 	if(i > -1 && j > -1 && i < 8 && j < 8) {
 	
-		return aiTable[i][j].slice(0,4)
+		return aiTable[i][j]//.slice(0,4)
 	}
 
 	return []
