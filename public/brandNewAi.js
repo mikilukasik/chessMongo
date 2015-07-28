@@ -608,7 +608,8 @@ function moveArrayToStrings(moveArray, ftable, fwNext) {
 //var switchCount=0;
 
 function getAllMoves(rawTableData, tableToMoveOn, whiteNext, hitItsOwn) {
-
+	
+	var switchCount=0
 	// var moveArrays=[]
 	// var moveStrings=[]
 	var tableData = rawTableData[1]
@@ -623,75 +624,73 @@ function getAllMoves(rawTableData, tableToMoveOn, whiteNext, hitItsOwn) {
 	}
 	bestHit = 0
 	for(var pieceNo = 0; pieceNo < tableData.length; pieceNo++) {
-		//console.log(pieceNo)
+		
+		switchCount++
+		// switch(tableData[pieceNo][2]) {
+		// 	// case 0:
 
-		// 	var thisString=""
-		//switchCount++
-		switch(tableData[pieceNo][2]) {
-			// case 0:
+		// 	case 1:
 
-			case 1:
-
-				pawnCanMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn)
+				canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn)
 					.forEach(function(stepItem) {
 						thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
 					})
 
-				// thisArray.push(tableData[pieceNo][0],tableData[pieceNo][1])
-				// moveArrays.push(pawnCanMove(tableData[pieceNo][0],tableData[pieceNo][1],whiteNext,tableToMoveOn))
+			// 	// thisArray.push(tableData[pieceNo][0],tableData[pieceNo][1])
+			// 	// moveArrays.push(pawnCanMove(tableData[pieceNo][0],tableData[pieceNo][1],whiteNext,tableToMoveOn))
 
-				break;
-			case 2:
-				//alert("bishop")
-				bishopCanMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn)
-					.forEach(function(stepItem) {
-						thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
-					})
+			// 	break;
+			// case 2:
+			// 	//alert("bishop")
+			// 	bishopCanMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn)
+			// 		.forEach(function(stepItem) {
+			// 			thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
+			// 		})
 
-				//console.log(moveArrays)
-				break;
-			case 3:
-				//alert("horse")
-				horseCanMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn)
-					.forEach(function(stepItem) {
-						thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
-					})
+			// 	//console.log(moveArrays)
+			// 	break;
+			// case 3:
+			// 	//alert("horse")
+			// 	horseCanMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn)
+			// 		.forEach(function(stepItem) {
+			// 			thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
+			// 		})
 
-				//console.log(moveArrays)
-				break;
-			case 4:
-				//alert("rook")
-				rookCanMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn)
-					.forEach(function(stepItem) {
-						thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
-					})
+			// 	//console.log(moveArrays)
+			// 	break;
+			// case 4:
+			// 	//alert("rook")
+			// 	rookCanMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn)
+			// 		.forEach(function(stepItem) {
+			// 			thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
+			// 		})
 
-				//console.log(moveArrays)
+			// 	//console.log(moveArrays)
 
-				break;
-			case 5:
-				//alert("queen")
-				queenCanMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn)
-					.forEach(function(stepItem) {
-						thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
-					})
+			// 	break;
+			// case 5:
+			// 	//alert("queen")
+			// 	queenCanMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn)
+			// 		.forEach(function(stepItem) {
+			// 			thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
+			// 		})
 
-				//console.log(moveArrays)
-				break;
-			case 9:
-				//alert("king")
-				kingCanMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn)
-					.forEach(function(stepItem) {
-						thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
-					})
-					//console.log(moveArrays)
-				break;
-		}
+			// 	//console.log(moveArrays)
+			// 	break;
+			// case 9:
+			// 	//alert("king")
+			// 	kingCanMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn)
+			// 		.forEach(function(stepItem) {
+			// 			thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
+			// 		})
+			// 		//console.log(moveArrays)
+			// 	break;
+		//}
 
 	}
-	//console.log('switch was called: '+switchCount)
+	console.log('canMove was called: '+switchCount)
 
-	return thisArray
+	//return thisArray
 
 }
 
