@@ -281,30 +281,23 @@ function getTableData(origTable, isWhite) {
 	
 	var origColor = 1
 	if(isWhite) origColor = 2
-		//var noc = 1
-	// } else {
-		
-	// 	//var noc = 2
-	// }
-	for(var lookI = 0; lookI < 8; lookI++) {
-		for(var lookJ = 0; lookJ < 8; lookJ++) {
-			//alert(thisTempState[lookI][lookJ][0])
-			if(origTable[lookI][lookJ][0] == origColor) {
-				myTempPieces.push([lookI, lookJ, origTable[lookI][lookJ][1]])
-				tableValue += origTable[lookI][lookJ][1]
-			} else {
-				if(origTable[lookI][lookJ][0] == noc(origColor)) {
-					tableValue -= origTable[lookI][lookJ][1]
-
-				}
+	
+	for(var lookI = 0; lookI < 8; lookI++) {			//
+		for(var lookJ = 0; lookJ < 8; lookJ++) {		//look through the table
+			
+			if(origTable[lookI][lookJ][0] == origColor) {//ha sajat babum
+				
+				myTempPieces.push([lookI, lookJ, origTable[lookI][lookJ][1]])//itt kene szamitott erteket is adni a babuknak 
+				tableValue += origTable[lookI][lookJ][1]					//es sum
+			
+			} else {//ha ures, vagy ellenfele
+				
+					tableValue -= origTable[lookI][lookJ][1]//szamitott ertekek sum
 
 			}
 		}
 	}
-	// returnArray.push(tableValue)
-	// returnArray.push(myTempPieces)
 	
-	//returnArray=[tableValue,myTempPieces]
 	return [tableValue,myTempPieces]//returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
 
 }
