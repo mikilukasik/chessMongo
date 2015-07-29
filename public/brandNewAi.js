@@ -115,76 +115,72 @@ function addMovesToTable(originalTable, whiteNext) {
 
 }
 
-function captured(table,color){
+function captured(table, color) {
 	var myCol = 1;
-	//var returnAid=false
-	var tempMoves=[]
+
+	var tempMoves = []
 	if(color) myCol++ //myCol is 2 when white
-	for (var i=0;i<8;i++){
-		for (var j=0;j<8;j++){
-			
-			if(table[i][j][1]==9&&table[i][j][0]==myCol){
-				//itt a kiraly
-				//console.log('megvan a kircso'+i+j)
-				
-				tempMoves=bishopCanMove(i,j,color,table)
-				
-				for (var tempMoveCount=0;tempMoveCount<tempMoves.length;tempMoveCount++){
-					if(table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1]==5 ||
-						table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1]==2){
+		for(var i = 0; i < 8; i++) {
+			for(var j = 0; j < 8; j++) {
+
+				if(table[i][j][1] == 9 && table[i][j][0] == myCol) {
+					//itt a kiraly
+
+					tempMoves = bishopCanMove(i, j, color, table)
+
+					for(var tempMoveCount = 0; tempMoveCount < tempMoves.length; tempMoveCount++) {
+						if(table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1] == 5 ||
+							table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1] == 2) {
 							return true;
+						}
+
+					}
+
+					tempMoves = rookCanMove(i, j, color, table)
+
+					for(var tempMoveCount = 0; tempMoveCount < tempMoves.length; tempMoveCount++) {
+						if(table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1] == 5 ||
+							table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1] == 4) {
+							return true;
+						}
+
+					}
+
+					tempMoves = horseCanMove(i, j, color, table)
+
+					for(var tempMoveCount = 0; tempMoveCount < tempMoves.length; tempMoveCount++) {
+						if(table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1] == 3) {
+							return true;
+						}
+
+					}
+
+					tempMoves = pawnCanMove(i, j, color, table)
+
+					for(var tempMoveCount = 0; tempMoveCount < tempMoves.length; tempMoveCount++) {
+						if(table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1] == 1) {
+							return true;
+						}
+
+					}
+
+					tempMoves = kingCanMove(i, j, color, table)
+
+					for(var tempMoveCount = 0; tempMoveCount < tempMoves.length; tempMoveCount++) {
+						if(table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1] == 9) {
+							return true;
+						}
+
 					}
 
 				}
-				
-				tempMoves=rookCanMove(i,j,color,table)
-				
-				for (var tempMoveCount=0;tempMoveCount<tempMoves.length;tempMoveCount++){
-					if(table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1]==5 ||
-						table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1]==4){
-							return true;
-					}
-
-				}
-				
-				tempMoves=horseCanMove(i,j,color,table)
-				
-				for (var tempMoveCount=0;tempMoveCount<tempMoves.length;tempMoveCount++){
-					if(table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1]==3){
-							return true;
-					}
-
-				}
-				
-				tempMoves=pawnCanMove(i,j,color,table)
-				
-				for (var tempMoveCount=0;tempMoveCount<tempMoves.length;tempMoveCount++){
-					if(table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1]==1){
-							return true;
-					}
-
-				}
-				
-				tempMoves=kingCanMove(i,j,color,table)
-				
-				for (var tempMoveCount=0;tempMoveCount<tempMoves.length;tempMoveCount++){
-					if(table[tempMoves[tempMoveCount][0]][tempMoves[tempMoveCount][1]][1]==9){
-							return true;
-					}
-
-				}
-				
-				
 			}
-		}	
-	}
-	return false //temp
+		}
+	return false
 }
 
 function canMove(k, l, isWhite, moveTable, speedy, dontProt) {
-	
-	
-	
+
 	var what = moveTable[k][l][1]
 	var possibleMoves = []
 	switch(what) {
@@ -218,27 +214,27 @@ function canMove(k, l, isWhite, moveTable, speedy, dontProt) {
 
 	}
 
-	if(!speedy){
+	if(!speedy) {
 		for(var i = possibleMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
 			if(captured(moveIt(coordsToMoveString(k, l, possibleMoves[i][0], possibleMoves[i][1]), moveTable, dontProt), isWhite)) { //sakkba lepnenk
 				possibleMoves.splice(i, 1)
-				
+
 			}
 		}
-	
-		if(what==9&&moveTable[k][l][3]) { //lesznek sanc lepesek is a possibleMoves tombben: kiraly nem mozdult meg
-			
+
+		if(what == 9 && moveTable[k][l][3]) { //lesznek sanc lepesek is a possibleMoves tombben: kiraly nem mozdult meg
+
 			if(captured(moveTable, isWhite)) { // de sakkban allunk
 				for(var spliceCount = possibleMoves.length - 1; spliceCount >= 0; spliceCount--) {
 					if(possibleMoves[spliceCount][1] == l && (possibleMoves[spliceCount][0] == k - 2 || possibleMoves[spliceCount][0] == k + 2)) {
-						possibleMoves.splice(spliceCount, 1)	//remove
+						possibleMoves.splice(spliceCount, 1) //remove
 					}
 				}
-	
+
 			}
-	
+
 			// remove the sakkot atugrani sem er
-	
+
 			var removeKmin2 = true //alapbol leszedne
 			var removeKplus2 = true
 				//var removeThis = false
@@ -246,16 +242,16 @@ function canMove(k, l, isWhite, moveTable, speedy, dontProt) {
 				if(possibleMoves[i][1] == l && possibleMoves[i][0] == k - 1) removeKmin2 = false //de ha van koztes lepes, ne szedd le
 				if(possibleMoves[i][1] == l && possibleMoves[i][0] == k + 1) removeKplus2 = false
 			}
-	
+
 			for(var i = possibleMoves.length - 1; i >= 0; i--) { //itt szedi le a sanclepeseket
 				if(possibleMoves[i][1] == l &&
 					((possibleMoves[i][0] == k - 2 && removeKmin2) ||
 						(possibleMoves[i][0] == k + 2 && removeKplus2))) {
-	
+
 					possibleMoves.splice(i, 1)
-	
+
 				}
-	
+
 			}
 		}
 	}
@@ -268,8 +264,6 @@ function coordsToMoveString(a, b, c, d) {
 
 	return dletters[a] + (b + 1) + dletters[c] + (d + 1)
 }
-
-
 
 function getTableData(origTable, isWhite) {
 	var returnArray = [] // elso elem will be az osszes babu ertekenek osszge, aztan az osszes babu koordinataja
@@ -307,8 +301,8 @@ function whatsThere(i, j, aiTable) {
 	//var pieceThere = []
 
 	if(i > -1 && j > -1 && i < 8 && j < 8) {
-	
-		return aiTable[i][j]//.slice(0,4)
+
+		return aiTable[i][j] //.slice(0,4)
 	}
 
 	return []
@@ -495,7 +489,6 @@ function bishopCanMove(k, l, isWhite, moveTable) {
 
 function queenCanMove(k, l, isWhite, moveTable) {
 	canMoveTo = []
-		//if(aiCalled){
 
 	if(!isWhite) {
 		var c = 2
@@ -625,8 +618,6 @@ function horseCanMove(k, l, isWhite, moveTable) {
 	pushAid(k - 2, l + 1, 0, 0, moveTable)
 	pushAid(k - 2, l - 1, 0, 0, moveTable)
 
-	//if(aiCalled){
-
 	if(!isWhite) {
 		var c = 2
 		var nc = 1
@@ -634,17 +625,6 @@ function horseCanMove(k, l, isWhite, moveTable) {
 		var c = 1
 		var nc = 2
 	}
-
-	// }
-	// else {
-	// 	if(table[l][8-k][0]==1){
-	// 		var c=2
-	// 		var nc=1
-	// 	}else{
-	// 		var c=1
-	// 		var nc=2
-	// 	}
-	// }
 
 	pushAid(k + 1, l + 2, 0, c, moveTable, true, 3)
 	pushAid(k + 1, l - 2, 0, c, moveTable, true, 3)
@@ -676,38 +656,23 @@ function moveArrayToStrings(moveArray, ftable, fwNext) {
 
 }
 
-//var switchCount=0;
-
 function getAllMoves(rawTableData, tableToMoveOn, whiteNext, hitItsOwn) {
-	
-	//var switchCount=0
-	// var moveArrays=[]
-	// var moveStrings=[]
+
 	var tableData = rawTableData[1]
 	thisArray = []
 	thisStrArray = []
-		//var whiteNext=false
-		//if (tableToMoveOn[tableData[0][1]][tableData[0][0]][0]=2){
-		//whiteNext=true
-		//}
+
 	if(hitItsOwn) {
 		whiteNext = !whiteNext
 	}
 	bestHit = 0
 	for(var pieceNo = 0; pieceNo < tableData.length; pieceNo++) {
-		
-		//switchCount++
-		
 
-		canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn, true, true)//true,true for speedy,dontProtect
+		canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn, true, true) //true,true for speedy,dontProtect
 			.forEach(function(stepItem) {
 				thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
 			})
-
-	
-
 	}
-	//console.log('canMove was called: '+switchCount)
 
 	return thisArray
 
@@ -727,33 +692,6 @@ function getBestHit(tableToValidate, wNx, returnMoves) {
 
 }
 
-
-// function trickGetBestHit(tableToValidate, wNx, returnMoves) {
-// 	bestHit = 0
-
-// 	var myMoves =
-// 		getAllMoves(getTableData(tableToValidate, wNx), tableToValidate, wNx)
-
-// 	var mybest = bestHit
-// 	bestHit = 0
-
-// 	if(returnMoves) return myMoves
-// 	return [mybest]
-
-// }
-
-// function trickTheBestHitFunc(tableToValidate, wNx) {
-// 	bestHit = 0
-
-// 	var myMoves = getAllMoves(getTableData(tableToValidate, wNx), tableToValidate, wNx)
-
-// 	var mybest = bestHit
-// 	bestHit = 0
-
-// 	return [mybest]
-
-// }
-
 function sortAiArray(a, b) {
 	if(typeof(a[0]) == "boolean") {
 		return -1
@@ -770,8 +708,6 @@ function sortAiArray(a, b) {
 }
 
 function moveIt(moveString, intable, dontProtect) {
-	// protectPieces(intable,true)
-	// protectPieces(intable,false) //opponent would be enough 
 
 	var thistable = []
 		//var thistable=[]
@@ -787,9 +723,6 @@ function moveIt(moveString, intable, dontProtect) {
 			} //)
 		}
 	}
-
-	// protectPieces(thistable,true)
-	// protectPieces(thistable,false) //opponent would be enough //maybe....
 
 	//itt indil sanc bastyatolas
 	if(thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][1] == 9 && thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][3]) {
@@ -820,12 +753,11 @@ function moveIt(moveString, intable, dontProtect) {
 	//unmark all first
 
 	for(ij = 0; ij < 8; ij++) {
-		//if(thistable[ij][3][1]==1){
+
 		thistable[ij][3][3] = false
-			//}
-			//if(thistable[ij][4][1]==1){
+
 		thistable[ij][4][3] = false
-			//}
+
 	}
 
 	if(thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][1] == 1 && ((moveString[1] == 2 && moveString[3] == 4) || (moveString[1] == 7 && moveString[3] == 5))) { //ha paraszt kettot lep
@@ -841,7 +773,7 @@ function moveIt(moveString, intable, dontProtect) {
 		!(moveString[0] == moveString[2])) { //keresztbe
 
 		thistable[dletters.indexOf(moveString[2])][moveString[3] - 1] = thistable[dletters.indexOf(moveString[2])][moveString[1] - 1]
-			//thistable[dletters.indexOf(moveString[2])][moveString[3]-1][0]=thistable[dletters.indexOf(moveString[2])][moveString[1]-1][0]//= [0,0,false,false,false]//ures
+
 		thistable[dletters.indexOf(moveString[2])][moveString[1] - 1] = [0, 0, false, false, false] //ures
 
 	}
@@ -866,8 +798,8 @@ function moveIt(moveString, intable, dontProtect) {
 	if(!(thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][1] == 1)) {
 		thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][3] = false
 	}
-	//wNext=!wNext
-	if (!dontProtect){
+
+	if(!dontProtect) {
 		protectPieces(thistable, true)
 		protectPieces(thistable, false)
 	}
@@ -933,11 +865,9 @@ function createFirstTableState(cfTable, cfColor) {
 
 		tTableValue *= t1const
 		tTable2Value *= t2const
-			//aiLoop([tempTable],!cfColor,cfColor,myOrigValue)
 
-		//var repValue=tTable2Value/100+tTableValue
 		var wtf = [parseInt((tTableValue + tTable2Value) * 100), parseInt(tTableValue * 100), parseInt(tTable2Value * 100)]
-			//tTable2Value*100)]
+
 		allTempTables.push([stepMove, wtf[0], wtf[1], wtf[2]]) //,tableHitValue]) //row: movestring, ai val, deepen val, deep hit val, [tables]
 
 	})
@@ -948,13 +878,9 @@ function createFirstTableState(cfTable, cfColor) {
 
 function ai(tablE, wn) {
 
-	//var tableToAi=createFirstTableState(tablE,wn)
-
 	return createFirstTableState(tablE, wn)
-		//tableToAi[1][0]
 
 }
-
 
 function helpMe(wp) {
 	console.log('MOVE SCORE    first    second')
