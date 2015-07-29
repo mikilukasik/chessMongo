@@ -650,11 +650,11 @@ function moveArrayToStrings(moveArray, ftable, fwNext) {
 		strArray.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
 
 	})
-	for(var i = strArray.length - 1; i >= 0; i--) {
-		if(captured(ftable,fwNext)) {
-			strArray.splice(i, 1)
-		}
-	}
+	// for(var i = strArray.length - 1; i >= 0; i--) {
+	// 	if(captured(ftable,fwNext)) {
+	// 		strArray.splice(i, 1)
+	// 	}
+	// }
 
 	return strArray
 
