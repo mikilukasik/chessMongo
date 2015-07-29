@@ -702,7 +702,7 @@ function getAllMoves(rawTableData, tableToMoveOn, whiteNext, hitItsOwn) {
 
 		// 	case 1:
 
-				canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn, true)//true for speedy
+				canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn, false)//true for speedy
 					.forEach(function(stepItem) {
 						thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
 					})
@@ -780,19 +780,19 @@ function getBestHit(tableToValidate, wNx, returnMoves) {
 }
 
 
-function trickGetBestHit(tableToValidate, wNx, returnMoves) {
-	bestHit = 0
+// function trickGetBestHit(tableToValidate, wNx, returnMoves) {
+// 	bestHit = 0
 
-	var myMoves =
-		getAllMoves(getTableData(tableToValidate, wNx), tableToValidate, wNx)
+// 	var myMoves =
+// 		getAllMoves(getTableData(tableToValidate, wNx), tableToValidate, wNx)
 
-	var mybest = bestHit
-	bestHit = 0
+// 	var mybest = bestHit
+// 	bestHit = 0
 
-	if(returnMoves) return myMoves
-	return [mybest]
+// 	if(returnMoves) return myMoves
+// 	return [mybest]
 
-}
+// }
 
 // function trickTheBestHitFunc(tableToValidate, wNx) {
 // 	bestHit = 0
