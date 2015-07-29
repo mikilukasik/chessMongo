@@ -175,8 +175,6 @@ function captured(table,color){
 				}
 				
 				
-									//})
-				//do stuff and exit loop
 			}
 		}	
 	}
@@ -223,13 +221,7 @@ function canMove(k, l, isWhite, moveTable) {
 	for(var i = possibleMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
 		if(captured(moveIt(coordsToMoveString(k, l, possibleMoves[i][0], possibleMoves[i][1]), moveTable), isWhite)) { //sakkba lepnenk
 			possibleMoves.splice(i, 1)
-			console.log('---------------------------------------------------')
-						console.log('---------------------------------------------------')
-						console.log('---------------------------------------------------')
-						console.log('---------------------------------------------------')
-						console.log('---------------------------------------------------')
-						console.log('---------------------------------------------------')
-						console.log('---------------------------------------------------')
+			
 		}
 	}
 
