@@ -163,11 +163,11 @@ app.get('/aiMove', function(req, res) {
 	};
 
 	http.request(options, function(response) {
-			var str = {};
+			var resJsn = {};
 
-			//another chunk of data has been recieved, so append it to `str`
+			//another chunk of data has been recieved, so append it to `resJsn`
 			response.on('data', function(chunk) {
-				str = JSON.parse(chunk);
+				resJsn = JSON.parse(chunk);
 			});
 
 			response.on('end', function() {
@@ -178,10 +178,10 @@ app.get('/aiMove', function(req, res) {
 						.findOne({
 							tableNum: Number(req.query.t)
 						}, function(err2, tableInDb) {
-							// console.log(str)
+							// console.log(resJsn)
 							// console.log('dssdfsdgs')
-							if (!(str == null || tableInDb == null)) {
-								var moveStr = String(str.aimove)
+							if (!(resJsn == null || tableInDb == null)) {
+								var moveStr = String(resJsn.aimove)
 								if(!(moveStr=="")){   			//there's at least 1 move
 									var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
 										tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
