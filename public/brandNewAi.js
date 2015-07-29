@@ -889,6 +889,8 @@ function createFirstTableState(cfTable, cfColor) {
     var msString=timeItTook+" ms"
 	console.log(msString)
 	allTempTables.push(msString)
+	allTempTables.push("")
+	
 	
 	//
 	return allTempTables
