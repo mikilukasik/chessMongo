@@ -6,7 +6,7 @@ var level = 1
 var whatHitsConst = 1
 var hitValueConst = 0.5
 var t1const = 37
-var t2const = 1
+var t2const = 0.091
 var dontHitConst = 0.8
 var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
 
@@ -849,12 +849,14 @@ function createAiTable(cfTable, cfColor) {
 		})
 
 		// deepening ends
-
-		tTable2Value /= 11
-		if(tTable2Value < 0) {
-			tTableValue *= dontHitConst
-		}
-
+		
+		// 		//do i need the below?
+		// tTable2Value /= 11	//??
+		// if(tTable2Value < 0) {
+		// 	tTableValue *= dontHitConst
+		// }
+				//
+				
 		tTableValue *= t1const
 		tTable2Value *= t2const
 
