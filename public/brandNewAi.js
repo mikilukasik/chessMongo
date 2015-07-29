@@ -267,18 +267,25 @@ function coordsToMoveString(a, b, c, d) {
 
 	return dletters[a] + (b + 1) + dletters[c] + (d + 1)
 }
-
+function noc(colr){
+	if (colr=1){
+		return 2
+	}else{
+		return 1
+	}
+}
 function getTableData(origTable, isWhite) {
-	var returnArray = [] // elso elem will be az osszes babu ertekenek osszge, aztan az osszes babu koordinataja
+	//var returnArray = [] // elso elem will be az osszes babu ertekenek osszge, aztan az osszes babu koordinataja
 	var tableValue = 0
 	var myTempPieces = []
-	if(isWhite) {
-		var origColor = 2
-		var noc = 1
-	} else {
-		var origColor = 1
-		var noc = 2
-	}
+	
+	var origColor = 1
+	if(isWhite) origColor = 2
+		//var noc = 1
+	// } else {
+		
+	// 	//var noc = 2
+	// }
 	for(var lookI = 0; lookI < 8; lookI++) {
 		for(var lookJ = 0; lookJ < 8; lookJ++) {
 			//alert(thisTempState[lookI][lookJ][0])
@@ -286,7 +293,7 @@ function getTableData(origTable, isWhite) {
 				myTempPieces.push([lookI, lookJ, origTable[lookI][lookJ][1]])
 				tableValue += origTable[lookI][lookJ][1]
 			} else {
-				if(origTable[lookI][lookJ][0] == noc) {
+				if(origTable[lookI][lookJ][0] == noc(origColor)) {
 					tableValue -= origTable[lookI][lookJ][1]
 
 				}
@@ -294,9 +301,11 @@ function getTableData(origTable, isWhite) {
 			}
 		}
 	}
-	returnArray.push(tableValue)
-	returnArray.push(myTempPieces)
-	return returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
+	// returnArray.push(tableValue)
+	// returnArray.push(myTempPieces)
+	
+	//returnArray=[tableValue,myTempPieces]
+	return [tableValue,myTempPieces]//returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
 
 }
 
