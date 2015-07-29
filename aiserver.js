@@ -33,9 +33,9 @@ app.get('/aiChoice', function (req, res) {
           var toConsole=[]  //to chat?
           
           for(var i=1;i<result.length-1;i++){
-            toConsole[i-1]=               result[i][0]+'......'+
-                                          result[i][1]+'......'+
-                                          result[i][2]+'......'+
+            toConsole[i-1]=               result[i][0]+'____'+
+                                          result[i][1]+'____'+
+                                          result[i][2]+'____'+
                                           result[i][3];
                                              
           }
