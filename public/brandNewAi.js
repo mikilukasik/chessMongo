@@ -719,11 +719,11 @@ function moveIt(moveString, intable, dontProtect) {
 		for(var j = 0; j < 8; j++) {
 			thistable[i][j] = [] //new Array(4?)
 
-			for(k = 0; k < 5; k++) {
+			//for(k = 0; k < 5; k++) {
 
 				//intable[i][j].forEach(function (value,feCount){
-				thistable[i][j][k] = intable[i][j][k]
-			} //)
+				thistable[i][j] = intable[i][j].slice(0,5)
+			//} //)
 		}
 	}
 
@@ -797,7 +797,7 @@ function moveIt(moveString, intable, dontProtect) {
 
 	thistable[dletters.indexOf(moveString[2])][moveString[3] - 1] =
 		thistable[dletters.indexOf(moveString[0])][moveString[1] - 1]
-	thistable[dletters.indexOf(moveString[0])][moveString[1] - 1] = [0, 0, false, false, false] //,blankFunction]
+	thistable[dletters.indexOf(moveString[0])][moveString[1] - 1] = [0, 0, false, false, false]
 	if(!(thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][1] == 1)) {
 		thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][3] = false
 	}
@@ -814,14 +814,8 @@ function createFirstTableState(cfTable, cfColor) {
 	var allTempTables = []
 	allTempTables.push([true, fadeConst, new Date().getTime()]) //array heading:color,fadeConst(will be multiplied),timeStarted/timeItTook
 
-	//var timeAtStart=new Date().getTime()
+	
 	var cfMoves = moveArrayToStrings(getAllMoves(getTableData(cfTable, cfColor), cfTable, cfColor), cfTable, cfColor)
-
-	// for(var i = cfMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
-	// 	if(getBestHit(moveIt(cfMoves[i], cfTable), !cfColor) == 9) {
-	// 		cfMoves.splice(i, 1)
-	// 	}
-	// }
 
 	var tempTable = new Array(8)
 
