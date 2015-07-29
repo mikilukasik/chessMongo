@@ -5,8 +5,8 @@ var fadeConst = 1
 var level = 1
 var whatHitsConst = 1
 var hitValueConst = 0.5
-var t1const = 40
-var t2const = 0.1
+var t1const = 1
+var t2const = 0.0025
 var dontHitConst = 0.8
 var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
 
