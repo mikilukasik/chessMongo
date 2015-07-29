@@ -717,13 +717,11 @@ function moveIt(moveString, intable, dontProtect) {
 	for(var i = 0; i < 8; i++) {
 		thistable[i] = new Array(8)
 		for(var j = 0; j < 8; j++) {
-			thistable[i][j] = [] //new Array(4?)
+			//thistable[i][j] = [] //new Array(4?)
 
-			//for(k = 0; k < 5; k++) {
-
-				//intable[i][j].forEach(function (value,feCount){
+			
 				thistable[i][j] = intable[i][j].slice(0,5)
-			//} //)
+			
 		}
 	}
 
