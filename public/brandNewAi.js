@@ -887,12 +887,12 @@ function createFirstTableState(cfTable, cfColor) {
 
 function ai(tablE, wn) {
 	
-	var retTable=createFirstTableState(tablE, wn)
+	//var retTable=createFirstTableState(tablE, wn)
 	// retTable.forEach(function(thisline) {
 	// 	console.log(thisline[0] + ' ' + thisline[1] + '  =  ' + thisline[2] + '  +  ' + thisline[3])
 	// })
 	
-	return retTable
+	return createFirstTableState(tablE, wn)//retTable
 
 }
 
