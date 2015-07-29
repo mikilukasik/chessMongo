@@ -824,7 +824,7 @@ function createAiTable(cfTable, cfColor) {
 		var myOrigValue = hitValue
 		hitValue = 0
 
-		tTableValue = myOrigValue - escConst * (getBestHit(tempTable, !cfColor) - opponentsOrigValue) )//+ (getBestHit(tempTable, cfColor) / 2)
+		tTableValue = myOrigValue - escConst * (getBestHit(tempTable, !cfColor) - opponentsOrigValue) //+ (getBestHit(tempTable, cfColor) / 2)
 
 		// one deeper
 
