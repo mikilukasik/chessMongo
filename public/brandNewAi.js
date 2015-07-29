@@ -181,7 +181,7 @@ function captured(table,color){
 	return false //temp
 }
 
-function canMove(k, l, isWhite, moveTable, speedy) {
+function canMove(k, l, isWhite, moveTable, speedy, dontProt) {
 	
 	
 	
@@ -220,7 +220,7 @@ function canMove(k, l, isWhite, moveTable, speedy) {
 
 	if(!speedy){
 		for(var i = possibleMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
-			if(captured(moveIt(coordsToMoveString(k, l, possibleMoves[i][0], possibleMoves[i][1]), moveTable), isWhite)) { //sakkba lepnenk
+			if(captured(moveIt(coordsToMoveString(k, l, possibleMoves[i][0], possibleMoves[i][1]), moveTable, dontProt), isWhite)) { //sakkba lepnenk
 				possibleMoves.splice(i, 1)
 				
 			}
@@ -680,7 +680,7 @@ function moveArrayToStrings(moveArray, ftable, fwNext) {
 
 function getAllMoves(rawTableData, tableToMoveOn, whiteNext, hitItsOwn) {
 	
-	var switchCount=0
+	//var switchCount=0
 	// var moveArrays=[]
 	// var moveStrings=[]
 	var tableData = rawTableData[1]
@@ -696,67 +696,15 @@ function getAllMoves(rawTableData, tableToMoveOn, whiteNext, hitItsOwn) {
 	bestHit = 0
 	for(var pieceNo = 0; pieceNo < tableData.length; pieceNo++) {
 		
-		switchCount++
-		// switch(tableData[pieceNo][2]) {
-		// 	// case 0:
+		//switchCount++
+		
 
-		// 	case 1:
+		canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn, false, true)//true,true for speedy,dontProtect
+			.forEach(function(stepItem) {
+				thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
+			})
 
-				canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn, true)//true for speedy
-					.forEach(function(stepItem) {
-						thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
-					})
-
-			// 	// thisArray.push(tableData[pieceNo][0],tableData[pieceNo][1])
-			// 	// moveArrays.push(pawnCanMove(tableData[pieceNo][0],tableData[pieceNo][1],whiteNext,tableToMoveOn))
-
-			// 	break;
-			// case 2:
-			// 	//alert("bishop")
-			// 	bishopCanMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn)
-			// 		.forEach(function(stepItem) {
-			// 			thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
-			// 		})
-
-			// 	//console.log(moveArrays)
-			// 	break;
-			// case 3:
-			// 	//alert("horse")
-			// 	horseCanMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn)
-			// 		.forEach(function(stepItem) {
-			// 			thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
-			// 		})
-
-			// 	//console.log(moveArrays)
-			// 	break;
-			// case 4:
-			// 	//alert("rook")
-			// 	rookCanMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn)
-			// 		.forEach(function(stepItem) {
-			// 			thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
-			// 		})
-
-			// 	//console.log(moveArrays)
-
-			// 	break;
-			// case 5:
-			// 	//alert("queen")
-			// 	queenCanMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn)
-			// 		.forEach(function(stepItem) {
-			// 			thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
-			// 		})
-
-			// 	//console.log(moveArrays)
-			// 	break;
-			// case 9:
-			// 	//alert("king")
-			// 	kingCanMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn)
-			// 		.forEach(function(stepItem) {
-			// 			thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
-			// 		})
-			// 		//console.log(moveArrays)
-			// 	break;
-		//}
+	
 
 	}
 	//console.log('canMove was called: '+switchCount)
@@ -821,7 +769,7 @@ function sortAiArray(a, b) {
 	return 0
 }
 
-function moveIt(moveString, intable) {
+function moveIt(moveString, intable, dontProtect) {
 	// protectPieces(intable,true)
 	// protectPieces(intable,false) //opponent would be enough 
 
@@ -919,8 +867,10 @@ function moveIt(moveString, intable) {
 		thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][3] = false
 	}
 	//wNext=!wNext
-	protectPieces(thistable, true)
-	protectPieces(thistable, false)
+	if (!dontProtect){
+		protectPieces(thistable, true)
+		protectPieces(thistable, false)
+	}
 	return thistable
 }
 
@@ -1005,9 +955,6 @@ function ai(tablE, wn) {
 
 }
 
-// function getAllProtectedSpaces(protectTable,wh){
-
-// }
 
 function helpMe(wp) {
 	console.log('MOVE SCORE    first    second')
