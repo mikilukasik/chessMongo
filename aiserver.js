@@ -31,8 +31,8 @@ app.get('/aiChoice', function (req, res) {
         if(result.length>1){  //if there are any moves
           var aiMoveString=result[1][0]
           var toConsole=[]  //to chat?
-          
-          for(var i=0;i<result.length;i++){
+          toConsole[0]=result[0][2]//timeItTook
+          for(var i=1;i<result.length;i++){
             toConsole[i]=               result[i][0]+'__'+
                                           result[i][1]+'__'+
                                           result[i][2]+'__'+
