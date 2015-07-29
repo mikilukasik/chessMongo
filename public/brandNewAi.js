@@ -702,7 +702,7 @@ function getAllMoves(rawTableData, tableToMoveOn, whiteNext, hitItsOwn) {
 
 		// 	case 1:
 
-				canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn, false)//true for speedy
+				canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn, true)//true for speedy
 					.forEach(function(stepItem) {
 						thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
 					})
