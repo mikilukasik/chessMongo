@@ -884,10 +884,13 @@ function createFirstTableState(cfTable, cfColor) {
 	})
 	
 	 //var timeAtStart=new Date().getTime()
-        //var result=ai(tableFromDb.table,tableFromDb.wNext)
-        var timeItTook=new Date().getTime()-timeAtStart
-        console.log(timeItTook+" ms")
-		//
+    //var result=ai(tableFromDb.table,tableFromDb.wNext)
+    var timeItTook=new Date().getTime()-timeAtStart
+    var msString=timeItTook+" ms"
+	console.log(msString)
+	allTempTables.push(msString)
+	
+	//
 	return allTempTables
 }
 

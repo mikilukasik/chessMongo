@@ -29,9 +29,20 @@ app.get('/aiChoice', function (req, res) {
         // var timeItTook=new Date().getTime()-timeAtStart
         // console.log(timeItTook+" ms")
         if(result.length>1){  //if there are any moves
-          var result1=result[1][0]
+          var aiMoveString=result[1][0]
+          var toConsole=[]  //to chat?
           
-          var sendJson={aimove: result1, fulltable: result}
+          for(var i=1;i<result.length-1;i++){
+            toConsole[i-1]=result[i][0]+' '+
+                                          result[i][1]+' '+
+                                          result[i][2]+' '+
+                                          result[i][3];
+                                             
+          }
+          
+          
+          
+          var sendJson={aimove: aiMoveString, fulltable: result, toconsole: toConsole}
         }else{
           var sendJson={aimove: "", fulltable: result}
         }
