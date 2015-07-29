@@ -32,7 +32,7 @@ app.get('/aiChoice', function (req, res) {
           var aiMoveString=result[1][0]
           var toConsole=[]  //to chat?
           
-          for(var i=1;i<result.length-1;i++){
+          for(var i=0;i<result.length;i++){
             toConsole[i-1]=               result[i][0]+'__'+
                                           result[i][1]+'__'+
                                           result[i][2]+'__'+

@@ -811,21 +811,25 @@ function moveIt(moveString, intable, dontProtect) {
 }
 
 function createFirstTableState(cfTable, cfColor) {
-	var timeAtStart=new Date().getTime()
+	
+	var allTempTables = []
+	allTempTables.push([true, fadeConst, new Date().getTime()]) //array heading:color,fadeConst(will be multiplied),timeStarted/timeItTook
+	
+	//var timeAtStart=new Date().getTime()
 	var cfMoves = moveArrayToStrings(getAllMoves(getTableData(cfTable, cfColor), cfTable, cfColor), cfTable, cfColor)
 
-	for(var i = cfMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
-		if(getBestHit(moveIt(cfMoves[i], cfTable), !cfColor) == 9) {
-			cfMoves.splice(i, 1)
-		}
-	}
+	// for(var i = cfMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
+	// 	if(getBestHit(moveIt(cfMoves[i], cfTable), !cfColor) == 9) {
+	// 		cfMoves.splice(i, 1)
+	// 	}
+	// }
 
 	var tempTable = new Array(8)
-	var allTempTables = []
-	var opponentsOrigValue = getBestHit(cfTable, !cfColor)
-	var myOrigOrigValue = getBestHit(cfTable, cfColor)
 
-	allTempTables.push([true, fadeConst, 0]) //array heading:color,fadeConst(will be multiplied),howDeep
+	var opponentsOrigValue = getBestHit(cfTable, !cfColor)
+	//var myOrigOrigValue = getBestHit(cfTable, cfColor)
+
+
 
 	i = 0
 		//console.log(cfMoves)
@@ -879,17 +883,20 @@ function createFirstTableState(cfTable, cfColor) {
 	allTempTables = allTempTables.sort(sortAiArray)
 	
 	//console:
-	allTempTables.forEach(function(thisline) {
-		console.log(thisline[0] + ' ' + thisline[1] + '  =  ' + thisline[2] + '  +  ' + thisline[3])
-	})
+	// allTempTables.forEach(function(thisline) {
+	// 	console.log(thisline[0] + ' ' + thisline[1] + '  =  ' + thisline[2] + '  +  ' + thisline[3])
+	// })
 	
 	 //var timeAtStart=new Date().getTime()
     //var result=ai(tableFromDb.table,tableFromDb.wNext)
-    var timeItTook=new Date().getTime()-timeAtStart
-    var msString=timeItTook+" ms"
-	console.log(msString)
-	allTempTables.push(msString)
-	allTempTables.push("")
+    //allTempTables.push("")
+	
+	allTempTables[0][2]=new Date().getTime()-allTempTables[0][2]+' ms'	//1st row has timeItTook
+	//var timeItTook=new Date().getTime()-timeAtStart
+    // var msString=timeItTook+" ms"
+	// console.log(msString)
+	// allTempTables.push(msString)
+	
 	
 	
 	//
