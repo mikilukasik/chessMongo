@@ -195,7 +195,7 @@ app.get('/aiMove', function(req, res) {
 									tableInDb.wNext = !tableInDb.wNext
 									tableInDb.pollNum++
 									tableInDb.moved = new Date().getTime()
-									//tableInDb.chat=[]
+									tableInDb.chat=resJsn.toconsole
 	
 									tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
 	
