@@ -854,7 +854,7 @@ function createFirstTableState(cfTable, cfColor) {
 
 		cf2Moves.forEach(function(step2Move, moveNo) {
 
-			temp2Table = moveIt(step2Move, tempTable, true) //dont protect new table
+			temp2Table = moveIt(step2Move, tempTable, false) 
 
 			var myOrig2Value = hitValue
 			hitValue = 0
