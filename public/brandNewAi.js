@@ -811,7 +811,7 @@ function moveIt(moveString, intable, dontProtect) {
 }
 
 function createFirstTableState(cfTable, cfColor) {
-
+	var timeAtStart=new Date().getTime()
 	var cfMoves = moveArrayToStrings(getAllMoves(getTableData(cfTable, cfColor), cfTable, cfColor), cfTable, cfColor)
 
 	for(var i = cfMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
@@ -882,8 +882,12 @@ function createFirstTableState(cfTable, cfColor) {
 	allTempTables.forEach(function(thisline) {
 		console.log(thisline[0] + ' ' + thisline[1] + '  =  ' + thisline[2] + '  +  ' + thisline[3])
 	})
-	//
 	
+	 var timeAtStart=new Date().getTime()
+        //var result=ai(tableFromDb.table,tableFromDb.wNext)
+        var timeItTook=new Date().getTime()-timeAtStart
+        console.log(timeItTook+" ms")
+		//
 	return allTempTables
 }
 
