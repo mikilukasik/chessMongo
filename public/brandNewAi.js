@@ -412,12 +412,12 @@ function rookCanMove(k, l, isWhite, moveTable) {
 	canMoveTo = []
 		// if(aiCalled){
 
-	if(!isWhite) {
-		var c = 2
-		var nc = 1
-	} else {
+	if(isWhite) {
 		var c = 1
 		var nc = 2
+	} else {
+		var c = 2
+		var nc = 1
 	}
 
 	var goFurther = [true, true, true, true]
@@ -454,12 +454,12 @@ function bishopCanMove(k, l, isWhite, moveTable) {
 	canMoveTo = []
 		//if(aiCalled){
 
-	if(!isWhite) {
-		var c = 2
-		var nc = 1
-	} else {
+	if(isWhite) {
 		var c = 1
 		var nc = 2
+	} else {
+		var c = 2
+		var nc = 1
 	}
 
 	var goFurther = [true, true, true, true]
@@ -495,12 +495,12 @@ function bishopCanMove(k, l, isWhite, moveTable) {
 function queenCanMove(k, l, isWhite, moveTable) {
 	canMoveTo = []
 
-	if(!isWhite) {
-		var c = 2
-		var nc = 1
-	} else {
+	if(isWhite) {
 		var c = 1
 		var nc = 2
+	} else {
+		var c = 2
+		var nc = 1
 	}
 
 	var goFurther = [true, true, true, true, true, true, true, true]
@@ -562,12 +562,12 @@ function kingCanMove(k, l, isWhite, moveTable) {
 
 	canMoveTo = []
 
-	if(!isWhite) {
-		var c = 2
-		var nc = 1
-	} else {
+	if(isWhite) {
 		var c = 1
 		var nc = 2
+	} else {
+		var c = 2
+		var nc = 1
 	}
 
 	moveCount = 1
@@ -623,12 +623,12 @@ function horseCanMove(k, l, isWhite, moveTable) {
 	pushAid(k - 2, l + 1, 0, 0, moveTable)
 	pushAid(k - 2, l - 1, 0, 0, moveTable)
 
-	if(!isWhite) {
-		var c = 2
-		var nc = 1
-	} else {
+	if(isWhite) {
 		var c = 1
 		var nc = 2
+	} else {
+		var c = 2
+		var nc = 1
 	}
 
 	pushAid(k + 1, l + 2, 0, c, moveTable, true, 3)
