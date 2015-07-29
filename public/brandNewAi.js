@@ -649,11 +649,7 @@ function moveArrayToStrings(moveArray, ftable, fwNext) {
 			strArray.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
 
 		})
-		// for(var i = strArray.length - 1; i >= 0; i--) {
-		// 	if(captured(ftable,fwNext)) {
-		// 		strArray.splice(i, 1)
-		// 	}
-		// }
+		
 
 	return strArray
 
@@ -713,12 +709,10 @@ function sortAiArray(a, b) {
 function moveIt(moveString, intable, dontProtect) {
 
 	var thistable = []
-		//var thistable=[]
+		
 	for(var i = 0; i < 8; i++) {
 		thistable[i] = new Array(8)
 		for(var j = 0; j < 8; j++) {
-			//thistable[i][j] = [] //new Array(4?)
-
 			
 				thistable[i][j] = intable[i][j].slice(0,5)
 			
@@ -727,7 +721,7 @@ function moveIt(moveString, intable, dontProtect) {
 
 	//itt indil sanc bastyatolas
 	if(thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][1] == 9 && thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][3]) {
-		//if(moveString.substring(2)=="")
+		
 		switch(moveString.substring(2)) {
 			case "c1":
 				thistable = moveIt("a1d1", thistable)
