@@ -758,7 +758,7 @@ function getAllMoves(rawTableData, tableToMoveOn, whiteNext, hitItsOwn) {
 		//}
 
 	}
-	console.log('canMove was called: '+switchCount)
+	//console.log('canMove was called: '+switchCount)
 
 	return thisArray
 
