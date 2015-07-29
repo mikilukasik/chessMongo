@@ -91,6 +91,10 @@ function protectPieces(originalTable, whitePlayer) {
 }
 
 function addMovesToTable(originalTable, whiteNext) {
+	
+	
+	//rewrite this to use getTableData to find my pieces, don't copy the array just change the original
+	
 	var myCol = 1;
 	if(whiteNext) myCol++ //myCol is 2 when white
 
@@ -647,7 +651,7 @@ function moveArrayToStrings(moveArray, ftable, fwNext) {
 
 	})
 	for(var i = strArray.length - 1; i >= 0; i--) {
-		if(getBestHit(moveIt(strArray[i], ftable), !fwNext) == 9) {
+		if(captured(ftable,fwNext)) {
 			strArray.splice(i, 1)
 		}
 	}
