@@ -801,10 +801,9 @@ function moveIt(moveString, intable, dontProtect) {
 	return thistable
 }
 
-function createFirstTableState(cfTable, cfColor) {
+function createAiTable(cfTable, cfColor) {
 
-	var allTempTables = []
-	allTempTables.push([true, fadeConst, new Date().getTime()]) //array heading:color,fadeConst(will be multiplied),timeStarted/timeItTook
+	var allTempTables = [[true, fadeConst, new Date().getTime()]] //array heading:true,fadeConst,timeStarted for timeItTook
 
 	
 	var cfMoves = moveArrayToStrings(getAllMoves(getTableData(cfTable, cfColor), cfTable, cfColor), cfTable, cfColor)
@@ -865,7 +864,7 @@ function createFirstTableState(cfTable, cfColor) {
 
 	allTempTables = allTempTables.sort(sortAiArray)
 
-	allTempTables[0][2] = new Date().getTime() - allTempTables[0][2] + ' ms' //1st row has timeItTook
+	allTempTables[0][2] = 'createAiTable took ' + (new Date().getTime() - allTempTables[0][2]) + ' ms.' //1st row has timeItTook
 
 	//
 	return allTempTables
@@ -874,7 +873,7 @@ function createFirstTableState(cfTable, cfColor) {
 function ai(tablE, wn) {
 
 	
-	return createFirstTableState(tablE, wn) //retTable
+	return createAiTable(tablE, wn)
 
 }
 
