@@ -699,7 +699,7 @@ function getAllMoves(rawTableData, tableToMoveOn, whiteNext, hitItsOwn) {
 		//switchCount++
 		
 
-		canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn, false, true)//true,true for speedy,dontProtect
+		canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn, true, true)//true,true for speedy,dontProtect
 			.forEach(function(stepItem) {
 				thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
 			})
