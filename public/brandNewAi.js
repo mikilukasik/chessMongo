@@ -878,9 +878,11 @@ function createFirstTableState(cfTable, cfColor) {
 
 	allTempTables = allTempTables.sort(sortAiArray)
 	
+	//console:
 	allTempTables.forEach(function(thisline) {
 		console.log(thisline[0] + ' ' + thisline[1] + '  =  ' + thisline[2] + '  +  ' + thisline[3])
 	})
+	//
 	
 	return allTempTables
 }
