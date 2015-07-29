@@ -854,7 +854,7 @@ function createFirstTableState(cfTable, cfColor) {
 
 		cf2Moves.forEach(function(step2Move, moveNo) {
 
-			temp2Table = moveIt(step2Move, tempTable)
+			temp2Table = moveIt(step2Move, tempTable, true) //dont protect new table
 
 			var myOrig2Value = hitValue
 			hitValue = 0
@@ -876,28 +876,15 @@ function createFirstTableState(cfTable, cfColor) {
 
 		var wtf = [parseInt((tTableValue + tTable2Value) * 100), parseInt(tTableValue * 100), parseInt(tTable2Value * 100)]
 
-		allTempTables.push([stepMove, wtf[0], wtf[1], wtf[2]]) //,tableHitValue]) //row: movestring, ai val, deepen val, deep hit val, [tables]
-		//console.log([stepMove, wtf[0], wtf[1], wtf[2]])
+		allTempTables.push([stepMove, wtf[0], wtf[1], wtf[2]])
+		
 	})
 
 	allTempTables = allTempTables.sort(sortAiArray)
 	
-	//console:
-	// allTempTables.forEach(function(thisline) {
-	// 	console.log(thisline[0] + ' ' + thisline[1] + '  =  ' + thisline[2] + '  +  ' + thisline[3])
-	// })
 	
-	 //var timeAtStart=new Date().getTime()
-    //var result=ai(tableFromDb.table,tableFromDb.wNext)
-    //allTempTables.push("")
 	
 	allTempTables[0][2]=new Date().getTime()-allTempTables[0][2]+' ms'	//1st row has timeItTook
-	//var timeItTook=new Date().getTime()-timeAtStart
-    // var msString=timeItTook+" ms"
-	// console.log(msString)
-	// allTempTables.push(msString)
-	
-	
 	
 	//
 	return allTempTables
@@ -916,8 +903,7 @@ function ai(tablE, wn) {
 
 function helpMe(wp) {
 	console.log('MOVE SCORE    first    second')
-	ai(table, wp)
-	//.forEach(function(thisline) {
-	// 	console.log(thisline[0] + ' ' + thisline[1] + '  =  ' + thisline[2] + '  +  ' + thisline[3])
-	// })
+	ai(table, wp).forEach(function(thisline) {
+		console.log(thisline[0] + ' ' + thisline[1] + '  =  ' + thisline[2] + '  +  ' + thisline[3])
+	})
 }
