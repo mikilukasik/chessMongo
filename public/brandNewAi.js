@@ -830,7 +830,7 @@ function createFirstTableState(cfTable, cfColor) {
 	i = 0
 		//console.log(cfMoves)
 	cfMoves.forEach(function(stepMove) {
-		console.log(stepMove)
+		//console.log(stepMove)
 		tempTable = moveIt(stepMove, cfTable)
 
 		var myOrigValue = hitValue
@@ -881,8 +881,11 @@ function createFirstTableState(cfTable, cfColor) {
 }
 
 function ai(tablE, wn) {
-
-	return createFirstTableState(tablE, wn)
+	var retTable=createFirstTableState(tablE, wn)
+	retTable.forEach(function(thisline) {
+		console.log(thisline[0] + ' ' + thisline[1] + '  =  ' + thisline[2] + '  +  ' + thisline[3])
+	})
+	return retTable
 
 }
 
