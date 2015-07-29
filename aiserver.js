@@ -24,14 +24,16 @@ app.get('/aiChoice', function (req, res) {
     db.collection("tables").findOne({tableNum: Number(req.query.t)},function(err2, tableFromDb) {
     
       if(!(tableFromDb==null)){
-        //var timeAtStart=new Date().getTime()
+       
         var result=ai(tableFromDb.table,tableFromDb.wNext)
-        // var timeItTook=new Date().getTime()-timeAtStart
-        // console.log(timeItTook+" ms")
+        
         if(result.length>1){  //if there are any moves
-          var aiMoveString=result[1][0]
+          
+          var aiMoveString=result[1][0]// the winning movestring
+          
           var toConsole=[]  //to chat?
           toConsole[0]=result[0][2]//timeItTook
+          
           for(var i=1;i<result.length;i++){
             toConsole[i]=               result[i][0]+'__'+
                                           result[i][1]+'__'+
