@@ -873,10 +873,15 @@ function createFirstTableState(cfTable, cfColor) {
 		var wtf = [parseInt((tTableValue + tTable2Value) * 100), parseInt(tTableValue * 100), parseInt(tTable2Value * 100)]
 
 		allTempTables.push([stepMove, wtf[0], wtf[1], wtf[2]]) //,tableHitValue]) //row: movestring, ai val, deepen val, deep hit val, [tables]
-		console.log([stepMove, wtf[0], wtf[1], wtf[2]])
+		//console.log([stepMove, wtf[0], wtf[1], wtf[2]])
 	})
 
 	allTempTables = allTempTables.sort(sortAiArray)
+	
+	allTempTables.forEach(function(thisline) {
+		console.log(thisline[0] + ' ' + thisline[1] + '  =  ' + thisline[2] + '  +  ' + thisline[3])
+	})
+	
 	return allTempTables
 }
 
