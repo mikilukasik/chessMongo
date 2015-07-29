@@ -883,7 +883,7 @@ function createFirstTableState(cfTable, cfColor) {
 		console.log(thisline[0] + ' ' + thisline[1] + '  =  ' + thisline[2] + '  +  ' + thisline[3])
 	})
 	
-	 var timeAtStart=new Date().getTime()
+	 //var timeAtStart=new Date().getTime()
         //var result=ai(tableFromDb.table,tableFromDb.wNext)
         var timeItTook=new Date().getTime()-timeAtStart
         console.log(timeItTook+" ms")
