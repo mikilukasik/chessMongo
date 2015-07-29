@@ -91,10 +91,9 @@ function protectPieces(originalTable, whitePlayer) {
 }
 
 function addMovesToTable(originalTable, whiteNext) {
-	
-	
+
 	//rewrite this to use getTableData to find my pieces, don't copy the array just change the original
-	
+
 	var myCol = 1;
 	if(whiteNext) myCol++ //myCol is 2 when white
 
@@ -647,14 +646,14 @@ function horseCanMove(k, l, isWhite, moveTable) {
 function moveArrayToStrings(moveArray, ftable, fwNext) {
 	var strArray = []
 	moveArray.forEach(function(thisMove) {
-		strArray.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
+			strArray.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
 
-	})
-	// for(var i = strArray.length - 1; i >= 0; i--) {
-	// 	if(captured(ftable,fwNext)) {
-	// 		strArray.splice(i, 1)
-	// 	}
-	// }
+		})
+		// for(var i = strArray.length - 1; i >= 0; i--) {
+		// 	if(captured(ftable,fwNext)) {
+		// 		strArray.splice(i, 1)
+		// 	}
+		// }
 
 	return strArray
 
@@ -811,10 +810,10 @@ function moveIt(moveString, intable, dontProtect) {
 }
 
 function createFirstTableState(cfTable, cfColor) {
-	
+
 	var allTempTables = []
 	allTempTables.push([true, fadeConst, new Date().getTime()]) //array heading:color,fadeConst(will be multiplied),timeStarted/timeItTook
-	
+
 	//var timeAtStart=new Date().getTime()
 	var cfMoves = moveArrayToStrings(getAllMoves(getTableData(cfTable, cfColor), cfTable, cfColor), cfTable, cfColor)
 
@@ -827,9 +826,7 @@ function createFirstTableState(cfTable, cfColor) {
 	var tempTable = new Array(8)
 
 	var opponentsOrigValue = getBestHit(cfTable, !cfColor)
-	//var myOrigOrigValue = getBestHit(cfTable, cfColor)
-
-
+		//var myOrigOrigValue = getBestHit(cfTable, cfColor)
 
 	i = 0
 		//console.log(cfMoves)
@@ -854,7 +851,7 @@ function createFirstTableState(cfTable, cfColor) {
 
 		cf2Moves.forEach(function(step2Move, moveNo) {
 
-			temp2Table = moveIt(step2Move, tempTable, false) 
+			temp2Table = moveIt(step2Move, tempTable, false)
 
 			var myOrig2Value = hitValue
 			hitValue = 0
@@ -877,27 +874,21 @@ function createFirstTableState(cfTable, cfColor) {
 		var wtf = [parseInt((tTableValue + tTable2Value) * 100), parseInt(tTableValue * 100), parseInt(tTable2Value * 100)]
 
 		allTempTables.push([stepMove, wtf[0], wtf[1], wtf[2]])
-		
+
 	})
 
 	allTempTables = allTempTables.sort(sortAiArray)
-	
-	
-	
-	allTempTables[0][2]=new Date().getTime()-allTempTables[0][2]+' ms'	//1st row has timeItTook
-	
+
+	allTempTables[0][2] = new Date().getTime() - allTempTables[0][2] + ' ms' //1st row has timeItTook
+
 	//
 	return allTempTables
 }
 
 function ai(tablE, wn) {
+
 	
-	//var retTable=createFirstTableState(tablE, wn)
-	// retTable.forEach(function(thisline) {
-	// 	console.log(thisline[0] + ' ' + thisline[1] + '  =  ' + thisline[2] + '  +  ' + thisline[3])
-	// })
-	
-	return createFirstTableState(tablE, wn)//retTable
+	return createFirstTableState(tablE, wn) //retTable
 
 }
 
