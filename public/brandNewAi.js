@@ -751,13 +751,13 @@ function moveIt(moveString, intable, dontProtect) {
 
 	//unmark all first
 
-	// for(ij = 0; ij < 8; ij++) {
+	for(ij = 0; ij < 8; ij++) {
 
-	// 	thistable[ij][3][3] = false
+		thistable[ij][3][3] = false
 
-	// 	thistable[ij][4][3] = false
+		thistable[ij][4][3] = false
 
-	// }
+	}
 
 	if(thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][1] == 1 && ((moveString[1] == 2 && moveString[3] == 4) || (moveString[1] == 7 && moveString[3] == 5))) { //ha paraszt kettot lep
 
