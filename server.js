@@ -279,6 +279,62 @@ app.get('/getTable', function(req, res) {
 app.get('/chat', function(req, res) {
 	
 	if(req.query.c=='miki: test'){
+		/////////
+		
+		http.request(options, function(response) {
+			var resJsn = {};
+
+			//another chunk of data has been recieved, so append it to `resJsn`
+			response.on('data', function(chunk) {
+				resJsn = JSON.parse(chunk);
+			});
+
+			response.on('end', function() {
+				/////////
+
+				mongodb.connect(cn, function(err, db) {
+					db.collection("tables")
+						.findOne({
+							tableNum: Number(req.query.t)
+						}, function(err2, tableInDb) {
+							// console.log(resJsn)
+							// console.log('dssdfsdgs')
+							if (!(resJsn == null || tableInDb == null)) {
+								//var moveStr = String(resJsn.aimove)
+								//if(!(moveStr=="")){   			//there's at least 1 move
+								// var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
+								// 	tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
+								// 	moveStr + //the string
+								// 	tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][0] + //color of whats hit
+								// 	tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][1] //piece
+
+								// if(!(toPush==tableInDb.moves[tableInDb.moves.length-1])){
+								//tableInDb.moves.push(toPush)
+								//tableInDb.table = moveIt(moveStr, tableInDb.table)
+								//tableInDb.wNext = !tableInDb.wNext
+								tableInDb.pollNum++
+								//tableInDb.moved = new Date().getTime()
+								tableInDb.chat.push(resJsn.toconsole)
+
+								//tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
+
+								db.collection("tables")
+									.save(tableInDb, function(err3, res) {})
+								//}
+							}
+							db.close()
+						});
+
+				});
+				/////////
+
+			});
+		})
+		.end();
+		
+		
+		////////
+		
 		res.json({})
 	}else{
 	
