@@ -679,7 +679,7 @@ function getAllMoves(rawTableData, tableToMoveOn, whiteNext, hitItsOwn) {
 
 }
 
-function getBestHit(tableToValidate, wNx, returnMoves) {
+function getTableScore(tableToValidate, wNx, returnMoves) {
 	bestHit = 0
 
 	var myMoves =
@@ -821,8 +821,8 @@ function createAiTable(cfTable, cfColor) {
 	
 	var tempTable = new Array(8)
 
-	var opponentsOrigValue = getBestHit(cfTable, !cfColor)
-		//var myOrigOrigValue = getBestHit(cfTable, cfColor)
+	var opponentsOrigValue = getTableScore(cfTable, !cfColor)
+		//var myOrigOrigValue = getTableScore(cfTable, cfColor)
 
 	i = 0
 		//console.log(cfMoves)
@@ -833,7 +833,7 @@ function createAiTable(cfTable, cfColor) {
 		var myOrigValue = hitValue
 		hitValue = 0
 
-		tTableValue = myOrigValue - escConst * (getBestHit(tempTable, !cfColor) - opponentsOrigValue) //+ (getBestHit(tempTable, cfColor) / 2)
+		tTableValue = myOrigValue - escConst * (getTableScore(tempTable, !cfColor) - opponentsOrigValue) //+ (getTableScore(tempTable, cfColor) / 2)
 
 		// one deeper
 
@@ -842,8 +842,8 @@ function createAiTable(cfTable, cfColor) {
 		var tempTable2 = new Array(8)
 		var tTable2Value = 0
 			//var allTempTables=[]
-		var opponents2OrigValue = getBestHit(tempTable, !cfColor)
-		var myOrigValue = getBestHit(tempTable, cfColor)
+		var opponents2OrigValue = getTableScore(tempTable, !cfColor)
+		var myOrigValue = getTableScore(tempTable, cfColor)
 
 		cf2Moves.forEach(function(step2Move, moveNo) {
 
@@ -852,8 +852,8 @@ function createAiTable(cfTable, cfColor) {
 			var myOrig2Value = hitValue
 			hitValue = 0
 
-			tTable2Value -= myOrig2Value - (escConst * escConst * (getBestHit(temp2Table, !cfColor) -
-				opponents2OrigValue) + (getBestHit(temp2Table, cfColor) / 10) / 10)
+			tTable2Value -= myOrig2Value - (escConst * escConst * (getTableScore(temp2Table, !cfColor) -
+				opponents2OrigValue) + (getTableScore(temp2Table, cfColor) / 10) / 10)
 
 		})
 
