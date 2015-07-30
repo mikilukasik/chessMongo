@@ -343,7 +343,7 @@ function pushAid(hitSummmm, canMoveTo, x, y, hanyadik, milegyen, fromTable, some
 
 		// if(hitSum < thisHit) {
 		hitSummmm += thisHit
-			//alert(hitSum)
+			alert(thisHit)
 			//}
 
 		return true
