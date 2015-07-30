@@ -707,31 +707,21 @@ function sortAiArray(a, b) {
 
 	return 0
 }
-function copy(arr){
-    var new_arr = arr.slice(0);
-    for(var i = new_arr.length; i--;)
-        if(new_arr[i] instanceof Array)
-            new_arr[i] = copy(new_arr[i]);
-    return new_arr;
-}
+
 function moveIt(moveString, intable, dontProtect) {
-	
-	var thistable = copy(intable)//.slice(0);
-	
-	//var thistable = arr.slice(0);
-    // for(var i = thistable.length; i--;)
-    //     if(thistable[i] instanceof Array)
-    //         thistable[i] = copy(thistable[i]);
+
+	var thistable = []
 	
 	
-	// for(var i = 0; i < 8; i++) {
-	// 	thistable[i] = new Array(8)
-	// 	for(var j = 0; j < 8; j++) {
+	
+	for(var i = 0; i < 8; i++) {
+		thistable[i] = new Array(8)
+		for(var j = 0; j < 8; j++) {
 			
-	// 			thistable[i][j] = intable[i][j].slice(0,2)
+				thistable[i][j] = intable[i][j].slice(0,2)
 			
-	// 	}
-	// }
+		}
+	}
 
 	//itt indil sanc bastyatolas
 	if(thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][1] == 9 && thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][3]) {
