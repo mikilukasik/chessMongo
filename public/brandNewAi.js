@@ -826,7 +826,7 @@ function createAiTable(cfTable, cfColor) {
 	i = 0 //??
 
 	cfMoves.forEach(function(stepMove) {
-
+		var hitValue=0
 		tempTable = moveIt(stepMove, cfTable, hitValue)
 
 		var myOrigValue = hitValue
