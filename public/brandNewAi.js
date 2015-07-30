@@ -280,6 +280,7 @@ function getTableData(origTable, isWhite) {
 	//var returnArray = [] // elso elem will be az osszes babu ertekenek osszge, aztan az osszes babu koordinataja
 	var tableValue = 0
 	var myTempPieces = []
+	var hisTempPieces = []
 
 	var origColor = 1
 	if(isWhite) origColor = 2
@@ -290,17 +291,24 @@ function getTableData(origTable, isWhite) {
 			if(origTable[lookI][lookJ][0] == origColor) { //ha sajat babum
 
 				myTempPieces.push([lookI, lookJ, origTable[lookI][lookJ][1]]) //itt kene szamitott erteket is adni a babuknak 
-			//	tableValue += origTable[lookI][lookJ][1] //es sum
+			
 
-			// } else { //ha ures, vagy ellenfele
-
-			// 	tableValue -= origTable[lookI][lookJ][1] //szamitott ertekek sum
-
+			}else{
+				
+				if(!(origTable[lookI][lookJ][0] == 0)) { //ha ellenfele
+					
+					hisTempPieces.push([lookI, lookJ, origTable[lookI][lookJ][1]]) //itt kene szamitott erteket is adni a babuknak 
+			
+					
+					
+					
+				}
+				
 			}
 		}
 	}
 
-	return [tableValue, myTempPieces] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
+	return [tableValue, myTempPieces,hisTempPieces] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
 
 }
 
