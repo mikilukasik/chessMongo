@@ -707,15 +707,21 @@ function sortAiArray(a, b) {
 
 	return 0
 }
-
+function copy(arr){
+    var new_arr = arr.slice(0);
+    for(var i = new_arr.length; i--;)
+        if(new_arr[i] instanceof Array)
+            new_arr[i] = copy(new_arr[i]);
+    return new_arr;
+}
 function moveIt(moveString, intable, dontProtect) {
-
-	var thistable = intable.slice(0);
+	
+	var thistable = copy(intable)//.slice(0);
 	
 	//var thistable = arr.slice(0);
-    for(var i = thistable.length; i--;)
-        if(thistable[i] instanceof Array)
-            thistable[i] = copy(thistable[i]);
+    // for(var i = thistable.length; i--;)
+    //     if(thistable[i] instanceof Array)
+    //         thistable[i] = copy(thistable[i]);
 	
 	
 	// for(var i = 0; i < 8; i++) {
