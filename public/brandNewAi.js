@@ -300,6 +300,8 @@ function getTableData(origTable, isWhite, rtnSimpleValue) {
 				myTempPieces.push([lookI, lookJ, origTable[lookI][lookJ][1]]) //itt kene szamitott erteket is adni a babuknak 
 				//allMyMoves.push(
 				canMove(lookI,lookJ,isWhite,origTable,true,true,rtnMyHitSum)
+				
+				tableValue+=origTable[lookI][lookJ][1]
 				//)
 
 			}else{
@@ -310,7 +312,7 @@ function getTableData(origTable, isWhite, rtnSimpleValue) {
 					//allHisMoves.push(
 					canMove(lookI,lookJ,!isWhite,origTable,true,true,rtnHisHitSum)
 					//)
-
+					tableValue-=origTable[lookI][lookJ][1]
 					
 					
 					
@@ -323,9 +325,9 @@ function getTableData(origTable, isWhite, rtnSimpleValue) {
 		}
 	}
 	if (rtnSimpleValue) {
-		return rtnMyHitSum-rtnHisHitSum
+		return (rtnMyHitSum[0]-rtnHisHitSum[0])+(100*tableValue)
 	}
-	return [0,myTempPieces,hisTempPieces,rtnMyHitSum,rtnHisHitSum] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
+	return [tableValue,myTempPieces,hisTempPieces,rtnMyHitSum[0],rtnHisHitSum[0]] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
 
 }
 
@@ -853,37 +855,36 @@ function createAiTable(cfTable, cfColor) {
 
 	var tempTable = new Array(8)
 
-	var opponentsOrigValue = 0 //trick getTableScore(cfTable, !cfColor)
+	//var origValue = getTableData(cfTable,cfColor,true) //trick getTableScore(cfTable, !cfColor)
 
-	i = 0 //??
+	//i = 0 //??
 
 	cfMoves.forEach(function(stepMove) {
-		var hitValue=0
-		tempTable = moveIt(stepMove, cfTable, hitValue)
+		
+		tempTable = moveIt(stepMove, cfTable)//, hitValue)
 
-		//var myOrigValue = hitValue
-		//hitValue = 0
+		
 
-		tTableValue = hitValue - escConst * (getTableScore(tempTable, !cfColor))// - opponentsOrigValue)
-
-		// one deeper
+		tTableValue = getTableData(tempTable,cfColor,true)
+		
+		
 
 		var cf2Moves = moveArrayToStrings(getAllMoves(tempTable, cfColor), tempTable, cfColor)
 
-		var tempTable2 = new Array(8)
-		var tTable2Value = 0
+		// var tempTable2 = new Array(8)
+		// var tTable2Value = 0
 
 		var opponents2OrigValue = getTableScore(tempTable, !cfColor)
 		//var myOrigValue = getTableScore(tempTable, cfColor)
 
 		cf2Moves.forEach(function(step2Move, moveNo) {
 
-			temp2Table = moveIt(step2Move, tempTable, false, hitValue)
+			var temp2Table = moveIt(step2Move, tempTable, false, hitValue)
 
 			//var myOrig2Value = hitValue
 			//hitValue = 0
-
-			tTable2Value -= hitValue - ((getTableScore(temp2Table, !cfColor) -
+			var tempValue=getTableData(temp2)
+			tTable2Value = hitValue - ((getTableScore(temp2Table, !cfColor) -
 				opponents2OrigValue) + (getTableScore(temp2Table, cfColor) / 10) / 10)
 
 		})
