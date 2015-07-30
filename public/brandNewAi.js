@@ -319,7 +319,7 @@ function getTableData(origTable, isWhite) {
 		}
 	}
 
-	return [tableValue,myTempPieces,hisTempPieces,allMyMoves,allHisMoves] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
+	return [0,myTempPieces,hisTempPieces,allMyMoves,allHisMoves,rtnMyHitSum,rtnHisHitSum] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
 
 }
 
