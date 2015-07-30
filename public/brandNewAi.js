@@ -342,7 +342,7 @@ function pushAid(hitSummmm, canMoveTo, x, y, hanyadik, milegyen, fromTable, some
 		////////////////////////////////
 
 		// if(hitSum < thisHit) {
-		hitSummmm += thisHit
+		hitSummmm[0] += thisHit
 			alert(thisHit)
 			alert(hitSummmm)
 			
@@ -670,14 +670,16 @@ function getAllMoves(tableToMoveOn, whiteNext, hitItsOwn, allHitSum) {
 		whiteNext = !whiteNext
 	}
 	//var allHitSum=0
-	var hitSumPart = 0
+	var hitSumPart = []
+	hitSumPart[0]=0
+	
 	for(var pieceNo = 0; pieceNo < tableData.length; pieceNo++) {
 
 		canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn, true, true, hitSumPart) //true,true for speedy(sakkba is lep),dontProtect
 			.forEach(function(stepItem) {
 				thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
 			})
-		allHitSum+=hitSumPart
+		allHitSum+=hitSumPart[0]
 	}
 
 	return thisArray
