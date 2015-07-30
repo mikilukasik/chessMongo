@@ -182,7 +182,7 @@ function captured(table, color) {
 	return false
 }
 
-function canMove(k, l, isWhite, moveTable, speedy, dontProt,leaveCaptMoves) {
+function canMove(k, l, isWhite, moveTable, speedy, dontProt) {
 
 	var what = moveTable[k][l][1]
 	var possibleMoves = []
@@ -217,14 +217,14 @@ function canMove(k, l, isWhite, moveTable, speedy, dontProt,leaveCaptMoves) {
 
 	}
 
-	
-	if(!leaveCaptMoves){for(var i = possibleMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
-		if(captured(moveIt(coordsToMoveString(k, l, possibleMoves[i][0], possibleMoves[i][1]), moveTable, dontProt), isWhite)) { //sakkba lepnenk
-			possibleMoves.splice(i, 1)
-
-		}
-	}}
 	if(!speedy) {
+		for(var i = possibleMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
+			if(captured(moveIt(coordsToMoveString(k, l, possibleMoves[i][0], possibleMoves[i][1]), moveTable, dontProt), isWhite)) { //sakkba lepnenk
+				possibleMoves.splice(i, 1)
+
+			}
+		}
+
 		if(what == 9 && moveTable[k][l][3]) { //lesznek sanc lepesek is a possibleMoves tombben: kiraly nem mozdult meg
 
 			if(captured(moveTable, isWhite)) { // de sakkban allunk
