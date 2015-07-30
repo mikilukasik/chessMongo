@@ -1,13 +1,16 @@
-function tableStats(table,options){
+// function tableStats(table,options){
 	
-	var wNx=options.wNx
+// 	var wNx=options.wnx
+// 	var calSimpTval=options.csimptval
+// 	var findMyPcs=options.findmypcs
 	
 	
 	
-	for (i=0;i<8;i++){
-		for (j=0;j<8;j++){
+// 	for (i=0;i<8;i++){
+// 		for (j=0;j<8;j++){
 		
-		}	
-	}
+		
+// 		}	
+// 	}
 	
-}
+// }

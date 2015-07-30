@@ -805,7 +805,7 @@ function moveIt(moveString, intable, dontProtect) {
 
 function createAiTable(cfTable, cfColor) {
 
-	var allTempTables = [[true, fadeConst, new Date().getTime()]] //array heading:true,fadeConst,timeStarted for timeItTook
+	var allTempTables = [[true, 0, new Date().getTime()]] //array heading:true,0,timeStarted for timeItTook
 
 	
 	var cfMoves = moveArrayToStrings(getAllMoves(getTableData(cfTable, cfColor), cfTable, cfColor), cfTable, cfColor)
