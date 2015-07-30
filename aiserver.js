@@ -73,7 +73,7 @@ app.get('/test', function(req, res) {
 	var testDepth = 5	//default
 	if(!isNaN(req.query.d)) testDepth = req.query.d	//or set
 
-	var testTable = moveIt("e2e4", new Dbtable(0, "wtest", "btest"))
+	var testTable = new Dbtable(0, "wtest", "btest")
 	testTable.wNext = false
 
 	for(var i = 0; i < testDepth; i++) {
