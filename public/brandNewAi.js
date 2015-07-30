@@ -856,11 +856,12 @@ function createAiTable(cfTable, cfColor) {
 
 		})
 
+		//tTableValue *= t1const
 		tTable2Value *= t2const
 
-		var wtf = [parseInt((tTableValue + tTable2Value) * 100), parseInt(tTableValue * 100), parseInt(tTable2Value * 100)]
+		//var wtf = [parseInt((tTableValue + tTable2Value) * 100), parseInt(tTableValue * 100), parseInt(tTable2Value * 100)]
 
-		allTempTables.push([stepMove, wtf[0], wtf[1], wtf[2]])
+		allTempTables.push([stepMove, parseInt((tTableValue + tTable2Value) * 100), tTableValue, tTable2Value])
 
 	})
 
