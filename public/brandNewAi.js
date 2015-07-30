@@ -821,27 +821,26 @@ function createAiTable(cfTable, cfColor) {
 	
 	var tempTable = new Array(8)
 
-	var opponentsOrigValue = getTableScore(cfTable, !cfColor)
-		//var myOrigOrigValue = getTableScore(cfTable, cfColor)
-
-	i = 0
-		//console.log(cfMoves)
+	var opponentsOrigValue = 0//getTableScore(cfTable, !cfColor)
+		
+	i = 0 //??
+		
 	cfMoves.forEach(function(stepMove) {
-		//console.log(stepMove)
+	
 		tempTable = moveIt(stepMove, cfTable)
 
 		var myOrigValue = hitValue
 		hitValue = 0
 
-		tTableValue = myOrigValue - escConst * (getTableScore(tempTable, !cfColor) - opponentsOrigValue) //+ (getTableScore(tempTable, cfColor) / 2)
+		tTableValue = myOrigValue - escConst * (getTableScore(tempTable, !cfColor) - opponentsOrigValue) 
 
 		// one deeper
 
 		var cf2Moves = moveArrayToStrings(getAllMoves(getTableData(tempTable, cfColor), tempTable, cfColor), tempTable, cfColor)
-			//console.log(cf2Moves)
+			
 		var tempTable2 = new Array(8)
 		var tTable2Value = 0
-			//var allTempTables=[]
+			
 		var opponents2OrigValue = getTableScore(tempTable, !cfColor)
 		var myOrigValue = getTableScore(tempTable, cfColor)
 
@@ -857,15 +856,6 @@ function createAiTable(cfTable, cfColor) {
 
 		})
 
-		// deepening ends
-		
-		// 		//do i need the below?
-		// tTable2Value /= 11	//??
-		// if(tTable2Value < 0) {
-		// 	tTableValue *= dontHitConst
-		// }
-				//
-				
 		tTableValue *= t1const
 		tTable2Value *= t2const
 
