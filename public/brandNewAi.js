@@ -315,7 +315,7 @@ function whatsThere(i, j, aiTable) {
 	return []
 }
 
-function pushAid(x, y, hanyadik, milegyen, fromTable, someboolean, whatHits) {
+function pushAid(canMoveTo, x, y, hanyadik, milegyen, fromTable, someboolean, whatHits) {
 
 	if(whatsThere(x, y, fromTable)[hanyadik] == milegyen) {
 
@@ -353,7 +353,7 @@ function pushAid(x, y, hanyadik, milegyen, fromTable, someboolean, whatHits) {
 }
 
 function pawnCanMove(k, l, isWhite, moveTable) {
-	canMoveTo = []
+	var canMoveTo = []
 		//var hitIt=false
 	if((!isWhite && moveTable[k][l][0] == 1) || (isWhite && moveTable[k][l][0] == 2)) {
 		var c = 2
@@ -366,41 +366,41 @@ function pawnCanMove(k, l, isWhite, moveTable) {
 
 	if(moveTable[k][l][0] == 2) {
 
-		if(pushAid(k, l + 1, 0, 0, moveTable) && l == 1) {
-			pushAid(k, l + 2, 0, 0, moveTable)
+		if(pushAid(canMoveTo, k, l + 1, 0, 0, moveTable) && l == 1) {
+			pushAid(canMoveTo, k, l + 2, 0, 0, moveTable)
 		}
-		pushAid(k - 1, l + 1, 0, nc, moveTable, isWhite, 1)
-		pushAid(k + 1, l + 1, 0, nc, moveTable, isWhite, 1)
+		pushAid(canMoveTo, k - 1, l + 1, 0, nc, moveTable, isWhite, 1)
+		pushAid(canMoveTo, k + 1, l + 1, 0, nc, moveTable, isWhite, 1)
 
 		//en pass
 		if(whatsThere(k - 1, l, moveTable)[3]) {
 
-			pushAid(k - 1, l + 1, 0, 0, moveTable, isWhite)
+			pushAid(canMoveTo, k - 1, l + 1, 0, 0, moveTable, isWhite)
 
 		}
 		if(whatsThere(k + 1, l, moveTable)[3]) {
 
-			pushAid(k + 1, l + 1, 0, 0, moveTable, isWhite)
+			pushAid(canMoveTo, k + 1, l + 1, 0, 0, moveTable, isWhite)
 
 		}
 
 	} else {
 
-		if(pushAid(k, l - 1, 0, 0, moveTable) && l == 6) {
-			pushAid(k, l - 2, 0, 0, moveTable)
+		if(pushAid(canMoveTo, k, l - 1, 0, 0, moveTable) && l == 6) {
+			pushAid(canMoveTo, k, l - 2, 0, 0, moveTable)
 		}
-		pushAid(k - 1, l - 1, 0, c, moveTable, !isWhite, 1)
-		pushAid(k + 1, l - 1, 0, c, moveTable, !isWhite, 1)
+		pushAid(canMoveTo, k - 1, l - 1, 0, c, moveTable, !isWhite, 1)
+		pushAid(canMoveTo, k + 1, l - 1, 0, c, moveTable, !isWhite, 1)
 
 		//en pass
 		if(whatsThere(k - 1, l, moveTable)[3]) {
 
-			pushAid(k - 1, l - 1, 0, 0, moveTable, !isWhite)
+			pushAid(canMoveTo, k - 1, l - 1, 0, 0, moveTable, !isWhite)
 
 		}
 		if(whatsThere(k + 1, l, moveTable)[3]) {
 
-			pushAid(k + 1, l - 1, 0, 0, moveTable, !isWhite)
+			pushAid(canMoveTo, k + 1, l - 1, 0, 0, moveTable, !isWhite)
 
 		}
 
@@ -411,7 +411,7 @@ function pawnCanMove(k, l, isWhite, moveTable) {
 }
 
 function rookCanMove(k, l, isWhite, moveTable) {
-	canMoveTo = []
+	var canMoveTo = []
 		// if(aiCalled){
 
 	if(isWhite) {
@@ -425,26 +425,26 @@ function rookCanMove(k, l, isWhite, moveTable) {
 	var goFurther = [true, true, true, true]
 	for(var moveCount = 1; moveCount < 8; moveCount++) {
 		if(goFurther[0]) {
-			pushAid(k + moveCount, l, 0, 0, moveTable)
-			if(pushAid(k + moveCount, l, 0, c, moveTable, true, 4) || whatsThere(k + moveCount, l, moveTable)[0] == nc) {
+			pushAid(canMoveTo, k + moveCount, l, 0, 0, moveTable)
+			if(pushAid(canMoveTo, k + moveCount, l, 0, c, moveTable, true, 4) || whatsThere(k + moveCount, l, moveTable)[0] == nc) {
 				goFurther[0] = false
 			}
 		}
 		if(goFurther[1]) {
-			pushAid(k - moveCount, l, 0, 0, moveTable)
-			if(pushAid(k - moveCount, l, 0, c, moveTable, true, 4) || whatsThere(k - moveCount, l, moveTable)[0] == nc) {
+			pushAid(canMoveTo, k - moveCount, l, 0, 0, moveTable)
+			if(pushAid(canMoveTo, k - moveCount, l, 0, c, moveTable, true, 4) || whatsThere(k - moveCount, l, moveTable)[0] == nc) {
 				goFurther[1] = false
 			}
 		}
 		if(goFurther[2]) {
-			pushAid(k, l + moveCount, 0, 0, moveTable)
-			if(pushAid(k, l + moveCount, 0, c, moveTable, true, 4) || whatsThere(k, l + moveCount, moveTable)[0] == nc) {
+			pushAid(canMoveTo, k, l + moveCount, 0, 0, moveTable)
+			if(pushAid(canMoveTo, k, l + moveCount, 0, c, moveTable, true, 4) || whatsThere(k, l + moveCount, moveTable)[0] == nc) {
 				goFurther[2] = false
 			}
 		}
 		if(goFurther[3]) {
-			pushAid(k, l - moveCount, 0, 0, moveTable)
-			if(pushAid(k, l - moveCount, 0, c, moveTable, true, 4) || whatsThere(k, l - moveCount, moveTable)[0] == nc) {
+			pushAid(canMoveTo, k, l - moveCount, 0, 0, moveTable)
+			if(pushAid(canMoveTo, k, l - moveCount, 0, c, moveTable, true, 4) || whatsThere(k, l - moveCount, moveTable)[0] == nc) {
 				goFurther[3] = false
 			}
 		}
@@ -453,7 +453,7 @@ function rookCanMove(k, l, isWhite, moveTable) {
 }
 
 function bishopCanMove(k, l, isWhite, moveTable) {
-	canMoveTo = []
+	var canMoveTo = []
 		//if(aiCalled){
 
 	if(isWhite) {
@@ -467,26 +467,26 @@ function bishopCanMove(k, l, isWhite, moveTable) {
 	var goFurther = [true, true, true, true]
 	for(var moveCount = 1; moveCount < 8; moveCount++) {
 		if(goFurther[0]) {
-			pushAid(k + moveCount, l + moveCount, 0, 0, moveTable)
-			if(pushAid(k + moveCount, l + moveCount, 0, c, moveTable, true, 2) || whatsThere(k + moveCount, l + moveCount, moveTable)[0] == nc) {
+			pushAid(canMoveTo, k + moveCount, l + moveCount, 0, 0, moveTable)
+			if(pushAid(canMoveTo, k + moveCount, l + moveCount, 0, c, moveTable, true, 2) || whatsThere(k + moveCount, l + moveCount, moveTable)[0] == nc) {
 				goFurther[0] = false
 			}
 		}
 		if(goFurther[1]) {
-			pushAid(k - moveCount, l + moveCount, 0, 0, moveTable)
-			if(pushAid(k - moveCount, l + moveCount, 0, c, moveTable, true, 2) || whatsThere(k - moveCount, l + moveCount, moveTable)[0] == nc) {
+			pushAid(canMoveTo, k - moveCount, l + moveCount, 0, 0, moveTable)
+			if(pushAid(canMoveTo, k - moveCount, l + moveCount, 0, c, moveTable, true, 2) || whatsThere(k - moveCount, l + moveCount, moveTable)[0] == nc) {
 				goFurther[1] = false
 			}
 		}
 		if(goFurther[2]) {
-			pushAid(k + moveCount, l - moveCount, 0, 0, moveTable)
-			if(pushAid(k + moveCount, l - moveCount, 0, c, moveTable, true, 2) || whatsThere(k + moveCount, l - moveCount, moveTable)[0] == nc) {
+			pushAid(canMoveTo, k + moveCount, l - moveCount, 0, 0, moveTable)
+			if(pushAid(canMoveTo, k + moveCount, l - moveCount, 0, c, moveTable, true, 2) || whatsThere(k + moveCount, l - moveCount, moveTable)[0] == nc) {
 				goFurther[2] = false
 			}
 		}
 		if(goFurther[3]) {
-			pushAid(k - moveCount, l - moveCount, 0, 0, moveTable)
-			if(pushAid(k - moveCount, l - moveCount, 0, c, moveTable, true, 2) || whatsThere(k - moveCount, l - moveCount, moveTable)[0] == nc) {
+			pushAid(canMoveTo, k - moveCount, l - moveCount, 0, 0, moveTable)
+			if(pushAid(canMoveTo, k - moveCount, l - moveCount, 0, c, moveTable, true, 2) || whatsThere(k - moveCount, l - moveCount, moveTable)[0] == nc) {
 				goFurther[3] = false
 			}
 		}
@@ -495,7 +495,7 @@ function bishopCanMove(k, l, isWhite, moveTable) {
 }
 
 function queenCanMove(k, l, isWhite, moveTable) {
-	canMoveTo = []
+	var canMoveTo = []
 
 	if(isWhite) {
 		var c = 1
@@ -508,51 +508,51 @@ function queenCanMove(k, l, isWhite, moveTable) {
 	var goFurther = [true, true, true, true, true, true, true, true]
 	for(var moveCount = 1; moveCount < 8; moveCount++) {
 		if(goFurther[0]) {
-			pushAid(k + moveCount, l + moveCount, 0, 0, moveTable)
-			if(pushAid(k + moveCount, l + moveCount, 0, c, moveTable, true, 5) || whatsThere(k + moveCount, l + moveCount, moveTable)[0] == nc) {
+			pushAid(canMoveTo, k + moveCount, l + moveCount, 0, 0, moveTable)
+			if(pushAid(canMoveTo, k + moveCount, l + moveCount, 0, c, moveTable, true, 5) || whatsThere(k + moveCount, l + moveCount, moveTable)[0] == nc) {
 				goFurther[0] = false
 			}
 		}
 		if(goFurther[1]) {
-			pushAid(k - moveCount, l + moveCount, 0, 0, moveTable)
-			if(pushAid(k - moveCount, l + moveCount, 0, c, moveTable, true, 5) || whatsThere(k - moveCount, l + moveCount, moveTable)[0] == nc) {
+			pushAid(canMoveTo, k - moveCount, l + moveCount, 0, 0, moveTable)
+			if(pushAid(canMoveTo, k - moveCount, l + moveCount, 0, c, moveTable, true, 5) || whatsThere(k - moveCount, l + moveCount, moveTable)[0] == nc) {
 				goFurther[1] = false
 			}
 		}
 		if(goFurther[2]) {
-			pushAid(k + moveCount, l - moveCount, 0, 0, moveTable)
-			if(pushAid(k + moveCount, l - moveCount, 0, c, moveTable, true, 5) || whatsThere(k + moveCount, l - moveCount, moveTable)[0] == nc) {
+			pushAid(canMoveTo, k + moveCount, l - moveCount, 0, 0, moveTable)
+			if(pushAid(canMoveTo, k + moveCount, l - moveCount, 0, c, moveTable, true, 5) || whatsThere(k + moveCount, l - moveCount, moveTable)[0] == nc) {
 				goFurther[2] = false
 			}
 		}
 		if(goFurther[3]) {
-			pushAid(k - moveCount, l - moveCount, 0, 0, moveTable)
-			if(pushAid(k - moveCount, l - moveCount, 0, c, moveTable, true, 5) || whatsThere(k - moveCount, l - moveCount, moveTable)[0] == nc) {
+			pushAid(canMoveTo, k - moveCount, l - moveCount, 0, 0, moveTable)
+			if(pushAid(canMoveTo, k - moveCount, l - moveCount, 0, c, moveTable, true, 5) || whatsThere(k - moveCount, l - moveCount, moveTable)[0] == nc) {
 				goFurther[3] = false
 			}
 		}
 
 		if(goFurther[4]) {
-			pushAid(k + moveCount, l, 0, 0, moveTable)
-			if(pushAid(k + moveCount, l, 0, c, moveTable, true, 5) || whatsThere(k + moveCount, l, moveTable)[0] == nc) {
+			pushAid(canMoveTo, k + moveCount, l, 0, 0, moveTable)
+			if(pushAid(canMoveTo, k + moveCount, l, 0, c, moveTable, true, 5) || whatsThere(k + moveCount, l, moveTable)[0] == nc) {
 				goFurther[4] = false
 			}
 		}
 		if(goFurther[5]) {
-			pushAid(k - moveCount, l, 0, 0, moveTable)
-			if(pushAid(k - moveCount, l, 0, c, moveTable, true, 5) || whatsThere(k - moveCount, l, moveTable)[0] == nc) {
+			pushAid(canMoveTo, k - moveCount, l, 0, 0, moveTable)
+			if(pushAid(canMoveTo, k - moveCount, l, 0, c, moveTable, true, 5) || whatsThere(k - moveCount, l, moveTable)[0] == nc) {
 				goFurther[5] = false
 			}
 		}
 		if(goFurther[6]) {
-			pushAid(k, l + moveCount, 0, 0, moveTable)
-			if(pushAid(k, l + moveCount, 0, c, moveTable, true, 5) || whatsThere(k, l + moveCount, moveTable)[0] == nc) {
+			pushAid(canMoveTo, k, l + moveCount, 0, 0, moveTable)
+			if(pushAid(canMoveTo, k, l + moveCount, 0, c, moveTable, true, 5) || whatsThere(k, l + moveCount, moveTable)[0] == nc) {
 				goFurther[6] = false
 			}
 		}
 		if(goFurther[7]) {
-			pushAid(k, l - moveCount, 0, 0, moveTable)
-			if(pushAid(k, l - moveCount, 0, c, moveTable, true, 5) || whatsThere(k, l - moveCount, moveTable)[0] == nc) {
+			pushAid(canMoveTo, k, l - moveCount, 0, 0, moveTable)
+			if(pushAid(canMoveTo, k, l - moveCount, 0, c, moveTable, true, 5) || whatsThere(k, l - moveCount, moveTable)[0] == nc) {
 				goFurther[7] = false
 			}
 		}
@@ -562,7 +562,7 @@ function queenCanMove(k, l, isWhite, moveTable) {
 
 function kingCanMove(k, l, isWhite, moveTable) {
 
-	canMoveTo = []
+	var canMoveTo = []
 
 	if(isWhite) {
 		var c = 1
@@ -573,23 +573,23 @@ function kingCanMove(k, l, isWhite, moveTable) {
 	}
 
 	moveCount = 1
-	pushAid(k + moveCount, l + moveCount, 0, 0, moveTable)
-	pushAid(k - moveCount, l + moveCount, 0, 0, moveTable)
-	pushAid(k + moveCount, l - moveCount, 0, 0, moveTable)
-	pushAid(k - moveCount, l - moveCount, 0, 0, moveTable)
-	pushAid(k + moveCount, l, 0, 0, moveTable)
-	pushAid(k - moveCount, l, 0, 0, moveTable)
-	pushAid(k, l + moveCount, 0, 0, moveTable)
-	pushAid(k, l - moveCount, 0, 0, moveTable)
+	pushAid(canMoveTo, k + moveCount, l + moveCount, 0, 0, moveTable)
+	pushAid(canMoveTo, k - moveCount, l + moveCount, 0, 0, moveTable)
+	pushAid(canMoveTo, k + moveCount, l - moveCount, 0, 0, moveTable)
+	pushAid(canMoveTo, k - moveCount, l - moveCount, 0, 0, moveTable)
+	pushAid(canMoveTo, k + moveCount, l, 0, 0, moveTable)
+	pushAid(canMoveTo, k - moveCount, l, 0, 0, moveTable)
+	pushAid(canMoveTo, k, l + moveCount, 0, 0, moveTable)
+	pushAid(canMoveTo, k, l - moveCount, 0, 0, moveTable)
 
-	pushAid(k + moveCount, l + moveCount, 0, c, moveTable, true, 9)
-	pushAid(k - moveCount, l + moveCount, 0, c, moveTable, true, 9)
-	pushAid(k + moveCount, l - moveCount, 0, c, moveTable, true, 9)
-	pushAid(k - moveCount, l - moveCount, 0, c, moveTable, true, 9)
-	pushAid(k + moveCount, l, 0, c, moveTable, true, 9)
-	pushAid(k - moveCount, l, 0, c, moveTable, true, 9)
-	pushAid(k, l + moveCount, 0, c, moveTable, true, 9)
-	pushAid(k, l - moveCount, 0, c, moveTable, true, 9)
+	pushAid(canMoveTo, k + moveCount, l + moveCount, 0, c, moveTable, true, 9)
+	pushAid(canMoveTo, k - moveCount, l + moveCount, 0, c, moveTable, true, 9)
+	pushAid(canMoveTo, k + moveCount, l - moveCount, 0, c, moveTable, true, 9)
+	pushAid(canMoveTo, k - moveCount, l - moveCount, 0, c, moveTable, true, 9)
+	pushAid(canMoveTo, k + moveCount, l, 0, c, moveTable, true, 9)
+	pushAid(canMoveTo, k - moveCount, l, 0, c, moveTable, true, 9)
+	pushAid(canMoveTo, k, l + moveCount, 0, c, moveTable, true, 9)
+	pushAid(canMoveTo, k, l - moveCount, 0, c, moveTable, true, 9)
 
 	//sanc
 	if(moveTable[k][l][3]) { //if the king hasnt moved yet, 
@@ -599,11 +599,11 @@ function kingCanMove(k, l, isWhite, moveTable) {
 		if(moveTable[0][l][3] && // unmoved rook on [0][l]
 			whatsThere(1, l, moveTable)[0] == 0 && whatsThere(2, l, moveTable)[0] == 0 && whatsThere(3, l, moveTable)[0] == 0) { //empty between
 
-			pushAid(2, l, 0, 0, moveTable) //mark that cell if empty
+			pushAid(canMoveTo, 2, l, 0, 0, moveTable) //mark that cell if empty
 
 		}
 		if(moveTable[7][l][3] && whatsThere(5, l, moveTable)[0] == 0 && whatsThere(6, l, moveTable)[0] == 0) { // unmoved rook on [7][l] && empty between
-			pushAid(6, l, 0, 0, moveTable) //mark that cell if empty
+			pushAid(canMoveTo, 6, l, 0, 0, moveTable) //mark that cell if empty
 
 		}
 
@@ -614,16 +614,16 @@ function kingCanMove(k, l, isWhite, moveTable) {
 
 function horseCanMove(k, l, isWhite, moveTable) {
 
-	canMoveTo = []
-	pushAid(k + 1, l + 2, 0, 0, moveTable)
-	pushAid(k + 1, l - 2, 0, 0, moveTable)
-	pushAid(k - 1, l + 2, 0, 0, moveTable)
-	pushAid(k - 1, l - 2, 0, 0, moveTable)
+	var canMoveTo = []
+	pushAid(canMoveTo, k + 1, l + 2, 0, 0, moveTable)
+	pushAid(canMoveTo, k + 1, l - 2, 0, 0, moveTable)
+	pushAid(canMoveTo, k - 1, l + 2, 0, 0, moveTable)
+	pushAid(canMoveTo, k - 1, l - 2, 0, 0, moveTable)
 
-	pushAid(k + 2, l + 1, 0, 0, moveTable)
-	pushAid(k + 2, l - 1, 0, 0, moveTable)
-	pushAid(k - 2, l + 1, 0, 0, moveTable)
-	pushAid(k - 2, l - 1, 0, 0, moveTable)
+	pushAid(canMoveTo, k + 2, l + 1, 0, 0, moveTable)
+	pushAid(canMoveTo, k + 2, l - 1, 0, 0, moveTable)
+	pushAid(canMoveTo, k - 2, l + 1, 0, 0, moveTable)
+	pushAid(canMoveTo, k - 2, l - 1, 0, 0, moveTable)
 
 	if(isWhite) {
 		var c = 1
@@ -633,15 +633,15 @@ function horseCanMove(k, l, isWhite, moveTable) {
 		var nc = 1
 	}
 
-	pushAid(k + 1, l + 2, 0, c, moveTable, true, 3)
-	pushAid(k + 1, l - 2, 0, c, moveTable, true, 3)
-	pushAid(k - 1, l + 2, 0, c, moveTable, true, 3)
-	pushAid(k - 1, l - 2, 0, c, moveTable, true, 3)
+	pushAid(canMoveTo, k + 1, l + 2, 0, c, moveTable, true, 3)
+	pushAid(canMoveTo, k + 1, l - 2, 0, c, moveTable, true, 3)
+	pushAid(canMoveTo, k - 1, l + 2, 0, c, moveTable, true, 3)
+	pushAid(canMoveTo, k - 1, l - 2, 0, c, moveTable, true, 3)
 
-	pushAid(k + 2, l + 1, 0, c, moveTable, true, 3)
-	pushAid(k + 2, l - 1, 0, c, moveTable, true, 3)
-	pushAid(k - 2, l + 1, 0, c, moveTable, true, 3)
-	pushAid(k - 2, l - 1, 0, c, moveTable, true, 3)
+	pushAid(canMoveTo, k + 2, l + 1, 0, c, moveTable, true, 3)
+	pushAid(canMoveTo, k + 2, l - 1, 0, c, moveTable, true, 3)
+	pushAid(canMoveTo, k - 2, l + 1, 0, c, moveTable, true, 3)
+	pushAid(canMoveTo, k - 2, l - 1, 0, c, moveTable, true, 3)
 
 	return canMoveTo
 
