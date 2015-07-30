@@ -5,7 +5,7 @@ var fadeConst = 1
 var level = 1
 var whatHitsConst = 1
 var hitValueConst = 0.5
-var t1const = 1
+//var t1const = 1
 var t2const = 0.0025
 var dontHitConst = 0.8
 var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
@@ -856,7 +856,7 @@ function createAiTable(cfTable, cfColor) {
 
 		})
 
-		tTableValue *= t1const
+		//tTableValue *= t1const
 		tTable2Value *= t2const
 
 		var wtf = [parseInt((tTableValue + tTable2Value) * 100), parseInt(tTableValue * 100), parseInt(tTable2Value * 100)]
