@@ -86,7 +86,7 @@ app.get('/test', function(req, res) {
 	var toConsole = [] //to chat?
 	var avgSpeed=0
 	
-	for (var i=0; i<result.length; i++){
+	for (var i=1; i<result.length; i++){
 		avgSpeed += result[i][0][2]
 	}
 	
