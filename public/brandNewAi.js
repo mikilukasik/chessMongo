@@ -353,7 +353,7 @@ function pushAid(x, y, hanyadik, milegyen, fromTable, someboolean, whatHits) {
 function pawnCanMove(k, l, isWhite, moveTable) {
 	canMoveTo = []
 		//var hitIt=false
-	if((isWhite && moveTable[k][l][0] == 2) || (!isWhite && moveTable[k][l][0] == 1)) {
+	if((!isWhite && moveTable[k][l][0] == 1) || (isWhite && moveTable[k][l][0] == 2)) {
 		var c = 2
 		var nc = 1
 	} else {
@@ -716,7 +716,7 @@ function moveIt(moveString, intable, dontProtect) {
 		thistable[i] = new Array(8)
 		for(var j = 0; j < 8; j++) {
 			
-				thistable[i][j] = intable[i][j].slice(0,5)
+				thistable[i][j] = intable[i][j].slice(0,2)
 			
 		}
 	}
