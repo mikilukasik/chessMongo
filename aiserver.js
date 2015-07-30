@@ -74,11 +74,12 @@ app.get('/test', function(req, res) {
 	if(!isNaN(req.query.d)) testDepth = req.query.d	//or set
 
 	var testTable = new Dbtable(0, "wtest", "btest")
-	testTable.wNext = false
+	//testTable.wNext = false
+	testTable=moveIt("e2e4",testTable)
 
 	for(var i = 0; i < testDepth; i++) {
 
-		result[i] = ai(testTable, tableFromDb.wNext) //		ai	<------------
+		result[i] = ai(testTable, false) //		ai	<------------
 
 	}
 
