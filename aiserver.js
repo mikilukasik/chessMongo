@@ -86,7 +86,7 @@ app.get('/test', function(req, res) {
 	var toConsole = [] //to chat?
 	var avgSpeed=0
 	
-	for (var i=1; i<result.length; i++){
+	for (var i=1; i<result.length+1; i++){
 		avgSpeed += result[i][0][2]
 	}
 	
@@ -94,7 +94,7 @@ app.get('/test', function(req, res) {
 	
 	toConsole[0] = 'Average: '+avgSpeed+' ms.  Move: ' + result[0][1][0] // the winning movestring
 
-	for(var i = 0; i < result.length - 1; i++) {
+	for(var i = 0; i < result.length; i++) {
 
 		toConsole[i + 1] = (i + 1) + ': ' + result[i][0][2] + ' ms' 
 
