@@ -809,7 +809,14 @@ function createAiTable(cfTable, cfColor) {
 
 	
 	var cfMoves = moveArrayToStrings(getAllMoves(getTableData(cfTable, cfColor), cfTable, cfColor), cfTable, cfColor)
+	
+	for(var i = cfMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
+		if(captured(moveIt(coordsToMoveString(k, l, cfMoves[i][0], cfMoves[i][1]), cfTable), cfColor)) { //sakkba lepnenk
+			cfMoves.splice(i, 1)
 
+		}
+	}
+	
 	var tempTable = new Array(8)
 
 	var opponentsOrigValue = getBestHit(cfTable, !cfColor)
