@@ -95,7 +95,7 @@ app.get('/speedTest', function(req, res) {
 
 	for(var i = 0; i < result.length - 1; i++) {
 
-		toConsole[i + 1] = (i + 1) + ': ' + result[i][0][2] + ' ms' +
+		toConsole[i + 1] = (i + 1) + ': ' + result[i][0][2] + ' ms' 
 
 	}
 
