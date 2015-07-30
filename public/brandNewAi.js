@@ -718,7 +718,7 @@ function moveIt(moveString, intable, dontProtect) {
 		thistable[i] = new Array(8)
 		for(var j = 0; j < 8; j++) {
 			
-				thistable[i][j] = intable[i][j].slice(0,2)
+				thistable[i][j] = intable[i][j].slice(0,4)
 			
 		}
 	}
