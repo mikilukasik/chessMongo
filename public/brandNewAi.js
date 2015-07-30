@@ -1,6 +1,6 @@
 var bestHit = 0
 
-var escConst = 1.3
+var escConst = 1
 var fadeConst = 1
 var level = 1
 var whatHitsConst = 1
