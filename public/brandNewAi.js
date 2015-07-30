@@ -683,7 +683,7 @@ function getBestHit(tableToValidate, wNx, returnMoves) {
 	bestHit = 0
 
 	var myMoves =
-		getAllMoves(getTableData(tableToValidate, wNx), tableToValidate, wNx)
+		getAllMoves(getTableData(tableToValidate, wNx), tableToValidate, wNx, true, true)
 
 	var mybest = bestHit
 	bestHit = 0
@@ -828,7 +828,7 @@ function createAiTable(cfTable, cfColor) {
 
 		// one deeper
 
-		var cf2Moves = moveArrayToStrings(getAllMoves(getTableData(tempTable, cfColor), tempTable, cfColor, false, true), tempTable, cfColor)
+		var cf2Moves = moveArrayToStrings(getAllMoves(getTableData(tempTable, cfColor), tempTable, cfColor), tempTable, cfColor)
 			//console.log(cf2Moves)
 		var tempTable2 = new Array(8)
 		var tTable2Value = 0
