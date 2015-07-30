@@ -1,4 +1,4 @@
-var bestHit = 0
+var hitSum = 0
 
 var escConst = 1
 var fadeConst = 1
@@ -76,9 +76,9 @@ function protectPieces(originalTable, whitePlayer) {
 
 	//var flippedMoves=
 	var myCol = 1;
-	if(whitePlayer) myCol=2 //myCol is 2 when white
+	if(whitePlayer) myCol = 2 //myCol is 2 when white
 
-		getAllMoves(getTableData(originalTable, whitePlayer), originalTable, whitePlayer, true). //moves include to hit my own 
+	getAllMoves(getTableData(originalTable, whitePlayer), originalTable, whitePlayer, true). //moves include to hit my own 
 		//true stands for letMeHitMyOwn
 
 	forEach(function(thisMoveCoords) {
@@ -240,7 +240,7 @@ function canMove(k, l, isWhite, moveTable, speedy, dontProt) {
 
 			var removeKmin2 = true //alapbol leszedne
 			var removeKplus2 = true
-				
+
 			for(var i = possibleMoves.length - 1; i >= 0; i--) { //
 				if(possibleMoves[i][1] == l && possibleMoves[i][0] == k - 1) removeKmin2 = false //de ha van koztes lepes, ne szedd le
 				if(possibleMoves[i][1] == l && possibleMoves[i][0] == k + 1) removeKplus2 = false
@@ -267,38 +267,40 @@ function coordsToMoveString(a, b, c, d) {
 
 	return dletters[a] + (b + 1) + dletters[c] + (d + 1)
 }
-function noc(colr){
-	if (colr=1){
+
+function noc(colr) {
+	if(colr = 1) {
 		return 2
-	}else{
+	} else {
 		return 1
 	}
 }
+
 function getTableData(origTable, isWhite) {
 	//var returnArray = [] // elso elem will be az osszes babu ertekenek osszge, aztan az osszes babu koordinataja
 	var tableValue = 0
 	var myTempPieces = []
-	
+
 	var origColor = 1
 	if(isWhite) origColor = 2
-	
-	for(var lookI = 0; lookI < 8; lookI++) {			//
-		for(var lookJ = 0; lookJ < 8; lookJ++) {		//look through the table
-			
-			if(origTable[lookI][lookJ][0] == origColor) {//ha sajat babum
-				
-				myTempPieces.push([lookI, lookJ, origTable[lookI][lookJ][1]])//itt kene szamitott erteket is adni a babuknak 
-				tableValue += origTable[lookI][lookJ][1]					//es sum
-			
-			} else {//ha ures, vagy ellenfele
-				
-					tableValue -= origTable[lookI][lookJ][1]//szamitott ertekek sum
+
+	for(var lookI = 0; lookI < 8; lookI++) { //
+		for(var lookJ = 0; lookJ < 8; lookJ++) { //look through the table
+
+			if(origTable[lookI][lookJ][0] == origColor) { //ha sajat babum
+
+				myTempPieces.push([lookI, lookJ, origTable[lookI][lookJ][1]]) //itt kene szamitott erteket is adni a babuknak 
+				tableValue += origTable[lookI][lookJ][1] //es sum
+
+			} else { //ha ures, vagy ellenfele
+
+				tableValue -= origTable[lookI][lookJ][1] //szamitott ertekek sum
 
 			}
 		}
 	}
-	
-	return [tableValue,myTempPieces]//returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
+
+	return [tableValue, myTempPieces] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
 
 }
 
@@ -339,10 +341,10 @@ function pushAid(x, y, hanyadik, milegyen, fromTable, someboolean, whatHits) {
 
 		////////////////////////////////
 
-		// if(bestHit < thisHit) {
-			bestHit += thisHit
-				//alert(bestHit)
-		//}
+		// if(hitSum < thisHit) {
+		hitSum += thisHit
+			//alert(hitSum)
+			//}
 
 		return true
 
@@ -648,10 +650,9 @@ function horseCanMove(k, l, isWhite, moveTable) {
 function moveArrayToStrings(moveArray, ftable, fwNext) {
 	var strArray = []
 	moveArray.forEach(function(thisMove) {
-			strArray.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
+		strArray.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
 
-		})
-		
+	})
 
 	return strArray
 
@@ -661,12 +662,12 @@ function getAllMoves(rawTableData, tableToMoveOn, whiteNext, hitItsOwn) {
 
 	var tableData = rawTableData[1]
 	var thisArray = []
-	//thisStrArray = []
+		//thisStrArray = []
 
 	if(hitItsOwn) {
 		whiteNext = !whiteNext
 	}
-	bestHit = 0
+	hitSum = 0
 	for(var pieceNo = 0; pieceNo < tableData.length; pieceNo++) {
 
 		canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn, true, true) //true,true for speedy(sakkba is lep),dontProtect
@@ -680,13 +681,13 @@ function getAllMoves(rawTableData, tableToMoveOn, whiteNext, hitItsOwn) {
 }
 
 function getTableScore(tableToValidate, wNx, returnMoves) {
-	bestHit = 0
+	hitSum = 0
 
 	var myMoves =
 		getAllMoves(getTableData(tableToValidate, wNx), tableToValidate, wNx)
 
-	var mybest = bestHit
-	bestHit = 0
+	var mybest = hitSum
+	hitSum = 0
 
 	if(returnMoves) return myMoves
 	return [mybest]
@@ -711,21 +712,19 @@ function sortAiArray(a, b) {
 function moveIt(moveString, intable, dontProtect) {
 
 	var thistable = []
-	
-	
-	
+
 	for(var i = 0; i < 8; i++) {
 		thistable[i] = new Array(8)
 		for(var j = 0; j < 8; j++) {
-			
-				thistable[i][j] = intable[i][j].slice(0,4)
-			
+
+			thistable[i][j] = intable[i][j].slice(0, 4)
+
 		}
 	}
 
 	//itt indil sanc bastyatolas
 	if(thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][1] == 9 && thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][3]) {
-		
+
 		switch(moveString.substring(2)) {
 			case "c1":
 				thistable = moveIt("a1d1", thistable)
@@ -793,7 +792,7 @@ function moveIt(moveString, intable, dontProtect) {
 
 	thistable[dletters.indexOf(moveString[2])][moveString[3] - 1] =
 		thistable[dletters.indexOf(moveString[0])][moveString[1] - 1]
-	thistable[dletters.indexOf(moveString[0])][moveString[1] - 1] = [0, 0]//, false, false, false]
+	thistable[dletters.indexOf(moveString[0])][moveString[1] - 1] = [0, 0] //, false, false, false]
 	if(!(thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][1] == 1)) {
 		thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][3] = false
 	}
@@ -807,40 +806,41 @@ function moveIt(moveString, intable, dontProtect) {
 
 function createAiTable(cfTable, cfColor) {
 
-	var allTempTables = [[true, 0, new Date().getTime()]] //array heading:true,0,timeStarted for timeItTook
+	var allTempTables = [
+			[true, 0, new Date().getTime()]
+		] //array heading:true,0,timeStarted for timeItTook
 
-	
 	var cfMoves = moveArrayToStrings(getAllMoves(getTableData(cfTable, cfColor), cfTable, cfColor), cfTable, cfColor)
-	
+
 	for(var i = cfMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
-		if(captured(moveIt(cfMoves[i],cfTable), cfColor)) { //sakkba lepnenk
+		if(captured(moveIt(cfMoves[i], cfTable), cfColor)) { //sakkba lepnenk
 			cfMoves.splice(i, 1)
 
 		}
 	}
-	
+
 	var tempTable = new Array(8)
 
-	var opponentsOrigValue = 0//getTableScore(cfTable, !cfColor)
-		
+	var opponentsOrigValue = 0 //trick getTableScore(cfTable, !cfColor)
+
 	i = 0 //??
-		
+
 	cfMoves.forEach(function(stepMove) {
-	
+
 		tempTable = moveIt(stepMove, cfTable)
 
 		var myOrigValue = hitValue
 		hitValue = 0
 
-		tTableValue = myOrigValue - escConst * (getTableScore(tempTable, !cfColor) - opponentsOrigValue) 
+		tTableValue = myOrigValue - escConst * (getTableScore(tempTable, !cfColor) - opponentsOrigValue)
 
 		// one deeper
 
 		var cf2Moves = moveArrayToStrings(getAllMoves(getTableData(tempTable, cfColor), tempTable, cfColor), tempTable, cfColor)
-			
+
 		var tempTable2 = new Array(8)
 		var tTable2Value = 0
-			
+
 		var opponents2OrigValue = getTableScore(tempTable, !cfColor)
 		var myOrigValue = getTableScore(tempTable, cfColor)
 
@@ -875,7 +875,6 @@ function createAiTable(cfTable, cfColor) {
 
 function ai(tablE, wn) {
 
-	
 	return createAiTable(tablE, wn)
 
 }
