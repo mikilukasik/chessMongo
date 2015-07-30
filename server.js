@@ -279,7 +279,7 @@ app.get('/getTable', function(req, res) {
 app.get('/chat', function(req, res) {
 	
 	if(req.query.c=='miki: test'){
-		
+		res.json({})
 	}else{
 	
 		mongodb.connect(cn, function(err, db) {
