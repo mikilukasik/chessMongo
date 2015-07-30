@@ -290,11 +290,11 @@ function getTableData(origTable, isWhite) {
 			if(origTable[lookI][lookJ][0] == origColor) { //ha sajat babum
 
 				myTempPieces.push([lookI, lookJ, origTable[lookI][lookJ][1]]) //itt kene szamitott erteket is adni a babuknak 
-				tableValue += origTable[lookI][lookJ][1] //es sum
+			//	tableValue += origTable[lookI][lookJ][1] //es sum
 
-			} else { //ha ures, vagy ellenfele
+			// } else { //ha ures, vagy ellenfele
 
-				tableValue -= origTable[lookI][lookJ][1] //szamitott ertekek sum
+			// 	tableValue -= origTable[lookI][lookJ][1] //szamitott ertekek sum
 
 			}
 		}
