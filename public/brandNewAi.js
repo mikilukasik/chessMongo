@@ -76,7 +76,7 @@ function protectPieces(originalTable, whitePlayer) {
 
 	//var flippedMoves=
 	var myCol = 1;
-	if(whitePlayer) myCol++ //myCol is 2 when white
+	if(whitePlayer) myCol=2 //myCol is 2 when white
 
 		getAllMoves(getTableData(originalTable, whitePlayer), originalTable, whitePlayer, true). //moves include to hit my own 
 		//true stands for letMeHitMyOwn
