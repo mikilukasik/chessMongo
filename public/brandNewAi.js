@@ -830,7 +830,7 @@ function createAiTable(cfTable, cfColor) {
 		tempTable = moveIt(stepMove, cfTable, hitValue)
 
 		var myOrigValue = hitValue
-		hitValue = 0
+		//hitValue = 0
 
 		tTableValue = myOrigValue - escConst * (getTableScore(tempTable, !cfColor) - opponentsOrigValue)
 
@@ -849,7 +849,7 @@ function createAiTable(cfTable, cfColor) {
 			temp2Table = moveIt(step2Move, tempTable, false, hitValue)
 
 			var myOrig2Value = hitValue
-			hitValue = 0
+			//hitValue = 0
 
 			tTable2Value -= myOrig2Value - ((getTableScore(temp2Table, !cfColor) -
 				opponents2OrigValue) + (getTableScore(temp2Table, cfColor) / 10) / 10)
