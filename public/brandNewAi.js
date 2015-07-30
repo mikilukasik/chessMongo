@@ -710,16 +710,17 @@ function sortAiArray(a, b) {
 
 function moveIt(moveString, intable, dontProtect) {
 
-	var thistable = intable.slice()
+	var thistable = []
 		
-	// for(var i = 0; i < 8; i++) {
-	// 	thistable[i] = new Array(8)
-	// 	for(var j = 0; j < 8; j++) {
+	for(var i = 0; i < 8; i++) {
+		thistable[i] = intable[i].slice()
+		// new Array(8)
+		// for(var j = 0; j < 8; j++) {
 			
-	// 			thistable[i][j] = intable[i][j].slice(0,2)
+		// 		thistable[i][j] = intable[i][j].slice(0,2)
 			
-	// 	}
-	// }
+		// }
+	}
 
 	//itt indil sanc bastyatolas
 	if(thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][1] == 9 && thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][3]) {
