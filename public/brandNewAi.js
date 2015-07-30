@@ -856,7 +856,6 @@ function createAiTable(cfTable, cfColor) {
 
 		})
 
-		//tTableValue *= t1const
 		tTable2Value *= t2const
 
 		var wtf = [parseInt((tTableValue + tTable2Value) * 100), parseInt(tTableValue * 100), parseInt(tTable2Value * 100)]
