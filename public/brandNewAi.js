@@ -657,7 +657,7 @@ function moveArrayToStrings(moveArray, ftable, fwNext) {
 
 }
 
-function getAllMoves(rawTableData, tableToMoveOn, whiteNext, hitItsOwn, leaveSakk) {
+function getAllMoves(rawTableData, tableToMoveOn, whiteNext, hitItsOwn) {
 
 	var tableData = rawTableData[1]
 	thisArray = []
@@ -669,7 +669,7 @@ function getAllMoves(rawTableData, tableToMoveOn, whiteNext, hitItsOwn, leaveSak
 	bestHit = 0
 	for(var pieceNo = 0; pieceNo < tableData.length; pieceNo++) {
 
-		canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn, true, true, leaveSakk) //true,true for speedy(sakkba is lep),dontProtect
+		canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn, true, true) //true,true for speedy(sakkba is lep),dontProtect
 			.forEach(function(stepItem) {
 				thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
 			})
@@ -683,7 +683,7 @@ function getBestHit(tableToValidate, wNx, returnMoves) {
 	bestHit = 0
 
 	var myMoves =
-		getAllMoves(getTableData(tableToValidate, wNx), tableToValidate, wNx, true, true)
+		getAllMoves(getTableData(tableToValidate, wNx), tableToValidate, wNx)
 
 	var mybest = bestHit
 	bestHit = 0
