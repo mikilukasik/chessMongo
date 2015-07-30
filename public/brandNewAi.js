@@ -78,7 +78,7 @@ function protectPieces(originalTable, whitePlayer) {
 	var myCol = 1;
 	if(whitePlayer) myCol = 2 //myCol is 2 when white
 
-	getAllMoves(getTableData(originalTable, whitePlayer), originalTable, whitePlayer, true). //moves include to hit my own 
+	getAllMoves(originalTable, whitePlayer, true). //moves include to hit my own 
 		//true stands for letMeHitMyOwn
 
 	forEach(function(thisMoveCoords) {
@@ -658,9 +658,9 @@ function moveArrayToStrings(moveArray, ftable, fwNext) {
 
 }
 
-function getAllMoves(rawTableData, tableToMoveOn, whiteNext, hitItsOwn) {
+function getAllMoves(tableToMoveOn, whiteNext, hitItsOwn) {
 
-	var tableData = rawTableData[1]
+	var tableData = getTableData(tableToMoveOn,whiteNext)[1]
 	var thisArray = []
 		//thisStrArray = []
 
@@ -684,7 +684,7 @@ function getTableScore(tableToValidate, wNx, returnMoves) {
 	hitSum = 0
 
 	var myMoves =
-		getAllMoves(getTableData(tableToValidate, wNx), tableToValidate, wNx)
+		getAllMoves(tableToValidate, wNx)
 
 	var mybest = hitSum
 	hitSum = 0
@@ -810,7 +810,7 @@ function createAiTable(cfTable, cfColor) {
 			[true, 0, new Date().getTime()]			 //array heading:true,0,timeStarted for timeItTook
 		]
 
-	var cfMoves = moveArrayToStrings(getAllMoves(getTableData(cfTable, cfColor), cfTable, cfColor), cfTable, cfColor)
+	var cfMoves = moveArrayToStrings(getAllMoves(cfTable, cfColor), cfTable, cfColor)
 
 	for(var i = cfMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
 		if(captured(moveIt(cfMoves[i], cfTable), cfColor)) { //sakkba lepnenk
@@ -836,7 +836,7 @@ function createAiTable(cfTable, cfColor) {
 
 		// one deeper
 
-		var cf2Moves = moveArrayToStrings(getAllMoves(getTableData(tempTable, cfColor), tempTable, cfColor), tempTable, cfColor)
+		var cf2Moves = moveArrayToStrings(getAllMoves(tempTable, cfColor), tempTable, cfColor)
 
 		var tempTable2 = new Array(8)
 		var tTable2Value = 0
