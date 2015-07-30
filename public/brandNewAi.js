@@ -305,7 +305,7 @@ function getTableData(origTable, isWhite) {
 				if(!(origTable[lookI][lookJ][0] == 0)) { //ha ellenfele
 					
 					hisTempPieces.push([lookI, lookJ, origTable[lookI][lookJ][1]]) //itt kene szamitott erteket is adni a babuknak 
-					allHisMoves.push(canMove(lookI,lookJ,isWhite,origTable,true,true,rtnHisHitSum))
+					allHisMoves.push(canMove(lookI,lookJ,!isWhite,origTable,true,true,rtnHisHitSum))
 
 					
 					
