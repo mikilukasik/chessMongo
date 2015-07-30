@@ -318,7 +318,7 @@ function whatsThere(i, j, aiTable) {
 function pushAid(hitSummmm, canMoveTo, x, y, hanyadik, milegyen, fromTable, someboolean, whatHits) {
 
 	if(whatsThere(x, y, fromTable)[hanyadik] == milegyen) {
-
+		
 		canMoveTo.push([x, y, whatsThere(x, y, fromTable)[1]])
 
 		//////////////////////////
@@ -340,11 +340,12 @@ function pushAid(hitSummmm, canMoveTo, x, y, hanyadik, milegyen, fromTable, some
 		}
 
 		////////////////////////////////
-
 		// if(hitSum < thisHit) {
-		hitSummmm[0] += thisHit
-			alert(thisHit)
-			alert(hitSummmm)
+		if(!NaN(hitSummmm[0])){
+			hitSummmm[0] += thisHit
+		}
+			// alert(thisHit)
+			// alert(hitSummmm)
 			
 			//}
 
