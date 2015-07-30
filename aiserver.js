@@ -109,14 +109,7 @@ app.get('/speedTest', function(req, res) {
 
 });
 
-var server = app.listen(16789, function() {
 
-	var host = server.address().address;
-	var port = server.address().port;
-
-	console.log('aiserver is listening at http://%s:%s', host, port);
-
-});
 
 var server = app.listen(16789, function() {
 
