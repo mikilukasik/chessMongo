@@ -341,7 +341,7 @@ function pushAid(hitSummmm, canMoveTo, x, y, hanyadik, milegyen, fromTable, some
 
 		////////////////////////////////
 		// if(hitSum < thisHit) {
-		if(!NaN(hitSummmm[0])){
+		if(!isNaN(hitSummmm[0])){
 			hitSummmm[0] += thisHit
 		}
 			// alert(thisHit)
