@@ -811,7 +811,7 @@ function createAiTable(cfTable, cfColor) {
 	var cfMoves = moveArrayToStrings(getAllMoves(getTableData(cfTable, cfColor), cfTable, cfColor), cfTable, cfColor)
 	
 	for(var i = cfMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
-		if(captured(moveIt(coordsToMoveString(k, l, cfMoves[i][0], cfMoves[i][1]), cfTable), cfColor)) { //sakkba lepnenk
+		if(captured(moveIt(cfMoves[i],cfTable), cfColor)) { //sakkba lepnenk
 			cfMoves.splice(i, 1)
 
 		}
