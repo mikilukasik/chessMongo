@@ -310,13 +310,16 @@ function getTableData(origTable, isWhite) {
 					
 					
 					
+				}else{
+					//senkie...
 				}
+				
 				
 			}
 		}
 	}
 
-	return [tableValue, myTempPieces,hisTempPieces] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
+	return [tableValue,myTempPieces,hisTempPieces,allMyMoves,allHisMoves] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
 
 }
 
