@@ -713,13 +713,12 @@ function moveIt(moveString, intable, dontProtect) {
 	var thistable = []
 		
 	for(var i = 0; i < 8; i++) {
-		thistable[i] = intable[i].slice()
-		// new Array(8)
-		// for(var j = 0; j < 8; j++) {
+		thistable[i] = new Array(8)
+		for(var j = 0; j < 8; j++) {
 			
-		// 		thistable[i][j] = intable[i][j].slice(0,2)
+				thistable[i][j] = intable[i][j].slice(0,2)
 			
-		// }
+		}
 	}
 
 	//itt indil sanc bastyatolas
