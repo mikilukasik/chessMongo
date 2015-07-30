@@ -281,6 +281,13 @@ function getTableData(origTable, isWhite) {
 	var tableValue = 0
 	var myTempPieces = []
 	var hisTempPieces = []
+	
+	var allMyMoves=[]
+	var allHisMoves=[]
+	
+	//var rtnMyBestHit=[0]
+	var rtnMyHitSum=[0]
+	var rtnHisHitSum=[0]
 
 	var origColor = 1
 	if(isWhite) origColor = 2
@@ -291,14 +298,15 @@ function getTableData(origTable, isWhite) {
 			if(origTable[lookI][lookJ][0] == origColor) { //ha sajat babum
 
 				myTempPieces.push([lookI, lookJ, origTable[lookI][lookJ][1]]) //itt kene szamitott erteket is adni a babuknak 
-			
+				allMyMoves.push(canMove(lookI,lookJ,isWhite,origTable,true,true,rtnMyHitSum))
 
 			}else{
 				
 				if(!(origTable[lookI][lookJ][0] == 0)) { //ha ellenfele
 					
 					hisTempPieces.push([lookI, lookJ, origTable[lookI][lookJ][1]]) //itt kene szamitott erteket is adni a babuknak 
-			
+					allHisMoves.push(canMove(lookI,lookJ,isWhite,origTable,true,true,rtnHisHitSum))
+
 					
 					
 					
