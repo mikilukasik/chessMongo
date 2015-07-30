@@ -182,7 +182,7 @@ function captured(table, color) {
 	return false
 }
 
-function canMove(k, l, isWhite, moveTable, speedy, dontProt) {
+function canMove(k, l, isWhite, moveTable, speedy, dontProt,leaveCaptMoves) {
 
 	var what = moveTable[k][l][1]
 	var possibleMoves = []
@@ -218,12 +218,12 @@ function canMove(k, l, isWhite, moveTable, speedy, dontProt) {
 	}
 
 	
-	for(var i = possibleMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
+	if(!leaveCaptMoves){for(var i = possibleMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
 		if(captured(moveIt(coordsToMoveString(k, l, possibleMoves[i][0], possibleMoves[i][1]), moveTable, dontProt), isWhite)) { //sakkba lepnenk
 			possibleMoves.splice(i, 1)
 
 		}
-	}
+	}}
 	if(!speedy) {
 		if(what == 9 && moveTable[k][l][3]) { //lesznek sanc lepesek is a possibleMoves tombben: kiraly nem mozdult meg
 
@@ -657,7 +657,7 @@ function moveArrayToStrings(moveArray, ftable, fwNext) {
 
 }
 
-function getAllMoves(rawTableData, tableToMoveOn, whiteNext, hitItsOwn) {
+function getAllMoves(rawTableData, tableToMoveOn, whiteNext, hitItsOwn, leaveSakk) {
 
 	var tableData = rawTableData[1]
 	thisArray = []
@@ -669,7 +669,7 @@ function getAllMoves(rawTableData, tableToMoveOn, whiteNext, hitItsOwn) {
 	bestHit = 0
 	for(var pieceNo = 0; pieceNo < tableData.length; pieceNo++) {
 
-		canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn, true, true) //true,true for speedy(sakkba is lep),dontProtect
+		canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn, true, true, leaveSakk) //true,true for speedy(sakkba is lep),dontProtect
 			.forEach(function(stepItem) {
 				thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
 			})
