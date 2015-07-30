@@ -276,14 +276,14 @@ function noc(colr) {
 	}
 }
 
-function getTableData(origTable, isWhite) {
+function getTableData(origTable, isWhite, rtnSimpleValue) {
 	//var returnArray = [] // elso elem will be az osszes babu ertekenek osszge, aztan az osszes babu koordinataja
 	var tableValue = 0
 	var myTempPieces = []
 	var hisTempPieces = []
 	
-	var allMyMoves=[]
-	var allHisMoves=[]
+	// var allMyMoves=[]
+	// var allHisMoves=[]
 	
 	//var rtnMyBestHit=[0]
 	var rtnMyHitSum=[0]
@@ -298,14 +298,18 @@ function getTableData(origTable, isWhite) {
 			if(origTable[lookI][lookJ][0] == origColor) { //ha sajat babum
 
 				myTempPieces.push([lookI, lookJ, origTable[lookI][lookJ][1]]) //itt kene szamitott erteket is adni a babuknak 
-				allMyMoves.push(canMove(lookI,lookJ,isWhite,origTable,true,true,rtnMyHitSum))
+				//allMyMoves.push(
+				canMove(lookI,lookJ,isWhite,origTable,true,true,rtnMyHitSum)
+				//)
 
 			}else{
 				
 				if(!(origTable[lookI][lookJ][0] == 0)) { //ha ellenfele
 					
 					hisTempPieces.push([lookI, lookJ, origTable[lookI][lookJ][1]]) //itt kene szamitott erteket is adni a babuknak 
-					allHisMoves.push(canMove(lookI,lookJ,!isWhite,origTable,true,true,rtnHisHitSum))
+					//allHisMoves.push(
+					canMove(lookI,lookJ,!isWhite,origTable,true,true,rtnHisHitSum)
+					//)
 
 					
 					
@@ -318,8 +322,10 @@ function getTableData(origTable, isWhite) {
 			}
 		}
 	}
-
-	return [0,myTempPieces,hisTempPieces,allMyMoves,allHisMoves,rtnMyHitSum,rtnHisHitSum] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
+	if (rtnSimpleValue) {
+		return rtnMyHitSum-rtnHisHitSum
+	}
+	return [0,myTempPieces,hisTempPieces,rtnMyHitSum,rtnHisHitSum] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
 
 }
 
