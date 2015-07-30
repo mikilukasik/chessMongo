@@ -660,8 +660,8 @@ function moveArrayToStrings(moveArray, ftable, fwNext) {
 function getAllMoves(rawTableData, tableToMoveOn, whiteNext, hitItsOwn) {
 
 	var tableData = rawTableData[1]
-	thisArray = []
-	thisStrArray = []
+	var thisArray = []
+	//thisStrArray = []
 
 	if(hitItsOwn) {
 		whiteNext = !whiteNext
