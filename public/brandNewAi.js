@@ -793,7 +793,7 @@ function moveIt(moveString, intable, dontProtect) {
 
 	thistable[dletters.indexOf(moveString[2])][moveString[3] - 1] =
 		thistable[dletters.indexOf(moveString[0])][moveString[1] - 1]
-	thistable[dletters.indexOf(moveString[0])][moveString[1] - 1] = [0]//, false, false, false]
+	thistable[dletters.indexOf(moveString[0])][moveString[1] - 1] = [0, 0]//, false, false, false]
 	if(!(thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][1] == 1)) {
 		thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][3] = false
 	}
