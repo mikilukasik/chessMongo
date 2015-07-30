@@ -339,10 +339,10 @@ function pushAid(x, y, hanyadik, milegyen, fromTable, someboolean, whatHits) {
 
 		////////////////////////////////
 
-		if(bestHit < thisHit) {
-			bestHit = thisHit
+		// if(bestHit < thisHit) {
+			bestHit += thisHit
 				//alert(bestHit)
-		}
+		//}
 
 		return true
 
