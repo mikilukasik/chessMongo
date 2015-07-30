@@ -278,13 +278,14 @@ app.get('/getTable', function(req, res) {
 
 app.get('/chat', function(req, res) {
 	
-	var options = {
-		host: 'localhost',
-		port: 16789,
-		path: '/test'
-	};
+	
 	
 	if(req.query.c=='miki: test'){
+		var options = {
+			host: 'localhost',
+			port: 16789,
+			path: '/test'
+		};
 		/////////
 		
 		http.request(options, function(response) {
