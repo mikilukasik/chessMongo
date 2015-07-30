@@ -867,7 +867,7 @@ function createAiTable(cfTable, cfColor) {
 
 	allTempTables = allTempTables.sort(sortAiArray)
 
-	allTempTables[0][2] = (new Date().getTime() - allTempTables[0][2]) + ' ms' //1st row has timeItTook
+	allTempTables[0][2] = (new Date().getTime() - allTempTables[0][2]) //1st row has timeItTook
 
 	//
 	return allTempTables
