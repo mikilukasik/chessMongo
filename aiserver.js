@@ -66,7 +66,7 @@ app.get('/aiChoice', function(req, res) {
 	});
 });
 
-app.get('/speedTest', function(req, res) {
+app.get('/test', function(req, res) {
 
 	var result = []
 
