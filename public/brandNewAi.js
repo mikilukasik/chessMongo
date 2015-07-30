@@ -829,10 +829,10 @@ function createAiTable(cfTable, cfColor) {
 		var hitValue=0
 		tempTable = moveIt(stepMove, cfTable, hitValue)
 
-		var myOrigValue = hitValue
+		//var myOrigValue = hitValue
 		//hitValue = 0
 
-		tTableValue = myOrigValue - escConst * (getTableScore(tempTable, !cfColor) - opponentsOrigValue)
+		tTableValue = hitValue - escConst * (getTableScore(tempTable, !cfColor) - opponentsOrigValue)
 
 		// one deeper
 
@@ -842,16 +842,16 @@ function createAiTable(cfTable, cfColor) {
 		var tTable2Value = 0
 
 		var opponents2OrigValue = getTableScore(tempTable, !cfColor)
-		var myOrigValue = getTableScore(tempTable, cfColor)
+		//var myOrigValue = getTableScore(tempTable, cfColor)
 
 		cf2Moves.forEach(function(step2Move, moveNo) {
 
 			temp2Table = moveIt(step2Move, tempTable, false, hitValue)
 
-			var myOrig2Value = hitValue
+			//var myOrig2Value = hitValue
 			//hitValue = 0
 
-			tTable2Value -= myOrig2Value - ((getTableScore(temp2Table, !cfColor) -
+			tTable2Value -= hitValue - ((getTableScore(temp2Table, !cfColor) -
 				opponents2OrigValue) + (getTableScore(temp2Table, cfColor) / 10) / 10)
 
 		})
