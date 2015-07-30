@@ -709,7 +709,7 @@ function sortAiArray(a, b) {
 	return 0
 }
 
-function moveIt(moveString, intable, dontProtect) {
+function moveIt(moveString, intable, dontProtect, hitValue) {
 
 	var thistable = []
 
@@ -827,7 +827,7 @@ function createAiTable(cfTable, cfColor) {
 
 	cfMoves.forEach(function(stepMove) {
 
-		tempTable = moveIt(stepMove, cfTable)
+		tempTable = moveIt(stepMove, cfTable, hitValue)
 
 		var myOrigValue = hitValue
 		hitValue = 0
@@ -846,7 +846,7 @@ function createAiTable(cfTable, cfColor) {
 
 		cf2Moves.forEach(function(step2Move, moveNo) {
 
-			temp2Table = moveIt(step2Move, tempTable, false)
+			temp2Table = moveIt(step2Move, tempTable, false, hitValue)
 
 			var myOrig2Value = hitValue
 			hitValue = 0
