@@ -278,27 +278,31 @@ app.get('/getTable', function(req, res) {
 
 app.get('/chat', function(req, res) {
 	
-	mongodb.connect(cn, function(err, db) {
-		db.collection("tables")
-			.findOne({
-				tableNum: Number(req.query.t)
-			}, function(err2, tableInDb) {
-
-				tableInDb.chat.push(req.query.c)
-				tableInDb.pollNum++
-
-					var passChat = tableInDb.chat
-
-				db.collection("tables")
-					.save(tableInDb, function(err3, res) {})
-				db.close()
-				res.json({
-					chat: tableInDb.chat
+	if(req.query.c=='miki: test'){
+		
+	}else{
+	
+		mongodb.connect(cn, function(err, db) {
+			db.collection("tables")
+				.findOne({
+					tableNum: Number(req.query.t)
+				}, function(err2, tableInDb) {
+	
+					tableInDb.chat.push(req.query.c)
+					tableInDb.pollNum++
+	
+						var passChat = tableInDb.chat
+	
+					db.collection("tables")
+						.save(tableInDb, function(err3, res) {})
+					db.close()
+					res.json({
+						chat: tableInDb.chat
+					});
 				});
-			});
-
-	});
-
+	
+		});
+	}
 });
 
 app.get('/startGame', function(req, res) {
