@@ -914,7 +914,7 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 
 		
 
-		allTempTables.push([stepMove, tTableValue + tTable2Value - opponentsBestValue])//, tTableValue, tTable2Value])
+		allTempTables.push([stepMove, tTableValue + tTable2Value - opponentsBestValue/100])//, tTableValue, tTable2Value])
 		//var opponentsBestValue=createAiTable(tempTable, !cfColor,true)[1][1]
 	})
 
