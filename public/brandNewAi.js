@@ -907,7 +907,7 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 			tTable2Value /= 1000
 		
 		
-			opponentsBestValue=createAiTable(tempTable, !cfColor,true)[1][1]
+			//opponentsBestValue=createAiTable(tempTable, !cfColor,true)[1][1]
 		
 		
 		}
