@@ -907,7 +907,7 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 			tTable2Value /= 1000
 		
 		
-			//opponentsBestValue=createAiTable(tempTable, !cfColor,true)[1][1]
+			opponentsBestValue=createAiTable(tempTable, !cfColor,true)[1][1]
 		
 		
 		}
@@ -915,7 +915,7 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 		
 
 		allTempTables.push([stepMove, tTableValue + tTable2Value - opponentsBestValue])//, tTableValue, tTable2Value])
-		var opponentsBestValue=createAiTable(tempTable, !cfColor,true)[1][1]
+		//var opponentsBestValue=createAiTable(tempTable, !cfColor,true)[1][1]
 	})
 
 	allTempTables = allTempTables.sort(sortAiArray)
