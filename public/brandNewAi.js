@@ -855,7 +855,7 @@ function createAiTable(cfTable, cfColor) {
 
 	var tempTable = new Array(8)
 
-	//var origValue = getTableData(cfTable,cfColor,true) //trick getTableScore(cfTable, !cfColor)
+	var origValue = getTableData(cfTable,cfColor,true) //trick getTableScore(cfTable, !cfColor)
 
 	//i = 0 //??
 
@@ -865,36 +865,34 @@ function createAiTable(cfTable, cfColor) {
 
 		
 
-		tTableValue = getTableData(tempTable,cfColor,true)
+		tTableValue = getTableData(tempTable,cfColor,true)-origValue
 		
-		
-
+		 
+			//speed this up
 		var cf2Moves = moveArrayToStrings(getAllMoves(tempTable, cfColor), tempTable, cfColor)
 
-		// var tempTable2 = new Array(8)
-		// var tTable2Value = 0
-
-		var opponents2OrigValue = getTableScore(tempTable, !cfColor)
-		//var myOrigValue = getTableScore(tempTable, cfColor)
-
+		
 		cf2Moves.forEach(function(step2Move, moveNo) {
 
-			var temp2Table = moveIt(step2Move, tempTable, false, hitValue)
+			var temp2Table = moveIt(step2Move, tempTable)
 
 			//var myOrig2Value = hitValue
 			//hitValue = 0
-			var tempValue=getTableData(temp2)
-			tTable2Value = hitValue - ((getTableScore(temp2Table, !cfColor) -
-				opponents2OrigValue) + (getTableScore(temp2Table, cfColor) / 10) / 10)
+			var tempValue=getTableData(temp2Table,cfColor,true)
+			
+			if (tTable2Value<tempValue) tTable2Value=tempValue
+			
+			//hitValue - ((getTableScore(temp2Table, !cfColor) -
+			//	opponents2OrigValue) + (getTableScore(temp2Table, cfColor) / 10) / 10)
 
 		})
 
 		//tTableValue *= t1const
-		tTable2Value *= t2const
+		tTable2Value /= 1000
 
 		//var wtf = [parseInt((tTableValue + tTable2Value) * 100), parseInt(tTableValue * 100), parseInt(tTable2Value * 100)]
 
-		allTempTables.push([stepMove, parseInt((tTableValue + tTable2Value) * 100), tTableValue, tTable2Value])
+		allTempTables.push([stepMove, tTableValue + tTable2Value, tTableValue, tTable2Value])
 
 	})
 
