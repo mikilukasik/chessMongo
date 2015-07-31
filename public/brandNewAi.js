@@ -921,7 +921,7 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 			// 	opponentsBestValue=-100000 
 			// }else{
 					
-			var	opponentsBestValue=100000/Math.pow(17,opponentsBestValue2.length-1)
+			var	opponentsBestValue=10000/Math.pow(10001,opponentsBestValue2.length-1)
 			//}
 		}
 
