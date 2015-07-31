@@ -326,7 +326,7 @@ function getTableData(origTable, isWhite, rtnSimpleValue) {
 		}
 	}
 	if(rtnSimpleValue) {
-		var rtnData = [tableValue/10, rtnMyBestHit - rtnHisBestHit]
+		var rtnData = [tableValue, rtnMyBestHit, rtnHisBestHit]
 		return rtnData
 	}
 	return [tableValue, myTempPieces, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0]] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
@@ -862,7 +862,8 @@ function createAiTable(cfTable, cfColor) {
 	var tempTable = new Array(8)
 	var origData = getTableData(cfTable, cfColor, true) //trick getTableScore(cfTable, !cfColor)
 	var origTableValue = origData[0]
-	var origHitValue = origData[1]
+	var origMyHitValue = origData[1]
+	var origHisHitValue = origData[2]
 
 	//i = 0 //??
 
@@ -873,9 +874,10 @@ function createAiTable(cfTable, cfColor) {
 
 		var firstData = getTableData(tempTable, cfColor, true)
 		var fTableValue = firstData[0]
-		var fHitValue = firstData[1]
+		var fMyHitValue = firstData[1]
+		var fHisHitValue = firstData[2]
 
-		var tTableValue = (fHitValue - origHitValue) + (fTableValue - origTableValue) * 10.01
+		var tTableValue =  (fTableValue - origTableValue)  //(fHitValue - origHitValue) +
 
 		//speed this up
 		var cf2Moves = moveArrayToStrings(getAllMoves(tempTable, cfColor), tempTable, cfColor)
@@ -889,9 +891,10 @@ function createAiTable(cfTable, cfColor) {
 
 			var scndData = getTableData(temp2Table, cfColor, true)
 			var scndTableValue = scndData[0]
-			var scndHitValue = scndData[1]
+			var scndMyHitValue = scndData[1]
+			var scndHisHitValue = scndData[2]
 
-			var tempValue = (scndHitValue - origHitValue) + (scndTableValue - origTableValue) * 10.01
+			var tempValue =  (scndTableValue - origTableValue) //(scndHitValue - origHitValue) +* 10.01
 
 			if(tTable2Value < tempValue) tTable2Value = tempValue
 
