@@ -917,12 +917,12 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 		
 			opponentsBestValue2=createAiTable(tempTable, !cfColor,true)
 			//[1][1]/10000
-			if (opponentsBestValue2.length==1){
-				opponentsBestValue=-100000 
-			}else{
+			// if (opponentsBestValue2.length==1){
+			// 	opponentsBestValue=-100000 
+			// }else{
 					
-				opponentsBestValue=opponentsBestValue2[1][1]/10000
-			}
+				opponentsBestValue=2000/opponentsBestValue2.length
+			//}
 		}
 
 		
