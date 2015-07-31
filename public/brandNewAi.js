@@ -306,7 +306,7 @@ function getTableData(origTable, isWhite, rtnSimpleValue) {
 				rtnMyHitSum=[0]
 				canMove(lookI,lookJ,isWhite,origTable,true,true,rtnMyHitSum)
 				if(rtnMyHitSum[0]>rtnMyBestHit)rtnMyBestHit=rtnMyHitSum[0]
-				//tableValue+=origTable[lookI][lookJ][1]
+				tableValue+=origTable[lookI][lookJ][1]
 				//)
 
 			}else{
@@ -319,7 +319,7 @@ function getTableData(origTable, isWhite, rtnSimpleValue) {
 					canMove(lookI,lookJ,!isWhite,origTable,true,true,rtnHisHitSum)
 					if(rtnHisHitSum[0]>rtnHisBestHit)rtnHisBestHit=rtnHisHitSum[0]
 					//)
-					//tableValue-=origTable[lookI][lookJ][1]
+					tableValue-=origTable[lookI][lookJ][1]
 					
 					
 					
