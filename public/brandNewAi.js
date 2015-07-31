@@ -352,9 +352,9 @@ function pushAid(hitSummmm, canMoveTo, x, y, hanyadik, milegyen, fromTable, some
 
 		//////////////////////////
 		var thisHit = 0
-		if(fromTable[x][y][1] == 9) { //ha kiralyt ut
-			thisHit = 9 //??doubt it??>this global val. will be captured in another function
-		} else {
+		// if(fromTable[x][y][1] == 9) { //ha kiralyt ut
+		// 	thisHit = 9 //??doubt it??>this global val. will be captured in another function
+		// } else {
 			if(fromTable[x][y][6]) { //alert('protectedHit')	//ha protectedre lep
 				thisHit = fromTable[x][y][1] - //thisHitbol kivonja amivel lep
 					whatHits * whatHitsConst
@@ -366,7 +366,7 @@ function pushAid(hitSummmm, canMoveTo, x, y, hanyadik, milegyen, fromTable, some
 
 			}
 
-		}
+		//}
 
 		////////////////////////////////
 		// if(hitSum < thisHit) {
