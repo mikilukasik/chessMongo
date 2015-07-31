@@ -833,10 +833,7 @@ function moveIt(moveString, intable, dontProtect, hitValue) {
 		thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][3] = false
 	}
 
-	//if(!dontProtect) {
-	// 	protectPieces(thistable, true)
-	// 	protectPieces(thistable, false)
-	// }
+	
 	return thistable
 }
 function protectTable(table){
