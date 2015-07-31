@@ -891,7 +891,7 @@ function createAiTable(cfTable, cfColor) {
 			var scndMyHitValue = scndData[1]
 			var scndHisHitValue = scndData[2]
 
-			var tempValue =  1.1*(scndTableValue - origTableValue) + (scndMyHitValue-origMyHitValue) - (scndHisHitValue-origHisHitValue)*10//(scndHitValue - origHitValue) +* 10.01
+			var tempValue =  1.1*(scndTableValue - origTableValue) + (scndMyHitValue-fMyHitValue) - (scndHisHitValue-fHisHitValue)*10//(scndHitValue - origHitValue) +* 10.01
 
 			if(tTable2Value < tempValue) tTable2Value = tempValue
 
