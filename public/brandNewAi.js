@@ -841,7 +841,8 @@ function protectTable(table){
 	protectPieces(table,false)
 	
 }
-function createAiTable(cfTable, cfColor) {
+function createAiTable(cfTable, cfColor, dontDoScnd) {
+	dontDoScnd=!dontDoScnd
 	protectTable(cfTable)
 	var allTempTables = [
 		[true, 0, new Date().getTime()] //array heading:true,0,timeStarted for timeItTook
@@ -880,25 +881,29 @@ function createAiTable(cfTable, cfColor) {
 		
 		var tTable2Value = 0
 		
-		var cf2Moves = moveArrayToStrings(getAllMoves(tempTable, cfColor), tempTable, cfColor)
+		if(dontDoScnd){
+			
+			var cf2Moves = moveArrayToStrings(getAllMoves(tempTable, cfColor), tempTable, cfColor)
+			
+	
+			cf2Moves.forEach(function(step2Move, moveNo) {
+	
+				var temp2Table = moveIt(step2Move, tempTable)
+				//protectTable(temp2Table)
+	
+	
+				var scndData = getTableData(temp2Table, cfColor, true)
+				var scndTableValue = scndData[0]
+				var scndMyHitValue = scndData[1]
+				var scndHisHitValue = scndData[2]
+	
+				var tempValue =  1.1*(scndTableValue - origTableValue) + (scndMyHitValue-fMyHitValue) - (scndHisHitValue-fHisHitValue)*10//(scndHitValue - origHitValue) +* 10.01
+	
+				if(tTable2Value < tempValue) tTable2Value = tempValue
+	
+			})
 		
-
-		cf2Moves.forEach(function(step2Move, moveNo) {
-
-			var temp2Table = moveIt(step2Move, tempTable)
-			//protectTable(temp2Table)
-
-
-			var scndData = getTableData(temp2Table, cfColor, true)
-			var scndTableValue = scndData[0]
-			var scndMyHitValue = scndData[1]
-			var scndHisHitValue = scndData[2]
-
-			var tempValue =  1.1*(scndTableValue - origTableValue) + (scndMyHitValue-fMyHitValue) - (scndHisHitValue-fHisHitValue)*10//(scndHitValue - origHitValue) +* 10.01
-
-			if(tTable2Value < tempValue) tTable2Value = tempValue
-
-		})
+		}
 
 		tTable2Value /= 100
 
