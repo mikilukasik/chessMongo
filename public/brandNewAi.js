@@ -883,7 +883,7 @@ function createAiTable(cfTable, cfColor) {
 		cf2Moves.forEach(function(step2Move, moveNo) {
 
 			var temp2Table = moveIt(step2Move, tempTable)
-			protectTable(temp2Table)
+			//protectTable(temp2Table)
 
 
 			var scndData = getTableData(temp2Table, cfColor, true)
