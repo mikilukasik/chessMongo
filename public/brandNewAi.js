@@ -288,6 +288,10 @@ function getTableData(origTable, isWhite, rtnSimpleValue) {
 	//var rtnMyBestHit=[0]
 	var rtnMyHitSum=[0]
 	var rtnHisHitSum=[0]
+	var rtnMyBestHit=0
+	var rtnHisBestHit=0
+	
+	
 
 	var origColor = 1
 	if(isWhite) origColor = 2
@@ -299,8 +303,9 @@ function getTableData(origTable, isWhite, rtnSimpleValue) {
 
 				myTempPieces.push([lookI, lookJ, origTable[lookI][lookJ][1]]) //itt kene szamitott erteket is adni a babuknak 
 				//allMyMoves.push(
+				rtnMyHitSum=[0]
 				canMove(lookI,lookJ,isWhite,origTable,true,true,rtnMyHitSum)
-				
+				if(rtnMyHitSum[0]>rtnMyBestHit)rtnMyBestHit=rtnMyHitSum[0]
 				//tableValue+=origTable[lookI][lookJ][1]
 				//)
 
@@ -310,7 +315,9 @@ function getTableData(origTable, isWhite, rtnSimpleValue) {
 					
 					hisTempPieces.push([lookI, lookJ, origTable[lookI][lookJ][1]]) //itt kene szamitott erteket is adni a babuknak 
 					//allHisMoves.push(
+					rtnHisHitSum=[0]
 					canMove(lookI,lookJ,!isWhite,origTable,true,true,rtnHisHitSum)
+					if(rtnHisHitSum[0]>rtnHisBestHit)rtnHisBestHit=rtnHisHitSum[0]
 					//)
 					//tableValue-=origTable[lookI][lookJ][1]
 					
@@ -325,7 +332,7 @@ function getTableData(origTable, isWhite, rtnSimpleValue) {
 		}
 	}
 	if (rtnSimpleValue) {
-		var rtnData=(rtnMyHitSum[0]-rtnHisHitSum[0])+(1.01*tableValue)
+		var rtnData=(rtnMyBestHit-rtnHisBestHit)+(1.01*tableValue)
 		return rtnData
 	}
 	return [tableValue,myTempPieces,hisTempPieces,rtnMyHitSum[0],rtnHisHitSum[0]] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
