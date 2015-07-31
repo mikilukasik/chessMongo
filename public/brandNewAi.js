@@ -915,19 +915,19 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 			tTable2Value /= 1000
 		
 		
-			var opponentsBestValue2=createAiTable(tempTable, !cfColor,true)
+			var opponentsBestValue=createAiTable(tempTable, !cfColor,true)[1][1]
 			//[1][1]/10000
 			// if (opponentsBestValue2.length==1){
 			// 	opponentsBestValue=-100000 
 			// }else{
 					
-			if(opponentsBestValue2.length==1){
-				var opponentsBestValue=-10000
+			// if(opponentsBestValue2.length==1){
+			// 	var opponentsBestValue=-10000
 				
-			}else{
-				var opponentsBestValue=opponentsBestValue2[1][1]
-			}
-			//}
+			// }else{
+			// 	var opponentsBestValue=opponentsBestValue2[1][1]
+			// }
+			// //}
 		}
 
 		
