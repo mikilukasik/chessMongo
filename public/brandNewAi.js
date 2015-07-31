@@ -899,7 +899,7 @@ function createAiTable(cfTable, cfColor) {
 
 		tTable2Value /= 100
 
-		allTempTables.push([stepMove, tTableValue + tTable2Value, tTableValue, tTable2Value])
+		allTempTables.push([stepMove, parseInt(10000*(tTableValue + tTable2Value))/100])//, tTableValue, tTable2Value])
 
 	})
 
