@@ -371,7 +371,7 @@ function pushAid(hitSummmm, canMoveTo, x, y, hanyadik, milegyen, fromTable, some
 		////////////////////////////////
 		// if(hitSum < thisHit) {
 		if(!(hitSummmm == undefined)) {
-			hitSummmm[0] += thisHit
+			if(hitSummmm[0]<thisHit) hitSummmm[0] = thisHit
 		}
 		// alert(thisHit)
 		// alert(hitSummmm)
