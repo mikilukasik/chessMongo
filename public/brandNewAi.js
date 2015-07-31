@@ -833,15 +833,19 @@ function moveIt(moveString, intable, dontProtect, hitValue) {
 		thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][3] = false
 	}
 
-	if(!dontProtect) {
-		protectPieces(thistable, true)
-		protectPieces(thistable, false)
-	}
+	//if(!dontProtect) {
+	// 	protectPieces(thistable, true)
+	// 	protectPieces(thistable, false)
+	// }
 	return thistable
 }
-
+function protectTable(table){
+	protectPieces(table,true)
+	protectPieces(table,false)
+	
+}
 function createAiTable(cfTable, cfColor) {
-
+	protectTable(cfTable)
 	var allTempTables = [
 		[true, 0, new Date().getTime()] //array heading:true,0,timeStarted for timeItTook
 	]
@@ -856,7 +860,6 @@ function createAiTable(cfTable, cfColor) {
 	}
 
 	var tempTable = new Array(8)
-
 	var origData = getTableData(cfTable, cfColor, true) //trick getTableScore(cfTable, !cfColor)
 	var origTableValue = origData[0]
 	var origHitValue = origData[1]
@@ -866,6 +869,7 @@ function createAiTable(cfTable, cfColor) {
 	cfMoves.forEach(function(stepMove) {
 
 		tempTable = moveIt(stepMove, cfTable) //, hitValue)
+		protectTable(tempTable)
 
 		var firstData = getTableData(tempTable, cfColor, true)
 		var fTableValue = firstData[0]
@@ -880,6 +884,8 @@ function createAiTable(cfTable, cfColor) {
 		cf2Moves.forEach(function(step2Move, moveNo) {
 
 			var temp2Table = moveIt(step2Move, tempTable)
+			protectTable(temp2Table)
+
 
 			var scndData = getTableData(temp2Table, cfColor, true)
 			var scndTableValue = scndData[0]
