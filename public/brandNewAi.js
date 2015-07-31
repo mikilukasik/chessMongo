@@ -907,8 +907,8 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 
 		tTable2Value /= 1000
 
-		allTempTables.push([stepMove, tTableValue + tTable2Value])//, tTableValue, tTable2Value])
-
+		allTempTables.push([stepMove, tTableValue + tTable2Value - createAiTable(tempTable, !cfColor,true)[1][1]])//, tTableValue, tTable2Value])
+		
 	})
 
 	allTempTables = allTempTables.sort(sortAiArray)
