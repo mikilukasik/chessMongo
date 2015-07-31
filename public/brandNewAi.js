@@ -923,7 +923,7 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 			var arrLen=opponentsBestValue2.length
 			opponentsBestValue=-10000/Math.pow(10001,arrLen-1)
 			if(arrLen>1){
-				opponentsBestValue=Number(opponentsBestValue2[1][1])/10
+				opponentsBestValue=Number(opponentsBestValue2[1][1])/100
 			}
 			//}
 		}
