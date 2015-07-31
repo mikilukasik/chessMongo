@@ -875,7 +875,7 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 		var fMyHitValue = firstData[1]
 		var fHisHitValue = firstData[2]
 
-		var tTableValue =  1.1*(fTableValue - origTableValue) + (fMyHitValue - origMyHitValue) - (fHisHitValue - origHisHitValue)*10
+		var tTableValue =  10*(fTableValue - origTableValue) + (fMyHitValue - origMyHitValue) - (fHisHitValue - origHisHitValue)*100
 
 		//speed this up
 		
@@ -897,7 +897,7 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 				var scndMyHitValue = scndData[1]
 				var scndHisHitValue = scndData[2]
 	
-				var tempValue =  1.1*(scndTableValue - origTableValue) + (scndMyHitValue-fMyHitValue) - (scndHisHitValue-fHisHitValue)*10//(scndHitValue - origHitValue) +* 10.01
+				var tempValue =  10*(scndTableValue - origTableValue) + (scndMyHitValue-fMyHitValue) - (scndHisHitValue-fHisHitValue)*100//(scndHitValue - origHitValue) +* 10.01
 	
 				if(tTable2Value < tempValue) tTable2Value = tempValue
 	
@@ -905,9 +905,9 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 		
 		}
 
-		tTable2Value /= 100
+		tTable1Value *= 1000
 
-		allTempTables.push([stepMove, parseInt(10000*(tTableValue + tTable2Value))/100])//, tTableValue, tTable2Value])
+		allTempTables.push([stepMove, tTableValue + tTable2Value])//, tTableValue, tTable2Value])
 
 	})
 
