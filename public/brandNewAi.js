@@ -870,7 +870,7 @@ function createAiTable(cfTable, cfColor) {
 		 
 			//speed this up
 		var cf2Moves = moveArrayToStrings(getAllMoves(tempTable, cfColor), tempTable, cfColor)
-
+		var tTable2Value=0
 		
 		cf2Moves.forEach(function(step2Move, moveNo) {
 
