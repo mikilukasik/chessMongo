@@ -301,7 +301,7 @@ function getTableData(origTable, isWhite, rtnSimpleValue) {
 				//allMyMoves.push(
 				canMove(lookI,lookJ,isWhite,origTable,true,true,rtnMyHitSum)
 				
-				tableValue+=origTable[lookI][lookJ][1]
+				//tableValue+=origTable[lookI][lookJ][1]
 				//)
 
 			}else{
@@ -312,7 +312,7 @@ function getTableData(origTable, isWhite, rtnSimpleValue) {
 					//allHisMoves.push(
 					canMove(lookI,lookJ,!isWhite,origTable,true,true,rtnHisHitSum)
 					//)
-					tableValue-=origTable[lookI][lookJ][1]
+					//tableValue-=origTable[lookI][lookJ][1]
 					
 					
 					
@@ -325,7 +325,7 @@ function getTableData(origTable, isWhite, rtnSimpleValue) {
 		}
 	}
 	if (rtnSimpleValue) {
-		return (rtnMyHitSum[0]-rtnHisHitSum[0])+(40*tableValue)
+		return (rtnMyHitSum[0]-rtnHisHitSum[0])//+(40*tableValue)
 	}
 	return [tableValue,myTempPieces,hisTempPieces,rtnMyHitSum[0],rtnHisHitSum[0]] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
 
