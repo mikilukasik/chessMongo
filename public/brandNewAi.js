@@ -880,6 +880,7 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 		//speed this up
 		
 		var tTable2Value = 0
+		var opponentsBestValue=0
 		
 		if(dontDoScnd){
 			
@@ -902,13 +903,19 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 				if(tTable2Value < tempValue) tTable2Value = tempValue
 	
 			})
+			
+			tTable2Value /= 1000
+		
+		
+			opponentsBestValue=createAiTable(tempTable, !cfColor,true)[1][1]
+		
 		
 		}
 
-		tTable2Value /= 1000
-
-		allTempTables.push([stepMove, tTableValue + tTable2Value - createAiTable(tempTable, !cfColor,true)[1][1]])//, tTableValue, tTable2Value])
 		
+
+		allTempTables.push([stepMove, tTableValue + tTable2Value - opponentsBestValue])//, tTableValue, tTable2Value])
+		var opponentsBestValue=createAiTable(tempTable, !cfColor,true)[1][1]
 	})
 
 	allTempTables = allTempTables.sort(sortAiArray)
