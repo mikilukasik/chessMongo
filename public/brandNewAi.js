@@ -881,7 +881,7 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 		var fTableValue = firstData[0]
 		var fMyHitValue = firstData[1]
 		var fHisHitValue = firstData[2]
-		var myStepsAlert = 100000/Math.pow(1,firstData[3]+1)
+		var myStepsAlert = 100000/Math.pow(100,firstData[3]+1)
 
 		var tTableValue =  10*(fTableValue - origTableValue) + (fMyHitValue - origMyHitValue) - (fHisHitValue - origHisHitValue)*100 - myStepsAlert
 
@@ -916,7 +916,7 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 		
 		
 			opponentsBestValue=createAiTable(tempTable, !cfColor,true)[1][1]/10000
-		
+			if (isNaN(opponentsBestValue))opponentsBestValue=-100000
 		
 		}
 
