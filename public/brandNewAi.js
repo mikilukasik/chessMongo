@@ -883,8 +883,8 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 		var fHisHitValue = firstData[2]
 		var myStepsAlert = 100000/Math.pow(7,firstData[3]+1)
 
-		var tTableValue =  10*(fTableValue - origTableValue) + (fMyHitValue - origMyHitValue) - (fHisHitValue - origHisHitValue)*100 - myStepsAlert
-
+		var tTableValue =  10*(fTableValue - origTableValue) + (fMyHitValue - origMyHitValue) - (fHisHitValue - origHisHitValue)*10 - myStepsAlert
+			
 		//speed this up
 		
 		var tTable2Value = 0
@@ -906,7 +906,7 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 				var scndMyHitValue = scndData[1]
 				var scndHisHitValue = scndData[2]
 	
-				var tempValue =  10*(scndTableValue - origTableValue) + (scndMyHitValue-fMyHitValue) - (scndHisHitValue-fHisHitValue)*100//(scndHitValue - origHitValue) +* 10.01
+				var tempValue =  10*(scndTableValue - origTableValue) + (scndMyHitValue-fMyHitValue) - (scndHisHitValue-fHisHitValue)*10//(scndHitValue - origHitValue) +* 10.01
 	
 				if(tTable2Value < tempValue) tTable2Value = tempValue
 	
