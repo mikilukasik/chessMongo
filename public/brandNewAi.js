@@ -921,13 +921,13 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 			// 	opponentsBestValue=-100000 
 			// }else{
 					
-			var	opponentsBestValue=200000/Math.pow(7,opponentsBestValue2.length-1)
+			var	opponentsBestValue=100000/Math.pow(17,opponentsBestValue2.length-1)
 			//}
 		}
 
 		
 
-		allTempTables.push([stepMove, tTableValue + tTable2Value - opponentsBestValue])//, tTableValue, tTable2Value])
+		allTempTables.push([stepMove, tTableValue + tTable2Value + opponentsBestValue])//, tTableValue, tTable2Value])
 		//var opponentsBestValue=createAiTable(tempTable, !cfColor,true)[1][1]
 	})
 
