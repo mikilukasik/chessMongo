@@ -905,7 +905,7 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 		
 		}
 
-		tTable1Value *= 1000
+		tTable2Value /= 1000
 
 		allTempTables.push([stepMove, tTableValue + tTable2Value])//, tTableValue, tTable2Value])
 
