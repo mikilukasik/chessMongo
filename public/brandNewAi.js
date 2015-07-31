@@ -851,8 +851,13 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 	var allTempTables = [
 		[true, 0, new Date().getTime()] //array heading:true,0,timeStarted for timeItTook
 	]
+	//var strArray = []
+	var cfMoves = []
+	getAllMoves(cfTable, cfColor).forEach(function(thisMove) {
+		cfMoves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
 
-	var cfMoves = moveArrayToStrings(getAllMoves(cfTable, cfColor), cfTable, cfColor)
+	})
+
 
 	for(var i = cfMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
 		if(captured(moveIt(cfMoves[i], cfTable), cfColor)) { //sakkba lepnenk
@@ -892,8 +897,12 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 		
 		if(!dontDoScnd){
 			
-			var cf2Moves = moveArrayToStrings(getAllMoves(tempTable, cfColor), tempTable, cfColor)
-			
+			// var cf2Moves = moveArrayToStrings(getAllMoves(tempTable, cfColor), tempTable, cfColor)
+			var cf2Moves = []
+			getAllMoves(cfTable, cfColor).forEach(function(thisMove) {
+				cf2Moves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
+
+			})
 	
 			cf2Moves.forEach(function(step2Move, moveNo) {
 	
