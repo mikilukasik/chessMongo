@@ -920,8 +920,11 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 			// if (opponentsBestValue2.length==1){
 			// 	opponentsBestValue=-100000 
 			// }else{
-					
-			var	opponentsBestValue=10000/Math.pow(10001,opponentsBestValue2.length-1)
+			var arrLen=opponentsBestValue2.length
+			var	opponentsBestValue=10000/Math.pow(10001,arrLen-1)
+			if(arrLen>1){
+				opponentsBestValue-=Number(opponentsBestValue2[1][1])
+			}
 			//}
 		}
 
