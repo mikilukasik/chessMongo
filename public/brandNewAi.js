@@ -921,16 +921,16 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 			// 	opponentsBestValue=-100000 
 			// }else{
 			var arrLen=opponentsBestValue2.length
-			opponentsBestValue=10000/Math.pow(10001,arrLen-1)
+			opponentsBestValue=-10000/Math.pow(10001,arrLen-1)
 			if(arrLen>1){
-				opponentsBestValue=Number(opponentsBestValue2[1][1]*-1)
+				opponentsBestValue=Number(opponentsBestValue2[1][1])
 			}
 			//}
 		}
 
 		
 
-		allTempTables.push([stepMove, tTableValue + tTable2Value + opponentsBestValue])//, tTableValue, tTable2Value])
+		allTempTables.push([stepMove, tTableValue + tTable2Value - opponentsBestValue])//, tTableValue, tTable2Value])
 		//var opponentsBestValue=createAiTable(tempTable, !cfColor,true)[1][1]
 	})
 
