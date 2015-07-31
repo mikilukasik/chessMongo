@@ -36,7 +36,9 @@ app.get('/aiChoice', function(req, res) {
 					for(var i = 1; i < result.length; i++) {
 
 						toConsole[i] = result[i][0] + '  ' +
-							result[i][1];
+							result[i][1]+ '  ' +
+							result[i][2]+ '  ' +
+							result[i][3];
 
 					}
 
