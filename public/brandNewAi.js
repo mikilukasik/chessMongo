@@ -326,7 +326,7 @@ function getTableData(origTable, isWhite, rtnSimpleValue) {
 		}
 	}
 	if(rtnSimpleValue) {
-		var rtnData = [tableValue*10, rtnMyBestHit - rtnHisBestHit]
+		var rtnData = [tableValue/10, rtnMyBestHit - rtnHisBestHit]
 		return rtnData
 	}
 	return [tableValue, myTempPieces, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0]] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
