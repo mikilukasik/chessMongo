@@ -922,7 +922,8 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 			// }else{
 					
 			if(opponentsBestValue2.length=1){
-				var opponentsBestValue=-10000
+				//var opponentsBestValue=-10000
+				
 			}else{
 				var opponentsBestValue=opponentsBestValue2[1][1]
 			}
