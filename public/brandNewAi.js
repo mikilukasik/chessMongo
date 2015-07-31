@@ -899,7 +899,7 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 			
 			// var cf2Moves = moveArrayToStrings(getAllMoves(tempTable, cfColor), tempTable, cfColor)
 			var cf2Moves = []
-			getAllMoves(cfTable, cfColor).forEach(function(thisMove) {
+			getAllMoves(tempTable, cfColor).forEach(function(thisMove) {
 				cf2Moves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
 
 			})
