@@ -880,25 +880,25 @@ function createAiTable(cfTable, cfColor) {
 		
 		var tTable2Value = 0
 		
-		// var cf2Moves = moveArrayToStrings(getAllMoves(tempTable, cfColor), tempTable, cfColor)
+		var cf2Moves = moveArrayToStrings(getAllMoves(tempTable, cfColor), tempTable, cfColor)
 		
 
-		// cf2Moves.forEach(function(step2Move, moveNo) {
+		cf2Moves.forEach(function(step2Move, moveNo) {
 
-		// 	var temp2Table = moveIt(step2Move, tempTable)
-		// 	//protectTable(temp2Table)
+			var temp2Table = moveIt(step2Move, tempTable)
+			//protectTable(temp2Table)
 
 
-		// 	var scndData = getTableData(temp2Table, cfColor, true)
-		// 	var scndTableValue = scndData[0]
-		// 	var scndMyHitValue = scndData[1]
-		// 	var scndHisHitValue = scndData[2]
+			var scndData = getTableData(temp2Table, cfColor, true)
+			var scndTableValue = scndData[0]
+			var scndMyHitValue = scndData[1]
+			var scndHisHitValue = scndData[2]
 
-		// 	var tempValue =  1.1*(scndTableValue - origTableValue) + (scndMyHitValue-fMyHitValue) - (scndHisHitValue-fHisHitValue)*10//(scndHitValue - origHitValue) +* 10.01
+			var tempValue =  1.1*(scndTableValue - origTableValue) + (scndMyHitValue-fMyHitValue) - (scndHisHitValue-fHisHitValue)*10//(scndHitValue - origHitValue) +* 10.01
 
-		// 	if(tTable2Value < tempValue) tTable2Value = tempValue
+			if(tTable2Value < tempValue) tTable2Value = tempValue
 
-		// })
+		})
 
 		tTable2Value /= 100
 
