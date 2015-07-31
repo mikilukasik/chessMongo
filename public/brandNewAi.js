@@ -881,7 +881,7 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 		var fTableValue = firstData[0]
 		var fMyHitValue = firstData[1]
 		var fHisHitValue = firstData[2]
-		var myStepsAlert = 10000/Math.pow(10,firstData[3]+1)
+		var myStepsAlert = 100000/Math.pow(200,firstData[3]+1)
 
 		var tTableValue =  10*(fTableValue - origTableValue) + (fMyHitValue - origMyHitValue) - (fHisHitValue - origHisHitValue)*100 - myStepsAlert
 
