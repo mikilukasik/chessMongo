@@ -888,7 +888,7 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 		//speed this up
 		
 		var tTable2Value = 0
-		var opponentsBestValue=0
+		//var opponentsBestValue=0
 		
 		if(!dontDoScnd){
 			
@@ -915,13 +915,13 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 			tTable2Value /= 1000
 		
 		
-			opponentsBestValue2=createAiTable(tempTable, !cfColor,true)
+			var opponentsBestValue2=createAiTable(tempTable, !cfColor,true)
 			//[1][1]/10000
 			// if (opponentsBestValue2.length==1){
 			// 	opponentsBestValue=-100000 
 			// }else{
 					
-				opponentsBestValue=2000/Math.pow(7,opponentsBestValue2.length-1)
+			var	opponentsBestValue=200000/Math.pow(7,opponentsBestValue2.length-1)
 			//}
 		}
 
