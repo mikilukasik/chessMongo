@@ -877,7 +877,7 @@ function createAiTable(cfTable, cfColor) {
 		var fMyHitValue = firstData[1]
 		var fHisHitValue = firstData[2]
 
-		var tTableValue =  (fTableValue - origTableValue)  //(fHitValue - origHitValue) +
+		var tTableValue =  (fTableValue - origTableValue) + (fMyHitValue - origMyHitValue) - (fHisHitValue - origHisHitValue)
 
 		//speed this up
 		var cf2Moves = moveArrayToStrings(getAllMoves(tempTable, cfColor), tempTable, cfColor)
@@ -894,7 +894,7 @@ function createAiTable(cfTable, cfColor) {
 			var scndMyHitValue = scndData[1]
 			var scndHisHitValue = scndData[2]
 
-			var tempValue =  (scndTableValue - origTableValue) //(scndHitValue - origHitValue) +* 10.01
+			var tempValue =  (scndTableValue - origTableValue) + (scndMyHitValue-origMyHitValue) - (scndHisHitValue-origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
 
 			if(tTable2Value < tempValue) tTable2Value = tempValue
 
