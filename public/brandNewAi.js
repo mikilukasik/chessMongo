@@ -636,7 +636,7 @@ function moveArrayToStrings(moveArray, ftable, fwNext) {
 
 function getAllMoves(tableToMoveOn, whiteNext, hitItsOwn, allHitSum) {
 
-	var tableData = getTableData(tableToMoveOn, whiteNext)[1]
+	var tableData = getTableData2(tableToMoveOn, whiteNext)[1]
 	var thisArray = []
 		//thisStrArray = []
 
@@ -660,19 +660,19 @@ function getAllMoves(tableToMoveOn, whiteNext, hitItsOwn, allHitSum) {
 
 }
 
-function getTableScore(tableToValidate, wNx, returnMoves) {
-	var hitSum = 0
+// function getTableScore(tableToValidate, wNx, returnMoves) {
+// 	var hitSum = 0
 
-	var myMoves =
-		getAllMoves(tableToValidate, wNx, false, hitSum)
+// 	var myMoves =
+// 		getAllMoves(tableToValidate, wNx, false, hitSum)
 
-	//var mybest = hitSum
-	//hitSum = 0
+// 	//var mybest = hitSum
+// 	//hitSum = 0
 
-	if(returnMoves) return myMoves
-	return [hitSum]
+// 	if(returnMoves) return myMoves
+// 	return [hitSum]
 
-}
+// }
 
 function sortAiArray(a, b) {
 	if(typeof(a[0]) == "boolean") {
@@ -841,6 +841,66 @@ function getTableData(origTable, isWhite, rtnSimpleValue) {
 		var rtnData = [tableValue, rtnMyBestHit, rtnHisBestHit, rtnMyMovesCount]
 		return rtnData
 	}
+	return [tableValue, myTempPieces, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
+
+}
+
+function getTableData2(origTable, isWhite) {
+	//var returnArray = [] // elso elem will be az osszes babu ertekenek osszge, aztan az osszes babu koordinataja
+	//var tableValue = 0
+	var myTempPieces = []
+	//var hisTempPieces = []
+
+	// var allMyMoves=[]
+	// var allHisMoves=[]
+
+	//var rtnMyBestHit=[0]
+	//var rtnMyHitSum = [0]
+	// var rtnHisHitSum = [0]
+	// var rtnMyBestHit = 0
+	// var rtnHisBestHit = 0
+	// var rtnMyMovesCount = 0
+
+	var origColor = 1
+	if(isWhite) origColor = 2
+
+	for(var lookI = 0; lookI < 8; lookI++) { //
+		for(var lookJ = 0; lookJ < 8; lookJ++) { //look through the table
+
+			if(origTable[lookI][lookJ][0] == origColor) { //ha sajat babum
+
+				myTempPieces.push([lookI, lookJ, origTable[lookI][lookJ][1]]) //itt kene szamitott erteket is adni a babuknak 
+					//allMyMoves.push(
+				//rtnMyHitSum = [0]
+				//rtnMyMovesCount+=canMove(lookI, lookJ, isWhite, origTable, true, true, rtnMyHitSum).length
+				//if(rtnMyHitSum[0] > rtnMyBestHit) rtnMyBestHit = rtnMyHitSum[0]
+				//tableValue += origTable[lookI][lookJ][1]
+					//)
+
+			}
+			//  else {
+
+			// 	if(!(origTable[lookI][lookJ][0] == 0)) { //ha ellenfele
+
+			// 		hisTempPieces.push([lookI, lookJ, origTable[lookI][lookJ][1]]) //itt kene szamitott erteket is adni a babuknak 
+			// 			//allHisMoves.push(
+			// 		rtnHisHitSum = [0]
+			// 		canMove(lookI, lookJ, !isWhite, origTable, true, true, rtnHisHitSum)
+			// 		if(rtnHisHitSum[0] > rtnHisBestHit) rtnHisBestHit = rtnHisHitSum[0]
+			// 			//)
+			// 		tableValue -= origTable[lookI][lookJ][1]
+
+			// 	} else {
+			// 		//senkie...
+			// 	}
+
+			// }
+		}
+	}
+	// if(rtnSimpleValue) {
+	// 	var rtnData = [tableValue, rtnMyBestHit, rtnHisBestHit, rtnMyMovesCount]
+	// 	return rtnData
+	// }
 	return [tableValue, myTempPieces, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
 
 }
