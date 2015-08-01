@@ -830,7 +830,7 @@ function findMyPieces(origTable, isWhite) {
 }
 
 function createAiTable(cfTable, cfColor, oppDontDoScnd) {
-	var dontDoScnd = !oppDontDoScnd
+	var doScnd = !oppDontDoScnd
 	
 	var shouldIDraw = false
 	
@@ -879,7 +879,7 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 
 		var tTable2Value = 0
 
-		if(dontDoScnd) {
+		if(doScnd) {
 
 			// var cf2Moves = moveArrayToStrings(getAllMoves(tempTable, cfColor), tempTable, cfColor)
 			var cf2Moves = []
