@@ -810,6 +810,8 @@ function findMyPieces(origTable, isWhite) {
 
 	var origColor = 1
 	if(isWhite) origColor = 2
+	
+	
 
 	for(var lookI = 0; lookI < 8; lookI++) { //
 		for(var lookJ = 0; lookJ < 8; lookJ++) { //look through the table
@@ -829,6 +831,10 @@ function findMyPieces(origTable, isWhite) {
 
 function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 	var dontDoScnd = !oppDontDoScnd
+	
+	var shouldIDraw = false
+	
+	
 	protectTable(cfTable)
 	var allTempTables = [
 		[true, 0, new Date().getTime()] //array heading:true,0,timeStarted for timeItTook
@@ -851,6 +857,8 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 	var origTableValue = origData[0]
 	var origMyHitValue = origData[1]
 	var origHisHitValue = origData[2]
+	
+	if (origTableValue<0) shouldIDraw=true
 
 	cfMoves.forEach(function(stepMove) {
 
