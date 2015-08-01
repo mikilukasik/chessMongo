@@ -904,9 +904,15 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 			var opponentsBestValue2 = createAiTable(tempTable, !cfColor, true)
 
 			var arrLen = opponentsBestValue2.length
-			opponentsBestValue = -10000 / Math.pow(10001, arrLen - 1)
+			//opponentsBestValue = -10000 / Math.pow(10001, arrLen - 1)
 			if(arrLen > 1) {
 				opponentsBestValue = Number(opponentsBestValue2[1][1]) / 100.0001
+			}else{
+				if (captured(tempTable,!cfColor)){
+					opponentsBestValue= -10000
+				}else{
+					//pattot adna
+				}
 			}
 
 		}
