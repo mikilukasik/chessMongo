@@ -275,8 +275,6 @@ function noc(colr) {
 	}
 }
 
-
-
 function whatsThere(i, j, aiTable) {
 	//var pieceThere = []
 
@@ -296,31 +294,21 @@ function pushAid(hitSummmm, canMoveTo, x, y, hanyadik, milegyen, fromTable, some
 
 		//////////////////////////
 		var thisHit = 0
-		// if(fromTable[x][y][1] == 9) { //ha kiralyt ut
-		// 	thisHit = 9 //??doubt it??>this global val. will be captured in another function
-		// } else {
-			if(fromTable[x][y][6]) { //alert('protectedHit')	//ha protectedre lep
-				thisHit = fromTable[x][y][1] - //thisHitbol kivonja amivel lep
-					whatHits * whatHitsConst
-				if(thisHit < 0) {
-					thisHit = 0
-				} //negaive is 0
-			} else {
-				thisHit = fromTable[x][y][1] //normal hivalue
 
-			}
+		if(fromTable[x][y][6]) { //alert('protectedHit')	//ha protectedre lep
+			thisHit = fromTable[x][y][1] - //thisHitbol kivonja amivel lep
+				whatHits * whatHitsConst
+			if(thisHit < 0) {
+				thisHit = 0
+			} //negaive is 0
+		} else {
+			thisHit = fromTable[x][y][1] //normal hivalue
 
-		//}
-
-		////////////////////////////////
-		// if(hitSum < thisHit) {
-		if(!(hitSummmm == undefined)) {
-			if(hitSummmm[0]<thisHit) hitSummmm[0] = thisHit
 		}
-		// alert(thisHit)
-		// alert(hitSummmm)
 
-		//}
+		if(!(hitSummmm == undefined)) {
+			if(hitSummmm[0] < thisHit) hitSummmm[0] = thisHit
+		}
 
 		return true
 
@@ -660,20 +648,6 @@ function getAllMoves(tableToMoveOn, whiteNext, hitItsOwn, allHitSum) {
 
 }
 
-// function getTableScore(tableToValidate, wNx, returnMoves) {
-// 	var hitSum = 0
-
-// 	var myMoves =
-// 		getAllMoves(tableToValidate, wNx, false, hitSum)
-
-// 	//var mybest = hitSum
-// 	//hitSum = 0
-
-// 	if(returnMoves) return myMoves
-// 	return [hitSum]
-
-// }
-
 function sortAiArray(a, b) {
 	if(typeof(a[0]) == "boolean") {
 		return -1
@@ -777,25 +751,19 @@ function moveIt(moveString, intable, dontProtect, hitValue) {
 		thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][3] = false
 	}
 
-	
 	return thistable
 }
-function protectTable(table){
-	protectPieces(table,true)
-	protectPieces(table,false)
-	
+
+function protectTable(table) {
+	protectPieces(table, true)
+	protectPieces(table, false)
+
 }
 
-function getTableData(origTable, isWhite){//, rtnSimpleValue) {
-	//var returnArray = [] // elso elem will be az osszes babu ertekenek osszge, aztan az osszes babu koordinataja
+function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
+
 	var tableValue = 0
-	//var myTempPieces = []
-	//var hisTempPieces = []
 
-	// var allMyMoves=[]
-	// var allHisMoves=[]
-
-	//var rtnMyBestHit=[0]
 	var rtnMyHitSum = [0]
 	var rtnHisHitSum = [0]
 	var rtnMyBestHit = 0
@@ -810,46 +778,35 @@ function getTableData(origTable, isWhite){//, rtnSimpleValue) {
 
 			if(origTable[lookI][lookJ][0] == origColor) { //ha sajat babum
 
-				//myTempPieces.push([lookI, lookJ, origTable[lookI][lookJ][1]]) //itt kene szamitott erteket is adni a babuknak 
-					//allMyMoves.push(
 				rtnMyHitSum = [0]
-				//rtnMyMovesCount+=
+
 				canMove(lookI, lookJ, isWhite, origTable, true, true, rtnMyHitSum).length
 				if(rtnMyHitSum[0] > rtnMyBestHit) rtnMyBestHit = rtnMyHitSum[0]
 				tableValue += origTable[lookI][lookJ][1]
-					//)
 
 			} else {
 
 				if(!(origTable[lookI][lookJ][0] == 0)) { //ha ellenfele
 
-					//hisTempPieces.push([lookI, lookJ, origTable[lookI][lookJ][1]]) //itt kene szamitott erteket is adni a babuknak 
-						//allHisMoves.push(
 					rtnHisHitSum = [0]
 					canMove(lookI, lookJ, !isWhite, origTable, true, true, rtnHisHitSum)
 					if(rtnHisHitSum[0] > rtnHisBestHit) rtnHisBestHit = rtnHisHitSum[0]
-						//)
+
 					tableValue -= origTable[lookI][lookJ][1]
 
-				} else {
-					//senkie...
 				}
 
 			}
 		}
 	}
-	//if(rtnSimpleValue) {
-		//var rtnData = [tableValue, rtnMyBestHit, rtnHisBestHit]//, rtnMyMovesCount]
-		return [tableValue, rtnMyBestHit, rtnHisBestHit]//rtnData
-	//}
-	//return [tableValue, myTempPieces, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
+
+	return [tableValue, rtnMyBestHit, rtnHisBestHit] //rtnData
 
 }
 
 function findMyPieces(origTable, isWhite) {
-	
-	var myTempPieces = []
 
+	var myTempPieces = []
 
 	var origColor = 1
 	if(isWhite) origColor = 2
@@ -860,29 +817,28 @@ function findMyPieces(origTable, isWhite) {
 			if(origTable[lookI][lookJ][0] == origColor) { //ha sajat babum
 
 				myTempPieces.push([lookI, lookJ, origTable[lookI][lookJ][1]]) //itt kene szamitott erteket is adni a babuknak 
-		
+
 			}
-			
+
 		}
 	}
-	
-	return [0, myTempPieces]//, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
+
+	return [0, myTempPieces] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
 
 }
 
 function createAiTable(cfTable, cfColor, oppDontDoScnd) {
-	var dontDoScnd=!oppDontDoScnd
+	var dontDoScnd = !oppDontDoScnd
 	protectTable(cfTable)
 	var allTempTables = [
 		[true, 0, new Date().getTime()] //array heading:true,0,timeStarted for timeItTook
 	]
-	//var strArray = []
+
 	var cfMoves = []
 	getAllMoves(cfTable, cfColor).forEach(function(thisMove) {
 		cfMoves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
 
 	})
-
 
 	for(var i = cfMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
 		if(captured(moveIt(cfMoves[i], cfTable), cfColor)) { //sakkba lepnenk
@@ -891,18 +847,13 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 		}
 	}
 
-	
 	var origData = getTableData(cfTable, cfColor, true) //trick getTableScore(cfTable, !cfColor)
 	var origTableValue = origData[0]
 	var origMyHitValue = origData[1]
 	var origHisHitValue = origData[2]
-	// var origMovesCount = origData[3]
-
-	//i = 0 //??
 
 	cfMoves.forEach(function(stepMove) {
-		
-		//myStepsCount=
+
 		var tempTable = moveIt(stepMove, cfTable) //, hitValue)
 		protectTable(tempTable)
 
@@ -910,61 +861,51 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 		var fTableValue = firstData[0]
 		var fMyHitValue = firstData[1]
 		var fHisHitValue = firstData[2]
-		//var myStepsAlert = 100000/Math.pow(7,firstData[3]+1)
 
-		var tTableValue =  10*(fTableValue - origTableValue) + (fMyHitValue - origMyHitValue) - (fHisHitValue - origHisHitValue)*100// - myStepsAlert
-		var opponentsBestValue=0
-		//speed this up
-		
+		var tTableValue = 10 * (fTableValue - origTableValue) + (fMyHitValue - origMyHitValue) - (fHisHitValue - origHisHitValue) * 100 // - myStepsAlert
+		var opponentsBestValue = 0
+
 		var tTable2Value = 0
-		//var opponentsBestValue=0
-		
-		if(dontDoScnd){
-			
+
+		if(dontDoScnd) {
+
 			// var cf2Moves = moveArrayToStrings(getAllMoves(tempTable, cfColor), tempTable, cfColor)
 			var cf2Moves = []
 			getAllMoves(tempTable, cfColor).forEach(function(thisMove) {
 				cf2Moves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
 
 			})
-	
+
 			cf2Moves.forEach(function(step2Move, moveNo) {
-	
+
 				var temp2Table = moveIt(step2Move, tempTable)
-				//protectTable(temp2Table)
-	
-	
+					//protectTable(temp2Table)
+
 				var scndData = getTableData(temp2Table, cfColor, true)
 				var scndTableValue = scndData[0]
 				var scndMyHitValue = scndData[1]
 				var scndHisHitValue = scndData[2]
-	
-				var tempValue =  10*(scndTableValue - origTableValue) + (scndMyHitValue-fMyHitValue) - (scndHisHitValue-fHisHitValue)*100//(scndHitValue - origHitValue) +* 10.01
-	
+
+				var tempValue = 10 * (scndTableValue - origTableValue) + (scndMyHitValue - fMyHitValue) - (scndHisHitValue - fHisHitValue) * 100 //(scndHitValue - origHitValue) +* 10.01
+
 				if(tTable2Value < tempValue) tTable2Value = tempValue
-	
+
 			})
-			
+
 			tTable2Value /= 1000
-		
-		
-			var opponentsBestValue2=createAiTable(tempTable, !cfColor,true)
-			//[1][1]/10000
-			// if (opponentsBestValue2.length==1){
-			// 	opponentsBestValue=-100000 
-			// }else{
-			var arrLen=opponentsBestValue2.length
-			opponentsBestValue=-10000/Math.pow(10001,arrLen-1)
-			if(arrLen>1){
-				opponentsBestValue=Number(opponentsBestValue2[1][1])/100
+
+			var opponentsBestValue2 = createAiTable(tempTable, !cfColor, true)
+
+			var arrLen = opponentsBestValue2.length
+			opponentsBestValue = -10000 / Math.pow(10001, arrLen - 1)
+			if(arrLen > 1) {
+				opponentsBestValue = Number(opponentsBestValue2[1][1]) / 100
 			}
-			//}
+
 		}
 
-		
+		allTempTables.push([stepMove, tTableValue + tTable2Value - opponentsBestValue, tTableValue + tTable2Value, opponentsBestValue]) //, tTableValue, tTable2Value])
 
-		allTempTables.push([stepMove, tTableValue + tTable2Value - opponentsBestValue, tTableValue + tTable2Value, opponentsBestValue])//, tTableValue, tTable2Value])
-		//var opponentsBestValue=createAiTable(tempTable, !cfColor,true)[1][1]
 	})
 
 	allTempTables = allTempTables.sort(sortAiArray)
