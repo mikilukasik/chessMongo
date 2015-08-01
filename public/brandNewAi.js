@@ -855,7 +855,7 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 	cfMoves.forEach(function(stepMove) {
 
 		var tempTable = moveIt(stepMove, cfTable) //, hitValue)
-		//var tempFwdVal = (stepMove[1]-stepMove[3])*0.00001 // mennyit megy elore
+		var tempFwdVal = (stepMove[1]-stepMove[3])*0.0001 // mennyit megy elore
 		protectTable(tempTable)
 
 		var firstData = getTableData(tempTable, cfColor, true)
@@ -863,7 +863,7 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 		var fMyHitValue = firstData[1]
 		var fHisHitValue = firstData[2]
 
-		var tTableValue = //tempFwdVal + 
+		var tTableValue = tempFwdVal + 
 							
 							10 * (fTableValue - origTableValue) + (fMyHitValue - origMyHitValue) - (fHisHitValue - origHisHitValue) * 100 // - myStepsAlert
 		
@@ -884,7 +884,7 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 
 				var temp2Table = moveIt(step2Move, tempTable)
 				
-				var temp2FwdVal = (step2Move[3]-step2Move[1])*0.0001 // mennyit megy elore
+				//var temp2FwdVal = (step2Move[3]-step2Move[1])*0.0001 // mennyit megy elore
 					//protectTable(temp2Table)
 
 				var scndData = getTableData(temp2Table, cfColor, true)
@@ -892,7 +892,8 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 				var scndMyHitValue = scndData[1]
 				var scndHisHitValue = scndData[2]
 
-				var tempValue = temp2FwdVal+  10 * (scndTableValue - origTableValue) + (scndMyHitValue - fMyHitValue) - (scndHisHitValue - fHisHitValue) * 100 //(scndHitValue - origHitValue) +* 10.01
+				var tempValue = //temp2FwdVal+  
+				10 * (scndTableValue - origTableValue) + (scndMyHitValue - fMyHitValue) - (scndHisHitValue - fHisHitValue) * 100 //(scndHitValue - origHitValue) +* 10.01
 
 				if(tTable2Value < tempValue) tTable2Value = tempValue
 
