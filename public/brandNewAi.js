@@ -884,7 +884,7 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 
 				var temp2Table = moveIt(step2Move, tempTable)
 				
-				var temp2FwdVal = (step2Move[1]-step2Move[3])*0.00001 // mennyit megy elore
+				var temp2FwdVal = (step2Move[3]-step2Move[1])*0.0001 // mennyit megy elore
 					//protectTable(temp2Table)
 
 				var scndData = getTableData(temp2Table, cfColor, true)
