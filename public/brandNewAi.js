@@ -786,7 +786,7 @@ function protectTable(table){
 	
 }
 
-function getTableData(origTable, isWhite){/, rtnSimpleValue) {
+function getTableData(origTable, isWhite){//, rtnSimpleValue) {
 	//var returnArray = [] // elso elem will be az osszes babu ertekenek osszge, aztan az osszes babu koordinataja
 	var tableValue = 0
 	//var myTempPieces = []
