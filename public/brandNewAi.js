@@ -855,7 +855,7 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 	cfMoves.forEach(function(stepMove) {
 
 		var tempTable = moveIt(stepMove, cfTable) //, hitValue)
-		var tempFwdVal = (stepMove[1]-stepMove[3])*0.00001 // mennyit megy elore
+		//var tempFwdVal = (stepMove[1]-stepMove[3])*0.00001 // mennyit megy elore
 		protectTable(tempTable)
 
 		var firstData = getTableData(tempTable, cfColor, true)
@@ -863,7 +863,10 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 		var fMyHitValue = firstData[1]
 		var fHisHitValue = firstData[2]
 
-		var tTableValue = tempFwdVal + 10 * (fTableValue - origTableValue) + (fMyHitValue - origMyHitValue) - (fHisHitValue - origHisHitValue) * 100 // - myStepsAlert
+		var tTableValue = //tempFwdVal + 
+							
+							10 * (fTableValue - origTableValue) + (fMyHitValue - origMyHitValue) - (fHisHitValue - origHisHitValue) * 100 // - myStepsAlert
+		
 		var opponentsBestValue = 0
 
 		var tTable2Value = 0
