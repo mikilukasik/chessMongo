@@ -912,6 +912,14 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 					opponentsBestValue= -10000
 				}else{
 					//pattot adna
+					
+					if(shouldIDraw){
+						opponentsBestValue= -10000
+						
+					}else{
+						opponentsBestValue= 10000
+					}
+					
 				}
 			}
 
