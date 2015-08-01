@@ -866,7 +866,7 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 		}
 	}
 
-	var tempTable = new Array(8)
+	
 	var origData = getTableData(cfTable, cfColor, true) //trick getTableScore(cfTable, !cfColor)
 	var origTableValue = origData[0]
 	var origMyHitValue = origData[1]
@@ -878,8 +878,7 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 	cfMoves.forEach(function(stepMove) {
 		
 		//myStepsCount=
-		
-		tempTable = moveIt(stepMove, cfTable) //, hitValue)
+		var tempTable = moveIt(stepMove, cfTable) //, hitValue)
 		protectTable(tempTable)
 
 		var firstData = getTableData(tempTable, cfColor, true)
