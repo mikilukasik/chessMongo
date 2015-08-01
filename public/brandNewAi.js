@@ -622,7 +622,7 @@ function moveArrayToStrings(moveArray, ftable, fwNext) {
 
 }
 
-function getAllMoves(tableToMoveOn, whiteNext, hitItsOwn, allHitSum) {
+function getAllMoves(tableToMoveOn, whiteNext, hitItsOwn){//, allHitSum) {
 
 	var tableData = findMyPieces(tableToMoveOn, whiteNext)[1]
 	var thisArray = []
@@ -632,8 +632,8 @@ function getAllMoves(tableToMoveOn, whiteNext, hitItsOwn, allHitSum) {
 		whiteNext = !whiteNext
 	}
 	//var allHitSum=0
-	var hitSumPart = []
-	hitSumPart[0] = 0
+	//var hitSumPart = []
+	var hitSumPart= [0]
 
 	for(var pieceNo = 0; pieceNo < tableData.length; pieceNo++) {
 
@@ -641,7 +641,7 @@ function getAllMoves(tableToMoveOn, whiteNext, hitItsOwn, allHitSum) {
 			.forEach(function(stepItem) {
 				thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
 			})
-		allHitSum += hitSumPart[0]
+		//allHitSum += hitSumPart[0]
 	}
 
 	return thisArray
@@ -925,6 +925,7 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 						opponentsBestValue= -10000
 						
 					}else{
+						
 						opponentsBestValue= 10000
 					}
 					
