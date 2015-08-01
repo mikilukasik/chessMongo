@@ -901,7 +901,7 @@ function getTableData2(origTable, isWhite) {
 	// 	var rtnData = [tableValue, rtnMyBestHit, rtnHisBestHit, rtnMyMovesCount]
 	// 	return rtnData
 	// }
-	return [tableValue, myTempPieces, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
+	return [0, myTempPieces]//, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
 
 }
 
