@@ -845,8 +845,8 @@ function getTableData(origTable, isWhite, rtnSimpleValue) {
 
 }
 
-function createAiTable(cfTable, cfColor, dontDoScnd) {
-	// !dontDoScnd=!dontDoScnd
+function createAiTable(cfTable, cfColor, oppDontDoScnd) {
+	var dontDoScnd=!oppDontDoScnd
 	protectTable(cfTable)
 	var allTempTables = [
 		[true, 0, new Date().getTime()] //array heading:true,0,timeStarted for timeItTook
@@ -894,7 +894,7 @@ function createAiTable(cfTable, cfColor, dontDoScnd) {
 		var tTable2Value = 0
 		//var opponentsBestValue=0
 		
-		if(!dontDoScnd){
+		if(dontDoScnd){
 			
 			// var cf2Moves = moveArrayToStrings(getAllMoves(tempTable, cfColor), tempTable, cfColor)
 			var cf2Moves = []
