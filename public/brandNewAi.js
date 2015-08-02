@@ -901,7 +901,7 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 				var tempValue = //temp2FwdVal+  
 				10 * (scndTableValue - origTableValue) + (scndMyHitValue - fMyHitValue) - (scndHisHitValue - fHisHitValue) * 100 //(scndHitValue - origHitValue) +* 10.01
 				
-				if(scndData[3]==0&&tTableValue>-0.001) twoStepsToWin =true
+				if(scndData[3]==0) twoStepsToWin =true
 				if(tTable2Value < tempValue) tTable2Value = tempValue
 
 			})
@@ -927,8 +927,10 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 			}
 
 		}
-
-		allTempTables.push([stepMove, tTableValue + tTable2Value - opponentsBestValue, tTableValue + tTable2Value, opponentsBestValue]) //, tTableValue, tTable2Value])
+		var pushThisValue=tTableValue + tTable2Value - opponentsBestValue
+		if (pushThisValue>5000&&pushThisValue<10000)pushThisValue-=9999.998
+		
+		allTempTables.push([stepMove, pushThisValue, tTableValue + tTable2Value, opponentsBestValue]) //, tTableValue, tTable2Value])
 
 	})
 
