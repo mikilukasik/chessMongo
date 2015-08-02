@@ -834,8 +834,8 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 	
 	var shouldIDraw = false
 	
-	
-	protectTable(cfTable, !cfColor)
+	protectPieces(cfTable, cfColor)
+	protectPieces(cfTable, !cfColor)
 	var allTempTables = [
 		[true, 0, new Date().getTime()] //array heading:true,0,timeStarted for timeItTook
 	]
