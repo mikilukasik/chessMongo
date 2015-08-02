@@ -928,7 +928,7 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 
 		}
 		var pushThisValue=tTableValue + tTable2Value - opponentsBestValue
-		if (pushThisValue>5000&&pushThisValue<10000)pushThisValue-=9999.998
+		if (pushThisValue>5000&&pushThisValue<10020)pushThisValue-=9999.998
 		
 		allTempTables.push([stepMove, pushThisValue, tTableValue + tTable2Value, opponentsBestValue]) //, tTableValue, tTable2Value])
 
