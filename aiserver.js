@@ -39,7 +39,8 @@ app.get('/aiChoice', function(req, res) {
 							result[i][1]+ '  ' +
 							result[i][2]+ '  ' +
 							result[i][3]+ '  ' +
-							result[i][4]+ '/b/b';
+							result[i][4]+ '  ' +
+							result[i][5]+ '                                  ';
 
 					}
 

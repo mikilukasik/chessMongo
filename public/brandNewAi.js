@@ -981,7 +981,7 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 		var pushThisValue=tTableValue/10 + tTable2Value + rtnValue// - opponentsBestValue
 		//if (pushThisValue>5000&&pushThisValue<10020)pushThisValue-=9999.998 //not sure, trying to choose good moves for 2stepstowin
 		
-		allTempTables.push([stepMove, pushThisValue, rtnValue,tTable2Value,tTableValue/10])//, opponentsBestValue]) //, tTableValue, tTable2Value])
+		allTempTables.push([stepMove, pushThisValue, rtnValue, tTable2Value, tTableValue/10, hisBestRtnMove])//, opponentsBestValue]) //, tTableValue, tTable2Value])
 
 	})
 
