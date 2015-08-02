@@ -861,6 +861,7 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 		var tempTable = moveIt(stepMove, cfTable) //, hitValue)
 		var tTableValue=0
 		if(dontDoScnd){
+			protectTable(tempTable)
 			var opponentsBestMoveArray = createAiTable(tempTable, !cfColor, true)
 			
 			if (opponentsBestMoveArray.length>1){
