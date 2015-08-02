@@ -859,6 +859,17 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 	cfMoves.forEach(function(stepMove) {
 
 		var tempTable = moveIt(stepMove, cfTable) //, hitValue)
+		var opponentsBestMoveArray = createAiTable(tempTable, !cfColor, true)
+		if (opponentsBestMoveArray.length>1){
+			var tTableValue=0
+			tempTable=moveIt(opponentsBestMoveArray[1][0],tempTable) //opponentsBestMoveArray[1][0]
+		}else{
+			//matt
+			var tTableValue=100000
+			//should return
+			
+		}
+			
 		var tempFwdVal = (stepMove[1]-stepMove[3])*0.00014 // mennyit megy elore
 		protectTable(tempTable)
 
@@ -867,7 +878,7 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 		var fMyHitValue = firstData[1]
 		var fHisHitValue = firstData[2]
 
-		var tTableValue = tempFwdVal + 
+		tTableValue += tempFwdVal + 
 							
 							10 * (fTableValue - origTableValue) + (fMyHitValue - origMyHitValue) - (fHisHitValue - origHisHitValue) * 100 // - myStepsAlert
 		
@@ -901,36 +912,36 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 				var tempValue = //temp2FwdVal+  
 				10 * (scndTableValue - origTableValue) + (scndMyHitValue - fMyHitValue) - (scndHisHitValue - fHisHitValue) * 100 //(scndHitValue - origHitValue) +* 10.01
 				
-				if(scndData[3]==0) twoStepsToWin =true
+				//if(scndData[3]==0) twoStepsToWin =true	//do this back
+				
 				if(tTable2Value < tempValue) tTable2Value = tempValue
 
 			})
 
 			tTable2Value /= 1000
 
-			var opponentsBestValue2 = createAiTable(tempTable, !cfColor, true)
-			console.log(origHisMoveCount)
-			console.log(twoStepsToWin)
+			// console.log(origHisMoveCount)
+			// console.log(twoStepsToWin)
 			
 			//var arrLen = opponentsBestValue2.length
 			//opponentsBestValue = -10000 / Math.pow(10001, arrLen - 1)
-			if(origHisMoveCount == 0 || twoStepsToWin) {
-				if (captured(tempTable,!cfColor)){
-					opponentsBestValue= -10000
-				}else{
-					//pattot adna
-				}
-				if (origHisMoveCount == 0 )opponentsBestValue-=10000
-			}else{
-				opponentsBestValue = Number(opponentsBestValue2[1][1]) / 100.0001
+			// if(origHisMoveCount == 0 || twoStepsToWin) {
+			// 	if (captured(tempTable,!cfColor)){
+			// 		opponentsBestValue= -10000
+			// 	}else{
+			// 		//pattot adna
+			// 	}
+			// 	if (origHisMoveCount == 0 )opponentsBestValue-=10000
+			// }else{
+			// 	//opponentsBestValue = Number(opponentsBestValue2[1][1]) / 100.0001
 				
-			}
+			// }
 
 		}
-		var pushThisValue=tTableValue + tTable2Value - opponentsBestValue
-		if (pushThisValue>5000&&pushThisValue<10020)pushThisValue-=9999.998 //not sure, trying to choose good moves for 2stepstowin
+		var pushThisValue=tTableValue + tTable2Value// - opponentsBestValue
+		//if (pushThisValue>5000&&pushThisValue<10020)pushThisValue-=9999.998 //not sure, trying to choose good moves for 2stepstowin
 		
-		allTempTables.push([stepMove, pushThisValue, tTableValue + tTable2Value, opponentsBestValue]) //, tTableValue, tTable2Value])
+		allTempTables.push([stepMove, pushThisValue, tTableValue,tTable2Value])//, opponentsBestValue]) //, tTableValue, tTable2Value])
 
 	})
 
