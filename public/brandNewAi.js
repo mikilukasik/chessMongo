@@ -896,11 +896,11 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 				var scndMyHitValue = scndData[1]
 				var scndHisHitValue = scndData[2]
 				
-				if(scndData[3]==0) twoStepsToWin =true
+				if(scndData[3]==0&&) twoStepsToWin =true
 
 				var tempValue = //temp2FwdVal+  
 				10 * (scndTableValue - origTableValue) + (scndMyHitValue - fMyHitValue) - (scndHisHitValue - fHisHitValue) * 100 //(scndHitValue - origHitValue) +* 10.01
-
+				if(scndData[3]==0&&tempValue>-0.001) twoStepsToWin =true
 				if(tTable2Value < tempValue) tTable2Value = tempValue
 
 			})
@@ -913,7 +913,7 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 			
 			//var arrLen = opponentsBestValue2.length
 			//opponentsBestValue = -10000 / Math.pow(10001, arrLen - 1)
-			if(origHisMoveCount == 0 || twoStepsToWin  ) {
+			if(origHisMoveCount == 0 || (twoStepsToWin) {
 				if (captured(tempTable,!cfColor)){
 					opponentsBestValue= -10000
 				}else{
