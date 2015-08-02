@@ -840,7 +840,7 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 	
 
 	var cfMoves = []
-	getAllMoves(cfTable, cfColor).forEach(function(thisMove) {
+	getAllMoves(cfTable, cfColor).forEach(function(thisMove) {		//get all my moves in array of strings
 		cfMoves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
 
 	})
@@ -851,25 +851,32 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 
 		}
 	}
+	
+	//sakkbol sancolas, sakkon atugras is kene ide
+	
 
 	var origData = getTableData(cfTable, cfColor, true) //trick getTableScore(cfTable, !cfColor)
+	
 	var origTableValue = origData[0]
 	var origMyHitValue = origData[1]
 	var origHisHitValue = origData[2]
 	var origHisMoveCount=origData[3]
 	var twoStepsToWin=false
+	var hisBestRtnMove = ""
 
 	cfMoves.forEach(function(stepMove) {
 
 		var tempTable = moveIt(stepMove, cfTable) //, hitValue)
 		var tTableValue=0
+		
+		
 		if(dontDoScnd){
 			protectTable(tempTable)
 			var opponentsBestMoveArray = createAiTable(tempTable, !cfColor, true)
 			
 			if (opponentsBestMoveArray.length>1){
-				
-				tempTable=moveIt(opponentsBestMoveArray[1][0],tempTable) //opponentsBestMoveArray[1][0]
+				hisBestRtnMove=opponentsBestMoveArray[1][0]
+				tempTable=moveIt(hisBestRtnMove,tempTable) //opponentsBestMoveArray[1][0]
 			}else{
 				//matt
 				tTableValue=100000
