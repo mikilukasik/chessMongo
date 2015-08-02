@@ -828,11 +828,13 @@ function findMyPieces(origTable, isWhite) {
 }
 
 function createAiTable(cfTable, cfColor, oppDontDoScnd) {
-	var dontDoScnd = !oppDontDoScnd
-	protectTable(cfTable)
+	
 	var allTempTables = [
 		[true, 0, new Date().getTime()] //array heading:true,0,timeStarted for timeItTook
 	]
+	var dontDoScnd = !oppDontDoScnd
+	protectTable(cfTable)
+	
 
 	var cfMoves = []
 	getAllMoves(cfTable, cfColor).forEach(function(thisMove) {
