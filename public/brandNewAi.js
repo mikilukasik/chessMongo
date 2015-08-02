@@ -911,7 +911,8 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 
 			//var arrLen = opponentsBestValue2.length
 			//opponentsBestValue = -10000 / Math.pow(10001, arrLen - 1)
-			if(origHisMoveCount == 0 || twoStepsToWin  ) {
+			if(origHisMoveCount == 0 //|| twoStepsToWin 
+				 ) {
 				if (captured(tempTable,!cfColor)){
 					opponentsBestValue= -10000
 				}else{
