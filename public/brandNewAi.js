@@ -900,7 +900,8 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 
 				var tempValue = //temp2FwdVal+  
 				10 * (scndTableValue - origTableValue) + (scndMyHitValue - fMyHitValue) - (scndHisHitValue - fHisHitValue) * 100 //(scndHitValue - origHitValue) +* 10.01
-				if(scndData[3]==0&&tempValue>-0.001) twoStepsToWin =true
+				
+				if(scndData[3]==0&&tTableValue>-0.001) twoStepsToWin =true
 				if(tTable2Value < tempValue) tTable2Value = tempValue
 
 			})
