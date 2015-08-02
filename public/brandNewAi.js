@@ -768,7 +768,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 	var rtnHisHitSum = [0]
 	var rtnMyBestHit = 0
 	var rtnHisBestHit = 0
-	var rtnMyMovesCount = 0
+	var rtnHisMoveCount = 0
 
 	var origColor = 1
 	if(isWhite) origColor = 2
@@ -780,7 +780,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 
 				rtnMyHitSum = [0]
 
-				canMove(lookI, lookJ, isWhite, origTable, true, true, rtnMyHitSum).length
+				canMove(lookI, lookJ, isWhite, origTable, true, true, rtnMyHitSum)
 				if(rtnMyHitSum[0] > rtnMyBestHit) rtnMyBestHit = rtnMyHitSum[0]
 				tableValue += origTable[lookI][lookJ][1]
 
@@ -789,7 +789,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 				if(!(origTable[lookI][lookJ][0] == 0)) { //ha ellenfele
 
 					rtnHisHitSum = [0]
-					canMove(lookI, lookJ, !isWhite, origTable, true, true, rtnHisHitSum)
+					rtnHisMoveCount+= canMove(lookI, lookJ, !isWhite, origTable, true, true, rtnHisHitSum).length
 					if(rtnHisHitSum[0] > rtnHisBestHit) rtnHisBestHit = rtnHisHitSum[0]
 
 					tableValue -= origTable[lookI][lookJ][1]
@@ -800,7 +800,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 		}
 	}
 
-	return [tableValue, rtnMyBestHit, rtnHisBestHit] //rtnData
+	return [tableValue, rtnMyBestHit, rtnHisBestHit, rtnHisMoveCount] //rtnData
 
 }
 
@@ -853,6 +853,8 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 	var origTableValue = origData[0]
 	var origMyHitValue = origData[1]
 	var origHisHitValue = origData[2]
+	var origHisMoveCount=origData[3]
+	var twoStepsToWin=false
 
 	cfMoves.forEach(function(stepMove) {
 
@@ -893,6 +895,8 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 				var scndTableValue = scndData[0]
 				var scndMyHitValue = scndData[1]
 				var scndHisHitValue = scndData[2]
+				
+				if(scndData[3]==0) twoStepsToWin =true
 
 				var tempValue = //temp2FwdVal+  
 				10 * (scndTableValue - origTableValue) + (scndMyHitValue - fMyHitValue) - (scndHisHitValue - fHisHitValue) * 100 //(scndHitValue - origHitValue) +* 10.01
@@ -905,16 +909,18 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 
 			var opponentsBestValue2 = createAiTable(tempTable, !cfColor, true)
 
-			var arrLen = opponentsBestValue2.length
+			//var arrLen = opponentsBestValue2.length
 			//opponentsBestValue = -10000 / Math.pow(10001, arrLen - 1)
-			if(arrLen > 1) {
-				opponentsBestValue = Number(opponentsBestValue2[1][1]) / 100.0001
-			}else{
+			if(origHisMoveCount == 0 || twoStepsToWin  ) {
 				if (captured(tempTable,!cfColor)){
 					opponentsBestValue= -10000
 				}else{
 					//pattot adna
 				}
+				if (origHisMoveCount == 0 )opponentsBestValue-=10000
+			}else{
+				opponentsBestValue = Number(opponentsBestValue2[1][1]) / 100.0001
+				
 			}
 
 		}
