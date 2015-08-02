@@ -870,20 +870,20 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 		var tTableValue=0
 		
 		
-		if(dontDoScnd){
-			protectTable(tempTable)
-			var opponentsBestMoveArray = createAiTable(tempTable, !cfColor, true)
+		// if(dontDoScnd){
+		// 	protectTable(tempTable)
+		// 	var opponentsBestMoveArray = createAiTable(tempTable, !cfColor, true)
 			
-			if (opponentsBestMoveArray.length>1){
-				hisBestRtnMove=opponentsBestMoveArray[1][0]
-				tempTable=moveIt(hisBestRtnMove,tempTable) //opponentsBestMoveArray[1][0]
-			}else{
-				//matt
-				tTableValue=100000
-				//should return
+		// 	if (opponentsBestMoveArray.length>1){
+		// 		hisBestRtnMove=opponentsBestMoveArray[1][0]
+		// 		tempTable=moveIt(hisBestRtnMove,tempTable) //opponentsBestMoveArray[1][0]
+		// 	}else{
+		// 		//matt
+		// 		tTableValue=100000
+		// 		//should return
 				
-			}
-		}
+		// 	}
+		// }
 			
 		var tempFwdVal = (stepMove[1]-stepMove[3])*0.00014 // mennyit megy elore
 		protectTable(tempTable)
