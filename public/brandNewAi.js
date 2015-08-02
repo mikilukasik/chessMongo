@@ -754,9 +754,9 @@ function moveIt(moveString, intable, dontProtect, hitValue) {
 	return thistable
 }
 
-function protectTable(table) {
-	protectPieces(table, true)
-	protectPieces(table, false)
+function protectTable(table,color) {
+	protectPieces(table, color)
+	//protectPieces(table, false)
 
 }
 
@@ -835,7 +835,7 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 	var shouldIDraw = false
 	
 	
-	protectTable(cfTable)
+	protectTable(cfTable, !cfColor)
 	var allTempTables = [
 		[true, 0, new Date().getTime()] //array heading:true,0,timeStarted for timeItTook
 	]
@@ -864,7 +864,7 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 
 		var tempTable = moveIt(stepMove, cfTable) //, hitValue)
 		var tempFwdVal = (stepMove[1]-stepMove[3])*0.0001 // mennyit megy elore
-		protectTable(tempTable)
+		protectTable(tempTable, !cfColor)
 
 		var firstData = getTableData(tempTable, cfColor, true)
 		var fTableValue = firstData[0]
@@ -883,7 +883,7 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 
 			// var cf2Moves = moveArrayToStrings(getAllMoves(tempTable, cfColor), tempTable, cfColor)
 			var cf2Moves = []
-			getAllMoves(tempTable, !cfColor).forEach(function(thisMove) {
+			getAllMoves(tempTable, cfColor).forEach(function(thisMove) {
 				cf2Moves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
 
 			})
