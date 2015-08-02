@@ -859,15 +859,19 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 	cfMoves.forEach(function(stepMove) {
 
 		var tempTable = moveIt(stepMove, cfTable) //, hitValue)
-		var opponentsBestMoveArray = createAiTable(tempTable, !cfColor, true)
-		if (opponentsBestMoveArray.length>1){
-			var tTableValue=0
-			tempTable=moveIt(opponentsBestMoveArray[1][0],tempTable) //opponentsBestMoveArray[1][0]
-		}else{
-			//matt
-			var tTableValue=100000
-			//should return
+		var tTableValue=0
+		if(dontDoScnd){
+			var opponentsBestMoveArray = createAiTable(tempTable, !cfColor, true)
 			
+			if (opponentsBestMoveArray.length>1){
+				
+				tempTable=moveIt(opponentsBestMoveArray[1][0],tempTable) //opponentsBestMoveArray[1][0]
+			}else{
+				//matt
+				tTableValue=100000
+				//should return
+				
+			}
 		}
 			
 		var tempFwdVal = (stepMove[1]-stepMove[3])*0.00014 // mennyit megy elore
