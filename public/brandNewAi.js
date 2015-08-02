@@ -789,7 +789,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 				if(!(origTable[lookI][lookJ][0] == 0)) { //ha ellenfele
 
 					rtnHisHitSum = [0]
-					rtnHisMoveCount+= canMove(lookI, lookJ, !isWhite, origTable, true, true, rtnHisHitSum).length-1
+					rtnHisMoveCount+= (canMove(lookI, lookJ, !isWhite, origTable, true, true, rtnHisHitSum).length-2)//   was /2 but 0 is the point
 					if(rtnHisHitSum[0] > rtnHisBestHit) rtnHisBestHit = rtnHisHitSum[0]
 
 					tableValue -= origTable[lookI][lookJ][1]
