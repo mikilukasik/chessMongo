@@ -719,11 +719,11 @@ function moveIt(moveString, intable, dontProtect, hitValue) {
 	}
 	//es itt a vege
 	//indul en passt lepett
-
+	var enPass=false
 	if(thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][1] == 1 && //paraszt
 		thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][0] == 0 && //uresre
 		!(moveString[0] == moveString[2])) { //keresztbe
-
+		enPass=true
 		thistable[dletters.indexOf(moveString[2])][moveString[3] - 1] = thistable[dletters.indexOf(moveString[2])][moveString[1] - 1]
 
 		thistable[dletters.indexOf(moveString[2])][moveString[1] - 1] = [0, 0, false, false, false] //ures
@@ -741,9 +741,12 @@ function moveIt(moveString, intable, dontProtect, hitValue) {
 		thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][1] = 5 //kiralyno lett
 
 	}
-
-	hitValue = thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][1] //normal hivalue
-
+	
+	if (enPass){
+		hitValue=1
+	}else{
+		hitValue = thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][1] //normal hivalue
+	}
 	thistable[dletters.indexOf(moveString[2])][moveString[3] - 1] =
 		thistable[dletters.indexOf(moveString[0])][moveString[1] - 1]
 	thistable[dletters.indexOf(moveString[0])][moveString[1] - 1] = [0, 0] //, false, false, false]
