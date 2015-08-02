@@ -622,7 +622,7 @@ function moveArrayToStrings(moveArray, ftable, fwNext) {
 
 }
 
-function getAllMoves(tableToMoveOn, whiteNext, hitItsOwn){//, allHitSum) {
+function getAllMoves(tableToMoveOn, whiteNext, hitItsOwn, allHitSum) {
 
 	var tableData = findMyPieces(tableToMoveOn, whiteNext)[1]
 	var thisArray = []
@@ -632,8 +632,8 @@ function getAllMoves(tableToMoveOn, whiteNext, hitItsOwn){//, allHitSum) {
 		whiteNext = !whiteNext
 	}
 	//var allHitSum=0
-	//var hitSumPart = []
-	var hitSumPart= [0]
+	var hitSumPart = []
+	hitSumPart[0] = 0
 
 	for(var pieceNo = 0; pieceNo < tableData.length; pieceNo++) {
 
@@ -641,7 +641,7 @@ function getAllMoves(tableToMoveOn, whiteNext, hitItsOwn){//, allHitSum) {
 			.forEach(function(stepItem) {
 				thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
 			})
-		//allHitSum += hitSumPart[0]
+		allHitSum += hitSumPart[0]
 	}
 
 	return thisArray
@@ -754,9 +754,9 @@ function moveIt(moveString, intable, dontProtect, hitValue) {
 	return thistable
 }
 
-function protectTable(table,color) {
-	protectPieces(table, color)
-	//protectPieces(table, false)
+function protectTable(table) {
+	protectPieces(table, true)
+	protectPieces(table, false)
 
 }
 
@@ -810,8 +810,6 @@ function findMyPieces(origTable, isWhite) {
 
 	var origColor = 1
 	if(isWhite) origColor = 2
-	
-	
 
 	for(var lookI = 0; lookI < 8; lookI++) { //
 		for(var lookJ = 0; lookJ < 8; lookJ++) { //look through the table
@@ -830,12 +828,8 @@ function findMyPieces(origTable, isWhite) {
 }
 
 function createAiTable(cfTable, cfColor, oppDontDoScnd) {
-	var doScnd = !oppDontDoScnd
-	
-	var shouldIDraw = false
-	
-	protectPieces(cfTable, cfColor)
-	protectPieces(cfTable, !cfColor)
+	var dontDoScnd = !oppDontDoScnd
+	protectTable(cfTable)
 	var allTempTables = [
 		[true, 0, new Date().getTime()] //array heading:true,0,timeStarted for timeItTook
 	]
@@ -857,15 +851,12 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 	var origTableValue = origData[0]
 	var origMyHitValue = origData[1]
 	var origHisHitValue = origData[2]
-	
-	if (origTableValue<0) shouldIDraw=true
 
 	cfMoves.forEach(function(stepMove) {
 
 		var tempTable = moveIt(stepMove, cfTable) //, hitValue)
 		var tempFwdVal = (stepMove[1]-stepMove[3])*0.0001 // mennyit megy elore
-		protectPieces(cfTable, cfColor)
-		protectPieces(cfTable, !cfColor)
+		protectTable(tempTable)
 
 		var firstData = getTableData(tempTable, cfColor, true)
 		var fTableValue = firstData[0]
@@ -880,7 +871,7 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 
 		var tTable2Value = 0
 
-		if(doScnd) {
+		if(dontDoScnd) {
 
 			// var cf2Moves = moveArrayToStrings(getAllMoves(tempTable, cfColor), tempTable, cfColor)
 			var cf2Moves = []
@@ -921,15 +912,6 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 					opponentsBestValue= -10000
 				}else{
 					//pattot adna
-					
-					if(shouldIDraw){
-						opponentsBestValue= -10000
-						
-					}else{
-						
-						opponentsBestValue= 10000
-					}
-					
 				}
 			}
 
