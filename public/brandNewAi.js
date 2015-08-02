@@ -789,7 +789,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 				if(!(origTable[lookI][lookJ][0] == 0)) { //ha ellenfele
 
 					rtnHisHitSum = [0]
-					rtnHisMoveCount+= canMove(lookI, lookJ, !isWhite, origTable, true, true, rtnHisHitSum).length
+					rtnHisMoveCount+= canMove(lookI, lookJ, !isWhite, origTable, true, true, rtnHisHitSum).length-1
 					if(rtnHisHitSum[0] > rtnHisBestHit) rtnHisBestHit = rtnHisHitSum[0]
 
 					tableValue -= origTable[lookI][lookJ][1]
@@ -911,8 +911,7 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 
 			//var arrLen = opponentsBestValue2.length
 			//opponentsBestValue = -10000 / Math.pow(10001, arrLen - 1)
-			if(opponentsBestValue2.length == 1 || twoStepsToWin 
-				 ) {
+			if(opponentsBestValue2.length == 1 || twoStepsToWin  ) {
 				if (captured(tempTable,!cfColor)){
 					opponentsBestValue= -10000
 				}else{
