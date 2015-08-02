@@ -864,7 +864,8 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 
 		var tempTable = moveIt(stepMove, cfTable) //, hitValue)
 		var tempFwdVal = (stepMove[1]-stepMove[3])*0.0001 // mennyit megy elore
-		protectTable(tempTable, !cfColor)
+		protectPieces(cfTable, cfColor)
+		protectPieces(cfTable, !cfColor)
 
 		var firstData = getTableData(tempTable, cfColor, true)
 		var fTableValue = firstData[0]
