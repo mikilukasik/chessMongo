@@ -915,7 +915,7 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 			var arrLen = opponentsBestValue2.length
 			//opponentsBestValue = -10000 / Math.pow(10001, arrLen - 1)
 			if(arrLen > 1) {
-				opponentsBestValue = Number(opponentsBestValue2[1][1]) / 100.001
+				opponentsBestValue = Number(opponentsBestValue2[1][1]) / 100.0001
 			}else{
 				if (captured(tempTable,!cfColor)){
 					opponentsBestValue= -10000
