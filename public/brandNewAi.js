@@ -855,7 +855,7 @@ function createAiTable(cfTable, cfColor, oppDontDoScnd) {
 	cfMoves.forEach(function(stepMove) {
 
 		var tempTable = moveIt(stepMove, cfTable) //, hitValue)
-		var tempFwdVal = (stepMove[1]-stepMove[3])*0.0005 // mennyit megy elore
+		var tempFwdVal = (stepMove[1]-stepMove[3])*0.00014 // mennyit megy elore
 		protectTable(tempTable)
 
 		var firstData = getTableData(tempTable, cfColor, true)
