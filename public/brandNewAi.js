@@ -914,7 +914,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				
 				rtnValue=// 10 * (rtnTableValue - origTableValue) - (origMyHitValue - origHisHitValue) + (rtnMyHitValue - rtnHisHitValue) //* 100 // - myStepsAlert
 				//10 * 
-				hitValue+0.1*(rtnTableValue - origTableValue) + (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
+				hitValue+(rtnTableValue - origTableValue) + (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
 				
 				
 				
