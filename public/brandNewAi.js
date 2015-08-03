@@ -889,6 +889,8 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 		if(doScnd){	//elso korben megnezi a lejobb ellenlepeset, meglepi, es kiszamolja hogy allok
 			//protectTable(tempTable)
+			tempFwdVal = (stepMove[1]-stepMove[3])*0.01 // 
+			
 			var opponentsBestMoveArray = createAiTable(tempTable, !cfColor, true)
 			
 			if (opponentsBestMoveArray.length>1){   //stepcount is returned from createaitable, should use it
