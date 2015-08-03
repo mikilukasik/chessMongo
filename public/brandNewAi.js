@@ -863,8 +863,8 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	var origData = getTableData(cfTable, cfColor) //trick getTableScore(cfTable, !cfColor)
 	
 	var origTableValue = origData[0]
-	var origMyHitValue = origData[1]
-	var origHisHitValue = origData[2]
+	var origMyHitValue = 0//origData[1]
+	var origHisHitValue = 0//origData[2]
 	
 	var origValue=origTableValue+origMyHitValue-origHisHitValue
 	//var origHisMoveCount=origData[3]
