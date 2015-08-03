@@ -930,7 +930,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				retTable=tempRetTable
 			}
 		
-		}
+		})
 		
 		var rtnTableValue = retData[0]
 		var rtnMyHitValue = retData[1]
