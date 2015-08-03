@@ -928,6 +928,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				tempRetValue=retTableValue+retMyHitValue-retHisHitValue
 				retData = tempRetData
 				retTable=tempRetTable
+				hisBestRtnMove=stepRetMove
 			}
 		
 		})
@@ -1055,7 +1056,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 								tTable2Value + rtnValue// - opponentsBestValue
 		//if (pushThisValue>5000&&pushThisValue<10020)pushThisValue-=9999.998 //not sure, trying to choose good moves for 2stepstowin
 		
-		allTempTables.push([stepMove, pushThisValue, 0, rtnValue, tTable2Value, hisBestRtnMove])//, opponentsBestValue]) //, tTableValue, tTable2Value])
+		allTempTables.push([stepMove, pushThisValue, rtnValue, tTable2Value, hisBestRtnMove])//, opponentsBestValue]) //, tTableValue, tTable2Value])
 
 	})
 
