@@ -297,7 +297,7 @@ function pushAid(hitSummmm, canMoveTo, x, y, hanyadik, milegyen, fromTable, some
 
 		if(fromTable[x][y][6]) { //alert('protectedHit')	//ha protectedre lep
 			thisHit = fromTable[x][y][1] - //thisHitbol kivonja amivel lep
-				whatHits * whatHitsConst
+				whatHits //* whatHitsConst
 			if(thisHit < 0) {
 				thisHit = 0
 			} //negaive is 0
@@ -803,7 +803,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 		}
 	}
 
-	return [tableValue*1.001, rtnMyBestHit, rtnHisBestHit, rtnHisMoveCount] //rtnData
+	return [tableValue, rtnMyBestHit, rtnHisBestHit, rtnHisMoveCount] //rtnData
 
 }
 
@@ -837,7 +837,6 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	]
 	var doScnd = !skipScnd
 	
-	protectTable(cfTable)
 	
 
 	var cfMoves = []
@@ -859,15 +858,16 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	
 	//sakkbol sancolas, sakkon atugras is kene ide (new getallmoves  will help)
 	
-
+	protectTable(cfTable)
+	
 	var origData = getTableData(cfTable, cfColor, true) //trick getTableScore(cfTable, !cfColor)
 	
 	var origTableValue = origData[0]
 	var origMyHitValue = origData[1]
 	var origHisHitValue = origData[2]
-	var origHisMoveCount=origData[3]
+	//var origHisMoveCount=origData[3]
 	var twoStepsToWin=false
-	var hisBestRtnMove = ""
+	var hisBestRtnMove
 
 	cfMoves.forEach(function(stepMove) {
 
