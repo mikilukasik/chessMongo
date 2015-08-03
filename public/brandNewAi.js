@@ -1031,7 +1031,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 			})
 
-			tTable2Value /= 10
+			tTable2Value /= 100
 
 			// console.log(origHisMoveCount)
 			// console.log(twoStepsToWin)
