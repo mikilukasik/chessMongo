@@ -865,7 +865,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	var origTableValue = origData[0]
 	var origMyHitValue = origData[1]
 	var origHisHitValue = origData[2]
-	//var origHisMoveCount=origData[3]
+	var origHisMoveCount=origData[3]
 	var twoStepsToWin=false
 	var hisBestRtnMove = ""
 
@@ -874,7 +874,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		var tempTable = moveIt(stepMove, cfTable) //, hitValue)
 		var tTableValue=0
 		
-		////temp ignore fwd
+		//temp ignore fwd
 		var tempFwdVal = 0//(stepMove[1]-stepMove[3])*0.00014 // mennyit megy elore
 		
 		protectTable(tempTable)
@@ -889,7 +889,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 		if(doScnd){	//elso korben megnezi a lejobb ellenlepeset, meglepi, es kiszamolja hogy allok
 			//protectTable(tempTable)
-			tempFwdVal = (stepMove[1]-stepMove[3])*0.1 // 
+			tempFwdVal = (stepMove[1]-stepMove[3])*0.01 // 
 			
 			var opponentsBestMoveArray = createAiTable(tempTable, !cfColor, true)
 			
@@ -984,9 +984,8 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 			})
 
-			tTableValue *= 10
-			rtnValue *= 100
-			
+			tTable2Value /= 10
+
 			// console.log(origHisMoveCount)
 			// console.log(twoStepsToWin)
 			
