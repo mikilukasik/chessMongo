@@ -860,7 +860,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	
 	protectTable(cfTable)
 	
-	var origData = getTableData(cfTable, cfColor, true) //trick getTableScore(cfTable, !cfColor)
+	var origData = getTableData(cfTable, cfColor) //trick getTableScore(cfTable, !cfColor)
 	
 	var origTableValue = origData[0]
 	var origMyHitValue = origData[1]
