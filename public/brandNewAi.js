@@ -909,8 +909,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				var rtnHisHitValue = rtnData[2]
 				if (rtnData[3]=0) twoStepsToWin=true
 				
-				rtnValue= 10 * (rtnTableValue - origTableValue) - (origMyHitValue - origHisHitValue) + (rtnMyHitValue - rtnHisHitValue) //* 100 // - myStepsAlert
-		
+				rtnValue=// 10 * (rtnTableValue - origTableValue) - (origMyHitValue - origHisHitValue) + (rtnMyHitValue - rtnHisHitValue) //* 100 // - myStepsAlert
+				10 * (rtnTableValue - origTableValue) + (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
+				
 				
 			}else{
 				
@@ -936,8 +937,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 		tTableValue += tempFwdVal + 
 							
-							10 * (fTableValue - origTableValue) - (origMyHitValue - origHisHitValue) + (fMyHitValue - fHisHitValue) //* 100 // - myStepsAlert
-		
+							//10 * (fTableValue - origTableValue) - (origMyHitValue - origHisHitValue) + (fMyHitValue - fHisHitValue) //* 100 // - myStepsAlert
+							10 * (fTableValue - origTableValue) + (fMyHitValue - origMyHitValue ) - (fHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
+				
 							//10 * (fTableValue - origTableValue) + (fMyHitValue - origMyHitValue) - (fHisHitValue - origHisHitValue) * 100 // - myStepsAlert
 		
 		//var opponentsBestValue = 0
@@ -968,7 +970,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				//if(scndData[3]==0&&) twoStepsToWin =true
 
 				var tempValue = //temp2FwdVal+  
-				10 * (scndTableValue - origTableValue) - (scndMyHitValue -scndHisHitValue ) + (fMyHitValue - fHisHitValue)//(scndHitValue - origHitValue) +* 10.01
+				10 * (scndTableValue - origTableValue) + (scndMyHitValue - origMyHitValue ) - (scndHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
 				
 				//if(scndData[3]==0) twoStepsToWin =true	//do this back
 				
