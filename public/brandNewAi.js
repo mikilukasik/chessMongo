@@ -870,8 +870,8 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	var hisBestRtnMove
 
 	cfMoves.forEach(function(stepMove) {
-
-		var tempTable = moveIt(stepMove, cfTable) //, hitValue)
+		var hitValue=0
+		var tempTable = moveIt(stepMove, cfTable, false, hitValue)
 		var tTableValue=0
 		
 		//temp ignore fwd
@@ -879,7 +879,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 		protectTable(tempTable)
 
-		var firstData = getTableData(tempTable, cfColor, true)
+		var firstData = getTableData(tempTable, cfColor)
 		
 		var fTableValue = firstData[0]
 		var fMyHitValue = firstData[1]
@@ -889,6 +889,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 		if(doScnd){	//elso korben megnezi a lejobb ellenlepeset, meglepi, es kiszamolja hogy allok
 			//protectTable(tempTable)
+			
 			tempFwdVal = (stepMove[1]-stepMove[3])*0.001 // 
 			
 			var opponentsBestMoveArray = createAiTable(tempTable, !cfColor, true)
@@ -913,7 +914,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				
 				rtnValue=// 10 * (rtnTableValue - origTableValue) - (origMyHitValue - origHisHitValue) + (rtnMyHitValue - rtnHisHitValue) //* 100 // - myStepsAlert
 				//10 * 
-				(rtnTableValue - origTableValue) + (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
+				hitValue+(rtnTableValue - origTableValue) + (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
 				
 				
 				
