@@ -913,6 +913,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			}
 		}
 		
+		if (cfRetMoves.length==0){
+			var rtnValue=10000
+		}else{
 		
 		var retData=[]
 		var tempRetValue=99999999
@@ -994,7 +997,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 		//}
 			
-		
+		}
 
 		rtnValue += fwdVal//+ 
 							
