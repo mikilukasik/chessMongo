@@ -889,7 +889,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 		if(doScnd){	//elso korben megnezi a lejobb ellenlepeset, meglepi, es kiszamolja hogy allok
 			//protectTable(tempTable)
-			tempFwdVal = (stepMove[1]-stepMove[3])*0.01 // 
+			tempFwdVal = (stepMove[1]-stepMove[3])*0.001 // 
 			
 			var opponentsBestMoveArray = createAiTable(tempTable, !cfColor, true)
 			
