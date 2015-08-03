@@ -905,6 +905,15 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			cfRetMoves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
 	
 		})
+		
+		for(var i = cfRetMoves.length - 1; i >= 0; i--) { //sakkba nem lephet o sem
+			if(captured(moveIt(cfRetMoves[i], tempTable), !cfColor)) { //sakkba lepne valaszkent
+				cfRetMoves.splice(i, 1)
+	
+			}
+		}
+		
+		
 		var retData=[]
 		var tempRetValue=99999999
 		var retTable=[]
