@@ -865,7 +865,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	var origTableValue = origData[0]
 	var origMyHitValue = origData[1]
 	var origHisHitValue = origData[2]
-	var origHisMoveCount=origData[3]
+	//var origHisMoveCount=origData[3]
 	var twoStepsToWin=false
 	var hisBestRtnMove = ""
 
