@@ -803,7 +803,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 		}
 	}
 
-	return [tableValue, rtnMyBestHit, rtnHisBestHit, rtnHisMoveCount] //rtnData
+	return [tableValue*10, rtnMyBestHit, rtnHisBestHit, rtnHisMoveCount] //rtnData
 
 }
 
