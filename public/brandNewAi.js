@@ -912,14 +912,15 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	
 			}
 		}
+		var retTable=[]
 		
 		if (cfRetMoves.length==0){
 			var rtnValue=10000
+			retTable=tempTable
 		}else{
 		
 		var retData=[]
 		var tempRetValue=99999999
-		var retTable=[]
 		cfRetMoves.forEach(function(stepRetMove) {
 			//var hitValue=0
 			var tempRetTable = moveIt(stepRetMove, tempTable)//, false, hitValue)
