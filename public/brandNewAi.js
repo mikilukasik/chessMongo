@@ -946,7 +946,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				retHitValue-=cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]	//ha protected, kivonja amivel lep
 				if (retHitValue<0)retHitValue=0
 			}
-			retHitValue*=100	
+			retHitValue*=10	
 			var tempRetTable = moveIt(stepRetMove, tempTable)//, false, hitValue)
 			//var tTableValue=0
 			
