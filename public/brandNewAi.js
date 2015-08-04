@@ -922,7 +922,11 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		var retTable=[]
 		
 		if (cfRetMoves.length==0){
-			var rtnValue=10000
+			
+			if(captured(tempTable,!cfColor)){
+				var rtnValue=10000
+			}
+			
 			retTable=tempTable
 		}else{
 		
