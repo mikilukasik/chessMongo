@@ -878,6 +878,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 		if (cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][6]){
 			addHitValue-=cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]	//ha protected, kivonja amivel lep
+			if (addHitValue<0)addHitValue=0
 		}
 		//var hitValue=0
 		var tempTable = moveIt(stepMove, cfTable)//, false, hitValue)
