@@ -948,7 +948,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	
 			var tempRetData = getTableData(tempRetTable, cfColor)
 			
-			var retTableValue = tempRetData[0]
+			var retTableValue = tempRetData[0]*10 ///////////////////////////
 			var retMyHitValue = tempRetData[1]
 			var retHisHitValue = tempRetData[2]
 			
@@ -965,8 +965,14 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		var rtnMyHitValue = retData[1]
 		var rtnHisHitValue = retData[2]
 		
-		var rtnValue=(rtnTableValue - origTableValue)*1.1 + (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
-		
+		var rtnValue=(rtnTableValue - origTableValue) + (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
+													//*1.1
+													
+													
+													
+													
+													
+													
 		/////////////////////////
 		
 		// if (opponentsBestMoveArray.length>1){   //stepcount is returned from createaitable, should use it
