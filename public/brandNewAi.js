@@ -925,6 +925,8 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			
 			if(captured(tempTable,!cfColor)){
 				var rtnValue=10000
+			}else{
+				//pattot adna
 			}
 			
 			retTable=tempTable
