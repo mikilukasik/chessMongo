@@ -875,8 +875,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	cfMoves.forEach(function(stepMove, moveIndex) {
 		
 		var addHitValue=cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1]	//leutott babu erteke, vagy 0
+		
 		if (cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][6]){
-			addHitValue-=cfTable[cfMoveCoords[moveIndex][1]][cfMoveCoords[moveIndex][2]][6]	//ha protected, kivonja amivel lep
+			addHitValue-=cfTable[cfMoveCoords[moveIndex][1]][cfMoveCoords[moveIndex][2]][1]	//ha protected, kivonja amivel lep
 		}
 		//var hitValue=0
 		var tempTable = moveIt(stepMove, cfTable)//, false, hitValue)
