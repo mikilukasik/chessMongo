@@ -874,13 +874,13 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 	cfMoves.forEach(function(stepMove, moveIndex) {
 		
-		var addHitValue=cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1]	//leutott babu erteke, vagy 0
+		var fHitValue=cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1]	//leutott babu erteke, vagy 0
 		
 		if (cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][6]){
-			addHitValue-=cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]	//ha protected, kivonja amivel lep
-			if (addHitValue<0)addHitValue=0
+			fHitValue-=cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]	//ha protected, kivonja amivel lep
+			if (fHitValue<0)fHitValue=0
 		}
-		addHitValue*=100	//kell ez?
+		fHitValue*=100	//--talan 10 kene
 		//var hitValue=0
 		var tempTable = moveIt(stepMove, cfTable)//, false, hitValue)
 		//var tTableValue=0
@@ -921,6 +921,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	
 			}
 		}
+		
 		var retTable=[]
 		
 		if (cfRetMoves.length==0){
@@ -936,8 +937,16 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 		var retData=[]
 		var tempRetValue=99999999
+		var retHitValue=0
 		cfRetMoves.forEach(function(stepRetMove) {
 			//var hitValue=0
+			retHitValue=cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1]	//leutott babu erteke, vagy 0
+		
+			if (cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][6]){
+				retHitValue-=cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]	//ha protected, kivonja amivel lep
+				if (retHitValue<0)retHitValue=0
+			}
+			retHitValue*=100	
 			var tempRetTable = moveIt(stepRetMove, tempTable)//, false, hitValue)
 			//var tTableValue=0
 			
@@ -948,7 +957,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	
 			var tempRetData = getTableData(tempRetTable, cfColor)
 			
-			var retTableValue = tempRetData[0]*10 ///////////////////////////
+			var retTableValue = tempRetData[0] ///////////////////////////
 			var retMyHitValue = tempRetData[1]
 			var retHisHitValue = tempRetData[2]
 			
@@ -965,12 +974,8 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		var rtnMyHitValue = retData[1]
 		var rtnHisHitValue = retData[2]
 		
-		var rtnValue=(rtnTableValue - origTableValue) + (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
-													//*1.1
-													
-													
-													
-													
+		var rtnValue=(fHitValue-retHitValue)+(rtnTableValue - origTableValue)*1.1 + (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
+																			
 													
 													
 		/////////////////////////
@@ -1087,10 +1092,10 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 		}
 		var pushThisValue=//0.01*tTableValue + 
-								tTable2Value + rtnValue + addHitValue// - opponentsBestValue
+								tTable2Value + rtnValue + fHitValue// - opponentsBestValue
 		//if (pushThisValue>5000&&pushThisValue<10020)pushThisValue-=9999.998 //not sure, trying to choose good moves for 2stepstowin
 		
-		allTempTables.push([stepMove, pushThisValue, addHitValue, rtnValue, tTable2Value, hisBestRtnMove])//, opponentsBestValue]) //, tTableValue, tTable2Value])
+		allTempTables.push([stepMove, pushThisValue, fHitValue, rtnValue, tTable2Value, hisBestRtnMove])//, opponentsBestValue]) //, tTableValue, tTable2Value])
 
 	})
 
