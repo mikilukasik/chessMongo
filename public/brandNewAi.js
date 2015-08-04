@@ -965,7 +965,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		var rtnMyHitValue = retData[1]
 		var rtnHisHitValue = retData[2]
 		
-		var rtnValue=(rtnTableValue - origTableValue)*10 + (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
+		var rtnValue=(rtnTableValue - origTableValue)*1.1 + (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
 		
 		/////////////////////////
 		
