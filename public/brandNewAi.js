@@ -803,7 +803,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 		}
 	}
 
-	return [tableValue, rtnMyBestHit, rtnHisBestHit, rtnHisMoveCount] //rtnData
+	return [tableValue*10, rtnMyBestHit, rtnHisBestHit, rtnHisMoveCount] //rtnData
 
 }
 
@@ -880,6 +880,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			addHitValue-=cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]	//ha protected, kivonja amivel lep
 			if (addHitValue<0)addHitValue=0
 		}
+		addHitValue*=10
 		//var hitValue=0
 		var tempTable = moveIt(stepMove, cfTable)//, false, hitValue)
 		//var tTableValue=0
