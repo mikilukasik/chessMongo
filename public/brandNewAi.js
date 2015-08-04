@@ -840,12 +840,13 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	
 
 	var cfMoves = []
+	var cfMoveCoords = []
 	
 	//getAllMoves should be able to work fast or full (sanc, en pass, stb)
 	
 	getAllMoves(cfTable, cfColor).forEach(function(thisMove) {		//get all my moves in array of strings
 		cfMoves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
-
+		cfMoveCoords.push(thisMove)
 	})
 
 	// es akkor nem kell ez:
@@ -871,7 +872,12 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	var twoStepsToWin=false
 	var hisBestRtnMove
 
-	cfMoves.forEach(function(stepMove) {
+	cfMoves.forEach(function(stepMove, moveIndex) {
+		
+		var addHitValue=cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1]	//leutott babu erteke, vagy 0
+		if (cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][6]){
+			addHitValue-=cfTable[cfMoveCoords[moveIndex][1]][cfMoveCoords[moveIndex][2]][6]	//ha protected, kivonja amivel lep
+		}
 		//var hitValue=0
 		var tempTable = moveIt(stepMove, cfTable)//, false, hitValue)
 		//var tTableValue=0
@@ -1066,10 +1072,10 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 		}
 		var pushThisValue=//0.01*tTableValue + 
-								tTable2Value + rtnValue// - opponentsBestValue
+								tTable2Value + rtnValue + addHitValue// - opponentsBestValue
 		//if (pushThisValue>5000&&pushThisValue<10020)pushThisValue-=9999.998 //not sure, trying to choose good moves for 2stepstowin
 		
-		allTempTables.push([stepMove, pushThisValue, rtnValue, tTable2Value, hisBestRtnMove])//, opponentsBestValue]) //, tTableValue, tTable2Value])
+		allTempTables.push([stepMove, pushThisValue, addHitValue, rtnValue, tTable2Value, hisBestRtnMove])//, opponentsBestValue]) //, tTableValue, tTable2Value])
 
 	})
 
