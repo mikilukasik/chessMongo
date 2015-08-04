@@ -880,7 +880,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			fHitValue-=cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]	//ha protected, kivonja amivel lep
 			if (fHitValue<0)fHitValue=0
 		}
-		fHitValue*=10	//--talan 10 kene
+		fHitValue*=100	//--talan 10 kene
 		//var hitValue=0
 		var tempTable = moveIt(stepMove, cfTable)//, false, hitValue)
 		//var tTableValue=0
