@@ -890,7 +890,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		//var tTableValue=0
 		
 		//temp ignore fwd
-		var fwdVal = (stepMove[1]-stepMove[3])*0.001//4 // mennyit megy elore
+		var fwdVal = 0//(stepMove[1]-stepMove[3])*0.001//4 // mennyit megy elore
 		
 		//protectTable(tempTable)
 
