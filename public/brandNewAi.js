@@ -1,3 +1,4 @@
+
 //var hitSum = 0
 var escConst = 1
 var fadeConst = 1
@@ -959,7 +960,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			
 			var retTableValue = tempRetData[0] ///////////////////////////
 			var retMyHitValue = tempRetData[1]
-			var retHisHitValue = tempRetData[2]///10//////////////////////////
+			var retHisHitValue = tempRetData[2]/10//////////////////////////
 			
 			if (retTableValue+retMyHitValue-retHisHitValue<tempRetValue){
 				tempRetValue=retTableValue+retMyHitValue-retHisHitValue
@@ -974,7 +975,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		var rtnMyHitValue = retData[1]
 		var rtnHisHitValue = retData[2]
 		
-		var rtnValue=(fHitValue-retHitValue)+(rtnTableValue - origTableValue) + (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
+		var rtnValue=(fHitValue-retHitValue)+(rtnTableValue - origTableValue)*1.1 + (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
 																			
 													
 													
