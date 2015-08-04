@@ -803,7 +803,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 		}
 	}
 
-	return [tableValue*10, rtnMyBestHit, rtnHisBestHit, rtnHisMoveCount] //rtnData
+	return [tableValue, rtnMyBestHit, rtnHisBestHit, rtnHisMoveCount] //rtnData
 
 }
 
@@ -965,7 +965,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		var rtnMyHitValue = retData[1]
 		var rtnHisHitValue = retData[2]
 		
-		var rtnValue=(rtnTableValue - origTableValue) + (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
+		var rtnValue=(rtnTableValue - origTableValue)*10 + (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
 		
 		/////////////////////////
 		
