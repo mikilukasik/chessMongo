@@ -853,7 +853,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	for(var i = cfMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
 		if(captured(moveIt(cfMoves[i], cfTable), cfColor)) { //sakkba lepnenk
 			cfMoves.splice(i, 1)
-
+			cfMoveCoords.splice(i,1)
 		}
 	}
 	
@@ -880,7 +880,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			addHitValue-=cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]	//ha protected, kivonja amivel lep
 			if (addHitValue<0)addHitValue=0
 		}
-		addHitValue*=10
+		addHitValue*=10	//kell ez?
 		//var hitValue=0
 		var tempTable = moveIt(stepMove, cfTable)//, false, hitValue)
 		//var tTableValue=0
