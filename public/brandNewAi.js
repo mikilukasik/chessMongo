@@ -217,7 +217,7 @@ function canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm) {
 
 	}
 	
-	hitSumm-=moveTable[k][l][1]/10	//amit ut-amivel uti/10
+	hitSumm-=moveTable[k][l][1]/100	//amit ut-amivel uti/10
 
 	if(!speedy) {
 		for(var i = possibleMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
