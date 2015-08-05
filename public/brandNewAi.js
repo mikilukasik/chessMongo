@@ -954,9 +954,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				var retMyHitValue = tempRetData[1]
 				var retHisHitValue = tempRetData[2]
 				
-				if (10*(rtnMyHitValue+fHitValue-retHitValue-origMyHitValue)+(rtnHisHitValue-origHisHitValue)<tempRetValue){
+				if (10*(fHitValue-retHitValue+rtnMyHitValue-origMyHitValue)+rtnHisHitValue-origHisHitValue<tempRetValue){
 					
-					tempRetValue=10*(rtnMyHitValue+fHitValue-retHitValue-origMyHitValue)+(rtnHisHitValue-origHisHitValue)
+					tempRetValue=10*(fHitValue-retHitValue+rtnMyHitValue-origMyHitValue)+rtnHisHitValue-origHisHitValue
 					retData = tempRetData
 					retTable=tempRetTable
 					hisBestRtnMove=stepRetMove
@@ -968,7 +968,8 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			var rtnMyHitValue = retData[1]
 			var rtnHisHitValue = retData[2]
 			
-			rtnValue=10*(rtnMyHitValue+fHitValue-retHitValue-origMyHitValue)+(rtnHisHitValue-origHisHitValue)//+()*10//+(rtnTableValue - origTableValue)*1.1 //+ (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
+			rtnValue=10*(fHitValue-retHitValue+rtnMyHitValue-origMyHitValue)+rtnHisHitValue-origHisHitValue//+(rtnTableValue - origTableValue)*1.1 //+ (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
+			//10*(rtnMyHitValue+fHitValue-retHitValue-origMyHitValue)+(rtnHisHitValue-origHisHitValue)//+()*10//+(rtnTableValue - origTableValue)*1.1 //+ (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
 		
 		}
 
