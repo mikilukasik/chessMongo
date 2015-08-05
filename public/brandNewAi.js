@@ -1027,7 +1027,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		}
 		var pushThisValue=	tTable2Value + rtnValue// + fHitValue
 		
-		allTempTables.push([stepMove, pushThisValue,  fHitValue, -1*retHitValue,hhit, hisBestRtnMove])
+		allTempTables.push([stepMove, pushThisValue,  loopValue, mhit,hhit, hisBestRtnMove])
 	
 	})
 
