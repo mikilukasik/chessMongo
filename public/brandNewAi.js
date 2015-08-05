@@ -886,7 +886,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			fHitValue-=cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]	//ha protected, kivonja amivel lep
 			if (fHitValue<0)fHitValue=0
 		}
-		fHitValue*=100	//meg a myhival*10, meg a hishitval*100, ennyit er a lepes
+		//fHitValue*=100	//meg a myhival*10, meg a hishitval*100, ennyit er a lepes
 		
 		var tempTable = moveIt(stepMove, cfTable)//, false, hitValue)
 		protectTable(tempTable)
@@ -939,7 +939,6 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 					retHitValue-=tempTable[cfRetMoveCoords[retMoveIndex][0]][cfRetMoveCoords[retMoveIndex][1]][1]	//ha protected, kivonja amivel lep
 					if (retHitValue<0)retHitValue=0	//miert is???
 				}
-				retHitValue*=100	//ezt ki fogom vonni!! 
 				
 				var tempRetTable = moveIt(stepRetMove, tempTable)//, false, hitValue)
 				protectTable(tempRetTable)	//majd kesobb
@@ -954,7 +953,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				var retMyHitValue = tempRetData[1]
 				var retHisHitValue = tempRetData[2]
 				
-				if (retHitValue-retMyHitValue*100+retHisHitValue*10>tempRetValue){
+				if (retHitValue*100-retMyHitValue*100+retHisHitValue*10>tempRetValue){
 					
 					tempRetValue=retHitValue-retMyHitValue*100+retHisHitValue*10
 					retData = tempRetData
