@@ -843,10 +843,11 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	
 	
 
-	var cfMoves = []
-	var cfMoveCoords = []
+	
 	
 	//getAllMoves should be able to work fast or full (sanc, en pass, stb)
+	var cfMoves = []
+	var cfMoveCoords = []
 	
 	getAllMoves(cfTable, cfColor).forEach(function(thisMove) {		//get all my moves in array of strings
 		cfMoves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
@@ -861,7 +862,8 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		}
 	}
 	
-	//sakkbol sancolas, sakkon atugras is kene ide (new getallmoves  will help)
+	//sakkbol sancolas, sakkon atugras is kene ide (new getallmoves  will help) //mindenkepp kell, vagy leleptetnek
+	
 	
 	protectTable(cfTable)
 	
@@ -871,9 +873,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	var origMyHitValue = origData[1]
 	var origHisHitValue = origData[2]
 	
-	var origValue=origTableValue+origMyHitValue-origHisHitValue
+	//var origValue=origTableValue+origMyHitValue/10-origHisHitValue
 	//var origHisMoveCount=origData[3]
-	var twoStepsToWin=false
+	//var twoStepsToWin=false	//meg kell irni
 	var hisBestRtnMove
 
 	cfMoves.forEach(function(stepMove, moveIndex) {
@@ -884,25 +886,27 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			fHitValue-=cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]	//ha protected, kivonja amivel lep
 			if (fHitValue<0)fHitValue=0
 		}
-		fHitValue*=100	//--talan 10 kene
+		fHitValue*=100	//meg a myhival*10, meg a hishitval*100, ennyit er a lepes
 		
 		var tempTable = moveIt(stepMove, cfTable)//, false, hitValue)
+		protectTable(tempTable)
 
 		var fwdVal = 0//(stepMove[1]-stepMove[3])*0.001//4 // mennyit megy elore
 	
 		
 		var cfRetMoves = []
-	
-		//getAllMoves should be able to work fast or full (sanc, en pass, stb)
+		var cfRetMoveCoords=[]
 	
 		getAllMoves(tempTable, !cfColor).forEach(function(thisMove) {		//get all my moves in array of strings
 			cfRetMoves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
+			cfRetMoveCoords.push(thisMove)
 	
 		})
 		
 		for(var i = cfRetMoves.length - 1; i >= 0; i--) { //sakkba nem lephet o sem
-			if(captured(moveIt(cfRetMoves[i], tempTable), !cfColor)) { //sakkba lepne valaszkent
+			if(captured(moveIt(cfRetMoves[i], tempTable), !cfColor)) { //sakkba lepne valaszkent	//moveit retmove ittis ottis
 				cfRetMoves.splice(i, 1)
+				cfRetMoveCoords.splice(i,1)
 	
 			}
 		}
@@ -912,57 +916,63 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		if (cfRetMoves.length==0){
 			
 			if(captured(tempTable,!cfColor)){
-				var rtnValue=10000
+				var rtnValue=10000	//ott a matt
 			}else{
 				//pattot adna
 			}
 			
-			retTable=tempTable
+			retTable=tempTable	//vmit vissza kell azert adni....
 		}else{
 		
-		var retData=[]
-		var tempRetValue=99999999
-		var retHitValue=0
-		cfRetMoves.forEach(function(stepRetMove) {
+			//lesz valaszlepese
 			
-			retHitValue=cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1]	//leutott babu erteke, vagy 0
+			var retData=[]
+			var tempRetValue=-9999990
+			var retHitValue=0
+			
+			cfRetMoves.forEach(function(stepRetMove,retMoveIndex) {
+				
+				
+				retHitValue=tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][1]	//kivonni kesobb a leutott babu erteke, vagy 0
+						
+				if (tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][6]){
+					retHitValue-=tempTable[cfRetMoveCoords[retMoveIndex][0]][cfRetMoveCoords[retMoveIndex][1]][1]	//ha protected, kivonja amivel lep
+					if (retHitValue<0)retHitValue=0	//miert is???
+				}
+				retHitValue*=100	//ezt ki fogom vonni!! 
+				
+				var tempRetTable = moveIt(stepRetMove, tempTable)//, false, hitValue)
+				protectTable(tempRetTable)	//majd kesobb
+			
+				//temp ignore fwd
+				//var fwdVal = 0//(stepMove[1]-stepMove[3])*0.00014 // mennyit megy elore
+				
+				
+				var tempRetData = getTableData(tempRetTable, cfColor)
+				
+				//var retTableValue = tempRetData[0] //tablevalue-t nem is kene szamolni, megvan a retHitValue
+				var retMyHitValue = tempRetData[1]
+				var retHisHitValue = tempRetData[2]
+				
+				if (retHitValue-retMyHitValue*100+retHisHitValue*10>tempRetValue){
+					
+					tempRetValue=retHitValue-retMyHitValue*100+retHisHitValue*10
+					retData = tempRetData
+					retTable=tempRetTable
+					hisBestRtnMove=stepRetMove
+				}
+			
+			})
+			
+			//var rtnTableValue = retData[0]
+			var rtnMyHitValue = retData[1]
+			var rtnHisHitValue = retData[2]
+			
+			var rtnValue=(fHitValue-retHitValue)*100-(rtnHisHitValue-origHisHitValue)*100+(rtnMyHitValue-origMyHitValue)*10 //+(rtnTableValue - origTableValue)*1.1 //+ (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
 		
-			if (cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][6]){
-				retHitValue-=cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]	//ha protected, kivonja amivel lep
-				if (retHitValue<0)retHitValue=0
-			}
-			retHitValue*=10
-			var tempRetTable = moveIt(stepRetMove, tempTable)//, false, hitValue)
-			
-			//temp ignore fwd
-			//var fwdVal = 0//(stepMove[1]-stepMove[3])*0.00014 // mennyit megy elore
-			
-			protectTable(tempRetTable)
-	
-			var tempRetData = getTableData(tempRetTable, cfColor)
-			
-			var retTableValue = tempRetData[0] 
-			var retMyHitValue = tempRetData[1]*10
-			var retHisHitValue = tempRetData[2]/10
-			
-			if (retTableValue+retMyHitValue-retHisHitValue<tempRetValue){
-				tempRetValue=retTableValue+retMyHitValue-retHisHitValue
-				retData = tempRetData
-				retTable=tempRetTable
-				hisBestRtnMove=stepRetMove
-			}
-		
-		})
-		
-		var rtnTableValue = retData[0]
-		var rtnMyHitValue = retData[1]
-		var rtnHisHitValue = retData[2]
-		
-		var rtnValue=(fHitValue-retHitValue)+(rtnTableValue - origTableValue)*1.1 + (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
-	
 		}
 
-		rtnValue += fwdVal
+		//rtnValue += fwdVal
 							
 					
 
@@ -978,7 +988,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 			cf2Moves.forEach(function(step2Move) {
 
-				var temp2Table = moveIt(step2Move, tempTable)
+				var temp2Table = moveIt(step2Move, retTable)
 				
 				//var temp2FwdVal = (step2Move[3]-step2Move[1])*0.0001 // mennyit megy elore
 				protectTable(temp2Table)
@@ -1004,9 +1014,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			
 
 		}
-		var pushThisValue=	tTable2Value + rtnValue + fHitValue
+		var pushThisValue=	tTable2Value + rtnValue// + fHitValue
 		
-		allTempTables.push([stepMove, pushThisValue, fHitValue, rtnValue, tTable2Value, hisBestRtnMove])
+		allTempTables.push([stepMove, pushThisValue,  rtnValue, tTable2Value, hisBestRtnMove])
 	
 	})
 
