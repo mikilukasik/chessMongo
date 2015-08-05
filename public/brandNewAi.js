@@ -912,11 +912,12 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		}
 		
 		var retTable=[]
+		var rtnValue=0
 		
 		if (cfRetMoves.length==0){
 			
 			if(captured(tempTable,!cfColor)){
-				var rtnValue=10000	//ott a matt
+				rtnValue=1000	//matt 1 lepesben
 			}else{
 				//pattot adna
 			}
@@ -927,7 +928,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			//lesz valaszlepese
 			
 			var retData=[]
-			var tempRetValue=-9999990
+			var tempRetValue=1001	//should get smaller
 			var retHitValue=0
 			
 			cfRetMoves.forEach(function(stepRetMove,retMoveIndex) {
@@ -953,7 +954,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				var retMyHitValue = tempRetData[1]
 				var retHisHitValue = tempRetData[2]
 				
-				if (retHitValue*100-retMyHitValue*100-retHisHitValue*10>tempRetValue){
+				if (10*(rtnMyHitValue+fHitValue-retHitValue-origMyHitValue)+(rtnHisHitValue-origHisHitValue)<tempRetValue){
 					
 					tempRetValue=retHitValue-retMyHitValue*10+retHisHitValue*100
 					retData = tempRetData
@@ -967,7 +968,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			var rtnMyHitValue = retData[1]
 			var rtnHisHitValue = retData[2]
 			
-			var rtnValue=(fHitValue-retHitValue)*100+(rtnHisHitValue-origHisHitValue)*10+(rtnMyHitValue-origMyHitValue)*100//+(rtnTableValue - origTableValue)*1.1 //+ (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
+			rtnValue=10*(rtnMyHitValue+fHitValue-retHitValue-origMyHitValue)+(rtnHisHitValue-origHisHitValue)//+()*10//+(rtnTableValue - origTableValue)*1.1 //+ (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
 		
 		}
 
