@@ -931,10 +931,11 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			var tempRetValue=-9999990
 			var retHitValue=0
 			
+			
 			cfRetMoves.forEach(function(stepRetMove,retMoveIndex) {
 				
 				
-				retHitValue=tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][1]	//kivonni kesobb a leutott babu erteke, vagy 0
+				var tretHitValue=tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][1]	//kivonni kesobb a leutott babu erteke, vagy 0
 						
 								// if (tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][6]){
 								// 	retHitValue-=tempTable[cfRetMoveCoords[retMoveIndex][0]][cfRetMoveCoords[retMoveIndex][1]][1]	//ha protected, kivonja amivel lep
@@ -960,6 +961,8 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 					retData = tempRetData
 					retTable=tempRetTable
 					hisBestRtnMove=stepRetMove
+					retHitValue=tretHitValue
+					
 				}
 			
 			})
