@@ -947,7 +947,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				//var fwdVal = 0//(stepMove[1]-stepMove[3])*0.00014 // mennyit megy elore
 				
 				
-				var tempRetData = getTableData(tempRetTable, !cfColor)
+				var tempRetData = getTableData(tempRetTable, cfColor)
 				
 				//var retTableValue = tempRetData[0] //tablevalue-t nem is kene szamolni, megvan a retHitValue
 				var retMyHitValue = tempRetData[1]
