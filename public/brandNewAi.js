@@ -953,7 +953,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				var retMyHitValue = tempRetData[1]
 				var retHisHitValue = tempRetData[2]
 				
-				if (retHitValue*100-retMyHitValue*100+retHisHitValue*10>tempRetValue){
+				if (retHitValue*100+retMyHitValue*10-retHisHitValue*100>tempRetValue){
 					
 					tempRetValue=retHitValue-retMyHitValue*10+retHisHitValue*100
 					retData = tempRetData
