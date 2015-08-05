@@ -883,10 +883,10 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 		var fHitValue=cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1]	//leutott babu erteke, vagy 0
 		
-		if (cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][6]){
-			fHitValue-=cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]	//ha protected, kivonja amivel lep
-			if (fHitValue<0)fHitValue=0
-		}
+										// if (cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][6]){
+										// 	fHitValue-=cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]	//ha protected, kivonja amivel lep
+										// 	if (fHitValue<0)fHitValue=0
+										// }
 		//fHitValue*=100	//meg a myhival*10, meg a hishitval*100, ennyit er a lepes
 		
 		var tempTable = moveIt(stepMove, cfTable)//, false, hitValue)
@@ -936,10 +936,10 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				
 				retHitValue=tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][1]	//kivonni kesobb a leutott babu erteke, vagy 0
 						
-				if (tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][6]){
-					retHitValue-=tempTable[cfRetMoveCoords[retMoveIndex][0]][cfRetMoveCoords[retMoveIndex][1]][1]	//ha protected, kivonja amivel lep
-					if (retHitValue<0)retHitValue=0	//miert is???
-				}
+								// if (tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][6]){
+								// 	retHitValue-=tempTable[cfRetMoveCoords[retMoveIndex][0]][cfRetMoveCoords[retMoveIndex][1]][1]	//ha protected, kivonja amivel lep
+								// 	if (retHitValue<0)retHitValue=0	//miert is???
+								// }
 				
 				var tempRetTable = moveIt(stepRetMove, tempTable)//, false, hitValue)
 				protectTable(tempRetTable)	//majd kesobb
@@ -954,9 +954,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				var retMyHitValue = tempRetData[1]
 				var retHisHitValue = tempRetData[2]
 				
-				if (retHitValue*100-retMyHitValue*100+retHisHitValue*10>tempRetValue){
+				if (retHitValue*100-retMyHitValue*10+retHisHitValue*1>tempRetValue){
 					
-					tempRetValue=retHitValue*100-retMyHitValue*100+retHisHitValue*10
+					tempRetValue=retHitValue*100-retMyHitValue*10+retHisHitValue*1
 					retData = tempRetData
 					retTable=tempRetTable
 					hisBestRtnMove=stepRetMove
@@ -968,7 +968,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			var rtnMyHitValue = retData[1]
 			var rtnHisHitValue = retData[2]
 			
-			var loopValue=(fHitValue-retHitValue)*10
+			var loopValue=(fHitValue-retHitValue)*100
 			var hhit=(rtnHisHitValue-origHisHitValue)
 			var mhit=(rtnMyHitValue-origMyHitValue)*10
 			
