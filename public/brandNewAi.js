@@ -968,7 +968,12 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			var rtnMyHitValue = retData[1]
 			var rtnHisHitValue = retData[2]
 			
-			var rtnValue=(fHitValue-retHitValue)*10-(rtnHisHitValue-origHisHitValue)+(rtnMyHitValue-origMyHitValue)*10//+(rtnTableValue - origTableValue)*1.1 //+ (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
+			var loopValue=(fHitValue-retHitValue)*10
+			var hhit=(rtnHisHitValue-origHisHitValue)
+			var mhit=(rtnMyHitValue-origMyHitValue)*10
+			
+			var rtnValue=loopValue+mhit=hhit
+			//(fHitValue-retHitValue)*10-(rtnHisHitValue-origHisHitValue)+(rtnMyHitValue-origMyHitValue)*10//+(rtnTableValue - origTableValue)*1.1 //+ (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
 		
 		}
 
@@ -1016,7 +1021,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		}
 		var pushThisValue=	tTable2Value + rtnValue// + fHitValue
 		
-		allTempTables.push([stepMove, pushThisValue,  rtnValue, tTable2Value, hisBestRtnMove])
+		allTempTables.push([stepMove, pushThisValue,  loopValue, mhit,hhit, hisBestRtnMove])
 	
 	})
 
