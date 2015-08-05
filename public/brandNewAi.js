@@ -978,7 +978,8 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 		var tTable2Value = 0
 
-		if(doScnd) {
+		if(false//doScnd
+			) {
 
 			var cf2Moves = []
 			getAllMoves(retTable, cfColor).forEach(function(thisMove) {
