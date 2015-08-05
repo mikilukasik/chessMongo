@@ -885,30 +885,11 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			if (fHitValue<0)fHitValue=0
 		}
 		fHitValue*=100	//--talan 10 kene
-		//var hitValue=0
+		
 		var tempTable = moveIt(stepMove, cfTable)//, false, hitValue)
-		//var tTableValue=0
-		
-		//temp ignore fwd
-		var fwdVal = 0//(stepMove[1]-stepMove[3])*0.001//4 // mennyit megy elore
-		
-		//protectTable(tempTable)
 
-		// var firstData = getTableData(tempTable, cfColor)
-		
-		// var fTableValue = firstData[0]
-		// var fMyHitValue = firstData[1]
-		// var fHisHitValue = firstData[2]
-		
-		// var rtnValue = 0
-		
-		//if(doScnd){	//elso korben megnezi a lejobb ellenlepeset, meglepi, es kiszamolja hogy allok //blabla nem is
-			//protectTable(tempTable)
-		
-		//fwdVal = (stepMove[1]-stepMove[3])*0.001 // 
-		
-		//var opponentsBestMoveArray = createAiTable(tempTable, !cfColor, true)
-		///////////////////////////////////////////////
+		var fwdVal = 0//(stepMove[1]-stepMove[3])*0.001//4 // mennyit megy elore
+	
 		
 		var cfRetMoves = []
 	
@@ -943,7 +924,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		var tempRetValue=99999999
 		var retHitValue=0
 		cfRetMoves.forEach(function(stepRetMove) {
-			//var hitValue=0
+			
 			retHitValue=cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1]	//leutott babu erteke, vagy 0
 		
 			if (cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][6]){
@@ -952,7 +933,6 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			}
 			retHitValue*=10
 			var tempRetTable = moveIt(stepRetMove, tempTable)//, false, hitValue)
-			//var tTableValue=0
 			
 			//temp ignore fwd
 			//var fwdVal = 0//(stepMove[1]-stepMove[3])*0.00014 // mennyit megy elore
@@ -961,9 +941,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	
 			var tempRetData = getTableData(tempRetTable, cfColor)
 			
-			var retTableValue = tempRetData[0] ///////////////////////////
+			var retTableValue = tempRetData[0] 
 			var retMyHitValue = tempRetData[1]
-			var retHisHitValue = tempRetData[2]/10//////////////////////////
+			var retHisHitValue = tempRetData[2]
 			
 			if (retTableValue+retMyHitValue-retHisHitValue<tempRetValue){
 				tempRetValue=retTableValue+retMyHitValue-retHisHitValue
@@ -979,72 +959,17 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		var rtnHisHitValue = retData[2]
 		
 		var rtnValue=(fHitValue-retHitValue)+(rtnTableValue - origTableValue)*1.1 + (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
-																			
-													
-													
-		/////////////////////////
-		
-		// if (opponentsBestMoveArray.length>1){   //stepcount is returned from createaitable, should use it
-			
-		// 	//opponent can move
-			
-		// 	hisBestRtnMove=opponentsBestMoveArray[1][0]	//4 char string
-			
-		// 	var rtnTable=moveIt(hisBestRtnMove,tempTable) //opponentsBestMoveArray[1][0]
-			
-		// 	//var fwdVal = (stepMove[1]-stepMove[3])*0.00014 // mennyit megy elore
 	
-		// 	protectTable(rtnTable)
-
-		// 	var rtnData = getTableData(rtnTable, cfColor, true)
-		// 	var rtnTableValue = rtnData[0]
-		// 	var rtnMyHitValue = rtnData[1]
-		// 	var rtnHisHitValue = rtnData[2]
-		// 	if (rtnData[3]=0) twoStepsToWin=true
-			
-		// 	rtnValue=// 10 * (rtnTableValue - origTableValue) - (origMyHitValue - origHisHitValue) + (rtnMyHitValue - rtnHisHitValue) //* 100 // - myStepsAlert
-		// 	//10 * 
-		// 	hitValue+(rtnTableValue - origTableValue) + (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
-			
-			
-			
-		// }else{
-			
-		// 	//opponent can't move
-			
-		// 	if (captured(tempTable,!cfColor)){
-		// 		//found winning move
-				
-		// 		tTableValue=100000	//mark winning move
-				
-		// 		//should return
-		// 	}else{
-				
-		// 		//can move into a draw, let's decide
-				
-		// 	}
-			
-		// }
-		
-		//}
-			
 		}
 
-		rtnValue += fwdVal//+ 
+		rtnValue += fwdVal
 							
-							//10 * (fTableValue - origTableValue) - (origMyHitValue - origHisHitValue) + (fMyHitValue - fHisHitValue) //* 100 // - myStepsAlert
-							//10 * 
-						//	(fTableValue - origTableValue) + (fMyHitValue - origMyHitValue ) - (fHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
-				
-							//10 * (fTableValue - origTableValue) + (fMyHitValue - origMyHitValue) - (fHisHitValue - origHisHitValue) * 100 // - myStepsAlert
-		
-		//var opponentsBestValue = 0
+					
 
 		var tTable2Value = 0
 
 		if(doScnd) {
 
-			// var cf2Moves = moveArrayToStrings(getAllMoves(tempTable, cfColor), tempTable, cfColor)
 			var cf2Moves = []
 			getAllMoves(retTable, cfColor).forEach(function(thisMove) {
 				cf2Moves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
@@ -1063,10 +988,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				var scndMyHitValue = scndData[1]
 				var scndHisHitValue = scndData[2]
 				
-				//if(scndData[3]==0&&) twoStepsToWin =true
-
+				
 				var tempValue = //temp2FwdVal+  
-				//10 * 
+				
 				(scndTableValue - origTableValue) + (scndMyHitValue - origMyHitValue ) - (scndHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
 				
 				//if(scndData[3]==0) twoStepsToWin =true	//do this back
@@ -1077,31 +1001,12 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 			tTable2Value /= 100
 
-			// console.log(origHisMoveCount)
-			// console.log(twoStepsToWin)
 			
-			//var arrLen = opponentsBestValue2.length
-			//opponentsBestValue = -10000 / Math.pow(10001, arrLen - 1)
-			// if(origHisMoveCount == 0 || twoStepsToWin) {
-			// 	if (captured(tempTable,!cfColor)){
-			// 		opponentsBestValue= -10000
-			// 	}else{
-			// 		//pattot adna
-			// 	}
-			// 	if (origHisMoveCount == 0 )opponentsBestValue-=10000
-			// }else{
-			// 	//opponentsBestValue = Number(opponentsBestValue2[1][1]) / 100.0001
-				
-			// }
 
 		}
-		var pushThisValue=//0.01*tTableValue + 
-								tTable2Value + rtnValue + fHitValue// - opponentsBestValue
-		//if (pushThisValue>5000&&pushThisValue<10020)pushThisValue-=9999.998 //not sure, trying to choose good moves for 2stepstowin
+		var pushThisValue=	tTable2Value + rtnValue + fHitValue
 		
-		allTempTables.push([stepMove, pushThisValue, fHitValue, rtnValue, tTable2Value, hisBestRtnMove])//, opponentsBestValue]) //, tTableValue, tTable2Value])
-
-	})
+		allTempTables.push([stepMove, pushThisValue, fHitValue, rtnValue, tTable2Value, hisBestRtnMove])
 
 	allTempTables = allTempTables.sort(sortAiArray)
 
