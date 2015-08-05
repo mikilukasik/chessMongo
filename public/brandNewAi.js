@@ -928,7 +928,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			//lesz valaszlepese
 			
 			var retData=[]
-			var tempRetValue=9999990
+			var tempRetValue=-9999990
 			var retHitValue=0
 			
 			
@@ -955,9 +955,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				var retMyHitValue = tempRetData[1]
 				var retHisHitValue = tempRetData[2]
 				
-				if ((fHitValue-tretHitValue)*100+(origHisHitValue-retHisHitValue)+(retMyHitValue-origMyHitValue)*10<tempRetValue){
+				if (tretHitValue*100+retMyHitValue*10+retHisHitValue>tempRetValue){
 					
-					tempRetValue=(fHitValue-retHitValue)*100+(origHisHitValue-retHisHitValue)+(retMyHitValue-origMyHitValue)*10
+					tempRetValue=tretHitValue*100+retMyHitValue*10+retHisHitValue
 			
 					retData = tempRetData
 					retTable=tempRetTable
