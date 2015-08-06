@@ -1004,7 +1004,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			var cf2Moves = []
 			getAllMoves(retTable, cfColor).forEach(function(thisMove) {
 				cf2Moves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
-
+				//
 			})
 
 			cf2Moves.forEach(function(step2Move) {
