@@ -1052,7 +1052,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 				getAllMoves(potentTable, !cfColor).forEach(function(thisMove) { //get all his moves in array of strings
 					ret2potMoves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
-					ret2potMoveCoords.push(thisMove)
+					//ret2potMoveCoords.push(thisMove)
 		
 				})
 				//var origLen = ret2potMoves.length
