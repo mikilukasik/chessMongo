@@ -969,12 +969,12 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				var tempRetData = getTableData(tempRetTable, cfColor)
 				
 				//var retTableValue = tempRetData[0] //tablevalue-t nem is kene szamolni, megvan a retHitValue
-				var retMyHitValue = tempRetData[1]
-				var retHisHitValue = tempRetData[2]
+				var tretMyHitValue = tempRetData[1]
+				var tretHisHitValue = tempRetData[2]
 				
-				if (tretHitValue*10-retMyHitValue*10+retHisHitValue>tempRetValue){
+				if (tretHitValue*10-tretMyHitValue*10+tretHisHitValue>tempRetValue){
 					
-					tempRetValue=tretHitValue*10-retMyHitValue*10+retHisHitValue
+					tempRetValue=tretHitValue*10-tretMyHitValue*10+tretHisHitValue
 			
 					retData = tempRetData
 					retTable=tempRetTable
