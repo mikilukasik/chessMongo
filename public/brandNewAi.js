@@ -1037,7 +1037,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 			})
 
-			tTable2Value /= 100
+			tTable2Value /= 10
 
 			
 
