@@ -898,12 +898,12 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		var cfRetMoves = []
 		var cfRetMoveCoords=[]
 	
-		getAllMoves(tempTable, !cfColor).forEach(function(thisMove) {		//get all my moves in array of strings
+		getAllMoves(tempTable, !cfColor).forEach(function(thisMove) {		//get all his moves in array of strings
 			cfRetMoves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
 			cfRetMoveCoords.push(thisMove)
 	
 		})
-		var origLen=cfRetMoves.length+0.001//not do devide by zero also mark won?
+		var origLen=cfRetMoves.length//not do devide by zero also mark won?
 		var removeCount=0	
 		for(var i = cfRetMoves.length - 1; i >= 0; i--) { //sakkba nem lephet o sem
 			if(captured(moveIt(cfRetMoves[i], tempTable), !cfColor)) { //sakkba lepne valaszkent	//moveit retmove ittis ottis
