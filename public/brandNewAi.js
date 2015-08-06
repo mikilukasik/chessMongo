@@ -930,7 +930,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 		
 		var retTable=[]
-		var loopValue0//=(fHitValue-retHitValue)*10
+		var loopValue=0//=(fHitValue-retHitValue)*10
 		var hhit=0//(origHisHitValue-rtnHisHitValue)
 		var mhit=0//(rtnMyHitValue-origMyHitValue)*10
 		
@@ -1014,7 +1014,8 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 		var tTable2Value = 0
 
-		if(doScnd) {
+		if(false){
+			//doScnd) {
 
 			var cf2Moves = []
 			getAllMoves(retTable, cfColor).forEach(function(thisMove) {
@@ -1052,7 +1053,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		}
 		var pushThisValue=	tTable2Value + rtnValue + captureScore// + fHitValue
 		
-		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove,  rtnValue, tTable2Value, captureScore])
+		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove,  loopValue, mhit, hhit])
 		
 	
 	})
