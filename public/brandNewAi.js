@@ -914,7 +914,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			}
 		}
 		var captureScore = 0
-		if(origlen == 0) { //not do devide by zero also mark won?
+		if(origLen == 0) { //not do devide by zero also mark won?
 			//pattot adne?
 		} else {
 			captureScore = parseInt(removeCount * 100 / origLen) / 10000
