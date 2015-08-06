@@ -913,11 +913,18 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		}
 		
 		var retTable=[]
+		var loopValue0//=(fHitValue-retHitValue)*10
+		var hhit=0//(origHisHitValue-rtnHisHitValue)
+		var mhit=0//(rtnMyHitValue-origMyHitValue)*10
+		
+		
+		
+		var rtnValue0//=loopValue+mhit+hhit
 		
 		if (cfRetMoves.length==0){
 			
 			if(captured(tempTable,!cfColor)){
-				var rtnValue=10000	//ott a matt
+				rtnValue=10000	//ott a matt
 			}else{
 				//pattot adna
 			}
@@ -972,13 +979,13 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			var rtnMyHitValue = retData[1]
 			var rtnHisHitValue = retData[2]
 			
-			var loopValue=(fHitValue-retHitValue)*10
-			var hhit=(origHisHitValue-rtnHisHitValue)
-			var mhit=(rtnMyHitValue-origMyHitValue)*10
+			loopValue=(fHitValue-retHitValue)*10
+			hhit=(origHisHitValue-rtnHisHitValue)
+			mhit=(rtnMyHitValue-origMyHitValue)*10
 			
 			
 			
-			var rtnValue=loopValue+mhit+hhit
+			rtnValue=loopValue+mhit+hhit
 			//(fHitValue-retHitValue)*10-(rtnHisHitValue-origHisHitValue)+(rtnMyHitValue-origMyHitValue)*10//+(rtnTableValue - origTableValue)*1.1 //+ (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
 		
 		}
