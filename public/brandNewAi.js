@@ -1059,7 +1059,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				//var origLen = ret2potMoves.length
 				//var removeCount = 0
 				for(var i = ret2potMoves.length - 1; i >= 0; i--) { //sakkba nem lephet o sem
-					if(captured(moveIt(ret2potMoves[i], tempTable), !cfColor)) { //sakkba lepne valaszkent	//moveit retmove ittis ottis
+					if(captured(moveIt(ret2potMoves[i], potentTable), !cfColor)) { //sakkba lepne valaszkent	//moveit retmove ittis ottis
 						ret2potMoves.splice(i, 1)
 						//ret2potMoveCoords.splice(i, 1)
 						//removeCount++
