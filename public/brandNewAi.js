@@ -916,7 +916,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		if (origlen=0){
 			//pattot adne?
 		}else{
-			captureScore=removeCount/origLen
+			captureScore=parseInt(removeCount*10/origLen)/10
 		}
 		
 		
