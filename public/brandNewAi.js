@@ -886,7 +886,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	//var origHisMoveCount=origData[3]
 	//var twoStepsToWin=false	//meg kell irni
 	var hisBestRtnMove
-
+	//
 	cfMoves.forEach(function(stepMove, moveIndex) {
 		
 		var fHitValue=cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1]	//leutott babu erteke, vagy 0
