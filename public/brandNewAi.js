@@ -916,7 +916,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		if (origlen=0){
 			//pattot adne?
 		}else{
-			captureScore=parseInt(removeCount*100/origLen)/100
+			captureScore=parseInt(removeCount*100/origLen)/10000
 		}
 		
 		
@@ -1006,7 +1006,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 		var tTable2Value = 0
 
-		if(false){//ignore doScnd) {
+		if(doScnd) {
 
 			var cf2Moves = []
 			getAllMoves(retTable, cfColor).forEach(function(thisMove) {
@@ -1029,7 +1029,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				
 				var tempValue = //temp2FwdVal+  
 				
-				(scndTableValue - origTableValue) + (scndMyHitValue - origMyHitValue ) - (scndHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
+				(scndTableValue - origTableValue) + (scndMyHitValue - origMyHitValue )/10 - (scndHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
 				
 				//if(scndData[3]==0) twoStepsToWin =true	//do this back
 				
