@@ -903,14 +903,15 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			cfRetMoveCoords.push(thisMove)
 	
 		})
-		
+		var captureCount=0
 		for(var i = cfRetMoves.length - 1; i >= 0; i--) { //sakkba nem lephet o sem
 			if(captured(moveIt(cfRetMoves[i], tempTable), !cfColor)) { //sakkba lepne valaszkent	//moveit retmove ittis ottis
 				cfRetMoves.splice(i, 1)
 				cfRetMoveCoords.splice(i,1)
-	
+				captureCount++
 			}
 		}
+		
 		
 		var retTable=[]
 		var loopValue0//=(fHitValue-retHitValue)*10
@@ -926,6 +927,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			if(captured(tempTable,!cfColor)){
 				rtnValue=10000	//ott a matt
 			}else{
+				
 				//pattot adna
 			}
 			
@@ -989,14 +991,14 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			//(fHitValue-retHitValue)*10-(rtnHisHitValue-origHisHitValue)+(rtnMyHitValue-origMyHitValue)*10//+(rtnTableValue - origTableValue)*1.1 //+ (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
 		
 		}
-
+		
 		//rtnValue += fwdVal
 							
 					
 
 		var tTable2Value = 0
 
-		if(doScnd) {
+		if(false){//ignore doScnd) {
 
 			var cf2Moves = []
 			getAllMoves(retTable, cfColor).forEach(function(thisMove) {
@@ -1032,7 +1034,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			
 
 		}
-		var pushThisValue=	tTable2Value + rtnValue// + fHitValue
+		var pushThisValue=	tTable2Value + rtnValue + captureCount/100// + fHitValue
 		
 		allTempTables.push([stepMove, pushThisValue,  loopValue, mhit,hhit, hisBestRtnMove])
 	
