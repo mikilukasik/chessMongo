@@ -1077,7 +1077,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				////
 			})
 			
-			
+			//
 
 		}
 		var pushThisValue = tTable2Value + rtnValue + captureScore // + fHitValue
