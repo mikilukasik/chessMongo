@@ -1068,6 +1068,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				if (ret2potMoves.length==0){
 					//mattot tudok adni a legjobbnak tuno lepesere
 					console.log('2 lepesbol mattolok')
+					tTable2Value=999
 				}
 				
 				////
