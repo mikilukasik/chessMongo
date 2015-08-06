@@ -772,10 +772,12 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 
 	var tableValue = 0
 
-	var rtnMyHitSum = [0]
+	var rtnMyHitSum = [0]	//this pointer will be passed to canmove 
 	var rtnHisHitSum = [0]
+	
 	var rtnMyBestHit = 0
 	var rtnHisBestHit = 0
+	
 	var rtnHisMoveCount = 0
 
 	var origColor = 1
@@ -786,20 +788,26 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 
 			if(origTable[lookI][lookJ][0] == origColor) { //ha sajat babum
 
-				rtnMyHitSum = [0]
+				//rtnMyHitSum = [0]
 
-				canMove(lookI, lookJ, isWhite, origTable, true, true, rtnMyHitSum)
-				if(rtnMyHitSum[0] > rtnMyBestHit) rtnMyBestHit = rtnMyHitSum[0]
+				canMove(lookI, lookJ, isWhite, origTable, true, true, rtnMyHitSum)	//this can give back the moves, should use it
+				
+				//aiming for sum, so comment:
+				//if(rtnMyHitSum[0] > rtnMyBestHit) rtnMyBestHit = rtnMyHitSum[0]
+				
 				tableValue += origTable[lookI][lookJ][1]
 
 			} else {
 
 				if(!(origTable[lookI][lookJ][0] == 0)) { //ha ellenfele
 
-					rtnHisHitSum = [0]
+					//rtnHisHitSum = [0]
+					
+					//do i use this movecount anywhere?
 					rtnHisMoveCount+= (canMove(lookI, lookJ, !isWhite, origTable, true, true, rtnHisHitSum).length-2)//   was /2 but 0 is the point
-					if(rtnHisHitSum[0] > rtnHisBestHit) rtnHisBestHit = rtnHisHitSum[0]
-
+					//if(rtnHisHitSum[0] > rtnHisBestHit) rtnHisBestHit = rtnHisHitSum[0]
+					
+					//or this tblevalue:
 					tableValue -= origTable[lookI][lookJ][1]
 
 				}
@@ -808,7 +816,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 		}
 	}
 
-	return [tableValue, rtnMyBestHit, rtnHisBestHit, rtnHisMoveCount] //rtnData
+	return [tableValue, rtnMyHitSum[0], rtnHisHitSum[0], rtnHisMoveCount] //rtnData
 
 }
 
