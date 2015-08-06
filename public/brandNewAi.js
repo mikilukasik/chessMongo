@@ -998,38 +998,68 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 		var tTable2Value = 0
 
-		if(false) {
-			//doScnd) {
-
+		if(doScnd) {
+			
+			
 			var cf2Moves = []
-			getAllMoves(retTable, cfColor).forEach(function(thisMove) {
+			var cf2MoveCoords = []
+		
+			getAllMoves(retTable, cfColor).forEach(function(thisMove) { //get all my moves in array of strings
 				cf2Moves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
-				//
+				cf2MoveCoords.push(thisMove)
 			})
+		
+			// es akkor nem kell ez:
+			for(var i = cf2Moves.length - 1; i >= 0; i--) { //sakkba nem lephetunk			
+				if(captured(moveIt(cf2Moves[i], retTable), cfColor)) { //sakkba lepnenk
+					cf2Moves.splice(i, 1)
+					cf2MoveCoords.splice(i, 1)					//ez is lehetne count:ranking
+				}
+			}
+			
+			//check if it's a win:
+			for(var i = cf2Moves.length - 1; i >= 0; i--) { //sakkba nem lephetunk			
+				if(captured(moveIt(cfMoves[i], cfTable), cfColor)) { //sakkba lepnenk
+					cfMoves.splice(i, 1)
+					cfMoveCoords.splice(i, 1)					//ez is lehetne count:ranking
+				}
+			}
+			
+			
+			
+			
+			
+			
 
-			cf2Moves.forEach(function(step2Move) {
+			// var cf2Moves = []
+			// getAllMoves(retTable, cfColor).forEach(function(thisMove) {
+			// 	cf2Moves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
+			// 	//
+			// })
 
-				var temp2Table = moveIt(step2Move, retTable)
+			// cf2Moves.forEach(function(step2Move) {
 
-				//var temp2FwdVal = (step2Move[3]-step2Move[1])*0.0001 // mennyit megy elore
-				protectTable(temp2Table)
+			// 	var temp2Table = moveIt(step2Move, retTable)
 
-				var scndData = getTableData(temp2Table, cfColor, true)
-				var scndTableValue = scndData[0]
-				var scndMyHitValue = scndData[1]
-				var scndHisHitValue = scndData[2]
+			// 	//var temp2FwdVal = (step2Move[3]-step2Move[1])*0.0001 // mennyit megy elore
+			// 	protectTable(temp2Table)
 
-				var tempValue = //temp2FwdVal+  
+			// 	var scndData = getTableData(temp2Table, cfColor, true)
+			// 	var scndTableValue = scndData[0]
+			// 	var scndMyHitValue = scndData[1]
+			// 	var scndHisHitValue = scndData[2]
 
-					(scndTableValue - origTableValue) + (scndMyHitValue - origMyHitValue) / 10 - (scndHisHitValue - origHisHitValue) //(scndHitValue - origHitValue) +* 10.01
+			// 	var tempValue = //temp2FwdVal+  
 
-				//if(scndData[3]==0) twoStepsToWin =true	//do this back
+			// 		(scndTableValue - origTableValue) + (scndMyHitValue - origMyHitValue) / 10 - (scndHisHitValue - origHisHitValue) //(scndHitValue - origHitValue) +* 10.01
 
-				if(tTable2Value < tempValue) tTable2Value = tempValue
+			// 	//if(scndData[3]==0) twoStepsToWin =true	//do this back
 
-			})
+			// 	if(tTable2Value < tempValue) tTable2Value = tempValue
 
-			tTable2Value = parseInt(10 * tTable2Value) / 100
+			// })
+
+			//tTable2Value = parseInt(10 * tTable2Value) / 100
 
 		}
 		var pushThisValue = tTable2Value + rtnValue + captureScore // + fHitValue
