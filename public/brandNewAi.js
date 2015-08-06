@@ -936,7 +936,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				//pattot adna
 			}
 
-			retTable = cfTable //vmit vissza kell azert adni....
+			retTable = cfTable //vmit vissza kell azert adni..., legyen az eredeti         <----- figyelj, who's next??  
 		} else {
 
 			//lesz valaszlepese
