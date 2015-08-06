@@ -998,7 +998,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 		//rtnValue += fwdVal
 							
-					
+				//	
 
 		var tTable2Value = 0
 
