@@ -903,14 +903,18 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			cfRetMoveCoords.push(thisMove)
 	
 		})
-		var captureCount=0
+		var origLen=cfRetMoves.length+0.001//not do devide by zero also mark won?
+		var removeCount=0	
 		for(var i = cfRetMoves.length - 1; i >= 0; i--) { //sakkba nem lephet o sem
 			if(captured(moveIt(cfRetMoves[i], tempTable), !cfColor)) { //sakkba lepne valaszkent	//moveit retmove ittis ottis
 				cfRetMoves.splice(i, 1)
 				cfRetMoveCoords.splice(i,1)
-				captureCount++
+				removeCount++
 			}
 		}
+		 
+		
+		var captureScore=removeCount/origLen
 		
 		
 		var retTable=[]
@@ -1034,7 +1038,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			
 
 		}
-		var pushThisValue=	tTable2Value + rtnValue + captureCount/100// + fHitValue
+		var pushThisValue=	tTable2Value + rtnValue + captureScore/100// + fHitValue
 		
 		allTempTables.push([stepMove, pushThisValue,  loopValue, mhit,hhit, hisBestRtnMove])
 	
