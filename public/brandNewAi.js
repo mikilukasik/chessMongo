@@ -911,7 +911,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			cfRetMoveCoords.push(thisMove)
 	
 		})
-		var origLen=cfRetMoves.length//not do devide by zero also mark won?
+		var origLen=cfRetMoves.length
 		var removeCount=0	
 		for(var i = cfRetMoves.length - 1; i >= 0; i--) { //sakkba nem lephet o sem
 			if(captured(moveIt(cfRetMoves[i], tempTable), !cfColor)) { //sakkba lepne valaszkent	//moveit retmove ittis ottis
@@ -921,7 +921,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			}
 		}
 		var captureScore=0
-		if (origlen=0){
+		if (origlen==0){	//not do devide by zero also mark won?
 			//pattot adne?
 		}else{
 			captureScore=parseInt(removeCount*100/origLen)/10000
