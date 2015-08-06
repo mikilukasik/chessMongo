@@ -865,7 +865,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	
 	//sakkbol sancolas, sakkon atugras is kene ide (new getallmoves  will help) //mindenkepp kell, vagy leleptetnek
 	
-	
+	//
 	protectTable(cfTable)
 	
 	var origData = getTableData(cfTable, cfColor) //trick getTableScore(cfTable, !cfColor)
