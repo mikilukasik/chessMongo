@@ -1062,13 +1062,15 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 						ret2potMoves.splice(i, 1)
 						//ret2potMoveCoords.splice(i, 1)
 						//removeCount++
+						tTable2Value+=0.001
+						
 					}
 				}
 				
 				if (ret2potMoves.length==0){
 					//mattot tudok adni a legjobbnak tuno lepesere
 					console.log('2 lepesbol mattolok')
-					tTable2Value=999
+					tTable2Value+=999
 				}
 				
 				////
