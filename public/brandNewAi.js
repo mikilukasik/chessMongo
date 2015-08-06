@@ -1011,20 +1011,36 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 			// es akkor nem kell ez:
 			for(var i = cf2Moves.length - 1; i >= 0; i--) { //sakkba nem lephetunk			
-				if(captured(moveIt(cf2Moves[i], retTable), cfColor)) { //sakkba lepnenk
+				if(captured(moveIt(cf2Moves[i], retTable), cfColor)) { //sakkba lepnenk					<---  merge this
 					cf2Moves.splice(i, 1)
 					cf2MoveCoords.splice(i, 1)					//ez is lehetne count:ranking
 				}
 			}
 			
 			//check if it's a win:
+			var potentMoves=[]	//will make an array of potential winning moves
+																			//							
 			for(var i = cf2Moves.length - 1; i >= 0; i--) { //sakkba nem lephetunk			
-				if(captured(moveIt(cfMoves[i], cfTable), cfColor)) { //sakkba lepnenk
-					cfMoves.splice(i, 1)
-					cfMoveCoords.splice(i, 1)					//ez is lehetne count:ranking
+				if(captured(moveIt(cf2Moves[i], retTable), !cfColor)) { 				//az lesz potent, ahol sakkot adok
+					
+					//make a ranker here
+																			//							<---	with this
+			
+					
+					potentMoves.push(cf2Moves[i])
+					//cfMoveCoords.splice(i, 1)					//ez is lehetne count:ranking
 				}
 			}
 			
+			// itt meg kene nezni, ha az osszes valasza vesztes, vagy csak a legjobbnak latszo
+			
+			//check if capturing moves are winners:
+			
+			var twoStepWinners=[]
+			
+			potentMoves.forEach(function(potentMove){
+				var potentTable=moveIt(potentMove)
+			})
 			
 			
 			
