@@ -912,9 +912,13 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				removeCount++
 			}
 		}
-		 
+		var captureScore=0
+		if (origlen=0){
+			//pattot adne?
+		}else{
+			captureScore=removeCount/origLen
+		}
 		
-		var captureScore=removeCount/origLen
 		
 		
 		var retTable=[]
