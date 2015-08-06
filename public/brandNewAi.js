@@ -936,7 +936,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				//pattot adna
 			}
 
-			retTable = tempTable //vmit vissza kell azert adni....
+			retTable = cfTable //vmit vissza kell azert adni....
 		} else {
 
 			//lesz valaszlepese
@@ -1069,8 +1069,8 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				
 				if (ret2potMoves.length==0){
 					//mattot tudok adni a legjobbnak tuno lepesere
-					console.log('2 lepesbol mattolok')
-					tTable2Value+=999
+					console.log('2 lepesbol mattolhatok')
+					tTable2Value+=0.01
 				}
 				
 				////
