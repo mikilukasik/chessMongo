@@ -31,7 +31,7 @@ app.get('/aiChoice', function(req, res) {
 
 					var toConsole = [] //to chat?
 
-					toConsole[0] = result[0][2] //timeItTook
+					toConsole[0] = result[0][2]+" ms." //timeItTook
 
 					for(var i = 1; i < result.length; i++) {
 
