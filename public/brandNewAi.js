@@ -652,7 +652,7 @@ function getAllMoves(tableToMoveOn, whiteNext, hitItsOwn, allHitSum) {
 
 function sortAiArray(a, b) {
 	if(typeof(a[0]) == "boolean") {
-		return -1
+		return -1			//put header on the top of array
 	}
 	if(a[1] > b[1]) {
 		return -1
@@ -876,21 +876,14 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	var origMyHitValue = origData[1]
 	var origHisHitValue = origData[2]
 
-	//var origValue=origTableValue+origMyHitValue/10-origHisHitValue
-	//var origHisMoveCount=origData[3]
-	//var twoStepsToWin=false	//meg kell irni
+	
 	var hisBestRtnMove
-		//
+		
 	cfMoves.forEach(function(stepMove, moveIndex) {
 
 		var fHitValue = cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1] //leutott babu erteke, vagy 0
 
-		// if (cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][6]){
-		// 	fHitValue-=cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]	//ha protected, kivonja amivel lep
-		// 	if (fHitValue<0)fHitValue=0
-		// }
-		//fHitValue*=100	//meg a myhival*10, meg a hishitval*100, ennyit er a lepes
-
+		
 		var tempTable = moveIt(stepMove, cfTable) //, false, hitValue)
 		protectTable(tempTable)
 
@@ -1071,7 +1064,8 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				if (ret2potMoves.length==0){
 					//mattot tudok adni a legjobbnak tuno lepesere
 					console.log('2 lepesbol mattolhatok')
-					if(tTable2Value<.05)tTable2Value+=0.05
+					if(tTable2Value<.15)tTable2Value+=0.15
+					tTable2Value+=0.00001			//sakkba lephetne
 				}
 				
 				////
