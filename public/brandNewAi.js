@@ -972,7 +972,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			var rtnMyHitValue = retData[1]
 			var rtnHisHitValue = retData[2]
 			
-			var loopValue=(fHitValue-retHitValue)*100
+			var loopValue=(fHitValue-retHitValue)*10
 			var hhit=(origHisHitValue-rtnHisHitValue)
 			var mhit=(rtnMyHitValue-origMyHitValue)*10
 			
