@@ -1022,7 +1022,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			var potentMoves=[]	//will make an array of potential winning moves
 			var potentTables=[]	//and resulting tables
 														//							
-			for(var i = cf2Moves.length - 1; i >= 0; i--) { //sakkba nem lephetunk			
+			for(var i = cf2Moves.length - 1; i >= 0; i--) {	
 				
 				var potentTable=moveIt(cf2Moves[i], retTable)
 				
@@ -1031,7 +1031,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 					//make a ranker here
 																			//							<---	with this
 			
-					
+					tTable2Value+=0.0001			//ket lepesben sakkot ad(hat)ok
 					potentMoves.push(cf2Moves[i])
 					potentTables.push(potentTable)
 					//cfMoveCoords.splice(i, 1)					//ez is lehetne count:ranking
@@ -1063,7 +1063,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 						ret2potMoves.splice(i, 1)
 						//ret2potMoveCoords.splice(i, 1)
 						//removeCount++
-						tTable2Value+=0.001
+						tTable2Value+=0.000001			//sakkba lephetne
 						
 					}
 				}
@@ -1071,51 +1071,18 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				if (ret2potMoves.length==0){
 					//mattot tudok adni a legjobbnak tuno lepesere
 					console.log('2 lepesbol mattolhatok')
-					tTable2Value+=0.01
+					if(tTable2Value<.05)tTable2Value+=0.05
 				}
 				
 				////
 			})
 			
 			
-			
-			
-			
-
-			// var cf2Moves = []
-			// getAllMoves(retTable, cfColor).forEach(function(thisMove) {
-			// 	cf2Moves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
-			// 	//
-			// })
-
-			// cf2Moves.forEach(function(step2Move) {
-
-			// 	var temp2Table = moveIt(step2Move, retTable)
-
-			// 	//var temp2FwdVal = (step2Move[3]-step2Move[1])*0.0001 // mennyit megy elore
-			// 	protectTable(temp2Table)
-
-			// 	var scndData = getTableData(temp2Table, cfColor, true)
-			// 	var scndTableValue = scndData[0]
-			// 	var scndMyHitValue = scndData[1]
-			// 	var scndHisHitValue = scndData[2]
-
-			// 	var tempValue = //temp2FwdVal+  
-
-			// 		(scndTableValue - origTableValue) + (scndMyHitValue - origMyHitValue) / 10 - (scndHisHitValue - origHisHitValue) //(scndHitValue - origHitValue) +* 10.01
-
-			// 	//if(scndData[3]==0) twoStepsToWin =true	//do this back
-
-			// 	if(tTable2Value < tempValue) tTable2Value = tempValue
-
-			// })
-
-			//tTable2Value = parseInt(10 * tTable2Value) / 100
 
 		}
 		var pushThisValue = tTable2Value + rtnValue + captureScore // + fHitValue
 
-		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, mhit, hhit])
+		allTempTables.push([stepMove, pushThisValue, rtnValue, hhit,captureScore, tTable2Value])
 
 	})
 
