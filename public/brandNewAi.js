@@ -1037,7 +1037,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 			})
 
-			tTable2Value /= 10
+			tTable2Value = parseInt(10*tTable2Value) /100
 
 			
 
