@@ -1019,15 +1019,20 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			
 			//check if it's a win:
 			var potentMoves=[]	//will make an array of potential winning moves
-																			//							
+			var potentTables=[]	//and resulting tables
+														//							
 			for(var i = cf2Moves.length - 1; i >= 0; i--) { //sakkba nem lephetunk			
-				if(captured(moveIt(cf2Moves[i], retTable), !cfColor)) { 				//az lesz potent, ahol sakkot adok
+				
+				var potentTable=moveIt(cf2Moves[i], retTable)
+				
+				if(captured(potentTable, !cfColor)) { 				//az lesz potent, ahol sakkot adok
 					
 					//make a ranker here
 																			//							<---	with this
 			
 					
 					potentMoves.push(cf2Moves[i])
+					potentTables.push(potentTable)
 					//cfMoveCoords.splice(i, 1)					//ez is lehetne count:ranking
 				}
 			}
@@ -1038,8 +1043,34 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			
 			var twoStepWinners=[]
 			
-			potentMoves.forEach(function(potentMove){
-				var potentTable=moveIt(potentMove)
+			potentMoves.forEach(function(potentMove,potentMoveCount){
+				var potentTable=potentTables[potentMoveCount]			//potent tablan mindenkepp sakkban all remember
+				////
+				
+				var ret2potMoves = []
+				//var ret2potMoveCoords = []
+		
+				getAllMoves(potentTable, !cfColor).forEach(function(thisMove) { //get all his moves in array of strings
+					ret2potMoves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
+					ret2potMoveCoords.push(thisMove)
+		
+				})
+				//var origLen = ret2potMoves.length
+				//var removeCount = 0
+				for(var i = ret2potMoves.length - 1; i >= 0; i--) { //sakkba nem lephet o sem
+					if(captured(moveIt(ret2potMoves[i], tempTable), !cfColor)) { //sakkba lepne valaszkent	//moveit retmove ittis ottis
+						ret2potMoves.splice(i, 1)
+						//ret2potMoveCoords.splice(i, 1)
+						//removeCount++
+					}
+				}
+				
+				if (ret2potMoves.length==0){
+					//mattot tudok adni a legjobbnak tuno lepesere
+					console.log('2 lepesbol mattolok')
+				}
+				
+				////
 			})
 			
 			
