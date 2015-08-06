@@ -993,7 +993,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		var tTable2Value = 0
 
 		if(doScnd) {
-			
+			//
 			
 			var cf2Moves = []
 			var cf2MoveCoords = []
