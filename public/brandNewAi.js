@@ -901,9 +901,17 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		var removeCount = 0
 		for(var i = cfRetMoves.length - 1; i >= 0; i--) { //sakkba nem lephet o sem
 			if(captured(moveIt(cfRetMoves[i], tempTable), !cfColor)) { //sakkba lepne valaszkent	//moveit retmove ittis ottis
+				if(tempTable[cfRetMoveCoords[i][0]][cfRetMoveCoords[i][1]][1]==9){
+					removeCount++
+				}else{
+					removeCount+=5			//ollo
+				}
 				cfRetMoves.splice(i, 1)
 				cfRetMoveCoords.splice(i, 1)
-				removeCount++
+				
+				if(!(tempTable[cfRetMoveCoords[i][0]][cfRetMoveCoords[i][1]][1]==9)){
+					
+				}
 			}
 		}
 		var captureScore = 0
@@ -1019,12 +1027,12 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				
 				var potentTable=moveIt(cf2Moves[i], retTable)
 				
-				if(captured(potentTable, !cfColor)) { 				//az lesz potent, ahol sakkot adok
+				if(captured(potentTable, !cfColor)) { 				//az lehet potent, ahol sakkot adok
 					
 					//make a ranker here
 																			//							<---	with this
 			
-					tTable2Value+=0.0001			//ket lepesben sakkot ad(hat)ok
+					tTable2Value+=0.00001			//ket lepesben sakkot ad(hat)ok
 					potentMoves.push(cf2Moves[i])
 					potentTables.push(potentTable)
 					//cfMoveCoords.splice(i, 1)					//ez is lehetne count:ranking
@@ -1064,7 +1072,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				if (ret2potMoves.length==0){
 					//mattot tudok adni a legjobbnak tuno lepesere
 					console.log('2 lepesbol mattolhatok')
-					if(tTable2Value<.15)tTable2Value+=0.15
+					if(tTable2Value<.5)tTable2Value+=0.5	
 					tTable2Value+=0.00001			//sakkba lephetne
 				}
 				
@@ -1076,7 +1084,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		}
 		var pushThisValue = tTable2Value + rtnValue + captureScore // + fHitValue
 
-		allTempTables.push([stepMove, pushThisValue, rtnValue, hhit,captureScore, tTable2Value])
+		allTempTables.push([stepMove, hisBestRtnMove, pushThisValue, rtnValue, captureScore, tTable2Value])
 
 	})
 
