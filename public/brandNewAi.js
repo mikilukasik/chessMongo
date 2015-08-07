@@ -902,9 +902,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		for(var i = cfRetMoves.length - 1; i >= 0; i--) { //sakkba nem lephet o sem
 			if(captured(moveIt(cfRetMoves[i], tempTable), !cfColor)) { //sakkba lepne valaszkent	//moveit retmove ittis ottis
 				if(tempTable[cfRetMoveCoords[i][0]][cfRetMoveCoords[i][1]][1]==9){
-					removeCount++
+					removeCount++			//fogja a kiraly koruli mezoket
 				}else{
-					removeCount+=5			//ollo
+					removeCount+=5			//ollo ha sakkba lepne de nem kirallyal lepett
 				}
 				cfRetMoves.splice(i, 1)
 				cfRetMoveCoords.splice(i, 1)
@@ -926,7 +926,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		var hhit = 0 //(origHisHitValue-rtnHisHitValue)
 		var mhit = 0 //(rtnMyHitValue-origMyHitValue)*10
 
-		var rtnValue0 //=loopValue+mhit+hhit
+		var rtnValue=0 //=loopValue+mhit+hhit
 
 		if(cfRetMoves.length == 0) {
 
