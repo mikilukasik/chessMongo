@@ -882,12 +882,15 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	cfMoves.forEach(function(stepMove, moveIndex) {
 
 		var fHitValue = cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1] //leutott babu erteke, vagy 0
-
 		
+		var fwdVal = 0
+		if(cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]==1) {	//ha parejt tol
+			(stepMove[1]-stepMove[3])*0.001			//4 // mennyit megy elore
+		}
 		var tempTable = moveIt(stepMove, cfTable) //, false, hitValue)
 		protectTable(tempTable)
 
-		var fwdVal = 0 //(stepMove[1]-stepMove[3])*0.001//4 // mennyit megy elore
+		
 
 		var cfRetMoves = []
 		var cfRetMoveCoords = []
@@ -1076,7 +1079,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			//
 
 		}
-		var pushThisValue = tTable2Value + rtnValue + captureScore // + fHitValue
+		var pushThisValue = tTable2Value + rtnValue + captureScore + fHitValue
 
 		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, rtnValue, captureScore, tTable2Value])
 
