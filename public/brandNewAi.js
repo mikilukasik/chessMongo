@@ -990,7 +990,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				
 		}
 
-		//rtnValue += fwdVal
+		rtnValue += fwdVal
 
 		//	
 
