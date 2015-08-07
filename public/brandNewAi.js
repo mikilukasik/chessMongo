@@ -909,9 +909,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				cfRetMoves.splice(i, 1)
 				cfRetMoveCoords.splice(i, 1)
 				
-				if(!(tempTable[cfRetMoveCoords[i][0]][cfRetMoveCoords[i][1]][1]==9)){
+				// if(!(tempTable[cfRetMoveCoords[i][0]][cfRetMoveCoords[i][1]][1]==9)){
 					
-				}
+				// }
 			}
 		}
 		var captureScore = 0
