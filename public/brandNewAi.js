@@ -708,7 +708,7 @@ function moveIt(moveString, intable, dontProtect, hitValue) {
 
 	for(ij = 0; ij < 8; ij++) {
 
-		thistable[ij][3][3] = false
+		thistable[ij][3][3] = false		//can only be in row 3 or 4
 
 		thistable[ij][4][3] = false
 
@@ -716,7 +716,7 @@ function moveIt(moveString, intable, dontProtect, hitValue) {
 
 	if(thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][1] == 1 && ((moveString[1] == 2 && moveString[3] == 4) || (moveString[1] == 7 && moveString[3] == 5))) { //ha paraszt kettot lep
 
-		thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][3] = true
+		thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][3] = true		//[3]true for enpass
 
 	}
 	//es itt a vege
@@ -901,9 +901,17 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		var removeCount = 0
 		for(var i = cfRetMoves.length - 1; i >= 0; i--) { //sakkba nem lephet o sem
 			if(captured(moveIt(cfRetMoves[i], tempTable), !cfColor)) { //sakkba lepne valaszkent	//moveit retmove ittis ottis
+				if(tempTable[cfRetMoveCoords[i][0]][cfRetMoveCoords[i][1]][1]==9){
+					removeCount++			//fogja a kiraly koruli mezoket
+				}else{
+					removeCount+=5			//ollo ha sakkba lepne de nem kirallyal lepett
+				}
 				cfRetMoves.splice(i, 1)
 				cfRetMoveCoords.splice(i, 1)
-				removeCount++
+				
+				if(!(tempTable[cfRetMoveCoords[i][0]][cfRetMoveCoords[i][1]][1]==9)){
+					
+				}
 			}
 		}
 		var captureScore = 0
@@ -918,7 +926,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		var hhit = 0 //(origHisHitValue-rtnHisHitValue)
 		var mhit = 0 //(rtnMyHitValue-origMyHitValue)*10
 
-		var rtnValue0 //=loopValue+mhit+hhit
+		var rtnValue=0 //=loopValue+mhit+hhit
 
 		if(cfRetMoves.length == 0) {
 
@@ -943,20 +951,13 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 				var tretHitValue = tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][1] //kivonni kesobb a leutott babu erteke, vagy 0
 
-				// if (tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][6]){
-				// 	retHitValue-=tempTable[cfRetMoveCoords[retMoveIndex][0]][cfRetMoveCoords[retMoveIndex][1]][1]	//ha protected, kivonja amivel lep
-				// 	if (retHitValue<0)retHitValue=0	//miert is???
-				// }
-
 				var tempRetTable = moveIt(stepRetMove, tempTable) //, false, hitValue)
+				
 				protectTable(tempRetTable) //majd kesobb
-
-				//temp ignore fwd
-				//var fwdVal = 0//(stepMove[1]-stepMove[3])*0.00014 // mennyit megy elore
 
 				var tempRetData = getTableData(tempRetTable, cfColor)
 
-				//var retTableValue = tempRetData[0] //tablevalue-t nem is kene szamolni, megvan a retHitValue
+				//var retTableValue = tempRetData[0] //tablevalue-t nem is kene szamolni, megvan a retHitValue		//talan az sem kell
 				var tretMyHitValue = tempRetData[1]
 				var tretHisHitValue = tempRetData[2]
 
@@ -981,9 +982,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			hhit = (origHisHitValue - rtnHisHitValue)
 			mhit = (rtnMyHitValue - origMyHitValue) * 10
 
-			rtnValue = loopValue + mhit + hhit
-				//(fHitValue-retHitValue)*10-(rtnHisHitValue-origHisHitValue)+(rtnMyHitValue-origMyHitValue)*10//+(rtnTableValue - origTableValue)*1.1 //+ (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
-
+			rtnValue = loopValue + mhit + hhit		//my hit matters most as i'm next
+			
+				
 		}
 
 		//rtnValue += fwdVal
@@ -1007,11 +1008,12 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			for(var i = cf2Moves.length - 1; i >= 0; i--) { //sakkba nem lephetunk			
 				if(captured(moveIt(cf2Moves[i], retTable), cfColor)) { //sakkba lepnenk					<---  merge this
 					cf2Moves.splice(i, 1)
-					cf2MoveCoords.splice(i, 1)					//ez is lehetne count:ranking
+					cf2MoveCoords.splice(i, 1)					//ez is lehetne count:ranking, minus!!
+					tTable2Value-=0.01
 				}
 			}
 			
-			//check if it's a win:
+			//check there's a win:
 			var potentMoves=[]	//will make an array of potential winning moves
 			var potentTables=[]	//and resulting tables
 														//							
@@ -1019,12 +1021,12 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				
 				var potentTable=moveIt(cf2Moves[i], retTable)
 				
-				if(captured(potentTable, !cfColor)) { 				//az lesz potent, ahol sakkot adok
+				if(captured(potentTable, !cfColor)) { 				//az lehet potent, ahol sakkot adok
 					
 					//make a ranker here
 																			//							<---	with this
 			
-					tTable2Value+=0.0001			//ket lepesben sakkot ad(hat)ok
+					tTable2Value+=0.00001			//ket lepesben sakkot ad(hat)ok
 					potentMoves.push(cf2Moves[i])
 					potentTables.push(potentTable)
 					//cfMoveCoords.splice(i, 1)					//ez is lehetne count:ranking
@@ -1064,7 +1066,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				if (ret2potMoves.length==0){
 					//mattot tudok adni a legjobbnak tuno lepesere
 					console.log('2 lepesbol mattolhatok')
-					if(tTable2Value<.15)tTable2Value+=0.15
+					if(tTable2Value<.5)tTable2Value+=0.5	
 					tTable2Value+=0.00001			//sakkba lephetne
 				}
 				
@@ -1076,7 +1078,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		}
 		var pushThisValue = tTable2Value + rtnValue + captureScore // + fHitValue
 
-		allTempTables.push([stepMove, pushThisValue, rtnValue, hhit,captureScore, tTable2Value])
+		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, rtnValue, captureScore, tTable2Value])
 
 	})
 
