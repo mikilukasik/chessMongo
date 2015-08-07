@@ -708,7 +708,7 @@ function moveIt(moveString, intable, dontProtect, hitValue) {
 
 	for(ij = 0; ij < 8; ij++) {
 
-		thistable[ij][3][3] = false
+		thistable[ij][3][3] = false		//can only be in row 3 or 4
 
 		thistable[ij][4][3] = false
 
@@ -716,7 +716,7 @@ function moveIt(moveString, intable, dontProtect, hitValue) {
 
 	if(thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][1] == 1 && ((moveString[1] == 2 && moveString[3] == 4) || (moveString[1] == 7 && moveString[3] == 5))) { //ha paraszt kettot lep
 
-		thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][3] = true
+		thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][3] = true		//[3]true for enpass
 
 	}
 	//es itt a vege
