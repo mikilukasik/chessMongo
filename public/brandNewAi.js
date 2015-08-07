@@ -885,7 +885,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 		var fwdVal = 0
 		if(cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]==1) {	//ha parejt tol
-			(stepMove[1]-stepMove[3])*0.001			//4 // mennyit megy elore
+			fwdVal=(stepMove[1]-stepMove[3])*0.001			//4 // mennyit megy elore
 		}
 		var tempTable = moveIt(stepMove, cfTable) //, false, hitValue)
 		protectTable(tempTable)
