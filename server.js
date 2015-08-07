@@ -125,27 +125,31 @@ app.get('/move', function(req, res) {
 				tableNum: Number(req.query.t)
 			}, function(err2, tableInDb) {
 
-				var moveStr = String(req.query.m)
-
-				var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
-					tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
-					moveStr + //the string
-					tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][0] + //color of whats hit
-					tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][1] //piece
-
-				// if(!(toPush==tableInDb.moves[tableInDb.moves.length-1])){
-				tableInDb.moves.push(toPush)
-				tableInDb.table = moveIt(moveStr, tableInDb.table)
-				tableInDb.wNext = !tableInDb.wNext
-				tableInDb.pollNum++
-					tableInDb.moved = new Date().getTime()
-
-				tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
-
-				//}
-
-				db.collection("tables")
-					.save(tableInDb, function(err3, res) {})
+					var moveStr = String(req.query.m)
+					
+					if(!(tableInDb==null)){
+					var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
+						tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
+						moveStr + //the string
+						tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][0] + //color of whats hit
+						tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][1] //piece
+	
+					// if(!(toPush==tableInDb.moves[tableInDb.moves.length-1])){
+					tableInDb.moves.push(toPush)
+					tableInDb.table = moveIt(moveStr, tableInDb.table)
+					tableInDb.wNext = !tableInDb.wNext
+					tableInDb.pollNum++
+						tableInDb.moved = new Date().getTime()
+	
+					tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
+	
+					//}
+	
+					db.collection("tables")
+						.save(tableInDb, function(err3, res) {})
+				
+				
+				}
 				db.close()
 			});
 
