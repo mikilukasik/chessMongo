@@ -951,20 +951,13 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 				var tretHitValue = tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][1] //kivonni kesobb a leutott babu erteke, vagy 0
 
-				// if (tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][6]){
-				// 	retHitValue-=tempTable[cfRetMoveCoords[retMoveIndex][0]][cfRetMoveCoords[retMoveIndex][1]][1]	//ha protected, kivonja amivel lep
-				// 	if (retHitValue<0)retHitValue=0	//miert is???
-				// }
-
 				var tempRetTable = moveIt(stepRetMove, tempTable) //, false, hitValue)
+				
 				protectTable(tempRetTable) //majd kesobb
-
-				//temp ignore fwd
-				//var fwdVal = 0//(stepMove[1]-stepMove[3])*0.00014 // mennyit megy elore
 
 				var tempRetData = getTableData(tempRetTable, cfColor)
 
-				//var retTableValue = tempRetData[0] //tablevalue-t nem is kene szamolni, megvan a retHitValue
+				//var retTableValue = tempRetData[0] //tablevalue-t nem is kene szamolni, megvan a retHitValue		//talan az sem kell
 				var tretMyHitValue = tempRetData[1]
 				var tretHisHitValue = tempRetData[2]
 
@@ -989,9 +982,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			hhit = (origHisHitValue - rtnHisHitValue)
 			mhit = (rtnMyHitValue - origMyHitValue) * 10
 
-			rtnValue = loopValue + mhit + hhit
-				//(fHitValue-retHitValue)*10-(rtnHisHitValue-origHisHitValue)+(rtnMyHitValue-origMyHitValue)*10//+(rtnTableValue - origTableValue)*1.1 //+ (rtnMyHitValue - origMyHitValue ) - (rtnHisHitValue - origHisHitValue)//(scndHitValue - origHitValue) +* 10.01
-
+			rtnValue = loopValue + mhit + hhit		//my hit matters most as i'm next
+			
+				
 		}
 
 		//rtnValue += fwdVal
@@ -1015,11 +1008,12 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			for(var i = cf2Moves.length - 1; i >= 0; i--) { //sakkba nem lephetunk			
 				if(captured(moveIt(cf2Moves[i], retTable), cfColor)) { //sakkba lepnenk					<---  merge this
 					cf2Moves.splice(i, 1)
-					cf2MoveCoords.splice(i, 1)					//ez is lehetne count:ranking
+					cf2MoveCoords.splice(i, 1)					//ez is lehetne count:ranking, minus!!
+					tTable2Value-=0.01
 				}
 			}
 			
-			//check if it's a win:
+			//check there's a win:
 			var potentMoves=[]	//will make an array of potential winning moves
 			var potentTables=[]	//and resulting tables
 														//							
