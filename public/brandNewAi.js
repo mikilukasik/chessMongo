@@ -904,7 +904,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				if(tempTable[cfRetMoveCoords[i][0]][cfRetMoveCoords[i][1]][1]==9){
 					removeCount++			//fogja a kiraly koruli mezoket
 				}else{
-					removeCount+=5			//ollo ha sakkba lepne de nem kirallyal lepett
+					removeCount+=3			//ollo ha sakkba lepne de nem kirallyal lepett
 				}
 				cfRetMoves.splice(i, 1)
 				cfRetMoveCoords.splice(i, 1)
@@ -1009,7 +1009,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				if(captured(moveIt(cf2Moves[i], retTable), cfColor)) { //sakkba lepnenk					<---  merge this
 					cf2Moves.splice(i, 1)
 					cf2MoveCoords.splice(i, 1)					//ez is lehetne count:ranking, minus!!
-					tTable2Value-=0.01
+					tTable2Value-=0.0001
 				}
 			}
 			
