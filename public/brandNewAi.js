@@ -767,9 +767,6 @@ function protectTable(table) {
 }
 
 function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
-	
-	
-	//get protectedScore here too
 
 	var tableValue = 0
 
@@ -790,13 +787,9 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 			if(origTable[lookI][lookJ][0] == origColor) { //ha sajat babum
 
 				//rtnMyHitSum = [0]
-				
-				
+
 				canMove(lookI, lookJ, isWhite, origTable, true, true, rtnMyHitSum) //this can give back the moves, should use it
 
-				if(origTable[lookI][lookJ][6]){	//ha protected
-					rtnHisHitSum-=.01
-				}
 				//aiming for sum, so comment:
 				//if(rtnMyHitSum[0] > rtnMyBestHit) rtnMyBestHit = rtnMyHitSum[0]
 
@@ -811,9 +804,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 					//do i use this movecount anywhere?
 					rtnHisMoveCount += (canMove(lookI, lookJ, !isWhite, origTable, true, true, rtnHisHitSum).length - 2) //   was /2 but 0 is the point
 						//if(rtnHisHitSum[0] > rtnHisBestHit) rtnHisBestHit = rtnHisHitSum[0]
-					if(origTable[lookI][lookJ][6]){	//ha protected
-						rtnMyHitSum-=.01
-					}
+
 					//or this tblevalue:
 					tableValue -= origTable[lookI][lookJ][1]
 
