@@ -79,13 +79,16 @@ function protectPieces(originalTable, whitePlayer) {
 
 	getAllMoves(originalTable, whitePlayer, true). //moves include to hit my own 
 		//true stands for letMeHitMyOwn
-
+	var protectedSum = 0
 	forEach(function(thisMoveCoords) {
 		//we'll use the 2nd part of the moves [2][3]
 		if(originalTable[thisMoveCoords[2]][thisMoveCoords[3]][0] == myCol) { //if i have sg there
 			originalTable[thisMoveCoords[2]][thisMoveCoords[3]][6] = true //that must be protected
+			protectedSum+=9-originalTable[thisMoveCoords[2]][thisMoveCoords[3]][1]
 		}
 	})
+	
+	return protectedSum
 
 }
 
@@ -760,9 +763,8 @@ function moveIt(moveString, intable, dontProtect, hitValue) {
 	return thistable
 }
 
-function protectTable(table) {
-	protectPieces(table, true)
-	protectPieces(table, false)
+function protectTable(table, myCol) {
+	return protectPieces(table, myCol)-protectPieces(table, !myCol)
 
 }
 
@@ -868,7 +870,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	//sakkbol sancolas, sakkon atugras is kene ide (new getallmoves  will help) //mindenkepp kell, vagy leleptetnek
 
 	//
-	protectTable(cfTable)
+	var origProtect=protectTable(cfTable,cfColor)
 
 	var origData = getTableData(cfTable, cfColor) //trick getTableScore(cfTable, !cfColor)
 
@@ -949,6 +951,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			var retData = []
 			var tempRetValue = -9999990
 			var retHitValue = 0
+			var retProtect=0
 
 			cfRetMoves.forEach(function(stepRetMove, retMoveIndex) {
 
@@ -956,7 +959,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 				var tempRetTable = moveIt(stepRetMove, tempTable) //, false, hitValue)
 				
-				protectTable(tempRetTable) //majd kesobb
+				var tretProtect= (protectTable(tempRetTable, cfColor) - origProtect)/100 //majd kesobb
 
 				var tempRetData = getTableData(tempRetTable, cfColor)
 
@@ -964,10 +967,11 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				var tretMyHitValue = tempRetData[1]
 				var tretHisHitValue = tempRetData[2]
 
-				if(tretHitValue * 10 - tretMyHitValue * 10 + tretHisHitValue > tempRetValue) {
+				if(tretHitValue * 10 - tretMyHitValue * 10 + tretHisHitValue - tretProtect> tempRetValue) {
 
-					tempRetValue = tretHitValue * 10 - tretMyHitValue * 10 + tretHisHitValue
-
+					tempRetValue = tretHitValue * 10 - tretMyHitValue * 10 + tretHisHitValue - tretProtect
+					
+					retProtect = tretProtect
 					retData = tempRetData
 					retTable = tempRetTable
 					hisBestRtnMove = stepRetMove
@@ -985,7 +989,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			hhit = (origHisHitValue - rtnHisHitValue)
 			mhit = (rtnMyHitValue - origMyHitValue) * 10
 
-			rtnValue = loopValue + mhit + hhit		//my hit matters most as i'm next
+			rtnValue = loopValue + mhit + hhit + retProtect//my hit matters most as i'm next
 			
 				
 		}
