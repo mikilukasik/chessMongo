@@ -959,7 +959,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 				var tempRetTable = moveIt(stepRetMove, tempTable) //, false, hitValue)
 				
-				var tretProtect= (protectTable(tempRetTable, cfColor) - origProtect)/100 //majd kesobb
+				var tretProtect= (protectTable(tempRetTable, cfColor) - origProtect)/10 //majd kesobb
 
 				var tempRetData = getTableData(tempRetTable, cfColor)
 
@@ -967,9 +967,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				var tretMyHitValue = tempRetData[1]
 				var tretHisHitValue = tempRetData[2]
 
-				if(tretHitValue * 10 - tretMyHitValue * 10 + tretHisHitValue - tretProtect> tempRetValue) {
+				if(tretHitValue * 10 - tretMyHitValue * 10 + tretHisHitValue > tempRetValue) {
 
-					tempRetValue = tretHitValue * 10 - tretMyHitValue * 10 + tretHisHitValue - tretProtect
+					tempRetValue = tretHitValue * 10 - tretMyHitValue * 10 + tretHisHitValue 
 					
 					retProtect = tretProtect
 					retData = tempRetData
