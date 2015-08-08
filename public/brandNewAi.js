@@ -76,10 +76,10 @@ function protectPieces(originalTable, whitePlayer) {
 	//var flippedMoves=
 	var myCol = 1;
 	if(whitePlayer) myCol = 2 //myCol is 2 when white
-
+	var protectedSum = 0
 	getAllMoves(originalTable, whitePlayer, true). //moves include to hit my own 
 		//true stands for letMeHitMyOwn
-	var protectedSum = 0
+	
 	forEach(function(thisMoveCoords) {
 		//we'll use the 2nd part of the moves [2][3]
 		if(originalTable[thisMoveCoords[2]][thisMoveCoords[3]][0] == myCol) { //if i have sg there
