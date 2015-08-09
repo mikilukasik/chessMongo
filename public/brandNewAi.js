@@ -1056,10 +1056,10 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			rtnValue = loopValue + mhit + hhit + retProtect//my hit matters most as i'm next
 			
 			if(cfColor){
-				if(stepMove=='e1g1'||stepMove=='e1c1')rtnValue+=.1	//sancoljon ha tud
+				if(stepMove=='e1g1'||stepMove=='e1c1')rtnValue+=.3	//sancoljon ha tud
 				
 			}else{
-				if(stepMove=='e8g8'||stepMove=='e8c8')rtnValue+=.1
+				if(stepMove=='e8g8'||stepMove=='e8c8')rtnValue+=.3
 			}
 				
 		}
