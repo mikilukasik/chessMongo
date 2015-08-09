@@ -952,6 +952,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			var tempRetValue = -9999990
 			var retHitValue = 0
 			var retProtect=0
+			
 
 			cfRetMoves.forEach(function(stepRetMove, retMoveIndex) {
 
@@ -963,29 +964,29 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 				var tempRetData = getTableData(tempRetTable, cfColor)
 
-				//var retTableValue = tempRetData[0] //tablevalue-t nem is kene szamolni, megvan a retHitValue		//talan az sem kell
+				var tretTableValue = tempRetData[0] //tablevalue-t nem is kene szamolni, megvan a retHitValue		//talan az sem kell
 				var tretMyHitValue = tempRetData[1]
 				var tretHisHitValue = tempRetData[2]
 
-				if(tretHitValue * 10 - tretMyHitValue * 10 + tretHisHitValue > tempRetValue) {
+				if((origTableValue-tretTableValue) * 10 - tretMyHitValue * 10 + tretHisHitValue > tempRetValue) {
 
-					tempRetValue = tretHitValue * 10 - tretMyHitValue * 10 + tretHisHitValue 
+					tempRetValue = (origTableValue-tretTableValue) * 10 - tretMyHitValue * 10 + tretHisHitValue 
 					
 					retProtect = tretProtect
 					retData = tempRetData
 					retTable = tempRetTable
 					hisBestRtnMove = stepRetMove
 					retHitValue = tretHitValue
-
+					//retTableValue=tempRetTable
 				}
 
 			})
 
-			//var rtnTableValue = retData[0]
+			var rtnTableValue = retData[0]
 			var rtnMyHitValue = retData[1]
 			var rtnHisHitValue = retData[2]
 
-			loopValue = (fHitValue - retHitValue) * 10
+			loopValue = (rtnTableValue - origTableValue) * 10
 			hhit = (origHisHitValue - rtnHisHitValue)
 			mhit = (rtnMyHitValue - origMyHitValue) * 10
 
