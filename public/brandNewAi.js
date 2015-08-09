@@ -785,7 +785,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 	
 	if(isWhite&&origTable[4][0][3]){	//we play with white and have not moved the king yet
 		if(origTable[0][0][3]){
-			tableValue+=.02	//unmoved rook worth more than moved
+			tableValue+=.05	//unmoved rook worth more than moved
 			
 			if(origTable[3][0][3])tableValue-=.01
 			if(origTable[2][0][3])tableValue-=.01
@@ -793,7 +793,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 		}
 			
 		if(origTable[7][0][3]){
-			tableValue+=.02
+			tableValue+=.05
 			
 			if(origTable[6][0][3])tableValue-=.01
 			if(origTable[5][0][3])tableValue-=.01
@@ -807,7 +807,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 	
 	if(!isWhite&&origTable[4][7][3]){	//we play with black and have not moved the king yet
 		if(origTable[0][7][3]){
-			tableValue+=.02	//unmoved rook worth more than moved
+			tableValue+=.05	//unmoved rook worth more than moved
 			
 			if(origTable[3][7][3])tableValue-=.01
 			if(origTable[2][7][3])tableValue-=.01
@@ -815,7 +815,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 		}
 			
 		if(origTable[7][7][3]){
-			tableValue+=.02
+			tableValue+=.05
 			
 			if(origTable[6][7][3])tableValue-=.01
 			if(origTable[5][7][3])tableValue-=.01
@@ -1037,6 +1037,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			mhit = (rtnMyHitValue - origMyHitValue) * 10
 
 			rtnValue = loopValue + mhit + hhit + retProtect//my hit matters most as i'm next
+			
 			if(cfColor){
 				if(stepMove=='e1g1'||stepMove=='e1c1')rtnValue+=.1	//sancoljon ha tud
 				
