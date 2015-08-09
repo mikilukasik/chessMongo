@@ -784,30 +784,48 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 	if(isWhite) origColor = 2
 	
 	if(isWhite&&origTable[4][0][3]){	//we play with white and have not moved the king yet
-		if(origTable[0][0][3])tableValue+=.01	//unmoved rook worth more than moved
-		if(origTable[7][0][3])tableValue+=.01
+		if(origTable[0][0][3]){
+			tableValue+=.02	//unmoved rook worth more than moved
+			
+			if(origTable[3][0][3])tableValue-=.01
+			if(origTable[2][0][3])tableValue-=.01
+			if(origTable[1][0][3])tableValue-=.01
+		}
+			
+		if(origTable[7][0][3]){
+			tableValue+=.02
+			
+			if(origTable[6][0][3])tableValue-=.01
+			if(origTable[5][0][3])tableValue-=.01
+			
+		}
+			
 		
-		if(origTable[6][0][3])tableValue-=.01
-		if(origTable[5][0][3])tableValue-=.01
-		if(origTable[3][0][3])tableValue-=.01
-		if(origTable[2][0][3])tableValue-=.01
-		if(origTable[1][0][3])tableValue-=.01
 		
 		
 	}
 	
-	if(!isWhite&&origTable[4][7][3]){	//we play with white and have not moved the king yet
-		if(origTable[0][7][3])tableValue+=.01	//unmoved rook worth more than moved
-		if(origTable[7][7][3])tableValue+=.01
+	if(!isWhite&&origTable[4][7][3]){	//we play with black and have not moved the king yet
+		if(origTable[0][7][3]){
+			tableValue+=.02	//unmoved rook worth more than moved
+			
+			if(origTable[3][7][3])tableValue-=.01
+			if(origTable[2][7][3])tableValue-=.01
+			if(origTable[1][7][3])tableValue-=.01
+		}
+			
+		if(origTable[7][7][3]){
+			tableValue+=.02
+			
+			if(origTable[6][7][3])tableValue-=.01
+			if(origTable[5][7][3])tableValue-=.01
+			
+		}
+			
 		
-		if(origTable[6][7][3])tableValue-=.01
-		if(origTable[5][7][3])tableValue-=.01
-		if(origTable[3][7][3])tableValue-=.01
-		if(origTable[2][7][3])tableValue-=.01
-		if(origTable[1][7][3])tableValue-=.01
+		
 		
 	}
-
 	for(var lookI = 0; lookI < 8; lookI++) { //
 		for(var lookJ = 0; lookJ < 8; lookJ++) { //look through the table
 
