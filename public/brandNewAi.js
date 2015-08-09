@@ -783,9 +783,15 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 	var origColor = 1
 	if(isWhite) origColor = 2
 	
+	
+	
 	if(isWhite&&origTable[4][0][3]){	//we play with white and have not moved the king yet
+		
+		var sancolhat=false
+		
 		if(origTable[0][0][3]){
-			tableValue+=.05	//unmoved rook worth more than moved
+			tableValue+=.06	//unmoved rook worth more than moved
+			sancolhat=true
 			
 			if(origTable[3][0][3])tableValue-=.01
 			if(origTable[2][0][3])tableValue-=.01
@@ -793,21 +799,28 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 		}
 			
 		if(origTable[7][0][3]){
-			tableValue+=.05
+			sancolhat=true
+			tableValue+=.06
 			
 			if(origTable[6][0][3])tableValue-=.01
 			if(origTable[5][0][3])tableValue-=.01
 			
 		}
 			
-		
+		if(sancolhat){
+			if(origTable[3][1][1]==1&&origTable[3][1][0]==2)tableValue-=.01
+			if(origTable[4][1][1]==1&&origTable[4][1][0]==2)tableValue-=.01
+		}
 		
 		
 	}
 	
 	if(!isWhite&&origTable[4][7][3]){	//we play with black and have not moved the king yet
+		var sancolhat=false
+		
 		if(origTable[0][7][3]){
-			tableValue+=.05	//unmoved rook worth more than moved
+			sancolhat=true
+			tableValue+=.06	//unmoved rook worth more than moved
 			
 			if(origTable[3][7][3])tableValue-=.01
 			if(origTable[2][7][3])tableValue-=.01
@@ -815,14 +828,18 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 		}
 			
 		if(origTable[7][7][3]){
-			tableValue+=.05
+			sancolhat=true
+			tableValue+=.06
 			
 			if(origTable[6][7][3])tableValue-=.01
 			if(origTable[5][7][3])tableValue-=.01
 			
 		}
 			
-		
+		if(sancolhat){
+			if(origTable[3][6][1]==1&&origTable[3][6][0]==1)tableValue-=.01
+			if(origTable[4][6][1]==1&&origTable[4][6][0]==1)tableValue-=.01
+		}
 		
 		
 	}
