@@ -790,8 +790,8 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 	}
 	
 	if(!isWhite&&origTable[4][7][3]){	//we play with white and have not moved the king yet
-		if(origTable[0][7][3])tableValue-=.01	//unmoved rook worth more than moved
-		if(origTable[7][7][3])tableValue-=.01
+		if(origTable[0][7][3])tableValue+=.01	//unmoved rook worth more than moved
+		if(origTable[7][7][3])tableValue+=.01
 		
 	}
 
