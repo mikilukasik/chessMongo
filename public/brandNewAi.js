@@ -790,26 +790,26 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 		var sancolhat=false
 		
 		if(origTable[0][0][3]){
-			tableValue+=.06	//unmoved rook worth more than moved
+			tableValue+=.003	//unmoved rook worth more than moved
 			sancolhat=true
 			
-			if(origTable[3][0][0]==0)tableValue+=.01
-			if(origTable[2][0][0]==0)tableValue+=.01
-			if(origTable[1][0][0]==0)tableValue+=.01
+			if(origTable[3][0][0]==0)tableValue+=.001
+			if(origTable[2][0][0]==0)tableValue+=.001
+			if(origTable[1][0][0]==0)tableValue+=.001
 		}
 			
 		if(origTable[7][0][3]){
 			sancolhat=true
-			tableValue+=.06
+			tableValue+=.003
 			
-			if(origTable[6][0][0]==0)tableValue+=.01
-			if(origTable[5][0][0]==0)tableValue+=.01
+			if(origTable[6][0][0]==0)tableValue+=.001
+			if(origTable[5][0][0]==0)tableValue+=.001
 			
 		}
 			
 		if(sancolhat){
-			if(origTable[3][1][1]==1&&origTable[3][1][0]==2)tableValue-=.01
-			if(origTable[4][1][1]==1&&origTable[4][1][0]==2)tableValue-=.01
+			if(origTable[3][1][1]==1&&origTable[3][1][0]==2)tableValue-=.001
+			if(origTable[4][1][1]==1&&origTable[4][1][0]==2)tableValue-=.001
 		}
 		
 		
@@ -820,25 +820,25 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 		
 		if(origTable[0][7][3]){
 			sancolhat=true
-			tableValue+=.06	//unmoved rook worth more than moved
+			tableValue+=.003	//unmoved rook worth more than moved
 			
-			if(origTable[3][7][0]==0)tableValue+=.01
-			if(origTable[2][7][0]==0)tableValue+=.01
-			if(origTable[1][7][0]==0)tableValue+=.01
+			if(origTable[3][7][0]==0)tableValue+=.001
+			if(origTable[2][7][0]==0)tableValue+=.001
+			if(origTable[1][7][0]==0)tableValue+=.001
 		}
 			
 		if(origTable[7][7][3]){
 			sancolhat=true
-			tableValue+=.06
+			tableValue+=.003
 			
-			if(origTable[6][7][0]==0)tableValue+=.01
-			if(origTable[5][7][0]==0)tableValue+=.01
+			if(origTable[6][7][0]==0)tableValue+=.001
+			if(origTable[5][7][0]==0)tableValue+=.001
 			
 		}
 			
 		if(sancolhat){
-			if(origTable[3][6][1]==1&&origTable[3][6][0]==1)tableValue-=.01
-			if(origTable[4][6][1]==1&&origTable[4][6][0]==1)tableValue-=.01
+			if(origTable[3][6][1]==1&&origTable[3][6][0]==1)tableValue-=.001
+			if(origTable[4][6][1]==1&&origTable[4][6][0]==1)tableValue-=.001
 		}
 		
 		
@@ -908,7 +908,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	var allTempTables = [
 		[true, 0, new Date().getTime()] //array heading:true,0,timeStarted for timeItTook
 	]
-	var doScnd = !skipScnd
+	var doScnd = false//!skipScnd
 
 	//getAllMoves should be able to work fast or full (sanc, en pass, stb)
 	var cfMoves = []
