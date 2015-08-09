@@ -782,6 +782,18 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 
 	var origColor = 1
 	if(isWhite) origColor = 2
+	
+	if(isWhite&&origTable[4][0][3]){	//we play with white and have not moved the king yet
+		if(origTable[0][0][3])tableValue+=.01	//unmoved rook worth more than moved
+		if(origTable[7][0][3])tableValue+=.01
+		
+	}
+	
+	if(!isWhite&&origTable[4][7][3]){	//we play with white and have not moved the king yet
+		if(origTable[0][7][3])tableValue-=.01	//unmoved rook worth more than moved
+		if(origTable[7][7][3])tableValue-=.01
+		
+	}
 
 	for(var lookI = 0; lookI < 8; lookI++) { //
 		for(var lookJ = 0; lookJ < 8; lookJ++) { //look through the table
