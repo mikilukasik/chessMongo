@@ -793,17 +793,17 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 			tableValue+=.06	//unmoved rook worth more than moved
 			sancolhat=true
 			
-			if(origTable[3][0][3])tableValue-=.01
-			if(origTable[2][0][3])tableValue-=.01
-			if(origTable[1][0][3])tableValue-=.01
+			if(origTable[3][0][0]==0)tableValue+=.01
+			if(origTable[2][0][0]==0)tableValue+=.01
+			if(origTable[1][0][0]==0)tableValue+=.01
 		}
 			
 		if(origTable[7][0][3]){
 			sancolhat=true
 			tableValue+=.06
 			
-			if(origTable[6][0][3])tableValue-=.01
-			if(origTable[5][0][3])tableValue-=.01
+			if(origTable[6][0][0]==0)tableValue+=.01
+			if(origTable[5][0][0]==0)tableValue+=.01
 			
 		}
 			
@@ -822,17 +822,17 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 			sancolhat=true
 			tableValue+=.06	//unmoved rook worth more than moved
 			
-			if(origTable[3][7][3])tableValue-=.01
-			if(origTable[2][7][3])tableValue-=.01
-			if(origTable[1][7][3])tableValue-=.01
+			if(origTable[3][7][0]==0)tableValue+=.01
+			if(origTable[2][7][0]==0)tableValue+=.01
+			if(origTable[1][7][0]==0)tableValue+=.01
 		}
 			
 		if(origTable[7][7][3]){
 			sancolhat=true
 			tableValue+=.06
 			
-			if(origTable[6][7][3])tableValue-=.01
-			if(origTable[5][7][3])tableValue-=.01
+			if(origTable[6][7][0]==0)tableValue+=.01
+			if(origTable[5][7][0]==0)tableValue+=.01
 			
 		}
 			
