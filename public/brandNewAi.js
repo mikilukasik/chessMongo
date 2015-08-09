@@ -898,11 +898,11 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		var fHitValue = cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1] //leutott babu erteke, vagy 0
 		
 		var fwdVal = 0
-		if(!cfColor&&cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]==1) {	//ha parejt tol
-			fwdVal=(9-stepMove[3])*0.001			//4 // mennyit megy elore
+		if(!cfColor&&cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]==1) {	//ha fekete parejt tol
+			fwdVal=(9-stepMove[3])*0.001			
 		}
-		if(cfColor&&cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]==1) {	//ha parejt tol
-			fwdVal=(stepMove[3])*0.001			//4 // mennyit megy elore
+		if(cfColor&&cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]==1) {	//ha feher parejt tol
+			fwdVal=(stepMove[3])*0.001			
 		}
 		var tempTable = moveIt(stepMove, cfTable) //, false, hitValue)
 		protectTable(tempTable)
