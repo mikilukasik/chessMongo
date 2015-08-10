@@ -1303,7 +1303,8 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		// lsancValue*=10
 		// rsancValue*=10
 		
-		var pushThisValue = tTable2Value + loopValue + captureScore + fHitValue +smallValScore+dontGetHit+
+		var pushThisValue = tTable2Value + loopValue + captureScore + //fHitValue +
+							smallValScore+dontGetHit+
 							retProtect+mhit+hhit+fwdVal+lsancValue+rsancValue+sancValue
 
 		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, captureScore, smallValScore,
