@@ -1171,7 +1171,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			hhit = (origHisHitValue - rtnHisHitValue)
 			mhit = (rtnMyHitValue - origMyHitValue) * 10
 
-			rtnValue = loopValue + mhit + hhit + retProtect//my hit matters most as i'm next
+			//rtnValue = loopValue + mhit + hhit + retProtect//my hit matters most as i'm next
 			
 			if(cfColor){
 				if(stepMove=='e1g1'||stepMove=='e1c1')rtnValue+=.3	//sancoljon ha tud
@@ -1182,7 +1182,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				
 		}
 
-		rtnValue += fwdVal
+		//rtnValue += fwdVal
 
 		//	
 
@@ -1257,7 +1257,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 						
 					}
 				}
-				
+				//
 				if (ret2potMoves.length==0){
 					//mattot tudok adni a legjobbnak tuno lepesere
 					console.log('2 lepesbol mattolhatok')
@@ -1271,9 +1271,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			//
 
 		}
-		var pushThisValue = tTable2Value + rtnValue + captureScore + fHitValue +smallValScore+dontGetHit
+		var pushThisValue = tTable2Value + loopValue + captureScore + fHitValue +smallValScore+dontGetHit+mhit+hhit+fwdVal
 
-		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, captureScore, smallValScore, dontGetHit,tTable2Value, retProtect])
+		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, captureScore, smallValScore, dontGetHit,tTable2Value, retProtect, mhit, hhit	, fwdVal])
 
 	})
 
