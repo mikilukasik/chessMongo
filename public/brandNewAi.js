@@ -1161,8 +1161,8 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				var tretTableValue = tempRetData[0] //tablevalue-t nem is kene szamolni, megvan a retHitValue		//talan az sem kell
 				var tretMyHitValue = tempRetData[1]
 				var tretHisHitValue = tempRetData[2]
-				var tretlSanc = tempRetData[3]
-				var tretrSanc = tempRetData[4]
+				// var tretlSanc = tempRetData[3]
+				// var tretrSanc = tempRetData[4]
 				
 
 				if((origTableValue-tretTableValue) * 10 - tretMyHitValue * 10 + tretHisHitValue > tempRetValue) {
