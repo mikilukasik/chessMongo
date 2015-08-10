@@ -1041,6 +1041,10 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 					hisBestRtnMove = stepRetMove
 					retHitValue = tretHitValue
 					//retTableValue=tempRetTable
+				}else{
+					if((origTableValue-tretTableValue) * 10 - tretMyHitValue * 10 + tretHisHitValue = tempRetValue){
+						hisBestRtnMove = "many"
+					}
 				}
 
 			})
