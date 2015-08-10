@@ -47,10 +47,14 @@ app.get('/aiChoice', function(req, res) {
 										'mhit: '+result[i][9]+ ' <br>' +
 										'hhit: '+result[i][10]+ ' <br>' +
 										'fwdVal: '+result[i][11]+ ' <br>' +
+										'lsancValue: '+result[i][12]+ ' <br>' +
+										'rsancValue: '+result[i][13]+ ' <br>' +
+										'sancValue: '+result[i][14]+ ' <br>' +
 										' -------------------<br>';
 										
 										
-//		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, captureScore, smallValScore, dontGetHit,tTable2Value, retProtect, mhit, hhit	, fwdVal])
+//		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, captureScore,
+//			 smallValScore, dontGetHit,tTable2Value, retProtect, mhit, hhit	, fwdVal,lsancValue,rsancValue,sancValue])
 					}
 
 					var sendJson = {

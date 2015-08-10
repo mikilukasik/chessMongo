@@ -949,7 +949,8 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 		}
 	}
 
-	return [tableValue, rtnMyHitSum[0], rtnHisHitSum[0], rtnHisMoveCount, lSancVal,rSancVal] //rtnData
+	return [tableValue, rtnMyHitSum[0], rtnHisHitSum[0],// rtnHisMoveCount, 
+		lSancVal,rSancVal] //rtnData
 
 }
 
@@ -1043,6 +1044,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	var origTableValue = origData[0]
 	var origMyHitValue = origData[1]
 	var origHisHitValue = origData[2]
+	var origlSanc = origData[3]
+	var origrSanc = origData[4]
+	
 
 	
 	var hisBestRtnMove
@@ -1102,6 +1106,10 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		var hhit = 0 //(origHisHitValue-rtnHisHitValue)
 		var mhit = 0 //(rtnMyHitValue-origMyHitValue)*10
 		var dontGetHit=0
+		var lsancValue=0
+		var rsancValue=0
+		var sancValue=0
+		
 
 		var rtnValue=0 //=loopValue+mhit+hhit
 
@@ -1147,6 +1155,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				var tretTableValue = tempRetData[0] //tablevalue-t nem is kene szamolni, megvan a retHitValue		//talan az sem kell
 				var tretMyHitValue = tempRetData[1]
 				var tretHisHitValue = tempRetData[2]
+				var tretlSanc = tempRetData[3]
+				var tretrSanc = tempRetData[4]
+				
 
 				if((origTableValue-tretTableValue) * 10 - tretMyHitValue * 10 + tretHisHitValue > tempRetValue) {
 
@@ -1169,18 +1180,24 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			var rtnTableValue = retData[0]
 			var rtnMyHitValue = retData[1]
 			var rtnHisHitValue = retData[2]
+			var rtnlSanc= retData[3]
+			var rtnrSanc= retData[4]
+			
 
 			loopValue = (rtnTableValue - origTableValue) * 10
 			hhit = (origHisHitValue - rtnHisHitValue)
 			mhit = (rtnMyHitValue - origMyHitValue) * 10
+			lsancValue=(rtnlSanc- origlSanc)
+			rsancValue=(rtnrSanc- origrSanc)
+			
 
 			//rtnValue = loopValue + mhit + hhit + retProtect//my hit matters most as i'm next
 			
 			if(cfColor){
-				if(stepMove=='e1g1'||stepMove=='e1c1')rtnValue+=.3	//sancoljon ha tud
+				if((stepMove=='e1g1'&&lsancValue<=rsancValue)||(stepMove=='e1c1'&&lsancValue>=rsancValue))sancValue+=.3	//sancoljon ha tud
 				
 			}else{
-				if(stepMove=='e8g8'||stepMove=='e8c8')rtnValue+=.3
+				if((stepMove=='e8g8'&&lsancValue<=rsancValue)||(stepMove=='e8c8'&&lsancValue>=rsancValue))sancValue+=.3
 			}
 				
 		}
@@ -1274,9 +1291,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			//
 
 		}
-		var pushThisValue = tTable2Value + loopValue + captureScore + fHitValue +smallValScore+dontGetHit+mhit+hhit+fwdVal
+		var pushThisValue = tTable2Value + loopValue + captureScore + fHitValue +smallValScore+dontGetHit+mhit+hhit+fwdVal+lsancValue+rsancValue+sancValue
 
-		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, captureScore, smallValScore, dontGetHit,tTable2Value, retProtect, mhit, hhit	, fwdVal])
+		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, captureScore, smallValScore, dontGetHit,tTable2Value, retProtect, mhit, hhit	, fwdVal,lsancValue,rsancValue,sancValue])
 
 	})
 
