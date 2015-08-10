@@ -1297,7 +1297,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				////
 			})
 			
-			//
+			///
 
 		}
 		// lsancValue*=10
