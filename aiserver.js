@@ -35,13 +35,20 @@ app.get('/aiChoice', function(req, res) {
 
 					for(var i = 1; i < result.length; i++) {
 
-						toConsole[i] = 'Move: '+result[i][0] + '  <br>' +
-							'Score: '+result[i][1]+ ' <br>' +
-							'Score: '+result[i][2]+ ' <br>' +
-							'Score: '+result[i][3]+ ' <br>' +
-							'Score: '+result[i][4]+ ' <br>' +
-							result[i][5]+ ' -------------------<br>';
-
+						toConsole[i] = 	'stepMove: '+result[i][0] + '  ' +
+										//'pushThisValue: '+
+										result[i][1]+ ' <br>' +
+										'hisBestRtnMove: '+result[i][2]+ ' <br>' +
+										'rtnValue: '+result[i][3]+ ' <br>' +
+										'captureScore: '+result[i][4]+ ' <br>' +
+										'smallValScore: '+result[i][5]+ ' <br>' +
+										'dontGetHit: '+result[i][6]+ ' <br>' +
+										'tTable2Value: '+result[i][7]+ ' <br>' +
+										'temp: '+result[i][8]+ ' <br>' +
+										' -------------------<br><br>';
+										
+										
+										//[stepMove, pushThisValue, hisBestRtnMove, rtnValue, captureScore, smallValScore, dontGetHit,tTable2Value]
 					}
 
 					var sendJson = {
