@@ -943,7 +943,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 	cfMoves.forEach(function(stepMove, moveIndex) {
 
-		var fHitValue = cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1] //leutott babu erteke, vagy 0
+		var fHitValue = 0//cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1] //leutott babu erteke, vagy 0
 		
 		var fwdVal = 0
 		if(!cfColor&&cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]==1) {	//ha fekete parejt tol
@@ -1049,7 +1049,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			var rtnMyHitValue = retData[1]
 			var rtnHisHitValue = retData[2]
 
-			loopValue = (rtnTableValue - origTableValue) * 10
+			loopValue = (rtnTableValue - origTableValue) * 20
 			hhit = (origHisHitValue - rtnHisHitValue)
 			mhit = (rtnMyHitValue - origMyHitValue) * 10
 
