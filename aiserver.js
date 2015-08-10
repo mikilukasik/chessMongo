@@ -42,13 +42,13 @@ app.get('/aiChoice', function(req, res) {
 										'captureScore: '+result[i][4]+ ' <br>' +
 										'smallValScore: '+result[i][5]+ ' <br>' +
 										'dontGetHit: '+result[i][6]+ ' <br>' +
-										//'tTable2Value: '+result[i][7]+ ' <br>' +
+										'tTable2Value: '+result[i][7]+ ' <br>' +
 										'retProtect: '+result[i][8]+ ' <br>' +
 										//'mhit: '+result[i][9]+ ' <br>' +
 										//'hhit: '+result[i][10]+ ' <br>' +
 										'fwdVal: '+result[i][11]+ ' <br>' +
-										'lsancValue: '+result[i][12]+ ' <br>' +
-										'rsancValue: '+result[i][13]+ ' <br>' +
+										//'lsancValue: '+result[i][12]+ ' <br>' +
+										//'rsancValue: '+result[i][13]+ ' <br>' +
 										//'sancValue: '+result[i][14]+ ' <br>' +
 										' ----<br>';
 										
