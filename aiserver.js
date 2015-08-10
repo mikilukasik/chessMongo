@@ -32,8 +32,27 @@ app.get('/aiChoice', function(req, res) {
 					var toConsole = [] //to chat?
 
 					toConsole[0] = result[0][2]+" ms." //timeItTook
+					
+					toConsole[1] = 	'stepMove: '+result[1][0] + //' <br> ' +
+										'pushThisValue: '+result[1][1]+ ' <br>' +
+										'hisBestRtnMove: '+result[1][2]+ ' <br>' +
+										'loopValue: '+result[1][3]+ ' <br>' +
+										'captureScore: '+result[1][4]+ ' <br>' +
+										'smallValScore: '+result[1][5]+ ' <br>' +
+										'dontGetHit: '+result[1][6]+ ' <br>' +
+										'tTable2Value: '+result[1][7]+ ' <br>' +
+										'retProtect: '+result[1][8]+ ' <br>' +
+										'mhit: '+result[1][9]+ ' <br>' +
+										'hhit: '+result[1][10]+ ' <br>' +
+										'fwdVal: '+result[1][11]+ ' <br>' +
+										'lsancValue: '+result[1][12]+ ' <br>' +
+										'rsancValue: '+result[1][13]+ ' <br>' +
+										'sancValue: '+result[1][14]+ ' <br>' +
+										' ----<br>';
+					
+					
 
-					for(var i = 1; i < result.length; i++) {
+					for(var i = 2; i < result.length; i++) {
 
 						toConsole[i] = 	'stepMove: '+result[i][0] + //' <br> ' +
 										'pushThisValue: '+result[i][1]+ ' <br>' +
