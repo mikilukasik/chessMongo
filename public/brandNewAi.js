@@ -1153,7 +1153,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			//
 
 		}
-		var pushThisValue = tTable2Value + rtnValue + captureScore + fHitValue
+		var pushThisValue = tTable2Value + rtnValue + captureScore// + fHitValue
 
 		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, rtnValue, captureScore, tTable2Value])
 
