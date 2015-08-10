@@ -1053,7 +1053,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 	cfMoves.forEach(function(stepMove, moveIndex) {
 		
-		var smallValScore=(10-cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1])/1000
+		var smallValScore=(10-cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1])/10000
 
 		var fHitValue = cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1] //leutott babu erteke, vagy 0
 		
@@ -1140,7 +1140,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 				var tempRetTable = moveIt(stepRetMove, tempTable) //, false, hitValue)
 				
-				var tretProtect= (protectTable(tempRetTable, cfColor) - origProtect)/1000000 //majd kesobb
+				var tretProtect= (protectTable(tempRetTable, cfColor) - origProtect)/10000 //majd kesobb
 				
 				if(captured(tempRetTable,cfColor)){
 					dontGetHit-=.01
