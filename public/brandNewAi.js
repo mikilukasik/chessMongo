@@ -84,7 +84,17 @@ function protectPieces(originalTable, whitePlayer) {
 		//we'll use the 2nd part of the moves [2][3]
 		if(originalTable[thisMoveCoords[2]][thisMoveCoords[3]][0] == myCol) { //if i have sg there
 			originalTable[thisMoveCoords[2]][thisMoveCoords[3]][6] = true //that must be protected
-			protectedSum+=9-originalTable[thisMoveCoords[2]][thisMoveCoords[3]][1]
+			
+			if(originalTable[thisMoveCoords[0]][thisMoveCoords[1]][1]==9){
+				protectedSum+=(9-originalTable[thisMoveCoords[2]][thisMoveCoords[3]][1])*2	//king protects double
+			
+				
+			}else{
+				
+				protectedSum+=9-originalTable[thisMoveCoords[2]][thisMoveCoords[3]][1]
+			}
+		
+		
 		}
 	})
 	
