@@ -35,11 +35,11 @@ app.get('/aiChoice', function(req, res) {
 
 					for(var i = 1; i < result.length; i++) {
 
-						toConsole[i] = result[i][0] + '  ' +
-							result[i][1]+ ' <br>' +
-							result[i][2]+ ' <br>' +
-							result[i][3]+ ' <br>' +
-							result[i][4]+ ' <br>' +
+						toConsole[i] = 'Move: '+result[i][0] + '  <br>' +
+							'Score: '+result[i][1]+ ' <br>' +
+							'Score: '+result[i][2]+ ' <br>' +
+							'Score: '+result[i][3]+ ' <br>' +
+							'Score: '+result[i][4]+ ' <br>' +
 							result[i][5]+ ' -------------------<br>';
 
 					}
