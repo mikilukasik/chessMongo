@@ -942,6 +942,8 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	var hisBestRtnMove
 		
 	cfMoves.forEach(function(stepMove, moveIndex) {
+		
+		var smallValScore=10-cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]/1000
 
 		var fHitValue = cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1] //leutott babu erteke, vagy 0
 		
@@ -1157,7 +1159,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			//
 
 		}
-		var pushThisValue = tTable2Value + rtnValue + captureScore + fHitValue
+		var pushThisValue = tTable2Value + rtnValue + captureScore + fHitValue +smallValScore
 
 		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, rtnValue, captureScore, tTable2Value])
 
