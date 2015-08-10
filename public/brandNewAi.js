@@ -1116,14 +1116,20 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		if(cfRetMoves.length == 0) {
 
 			if(captured(tempTable, !cfColor)) {
-				rtnValue = 10000 //ott a matt
+				loopValue = 10000 //ott a matt
 			} else {
 
 				//pattot adna
-				rtnValue= - 10000//ideiglenesen ne adjunk pattot sosem!!
+				loopValue= - 10000//ideiglenesen ne adjunk pattot sosem!!
 			}
 
-			retTable = cfTable //vmit vissza kell azert adni..., legyen az eredeti         <----- figyelj, who's next??  
+			//retTable = cfTable //vmit vissza kell azert adni..., legyen az eredeti         <----- figyelj, who's next??  
+			retProtect = origProtect
+			retData = origData
+			retTable = cfTable
+			hisBestRtnMove = "stuck."
+			retHitValue = 0
+
 		} else {
 
 			//lesz valaszlepese
