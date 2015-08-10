@@ -1188,7 +1188,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 		var tTable2Value = 0
 
-		if(doScnd) {
+		if(false){//doScnd) {
 			//
 			
 			var cf2Moves = []
