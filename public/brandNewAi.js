@@ -905,7 +905,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 			}
 			
 		}
-			
+		//	
 		if(sancolhat){
 			if(origTable[3][6][1]==1&&origTable[3][6][0]==1)lSancVal-=.04
 			if(origTable[4][6][1]==1&&origTable[4][6][0]==1)rSancVal-=.04
