@@ -1254,7 +1254,6 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				}
 			}
 			
-			// itt meg kene nezni, ha az osszes valasza vesztes, vagy csak a legjobbnak latszo
 			
 			//check if capturing moves are winners:
 			
@@ -1287,7 +1286,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				if (ret2potMoves.length==0){
 					//mattot tudok adni a legjobbnak tuno lepesere
 					console.log('2 lepesbol mattolhatok')
-					if(tTable2Value<.5)tTable2Value+=0.5	
+					if(tTable2Value<50.5)tTable2Value+=50.5
+					
+						
 					tTable2Value+=0.00001			//sakkba lephetne
 				}
 				
