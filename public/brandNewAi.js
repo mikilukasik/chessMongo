@@ -779,7 +779,10 @@ function protectTable(table, myCol) {
 }
 
 function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
-
+	
+	var lSancVal=0
+	var rSancVal=0
+	
 	var tableValue = 0
 
 	var rtnMyHitSum = [0] //this pointer will be passed to canmove 
@@ -800,24 +803,24 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 		var sancolhat=false
 		
 		if(origTable[0][0][3]){
-			tableValue+=.003	//unmoved rook worth more than moved
+			lSancVal+=.003	//unmoved rook worth more than moved
 			sancolhat=true
 			
-			if(origTable[3][0][0]==0)tableValue+=.001	//trying to empty between
-			if(origTable[2][0][0]==0)tableValue+=.001
-			if(origTable[1][0][0]==0)tableValue+=.001
+			if(origTable[3][0][0]==0)lSancVal+=.001	//trying to empty between
+			if(origTable[2][0][0]==0)lSancVal+=.001
+			if(origTable[1][0][0]==0)lSancVal+=.001
 			
 			
 			if(origTable[2][1][0]==2){//trying to keep my pieces  there to cover
-				tableValue+=.001	
-				if(origTable[2][1][1]==1)tableValue+=.001
+				lSancVal+=.001	
+				if(origTable[2][1][1]==1)lSancVal+=.001
 			}
 			if(origTable[1][1][0]==2){//trying to keep my pieces  there to cover
-				tableValue+=.001	
-				if(origTable[1][1][1]==1)tableValue+=.001
+				lSancVal+=.001	
+				if(origTable[1][1][1]==1)lSancVal+=.001
 			}if(origTable[0][1][0]==2){//trying to keep my pieces  there to cover
-				tableValue+=.001	
-				if(origTable[0][1][1]==1)tableValue+=.001
+				lSancVal+=.001	
+				if(origTable[0][1][1]==1)lSancVal+=.001
 			}
 			
 			
@@ -826,31 +829,31 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 			
 		if(origTable[7][0][3]){
 			sancolhat=true
-			tableValue+=.003
+			rSancVal+=.003
 			
-			if(origTable[6][0][0]==0)tableValue+=.001
-			if(origTable[5][0][0]==0)tableValue+=.001
+			if(origTable[6][0][0]==0)rSancVal+=.001
+			if(origTable[5][0][0]==0)rSancVal+=.001
 			
 			if(origTable[7][1][0]==2){//trying to keep my pieces  there to cover
-				tableValue+=.001	
-				if(origTable[7][1][1]==1)tableValue+=.001
+				rSancVal+=.001	
+				if(origTable[7][1][1]==1)rSancVal+=.001
 			}
 			if(origTable[6][1][0]==2){//trying to keep my pieces  there to cover
-				tableValue+=.001	
-				if(origTable[6][1][1]==1)tableValue+=.001
+				rSancVal+=.001	
+				if(origTable[6][1][1]==1)rSancVal+=.001
 			}if(origTable[5][1][0]==2){//trying to keep my pieces  there to cover
-				tableValue+=.001	
-				if(origTable[5][1][1]==1)tableValue+=.001
+				rSancVal+=.001	
+				if(origTable[5][1][1]==1)rSancVal+=.001
 			}
 			
 		}
 			
 		if(sancolhat){
-			if(origTable[3][1][1]==1&&origTable[3][1][0]==2)tableValue-=.001	//try to move d2 or e2 first
-			if(origTable[4][1][1]==1&&origTable[4][1][0]==2)tableValue-=.001
+			if(origTable[3][1][1]==1&&origTable[3][1][0]==2)lSancVal-=.001	//try to move d2 or e2 first
+			if(origTable[4][1][1]==1&&origTable[4][1][0]==2)rSancVal-=.001
 			
-			if(origTable[2][0][1]==2&&origTable[2][0][0]==2)tableValue-=.001	//try to move out bishops
-			if(origTable[5][0][1]==2&&origTable[5][0][0]==2)tableValue-=.001
+			if(origTable[2][0][1]==2&&origTable[2][0][0]==2)lSancVal-=.001	//try to move out bishops
+			if(origTable[5][0][1]==2&&origTable[5][0][0]==2)rSancVal-=.001
 		}
 		
 		
@@ -861,54 +864,54 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 		
 		if(origTable[0][7][3]){
 			sancolhat=true
-			tableValue+=.003	//unmoved rook worth more than moved
+			lSancVal+=.003	//unmoved rook worth more than moved
 			
-			if(origTable[3][7][0]==0)tableValue+=.001
-			if(origTable[2][7][0]==0)tableValue+=.001
-			if(origTable[1][7][0]==0)tableValue+=.001
+			if(origTable[3][7][0]==0)lSancVal+=.001
+			if(origTable[2][7][0]==0)lSancVal+=.001
+			if(origTable[1][7][0]==0)lSancVal+=.001
 			
 			if(origTable[2][6][0]==1){//trying to keep my pieces  there to cover
-				tableValue+=.001	
-				if(origTable[2][6][1]==1)tableValue+=.001
+				lSancVal+=.001	
+				if(origTable[2][6][1]==1)lSancVal+=.001
 			}
 			if(origTable[1][6][0]==1){//trying to keep my pieces  there to cover
-				tableValue+=.001	
-				if(origTable[1][6][1]==1)tableValue+=.001
+				lSancVal+=.001	
+				if(origTable[1][6][1]==1)lSancVal+=.001
 			}
 			if(origTable[0][6][0]==1){//trying to keep my pieces  there to cover
-				tableValue+=.001	
-				if(origTable[0][6][1]==1)tableValue+=.001
+				lSancVal+=.001	
+				if(origTable[0][6][1]==1)lSancVal+=.001
 			}
 		}
 			
 		if(origTable[7][7][3]){
 			sancolhat=true
-			tableValue+=.003
+			rSancVal+=.003
 			
-			if(origTable[6][7][0]==0)tableValue+=.001
-			if(origTable[5][7][0]==0)tableValue+=.001
+			if(origTable[6][7][0]==0)rSancVal+=.001
+			if(origTable[5][7][0]==0)rSancVal+=.001
 			
 			if(origTable[7][6][0]==1){//trying to keep my pieces  there to cover
-				tableValue+=.001	
-				if(origTable[7][6][1]==1)tableValue+=.001
+				rSancVal+=.001	
+				if(origTable[7][6][1]==1)rSancVal+=.001
 			}
 			if(origTable[6][6][0]==1){//trying to keep my pieces  there to cover
-				tableValue+=.001	
-				if(origTable[6][6][1]==1)tableValue+=.001
+				rSancVal+=.001	
+				if(origTable[6][6][1]==1)rSancVal+=.001
 			}
 			if(origTable[5][6][0]==1){//trying to keep my pieces  there to cover
-				tableValue+=.001	
-				if(origTable[5][6][1]==1)tableValue+=.001
+				rSancVal+=.001	
+				if(origTable[5][6][1]==1)rSancVal+=.001
 			}
 			
 		}
 			
 		if(sancolhat){
-			if(origTable[3][6][1]==1&&origTable[3][6][0]==1)tableValue-=.001
-			if(origTable[4][6][1]==1&&origTable[4][6][0]==1)tableValue-=.001
+			if(origTable[3][6][1]==1&&origTable[3][6][0]==1)lSancVal-=.001
+			if(origTable[4][6][1]==1&&origTable[4][6][0]==1)rSancVal-=.001
 			
-			if(origTable[2][7][1]==2&&origTable[2][7][0]==1)tableValue-=.001
-			if(origTable[5][7][1]==2&&origTable[5][7][0]==1)tableValue-=.001
+			if(origTable[2][7][1]==2&&origTable[2][7][0]==1)lSancVal-=.001
+			if(origTable[5][7][1]==2&&origTable[5][7][0]==1)rSancVal-=.001
 		}
 		
 		
@@ -946,7 +949,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 		}
 	}
 
-	return [tableValue, rtnMyHitSum[0], rtnHisHitSum[0], rtnHisMoveCount] //rtnData
+	return [tableValue, rtnMyHitSum[0], rtnHisHitSum[0], rtnHisMoveCount, lSancVal,rSancVal] //rtnData
 
 }
 
