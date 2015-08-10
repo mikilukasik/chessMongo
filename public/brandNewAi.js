@@ -807,7 +807,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 			sancolhat=true
 			
 			if(origTable[3][0][0]==0)lSancVal+=.01	//trying to empty between
-			if(origTable[2][0][0]==0)lSancVal+=.01
+			if(origTable[2][0][0]==0)lSancVal+=.03
 			if(origTable[1][0][0]==0)lSancVal+=.01
 			
 			
@@ -832,7 +832,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 			rSancVal+=.03
 			
 			if(origTable[6][0][0]==0)rSancVal+=.01
-			if(origTable[5][0][0]==0)rSancVal+=.01
+			if(origTable[5][0][0]==0)rSancVal+=.03
 			
 			if(origTable[7][1][0]==2){//trying to keep my pieces  there to cover
 				rSancVal+=.01	
@@ -849,8 +849,8 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 		}
 			
 		if(sancolhat){
-			if(origTable[3][1][1]==1&&origTable[3][1][0]==2)lSancVal-=.01	//try to move d2 or e2 first
-			if(origTable[4][1][1]==1&&origTable[4][1][0]==2)rSancVal-=.01
+			if(origTable[3][1][1]==1&&origTable[3][1][0]==2)lSancVal-=.04	//try to move d2 or e2 first
+			if(origTable[4][1][1]==1&&origTable[4][1][0]==2)rSancVal-=.04
 			
 			if(origTable[2][0][1]==2&&origTable[2][0][0]==2)lSancVal-=.02	//try to move out bishops
 			if(origTable[5][0][1]==2&&origTable[5][0][0]==2)rSancVal-=.02
@@ -867,7 +867,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 			lSancVal+=.03	//unmoved rook worth more than moved
 			
 			if(origTable[3][7][0]==0)lSancVal+=.01
-			if(origTable[2][7][0]==0)lSancVal+=.01
+			if(origTable[2][7][0]==0)lSancVal+=.03
 			if(origTable[1][7][0]==0)lSancVal+=.01
 			
 			if(origTable[2][6][0]==1){//trying to keep my pieces  there to cover
@@ -889,7 +889,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 			rSancVal+=.03
 			
 			if(origTable[6][7][0]==0)rSancVal+=.01
-			if(origTable[5][7][0]==0)rSancVal+=.01
+			if(origTable[5][7][0]==0)rSancVal+=.03
 			
 			if(origTable[7][6][0]==1){//trying to keep my pieces  there to cover
 				rSancVal+=.01	
@@ -907,8 +907,8 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 		}
 			
 		if(sancolhat){
-			if(origTable[3][6][1]==1&&origTable[3][6][0]==1)lSancVal-=.01
-			if(origTable[4][6][1]==1&&origTable[4][6][0]==1)rSancVal-=.01
+			if(origTable[3][6][1]==1&&origTable[3][6][0]==1)lSancVal-=.04
+			if(origTable[4][6][1]==1&&origTable[4][6][0]==1)rSancVal-=.04
 			
 			if(origTable[2][7][1]==2&&origTable[2][7][0]==1)lSancVal-=.02
 			if(origTable[5][7][1]==2&&origTable[5][7][0]==1)rSancVal-=.02
