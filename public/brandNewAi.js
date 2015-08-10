@@ -903,6 +903,39 @@ function findMyPieces(origTable, isWhite) {
 
 }
 
+function canIMove(winTable,winColor){
+	var winRetMoves = []
+	//var winRetMoveCoords = []
+
+	getAllMoves(winTable, winColor).forEach(function(thisMove) { //get all his moves in array of strings
+		winRetMoves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
+		//winRetMoveCoords.push(thisMove)
+
+	})
+	//var origLen = winRetMoves.length
+	//var removeCount = 0
+	for(var i = winRetMoves.length - 1; i >= 0; i--) { //sakkba 
+		if(captured(moveIt(winRetMoves[i], winTable), winColor)) { //sakkba lepne valaszkent	//moveit retmove ittis ottis
+			// if(winTable[winRetMoveCoords[i][0]][winRetMoveCoords[i][1]][1]==9){
+			// 	removeCount++			//fogja a kiraly koruli mezoket
+			// }else{
+			// 	removeCount+=3			//ollo ha sakkba lepne de nem kirallyal lepett
+			// }
+			winRetMoves.splice(i, 1)
+			//winRetMoveCoords.splice(i, 1)
+			
+			// if(!(tempTable[winRetMoveCoords[i][0]][winRetMoveCoords[i][1]][1]==9)){
+				
+			// }
+		}
+	}
+	if(winRetMoves.length>0){
+		return true
+	}else{
+		return false
+	}
+}
+
 function createAiTable(cfTable, cfColor, skipScnd) {
 
 	var allTempTables = [
@@ -995,6 +1028,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		var loopValue = 0 //=(fHitValue-retHitValue)*10
 		var hhit = 0 //(origHisHitValue-rtnHisHitValue)
 		var mhit = 0 //(rtnMyHitValue-origMyHitValue)*10
+		var dontGetHit=0
 
 		var rtnValue=0 //=loopValue+mhit+hhit
 
@@ -1026,7 +1060,15 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				var tempRetTable = moveIt(stepRetMove, tempTable) //, false, hitValue)
 				
 				var tretProtect= (protectTable(tempRetTable, cfColor) - origProtect)/1000000 //majd kesobb
-
+				
+				if(captured(tempRetTable,cfColor)){
+					dontGetHit-=.01
+					//var myTempMoves=getAllMoves(tempRetTable,cfColor,false,0)
+					if(!canIMove(tempRetTable,cfColor)){
+						dontGetHit=-10000
+					}
+				}
+				
 				var tempRetData = getTableData(tempRetTable, cfColor)
 
 				var tretTableValue = tempRetData[0] //tablevalue-t nem is kene szamolni, megvan a retHitValue		//talan az sem kell
@@ -1159,7 +1201,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			//
 
 		}
-		var pushThisValue = tTable2Value + rtnValue + captureScore + fHitValue +smallValScore
+		var pushThisValue = tTable2Value + rtnValue + captureScore + fHitValue +smallValScore+dontGetHit
 
 		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, rtnValue, captureScore, tTable2Value])
 
