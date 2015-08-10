@@ -908,7 +908,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	var allTempTables = [
 		[true, 0, new Date().getTime()] //array heading:true,0,timeStarted for timeItTook
 	]
-	var doScnd = false//!skipScnd
+	var doScnd = !skipScnd
 
 	//getAllMoves should be able to work fast or full (sanc, en pass, stb)
 	var cfMoves = []
