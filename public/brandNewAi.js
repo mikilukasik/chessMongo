@@ -852,8 +852,8 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 			if(origTable[3][1][1]==1&&origTable[3][1][0]==2)lSancVal-=.04	//try to move d2 or e2 first
 			if(origTable[4][1][1]==1&&origTable[4][1][0]==2)rSancVal-=.04
 			
-			if(origTable[2][0][1]==2&&origTable[2][0][0]==2)lSancVal-=.02	//try to move out bishops
-			if(origTable[5][0][1]==2&&origTable[5][0][0]==2)rSancVal-=.02
+			if(origTable[2][0][1]==2&&origTable[2][0][0]==2)lSancVal-=.04	//try to move out bishops
+			if(origTable[5][0][1]==2&&origTable[5][0][0]==2)rSancVal-=.04
 		}
 		
 		
@@ -910,8 +910,8 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 			if(origTable[3][6][1]==1&&origTable[3][6][0]==1)lSancVal-=.04
 			if(origTable[4][6][1]==1&&origTable[4][6][0]==1)rSancVal-=.04
 			
-			if(origTable[2][7][1]==2&&origTable[2][7][0]==1)lSancVal-=.02
-			if(origTable[5][7][1]==2&&origTable[5][7][0]==1)rSancVal-=.02
+			if(origTable[2][7][1]==2&&origTable[2][7][0]==1)lSancVal-=.04
+			if(origTable[5][7][1]==2&&origTable[5][7][0]==1)rSancVal-=.04
 		}
 		
 		
