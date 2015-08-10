@@ -1286,8 +1286,10 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				if (ret2potMoves.length==0){
 					//mattot tudok adni a legjobbnak tuno lepesere
 					console.log('2 lepesbol mattolhatok')
-					if(tTable2Value<50.5)tTable2Value+=50.5
+					if(tTable2Value<50)tTable2Value+=50
 					
+						//meg kene nezni ki tud-e lepni belole
+						
 						
 					tTable2Value+=0.00001			//sakkba lephetne
 				}
