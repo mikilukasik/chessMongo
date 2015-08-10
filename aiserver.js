@@ -38,19 +38,19 @@ app.get('/aiChoice', function(req, res) {
 						toConsole[i] = 	'stepMove: '+result[i][0] + ' <br> ' +
 										'pushThisValue: '+result[i][1]+ ' <br>' +
 										'hisBestRtnMove: '+result[i][2]+ ' <br>' +
-										'loopValue: '+result[i][3]+ ' <br>' +
+										//'loopValue: '+result[i][3]+ ' <br>' +
 										'captureScore: '+result[i][4]+ ' <br>' +
 										'smallValScore: '+result[i][5]+ ' <br>' +
 										'dontGetHit: '+result[i][6]+ ' <br>' +
-										'tTable2Value: '+result[i][7]+ ' <br>' +
+										//'tTable2Value: '+result[i][7]+ ' <br>' +
 										'retProtect: '+result[i][8]+ ' <br>' +
-										'mhit: '+result[i][9]+ ' <br>' +
-										'hhit: '+result[i][10]+ ' <br>' +
+										//'mhit: '+result[i][9]+ ' <br>' +
+										//'hhit: '+result[i][10]+ ' <br>' +
 										'fwdVal: '+result[i][11]+ ' <br>' +
 										'lsancValue: '+result[i][12]+ ' <br>' +
 										'rsancValue: '+result[i][13]+ ' <br>' +
-										'sancValue: '+result[i][14]+ ' <br>' +
-										' -------------------<br>';
+										//'sancValue: '+result[i][14]+ ' <br>' +
+										' ----<br>';
 										
 										
 //		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, captureScore,
