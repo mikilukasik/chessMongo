@@ -1125,7 +1125,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 			cfRetMoves.forEach(function(stepRetMove, retMoveIndex) {
 
-				var tretHitValue = tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][1] //kivonni kesobb a leutott babu erteke, vagy 0
+				var tretHitValue = tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][1] //how abot en pass????//kivonni kesobb a leutott babu erteke, vagy 0
 
 				var tempRetTable = moveIt(stepRetMove, tempTable) //, false, hitValue)
 				
@@ -1273,7 +1273,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		}
 		var pushThisValue = tTable2Value + rtnValue + captureScore + fHitValue +smallValScore+dontGetHit
 
-		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, rtnValue, captureScore, smallValScore, dontGetHit,tTable2Value])
+		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, captureScore, smallValScore, dontGetHit,tTable2Value, retProtect])
 
 	})
 
