@@ -39,7 +39,7 @@ app.get('/aiChoice', function(req, res) {
 
 					for(var i = 1; i < result.length; i++) {
 						
-						if(i<4){
+						if(false){//i<4){
 							
 							toConsole[i] = 	'stepMove: '+result[i][0] + //' <br> ' +
 										'pushThisValue: '+result[i][1]+ ' <br>' +
