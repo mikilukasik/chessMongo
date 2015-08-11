@@ -33,44 +33,50 @@ app.get('/aiChoice', function(req, res) {
 
 					toConsole[0] = result[0][2]+" ms." //timeItTook
 					
-					toConsole[1] = 	'stepMove: '+result[1][0] + //' <br> ' +
-										'pushThisValue: '+result[1][1]+ ' <br>' +
-										'hisBestRtnMove: '+result[1][2]+ ' <br>' +
-										'loopValue: '+result[1][3]+ ' <br>' +
-										'captureScore: '+result[1][4]+ ' <br>' +
-										'smallValScore: '+result[1][5]+ ' <br>' +
-										'dontGetHit: '+result[1][6]+ ' <br>' +
-										'tTable2Value: '+result[1][7]+ ' <br>' +
-										'retProtect: '+result[1][8]+ ' <br>' +
-										'mhit: '+result[1][9]+ ' <br>' +
-										'hhit: '+result[1][10]+ ' <br>' +
-										'fwdVal: '+result[1][11]+ ' <br>' +
-										'lsancValue: '+result[1][12]+ ' <br>' +
-										'rsancValue: '+result[1][13]+ ' <br>' +
-										'sancValue: '+result[1][14]+ ' <br>' +
-										' ----<br>';
+					
 					
 					
 
-					for(var i = 2; i < result.length; i++) {
-
-						toConsole[i] = 	'stepMove: '+result[i][0] + //' <br> ' +
+					for(var i = 1; i < result.length; i++) {
+						
+						if(i<4){
+							
+							toConsole[i] = 	'stepMove: '+result[i][0] + //' <br> ' +
 										'pushThisValue: '+result[i][1]+ ' <br>' +
 										'hisBestRtnMove: '+result[i][2]+ ' <br>' +
-										//'loopValue: '+result[i][3]+ ' <br>' +
+										'loopValue: '+result[i][3]+ ' <br>' +
 										'captureScore: '+result[i][4]+ ' <br>' +
-										//'smallValScore: '+result[i][5]+ ' <br>' +
+										'smallValScore: '+result[i][5]+ ' <br>' +
 										'dontGetHit: '+result[i][6]+ ' <br>' +
 										'tTable2Value: '+result[i][7]+ ' <br>' +
 										'retProtect: '+result[i][8]+ ' <br>' +
-										//'mhit: '+result[i][9]+ ' <br>' +
-										//'hhit: '+result[i][10]+ ' <br>' +
-										//'fwdVal: '+result[i][11]+ ' <br>' +
-										//'lsancValue: '+result[i][12]+ ' <br>' +
-										//'rsancValue: '+result[i][13]+ ' <br>' +
-										//'sancValue: '+result[i][14]+ ' <br>' +
+										'mhit: '+result[i][9]+ ' <br>' +
+										'hhit: '+result[i][10]+ ' <br>' +
+										'fwdVal: '+result[i][11]+ ' <br>' +
+										'lsancValue: '+result[i][12]+ ' <br>' +
+										'rsancValue: '+result[i][13]+ ' <br>' +
+										'sancValue: '+result[i][14]+ ' <br>' +
 										' ----<br>';
-										
+							
+						}else{
+
+							toConsole[i] = 	'Move:'+result[i][0] + '<br>' +
+										'Val:'+result[i][1]+ ',' +
+										' RMv:'+result[i][2]+ ',' +
+										' lpV:'+result[i][3]+ ',' +
+										' cpS:'+result[i][4]+ ',' +//
+										' smV:'+result[i][5]+ ',' +//' <br>' +
+										' dGH:'+result[i][6]+ ',' +//' <br>' +
+										' t2V:'+result[i][7]+ ',' +//' <br>' +
+										' rPr:'+result[i][8]+ ',' +//' <br>' +
+										' mht:'+result[i][9]+ ',' +//' <br>' +
+										' hht:'+result[i][10]+ ',' +//' <br>' +
+										' fwV:'+result[i][11]+ ',' +//' <br>' +
+										' lsc:'+result[i][12]+ ',' +//' <br>' +
+										' rsc:'+result[i][13]+ ',' +//' <br>' +
+										' scV:'+result[i][14]+ //',' +//' <br>' +
+										' <br>----<br>';
+						}			
 										
 //		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, captureScore,
 //			 smallValScore, dontGetHit,tTable2Value, retProtect, mhit, hhit	, fwdVal,lsancValue,rsancValue,sancValue])
