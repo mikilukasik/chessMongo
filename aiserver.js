@@ -41,6 +41,10 @@ app.get('/aiChoice', function(req, res) {
 						
 						if(false){//i<4){
 							
+							// allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, captureScore, smallValScore,
+			 				// dontGetHit,tTable2Value, retProtect, mhit, hhit, fwdVal,lsancValue,rsancValue,sancValue,getToMiddle])
+
+							
 							toConsole[i] = 	'stepMove: '+result[i][0] + //' <br> ' +
 										'pushThisValue: '+result[i][1]+ ' <br>' +
 										'hisBestRtnMove: '+result[i][2]+ ' <br>' +
@@ -56,6 +60,8 @@ app.get('/aiChoice', function(req, res) {
 										'lsancValue: '+result[i][12]+ ' <br>' +
 										'rsancValue: '+result[i][13]+ ' <br>' +
 										'sancValue: '+result[i][14]+ ' <br>' +
+										'getToMiddle: '+result[i][15]+ ' <br>' +
+										
 										' ----<br>';
 							
 						}else{
@@ -75,6 +81,7 @@ app.get('/aiChoice', function(req, res) {
 										' lsc:'+result[i][12]+ ',' +//' <br>' +
 										' rsc:'+result[i][13]+ ',' +//' <br>' +
 										' scV:'+result[i][14]+ //',' +//' <br>' +
+										' gTM:'+result[i][15]+ //',' +//' <br>' +
 										' <br>----<br>';
 						}			
 										
