@@ -291,8 +291,8 @@ function canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm){//, try2st
 		
 		
 	}
-	hitSumm[0] /=100//+= scndHitSum[0]/100 //masodik lepes is szamit egy kicsit
-	hitSumm -= moveTable[k][l][1] / 100 //amit ut-amivel uti
+	hitSumm[0] += scndHitSum[0]/100 //masodik lepes is szamit egy kicsit
+	//hitSumm[0] -= moveTable[k][l][1] / 100 //amit ut-amivel uti
 
 	if(!speedy) {
 		for(var i = possibleMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
