@@ -1071,10 +1071,10 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 		var fwdVal = 0
 		if(!cfColor&&cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]==1) {	//ha fekete parejt tol
-			fwdVal=(9-stepMove[3])*0.0001			
+			fwdVal=(7-stepMove[1])*0.0001			
 		}
 		if(cfColor&&cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]==1) {	//ha feher parejt tol
-			fwdVal=(stepMove[3])*0.0001			
+			fwdVal=(stepMove[1]-2)*0.0001			
 		}
 		var tempTable = moveIt(stepMove, cfTable) //, false, hitValue)
 		protectTable(tempTable)
