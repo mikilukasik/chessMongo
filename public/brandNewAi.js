@@ -200,7 +200,7 @@ function canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm){//, try2st
 	var try2steps=true
 	var what = moveTable[k][l][1]
 	var possibleMoves = []
-	var scndHitSum=0
+	var scndHitSum=[0]
 	switch(what) {
 		// case 0:
 
@@ -291,7 +291,7 @@ function canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm){//, try2st
 		
 		
 	}
-	hitSumm += scndHitSum/100 //masodik lepes is szamit egy kicsit
+	hitSumm[0] += scndHitSum[0]/100 //masodik lepes is szamit egy kicsit
 	hitSumm -= moveTable[k][l][1] / 100 //amit ut-amivel uti
 
 	if(!speedy) {
