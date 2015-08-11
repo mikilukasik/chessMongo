@@ -194,10 +194,13 @@ function captured(table, color) {
 	return false
 }
 
-function canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm) {
-
+function canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm){//, try2steps) {
+	
+	
+	var try2steps=true
 	var what = moveTable[k][l][1]
 	var possibleMoves = []
+	var scndHitSum=[0]
 	switch(what) {
 		// case 0:
 
@@ -228,8 +231,68 @@ function canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm) {
 			break;
 
 	}
-
-	hitSumm -= moveTable[k][l][1] / 100 //amit ut-amivel uti/10
+	
+	if(try2steps){
+		
+		switch(what) {
+			// case 0:
+	
+			case 1:
+	
+				possibleMoves.forEach(function(stepPossibleMove){
+					
+					pawnCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
+	
+					
+				}) 
+				break;
+			case 2:
+				possibleMoves.forEach(function(stepPossibleMove){
+					
+					bishopCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
+	
+					
+				}) 
+				break;
+			case 3:
+				possibleMoves.forEach(function(stepPossibleMove){
+					
+					horseCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
+	
+					
+				}) 
+				break;
+			case 4:
+				possibleMoves.forEach(function(stepPossibleMove){
+					
+					rookCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
+	
+					
+				}) 
+				break;
+			case 5:
+				possibleMoves.forEach(function(stepPossibleMove){
+					
+					queenCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
+	
+					
+				}) 
+				break;
+			case 9:
+				possibleMoves.forEach(function(stepPossibleMove){
+					
+					kingCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
+	
+					
+				}) 
+				break;
+	
+		}
+		
+		
+	}
+	hitsumm += scndHitSum/100 //masodik lepes is szamit egy kicsit
+	hitSumm -= moveTable[k][l][1] / 100 //amit ut-amivel uti
 
 	if(!speedy) {
 		for(var i = possibleMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
