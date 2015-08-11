@@ -1146,7 +1146,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 				var tempRetTable = moveIt(stepRetMove, tempTable) //, false, hitValue)
 				
-				var tretProtect= (protectTable(tempRetTable, cfColor) - origProtect)/10000 //majd kesobb
+				var tretProtect= (protectTable(tempRetTable, cfColor) - origProtect)/1000 //majd kesobb
 				
 				if(captured(tempRetTable,cfColor)){
 					dontGetHit-=.01
