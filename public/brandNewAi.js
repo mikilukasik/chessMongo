@@ -803,24 +803,24 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 		var sancolhat=false
 		
 		if(origTable[0][0][3]){
-			lSancVal+=.03	//unmoved rook worth more than moved
+			lSancVal+=3	//unmoved rook worth more than moved
 			sancolhat=true
 			
-			if(origTable[3][0][0]==0)lSancVal+=.01	//trying to empty between
-			if(origTable[2][0][0]==0)lSancVal+=.03
-			if(origTable[1][0][0]==0)lSancVal+=.01
+			if(origTable[3][0][0]==0)lSancVal+=1	//trying to empty between
+			if(origTable[2][0][0]==0)lSancVal+=3
+			if(origTable[1][0][0]==0)lSancVal+=1
 			
 			
 			if(origTable[2][1][0]==2){//trying to keep my pieces  there to cover
-				lSancVal+=.01	
-				if(origTable[2][1][1]==1)lSancVal+=.04
+				lSancVal+=1	
+				if(origTable[2][1][1]==1)lSancVal+=4
 			}
 			if(origTable[1][1][0]==2){//trying to keep my pieces  there to cover
-				lSancVal+=.01	
-				if(origTable[1][1][1]==1)lSancVal+=.04
+				lSancVal+=1	
+				if(origTable[1][1][1]==1)lSancVal+=4
 			}if(origTable[0][1][0]==2){//trying to keep my pieces  there to cover
-				lSancVal+=.01	
-				if(origTable[0][1][1]==1)lSancVal+=.04
+				lSancVal+=1	
+				if(origTable[0][1][1]==1)lSancVal+=4
 			}
 			
 			
@@ -829,31 +829,31 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 			
 		if(origTable[7][0][3]){
 			sancolhat=true
-			rSancVal+=.03
+			rSancVal+=3
 			
-			if(origTable[6][0][0]==0)rSancVal+=.01
-			if(origTable[5][0][0]==0)rSancVal+=.03
+			if(origTable[6][0][0]==0)rSancVal+=1
+			if(origTable[5][0][0]==0)rSancVal+=3
 			
 			if(origTable[7][1][0]==2){//trying to keep my pieces  there to cover
-				rSancVal+=.01	
-				if(origTable[7][1][1]==1)rSancVal+=.04
+				rSancVal+=1	
+				if(origTable[7][1][1]==1)rSancVal+=4
 			}
 			if(origTable[6][1][0]==2){//trying to keep my pieces  there to cover
-				rSancVal+=.01	
-				if(origTable[6][1][1]==1)rSancVal+=.04
+				rSancVal+=1	
+				if(origTable[6][1][1]==1)rSancVal+=4
 			}if(origTable[5][1][0]==2){//trying to keep my pieces  there to cover
-				rSancVal+=.01	
-				if(origTable[5][1][1]==1)rSancVal+=.04
+				rSancVal+=1	
+				if(origTable[5][1][1]==1)rSancVal+=4
 			}
 			
 		}
 			
 		if(sancolhat){
-			if(origTable[3][1][1]==1&&origTable[3][1][0]==2)lSancVal-=.04	//try to move d2 or e2 first
-			if(origTable[4][1][1]==1&&origTable[4][1][0]==2)rSancVal-=.04
+			if(origTable[3][1][1]==1&&origTable[3][1][0]==2)lSancVal-=4	//try to move d2 or e2 first
+			if(origTable[4][1][1]==1&&origTable[4][1][0]==2)rSancVal-=4
 			
-			if(origTable[2][0][1]==2&&origTable[2][0][0]==2)lSancVal-=.04	//try to move out bishops
-			if(origTable[5][0][1]==2&&origTable[5][0][0]==2)rSancVal-=.04
+			if(origTable[2][0][1]==2&&origTable[2][0][0]==2)lSancVal-=4	//try to move out bishops
+			if(origTable[5][0][1]==2&&origTable[5][0][0]==2)rSancVal-=4
 		}
 		
 		
@@ -864,64 +864,73 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 		
 		if(origTable[0][7][3]){
 			sancolhat=true
-			lSancVal+=.03	//unmoved rook worth more than moved
+			lSancVal+=3	//unmoved rook worth more than moved
 			
-			if(origTable[3][7][0]==0)lSancVal+=.01
-			if(origTable[2][7][0]==0)lSancVal+=.03
-			if(origTable[1][7][0]==0)lSancVal+=.01
+			if(origTable[3][7][0]==0)lSancVal+=1
+			if(origTable[2][7][0]==0)lSancVal+=3
+			if(origTable[1][7][0]==0)lSancVal+=1
 			
 			if(origTable[2][6][0]==1){//trying to keep my pieces  there to cover
-				lSancVal+=.01	
-				if(origTable[2][6][1]==1)lSancVal+=.04
+				lSancVal+=1	
+				if(origTable[2][6][1]==1)lSancVal+=4
 			}
 			if(origTable[1][6][0]==1){//trying to keep my pieces  there to cover
-				lSancVal+=.01	
-				if(origTable[1][6][1]==1)lSancVal+=.04
+				lSancVal+=1	
+				if(origTable[1][6][1]==1)lSancVal+=4
 			}
 			if(origTable[0][6][0]==1){//trying to keep my pieces  there to cover
-				lSancVal+=.01	
-				if(origTable[0][6][1]==1)lSancVal+=.04
+				lSancVal+=1	
+				if(origTable[0][6][1]==1)lSancVal+=4
 			}
 		}
 			
 		if(origTable[7][7][3]){
 			sancolhat=true
-			rSancVal+=.03
+			rSancVal+=3
 			
-			if(origTable[6][7][0]==0)rSancVal+=.01
-			if(origTable[5][7][0]==0)rSancVal+=.03
+			if(origTable[6][7][0]==0)rSancVal+=1
+			if(origTable[5][7][0]==0)rSancVal+=3
 			
 			if(origTable[7][6][0]==1){//trying to keep my pieces  there to cover
-				rSancVal+=.01	
-				if(origTable[7][6][1]==1)rSancVal+=.04
+				rSancVal+=1	
+				if(origTable[7][6][1]==1)rSancVal+=4
 			}
 			if(origTable[6][6][0]==1){//trying to keep my pieces  there to cover
-				rSancVal+=.01	
-				if(origTable[6][6][1]==1)rSancVal+=.04
+				rSancVal+=1	
+				if(origTable[6][6][1]==1)rSancVal+=4
 			}
 			if(origTable[5][6][0]==1){//trying to keep my pieces  there to cover
-				rSancVal+=.01	
-				if(origTable[5][6][1]==1)rSancVal+=.04
+				rSancVal+=1	
+				if(origTable[5][6][1]==1)rSancVal+=4
 			}
 			
 		}
 		//	
 		if(sancolhat){
-			if(origTable[3][6][1]==1&&origTable[3][6][0]==1)lSancVal-=.04
-			if(origTable[4][6][1]==1&&origTable[4][6][0]==1)rSancVal-=.04
+			if(origTable[3][6][1]==1&&origTable[3][6][0]==1)lSancVal-=4
+			if(origTable[4][6][1]==1&&origTable[4][6][0]==1)rSancVal-=4
 			
-			if(origTable[2][7][1]==2&&origTable[2][7][0]==1)lSancVal-=.04
-			if(origTable[5][7][1]==2&&origTable[5][7][0]==1)rSancVal-=.04
+			if(origTable[2][7][1]==2&&origTable[2][7][0]==1)lSancVal-=4
+			if(origTable[5][7][1]==2&&origTable[5][7][0]==1)rSancVal-=4
+			
+			// if(){
+				
+			// }
 		}
 		
 		
 	}
+	var getToMiddle=0
 	for(var lookI = 0; lookI < 8; lookI++) { //
 		for(var lookJ = 0; lookJ < 8; lookJ++) { //look through the table
 
 			if(origTable[lookI][lookJ][0] == origColor) { //ha sajat babum
 
 				//rtnMyHitSum = [0]
+				
+				if((!(origTable[lookI][lookJ][1] == 1))&&lookI>1&&lookJ>1&&lookI<6&&lookJ<6){	//ha nem paraszt es kozepen van a babu
+					getToMiddle++
+				}
 
 				canMove(lookI, lookJ, isWhite, origTable, true, true, rtnMyHitSum) //this can give back the moves, should use it
 
@@ -935,7 +944,9 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 				if(!(origTable[lookI][lookJ][0] == 0)) { //ha ellenfele
 
 					//rtnHisHitSum = [0]
-
+					if((!(origTable[lookI][lookJ][1] == 1))&&lookI>1&&lookJ>1&&lookI<6&&lookJ<6){	//ha nem paraszt es kozepen van a babu
+					getToMiddle-=.1		//our pieces matter more, that is +1
+				}
 					//do i use this movecount anywhere?
 					rtnHisMoveCount += (canMove(lookI, lookJ, !isWhite, origTable, true, true, rtnHisHitSum).length - 2) //   was /2 but 0 is the point
 						//if(rtnHisHitSum[0] > rtnHisBestHit) rtnHisBestHit = rtnHisHitSum[0]
@@ -950,7 +961,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 	}
 
 	return [tableValue, rtnMyHitSum[0], rtnHisHitSum[0],// rtnHisMoveCount, 
-		lSancVal,rSancVal] //rtnData
+		lSancVal,rSancVal,getToMiddle] //rtnData
 
 }
 
@@ -1046,6 +1057,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	var origHisHitValue = origData[2]
 	var origlSanc = origData[3]
 	var origrSanc = origData[4]
+	var origGetToMiddle=origData[5]
 	
 
 	
@@ -1109,6 +1121,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		var lsancValue=0
 		var rsancValue=0
 		var sancValue=0
+		var getToMiddle=0
 		
 
 		var rtnValue=0 //=loopValue+mhit+hhit
@@ -1188,13 +1201,15 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			var rtnHisHitValue = retData[2]
 			var rtnlSanc= retData[3]
 			var rtnrSanc= retData[4]
+			var rtnGetToMiddle=retData[5]
 			
 
 			loopValue = (rtnTableValue - origTableValue) * 10
 			hhit = (origHisHitValue - rtnHisHitValue)
 			mhit = (rtnMyHitValue - origMyHitValue) * 10
-			lsancValue=(rtnlSanc- origlSanc)
-			rsancValue=(rtnrSanc- origrSanc)
+			lsancValue=(rtnlSanc- origlSanc)/100
+			rsancValue=(rtnrSanc- origrSanc)/100
+			getToMiddle=(rtnGetToMiddle-origGetToMiddle)/1000
 			
 
 			//rtnValue = loopValue + mhit + hhit + retProtect//my hit matters most as i'm next
