@@ -856,6 +856,8 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 	var rtnHisBestHit = 0
 
 	var rtnHisMoveCount = 0
+	
+	var rtnPushHimBack=0
 
 	var origColor = 1
 	if(isWhite) origColor = 2
@@ -997,7 +999,13 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 				}
 
 				canMove(lookI, lookJ, isWhite, origTable, true, true, rtnMyHitSum) //this can give back the moves, should use it
-
+				
+				
+				if(isWhite){
+					rtnPushHimBack+=lookJ
+				}else{
+					rtnPushHimBack+=7-lookJ
+				}
 				//aiming for sum, so comment:
 				//if(rtnMyHitSum[0] > rtnMyBestHit) rtnMyBestHit = rtnMyHitSum[0]
 
@@ -1009,12 +1017,16 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 
 					//rtnHisHitSum = [0]
 					if((!(origTable[lookI][lookJ][1] == 1))&&lookI>1&&lookJ>1&&lookI<6&&lookJ<6){	//ha nem paraszt es kozepen van a babu
-					getToMiddle-=.1		//our pieces matter more, that is +1
-				}
+						getToMiddle-=.1		//our pieces matter more, that is +1
+					}
 					//do i use this movecount anywhere?
 					rtnHisMoveCount += (canMove(lookI, lookJ, !isWhite, origTable, true, true, rtnHisHitSum).length - 2) //   was /2 but 0 is the point
 						//if(rtnHisHitSum[0] > rtnHisBestHit) rtnHisBestHit = rtnHisHitSum[0]
-
+					if(isWhite){
+						rtnPushHimBack-=lookJ
+					}else{
+						rtnPushHimBack-=7-lookJ
+					}
 					//or this tblevalue:
 					tableValue -= origTable[lookI][lookJ][1]
 
@@ -1025,7 +1037,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 	}
 
 	return [tableValue, rtnMyHitSum[0], rtnHisHitSum[0],// rtnHisMoveCount, 
-		lSancVal,rSancVal,getToMiddle] //rtnData
+		lSancVal,rSancVal,getToMiddle,rtnPushHimBack] //rtnData
 
 }
 
@@ -1122,6 +1134,8 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	var origlSanc = origData[3]
 	var origrSanc = origData[4]
 	var origGetToMiddle=origData[5]
+	var origPushHimBack=origData[6]
+	
 	
 
 	
@@ -1186,6 +1200,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		var rsancValue=0
 		var sancValue=0
 		var getToMiddle=0
+		var pushHimBack=0
 		
 
 		var rtnValue=0 //=loopValue+mhit+hhit
@@ -1200,7 +1215,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				loopValue= - 10000//ideiglenesen ne adjunk pattot sosem!!
 			}
 
-			//retTable = cfTable //vmit vissza kell azert adni..., legyen az eredeti         <----- figyelj, who's next??  
+			//retTable = cfTable //vmit vissza kell azert adni..., legyen az eredeti         
 			retProtect = origProtect
 			retData = origData
 			retTable = cfTable
@@ -1266,6 +1281,8 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			var rtnlSanc= retData[3]
 			var rtnrSanc= retData[4]
 			var rtnGetToMiddle=retData[5]
+			var rtnPushHimBack=retData[6]
+			
 			
 
 			loopValue = (rtnTableValue - origTableValue) * 10
@@ -1274,6 +1291,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			lsancValue=(rtnlSanc- origlSanc)/100
 			rsancValue=(rtnrSanc- origrSanc)/100
 			getToMiddle=(rtnGetToMiddle-origGetToMiddle)/1000
+			pushHimBack=(rtnPushHimBack-origPushHimBack)/1000
 			
 
 			//rtnValue = loopValue + mhit + hhit + retProtect//my hit matters most as i'm next
@@ -1384,10 +1402,10 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 		var pushThisValue = tTable2Value + loopValue + captureScore + //fHitValue +
 							smallValScore+dontGetHit+
-							retProtect+mhit+hhit+fwdVal+lsancValue+rsancValue+sancValue+getToMiddle
+							retProtect+mhit+hhit+fwdVal+lsancValue+rsancValue+sancValue+getToMiddle+pushHimBack
 
 		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, captureScore, smallValScore,
-			 				dontGetHit,tTable2Value, retProtect, mhit, hhit, fwdVal,lsancValue,rsancValue,sancValue,getToMiddle])
+			 				dontGetHit,tTable2Value, retProtect, mhit, hhit, fwdVal,lsancValue,rsancValue,sancValue,getToMiddle,pushHimBack])
 
 	})
 
