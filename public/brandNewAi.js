@@ -1136,7 +1136,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	var origGetToMiddle=origData[5]
 	var origPushHimBack=origData[6]
 	
-	
+	var fHitValue=0
 
 	
 	var hisBestRtnMove
@@ -1145,7 +1145,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 		var smallValScore=(10-cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1])/1000
 
-		//var fHitValue = cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1] //leutott babu erteke, vagy 0
+		fHitValue = cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1] //leutott babu erteke, vagy 0
 		
 		var fwdVal = 0
 		if(!cfColor&&cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]==1) {	//ha fekete parejt tol
@@ -1400,7 +1400,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		// lsancValue*=10
 		// rsancValue*=10
 		
-		var pushThisValue = tTable2Value + loopValue + captureScore + //fHitValue +
+		var pushThisValue = tTable2Value + loopValue + captureScore + fHitValue +
 							smallValScore+dontGetHit+
 							retProtect+mhit+hhit+fwdVal+lsancValue+rsancValue+sancValue+getToMiddle+pushHimBack
 
