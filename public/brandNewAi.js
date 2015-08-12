@@ -1241,7 +1241,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				var tretProtect= (protectTable(tempRetTable, cfColor) - origProtect)/1000 //majd kesobb
 				
 				if(captured(tempRetTable,cfColor)){
-					dontGetHit-=.01
+					dontGetHit-=.001
 					//var myTempMoves=getAllMoves(tempRetTable,cfColor,false,0)
 					if(!canIMove(tempRetTable,cfColor)){
 						dontGetHit=-10000
