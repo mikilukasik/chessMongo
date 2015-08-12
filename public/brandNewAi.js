@@ -1296,10 +1296,15 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			//rtnValue = loopValue + mhit + hhit + retProtect//my hit matters most as i'm next
 			
 			if(cfColor){
-				if((stepMove=='e1g1')||(stepMove=='e1c1'))sancValue+=.35	//sancoljon ha jol esik
+				if((stepMove=='e1g1'&&cfTable[5][1][1]==1&&cfTable[6][1][1]==1&&cfTable[7][1][1]==1)
+					||
+					(stepMove=='e1c1'&&cfTable[0][1][1]==1&&cfTable[1][1][1]==1&&cfTable[2][1][1]==1))sancValue+=.35	//sancoljon ha jol esik
 				
 			}else{
-				if((stepMove=='e8g8')||(stepMove=='e8c8'))sancValue+=.35	//sancoljon ha tud
+				if((stepMove=='e8g8'&&cfTable[5][6][1]==1&&cfTable[6][6][1]==1&&cfTable[7][6][1]==1)
+					||
+					(stepMove=='e8c8'&&cfTable[0][6][1]==1&&cfTable[1][6][1]==1&&cfTable[2][6][1]==1))sancValue+=.35	//sancoljon ha jol esik
+				
 			}
 				
 		}
