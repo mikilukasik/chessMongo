@@ -82,6 +82,8 @@ app.get('/aiChoice', function(req, res) {
 										' rsc:'+result[i][13]+ ',' +//' <br>' +
 										' scV:'+result[i][14]+ //',' +//' <br>' +
 										' gTM:'+result[i][15]+ //',' +//' <br>' +
+										' pHB:'+result[i][16]+ //',' +//' <br>' +
+										
 										' <br>----<br>';
 						}			
 										
