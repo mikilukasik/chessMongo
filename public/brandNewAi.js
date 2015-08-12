@@ -385,8 +385,7 @@ function pushAid(hitSummmm, canMoveTo, x, y, hanyadik, milegyen, fromTable, some
 		}
 
 		if(!(hitSummmm == undefined)) {									//aiming for the best only? why?
-			//if(hitSummmm[0] < thisHit) 
-			hitSummmm[0] += thisHit
+			if(hitSummmm[0] < thisHit) hitSummmm[0] = thisHit
 		}
 
 		return true
@@ -1400,7 +1399,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		// lsancValue*=10
 		// rsancValue*=10
 		
-		var pushThisValue = tTable2Value + loopValue + captureScore + fHitValue +
+		var pushThisValue = tTable2Value + loopValue + captureScore + //fHitValue +
 							smallValScore+dontGetHit+
 							retProtect+mhit+hhit+fwdVal+lsancValue+rsancValue+sancValue+getToMiddle+pushHimBack
 
