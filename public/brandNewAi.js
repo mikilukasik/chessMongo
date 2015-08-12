@@ -384,10 +384,10 @@ function pushAid(hitSummmm, canMoveTo, x, y, hanyadik, milegyen, fromTable, some
 
 		}
 
-		//if(!(hitSummmm == undefined)) {									//aiming for the best only? why?
+		if(!(hitSummmm == undefined)) {									//aiming for the best only? why?
 			//if(hitSummmm[0] < thisHit) 
 			hitSummmm[0] += thisHit
-		//}
+		}
 
 		return true
 
