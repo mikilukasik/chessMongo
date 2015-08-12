@@ -384,7 +384,7 @@ function pushAid(hitSummmm, canMoveTo, x, y, hanyadik, milegyen, fromTable, some
 
 		}
 
-		if(!(hitSummmm == undefined)) {
+		if(!(hitSummmm == undefined)) {									//aiming for the best only? why?
 			if(hitSummmm[0] < thisHit) hitSummmm[0] = thisHit
 		}
 
@@ -1128,7 +1128,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 	cfMoves.forEach(function(stepMove, moveIndex) {
 		
-		var smallValScore=(10-cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1])/10000
+		var smallValScore=(10-cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1])/100000
 
 		var fHitValue = cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1] //leutott babu erteke, vagy 0
 		
