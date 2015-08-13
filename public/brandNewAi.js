@@ -1310,7 +1310,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			rsancValue=(rtnrSanc- origrSanc)/100
 			getToMiddle=(rtnGetToMiddle-origGetToMiddle)/1000
 			pushHimBack=(rtnPushHimBack-origPushHimBack)/100		
-			mostMoved=(origMostMoved-rtnMostMoved)/10			//temp high, we should lover this as the game goes on
+			mostMoved=(origMostMoved-rtnMostMoved)/2			//temp high, we should lover this as the game goes on
 			
 					//rtnPushHimBack-
 			
