@@ -1248,7 +1248,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 						
 				//vonjuk ki ha vedett
 				if (tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][6]){			//ha vedett 
-					tretHitValue-=tempTable[cfRetMoveCoords[retMoveIndex][0]][cfRetMoveCoords[retMoveIndex][1]][1] 	//kivonja amivel lep
+					tretHitValue-=tempTable[cfRetMoveCoords[retMoveIndex][0]][cfRetMoveCoords[retMoveIndex][1]][1]/100 	//kivonja amivel lep
 				}
 				
 				//how abot en pass????//kivonni kesobb a leutott babu erteke, vagy 0
