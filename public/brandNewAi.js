@@ -1021,10 +1021,10 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 					//do i use this movecount anywhere?
 					rtnHisMoveCount += (canMove(lookI, lookJ, !isWhite, origTable, true, true, rtnHisHitSum).length - 2) //   was /2 but 0 is the point
 						//if(rtnHisHitSum[0] > rtnHisBestHit) rtnHisBestHit = rtnHisHitSum[0]
-					if(isWhite){
-						rtnPushHimBack-=lookJ
+					if(!isWhite){
+						rtnPushHimBack-=lookJ/10
 					}else{
-						rtnPushHimBack-=7-lookJ
+						rtnPushHimBack-=(7-lookJ)/10
 					}
 					//or this tblevalue:
 					tableValue -= origTable[lookI][lookJ][1]
@@ -1302,7 +1302,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			lsancValue=(rtnlSanc- origlSanc)/100
 			rsancValue=(rtnrSanc- origrSanc)/100
 			getToMiddle=(rtnGetToMiddle-origGetToMiddle)/1000
-			pushHimBack=(origPushHimBack)/100				//rtnPushHimBack-
+			pushHimBack=(rtnPushHimBack-origPushHimBack)/100				//rtnPushHimBack-
 			
 
 			//rtnValue = loopValue + mhit + hhit + retProtect//my hit matters most as i'm next
