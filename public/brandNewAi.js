@@ -700,8 +700,10 @@ function moveArrayToStrings(moveArray, ftable, fwNext) {
 
 }
 
-function getAllMoves(tableToMoveOn, whiteNext, hitItsOwn, allHitSum) {
-
+function getAllMoves(tableToMoveOn, whiteNext, hitItsOwn, allHitSum, removeCaptured) {
+	var speedy=true
+	if(removeCaptured)speedy=false
+	
 	var tableData = findMyPieces(tableToMoveOn, whiteNext)[1]
 	var thisArray = []
 		//thisStrArray = []
@@ -715,13 +717,18 @@ function getAllMoves(tableToMoveOn, whiteNext, hitItsOwn, allHitSum) {
 
 	for(var pieceNo = 0; pieceNo < tableData.length; pieceNo++) {
 
-		canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn, true, true, hitSumPart) //true,true for speedy(sakkba is lep),dontProtect
+		canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn, speedy, true, hitSumPart) //true,true for speedy(sakkba is lep),dontProtect
 			.forEach(function(stepItem) {
 				thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
 			})
 		allHitSum += hitSumPart[0]
 	}
-
+	
+	// if(removeCaptured){
+		
+	// }
+	
+	
 	return thisArray
 
 }
@@ -1111,18 +1118,18 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	var cfMoves = []
 	var cfMoveCoords = []
 
-	getAllMoves(cfTable, cfColor).forEach(function(thisMove) { //get all my moves in array of strings
+	getAllMoves(cfTable, cfColor,false,0,true).forEach(function(thisMove) { //get all my moves in array of strings
 		cfMoves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
 		cfMoveCoords.push(thisMove)
 	})
 
 	// es akkor nem kell ez:
-	for(var i = cfMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
-		if(captured(moveIt(cfMoves[i], cfTable), cfColor)) { //sakkba lepnenk
-			cfMoves.splice(i, 1)
-			cfMoveCoords.splice(i, 1)
-		}
-	}
+	// for(var i = cfMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
+	// 	if(captured(moveIt(cfMoves[i], cfTable), cfColor)) { //sakkba lepnenk
+	// 		cfMoves.splice(i, 1)
+	// 		cfMoveCoords.splice(i, 1)
+	// 	}
+	// }
 
 	//sakkbol sancolas, sakkon atugras is kene ide (new getallmoves  will help) //mindenkepp kell, vagy leleptetnek
 
@@ -1169,7 +1176,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 		var cfRetMoves = []
 		var cfRetMoveCoords = []
-
+		//ide is full getallmoves kene, de vhogy tudnunk kell hany lepest szedett le sakk miatt, es azt is ebbol hanyszor lep a kirallyal..
 		getAllMoves(tempTable, !cfColor).forEach(function(thisMove) { //get all his moves in array of strings
 			cfRetMoves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
 			cfRetMoveCoords.push(thisMove)
