@@ -986,6 +986,9 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 		
 		
 	}
+	var myMostMoved=0
+	
+	
 	var getToMiddle=0
 	for(var lookI = 0; lookI < 8; lookI++) { //
 		for(var lookJ = 0; lookJ < 8; lookJ++) { //look through the table
@@ -999,7 +1002,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 				}
 
 				canMove(lookI, lookJ, isWhite, origTable, true, true, rtnMyHitSum) //this can give back the moves, should use it
-				
+				if(origTable[lookI][lookJ][2]>myMostMoved)myMostMoved=origTable[lookI][lookJ][2]		//get the highest number any piece moved
 				
 				if(isWhite){
 					rtnPushHimBack+=lookJ
@@ -1037,7 +1040,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 	}
 
 	return [tableValue, rtnMyHitSum[0], rtnHisHitSum[0],// rtnHisMoveCount, 
-		lSancVal,rSancVal,getToMiddle,rtnPushHimBack] //rtnData
+		lSancVal,rSancVal,getToMiddle,rtnPushHimBack,myMostMoved] //rtnData
 
 }
 
@@ -1135,6 +1138,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	var origrSanc = origData[4]
 	var origGetToMiddle=origData[5]
 	var origPushHimBack=origData[6]
+	var origMostMoved=origData[7]
 	
 	var fHitValue=0
 
@@ -1205,6 +1209,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		var sancValue=0
 		var getToMiddle=0
 		var pushHimBack=0
+		var mostMoved=0
 		
 
 		var rtnValue=0 //=loopValue+mhit+hhit
@@ -1294,6 +1299,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			var rtnrSanc= retData[4]
 			var rtnGetToMiddle=retData[5]
 			var rtnPushHimBack=retData[6]
+			var rtnMostMoved=retData[7]
 			
 			
 
@@ -1303,7 +1309,10 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			lsancValue=(rtnlSanc- origlSanc)/100
 			rsancValue=(rtnrSanc- origrSanc)/100
 			getToMiddle=(rtnGetToMiddle-origGetToMiddle)/1000
-			pushHimBack=(rtnPushHimBack-origPushHimBack)/100				//rtnPushHimBack-
+			pushHimBack=(rtnPushHimBack-origPushHimBack)/100		
+			mostMoved=(origMostMoved-rtnMostMoved)/10			//temp high, we should lover this as the game goes on
+			
+					//rtnPushHimBack-
 			
 
 			//rtnValue = loopValue + mhit + hhit + retProtect//my hit matters most as i'm next
@@ -1419,10 +1428,11 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 		var pushThisValue = tTable2Value + loopValue + captureScore + fHitValue +
 							smallValScore+dontGetHit+
-							retProtect+mhit+hhit+fwdVal+lsancValue+rsancValue+sancValue+getToMiddle+pushHimBack
+							retProtect+mhit+hhit+fwdVal+lsancValue+rsancValue+sancValue+getToMiddle+pushHimBack+mostMoved
 
 		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, captureScore, smallValScore,
-			 				dontGetHit,tTable2Value, retProtect, mhit, hhit, fwdVal,lsancValue,rsancValue,sancValue,getToMiddle,pushHimBack])
+			 				dontGetHit,tTable2Value, retProtect, mhit, hhit, fwdVal,lsancValue,rsancValue,
+							 sancValue,getToMiddle,pushHimBack,mostMoved])
 
 	})
 
