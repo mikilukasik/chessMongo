@@ -826,6 +826,7 @@ function moveIt(moveString, intable, dontProtect, hitValue) {
 		hitValue = thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][1] //normal hivalue
 			- thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][1] / 100 //whathits
 	}
+	thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][2]++		//times moved
 	thistable[dletters.indexOf(moveString[2])][moveString[3] - 1] =
 		thistable[dletters.indexOf(moveString[0])][moveString[1] - 1]
 	thistable[dletters.indexOf(moveString[0])][moveString[1] - 1] = [0, 0] //, false, false, false]
