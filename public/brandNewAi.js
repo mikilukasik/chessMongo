@@ -1302,7 +1302,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			lsancValue=(rtnlSanc- origlSanc)/100
 			rsancValue=(rtnrSanc- origrSanc)/100
 			getToMiddle=(rtnGetToMiddle-origGetToMiddle)/1000
-			pushHimBack=(rtnPushHimBack-origPushHimBack)/100
+			pushHimBack=(origPushHimBack)/100				//rtnPushHimBack-
 			
 
 			//rtnValue = loopValue + mhit + hhit + retProtect//my hit matters most as i'm next
