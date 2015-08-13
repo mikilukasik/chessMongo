@@ -1145,6 +1145,10 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		var smallValScore=(10-cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1])/1000
 
 		fHitValue = cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1] //leutott babu erteke, vagy 0
+		//vonjuk ki ha vedett
+		if (cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][6]){			//ha vedett 
+			fHitValue-=cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]	//kivonja amivel lep
+		}
 		
 		var fwdVal = 0
 		if(!cfColor&&cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]==1) {	//ha fekete parejt tol
@@ -1233,7 +1237,15 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 			cfRetMoves.forEach(function(stepRetMove, retMoveIndex) {
 
-				var tretHitValue = tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][1] //how abot en pass????//kivonni kesobb a leutott babu erteke, vagy 0
+				var tretHitValue = tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][1] 
+				
+						
+				//vonjuk ki ha vedett
+				if (tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][6]){			//ha vedett 
+					fHitValue-=tempTable[cfRetMoveCoords[retMoveIndex][0]][cfRetMoveCoords[retMoveIndex][1]][1] 	//kivonja amivel lep
+				}
+				
+				//how abot en pass????//kivonni kesobb a leutott babu erteke, vagy 0
 
 				var tempRetTable = moveIt(stepRetMove, tempTable) //, false, hitValue)
 				
@@ -1284,7 +1296,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			
 			
 
-			loopValue = (rtnTableValue - origTableValue) * 10
+			loopValue = (retHitValue-fHitValue)*10 			//(rtnTableValue - origTableValue) * 10
 			hhit = (origHisHitValue - rtnHisHitValue)
 			mhit = (rtnMyHitValue - origMyHitValue) * 10
 			lsancValue=(rtnlSanc- origlSanc)/100
