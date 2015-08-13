@@ -1416,7 +1416,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		// lsancValue*=10
 		// rsancValue*=10
 		
-		var pushThisValue = tTable2Value + loopValue + captureScore + //fHitValue +
+		var pushThisValue = tTable2Value + loopValue + captureScore + fHitValue +
 							smallValScore+dontGetHit+
 							retProtect+mhit+hhit+fwdVal+lsancValue+rsancValue+sancValue+getToMiddle+pushHimBack
 
