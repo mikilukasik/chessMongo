@@ -1242,7 +1242,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 						
 				//vonjuk ki ha vedett
 				if (tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][6]){			//ha vedett 
-					fHitValue-=tempTable[cfRetMoveCoords[retMoveIndex][0]][cfRetMoveCoords[retMoveIndex][1]][1] 	//kivonja amivel lep
+					tretHitValue-=tempTable[cfRetMoveCoords[retMoveIndex][0]][cfRetMoveCoords[retMoveIndex][1]][1] 	//kivonja amivel lep
 				}
 				
 				//how abot en pass????//kivonni kesobb a leutott babu erteke, vagy 0
@@ -1268,9 +1268,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				// var tretrSanc = tempRetData[4]
 				
 
-				if((origTableValue-tretTableValue) * 10 - tretMyHitValue * 10 + tretHisHitValue > tempRetValue) {
+				if((fHitValue-tretHitValue) * 10 - tretMyHitValue * 10 + tretHisHitValue > tempRetValue) {
 
-					tempRetValue = (origTableValue-tretTableValue) * 10 - tretMyHitValue * 10 + tretHisHitValue 
+					tempRetValue = (fHitValue-tretHitValue) * 10 - tretMyHitValue * 10 + tretHisHitValue 
 					
 					retProtect = tretProtect
 					retData = tempRetData
