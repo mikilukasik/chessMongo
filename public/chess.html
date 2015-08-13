@@ -345,7 +345,7 @@ function showTable(){								//this will update the displayed table from the arr
 			
 			var thisFigure = $('<img src="cPiecesPng/'+ table[i][j][0]+table[i][j][1]+'.png" alt='+dcolors[table[i][j][0]][0]+dfigures[table[i][j][1]]+'></img>')
 			
-		 	if (table[i][j][4]==true||table[i][j][2]==true) {
+		 	if (table[i][j][8]==true||table[i][j][9]==true) {
 				
 				thisFigure.addClass('selected');
 		 	}else{
@@ -567,7 +567,7 @@ function clickedIt(clickedField,clickedString){
 		//((table[x][y][0]==1&&wPlayer==false)||(table[x][y][0]==2&&wPlayer==true))
 
 		if(clickedString==tempMoveString){
-			table[x][y][2]=false
+			table[x][y][8]=false
 			clearHighlights()
 			showTable()
 			tempMoveString=""
@@ -583,7 +583,7 @@ function clickedIt(clickedField,clickedString){
 				tempMoveString+=clickedString
 			
 				if(tempMoveString.length<3){
-					table[x][y][2]=true;
+					table[x][y][8]=true;
 				}
 				//console.log(getTableData(table,wNext))
 			
@@ -591,7 +591,7 @@ function clickedIt(clickedField,clickedString){
 			if(tempMoveString.length>3){
 				
 				
-				if(table[x][y][4]==true){
+				if(table[x][y][9]==true){
 
 					//table[x][y][2]=false 
 					//table=moveIt(tempMoveString,table)
@@ -623,13 +623,13 @@ function clickedIt(clickedField,clickedString){
 	}
 }
 function highLightThem(arrayOfCoords){
-	table[arrayOfCoords[0]][arrayOfCoords[1]][4]=true;
+	table[arrayOfCoords[0]][arrayOfCoords[1]][9]=true;
 }
 function clearHighlights(){
 	for(var i=0;i<8;i++){
 		for(var j=0;j<8;j++){
-			table[i][j][4]=false;
-			table[i][j][2]=false;
+			table[i][j][8]=false;
+			table[i][j][9]=false;
 
 		}				
 	}
