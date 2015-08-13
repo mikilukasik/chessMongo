@@ -1268,9 +1268,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				// var tretrSanc = tempRetData[4]
 				
 
-				if((fHitValue-tretHitValue) * 10 - tretMyHitValue * 10 + tretHisHitValue > tempRetValue) {
+				if((tretHitValue) * 10 - tretMyHitValue * 10 + tretHisHitValue > tempRetValue) {
 
-					tempRetValue = (fHitValue-tretHitValue) * 10 - tretMyHitValue * 10 + tretHisHitValue 
+					tempRetValue = (tretHitValue) * 10 - tretMyHitValue * 10 + tretHisHitValue 
 					
 					retProtect = tretProtect
 					retData = tempRetData
@@ -1279,7 +1279,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 					retHitValue = tretHitValue
 					//retTableValue=tempRetTable
 				}else{
-					if((origTableValue-tretTableValue) * 10 - tretMyHitValue * 10 + tretHisHitValue == tempRetValue){
+					if((fHitValue-tretHitValue) * 10 - tretMyHitValue * 10 + tretHisHitValue == tempRetValue){
 						hisBestRtnMove = hisBestRtnMove+'.'//+stepRetMove//"many"
 					}
 				}
