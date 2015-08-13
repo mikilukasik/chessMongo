@@ -1296,7 +1296,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			
 			
 
-			loopValue = (retHitValue-fHitValue)*10 			//(rtnTableValue - origTableValue) * 10
+			loopValue = (fHitValue-retHitValue)*10 			//(rtnTableValue - origTableValue) * 10
 			hhit = (origHisHitValue - rtnHisHitValue)
 			mhit = (rtnMyHitValue - origMyHitValue) * 10
 			lsancValue=(rtnlSanc- origlSanc)/100
