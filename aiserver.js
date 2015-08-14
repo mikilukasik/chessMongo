@@ -66,24 +66,24 @@ app.get('/aiChoice', function(req, res) {
 							
 						}else{
 
-							toConsole[i] = 	'Move:'+result[i][0] + '<br>' +
+							toConsole[i] = 	'Move:'+result[i][0] + ' RMv:'+result[i][2]+ ','  + '<br>'+
 										'Val:'+result[i][1]+ ',' +
-										' RMv:'+result[i][2]+ ',' +
+										//' RMv:'+result[i][2]+ ',' +
 										' lpV:'+result[i][3]+ ',' +
 										' cpS:'+result[i][4]+ ',' +//
-										' smV:'+result[i][5]+ ',' +//' <br>' +
+										//' smV:'+result[i][5]+ ',' +//' <br>' +
 										' dGH:'+result[i][6]+ ',' +//' <br>' +
 										' t2V:'+result[i][7]+ ',' +//' <br>' +
 										' rPr:'+result[i][8]+ ',' +//' <br>' +
 										' mht:'+result[i][9]+ ',' +//' <br>' +
 										' hht:'+result[i][10]+ ',' +//' <br>' +
-										' fwV:'+result[i][11]+ ',' +//' <br>' +
-										' lsc:'+result[i][12]+ ',' +//' <br>' +
-										' rsc:'+result[i][13]+ ',' +//' <br>' +
-										' scV:'+result[i][14]+ //',' +//' <br>' +
+										//' fwV:'+result[i][11]+ ',' +//' <br>' +
+										//' lsc:'+result[i][12]+ ',' +//' <br>' +
+										//' rsc:'+result[i][13]+ ',' +//' <br>' +
+										//' scV:'+result[i][14]+ //',' +//' <br>' +
 										' gTM:'+result[i][15]+ //',' +//' <br>' +
 										' pHB:'+result[i][16]+ //',' +//' <br>' +
-										' mMv:'+result[i][17]+ //',' +//' <br>' +
+										//' mMv:'+result[i][17]+ //',' +//' <br>' +
 										
 										' <br>----<br>';
 						}			
