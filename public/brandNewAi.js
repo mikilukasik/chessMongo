@@ -749,7 +749,7 @@ function sortAiArray(a, b) {
 }
 
 function moveIt(moveString, intable, dontProtect, hitValue) {
-
+	if(hitValue==undefined)var hitValue=[0]
 	var thistable = []
 
 	for(var i = 0; i < 8; i++) {
