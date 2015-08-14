@@ -197,7 +197,7 @@ function captured(table, color) {
 function canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm){//, try2steps) {
 	
 	if(typeof(hitSumm)=='undefined')var hitSumm=[0]
-	var try2steps=true
+	var try2steps=false //temp, should be passed from caller
 	var what = moveTable[k][l][1]
 	var possibleMoves = []
 	var scndHitSum=[0]
