@@ -830,13 +830,14 @@ function moveIt(moveString, intable, dontProtect, hitValue) {
 	// if(enPass) {
 	// 	hitValue = 0.99
 	// } else {
-		hitValue = thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][1] //normal hivalue
+	hitValue = thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][1] //normal hivalue
 			//- thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][1] / 100 //whathits
 	//}
 	thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][2]++		//times moved
+	
 	thistable[dletters.indexOf(moveString[2])][moveString[3] - 1] =
 		thistable[dletters.indexOf(moveString[0])][moveString[1] - 1]
-	thistable[dletters.indexOf(moveString[0])][moveString[1] - 1] = [0, 0] //, false, false, false]
+	thistable[dletters.indexOf(moveString[0])][moveString[1] - 1] = [0, 0, 0] //, false, false, false]
 	if(!(thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][1] == 1)) {
 		thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][3] = false
 	}
@@ -1312,7 +1313,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			
 			
 
-			loopValue = (fHitValue-retHitValue)*10 			//(rtnTableValue - origTableValue) * 10
+			loopValue = (2*fHitValue-retHitValue)*10 			//(rtnTableValue - origTableValue) * 10
 			hhit = (origHisHitValue - rtnHisHitValue)
 			mhit = (rtnMyHitValue - origMyHitValue) * 10
 			lsancValue=(rtnlSanc- origlSanc)/100
@@ -1437,7 +1438,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		// lsancValue*=10
 		// rsancValue*=10
 		
-		var pushThisValue = tTable2Value + loopValue + captureScore + fHitValue +
+		var pushThisValue = tTable2Value + loopValue + captureScore + //fHitValue +
 							smallValScore+dontGetHit+
 							retProtect+mhit+hhit+fwdVal+lsancValue+rsancValue+sancValue+getToMiddle+pushHimBack+mostMoved
 
