@@ -830,7 +830,7 @@ function moveIt(moveString, intable, dontProtect, hitValue) {
 	// if(enPass) {
 	// 	hitValue = 0.99
 	// } else {
-	hitValue = thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][1] //normal hivalue
+	hitValue[0] = thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][1] //normal hivalue
 			//- thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][1] / 100 //whathits
 	//}
 	thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][2]++		//times moved
@@ -1148,7 +1148,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	var origPushHimBack=origData[6]
 	var origMostMoved=origData[7]
 	
-	var fHitValue=0
+	var fHitValue=[0]
 
 	
 	var hisBestRtnMove
@@ -1239,7 +1239,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			retData = origData
 			retTable = cfTable
 			hisBestRtnMove = "stuck."
-			retHitValue = 0
+			var retHitValue = [0]
 
 		} else {
 
@@ -1247,13 +1247,13 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 			var retData = []
 			var tempRetValue = -9999990
-			var retHitValue = 0
+			var retHitValue = //[0]
 			var retProtect=0
 			
 
 			cfRetMoves.forEach(function(stepRetMove, retMoveIndex) {
 
-				var tretHitValue = 0//tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][1] 
+				var tretHitValue = [0]//tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][1] 
 				
 						
 				//vonjuk ki ha vedett
@@ -1284,9 +1284,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				// var tretrSanc = tempRetData[4]
 				
 
-				if((tretHitValue) * 10 - tretMyHitValue * 10 + tretHisHitValue > tempRetValue) {
+				if((tretHitValue[0]) * 10 - tretMyHitValue * 10 + tretHisHitValue > tempRetValue) {
 
-					tempRetValue = (tretHitValue) * 10 - tretMyHitValue * 10 + tretHisHitValue 
+					tempRetValue = (tretHitValue[0]) * 10 - tretMyHitValue * 10 + tretHisHitValue 
 					
 					retProtect = tretProtect
 					retData = tempRetData
@@ -1295,7 +1295,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 					retHitValue = tretHitValue
 					//retTableValue=tempRetTable
 				}else{
-					if((fHitValue-tretHitValue) * 10 - tretMyHitValue * 10 + tretHisHitValue == tempRetValue){
+					if((fHitValue[0]-tretHitValue[0]) * 10 - tretMyHitValue * 10 + tretHisHitValue == tempRetValue){
 						hisBestRtnMove = hisBestRtnMove+'.'//+stepRetMove//"many"
 					}
 				}
@@ -1313,7 +1313,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			
 			
 
-			loopValue = (2*fHitValue-retHitValue)*10 			//(rtnTableValue - origTableValue) * 10
+			loopValue = (2*fHitValue[0]-retHitValue[0])*10 			//(rtnTableValue - origTableValue) * 10
 			hhit = (origHisHitValue - rtnHisHitValue)
 			mhit = (rtnMyHitValue - origMyHitValue) * 10
 			lsancValue=(rtnlSanc- origlSanc)/100
