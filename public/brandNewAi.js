@@ -1247,7 +1247,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 			var retData = []
 			var tempRetValue = -9999990
-			var retHitValue = //[0]
+			var retHitValue //= //[0]
 			var retProtect=0
 			
 
