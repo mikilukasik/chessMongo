@@ -1253,19 +1253,25 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 			
 
 			cfRetMoves.forEach(function(stepRetMove, retMoveIndex) {
-
+				
 				var tretHitValue = [0]//tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][1] 
+				var eztVondKi=0
 				
 						
-				//vonjuk ki ha vedett
-				// if (tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][6]){			//ha vedett 
-				// 	tretHitValue-=tempTable[cfRetMoveCoords[retMoveIndex][0]][cfRetMoveCoords[retMoveIndex][1]][1]/100 	//kivonja amivel lep
-				// }
+				//kesobb vonjuk ki ha vedett
+				if (tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][6]){			//ha vedett 
+					eztVondKi=tempTable[cfRetMoveCoords[retMoveIndex][0]][cfRetMoveCoords[retMoveIndex][1]][1] 	//kivonja amivel lep
+				}
 				
 				//how abot en pass????//kivonni kesobb a leutott babu erteke, vagy 0
 
 				var tempRetTable = moveIt(stepRetMove, tempTable, true ,tretHitValue) //, false, hitValue)
 				
+				//vonjuk ki ha vedett
+				if(eztVondKi>0){
+					tretHitValue[0]-=eztVondKi
+					
+				}
 				var tretProtect= (protectTable(tempRetTable, cfColor) - origProtect)/1000 //majd kesobb
 				
 				if(captured(tempRetTable,cfColor)){
