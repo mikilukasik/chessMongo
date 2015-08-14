@@ -1156,11 +1156,10 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 		var smallValScore=(10-cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1])/1000
 
-		fHitValue = cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1] //leutott babu erteke, vagy 0
 		//vonjuk ki ha vedett
-		if (cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][6]){			//ha vedett 
-			fHitValue-=cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]/10000	//kivonja amivel lep
-		}
+		// if (cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][6]){			//ha vedett 
+		// 	fHitValue-=cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]/10000	//kivonja amivel lep
+		// }
 		
 		var fwdVal = 0
 		if(!cfColor&&cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]==1) {	//ha fekete parejt tol
@@ -1169,7 +1168,10 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		if(cfColor&&cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]==1) {	//ha feher parejt tol
 			fwdVal=(stepMove[1]-2)*0.01			
 		}
-		var tempTable = moveIt(stepMove, cfTable) //, false, hitValue)
+		
+		//fHitValue = cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1] //leutott babu erteke, vagy 0
+		
+		var tempTable = moveIt(stepMove, cfTable, true, fHitValue) //, false, hitValue)
 		protectTable(tempTable)
 
 		
@@ -1250,17 +1252,17 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 
 			cfRetMoves.forEach(function(stepRetMove, retMoveIndex) {
 
-				var tretHitValue = tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][1] 
+				var tretHitValue = 0//tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][1] 
 				
 						
 				//vonjuk ki ha vedett
-				if (tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][6]){			//ha vedett 
-					tretHitValue-=tempTable[cfRetMoveCoords[retMoveIndex][0]][cfRetMoveCoords[retMoveIndex][1]][1]/100 	//kivonja amivel lep
-				}
+				// if (tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][6]){			//ha vedett 
+				// 	tretHitValue-=tempTable[cfRetMoveCoords[retMoveIndex][0]][cfRetMoveCoords[retMoveIndex][1]][1]/100 	//kivonja amivel lep
+				// }
 				
 				//how abot en pass????//kivonni kesobb a leutott babu erteke, vagy 0
 
-				var tempRetTable = moveIt(stepRetMove, tempTable) //, false, hitValue)
+				var tempRetTable = moveIt(stepRetMove, tempTable, true ,tretHitValue) //, false, hitValue)
 				
 				var tretProtect= (protectTable(tempRetTable, cfColor) - origProtect)/1000 //majd kesobb
 				
