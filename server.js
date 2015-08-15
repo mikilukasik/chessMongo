@@ -89,7 +89,7 @@ setInterval(function(){
 	
 	//----------		game eval starts here
 		
-		mongodb.connect(cn, function(err, setIntDb) {
+		mongodb.connect(cn, function(err, setIntDB) {
 		//var laterThan = new Date().getTime()-gameInactiveConst
 		if(!(setIntDB==null)){
 		setIntDB.collection("tables")
