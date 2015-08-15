@@ -247,7 +247,8 @@ setInterval(function(){
 	mongodb.connect(cn, function(err5, db2) {
 		var laterThan = new Date().getTime()-gameInactiveConst
 		
-		db2.collection("tables")
+		if(!(db2==null))
+		{db2.collection("tables")
 			.find({
 				"moved": {"$gte": laterThan} 
 			},{
@@ -273,6 +274,7 @@ setInterval(function(){
 				
 				
 			});
+	}
 			//db.close()
 	});
 
