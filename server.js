@@ -213,7 +213,7 @@ setInterval(function() {
 							// }
 						})
 					//}
-					//db.close()
+					db.close()
 				});
 
 		//}
