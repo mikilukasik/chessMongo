@@ -1279,13 +1279,13 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 					dontGetHit-=.001
 					//var myTempMoves=getAllMoves(tempRetTable,cfColor,false,0)
 					if(!canIMove(tempRetTable,cfColor)){
-						dontGetHit=-10000
+						dontGetHit=-10000					//ha mattot tudna adni erre a lepesre, akkor meg ne lepjuk!
 					}
 				}
 				
 				var tempRetData = getTableData(tempRetTable, cfColor)
 
-				var tretTableValue = tempRetData[0] //tablevalue-t nem is kene szamolni, megvan a retHitValue		//talan az sem kell
+				//var tretTableValue = tempRetData[0] //tablevalue-t nem is kene szamolni, megvan a retHitValue		//talan az sem kell
 				var tretMyHitValue = tempRetData[1]
 				var tretHisHitValue = tempRetData[2]
 				// var tretlSanc = tempRetData[3]
