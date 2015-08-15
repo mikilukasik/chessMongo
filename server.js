@@ -24,7 +24,7 @@ var players = []
 
 var playerDisconnectConst = 15000 //15sec
 var gameInactiveConst = 300000 //5min
-var checkGamesConst = 300
+var checkGamesConst = 1000
 
 players[0] = [] //player names
 
@@ -82,7 +82,7 @@ setInterval(function() {
 
 	mongodb.connect(cn, function(err, db) {
 		//var laterThan = new Date().getTime()-gameInactiveConst
-		if(!(db == null)) {
+		//if(!(db == null)) {
 			db.collection("tables")
 				.find({
 					"toBeChecked": true // {"$gte": laterThan} 
@@ -102,7 +102,7 @@ setInterval(function() {
 					"blackCanForceDraw": true
 
 				}).toArray(function(err2, gamesToCheck) {
-					if(!(gamesToCheck == undefined)) {
+					//if(!(gamesToCheck == undefined)) {
 						gamesToCheck.forEach(function(checkThisGame) {
 							if((checkThisGame.wNext && checkThisGame.wName == "Computer") ||
 								(!checkThisGame.wNext && checkThisGame.bName == "Computer")) {
@@ -202,12 +202,12 @@ setInterval(function() {
 									});
 							}
 						})
-					}
+					//}
 
 				});
 
-		}
-		db.close()
+		//}
+		//db.close()
 			//});
 
 		//----------
@@ -215,7 +215,7 @@ setInterval(function() {
 		//mongodb.connect(cn, function(err5, db2) {
 		var laterThan = new Date().getTime() - gameInactiveConst
 
-		if(!(db == null)) {
+		//if(!(db == null)) {
 			db.collection("tables")
 				.find({
 					"moved": {
@@ -243,8 +243,8 @@ setInterval(function() {
 						});
 
 				});
-		}
-		//db.close()
+		//}
+		db.close()
 	});
 
 }, checkGamesConst);
