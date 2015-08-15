@@ -203,7 +203,7 @@ setInterval(function() {
 							}
 						})
 					//}
-
+					db.close()
 				});
 
 		//}
@@ -244,7 +244,7 @@ setInterval(function() {
 
 				});
 		//}
-		db.close()
+		//db.close()
 	});
 
 }, checkGamesConst);
