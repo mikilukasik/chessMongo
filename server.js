@@ -138,8 +138,11 @@ app.get('/move', function(req, res) {
 					tableInDb.moves.push(toPush)
 					tableInDb.table = moveIt(moveStr, tableInDb.table)
 					tableInDb.wNext = !tableInDb.wNext
-					tableInDb.pollNum++
-						tableInDb.moved = new Date().getTime()
+					
+					//tableInDb.pollNum++  //<---- majd increment a checkTableStatus ha kiertekelte
+					
+					
+					tableInDb.moved = new Date().getTime()
 	
 					tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
 	
