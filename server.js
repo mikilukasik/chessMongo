@@ -91,7 +91,7 @@ setInterval(function(){
 		
 		mongodb.connect(cn, function(err, db) {
 		//var laterThan = new Date().getTime()-gameInactiveConst
-		
+		if(!(db==null)){
 		db.collection("tables")
 			.find({
 				"toBeChecked":true// {"$gte": laterThan} 
@@ -234,6 +234,8 @@ setInterval(function(){
 				
 				
 			});
+			
+		}
 			//db.close()
 	});
 
