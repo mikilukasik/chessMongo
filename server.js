@@ -244,28 +244,28 @@ setInterval(function(){
 	//----------
 		
 	
-	mongodb.connect(cn, function(err, db) {
+	mongodb.connect(cn, function(err5, db2) {
 		var laterThan = new Date().getTime()-gameInactiveConst
 		
-		db.collection("tables")
+		db2.collection("tables")
 			.find({
 				"moved": {"$gte": laterThan} 
 			},{
 				"tableNum":true,
 				"wName":true,
 				"bName":true
-			}).toArray(function(err2, actGames) {
+			}).toArray(function(err25, actGames) {
 				
 				
 				
-					db.collection("tables")
+					db2.collection("tables")
 						.findOne({
 							"tableNum": "xData"
-						}, function(err4, xData) {
+						}, function(err24, xData) {
 			
 							xData.activeTables = actGames
 			
-							db.collection("tables")
+							db2.collection("tables")
 								.save(xData, function(err3, res) {db.close()})
 								console.log('Games checked.')
 							
