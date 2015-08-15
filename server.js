@@ -155,8 +155,9 @@ setInterval(function() {
 																	.save(tableInDb, function(err3, res) {})
 															}
 														}
-														db.close()
+														// db.close()
 													});
+													db.close()
 
 											});
 											/////////
@@ -167,7 +168,7 @@ setInterval(function() {
 
 							}
 
-							mongodb.connect(cn, function(err, db) {
+							//mongodb.connect(cn, function(err, db) {
 								if(!(db == null)) {
 
 									db.collection("tables")
@@ -186,10 +187,10 @@ setInterval(function() {
 													.save(tableInDb, function(err3, res) {})
 													//}
 											}
-											db.close()
+											//db.close()
 										});
 								}
-							});
+							//});
 
 						})
 					}
@@ -197,16 +198,16 @@ setInterval(function() {
 				});
 
 		}
-		//db.close()
-	});
+		db.close()
+	//});
 
 	//----------
 
-	mongodb.connect(cn, function(err5, db2) {
+	//mongodb.connect(cn, function(err5, db2) {
 		var laterThan = new Date().getTime() - gameInactiveConst
 
-		if(!(db2 == null)) {
-			db2.collection("tables")
+		if(!(db == null)) {
+			db.collection("tables")
 				.find({
 					"moved": {
 						"$gte": laterThan
@@ -217,16 +218,16 @@ setInterval(function() {
 					"bName": true
 				}).toArray(function(err25, actGames) {
 
-					db2.collection("tables")
+					db.collection("tables")
 						.findOne({
 							"tableNum": "xData"
 						}, function(err24, xData) {
 
 							xData.activeTables = actGames
 
-							db2.collection("tables")
+							db.collection("tables")
 								.save(xData, function(err3, res) {
-									db2.close()
+									db.close()
 								})
 							console.log('Games checked.')
 
