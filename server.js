@@ -106,7 +106,7 @@ setInterval(function() {
 						gamesToCheck.forEach(function(checkThisGame) {
 							if((checkThisGame.wNext && checkThisGame.wName == "Computer") ||
 								(!checkThisGame.wNext && checkThisGame.bName == "Computer")) {
-								
+
 								//need to make aiMove
 								var options = {
 									host: 'localhost',
@@ -158,7 +158,7 @@ setInterval(function() {
 														}
 														// db.close()
 													});
-													db.close()
+												db.close()
 
 											});
 											/////////
@@ -170,39 +170,37 @@ setInterval(function() {
 							}
 
 							//mongodb.connect(cn, function(err, db) {
-								
+
 							//});
-								if(!(db == null)) {
+							if(!(db == null)) {
 
-									db.collection("tables")
-										.findOne({
-											tableNum: Number(checkThisGame.tableNum)
-										}, function(err2, tableInDb) {
-											// console.log(resJsn)
-											// console.log('dssdfsdgs')
-											if(!(tableInDb == null)) {
+								db.collection("tables")
+									.findOne({
+										tableNum: Number(checkThisGame.tableNum)
+									}, function(err2, tableInDb) {
+										// console.log(resJsn)
+										// console.log('dssdfsdgs')
+										if(!(tableInDb == null)) {
 
-												tableInDb.pollNum++
-													
-													
-													if(tableInDb.wName=="Computer"){
-														tableInDb.wName="Thinking..."
-													}
-													if(tableInDb.bName=="Computer"){
-														tableInDb.bName="Thinking..."
-													}
-																		////ide		 sync elmentes
-													
-													
-													tableInDb.toBeChecked = false //checked for now. this should be done later, there are other stuff to be checked
+											tableInDb.pollNum++
 
-												db.collection("tables")
-													.save(tableInDb, function(err3, res) {})
-													//}
+												if(tableInDb.wName == "Computer") {
+													tableInDb.wName = "Thinking..."
+												}
+											if(tableInDb.bName == "Computer") {
+												tableInDb.bName = "Thinking..."
 											}
-											//db.close()
-										});
-								}
+											////ide		 sync elmentes
+
+											tableInDb.toBeChecked = false //checked for now. this should be done later, there are other stuff to be checked
+
+											db.collection("tables")
+												.save(tableInDb, function(err3, res) {})
+												//}
+										}
+										//db.close()
+									});
+							}
 						})
 					}
 
@@ -210,11 +208,11 @@ setInterval(function() {
 
 		}
 		db.close()
-	//});
+			//});
 
-	//----------
+		//----------
 
-	//mongodb.connect(cn, function(err5, db2) {
+		//mongodb.connect(cn, function(err5, db2) {
 		var laterThan = new Date().getTime() - gameInactiveConst
 
 		if(!(db == null)) {
