@@ -246,7 +246,7 @@ setInterval(function() {
 
 							db.collection("tables")
 								.save(xData, function(err3, res) {
-									db.close()
+									//db.close()
 								})
 							console.log('Games checked.')
 
