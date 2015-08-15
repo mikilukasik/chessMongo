@@ -1,15 +1,24 @@
 var Dbtable = function(tableNum, wName, bName) { //class
-
+	
+	this.aiToMove=false
+	this.checkGameStatus=false
+	this.gameIsOn=true
+	this.whiteWon=false
+	this.blackWon=false
+	this.isDraw=false
+	
+	
+	
 	this.tableNum = tableNum,
-		this.wName = wName,
-		this.bName = bName,
+	this.wName = wName,
+	this.bName = bName,
 
-		this.wNext = true,
-		this.aiOn = false,
-		this.chat = [],
-		this.moves = [],
-		this.pollNum = 1,
-		this.allPastTables = []
+	this.wNext = true,
+	this.aiOn = false,
+	this.chat = [],
+	this.moves = [],
+	this.pollNum = 1,
+	this.allPastTables = []
 
 	this.created = new Date()
 	this.moved = this.created
