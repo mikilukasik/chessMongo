@@ -175,6 +175,8 @@ setInterval(function() {
 							}
 
 							//mongodb.connect(cn, function(err, db) {
+								
+							//});
 								if(!(db == null)) {
 
 									db.collection("tables")
@@ -196,8 +198,6 @@ setInterval(function() {
 											//db.close()
 										});
 								}
-							//});
-
 						})
 					}
 
