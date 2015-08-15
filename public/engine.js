@@ -7,6 +7,14 @@ var Dbtable = function(tableNum, wName, bName) { //class
 	this.blackWon=false
 	this.isDraw=false
 	
+	this.askWhiteDraw=false
+	this.askBlackDraw=false
+	
+	this.whiteCanForceDraw=false
+	this.blackCanForceDraw=false
+	
+	
+	
 	
 	
 	
