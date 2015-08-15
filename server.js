@@ -25,7 +25,7 @@ var players = []
 	
 var playerDisconnectConst = 15000 //15sec
 var gameInactiveConst = 300000 //5min
-var checkActGamesConst = 3000
+var checkGamesConst = 300
 
 players[0] = [] //player names
 
@@ -81,10 +81,131 @@ mongodb.connect(cn, function(err, db) {
 		});
 });
 //{"$gte": 3}
+
+
 setInterval(function(){
+	
+	
+	
+	//----------		game eval starts here
+		
+		mongodb.connect(cn, function(err, db) {
+		//var laterThan = new Date().getTime()-gameInactiveConst
+		
+		db.collection("tables")
+			.find({
+				"toBeChecked":true// {"$gte": laterThan} 
+			},{
+				"wNext":true,
+				"tableNum":true,
+				"wName":true,
+				"bName":true,
+				"toBeChecked":true,
+				"whiteWon":true,
+				"blackWon":true,
+				"isDraw":true,
+				"gameIsOn":true,
+				"askWhiteDraw":true,
+				"askBlackDraw":true,
+				"whiteCanForceDraw":true,
+				"blackCanForceDraw":true
+				
+			}).toArray(function(err2, actGames) {
+				
+				actGames.forEach(function(checkThisGame){
+					if((checkThisGame.wNext&&checkThisGame.wName=="Computer")||
+						(!checkThisGame.wNext&&checkThisGame.bName=="Computer")){
+							//need to make aiMove
+							var options = {
+						host: 'localhost',
+						port: 16789,
+						path: '/aichoice?t=' + checkThisGame.tableNum
+					};
+				
+					http.request(options, function(response) {
+							var resJsn = {};
+				
+							//another chunk of data has been recieved, so append it to `resJsn`
+							response.on('data', function(chunk) {
+								resJsn = JSON.parse(chunk);
+							});
+				
+							response.on('end', function() {
+								/////////
+				
+								mongodb.connect(cn, function(err, db) {
+									db.collection("tables")
+										.findOne({
+											tableNum: Number(checkThisGame.tableNum)
+										}, function(err2, tableInDb) {
+											// console.log(resJsn)
+											// console.log('dssdfsdgs')
+											if (!(resJsn == null || tableInDb == null)) {
+												var moveStr = String(resJsn.aimove)
+												if(!(moveStr=="")){   			//there's at least 1 move
+													var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
+														tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
+														moveStr + //the string
+														tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][0] + //color of whats hit
+														tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][1] //piece
+					
+													// if(!(toPush==tableInDb.moves[tableInDb.moves.length-1])){
+													tableInDb.moves.push(toPush)
+													tableInDb.table = moveIt(moveStr, tableInDb.table)
+													tableInDb.wNext = !tableInDb.wNext
+													tableInDb.pollNum++
+													tableInDb.moved = new Date().getTime()
+													tableInDb.chat=resJsn.toconsole
+					
+													tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
+					
+													db.collection("tables")
+														.save(tableInDb, function(err3, res) {})
+												}
+											}
+											db.close()
+										});
+				
+								});
+								/////////
+				
+							});
+						})
+						.end();
+
+						
+					}
+				})
+				
+				
+					// db.collection("tables")
+					// 	.findOne({
+					// 		"tableNum": "xData"
+					// 	}, function(err4, xData) {
+			
+					// 		xData.activeTables = actGames
+			
+					// 		db.collection("tables")
+					// 			.save(xData, function(err3, res) {db.close()})
+					// 			console.log('Games checked.')
+							
+					// 	});
+				
+				
+			});
+			//db.close()
+	});
+
+		
+		
+		
+		
+	//----------
+		
 	
 	mongodb.connect(cn, function(err, db) {
 		var laterThan = new Date().getTime()-gameInactiveConst
+		
 		db.collection("tables")
 			.find({
 				"moved": {"$gte": laterThan} 
@@ -105,7 +226,7 @@ setInterval(function(){
 			
 							db.collection("tables")
 								.save(xData, function(err3, res) {db.close()})
-								console.log('activegames checked.')
+								console.log('Games checked.')
 							
 						});
 				
@@ -115,7 +236,7 @@ setInterval(function(){
 	});
 
 	
-},checkActGamesConst);
+},checkGamesConst);
 
 app.get('/move', function(req, res) {
 
@@ -139,8 +260,9 @@ app.get('/move', function(req, res) {
 					tableInDb.table = moveIt(moveStr, tableInDb.table)
 					tableInDb.wNext = !tableInDb.wNext
 					
-					//tableInDb.pollNum++  //<---- majd increment a checkTableStatus ha kiertekelte
+					tableInDb.pollNum++  //<---- majd increment a checkTableStatus ha kiertekelte	//nemis
 					
+					tableInDb.toBeChecked=true	//tells it to server(itself) to evaluate table
 					
 					tableInDb.moved = new Date().getTime()
 	
