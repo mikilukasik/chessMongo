@@ -161,7 +161,7 @@ setInterval(function(){
 					
 													tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
 					
-													db.collection("tables")
+													setIntDB2.collection("tables")
 														.save(tableInDb, function(err3, res) {})
 												}
 											}
