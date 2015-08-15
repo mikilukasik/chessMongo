@@ -266,7 +266,7 @@ setInterval(function(){
 							xData.activeTables = actGames
 			
 							db2.collection("tables")
-								.save(xData, function(err3, res) {db.close()})
+								.save(xData, function(err3, res) {db2.close()})
 								console.log('Games checked.')
 							
 						});
