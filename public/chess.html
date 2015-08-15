@@ -289,26 +289,6 @@ function initTable(){
 	var wNext=true
 	alerted=false
 	tempString=""							
-	//table = new Array(8)							
-
-
-	// if(!(opponentsName=="Spectator")){
-	// 	var tempTable=$.ajax({
-	// 	    type: 'GET',
-	// 	    url: '/initTable?t='+tableNum,
-	// 	    dataType: 'json',
-	// 	    success: function() { },
-	// 	    data: {},
-	// 	    async: true
-	// 	});
-	
-
-
-	// 	table=tempTable.responseJSON.table
-	
-
-	// 	console.log("initTable done")
-	// }
 	
 }
 function showTable(){								//this will update the displayed table from the array
@@ -406,21 +386,7 @@ function showChat(){								//this will update the chat field
 
 
 var tempMoveString=""
-// function getAllMoves(whosMove){
-// 	if(whosMove){
-// 		var playerCN = 2 //this goes to server as color
-// 	}
-// 	var tempTable=$.ajax({
-// 			    type: 'GET',
-// 			    url: '/getAllMoves?p='+playerCN+'&t='+tableNum,
-// 			    dataType: 'json',
-// 			    success: function() { },
-// 			    data: {},
-// 			    async: false
-// 			});
-// 			//wNext=!wNext
-// 			return tempTable.responseJSON.allmoves
-// }
+
 function getAiMove(whosMove){
 	if(whosMove){
 		var playerCN = 2 //this goes to server as color
@@ -433,12 +399,7 @@ function getAiMove(whosMove){
 			    data: {},
 			    async: false
 			});
-			//wNext=!wNext
-			// tempTable.responseJSON.fulltable.forEach(function(thisline){
-			// 	console.log(thisline[0]+' '+thisline[1]+' '+thisline[2]+' '+thisline[3])
-				
-				 
-			// })
+			
 			return tempTable.responseJSON.aimove
 }
 function makeAMove(whatMove){
@@ -463,7 +424,7 @@ function makeAsyncMove(whatMove){
 			    async: true
 			});
 			wNext=!wNext
-			//return tempTable.responseJSON.table
+			
 }
 
 function sendChat(){
@@ -505,12 +466,7 @@ function getAndShowTable(){
 			    data: {},
 			    async: false
 			});
-			//alertText=""
-			//var whoCantMove=false
-
-			//if(!(pollNum==tempTable.responseJSON.pollnum)){
-
-
+	
 
 
 	
@@ -518,26 +474,23 @@ function getAndShowTable(){
 	wNext=tempTable.responseJSON.next
 	allMoves=tempTable.responseJSON.allmoves
 	chatLines=tempTable.responseJSON.chat
-	//pollNum=tempTable.responseJSON.pollnum
+	
 	showTable()
 
-//}
-	
 				
 
 			
 }
 
 function clickedIt(clickedField,clickedString){
-	//console.log(tempMoveString)
+	
 	var x=clickedField[0]
 	var y=clickedField[1]
 	var clickedColor=false
 	
 	if ((  !(table[x][y][5]==[]) ||tempMoveString.length>0)&&wNext==wPlayer){
 		
-		//((table[x][y][0]==1&&wPlayer==false)||(table[x][y][0]==2&&wPlayer==true))
-
+	
 		if(clickedString==tempMoveString){
 			table[x][y][8]=false
 			clearHighlights()
@@ -557,7 +510,7 @@ function clickedIt(clickedField,clickedString){
 				if(tempMoveString.length<3){
 					table[x][y][8]=true;
 				}
-				//console.log(getTableData(table,wNext))
+				
 			
 			}
 			if(tempMoveString.length>3){
@@ -565,22 +518,15 @@ function clickedIt(clickedField,clickedString){
 				
 				if(table[x][y][9]==true){
 
-					//table[x][y][2]=false 
-					//table=moveIt(tempMoveString,table)
-					//showTable()
+					
 					makeAMove(tempMoveString)
 					wNext=!wNext
-					// tempMoveString=""
-					// refreshTable()
+				
 					
 					
 					tempMoveString=""
 			
-					
-					
-					
-					//wNext=!wNext
-					
+				
 
 				}else{
 					tempMoveString=tempMoveString[0]+tempMoveString[1]
@@ -608,9 +554,7 @@ function clearHighlights(){
 }
 function letsPlay(){
 	drawTable()
-	//if(prompt('Reset ongoing game?  (yes/no)')=='yes'){
-		//initTable()  
-	//}
+	
 	refreshTable()
 	
 }
@@ -671,9 +615,6 @@ function letsPlay(){
 			
 		</tr>
 	</table>
-	<!-- <p class="status">
-				<button onclick="moveIt(prompt(),table)">move</button>
 	
-			</p> -->
 </body>
 </html>
