@@ -167,7 +167,7 @@ setInterval(function() {
 														}
 														// db.close()
 													});
-												db.close()
+												//db.close()
 
 											});
 											/////////
@@ -213,7 +213,7 @@ setInterval(function() {
 							// }
 						})
 					//}
-					db.close()
+					//db.close()
 				});
 
 		//}
