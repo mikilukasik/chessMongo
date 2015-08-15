@@ -89,10 +89,10 @@ setInterval(function(){
 	
 	//----------		game eval starts here
 		
-		mongodb.connect(cn, function(err, db) {
+		mongodb.connect(cn, function(err, setIntDb) {
 		//var laterThan = new Date().getTime()-gameInactiveConst
-		if(!(db==null)){
-		db.collection("tables")
+		if(!(setIntDB==null)){
+		setIntDB.collection("tables")
 			.find({
 				"toBeChecked":true// {"$gte": laterThan} 
 			},{
@@ -133,8 +133,8 @@ setInterval(function(){
 							response.on('end', function() {
 								/////////
 				
-								mongodb.connect(cn, function(err, db) {
-									db.collection("tables")
+								mongodb.connect(cn, function(err, setIntDB2) {
+									setIntDB2.collection("tables")
 										.findOne({
 											tableNum: Number(checkThisGame.tableNum)
 										}, function(err2, tableInDb) {
@@ -165,7 +165,7 @@ setInterval(function(){
 														.save(tableInDb, function(err3, res) {})
 												}
 											}
-											db.close()
+											setIntDB2.close()
 										});
 				
 								});
@@ -179,10 +179,10 @@ setInterval(function(){
 					}
 					
 					
-							mongodb.connect(cn, function(err, db) {
-								if(!(db==null)){
+							mongodb.connect(cn, function(err, setIntDB3) {
+								if(!(setIntDB3==null)){
 								
-									db.collection("tables")
+									setIntDB3.collection("tables")
 										.findOne({
 											tableNum: Number(checkThisGame.tableNum)
 										}, function(err2, tableInDb) {
@@ -209,11 +209,11 @@ setInterval(function(){
 					
 													//tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
 					
-													db.collection("tables")
+													setIntDB3.collection("tables")
 														.save(tableInDb, function(err3, res) {})
 												//}
 											}
-											db.close()
+											setIntDB3.close()
 										});
 				}
 								});
