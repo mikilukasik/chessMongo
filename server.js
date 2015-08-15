@@ -234,7 +234,7 @@ setInterval(function(){
 					// 			console.log('Games checked.')
 							
 					// 	});
-				
+				setIntDB.close()
 				
 			});
 			
