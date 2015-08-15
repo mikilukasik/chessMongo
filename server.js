@@ -185,13 +185,13 @@ setInterval(function() {
 												tableInDb.pollNum++
 													
 													
-													if(checkThisGame.wName=="Computer"){
-														checkThisGame.wName="Thinking..."
+													if(tableInDb.wName=="Computer"){
+														tableInDb.wName="Thinking..."
 													}
-													if(checkThisGame.bName=="Computer"){
-														checkThisGame.bName="Thinking..."
+													if(tableInDb.bName=="Computer"){
+														tableInDb.bName="Thinking..."
 													}
-																		////ide
+																		////ide		 sync elmentes
 													
 													
 													tableInDb.toBeChecked = false //checked for now. this should be done later, there are other stuff to be checked
