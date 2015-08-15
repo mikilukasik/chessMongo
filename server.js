@@ -239,7 +239,7 @@ setInterval(function(){
 			});
 			
 		}
-			//db.close()
+			//setIntDB.close()
 	});
 
 		
