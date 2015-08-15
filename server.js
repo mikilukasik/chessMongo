@@ -180,6 +180,8 @@ setInterval(function(){
 					
 					
 							mongodb.connect(cn, function(err, db) {
+								if(!(db==null)){
+								
 									db.collection("tables")
 										.findOne({
 											tableNum: Number(checkThisGame.tableNum)
@@ -213,8 +215,9 @@ setInterval(function(){
 											}
 											db.close()
 										});
-				
+				}
 								});
+				
 					
 				})
 				
