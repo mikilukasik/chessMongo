@@ -177,34 +177,40 @@ setInterval(function() {
 									.end();
 
 							}
-
+							
+							db.collection("tables")
+								.save(checkThisGame, function(err3, res) {
+									//db.close()
+								})
+							
+							
 							//mongodb.connect(cn, function(err, db) {
 
 							//});
-							if(!(db == null)) {
+							// if(!(db == null)) {
 
-								db.collection("tables")
-									.findOne({
-										tableNum: Number(checkThisGame.tableNum)
-									}, function(err2, tableInDb) {
-										// console.log(resJsn)
-										// console.log('dssdfsdgs')
-										if(!(tableInDb == null)) {
+							// 	db.collection("tables")
+							// 		.findOne({
+							// 			tableNum: Number(checkThisGame.tableNum)
+							// 		}, function(err2, tableInDb) {
+							// 			// console.log(resJsn)
+							// 			// console.log('dssdfsdgs')
+							// 			if(!(tableInDb == null)) {
 
-											tableInDb.pollNum++
+							// 				tableInDb.pollNum++
 
 											
-											////ide		 sync elmentes
+							// 				////ide		 sync elmentes
 
-											tableInDb.toBeChecked = false //checked for now. this should be done later, there are other stuff to be checked
+							// 				tableInDb.toBeChecked = false //checked for now. this should be done later, there are other stuff to be checked
 
-											db.collection("tables")
-												.save(tableInDb, function(err3, res) {})
-												//}
-										}
-										//db.close()
-									});
-							}
+							// 				db.collection("tables")
+							// 					.save(tableInDb, function(err3, res) {})
+							// 					//}
+							// 			}
+							// 			//db.close()
+							// 		});
+							// }
 						})
 					//}
 					db.close()
