@@ -699,6 +699,7 @@ app.get('/getLobby', function(req, res) {
 	} else {
 		
 		mongodb.connect(cn, function(err, db) {
+			if(!(db==null)){
 			db.collection("tables")
 				.findOne({
 					tableNum: "xData"
@@ -728,7 +729,7 @@ app.get('/getLobby', function(req, res) {
 					
 				});
 		});
-		
+	}
 	}
 
 });
