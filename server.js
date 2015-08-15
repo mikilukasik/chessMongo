@@ -111,7 +111,7 @@ setInterval(function(){
 				"blackCanForceDraw":true
 				
 			}).toArray(function(err2, gamesToCheck) {
-				
+				if(!(gamesToCheck==undefined)){
 				gamesToCheck.forEach(function(checkThisGame){
 					if((checkThisGame.wNext&&checkThisGame.wName=="Computer")||
 						(!checkThisGame.wNext&&checkThisGame.bName=="Computer")){
@@ -220,6 +220,7 @@ setInterval(function(){
 				
 					
 				})
+			}
 				
 				
 					// db.collection("tables")
