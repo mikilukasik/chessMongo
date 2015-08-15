@@ -106,6 +106,12 @@ setInterval(function() {
 						gamesToCheck.forEach(function(checkThisGame) {
 							if((checkThisGame.wNext && checkThisGame.wName == "Computer") ||
 								(!checkThisGame.wNext && checkThisGame.bName == "Computer")) {
+								if(checkThisGame.wName=="Computer"){
+									checkThisGame.wName="Thinking..."
+								}
+								if(checkThisGame.bName=="Computer"){
+									checkThisGame.bName="Thinking..."
+								}
 								//need to make aiMove
 								var options = {
 									host: 'localhost',
