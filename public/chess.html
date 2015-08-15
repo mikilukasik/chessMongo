@@ -147,7 +147,7 @@ var pollNum=0
 var pollConst=150
 					
 		
-var aiCount =0
+//var aiCount =0
 
 
 
@@ -155,55 +155,27 @@ var aiCount =0
 
 
 					//poll it!!!
-		setInterval(function(){
-			if(tempMoveString.length<2){
-				refreshTable()
+		// setInterval(function(){
+		// 	if(tempMoveString.length<2){
+		// 		refreshTable()
 				
-				if(wNext==wPlayer){
-					aiCount=0
-				}else{
-					//refreshTable()
-					aiCount++
-					//tempMoveString=getAiMove(!wPlayer)
-					//refreshTable()
-					if(aiCount==2&&opponentsName=="Computer"){
-						getAiMove(!wPlayer)
-						//refreshTable()
-					}
-				}
+		// 		if(wNext==wPlayer){
+		// 			aiCount=0
+		// 		}else{
+					
+		// 			aiCount++
+					
+					
+		// 			if(aiCount==2&&opponentsName=="Computer"){
+		// 				getAiMove(!wPlayer)
+						
+		// 			}
+		// 		}
 				
-				//showTable()
-			}
-			// if(moveArrayToStrings(getAllMoves(getTableData(table,wPlayer),table,wPlayer))<1||
-			// 	moveArrayToStrings(getAllMoves(getTableData(table,!wPlayer),table,!wPlayer))<1){
-			// 	alertText="Game over"
-			// 	whoCantMove=false
-			// }
-			// if(!(alertText=="")){
-			// 	if(validateTable(table,wPlayer)==9){
-			// 		alertText+=", you won!"
-			// 	}
-			// 	if(validateTable(table,!wPlayer)==9){
-			// 		alertText+=", you lost."
-			// 	}
-
-			// }
-			
-			// if (!alerted&&!alertText==""){
-			// 	alerted=true
 				
-
-			// 	if(wAi||bAi){
-			// 		window.close()
-
-			// 	}else{	
-			// 		alert(alertText)
-			// 	}
-			
-
-
-			// }
-					},pollConst);
+		// 	}
+		
+		// 			},pollConst);
 
 function clickedItTrans(i,j){
 	
