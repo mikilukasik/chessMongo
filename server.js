@@ -728,8 +728,9 @@ app.get('/getLobby', function(req, res) {
 					///////
 					
 				});
+			}
 		});
-	}
+	
 	}
 
 });
