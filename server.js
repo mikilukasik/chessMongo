@@ -148,7 +148,7 @@ setInterval(function() {
 															tableInDb.moved = new Date().getTime()
 														tableInDb.chat = resJsn.toconsole
 
-														tableInDb.toBeChecked = false //checked for now. this should be done later, there are other stuff to be checked
+														//tableInDb.toBeChecked = false //checked for now. this should be done later, there are other stuff to be checked
 
 														tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
 
@@ -168,31 +168,30 @@ setInterval(function() {
 
 					}
 
-					// mongodb.connect(cn, function(err, setIntDB3) {
-					// 	if(!(setIntDB3 == null)) {
+					mongodb.connect(cn, function(err, setIntDB3) {
+						if(!(setIntDB3 == null)) {
 
-					// 		setIntDB3.collection("tables")
-					// 			.findOne({
-					// 				tableNum: Number(checkThisGame.tableNum)
-					// 			}, function(err2, tableInDb) {
+							setIntDB3.collection("tables")
+								.findOne({
+									tableNum: Number(checkThisGame.tableNum)
+								}, function(err2, tableInDb) {
 									
-					// 				if(!(tableInDb == null)) {
+									if(!(tableInDb == null)) {
 									
-					// 					tableInDb.pollNum++
+										tableInDb.pollNum++
 											
 
-					// 						tableInDb.toBeChecked = false //checked for now. this should be done later, there are other stuff to be checked
-
+											tableInDb.toBeChecked = false 
 										
 
-					// 					setIntDB3.collection("tables")
-					// 						.save(tableInDb, function(err3, res) {})
+										setIntDB3.collection("tables")
+											.save(tableInDb, function(err3, res) {})
 											
-					// 				}
-					// 				setIntDB3.close()
-					// 			});
-					// 	}
-					// });
+									}
+									setIntDB3.close()
+								});
+						}
+					});
 
 				})
 
