@@ -187,9 +187,9 @@ setInterval(function() {
 
 													if(tableInDb.wNext) {
 
-														tableInDb.whiteWon = true
-													} else {
 														tableInDb.blackWon = true
+													} else {
+														tableInDb.whiteWon = true
 													}
 												} else {
 													tableInDb.isDraw = true
