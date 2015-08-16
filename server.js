@@ -93,7 +93,6 @@ setInterval(function() {
 		"whiteCanForceDraw": true,
 		"blackCanForceDraw": true,
 		"aiToMove": true,
-		"pollNum":true,
 		"table":true
 	}
 
@@ -169,45 +168,45 @@ setInterval(function() {
 							.end();
 
 					}
-					
-					if(!canIMove(checkThisGame.table,checkThisGame.wNext)){
-						if(captured(checkThisGame.table,checkThisGame.wNext)){
-							checkThisGame.gameIsOn=false
-							if(checkThisGame.wNext){
+				
+
+					mongodb.connect(cn, function(err, setIntDB3) {		//this is last after game is checked
+						if(!(setIntDB3 == null)) {
+
+							setIntDB3.collection("tables")
+								.findOne({
+									tableNum: Number(checkThisGame.tableNum)
+								}, function(err2, tableInDb) {
+									
+									if(!(tableInDb == null)) {
+									
+										tableInDb.pollNum++
+												
+					if(!canIMove(tableInDb.table,tableInDb.wNext)){
+						if(captured(tableInDb.table,tableInDb.wNext)){
+							tableInDb.gameIsOn=false
+							if(tableInDb.wNext){
 							
-								checkThisGame.whiteWon=true
+								tableInDb.whiteWon=true
 							}else{
-								checkThisGame.blackWon=true
+								tableInDb.blackWon=true
 							}
 						}else{
-							checkThisGame.isDraw=true
+							tableInDb.isDraw=true
 						}
 					}
 
-					// mongodb.connect(cn, function(err, setIntDB3) {		//this is last after game is checked
-					// 	if(!(setIntDB3 == null)) {
-
-					// 		setIntDB3.collection("tables")
-					// 			.findOne({
-					// 				tableNum: Number(checkThisGame.tableNum)
-					// 			}, function(err2, tableInDb) {
-									
-					// 				if(!(tableInDb == null)) {
-									
-										checkThisGame.pollNum++
-											
-
-											checkThisGame.toBeChecked = false 
+											tableInDb.toBeChecked = false 
 										
 
-										setIntDB.collection("tables")
-											.save(checkThisGame, function(err3, res) {})
+										setIntDB3.collection("tables")
+											.save(tableInDb, function(err3, res) {})
 											
-					// 				}
-					// 				setIntDB3.close()
-					// 			});
-					// 	}
-					// });
+									}
+									setIntDB3.close()
+								});
+						}
+					});
 
 				})
 
