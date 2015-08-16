@@ -168,65 +168,40 @@ setInterval(function() {
 
 					}
 
-					mongodb.connect(cn, function(err, setIntDB3) {
-						if(!(setIntDB3 == null)) {
+					// mongodb.connect(cn, function(err, setIntDB3) {
+					// 	if(!(setIntDB3 == null)) {
 
-							setIntDB3.collection("tables")
-								.findOne({
-									tableNum: Number(checkThisGame.tableNum)
-								}, function(err2, tableInDb) {
-									// console.log(resJsn)
-									// console.log('dssdfsdgs')
-									if(!(tableInDb == null)) {
-										// var moveStr = String(resJsn.aimove)
-										// if(!(moveStr=="")){   			//there's at least 1 move
-										// 	var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
-										// 		tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
-										// 		moveStr + //the string
-										// 		tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][0] + //color of whats hit
-										// 		tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][1] //piece
+					// 		setIntDB3.collection("tables")
+					// 			.findOne({
+					// 				tableNum: Number(checkThisGame.tableNum)
+					// 			}, function(err2, tableInDb) {
+									
+					// 				if(!(tableInDb == null)) {
+									
+					// 					tableInDb.pollNum++
+											
 
-										// 	// if(!(toPush==tableInDb.moves[tableInDb.moves.length-1])){
-										// 	tableInDb.moves.push(toPush)
-										// 	tableInDb.table = moveIt(moveStr, tableInDb.table)
-										// 	tableInDb.wNext = !tableInDb.wNext
-										tableInDb.pollNum++
-											// tableInDb.moved = new Date().getTime()
-											// tableInDb.chat=resJsn.toconsole
+					// 						tableInDb.toBeChecked = false //checked for now. this should be done later, there are other stuff to be checked
 
-											tableInDb.toBeChecked = false //checked for now. this should be done later, there are other stuff to be checked
+										
 
-										//tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
-
-										setIntDB3.collection("tables")
-											.save(tableInDb, function(err3, res) {})
-											//}
-									}
-									setIntDB3.close()
-								});
-						}
-					});
+					// 					setIntDB3.collection("tables")
+					// 						.save(tableInDb, function(err3, res) {})
+											
+					// 				}
+					// 				setIntDB3.close()
+					// 			});
+					// 	}
+					// });
 
 				})
 
-				// db.collection("tables")
-				// 	.findOne({
-				// 		"tableNum": "xData"
-				// 	}, function(err4, xData) {
-
-				// 		xData.activeTables = actGames
-
-				// 		db.collection("tables")
-				// 			.save(xData, function(err3, res) {db.close()})
-				// 			console.log('Games checked.')
-
-				// 	});
+				
 				setIntDB.close()
 
 			});
 
-		//}
-		//setIntDB.close()
+		
 	});
 
 	//----------
@@ -263,7 +238,7 @@ setInterval(function() {
 
 				});
 		}
-		//db.close()
+		
 	});
 
 }, checkGamesConst);
