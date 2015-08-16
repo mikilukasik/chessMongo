@@ -147,7 +147,7 @@ setInterval(function(){
 							response.on('end', function() {
 								/////////
 				
-								mongodb.connect(cn, function(err, setIntDB2) {
+								mongodb.connect(cn, function(err, setIntDB2) {		//itt egy server moveitot csinalunk vegulis
 									setIntDB2.collection("tables")
 										.findOne({
 											tableNum: Number(checkThisGame.tableNum)
@@ -162,8 +162,9 @@ setInterval(function(){
 														moveStr + //the string
 														tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][0] + //color of whats hit
 														tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][1] //piece
-					
-													// if(!(toPush==tableInDb.moves[tableInDb.moves.length-1])){
+														//en passnal nem latszik a leveett paraszt
+														
+													
 													tableInDb.moves.push(toPush)
 													tableInDb.table = moveIt(moveStr, tableInDb.table)
 													tableInDb.wNext = !tableInDb.wNext
