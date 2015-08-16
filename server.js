@@ -195,6 +195,21 @@ setInterval(function() {
 												}
 											}
 
+											if(!canIMove(tableInDb.table, !tableInDb.wNext)) {
+												tableInDb.gameIsOn = false
+												if(captured(tableInDb.table, !tableInDb.wNext)) {
+
+													if(!tableInDb.wNext) {
+
+														tableInDb.whiteWon = true
+													} else {
+														tableInDb.blackWon = true
+													}
+												} else {
+													tableInDb.isDraw = true
+												}
+											}
+
 										tableInDb.toBeChecked = false
 
 										setIntDB3.collection("tables")
