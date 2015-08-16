@@ -142,6 +142,7 @@ setInterval(function() {
 															//en passnal nem latszik a leveett paraszt
 
 														tableInDb.moves.push(toPush)
+														tableInDb.toBeChecked=true
 														tableInDb.table = moveIt(moveStr, tableInDb.table)
 														tableInDb.wNext = !tableInDb.wNext
 														tableInDb.pollNum++
@@ -195,20 +196,20 @@ setInterval(function() {
 												}
 											}
 
-											if(!canIMove(tableInDb.table, !tableInDb.wNext)) {
-												tableInDb.gameIsOn = false
-												if(captured(tableInDb.table, !tableInDb.wNext)) {
+											// if(!canIMove(tableInDb.table, !tableInDb.wNext)) {
+											// 	tableInDb.gameIsOn = false
+											// 	if(captured(tableInDb.table, !tableInDb.wNext)) {
 
-													if(!tableInDb.wNext) {
+											// 		if(!tableInDb.wNext) {
 
-														tableInDb.whiteWon = true
-													} else {
-														tableInDb.blackWon = true
-													}
-												} else {
-													tableInDb.isDraw = true
-												}
-											}
+											// 			tableInDb.whiteWon = true
+											// 		} else {
+											// 			tableInDb.blackWon = true
+											// 		}
+											// 	} else {
+											// 		tableInDb.isDraw = true
+											// 	}
+											// }
 
 										tableInDb.toBeChecked = false
 
