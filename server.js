@@ -75,7 +75,6 @@ mongodb.connect(cn, function(err, db) {
 		});
 });
 
-
 setInterval(function() {
 
 	var needForEval = {
@@ -93,7 +92,7 @@ setInterval(function() {
 		"whiteCanForceDraw": true,
 		"blackCanForceDraw": true,
 		"aiToMove": true,
-		"table":true
+		"table": true
 	}
 
 	mongodb.connect(cn, function(err, setIntDB) {
@@ -168,40 +167,39 @@ setInterval(function() {
 							.end();
 
 					}
-				
 
-					mongodb.connect(cn, function(err, setIntDB3) {		//this is last after game is checked
+					mongodb.connect(cn, function(err, setIntDB3) { //this is last after game is checked
 						if(!(setIntDB3 == null)) {
 
 							setIntDB3.collection("tables")
 								.findOne({
 									tableNum: Number(checkThisGame.tableNum)
 								}, function(err2, tableInDb) {
-									
-									if(!(tableInDb == null)) {
-									
-										tableInDb.pollNum++
-												
-					if(!canIMove(tableInDb.table,tableInDb.wNext)){
-						if(captured(tableInDb.table,tableInDb.wNext)){
-							tableInDb.gameIsOn=false
-							if(tableInDb.wNext){
-							
-								tableInDb.whiteWon=true
-							}else{
-								tableInDb.blackWon=true
-							}
-						}else{
-							tableInDb.isDraw=true
-						}
-					}
 
-											tableInDb.toBeChecked = false 
-										
+									if(!(tableInDb == null)) {
+
+										tableInDb.pollNum++
+
+											if(!canIMove(tableInDb.table, tableInDb.wNext)) {
+												tableInDb.gameIsOn = false
+												if(captured(tableInDb.table, tableInDb.wNext)) {
+
+													if(tableInDb.wNext) {
+
+														tableInDb.whiteWon = true
+													} else {
+														tableInDb.blackWon = true
+													}
+												} else {
+													tableInDb.isDraw = true
+												}
+											}
+
+										tableInDb.toBeChecked = false
 
 										setIntDB3.collection("tables")
 											.save(tableInDb, function(err3, res) {})
-											
+
 									}
 									setIntDB3.close()
 								});
@@ -210,12 +208,10 @@ setInterval(function() {
 
 				})
 
-				
 				setIntDB.close()
 
 			});
 
-		
 	});
 
 	//----------
@@ -252,7 +248,7 @@ setInterval(function() {
 
 				});
 		}
-		
+
 	});
 
 }, checkGamesConst);
