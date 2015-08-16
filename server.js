@@ -117,11 +117,10 @@ setInterval(function(){
 				
 			}
 	
-	//----------		game eval starts here
-		
+	
 		mongodb.connect(cn, function(err, setIntDB) {
 		//var laterThan = new Date().getTime()-gameInactiveConst
-		if(!(setIntDB==null)){
+		//if(!(setIntDB==null)){
 		setIntDB.collection("tables")
 			.find({
 				"toBeChecked":true// {"$gte": laterThan} 
@@ -253,7 +252,7 @@ setInterval(function(){
 				
 			});
 			
-		}
+		//}
 			//setIntDB.close()
 	});
 
