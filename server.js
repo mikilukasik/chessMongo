@@ -182,31 +182,37 @@ setInterval(function() {
 							checkThisGame.isDraw=true
 						}
 					}
+					
+					
+					checkThisGame.toBeChecked = false 
+					
+					setIntDB.collection("tables")
+											.save(checkThisGame, function(err3, res) {})
+					
 
-					mongodb.connect(cn, function(err, setIntDB3) {		//this is last after game is checked
-						if(!(setIntDB3 == null)) {
+					// mongodb.connect(cn, function(err, setIntDB3) {		//this is last after game is checked
+					// 	if(!(setIntDB3 == null)) {
 
-							setIntDB3.collection("tables")
-								.findOne({
-									tableNum: Number(checkThisGame.tableNum)
-								}, function(err2, tableInDb) {
+					// 		setIntDB3.collection("tables")
+					// 			.findOne({
+					// 				tableNum: Number(checkThisGame.tableNum)
+					// 			}, function(err2, tableInDb) {
 									
-									if(!(tableInDb == null)) {
+					// 				if(!(tableInDb == null)) {
 									
-										tableInDb.pollNum++
+					// 					tableInDb.pollNum++
 											
 
-											tableInDb.toBeChecked = false 
 										
 
-										setIntDB3.collection("tables")
-											.save(tableInDb, function(err3, res) {})
+										// setIntDB3.collection("tables")
+										// 	.save(tableInDb, function(err3, res) {})
 											
-									}
-									setIntDB3.close()
-								});
-						}
-					});
+					// 				}
+					// 				setIntDB3.close()
+					// 			});
+					// 	}
+					// });
 
 				})
 
