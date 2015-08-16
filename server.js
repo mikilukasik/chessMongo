@@ -91,8 +91,8 @@ setInterval(function() {
 		"askBlackDraw": true,
 		"whiteCanForceDraw": true,
 		"blackCanForceDraw": true,
-		"aiToMove": true,
-		"table": true
+		"aiToMove": true
+		//"table": true
 	}
 
 	mongodb.connect(cn, function(err, setIntDB) {
