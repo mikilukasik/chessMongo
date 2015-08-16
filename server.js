@@ -81,21 +81,7 @@ mongodb.connect(cn, function(err, db) {
 		});
 });
 //{"$gte": 3}
-
-
-setInterval(function(){
-	
-	
-	
-	//----------		game eval starts here
-		
-		mongodb.connect(cn, function(err, setIntDB) {
-		//var laterThan = new Date().getTime()-gameInactiveConst
-		if(!(setIntDB==null)){
-		setIntDB.collection("tables")
-			.find({
-				"toBeChecked":true// {"$gte": laterThan} 
-			},{
+var needForEval={
 				"wNext":true,
 				"tableNum":true,
 				"wName":true,
@@ -110,7 +96,36 @@ setInterval(function(){
 				"whiteCanForceDraw":true,
 				"blackCanForceDraw":true
 				
-			}).toArray(function(err2, gamesToCheck) {
+			}
+
+setInterval(function(){
+	
+		var needForEval={
+				"wNext":true,
+				"tableNum":true,
+				"wName":true,
+				"bName":true,
+				"toBeChecked":true,
+				"whiteWon":true,
+				"blackWon":true,
+				"isDraw":true,
+				"gameIsOn":true,
+				"askWhiteDraw":true,
+				"askBlackDraw":true,
+				"whiteCanForceDraw":true,
+				"blackCanForceDraw":true
+				
+			}
+	
+	//----------		game eval starts here
+		
+		mongodb.connect(cn, function(err, setIntDB) {
+		//var laterThan = new Date().getTime()-gameInactiveConst
+		if(!(setIntDB==null)){
+		setIntDB.collection("tables")
+			.find({
+				"toBeChecked":true// {"$gte": laterThan} 
+			},needForEval).toArray(function(err2, gamesToCheck) {
 				
 				gamesToCheck.forEach(function(checkThisGame){
 					if((checkThisGame.wNext&&checkThisGame.wName=="Computer")||
