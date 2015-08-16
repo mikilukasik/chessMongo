@@ -75,22 +75,22 @@ mongodb.connect(cn, function(err, db) {
 		});
 });
 //{"$gte": 3}
-var needForEval = {
-	"wNext": true,
-	"tableNum": true,
-	"wName": true,
-	"bName": true,
-	"toBeChecked": true,
-	"whiteWon": true,
-	"blackWon": true,
-	"isDraw": true,
-	"gameIsOn": true,
-	"askWhiteDraw": true,
-	"askBlackDraw": true,
-	"whiteCanForceDraw": true,
-	"blackCanForceDraw": true
+// var needForEval = {
+// 	"wNext": true,
+// 	"tableNum": true,
+// 	"wName": true,
+// 	"bName": true,
+// 	"toBeChecked": true,
+// 	"whiteWon": true,
+// 	"blackWon": true,
+// 	"isDraw": true,
+// 	"gameIsOn": true,
+// 	"askWhiteDraw": true,
+// 	"askBlackDraw": true,
+// 	"whiteCanForceDraw": true,
+// 	"blackCanForceDraw": true
 
-}
+// }
 
 setInterval(function() {
 
