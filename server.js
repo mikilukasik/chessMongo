@@ -97,8 +97,7 @@ var needForEval={
 				"blackCanForceDraw":true
 				
 			}
-
-setInterval(function(){
+function evalGames(){
 	
 		var needForEval={
 				"wNext":true,
@@ -299,7 +298,9 @@ setInterval(function(){
 	});
 
 	
-},checkGamesConst);
+}
+
+setInterval(evalGames(),checkGamesConst);
 
 app.get('/move', function(req, res) {
 
