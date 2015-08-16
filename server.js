@@ -92,7 +92,8 @@ setInterval(function() {
 		"askBlackDraw": true,
 		"whiteCanForceDraw": true,
 		"blackCanForceDraw": true,
-		"aiToMove": true
+		"aiToMove": true,
+		"table":true
 	}
 
 	mongodb.connect(cn, function(err, setIntDB) {
@@ -167,8 +168,22 @@ setInterval(function() {
 							.end();
 
 					}
+					
+					if(!canIMove(checkThisGame.table,checkThisGame.wNext)){
+						if(captured(checkThisGame.table,checkThisGame.wNext)){
+							checkThisGame.gameIsOn=false
+							if(checkThisGame.wNext){
+							
+								checkThisGame.whiteWon=true
+							}else{
+								checkThisGame.blackWon=true
+							}
+						}else{
+							checkThisGame.isDraw=true
+						}
+					}
 
-					mongodb.connect(cn, function(err, setIntDB3) {
+					mongodb.connect(cn, function(err, setIntDB3) {		//this is last after game is checked
 						if(!(setIntDB3 == null)) {
 
 							setIntDB3.collection("tables")
