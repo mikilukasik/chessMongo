@@ -1084,7 +1084,7 @@ function canIMove(winTable,winColor){
 	getAllMoves(winTable, winColor).forEach(function(thisMove) { //get all his moves in array of strings
 		winRetMoves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
 		//winRetMoveCoords.push(thisMove)
-
+//
 	})
 	//var origLen = winRetMoves.length
 	//var removeCount = 0
