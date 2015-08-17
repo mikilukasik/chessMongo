@@ -1,14 +1,14 @@
 <div>
 	<table>
 		<tr>
-			<td>
+			<td ng-app="">
                  <br>
 				<div align="center"><h1>Login</h1></div>
                 <br>
-				<div align="right">Username: <input></input></div>
-                <div align="right">Password: <input></input></div>
+				<div align="right">Username: <input></input ng-model="loginUser"></div>
+                <div align="right">Password: <input></input ng-model="loginPwd"></div>
                   <br> <br>
-                  <div align="center"><button>Login</button></div>
+                  <div align="center"><button>Login {{loginUser}} </button></div>
 			</td>
 			<td width=100>
                  
