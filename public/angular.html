@@ -3,55 +3,55 @@
         <script src="jquery.js"></script>
         <script src="angular.js"></script>
         <script>
-            var alma = "korte"
+            // var alma = "korte"
             var appModule = angular.module("appModule", []);
             
             function  ApplicationController($scope) {
-                $scope.user = {
-                    firstName:" Miki",
-                    lastName: "Luki"
-                }
+                // $scope.user = {
+                //     firstName:" Miki",
+                //     lastName: "Luki"
+                // }
                 
-                $scope.users = [];
+                // $scope.users = [];
                 
-                for(var i = 0; i < 3; i++) {
+                // for(var i = 0; i < 3; i++) {
                     
-                    var newUser = $.extend({}, $scope.user);
-                    console.log(i, newUser)
-                    newUser.id = i + 1;
-                    $scope.users.push(newUser);
-                }
+                //     var newUser = $.extend({}, $scope.user);
+                //     console.log(i, newUser)
+                //     newUser.id = i + 1;
+                //     $scope.users.push(newUser);
+                // }
                 
-                $scope.removeUser = function(user) {
-                    $scope.users.splice($scope.users.indexOf(user), 1)
-                }
+                // $scope.removeUser = function(user) {
+                //     $scope.users.splice($scope.users.indexOf(user), 1)
+                // }
                 
-                $scope.prompt = function() {
-                    return prompt()
-                }
-                $scope.createUser = function(id) {
-                    var newUser = {};
-                    newUser.isNew = true;
-                    newUser.id = id || Math.random().toString();
-                    $scope.users.push(newUser);
-                }
+                // $scope.prompt = function() {
+                //     return prompt()
+                // }
+                // $scope.createUser = function(id) {
+                //     var newUser = {};
+                //     newUser.isNew = true;
+                //     newUser.id = id || Math.random().toString();
+                //     $scope.users.push(newUser);
+                // }
                 
-                $scope.saveUser = function(user) {
-                    delete user.isNew;
-                    delete user.isEdit;
-                }
+                // $scope.saveUser = function(user) {
+                //     delete user.isNew;
+                //     delete user.isEdit;
+                // }
                 
-                $scope.getUsers1 = function() {
-                    return $scope.users.filter(function(item, index, array) {
-                        return index % 2 == 0;
-                    });
-                }
+                // $scope.getUsers1 = function() {
+                //     return $scope.users.filter(function(item, index, array) {
+                //         return index % 2 == 0;
+                //     });
+                // }
 
-                $scope.getUsers2 = function() {
-                    return $scope.users.filter(function(item, index, array) {
-                        return index % 2 == 1;
-                    });
-                }
+                // $scope.getUsers2 = function() {
+                //     return $scope.users.filter(function(item, index, array) {
+                //         return index % 2 == 1;
+                //     });
+                // }
                 
                 
                 $scope.viewName = undefined;
@@ -60,15 +60,15 @@
                     $scope.viewName = viewName;
                 }
                 
-                $scope.counter = 0;
+                // $scope.counter = 0;
                 
-                $scope.increment = function() { 
-                    window.setTimeout(function() {
-                        $scope.counter++;
+                // $scope.increment = function() { 
+                //     window.setTimeout(function() {
+                //         $scope.counter++;
                         
-                        $scope.$apply();
-                    }, 1000);
-                }
+                //         $scope.$apply();
+                //     }, 1000);
+                // }
                 
             }
             
@@ -77,7 +77,7 @@
     </head>
     <body ng-app="appModule"  ng-controller="ApplicationController">
         
-         <div ng-include="'userTemplate.html'"></div>
+         <!--<div ng-include="'userTemplate.html'"></div>
          
         <div>count: {{users.length}}</div>
         <div><button ng-click="createUser(prompt())">Add new user</button></div>
@@ -107,7 +107,7 @@
             <li ng-repeat="user in getUsers2()">
                     <div ng-include="'userTemplate.html'"></div>
             </li>
-        </ul>
+        </ul>-->
         <style>
                 .selected {
                     background-color: orange;
@@ -122,9 +122,9 @@
         </div>
         
         
-        <h1>Async simulation</h1>
+        <!--<h1>Async simulation</h1>
         <div>{{counter}}</div>
         <button ng-click="increment()">Increment</button>
-        
+        -->
     </body>
 </html>
