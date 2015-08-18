@@ -17,10 +17,15 @@
                 
                 $scope.register = function(user){ 
                     //$scope.loginUser = angular.copy( $scope.loginPwd)
-                    if(user.pwd1==user.pwd2&&user.pwd1!=""){
-                        alert('match')
+                    if(user.pwd1==user.pwd2){
+                        if(!(user.pwd1==""||user.name=="")){
+                            //check if existing, if not then register in db
+                            
+                            alert('registering')
+                            
+                        }
                     }else{
-                        alert('no match')
+                        alert("Passwords don't match, try again!")
                     }
                 }
                 
