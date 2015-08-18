@@ -30,8 +30,17 @@
                         if(!(user.pwd1==undefined||user.rName==undefined)){
                             //check if existing, if not then register in db
                             
+                             $http.get("/newUser?n="+user.rName)
+                                .success(function(response) {
+                                    if(response.exists){
+                                         alert('Name already exists, try another!')
+                                    } else {
+                                        $http.get('/newUser?n='+user.rName+'&p='+user.pwd1)
+                                        alert(user.rName+' registered.')
+                                    }
+                                });
                             
-                            $http.get('/newUser?n='+user.rName+'&p='+user.pwd1)
+                            
                             //alert('registering '+user.rName+' with password '+user.pwd1)
                             
                         }
