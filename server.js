@@ -419,6 +419,29 @@ app.get('/newUser', function(req, res) {
 	res.json({});
 });
 
+app.get('/checkUser', function(req, res) {
+	//var initedTable =
+	
+	var retJsn={}
+	
+	//var user=new Dbuser(req.query.n, req.query.p)
+	mongodb.connect(cn, function(err, db) {
+		db.collection("users")
+			.findOne({
+				name: req.query.n
+			}, function(err2, tableInDb) {
+				if(!(tableInDb == null)) {
+					retJsn={'exists':false}
+				}else{
+					retJsn={'exists':false}
+				}
+			})
+		db.close()
+
+	});	
+	res.json({});
+});
+
 
 
 
