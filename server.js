@@ -431,7 +431,7 @@ app.get('/checkUser', function(req, res) {
 				name : req.query.n.toString()
 			}, function(err2, tableInDb) {
 				if(tableInDb == null) {
-					retJsn={'exists':false}
+					retJsn={'exists':tableInDb}
 				}else{
 					retJsn={'exists':true}
 				}
