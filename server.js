@@ -428,10 +428,10 @@ app.get('/checkUser', function(req, res) {
 	mongodb.connect(cn, function(err, db) {
 		//db.collection("users")
 		
-		if(db.collection("users").find({name : req.query.n}).count()>0){
-			retJsn={'exists':req.query.n}
+		if(db.collection("users").find({"name" : req.query.n}).count()>0){
+			retJsn={'exists':true}
 		}else{
-			retJsn={'exists':req.query.n}
+			retJsn={'exists':false}
 		}
 		res.json(retJsn);
 		
