@@ -431,7 +431,7 @@ app.get('/checkUser', function(req, res) {
 		if(db.collection("users").find({name : req.query.n}).count()>0){
 			retJsn={'exists':req.query.n}
 		}else{
-			retJsn={'exists':false}
+			retJsn={'exists':req.query.n}
 		}
 		res.json(retJsn);
 		
