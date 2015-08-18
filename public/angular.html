@@ -12,7 +12,7 @@
             function  ApplicationController($scope) {
        
                 $scope.login = function(user){ 
-                     if(!(user.pwd==""||user.name=="")){
+                     if(!(user.pwd==undefined||user.name==undefined)){
                          alert('logging in '+user.name+' with password '+user.pwd)
                      }
                 }
@@ -20,7 +20,7 @@
                 $scope.register = function(user){ 
                     //$scope.loginUser = angular.copy( $scope.loginPwd)
                     if(user.pwd1==user.pwd2){
-                        if(!(user.pwd1==""||user.rName=="")){
+                        if(!(user.pwd1==undefined||user.rName==undefined)){
                             //check if existing, if not then register in db
                             
                             alert('registering '+user.rName+' with password '+user.pwd1)
