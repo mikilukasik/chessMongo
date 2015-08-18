@@ -9,7 +9,7 @@
 				
                 <div align="right">Password: <input ng-model="loginPwd"></input></div>
                   <br> <br>
-                  <div align="center"><button>{{loginUser+loginPwd}} Login {{loginUserRtn(loginUser)}} </button></div>
+                  <div align="center"><button ng-click="login(loginUser,loginPwd)">Login</button></div>
 			</td>
 			<td width=100>
                  
