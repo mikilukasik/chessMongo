@@ -1,84 +1,74 @@
 <html>
-    <head>      
-        <script src="jquery.js"></script>
-        <script src="angular.js"></script>
-        <script>
-           
-            var appModule = angular.module("appModule", []);
-            
-            
-//             app.controller('customersCtrl', function($scope, $http) {
-//     $http.get("http://www.w3schools.com/angular/customers.php")
-//     .success(function(response) {$scope.names = response.records;});
-// });
-            
-            
-            appModule.controller("ApplicationController", ApplicationController);
-            
-            
-            function  ApplicationController($scope, $http) {
-       
-                $scope.login = function(user){ 
-                     if(!(user.pwd==undefined||user.name==undefined)){
-                         //alert('logging in '+user.name+' with password '+user.pwd)
-                     }
-                }
-                
-                $scope.register = function(user){ 
-                   
-                    if(user.pwd1==user.pwd2){
-                        if(!(user.pwd1==undefined||user.rName==undefined||user.rName=="")){
-                            //check if existing, if not then register in db
-                            
-                             $http.get("/checkUser?n="+user.rName)
-                                .success(function(response) {
-                                    if(response.exists){
-                                         alert('Name already exists, try another!')
-                                    } else {
-                                        $http.get('/newUser?n='+user.rName+'&p='+user.pwd1)
-                                        .success(function(response) {
-                                            alert(user.rName+' registered.')
-                                        })
-                                    }
-                                });
-                            
-                            
-                            //alert('registering '+user.rName+' with password '+user.pwd1)
-                            
-                        }
-                    }else{
-                        alert("Passwords don't match, try again!")
-                    }
-                }
-                
-                $scope.viewName = undefined;
-                
-                $scope.showView = function(viewName) {
-                    $scope.viewName = viewName;
-                }
-                
-              
-            }
-            
-            
-        </script>
-    </head>
-    <body ng-app="appModule"  ng-controller="ApplicationController">
-        
-      
-        <style>
-                .selected {
-                    background-color: orange;
-                }
-            </style>
-        <nav>
-            <a href="#" ng-click="showView('login.html')" ng-class="{ selected: viewName == 'login.html' }" >Login</a>
-            <a href="#" ng-click="showView('chesslobby.html')" ng-class="{ selected: viewName == 'chesslobby.html' }" >Lobby</a>
-            <a href="#" ng-click="showView('chess.html')" ng-class="{ selected: viewName == 'chess.html' }">Chessboard</a>
-        </nav>
-        <div id="content" ng-include="viewName">
-            
-        </div>
-    
-    </body>
+
+<head>
+	<script src="jquery.js"></script>
+	<script src="angular.js"></script>
+	<script>
+	var appModule = angular.module("appModule", []);
+
+	appModule.controller("ApplicationController", ApplicationController);
+
+	function ApplicationController($scope, $http) {
+
+		$scope.login = function(user) {
+			if(!(user.pwd == undefined || user.name == undefined)) {
+				//alert('logging in '+user.name+' with password '+user.pwd)
+			}
+		}
+
+		$scope.register = function(user) {
+
+			if(user.pwd1 == user.pwd2) {
+				if(!(user.pwd1 == undefined || user.rName == undefined || user.rName == "")) {
+					//check if existing, if not then register in db
+
+					$http.get("/checkUser?n=" + user.rName)
+						.success(function(response) {
+							if(response.exists) {
+								alert('Name already exists, try another!')
+							} else {
+								$http.get('/newUser?n=' + user.rName + '&p=' + user.pwd1)
+									.success(function(response) {
+										alert(user.rName + ' registered.')
+									})
+							}
+						});
+
+					//alert('registering '+user.rName+' with password '+user.pwd1)
+
+				}
+			} else {
+				alert("Passwords don't match, try again!")
+			}
+		}
+
+		$scope.viewName = undefined;
+
+		$scope.showView = function(viewName) {
+			$scope.viewName = viewName;
+		}
+
+	}
+	</script>
+</head>
+
+<body ng-app="appModule" ng-controller="ApplicationController">
+
+
+	<style>
+	.selected {
+		background-color: orange;
+	}
+	</style>
+	<nav>
+		<a href="#" ng-click="showView('login.html')" ng-class="{ selected: viewName == 'login.html' }">Login</a>
+		<a href="#" ng-click="showView('chesslobby.html')" ng-class="{ selected: viewName == 'chesslobby.html' }">Lobby</a>
+		<a href="#" ng-click="showView('chess.html')" ng-class="{ selected: viewName == 'chess.html' }">Chessboard</a>
+	</nav>
+	<div id="content" ng-include="viewName">
+
+	</div>
+
+</body>
+
 </html>
