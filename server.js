@@ -435,8 +435,9 @@ app.get('/checkUser', function(req, res) {
 				}else{
 					retJsn={'exists':true}
 				}
+				res.json(retJsn);
 			})
-			res.json(retJsn);
+			
 		db.close()
 
 	});	
