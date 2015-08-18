@@ -401,6 +401,40 @@ app.get('/getTPollNum', function(req, res) {
 	});
 
 });
+
+//////////////////////////			user register
+
+app.get('/newUser', function(req, res) {
+	//var initedTable =
+	
+
+	
+	var user=new Dbuser(req.query.n, req.query.p)
+	mongodb.connect(cn, function(err, db) {
+		db.collection("users")
+			.insert(user, function(err, doc) {});
+		db.close()
+
+	});
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/////////////////////////
+
+
 app.get('/getTable', function(req, res) {
 
 	mongodb.connect(cn, function(err, db) {

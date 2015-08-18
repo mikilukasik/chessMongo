@@ -1,4 +1,14 @@
+var Dbuser = function(name,pwd){
+	this.name=name
+	this.pwd=pwd
+	
+}
 var Dbtable = function(tableNum, wName, bName) { //class
+	
+	this.tableNum = tableNum,
+	this.wName = wName,
+	this.bName = bName,
+
 	
 	this.aiToMove=false		//kell ez??	keelll haat!!
 	this.toBeChecked=true		//new game needs to be checked in case computer plays white
@@ -18,10 +28,7 @@ var Dbtable = function(tableNum, wName, bName) { //class
 	
 	
 	
-	this.tableNum = tableNum,
-	this.wName = wName,
-	this.bName = bName,
-
+	
 	this.wNext = true,
 	this.aiOn = false,
 	this.chat = [],
