@@ -415,8 +415,8 @@ app.get('/newUser', function(req, res) {
 			.insert(user, function(err, doc) {});
 		db.close()
 
-	});
-
+	});	
+	res.json({});
 });
 
 
