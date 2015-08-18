@@ -426,17 +426,18 @@ app.get('/checkUser', function(req, res) {
 	
 	//var user=new Dbuser(req.query.n, req.query.p)
 	mongodb.connect(cn, function(err, db) {
-		db.collection("users")
-			.findOne({
-				name : req.query.n.toString()
-			}, function(err2, tableInDb) {
-				if(tableInDb == null) {
-					retJsn={'exists':tableInDb}
-				}else{
-					retJsn={'exists':true}
-				}
-				res.json(retJsn);
-			})
+		//db.collection("users")
+		
+		if(db.collection("users").find({name:req.query.n}).count()>0){
+			retJsn={'exists':true}
+		}else{
+			retJsn={'exists':false}
+		}
+		res.json(retJsn);
+		
+			
+				
+		//	})
 			
 		db.close()
 
