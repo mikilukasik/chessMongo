@@ -36,7 +36,9 @@
                                          alert('Name already exists, try another!')
                                     } else {
                                         $http.get('/newUser?n='+user.rName+'&p='+user.pwd1)
-                                        alert(user.rName+' registered.')
+                                        .success(function(response) {
+                                            alert(user.rName+' registered.')
+                                        })
                                     }
                                 });
                             
