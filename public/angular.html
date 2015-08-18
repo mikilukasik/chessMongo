@@ -17,7 +17,7 @@
                 
                 $scope.register = function(user){ 
                     //$scope.loginUser = angular.copy( $scope.loginPwd)
-                    if(user.pwd1==user.pwd2){
+                    if(user.pwd1==user.pwd2&&user.pwd1!=""){
                         alert('match')
                     }else{
                         alert('no match')
