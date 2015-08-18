@@ -430,10 +430,10 @@ app.get('/checkUser', function(req, res) {
 			.findOne({
 				name: req.query.n
 			}, function(err2, tableInDb) {
-				if(!(tableInDb == null)) {
+				if(tableInDb == null) {
 					retJsn={'exists':false}
 				}else{
-					retJsn={'exists':false}
+					retJsn={'exists':true}
 				}
 			})
 		db.close()
