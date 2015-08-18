@@ -436,10 +436,11 @@ app.get('/checkUser', function(req, res) {
 					retJsn={'exists':true}
 				}
 			})
+			res.json(retJsn);
 		db.close()
 
 	});	
-	res.json(retJsn);
+	
 });
 
 
