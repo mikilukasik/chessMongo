@@ -19,7 +19,7 @@
             $http.get("/checkUserPwd?n=" + user.name+'&p='+user.pwd)
 						.success(function(response) {
 							if(response.exists){
-								if(redponse.denied){
+								if(response.denied){
 									//wrong pwd
 									alert("Username and password don't match, please try again!")
 								}else{
