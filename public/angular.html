@@ -11,7 +11,9 @@
             
             function  ApplicationController($scope) {
        
-                $scope.loginUserRtn = 'fdffdffd'+ $scope.loginUser;
+                $scope.loginUserRtn = function(){ 
+                 return   $scope.loginUser;
+                }
                 
                 $scope.viewName = undefined;
                 
