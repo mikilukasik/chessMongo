@@ -27,7 +27,7 @@
                 $scope.register = function(user){ 
                    
                     if(user.pwd1==user.pwd2){
-                        if(!(user.pwd1==undefined||user.rName==undefined)){
+                        if(!(user.pwd1==undefined||user.rName==undefined||user.rName=="")){
                             //check if existing, if not then register in db
                             
                              $http.get("/checkUser?n="+user.rName)
