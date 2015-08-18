@@ -428,19 +428,25 @@ app.get('/checkUser', function(req, res) {
 	mongodb.connect(cn, function(err, db) {
 		//db.collection("users")
 		
-		if(db.users.find({name : req.query.n}).count()>0){
-			
+		db.collection("users").findOne({name : req.query.n},function(err,thing){
+		if(thing==null)	{
 			retJsn={'exists':true}
 		}else{
 			retJsn={'exists':false}
 		}
-		res.json(retJsn);
-		
-			
-				
-		//	})
-			
 		db.close()
+		res.json(retJsn)
+	})
+	
+		
+		
+		
+		
+		
+		
+	
+			
+		
 
 	});	
 	
