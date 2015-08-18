@@ -12,7 +12,7 @@
             function  ApplicationController($scope) {
        
                 $scope.login = function(user,pwd){ 
-                    alert($scope.loginUser+$scope.loginPwd)
+                    $scope.loginUser = angular.copy( $scope.loginPwd)
                 }
                 
                 $scope.viewName = undefined;
