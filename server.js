@@ -428,7 +428,7 @@ app.get('/checkUser', function(req, res) {
 	mongodb.connect(cn, function(err, db) {
 		db.collection("users")
 			.findOne({
-				name: req.query.n
+				'name': req.query.n
 			}, function(err2, tableInDb) {
 				if(tableInDb == null) {
 					retJsn={'exists':false}
