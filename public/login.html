@@ -1,7 +1,7 @@
 <div>
 	<table>
 		<tr>
-			<td ng-app="appModule" ng-controller="ApplicationController">
+			<td>
                  <br>
 				<div align="center"><h1>Login</h1></div>
                 <br>
@@ -9,7 +9,7 @@
 				
                 <div align="right">Password: <input ng-model="loginPwd"></input></div>
                   <br> <br>
-                  <div align="center"><button>Login {{loginUserRtn}} </button></div>
+                  <div align="center"><button>{{loginUser+loginPwd}} Login {{loginUserRtn}} </button></div>
 			</td>
 			<td width=100>
                  
