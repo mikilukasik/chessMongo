@@ -439,7 +439,7 @@ app.get('/checkUser', function(req, res) {
 		db.close()
 
 	});	
-	res.json({});
+	res.json(retJsn);
 });
 
 
