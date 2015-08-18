@@ -6,10 +6,17 @@
            
             var appModule = angular.module("appModule", []);
             
+            
+//             app.controller('customersCtrl', function($scope, $http) {
+//     $http.get("http://www.w3schools.com/angular/customers.php")
+//     .success(function(response) {$scope.names = response.records;});
+// });
+            
+            
             appModule.controller("ApplicationController", ApplicationController);
             
             
-            function  ApplicationController($scope) {
+            function  ApplicationController($scope, $http)) {
        
                 $scope.login = function(user){ 
                      if(!(user.pwd==undefined||user.name==undefined)){
@@ -23,6 +30,8 @@
                         if(!(user.pwd1==undefined||user.rName==undefined)){
                             //check if existing, if not then register in db
                             
+                            
+                            $http.get('/newUser?n='+user.rName+'&p='+user.pwd1)
                             //alert('registering '+user.rName+' with password '+user.pwd1)
                             
                         }
