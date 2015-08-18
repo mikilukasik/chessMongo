@@ -5,11 +5,11 @@
                  <br>
 				<div align="center"><h1>Login</h1></div>
                 <br>
-				<div align="right">Username: <input ng-model="loginUser"></input></div>
+				<div align="right">Username: <input ng-model="user.name"></input></div>
 				
-                <div align="right">Password: <input ng-model="loginPwd"></input></div>
+                <div align="right">Password: <input ng-model="user.pwd"></input></div>
                   <br> <br>
-                  <div align="center"><button ng-click="login(loginUser,loginPwd)">Login</button></div>
+                  <div align="center"><button ng-click="login(user)">Login</button></div>
 			</td>
 			<td width=100>
                  
@@ -20,12 +20,13 @@
 				  <br>
 				<div align="center"><h1>Register</h1></div>
                 <br>
-				<div align="right">Username: <input></input></div>
-                <div align="right">Password: <input></input></div>
-                  <div align="right">Re-type password: <input></input></div>
+				<div align="right">Username: <input ng-model="user.name"></input></div>
+				
+                <div align="right">Password: <input ng-model="user.pwd1"></input></div>
+                  <div align="right">Re-type password: <input ng-model="user.pwd2"></input></div>
                   
                    <br>
-                 <div align="center"> <button>Register</button></div>
+                 <div align="center"> <button ng-click="register(user)">Register</button></div>
                   
 			</td>
 		</tr>

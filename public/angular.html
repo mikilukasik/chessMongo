@@ -11,8 +11,17 @@
             
             function  ApplicationController($scope) {
        
-                $scope.login = function(user,pwd){ 
-                    $scope.loginUser = angular.copy( $scope.loginPwd)
+                $scope.login = function(user){ 
+                    //$scope.loginUser = angular.copy( $scope.loginPwd)
+                }
+                
+                $scope.register = function(user){ 
+                    //$scope.loginUser = angular.copy( $scope.loginPwd)
+                    if(user.pwd1==user.pwd2){
+                        alert('match')
+                    }else{
+                        alert('no match')
+                    }
                 }
                 
                 $scope.viewName = undefined;
