@@ -11,9 +11,28 @@
 	function ApplicationController($scope, $http) {
 
 		$scope.login = function(user) {
-			if(!(user.pwd == undefined || user.name == undefined)) {
-				//alert('logging in '+user.name+' with password '+user.pwd)
-			}
+			// if(!(user.pwd == undefined || user.name == undefined)) {
+			// 	//alert('logging in '+user.name+' with password '+user.pwd)
+			// }
+            
+            
+            $http.get("/checkUserPwd?n=" + user.name+'&p='+user.pwd)
+						.success(function(response) {
+							if(response.exists){
+								if(redponse.denied){
+									//wrong pwd
+									alert("Username and password don't match, please try again!")
+								}else{
+									//all good, log him in
+									alert("User logged in.")
+								}
+							}else{
+								//username not in DB
+								alert('User not registered, please register first!')
+							}
+                           	 
+                        })
+                        
 		}
 
 		$scope.register = function(user) {

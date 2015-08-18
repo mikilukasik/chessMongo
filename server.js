@@ -437,16 +437,51 @@ app.get('/checkUser', function(req, res) {
 		db.close()
 		res.json(retJsn)
 	})
+
+	});	
 	
-		
-		
-		
-		
-		
-		
+});
+
+
+
+app.get('/checkUserPwd', function(req, res) {
+	//var initedTable =
 	
+	var retJsn={}
+	
+	//var user=new Dbuser(req.query.n, req.query.p)
+	mongodb.connect(cn, function(err, db) {
+		//db.collection("users")
+		
+		db.collection("users").findOne({name : req.query.n},function(err,thing){
+		if(thing==null)	{
+			retJsn={
+				'exists':false,
+				'denied':true
+				}
 			
-		
+		}else{
+			//record exists, let's check pwd
+			if(thing.pwd==req.query.p){
+				//password match, log him in
+				//alert('match')
+				retJsn={
+				'exists':true,
+				'denied':false
+				}
+				
+			}else{
+				//wrong pwd
+				//alert("Username and password don't match, try again!")
+				retJsn={
+				'exists':true,
+				'denied':true
+				}
+			}
+		}
+		db.close()
+		res.json(retJsn)
+	})
 
 	});	
 	
