@@ -430,9 +430,9 @@ app.get('/checkUser', function(req, res) {
 		
 		db.collection("users").findOne({name : req.query.n},function(err,thing){
 		if(thing==null)	{
-			retJsn={'exists':true}
-		}else{
 			retJsn={'exists':false}
+		}else{
+			retJsn={'exists':true}
 		}
 		db.close()
 		res.json(retJsn)
