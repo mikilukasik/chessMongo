@@ -113,6 +113,8 @@
 								});
 								$scope.lobbyPollNum = response.lobbyPollNum
 								//showLobby(lobbyChatLines, players, games, $scope.lobbyPollNum)
+								$scope.$apply();
+							
 		
 							}
 							if($scope.openNow) {
@@ -122,7 +124,6 @@
 									
 							}
 								
-							$scope.$apply();
 							
 							
 						})//lobbypoll callback ends here
