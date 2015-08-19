@@ -806,7 +806,7 @@ app.get('/getLobby', function(req, res) {
 });
 
 io.on('connection', function(socket){
-  console.log('a user connected');
+  console.log('IO: a user connected');
 });
 
 var server = app.listen(80, function() {
