@@ -35,7 +35,7 @@
 							
 							$scope.inOrOut = 'Logout'
 							$scope.loginName = user.name
-							$scope.viewName = "lobby.html"
+							$scope.showView(lobby.html)
 							
 							$scope.$apply()
 						}
@@ -125,7 +125,7 @@
 							}
 							if($scope.openNow) {
 						
-								$scope.showView("chess.html")
+								$scope.viewName="chess.html"
 								$scope.openNow = false
 									
 							}
