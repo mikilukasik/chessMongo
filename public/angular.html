@@ -37,7 +37,9 @@
 							$scope.loginName = user.name
 							$scope.showView('lobby.html')
 							
-							$scope.$apply()
+							if(!$scope.$$phase) {
+								$apply
+							}
 						}
 					} else {
 						//username not in DB
