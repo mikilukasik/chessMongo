@@ -3,13 +3,19 @@
 		<tr>
 			<td>
                  <br>
-				<div align="center"><h1>Login</h1></div>
-                <br>
-				<div align="right">Username: <input ng-model="user.name"></input></div>
-				
-                <div align="right">Password: <input type="password" ng-model="user.pwd" ng-keydown="if (event.keyCode == 13) login(user)"></input></div>
-                  <br> <br>
-                  <div align="center"><button ng-click="login(user)">Login</button></div>
+				 
+				 <form ng-submit="login(user)">
+			
+					<div align="center"><h1>Login</h1></div>
+					<br>
+					<div align="right">Username: <input ng-model="user.name"></input></div>
+					
+					<div align="right">Password: <input type="password" ng-model="user.pwd" ng-keydown="if (event.keyCode == 13) login(user)"></input></div>
+					<br> <br>
+					<div align="center"><button ng-click="login(user)">Login</button></div>
+							
+				</form>
+				 
 			</td>
 			<td width=100>
                  
