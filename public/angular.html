@@ -10,7 +10,8 @@
 
 	function ApplicationController($scope, $http) {
 		
-		//$scope.inOrOut='Login'
+		$scope.inOrOut='Login'
+		$scope.loggedIn=false
 
 		$scope.login = function(user) {
 			// if(!(user.pwd == undefined || user.name == undefined)) {
