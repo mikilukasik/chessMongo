@@ -47,7 +47,12 @@
 				})
 
 		}
+		$scope.askToStart=function(opponentsName){
+			
+				$http.get('/startGame?w='+loginName+"&b="+opponentsName)
+		
 
+		}
 		$scope.register = function(user) {
 
 			if(user.pwd1 == user.pwd2) {

@@ -31,7 +31,9 @@
 			Below you can see the active users. <br>Click on someone to start a game against.<br>
 			<br>
 			<!--<p class="putPlayersHere"></p>-->
-			<li ng-repeat="x in players">{{x}}</li>
+			<div ng-repeat="x in players" ng-click="askToStart(x)">{{x}}</div>
+			
+			
 				
 			</td>
 			
