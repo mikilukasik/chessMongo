@@ -102,7 +102,7 @@
 							}
 							if($scope.openNow) {
 						
-								$scope.viewName="chess.html"
+								$scope.viewName="board.html"
 								$scope.openNow = false
 									
 							}
@@ -197,7 +197,7 @@
 
 		<a href="#" ng-click="showView('login.html')" ng-class="{ selected: viewName == 'login.html' }">{{inOrOut}}</a>
 		<a href="#" ng-click="showView('lobby.html')" ng-class="{ selected: viewName == 'lobby.html' }">Lobby</a>
-		<a href="#" ng-click="showView('chess.html')" ng-class="{ selected: viewName == 'chess.html' }">Chessboard</a>
+		<a href="#" ng-click="showView('board.html')" ng-class="{ selected: viewName == 'board.html' }">Chessboard</a>
 		<span width=100% align="right">{{greetUser}}</span>
 	</nav>
 	<div id="content" ng-include="viewName">
