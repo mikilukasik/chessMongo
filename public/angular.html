@@ -31,9 +31,12 @@
 							//alert("User logged in.")
 							$scope.loggedIn = true
 							$scope.greetUser = 'Logged in as ' + user.name + '. '
-							$scope.viewName = "lobby.html"
+							
 							$scope.inOrOut = 'Logout'
 							$scope.loginName = user.name
+							$scope.viewName = "lobby.html"
+							
+							$scope.$apply()
 						}
 					} else {
 						//username not in DB
