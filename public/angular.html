@@ -10,7 +10,7 @@
 
 	function ApplicationController($scope, $http, $interval) {
 
-		$scope.inOrOut = 'Login'
+		$scope.inOrOut = 'Login'		//displayed on nav when not logged in
 		$scope.loggedIn = false
 		$scope.lobbyPollNum=0
 
@@ -53,46 +53,8 @@
 		
 
 		}
-		$scope.register = function(user) {
-
-			if(user.pwd1 == user.pwd2) {
-				if(!(user.pwd1 == undefined || user.rName == undefined || user.rName == "")) {
-					//check if existing, if not then register in db
-
-					$http.get("/checkUser?n=" + user.rName)
-						.success(function(response) {
-							if(response.exists) {
-								alert('Name already exists, try another!')
-							} else {
-								$http.get('/newUser?n=' + user.rName + '&p=' + user.pwd1)
-									.success(function(response) {
-										alert(user.rName + ' registered.')
-									})
-							}
-						});
-
-					//alert('registering '+user.rName+' with password '+user.pwd1)
-
-				}
-			} else {
-				alert("Passwords don't match, try again!")
-			}
-		}
-
-		$scope.viewName = "login.html";
-
-		$scope.showView = function(viewName) {
-			$scope.viewName = viewName;
-			
-			
-			
-			if(viewName == 'lobby.html') {
-			$scope.openNow=false
-			//$scope.lobbyPollNum=0	
-				
-				
-		/////////////////////////////////		////lobby polling
-				$scope.lobbyPromise=	$interval(function() {
+		$scope.pollLobby = function(){
+			$scope.lobbyPromise=	$interval(function() {
 
 					//refreshLobby()
 					
@@ -144,12 +106,53 @@
 					
 					
 					
-					console.log('setinterval is happening')
+//					console.log('setinterval is happening')
 					
 
 				}, 500);//setinterval stuff ends here
 
-				//function refreshLobby() {
+		}
+		$scope.register = function(user) {
+
+			if(user.pwd1 == user.pwd2) {
+				if(!(user.pwd1 == undefined || user.rName == undefined || user.rName == "")) {
+					//check if existing, if not then register in db
+
+					$http.get("/checkUser?n=" + user.rName)
+						.success(function(response) {
+							if(response.exists) {
+								alert('Name already exists, try another!')
+							} else {
+								$http.get('/newUser?n=' + user.rName + '&p=' + user.pwd1)
+									.success(function(response) {
+										alert(user.rName + ' registered.')
+									})
+							}
+						});
+
+					//alert('registering '+user.rName+' with password '+user.pwd1)
+
+				}
+			} else {
+				alert("Passwords don't match, try again!")
+			}
+		}
+
+		$scope.viewName = "login.html";
+
+		$scope.showView = function(viewName) {
+			$scope.viewName = viewName;
+			
+			
+			
+			if(viewName == 'lobby.html') {
+			$scope.openNow=false
+			//$scope.lobbyPollNum=0	
+				
+				
+		/////////////////////////////////		////lobby polling
+				
+				$scope.pollLobby() {
 					
 
 				//}
