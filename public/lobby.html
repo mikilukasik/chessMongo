@@ -31,7 +31,7 @@
 			Below you can see the active users. <br>Click on someone to start a game against.<br>
 			<br>
 			<!--<p class="putPlayersHere"></p>-->
-			<<li ng-repeat="x in players">x</li>
+			<<li ng-repeat="x in players">{{x}}</li>
 				
 			</td>
 			
@@ -40,7 +40,7 @@
 			Below you can see the active tables. <br>Click on a game to watch it.<br>
 			<br>
 			<!--<p class="putGamesHere"></p>-->
-				<<li ng-repeat="x in games">x</li>
+				<<li ng-repeat="x in games">{{x}}</li>
 			</td>
 			
 			
@@ -48,7 +48,7 @@
 				<table>
 				<tr class="chatTextTr">
 					<!--<td class="chatCell"></td>-->
-					<<div nd-repeat="x in lobbyChatLines">x</div>
+					<<div nd-repeat="x in lobbyChatLines">{{x}}</div>
 				</tr>
 				<tr class="chatInputRow"><td>
 					<input type="text" class="chatInput" onkeydown="if (event.keyCode == 13) sendLobbyChat()">
