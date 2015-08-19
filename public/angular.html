@@ -8,7 +8,7 @@
 
 	appModule.controller("ApplicationController", ApplicationController);
 
-	function ApplicationController($scope, $http) {
+	function ApplicationController($scope, $http, $interval) {
 
 		$scope.inOrOut = 'Login'
 		$scope.loggedIn = false
