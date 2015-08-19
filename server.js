@@ -7,8 +7,9 @@ var mongodb = require('mongodb');
 var io = require('socket.io');
 
 var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var http = require('http')
+var httpServ = http.Server(app);
+var io = require('socket.io')(httpServ);
 
 app.use(express.static('public'))
 app.use(morgan("combined"))
