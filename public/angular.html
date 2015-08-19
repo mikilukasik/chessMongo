@@ -33,7 +33,7 @@
 							$scope.loggedIn = true
 							$scope.greetUser = 'Logged in as ' + user.name + '. '
 							
-							$scope.inOrOut = 'Logout'
+							$scope.inOrOut = 'Logoff'	//displayed on nav when logged in
 							$scope.loginName = user.name
 							$scope.showView('lobby.html')
 							
@@ -111,14 +111,7 @@
 							
 						})//lobbypoll callback ends here
 						
-					
-
-					
-					
-					
-//					console.log('setinterval is happening')
-					
-
+			
 				}, 500);//setinterval stuff ends here
 
 		}
