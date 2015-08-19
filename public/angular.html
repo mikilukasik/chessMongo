@@ -83,8 +83,7 @@
 				
 				
 		/////////////////////////////////		////lobby polling
-				//$scope.lobbyPromise=
-				$interval(function() {
+				$scope.lobbyPromise=	$interval(function() {
 
 					//refreshLobby()
 					
@@ -123,7 +122,7 @@
 									
 							}
 								
-							
+							$scope.$apply();
 							
 							
 						})//lobbypoll callback ends here
