@@ -1,7 +1,4 @@
-<!--<!DOCTYPE html>
-<html>
-<head>
-	<title>Chess Lobby</title>-->
+
 <style>
 	.chatTextTr {
 		
@@ -21,191 +18,20 @@
 		cursor: pointer;
 	}
 </style>
-<!--<script src="jquery.js"></script>
-<script>
-	
-	
-	var playerName="test"//prompt("What's your name?")
-	var lobbyPollNum=0
-
-	var wAi=false
-	var bAi=false
-	var opponentsName=""
-	var openNow=false
-	
-	setInterval(function(){
-	
-	 	refreshLobby()
-	 	if (openNow){
-	 		//if(confirm('Press OK to start game in new tab. You might have to allow popup windows first.'))
-			window.open("chess.html")
-			openNow=false		
-			//playAgainstAi=false
-	 	}
-	
-	},800);
-	
-function refreshLobby(){
-		var lobbyPoll=$.ajax({
-		    type: 'GET',
-		    url: '/getLobby?p='+playerName,
-		    dataType: 'json',
-		    success: function() { },
-		    data: {},
-		    async: false
-		});
-		playAgainstAi=false
-		// alertText=""
-		// var whoCantMove=false
-
-		if(lobbyPoll.responseJSON.asktoopen){
-					console.log('opening')
-					tableNum=lobbyPoll.responseJSON.opentablenum
-					playerColor=lobbyPoll.responseJSON.opentablecolor
-					opponentsName=lobbyPoll.responseJSON.opponentsname
-					// if(lobbyPoll.responseJSON.playagainstai){playAgainstAi=lobbyPoll.responseJSON.playagainstai}else{
-					// 		playAgainstAi=false
-					// }
-					// if (wAi||bAi){
-					// 	window.open("chessai.html")
-					// }else{
-						openNow=true;
-						// }
-				}
-
-
-		if(!(lobbyPollNum==lobbyPoll.responseJSON.lobbypollnum)){
-
-
-				console.log('polling')
-
-			
-				var lobbyChatLines=lobbyPoll.responseJSON.lobbychat
-				var players=lobbyPoll.responseJSON.players
-				var games=lobbyPoll.responseJSON.games
-				players.sort(function (a, b) {
-				    return a.toLowerCase().localeCompare(b.toLowerCase());
-				});
-				var lobbyPollNum=lobbyPoll.responseJSON.lobbypollnum
-				showLobby(lobbyChatLines,players,games,lobbyPollNum)
 
 
 
-		}
-		
-			
-}
-function showLobby(lobbyChatLines,players,games,lobbyPollNum){
-	$(".putPlayersHere").empty();
-	var thisfunc="askToStart('Computer')"
-	var playersHTML = '<span class="pointed" onclick="'+thisfunc+'">Computer</span><br>'
-	players.forEach(function(player){
-
-		var thisfunc="askToStart('"+player+"')"
-		if (player==playerName){
-			playersHTML = playersHTML+'<span style="color:grey">'+player+'</span><br>'
-		}else{
-			playersHTML = playersHTML+'<span class="pointed" onclick="'+thisfunc+'">'+player+'</span><br>'
-		}
-		
-	})
-	
-	var playersPar= $('<p>'+playersHTML+'</p>')
-	
-	$(".putPlayersHere").append(playersPar)
-	
-	
-	
-	$(".putGamesHere").empty();
-	
-	var gamesHTML =""
-	
-	games.forEach(function(game){
-
-			var thisfunc="askToWatch('"+Number(game.tableNum)+"')"	//tricky
-			gamesHTML = gamesHTML+'<span class="pointed" onclick="'+thisfunc+'">Table '+Number(game.tableNum)+':  '+game.wName+' vs '+game.bName+'</span><br>'
-		
-		
-	})
-	
-	var gamesPar= $('<p>'+gamesHTML+'</p>')
-	
-	$(".putGamesHere").append(gamesPar)
-	
-	
-	
-	
-
-	showChat(lobbyChatLines)
-}
-
-
-function showChat(lobbyChatLines){								//this will update the chat field 
-
-			
-	$(".chatCell").empty();
-	var thisChatHTML = ""
-	lobbyChatLines.forEach(function(chatLine){
-
-		
-		thisChatHTML = thisChatHTML+'<span>'+chatLine+'</span><br>'
-		
-	}) 
-	var thisChat= $('<p>'+thisChatHTML+'</p>')
-	
-	$(".chatCell").append(thisChat)
-	
-}
-function sendLobbyChat(){
-	var tempTable=$.ajax({
-			    type: 'GET',
-			    url: '/lobbyChat?c='+playerName+": "+$(".chatInput").val(),
-			    dataType: 'json',
-			    success: function() { },
-			    data: {},
-			    async: false,
-			});
-			$(".chatInput").val("")
-			
-}
-function askToStart(opponentsName){
-	var tempTable=$.ajax({
-		    type: 'GET',
-		    url: '/startGame?w='+playerName+"&b="+opponentsName,
-		    dataType: 'json',
-		    success: function() { },
-		    data: {},
-		    async: false,
-	});
-
-
-}
-function askToWatch(gameID){
-	var tempTable=$.ajax({
-		    type: 'GET',
-		    url: '/watchGame?v='+playerName+"&t="+gameID,
-		    dataType: 'json',
-		    success: function() { },
-		    data: {},
-		    async: false,
-	});
-
-
-}
-
-
-</script>
 
 
 
-</head>-->
 <div>
 	<table class="lobbyFramTable" border="1">
 		<tr>
 			<td>
 			Below you can see the active users. <br>Click on someone to start a game against.<br>
 			<br>
-			<p class="putPlayersHere"></p>
+			<!--<p class="putPlayersHere"></p>-->
+			<<li ng-repeat="x in players">x</li>
 				
 			</td>
 			
@@ -213,15 +39,16 @@ function askToWatch(gameID){
 			<td>
 			Below you can see the active tables. <br>Click on a game to watch it.<br>
 			<br>
-			<p class="putGamesHere"></p>
-				
+			<!--<p class="putGamesHere"></p>-->
+				<<li ng-repeat="x in games">x</li>
 			</td>
 			
 			
 			<td>
 				<table>
 				<tr class="chatTextTr">
-					<td class="chatCell"></td>
+					<!--<td class="chatCell"></td>-->
+					<<div nd-repeat="x in lobbyChatLines">x</div>
 				</tr>
 				<tr class="chatInputRow"><td>
 					<input type="text" class="chatInput" onkeydown="if (event.keyCode == 13) sendLobbyChat()">

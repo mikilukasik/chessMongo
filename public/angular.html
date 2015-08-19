@@ -9,40 +9,39 @@
 	appModule.controller("ApplicationController", ApplicationController);
 
 	function ApplicationController($scope, $http) {
-		
-		$scope.inOrOut='Login'
-		$scope.loggedIn=false
+
+		$scope.inOrOut = 'Login'
+		$scope.loggedIn = false
 
 		$scope.login = function(user) {
 			// if(!(user.pwd == undefined || user.name == undefined)) {
 			// 	//alert('logging in '+user.name+' with password '+user.pwd)
 			// }
-            
-            
-            $http.get("/checkUserPwd?n=" + user.name+'&p='+user.pwd)
-						.success(function(response) {
-							if(response.exists){
-								if(response.denied){
-									//wrong pwd
-									alert("Username and password don't match, please try again!")
-								}else{
-									//all good, log him in
-									//ask server to log user in ang generate unique login ID. this html will poll the server with that unique ID so you can't be logged in from 2 stations
-									
-									alert("User logged in.")
-									$scope.loggedIn=true
-									$scope.greetUser='Logged in as '+user.name+'. '
-									$scope.viewName = "lobby.html"
-									$scope.inOrOut='Logout'
-									$scope.loginName=user.name
-								}
-							}else{
-								//username not in DB
-								alert('User not registered, please register first!')
-							}
-                           	 
-                        })
-                        
+
+			$http.get("/checkUserPwd?n=" + user.name + '&p=' + user.pwd)
+				.success(function(response) {
+					if(response.exists) {
+						if(response.denied) {
+							//wrong pwd
+							alert("Username and password don't match, please try again!")
+						} else {
+							//all good, log him in
+							//ask server to log user in ang generate unique login ID. this html will poll the server with that unique ID so you can't be logged in from 2 stations
+
+							//alert("User logged in.")
+							$scope.loggedIn = true
+							$scope.greetUser = 'Logged in as ' + user.name + '. '
+							$scope.viewName = "lobby.html"
+							$scope.inOrOut = 'Logout'
+							$scope.loginName = user.name
+						}
+					} else {
+						//username not in DB
+						alert('User not registered, please register first!')
+					}
+
+				})
+
 		}
 
 		$scope.register = function(user) {
@@ -75,15 +74,88 @@
 
 		$scope.showView = function(viewName) {
 			$scope.viewName = viewName;
-			if(viewName=='login.html'){
-				$scope.greetUser=''
-				$scope.inOrOut='Login'
-				$scope.loginName=''
-				$scope.loggedIn=false
+			
+			
+			
+			if(viewName == 'lobby.html') {
+			$scope.openNow=false
+			$scope.lobbyPollNum=0	
+				
+				
+		/////////////////////////////////		////lobby polling
+				$scope.lobbyPromise=$interval(function() {
+
+					//refreshLobby()
+					
+					$http.get('/getLobby?p=' + $scope.loginName)
+						.success(function(response) {
+							
+							if(response.asktoopen) {
+								console.log('opening')
+								
+								$scope.openTableNum = response.opentablenum
+								$scope.openPlayerColor = response.opentablecolor
+								$scope.openOpponentsName = response.opponentsname
+							
+								$scope.openNow = true;
+						
+							}
+							
+							if(!($scope.lobbyPollNum == response.lobbyPollNum)) {
+
+								console.log('polling')
+		
+								$scope.lobbyChatLines = response.lobbychat
+								$scope.players = response.players
+								$scope.games = response.games
+								$scope.players.sort(function(a, b) {
+									return a.toLowerCase().localeCompare(b.toLowerCase());
+								});
+								$scope.lobbyPollNum = response.lobbyPollNum
+								//showLobby(lobbyChatLines, players, games, $scope.lobbyPollNum)
+		
+							}
+							if($scope.openNow) {
+						
+								$scope.viewName="chess.html"
+								$scope.openNow = false
+									
+							}
+								
+							
+							
+							
+						})//lobbypoll callback ends here
+						
+					
+
+					
+					
+					
+					
+					
+
+				}, 500);//setinterval stuff ends here
+
+				//function refreshLobby() {
+					
+
+				//}
+			} else {
+				
+				$interval.cancel($scope.lobbyPromise)
+				
+				if(viewName == 'login.html') {
+					$scope.greetUser = ''
+					$scope.inOrOut = 'Login'
+					$scope.loginName = 'someone'
+					$scope.loggedIn = false
+				}
 			}
 		}
 
 	}
+
 	</script>
 </head>
 
@@ -94,9 +166,10 @@
 	.selected {
 		background-color: orange;
 	}
+
 	</style>
 	<nav>
-		
+
 		<a href="#" ng-click="showView('login.html')" ng-class="{ selected: viewName == 'login.html' }">{{inOrOut}}</a>
 		<a href="#" ng-click="showView('lobby.html')" ng-class="{ selected: viewName == 'lobby.html' }">Lobby</a>
 		<a href="#" ng-click="showView('chess.html')" ng-class="{ selected: viewName == 'chess.html' }">Chessboard</a>
