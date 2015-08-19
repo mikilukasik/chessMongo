@@ -1,11 +1,14 @@
 //
 var express = require('express');
 var morgan = require('morgan');
-var http = require('http');
+
 var fs = require('fs');
 var mongodb = require('mongodb');
+var io = require('socket.io');
 
 var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 app.use(express.static('public'))
 app.use(morgan("combined"))
@@ -25,6 +28,10 @@ var players = []
 var playerDisconnectConst = 15000 //15sec
 var gameInactiveConst = 300000 //5min
 var checkGamesConst = 300
+
+
+
+
 
 players[0] = [] //player names
 
@@ -196,21 +203,7 @@ setInterval(function() {
 												}
 											}
 
-											// if(!canIMove(tableInDb.table, !tableInDb.wNext)) {
-											// 	tableInDb.gameIsOn = false
-											// 	if(captured(tableInDb.table, !tableInDb.wNext)) {
-
-											// 		if(!tableInDb.wNext) {
-
-											// 			tableInDb.whiteWon = true
-											// 		} else {
-											// 			tableInDb.blackWon = true
-											// 		}
-											// 	} else {
-											// 		tableInDb.isDraw = true
-											// 	}
-											// }
-
+											
 										tableInDb.toBeChecked = false
 
 										setIntDB3.collection("tables")
@@ -258,7 +251,7 @@ setInterval(function() {
 								.save(xData, function(err3, res) {
 									db2.close()
 								})
-							console.log('Games checked.')
+							//console.log('Games checked.')
 
 						});
 
@@ -812,6 +805,10 @@ app.get('/getLobby', function(req, res) {
 
 });
 
+io.on('connection', function(socket){
+  console.log('a user connected');
+});
+
 var server = app.listen(80, function() {
 
 	var host = server.address()
@@ -822,3 +819,5 @@ var server = app.listen(80, function() {
 	console.log('app listening at http://%s:%s', host, port);
 
 });
+
+
