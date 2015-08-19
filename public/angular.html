@@ -55,6 +55,14 @@
 		
 
 		}
+		$scope.askToWatch=function (gameID){
+			
+			$http.get('/watchGame?v='+$scope.loginName+"&t="+gameID)
+			
+	
+
+		}
+
 		$scope.pollLobby = function(){
 			$scope.lobbyPromise=	$interval(function() {
 

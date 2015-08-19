@@ -42,7 +42,7 @@
 			Below you can see the active tables. <br>Click on a game to watch it.<br>
 			<br>
 			<!--<p class="putGamesHere"></p>-->
-				<li ng-repeat="x in games">Table {{x.tableNum}} {{x.wName}}+ vs +{{x.bName}}</li>
+				<li ng-repeat="x in games" ng-click="askToWatch(x.tableNum)">Table {{x.tableNum}} {{x.wName}} vs {{x.bName}}</li>
 			</td>
 			
 			
