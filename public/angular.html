@@ -27,6 +27,8 @@
 									//ask server to log user in ang generate unique login ID. this html will poll the server with that unique ID so you can't be logged in from 2 stations
 									
 									alert("User logged in.")
+									$scope.loggedIn=true
+									$scope.greetUser='Hello '+user.name+'! '
 									$scope.viewName = "lobby.html"
 								}
 							}else{
@@ -83,6 +85,7 @@
 	}
 	</style>
 	<nav>
+		<div>{{greetUser}}!</div>
 		<a href="#" ng-click="showView('login.html')" ng-class="{ selected: viewName == 'login.html' }">Login</a>
 		<a href="#" ng-click="showView('lobby.html')" ng-class="{ selected: viewName == 'lobby.html' }">Lobby</a>
 		<a href="#" ng-click="showView('chess.html')" ng-class="{ selected: viewName == 'chess.html' }">Chessboard</a>
