@@ -7,7 +7,7 @@
                 <br>
 				<div align="right">Username: <input ng-model="user.name"></input></div>
 				
-                <div align="right">Password: <input type="password" ng-model="user.pwd"></input></div>
+                <div align="right">Password: <input type="password" ng-model="user.pwd" ng-keydown="if (event.keyCode == 13) login(user)"></input></div>
                   <br> <br>
                   <div align="center"><button ng-click="login(user)">Login</button></div>
 			</td>
@@ -22,8 +22,8 @@
                 <br>
 				<div align="right">Username: <input ng-model="user.rName"></input></div>
 				
-                <div align="right">Password: <input type="password" ng-model="user.pwd1"></input></div>
-                  <div align="right">Re-type password: <input type="password" ng-model="user.pwd2"></input></div>
+                <div align="right">Password: <input type="password" ng-model="user.pwd1" ng-keydown="if (event.keyCode == 13) register(user)"></input></div>
+                  <div align="right">Re-type password: <input type="password" ng-model="user.pwd2" ng-keydown="if (event.keyCode == 13) register(user)"></input></div>
                   
                    <br>
                  <div align="center"> <button ng-click="register(user)">Register</button></div>
