@@ -10,7 +10,7 @@
 
 	function ApplicationController($scope, $http) {
 		
-		$scope.inOrOut='Login'
+		//$scope.inOrOut='Login'
 
 		$scope.login = function(user) {
 			// if(!(user.pwd == undefined || user.name == undefined)) {
@@ -33,6 +33,7 @@
 									$scope.greetUser='Logged in as '+user.name+'. '
 									$scope.viewName = "lobby.html"
 									$scope.inOrOut='Logout'
+									$scope.loginName=user.name
 								}
 							}else{
 								//username not in DB
@@ -73,6 +74,12 @@
 
 		$scope.showView = function(viewName) {
 			$scope.viewName = viewName;
+			if(viewName=='login.html'){
+				$scope.greetUser=''
+				$scope.inOrOut='Login'
+				$scope.loginName=''
+				$scope.loggedIn=false
+			}
 		}
 
 	}
