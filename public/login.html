@@ -2,38 +2,57 @@
 	<table>
 		<tr>
 			<td>
-                 <br>
-				 
-				 <form ng-submit="login(user)">
-			
-					<div align="center"><h1>Login</h1></div>
+				<br>
+
+				<form ng-submit="login(user)">
+
+					<div align="center">
+						<h1>Login</h1></div>
 					<br>
-					<div align="right">Username: <input ng-model="user.name"></input></div>
-					
-					<div align="right">Password: <input type="password" ng-model="user.pwd"></input></div>
-					<br> <br>
-					<div align="center"><button ng-click="login(user)">Login</button></div>
-							
+					<div align="right">Username:
+						<input ng-model="user.name"></input>
+					</div>
+
+					<div align="right">Password:
+						<input type="password" ng-model="user.pwd"></input>
+					</div>
+					<br>
+					<br>
+					<div align="center">
+						<button ng-click="login(user)">Login</button>
+					</div>
+
 				</form>
-				 
+
 			</td>
 			<td width=100>
-                 
-                
-                </td>
-                    <td>
-                        
-				  <br>
-				<div align="center"><h1>Register</h1></div>
-                <br>
-				<div align="right">Username: <input ng-model="user.rName"></input></div>
-				
-                <div align="right">Password: <input type="password" ng-model="user.pwd1"></input></div>
-                  <div align="right">Re-type password: <input type="password" ng-model="user.pwd2"></input></div>
-                  
-                   <br>
-                 <div align="center"> <button ng-click="register(user)">Register</button></div>
-                  
+
+
+			</td>
+			<td>
+
+				<br>
+				<form ng-submit="register(user)">
+					<div align="center">
+						<h1>Register</h1></div>
+					<br>
+					<div align="right">Username:
+						<input ng-model="user.rName"></input>
+					</div>
+
+					<div align="right">Password:
+						<input type="password" ng-model="user.pwd1"></input>
+					</div>
+					<div align="right">Re-type password:
+						<input type="password" ng-model="user.pwd2"></input>
+					</div>
+
+					<br>
+					<div align="center">
+						<button ng-click="register(user)">Register</button>
+					</div>
+				</form>
+
 			</td>
 		</tr>
 
