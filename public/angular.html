@@ -355,6 +355,58 @@
 
 		}
 
+		$scope.clickedIt = function(clickedField, clickedString) {
+
+			var x = clickedField[0]
+			var y = clickedField[1]
+			var clickedColor = false
+
+			if((!($scope.table[x][y][5] == []) || $scope.tempMoveString.length > 0) && $scope.wNext == $scope.wPlayer) {
+
+				if(clickedString == $scope.tempMoveString) {
+					$scope.table[x][y][8] = false
+					$scope.clearHighlights()
+					$scope.showTable()
+					$scope.tempMoveString = ""
+				} else {
+					if($scope.table[x][y][0] > 0 && $scope.tempMoveString == "") {
+
+						$scope.table[x][y][5].forEach($scope.highLightThem) //5odik elem ahova lephet
+						$scope.showtable()
+							//console.log($scope.tempMoveString)
+					};
+					if($scope.table[x][y][0] > 0 || 0 < $scope.tempMoveString.length) {
+
+						$scope.tempMoveString += clickedString
+
+						if($scope.tempMoveString.length < 3) {
+							$scope.table[x][y][8] = true;
+						}
+
+					}
+					if($scope.tempMoveString.length > 3) {
+
+						if($scope.table[x][y][9] == true) {
+
+							$scope.makeAMove($scope.tempMoveString)
+							$scope.wNext = !$scope.wNext
+
+							$scope.tempMoveString = ""
+
+						} else {
+							$scope.tempMoveString = $scope.tempMoveString[0] + $scope.tempMoveString[1]
+						}
+
+					}
+					$scope.showTable()
+
+				}
+			}
+		}
+		$scope.highLightThem = function(arrayOfCoords) {
+			$scope.table[arrayOfCoords[0]][arrayOfCoords[1]][9] = true;
+		}
+
 	</script>
 </head>
 
