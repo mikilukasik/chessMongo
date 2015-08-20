@@ -230,14 +230,13 @@
 							}
 
 						}) //lobbypoll callback ends here
-				}else{
+				} else {
 					//itt kene mast pollozni
-					
-					
-					if($scope.viewName == 'board.html'){
+
+					if($scope.viewName == 'board.html') {
 						$scope.refreshTable()
 					}
-					
+
 				}
 			}, 500); //setinterval stuff ends here
 
@@ -270,99 +269,97 @@
 
 			$http.get('/getTPollNum?t=' + $scope.tableNum)
 				.success(function(response) {
-						if(!(response.tablepollnum == $scope.pollNum)) {
-							$scope.pollNum = response.tablepollnum 
-							getAndShowTable()
+					if(!(response.tablepollnum == $scope.pollNum)) {
+						$scope.pollNum = response.tablepollnum
+						getAndShowTable()
+					}
+
+				})
+
+		}
+
+		$scope.showTable = function() { //this will update the displayed table from the array
+			for(var i = 0; i < 8; i++) {
+				for(var j = 0; j < 8; j++) {
+
+					var thisFigure = $('<img src="cPiecesPng/' + $scope.table[i][j][0] + $scope.table[i][j][1] + '.png" alt=' + dcolors[$scope.table[i][j][0]][0] + dfigures[$scope.table[i][j][1]] + '></img>')
+
+					if($scope.table[i][j][8] == true || $scope.table[i][j][9] == true) {
+
+						thisFigure.addClass('selected');
+					} else {
+
+					}
+					var thisSquare = "." + dletters[i] + (j + 1)
+
+					$(thisSquare).empty();
+
+					$(thisSquare).append(thisFigure);
+
+				}
+			}
+			// showTableStatus()
+			// showChat()
+		}
+
+		$scope.register = function(user) {
+
+			if(user.pwd1 == user.pwd2) {
+				if(!(user.pwd1 == undefined || user.rName == undefined || user.rName == "")) {
+					//check if existing, if not then register in db
+
+					$http.get("/checkUser?n=" + user.rName)
+						.success(function(response) {
+							if(response.exists) {
+								alert('Name already exists, try another!')
+							} else {
+								$http.get('/newUser?n=' + user.rName + '&p=' + user.pwd1)
+									.success(function(response) {
+										alert(user.rName + ' registered.')
+									})
 							}
+						});
 
-						})
+					//alert('registering '+user.rName+' with password '+user.pwd1)
 
 				}
-
-			$scope.showTable = function() { //this will update the displayed table from the array
-				for(var i = 0; i < 8; i++) {
-					for(var j = 0; j < 8; j++) {
-
-						var thisFigure = $('<img src="cPiecesPng/' + $scope.table[i][j][0] + $scope.table[i][j][1] + '.png" alt=' + dcolors[$scope.table[i][j][0]][0] + dfigures[$scope.table[i][j][1]] + '></img>')
-
-						if($scope.table[i][j][8] == true || $scope.table[i][j][9] == true) {
-
-							thisFigure.addClass('selected');
-						} else {
-
-						}
-						var thisSquare = "." + dletters[i] + (j + 1)
-
-						$(thisSquare).empty();
-
-						$(thisSquare).append(thisFigure);
-
-					}
-				}
-				// showTableStatus()
-				// showChat()
+			} else {
+				alert("Passwords don't match, try again!")
 			}
+		}
 
-			$scope.register = function(user) {
+		$scope.viewName = "login.html";
 
-				if(user.pwd1 == user.pwd2) {
-					if(!(user.pwd1 == undefined || user.rName == undefined || user.rName == "")) {
-						//check if existing, if not then register in db
+		$scope.newView = function(viewName) {
+			if(viewName == 'board.html') {
+				$scope.drawTable(true)
+			}
+		}
 
-						$http.get("/checkUser?n=" + user.rName)
-							.success(function(response) {
-								if(response.exists) {
-									alert('Name already exists, try another!')
-								} else {
-									$http.get('/newUser?n=' + user.rName + '&p=' + user.pwd1)
-										.success(function(response) {
-											alert(user.rName + ' registered.')
-										})
-								}
-							});
+		$scope.showView = function(viewName) {
+			$scope.viewName = viewName;
 
-						//alert('registering '+user.rName+' with password '+user.pwd1)
+			if(viewName == 'lobby.html') {
+				$scope.openNow = false
+					//$scope.lobbyPollNum=0	
 
-					}
-				} else {
-					alert("Passwords don't match, try again!")
+				/////////////////////////////////		////lobby polling
+
+				$scope.pollLobby()
+
+				//}
+			} else {
+
+				if(viewName == 'login.html') {
+					$interval.cancel($scope.lobbyPromise)
+				}
+				if(viewName == 'login.html') {
+					$scope.greetUser = ''
+					$scope.inOrOut = 'Login'
+					$scope.loginName = 'someone'
+					$scope.loggedIn = false
 				}
 			}
-
-			$scope.viewName = "login.html";
-
-			$scope.newView = function(viewName) {
-				if(viewName == 'board.html') {
-					$scope.drawTable(true)
-				}
-			}
-
-			$scope.showView = function(viewName) {
-				$scope.viewName = viewName;
-
-				if(viewName == 'lobby.html') {
-					$scope.openNow = false
-						//$scope.lobbyPollNum=0	
-
-					/////////////////////////////////		////lobby polling
-
-					$scope.pollLobby()
-
-					//}
-				} else {
-
-					if(viewName == 'login.html'){
-						$interval.cancel($scope.lobbyPromise)
-					}
-					if(viewName == 'login.html') {
-						$scope.greetUser = ''
-						$scope.inOrOut = 'Login'
-						$scope.loginName = 'someone'
-						$scope.loggedIn = false
-					}
-				}
-			}
-
 		}
 
 		$scope.clickedIt = function(clickedField, clickedString) {
@@ -417,17 +414,16 @@
 			$scope.table[arrayOfCoords[0]][arrayOfCoords[1]][9] = true;
 		}
 
+		$scope.clearHighlights = function() {
+			for(var i = 0; i < 8; i++) {
+				for(var j = 0; j < 8; j++) {
+					$scope.table[i][j][8] = false;
+					$scope.table[i][j][9] = false;
 
-$scope.clearHighlights=function (){
-	for(var i=0;i<8;i++){
-		for(var j=0;j<8;j++){
-			$scope.table[i][j][8]=false;
-			$scope.table[i][j][9]=false;
-
-		}				
+				}
+			}
+		}
 	}
-}
-
 
 	</script>
 </head>
