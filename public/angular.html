@@ -14,6 +14,10 @@
 		$scope.loggedIn = false
 		$scope.lobbyPollNum = 0
 
+		$scope.tempMoveString = ""
+		$scope.pollNum = -1
+		$scope.table = []
+
 		$scope.login = function(user) {
 			// if(!(user.pwd == undefined || user.name == undefined)) {
 			// 	//alert('logging in '+user.name+' with password '+user.pwd)
@@ -58,8 +62,8 @@
 		$scope.drawTable = function(wPlayer) {
 
 			var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
-			// var dfigures = ["", "King", "Queen", "Rook", "Bishop", "Knight", "Pawn"]
-			// var dcolors = ["", "Black", "White"]
+				// var dfigures = ["", "King", "Queen", "Rook", "Bishop", "Knight", "Pawn"]
+				// var dcolors = ["", "Black", "White"]
 
 			$(".ideRakd").empty();
 			var appendTable = $('<table class="main-table"> border="1"')
@@ -157,122 +161,199 @@
 
 		}
 
+		$scope.getAndShowTable = function() {
+
+			console.log('polling table ' + $scope.tableNum)
+
+			$http.get('/getTable?t=' + $scope.tableNum)
+				.success(function(response) {
+					$scope.table = response.table
+					$scope.wNext = response.next
+					$scope.allMoves = response.allmoves
+					$scope.chatLines = response.chat
+
+					$scope.showTable()
+
+				})
+
+		}
+
 		$scope.pollLobby = function() {
 			$scope.lobbyPromise = $interval(function() {
 
 				//refreshLobby()
-				if($scope.viewName=='lobby.html'){
+				if($scope.viewName == 'lobby.html') {
 
-				$http.get('/getLobby?p=' + $scope.loginName)
-					.success(function(response) {
+					$http.get('/getLobby?p=' + $scope.loginName)
+						.success(function(response) {
 
-						if(response.asktoopen) {
-							console.log('opening')
+							if(response.asktoopen) {
+								console.log('opening')
 
-							$scope.openTableNum = response.opentablenum
-							$scope.openPlayerColor = response.opentablecolor
-							$scope.openOpponentsName = response.opponentsname
+								$scope.tableNum = response.opentablenum
+								$scope.wPlayer = response.opentablecolor
+								$scope.opponentsName = response.opponentsname
+								$scope.pollNum = 0
 
-							$scope.openNow = true;
+								$scope.openNow = true;
 
-						}
-
-						if(!($scope.lobbyPollNum == response.lobbypollnum)) {
-
-							console.log('polling lobby')
-
-							$scope.lobbyChatLines = response.lobbychat
-							$scope.players = response.players
-							$scope.games = response.games
-							$scope.players.sort(function(a, b) {
-								return a.toLowerCase().localeCompare(b.toLowerCase());
-							});
-							$scope.lobbyPollNum = response.lobbyPollNum
-								//showLobby(lobbyChatLines, players, games, $scope.lobbyPollNum)
-							if(!$scope.$$phase) {
-								$apply
 							}
 
-						}
-						if($scope.openNow) {
+							if(!($scope.lobbyPollNum == response.lobbypollnum)) {
 
-							$scope.viewName = "board.html"
-							$scope.openNow = false
-							
-					// 		window.setTimeout(function() {
-                    //  $scope.drawTable(true)
-                        
-                    //     $scope.$apply();
-                    // }, 3000);
-							
+								console.log('polling lobby')
 
-						}
+								$scope.lobbyChatLines = response.lobbychat
+								$scope.players = response.players
+								$scope.games = response.games
+								$scope.players.sort(function(a, b) {
+									return a.toLowerCase().localeCompare(b.toLowerCase());
+								});
+								$scope.lobbyPollNum = response.lobbyPollNum
+									//showLobby(lobbyChatLines, players, games, $scope.lobbyPollNum)
+								if(!$scope.$$phase) {
+									$apply
+								}
 
-					}) //lobbypoll callback ends here
-			}
+							}
+							if($scope.openNow) {
+
+								$scope.viewName = "board.html"
+								$scope.openNow = false
+
+								// 		window.setTimeout(function() {
+								//  $scope.drawTable(true)
+
+								//     $scope.$apply();
+								// }, 3000);
+
+							}
+
+						}) //lobbypoll callback ends here
+				}
 			}, 500); //setinterval stuff ends here
 
 		}
-		$scope.register = function(user) {
 
-			if(user.pwd1 == user.pwd2) {
-				if(!(user.pwd1 == undefined || user.rName == undefined || user.rName == "")) {
-					//check if existing, if not then register in db
+		$scope.clickedItTrans = function(i, j) {
 
-					$http.get("/checkUser?n=" + user.rName)
-						.success(function(response) {
-							if(response.exists) {
-								alert('Name already exists, try another!')
-							} else {
-								$http.get('/newUser?n=' + user.rName + '&p=' + user.pwd1)
-									.success(function(response) {
-										alert(user.rName + ' registered.')
-									})
+			var clickedField = [j, 8 - i]
+			var clickedString = dletters[j] + (9 - i)
+
+			if(!(opponentsName == "Spectator")) {
+				clickedIt(clickedField, clickedString)
+			}
+			//	console.log(clickedField,clickedString)
+
+		}
+
+		$scope.makeAMove = function(whatMove) {
+
+			$http.get('/move?m=' + whatMove + '&t=' + $scope.tableNum)
+				.success(function(response) {
+					wNext = !wNext
+					return response.table
+
+				})
+
+		}
+
+		$scope.refreshTable = function() {
+
+			$http.get('/getTPollNum?t=' + $scope.tableNum)
+				.success(function(response) {
+						if(!(response.tablepollnum == $scope.pollNum)) {
+							$scopepollNum = (response.tablepollnum getAndShowTable()
 							}
-						});
 
-					//alert('registering '+user.rName+' with password '+user.pwd1)
+						})
 
 				}
-			} else {
-				alert("Passwords don't match, try again!")
+
+			$scope.showTable = function() { //this will update the displayed table from the array
+				for(var i = 0; i < 8; i++) {
+					for(var j = 0; j < 8; j++) {
+
+						var thisFigure = $('<img src="cPiecesPng/' + $scope.table[i][j][0] + $scope.table[i][j][1] + '.png" alt=' + dcolors[$scope.table[i][j][0]][0] + dfigures[$scope.table[i][j][1]] + '></img>')
+
+						if($scope.table[i][j][8] == true || $scope.table[i][j][9] == true) {
+
+							thisFigure.addClass('selected');
+						} else {
+
+						}
+						var thisSquare = "." + dletters[i] + (j + 1)
+
+						$(thisSquare).empty();
+
+						$(thisSquare).append(thisFigure);
+
+					}
+				}
+				// showTableStatus()
+				// showChat()
 			}
-		}
 
-		$scope.viewName = "login.html";
+			$scope.register = function(user) {
 
-		$scope.newView = function(viewName){
-			if(viewName=='board.html'){
-				$scope.drawTable(true)
-			}
-		}
+				if(user.pwd1 == user.pwd2) {
+					if(!(user.pwd1 == undefined || user.rName == undefined || user.rName == "")) {
+						//check if existing, if not then register in db
 
-		$scope.showView = function(viewName) {
-			$scope.viewName = viewName;
+						$http.get("/checkUser?n=" + user.rName)
+							.success(function(response) {
+								if(response.exists) {
+									alert('Name already exists, try another!')
+								} else {
+									$http.get('/newUser?n=' + user.rName + '&p=' + user.pwd1)
+										.success(function(response) {
+											alert(user.rName + ' registered.')
+										})
+								}
+							});
 
-			if(viewName == 'lobby.html') {
-				$scope.openNow = false
-					//$scope.lobbyPollNum=0	
+						//alert('registering '+user.rName+' with password '+user.pwd1)
 
-				/////////////////////////////////		////lobby polling
-
-				$scope.pollLobby()
-
-				//}
-			} else {
-
-				$interval.cancel($scope.lobbyPromise)
-
-				if(viewName == 'login.html') {
-					$scope.greetUser = ''
-					$scope.inOrOut = 'Login'
-					$scope.loginName = 'someone'
-					$scope.loggedIn = false
+					}
+				} else {
+					alert("Passwords don't match, try again!")
 				}
 			}
-		}
 
-	}
+			$scope.viewName = "login.html";
+
+			$scope.newView = function(viewName) {
+				if(viewName == 'board.html') {
+					$scope.drawTable(true)
+				}
+			}
+
+			$scope.showView = function(viewName) {
+				$scope.viewName = viewName;
+
+				if(viewName == 'lobby.html') {
+					$scope.openNow = false
+						//$scope.lobbyPollNum=0	
+
+					/////////////////////////////////		////lobby polling
+
+					$scope.pollLobby()
+
+					//}
+				} else {
+
+					$interval.cancel($scope.lobbyPromise)
+
+					if(viewName == 'login.html') {
+						$scope.greetUser = ''
+						$scope.inOrOut = 'Login'
+						$scope.loginName = 'someone'
+						$scope.loggedIn = false
+					}
+				}
+			}
+
+		}
 
 	</script>
 </head>
@@ -284,13 +365,9 @@
 	.selected {
 		background-color: orange;
 	}
-
-
-
-
-
 	
-	html, body {
+	html,
+	body {
 		/*height: 98%;*/
 		/*overflow-x: scroll;*/
 	}
@@ -299,85 +376,89 @@
 		/*height: 600px;
 		width: 600px;*/
 		text-align: center;
-		
 	}
 	
 	.rotate90 {
-    -webkit-transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    transform: rotate(90deg);
+		-webkit-transform: rotate(90deg);
+		-moz-transform: rotate(90deg);
+		-o-transform: rotate(90deg);
+		-ms-transform: rotate(90deg);
+		transform: rotate(90deg);
 	}
 	
-	.square img{
-		width:80%; height:auto;;
+	.square img {
+		width: 80%;
+		height: auto;
+		;
 	}
-	.darker img{
-		width:80%; height:auto;;
+	
+	.darker img {
+		width: 80%;
+		height: auto;
+		;
 	}
+	
 	.darker {
 		background-color: silver;
 		height: 72px;
 		width: 72px;
 	}
+	
 	.square {
 		height: 72px;
 		width: 72px;
 	}
+	
 	.heading {
 		height: 24px;
 		background-color: grey;
 	}
+	
 	.left-column {
 		width: 24px;
 		background-color: grey;
-		
 	}
 	
 	.statusCell {
 		display: block;
-		text-align-content: stretch;  
+		text-align-content: stretch;
 		height: 100%;
 		width: 100px;
-  		overflow-y: scroll;
+		overflow-y: scroll;
 	}
+	
 	.chatTextTr {
-		
 		height: 100%;
-		
 	}
+	
 	.chatCell {
 		display: block;
-		text-align-content: stretch;  
+		text-align-content: stretch;
 		height: 566px;
 		width: 220px;
 		/*width: 300px;
-  		*/overflow-y: scroll;
+  		*/
+		overflow-y: scroll;
 	}
+	
 	.frame-table {
-		
 		/*text-align-content: stretch;  */
 		/*height: 602px;*/
-
 		/*width:95%;
 */
-  		
 	}
 	
 	.statusTr {
 		height: 100%;
 	}
+	
 	.leftTable {
 		height: 100%;
 	}
 	
 	.myPiece:hover {
-		
 		cursor: pointer;
 	}
-	
-	
 	/*.selected {
 		background-color: yellow;
 		
@@ -386,15 +467,6 @@
 	/*table {
   		
 	}*/
-	
-
-
-
-
-
-
-
-
 
 	</style>
 	<nav>
