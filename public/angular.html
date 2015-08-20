@@ -46,7 +46,7 @@
 							$scope.showView('lobby.html')
 
 							if(!$scope.$$phase) {
-								$apply
+								$scope.$apply()
 							}
 						}
 					} else {
@@ -117,7 +117,9 @@
 
 					};
 					$(".main-table").append(rowEndTr)
-					$scope.$apply()
+					if(!$scope.$$phase) {
+								$scope.$apply()
+							}
 				}
 
 			} else {
@@ -216,8 +218,8 @@
 								$scope.lobbyPollNum = response.lobbyPollNum
 									//showLobby(lobbyChatLines, players, games, $scope.lobbyPollNum)
 								if(!$scope.$$phase) {
-									$apply
-								}
+								$scope.$apply()
+							}
 
 							}
 							if($scope.openNow) {
@@ -308,7 +310,9 @@
 			}
 			// showTableStatus()
 			// showChat()
-			$scope.$apply()
+			if(!$scope.$$phase) {
+								$scope.$apply()
+							}
 		}
 
 		$scope.register = function(user) {
