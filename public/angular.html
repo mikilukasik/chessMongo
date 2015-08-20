@@ -109,9 +109,9 @@
 							$(".row" + i).append($('<td>' + dletters[j].toUpperCase() + '</td>'))
 						} else {
 							if((i + j) & 1) {
-								$(".row" + i).append($('<td ng-controller="ApplicationController" ng-click="clickedItTrans(' + i + ',' + j + ')" class="square ' + dletters[j] + (9 - i) + '"></td>'))
+								$(".row" + i).append($('<td ng-app="appModule" ng-controller="ApplicationController" ng-click="clickedItTrans(' + i + ',' + j + ')" class="square ' + dletters[j] + (9 - i) + '"></td>'))
 							} else {
-								$(".row" + i).append($('<td ng-controller="ApplicationController" ng-click="clickedItTrans(' + i + ',' + j + ')" class="darker ' + dletters[j] + (9 - i) + '"></td>'))
+								$(".row" + i).append($('<td ng-app="appModule" ng-controller="ApplicationController" ng-click="clickedItTrans(' + i + ',' + j + ')" class="darker ' + dletters[j] + (9 - i) + '"></td>'))
 							}
 						}
 
@@ -144,9 +144,9 @@
 						} else {
 							//var stuffToAppend=
 							if((i + j + 1) & 1) {
-								$(".row" + i).append($('<td ng-controller="ApplicationController" ng-click="clickedItTrans(' + (i + 1) + ',' + j + ')" class="square ' + dletters[j] + (8 - i) + '"></td>'))
+								$(".row" + i).append($('<td ng-app="appModule" ng-controller="ApplicationController" ng-click="clickedItTrans(' + (i + 1) + ',' + j + ')" class="square ' + dletters[j] + (8 - i) + '"></td>'))
 							} else {
-								$(".row" + i).append($('<td ng-controller="ApplicationController" ng-click="clickedItTrans(' + (i + 1) + ',' + j + ')" class="darker ' + dletters[j] + (8 - i) + '"></td>'))
+								$(".row" + i).append($('<td ng-app="appModule" ng-controller="ApplicationController" ng-click="clickedItTrans(' + (i + 1) + ',' + j + ')" class="darker ' + dletters[j] + (8 - i) + '"></td>'))
 							}
 						}
 
