@@ -197,7 +197,13 @@
 
 							$scope.viewName = "board.html"
 							$scope.openNow = false
-							$scope.drawTable(true)
+							
+							window.setTimeout(function() {
+                     $scope.drawTable(true)
+                        
+                        $scope.$apply();
+                    }, 3000);
+							
 
 						}
 
