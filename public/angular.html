@@ -198,11 +198,11 @@
 							$scope.viewName = "board.html"
 							$scope.openNow = false
 							
-							window.setTimeout(function() {
-                     $scope.drawTable(true)
+					// 		window.setTimeout(function() {
+                    //  $scope.drawTable(true)
                         
-                        $scope.$apply();
-                    }, 3000);
+                    //     $scope.$apply();
+                    // }, 3000);
 							
 
 						}
@@ -239,6 +239,12 @@
 		}
 
 		$scope.viewName = "login.html";
+
+		$scope.NewView = function(viewName){
+			if(viewName=='board.html'){
+				$scope.drawTable(true)
+			}
+		}
 
 		$scope.showView = function(viewName) {
 			$scope.viewName = viewName;
@@ -286,7 +292,7 @@
 		<a href="#" ng-click="showView('board.html')" ng-class="{ selected: viewName == 'board.html' }">Chessboard</a>
 		<span width=100% align="right">{{greetUser}}</span>
 	</nav>
-	<div id="content" ng-include="viewName">
+	<div id="content" ng-include="viewName" onload="newView(viewName)">
 
 	</div>
 
