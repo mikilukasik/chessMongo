@@ -387,7 +387,10 @@
 			var x = clickedField[0]
 			var y = clickedField[1]
 			var clickedColor = false
-
+			
+				//alert("called")
+				console.log([x,y,clickedString])
+				console.log(table)
 			if((!($scope.table[x][y][5] == []) || $scope.tempMoveString.length > 0) && $scope.wNext == $scope.wPlayer) {
 
 				if(clickedString == $scope.tempMoveString) {
