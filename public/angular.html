@@ -161,6 +161,7 @@
 			$scope.lobbyPromise = $interval(function() {
 
 				//refreshLobby()
+				if($scope.viewName=='lobby.html'){
 
 				$http.get('/getLobby?p=' + $scope.loginName)
 					.success(function(response) {
@@ -178,7 +179,7 @@
 
 						if(!($scope.lobbyPollNum == response.lobbypollnum)) {
 
-							console.log('polling')
+							console.log('polling lobby')
 
 							$scope.lobbyChatLines = response.lobbychat
 							$scope.players = response.players
@@ -208,7 +209,7 @@
 						}
 
 					}) //lobbypoll callback ends here
-
+			}
 			}, 500); //setinterval stuff ends here
 
 		}
