@@ -8,7 +8,7 @@
 
 	appModule.controller("ApplicationController", ApplicationController);
 
-	function ApplicationController($scope, $http, $interval) {
+	function ApplicationController($scope, $http, $interval, $compile) {
 
 		var dletters = ["a","b","c","d","e","f","g","h"]
 		var dfigures = ["","King","Queen","Rook","Bishop","Knight","Pawn"]
