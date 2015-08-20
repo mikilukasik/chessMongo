@@ -8,7 +8,7 @@
 
 	appModule.controller("ApplicationController", ApplicationController);
 
-	function ApplicationController($scope, $http, $interval, $compile) {
+	function ApplicationController($scope, $http, $interval) {
 
 		var dletters = ["a","b","c","d","e","f","g","h"]
 		var dfigures = ["","King","Queen","Rook","Bishop","Knight","Pawn"]
@@ -87,10 +87,6 @@
 				});
 
 			}
-			
-			 $scope.compileStuff = function(element){
-				$compile(element)($scope);
-			}
 
 			if(wPlayer) {
 
@@ -112,27 +108,10 @@
 						if(i == 0) {
 							$(".row" + i).append($('<td>' + dletters[j].toUpperCase() + '</td>'))
 						} else {
-							
-							
-							
-							app.directive("setOnClick", function($compile){
-								return {
-									restrict: "A",
-									link: function(scope, elm, attrs, ctrl)
-									{
-									elm.attr("ng-click", 'clickedItTrans(' + i + ',' + j + ')');
-									elm.removeAttr("set-on-click")
-									$compile(elm)(scope);
-									}
-								};
-							});
-							
-							
-							
 							if((i + j) & 1) {
-								$(".row" + i).append($('<td ng-app="appModule" ng-controller="ApplicationController" set-on-click class="square ' + dletters[j] + (9 - i) + '"></td>'))
+								$(".row" + i).append($('<td ng-click="clickedItTrans(' + i + ',' + j + ')" ng-app="appModule" ng-controller="ApplicationController" class="square ' + dletters[j] + (9 - i) + '"></td>'))
 							} else {
-								$(".row" + i).append($('<td ng-app="appModule" ng-controller="ApplicationController" set-on-click class="darker ' + dletters[j] + (9 - i) + '"></td>'))
+								$(".row" + i).append($('<td ng-click="clickedItTrans(' + i + ',' + j + ')" ng-app="appModule" ng-controller="ApplicationController" class="darker ' + dletters[j] + (9 - i) + '"></td>'))
 							}
 						}
 
@@ -164,25 +143,10 @@
 							$(".row" + i).append($('<td>' + dletters[j].toUpperCase() + '</td>'))
 						} else {
 							//var stuffToAppend=
-							
-							
-							app.directive("setOnClick", function($compile){
-								return {
-									restrict: "A",
-									link: function(scope, elm, attrs, ctrl)
-									{
-									elm.attr("ng-click", 'clickedItTrans(' + (i + 1) + ',' + j + ')');
-									elm.removeAttr("set-on-click")
-									$compile(elm)(scope);
-									}
-								};
-							});
-							
-							
 							if((i + j + 1) & 1) {
-								$(".row" + i).append($('<td ng-app="appModule" ng-controller="ApplicationController" set-on-click class="square ' + dletters[j] + (8 - i) + '"></td>'))
+								$(".row" + i).append($('<td ng-click="clickedItTrans(' + (i + 1) + ',' + j + ')" ng-app="appModule" ng-controller="ApplicationController" class="square ' + dletters[j] + (8 - i) + '"></td>'))
 							} else {
-								$(".row" + i).append($('<td ng-app="appModule" ng-controller="ApplicationController" set-on-click class="darker ' + dletters[j] + (8 - i) + '"></td>'))
+								$(".row" + i).append($('<td ng-click="clickedItTrans(' + (i + 1) + ',' + j + ')" ng-app="appModule" ng-controller="ApplicationController" class="darker ' + dletters[j] + (8 - i) + '"></td>'))
 							}
 						}
 
