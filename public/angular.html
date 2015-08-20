@@ -407,6 +407,18 @@
 			$scope.table[arrayOfCoords[0]][arrayOfCoords[1]][9] = true;
 		}
 
+
+$scope.clearHighlights=function (){
+	for(var i=0;i<8;i++){
+		for(var j=0;j<8;j++){
+			$scope.table[i][j][8]=false;
+			$scope.table[i][j][9]=false;
+
+		}				
+	}
+}
+
+
 	</script>
 </head>
 
