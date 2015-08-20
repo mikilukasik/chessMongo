@@ -141,9 +141,9 @@
 							$(".row" + i).append($('<td>' + dletters[j].toUpperCase() + '</td>'))
 						} else {
 							if((i + j + 1) & 1) {
-								$(".row" + i).append($('<td onclick="clickedItTrans(' + (i + 1) + ',' + j + ')" class="square ' + dletters[j] + (8 - i) + '"></td>'))
+								$(".row" + i).append($('<td ng-click="clickedItTrans(' + (i + 1) + ',' + j + ')" class="square ' + dletters[j] + (8 - i) + '"></td>'))
 							} else {
-								$(".row" + i).append($('<td onclick="clickedItTrans(' + (i + 1) + ',' + j + ')" class="darker ' + dletters[j] + (8 - i) + '"></td>'))
+								$(".row" + i).append($('<td ng-click="clickedItTrans(' + (i + 1) + ',' + j + ')" class="darker ' + dletters[j] + (8 - i) + '"></td>'))
 							}
 						}
 
