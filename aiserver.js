@@ -37,60 +37,60 @@ app.get('/aiChoice', function(req, res) {
 					
 					
 
-					for(var i = 1; i < result.length; i++) {
+					// //for(var i = 1; i < result.length; i++) {
 						
-						if(false){//i<4){
+					// 	if(false){//i<4){
 							
-							// allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, captureScore, smallValScore,
-			 				// dontGetHit,tTable2Value, retProtect, mhit, hhit, fwdVal,lsancValue,rsancValue,
-							//  sancValue,getToMiddle,pushHimBack,mostMoved])
+					// 		// allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, captureScore, smallValScore,
+			 		// 		// dontGetHit,tTable2Value, retProtect, mhit, hhit, fwdVal,lsancValue,rsancValue,
+					// 		//  sancValue,getToMiddle,pushHimBack,mostMoved])
 							
-							toConsole[i] = 	'stepMove: '+result[i][0] + //' <br> ' +
-										'pushThisValue: '+result[i][1]+ ' <br>' +
-										'hisBestRtnMove: '+result[i][2]+ ' <br>' +
-										'loopValue: '+result[i][3]+ ' <br>' +
-										'captureScore: '+result[i][4]+ ' <br>' +
-										'smallValScore: '+result[i][5]+ ' <br>' +
-										'dontGetHit: '+result[i][6]+ ' <br>' +
-										'tTable2Value: '+result[i][7]+ ' <br>' +
-										'retProtect: '+result[i][8]+ ' <br>' +
-										'mhit: '+result[i][9]+ ' <br>' +
-										'hhit: '+result[i][10]+ ' <br>' +
-										'fwdVal: '+result[i][11]+ ' <br>' +
-										'lsancValue: '+result[i][12]+ ' <br>' +
-										'rsancValue: '+result[i][13]+ ' <br>' +
-										'sancValue: '+result[i][14]+ ' <br>' +
-										'getToMiddle: '+result[i][15]+ ' <br>' +
+					// 		toConsole[i] = 	'stepMove: '+result[i][0] + //' <br> ' +
+					// 					'pushThisValue: '+result[i][1]+ ' <br>' +
+					// 					'hisBestRtnMove: '+result[i][2]+ ' <br>' +
+					// 					'loopValue: '+result[i][3]+ ' <br>' +
+					// 					'captureScore: '+result[i][4]+ ' <br>' +
+					// 					'smallValScore: '+result[i][5]+ ' <br>' +
+					// 					'dontGetHit: '+result[i][6]+ ' <br>' +
+					// 					'tTable2Value: '+result[i][7]+ ' <br>' +
+					// 					'retProtect: '+result[i][8]+ ' <br>' +
+					// 					'mhit: '+result[i][9]+ ' <br>' +
+					// 					'hhit: '+result[i][10]+ ' <br>' +
+					// 					'fwdVal: '+result[i][11]+ ' <br>' +
+					// 					'lsancValue: '+result[i][12]+ ' <br>' +
+					// 					'rsancValue: '+result[i][13]+ ' <br>' +
+					// 					'sancValue: '+result[i][14]+ ' <br>' +
+					// 					'getToMiddle: '+result[i][15]+ ' <br>' +
 										
-										' ----<br>';
+					// 					' ----<br>';
 							
-						}else{
+					// 	}else{
 
-							toConsole[i] = 	'Move:'+result[i][0] + ' RMv:'+result[i][2]+ ','  + '<br>'+
-										'Val:'+result[i][1]+ ',' +
-										//' RMv:'+result[i][2]+ ',' +
-										' lpV:'+result[i][3]+ ',' +
-										' cpS:'+result[i][4]+ ',' +//
-										//' smV:'+result[i][5]+ ',' +//' <br>' +
-										' dGH:'+result[i][6]+ ',' +//' <br>' +
-										' t2V:'+result[i][7]+ ',' +//' <br>' +
-										' rPr:'+result[i][8]+ ',' +//' <br>' +
-										' mht:'+result[i][9]+ ',' +//' <br>' +
-										' hht:'+result[i][10]+ ',' +//' <br>' +
-										//' fwV:'+result[i][11]+ ',' +//' <br>' +
-										//' lsc:'+result[i][12]+ ',' +//' <br>' +
-										//' rsc:'+result[i][13]+ ',' +//' <br>' +
-										//' scV:'+result[i][14]+ //',' +//' <br>' +
-										' gTM:'+result[i][15]+ //',' +//' <br>' +
-										' pHB:'+result[i][16]+ //',' +//' <br>' +
-										//' mMv:'+result[i][17]+ //',' +//' <br>' +
+					// 		toConsole[i] = 	'Move:'+result[i][0] + ' RMv:'+result[i][2]+ ','  + '<br>'+
+					// 					'Val:'+result[i][1]+ ',' +
+					// 					//' RMv:'+result[i][2]+ ',' +
+					// 					' lpV:'+result[i][3]+ ',' +
+					// 					' cpS:'+result[i][4]+ ',' +//
+					// 					//' smV:'+result[i][5]+ ',' +//' <br>' +
+					// 					' dGH:'+result[i][6]+ ',' +//' <br>' +
+					// 					' t2V:'+result[i][7]+ ',' +//' <br>' +
+					// 					' rPr:'+result[i][8]+ ',' +//' <br>' +
+					// 					' mht:'+result[i][9]+ ',' +//' <br>' +
+					// 					' hht:'+result[i][10]+ ',' +//' <br>' +
+					// 					//' fwV:'+result[i][11]+ ',' +//' <br>' +
+					// 					//' lsc:'+result[i][12]+ ',' +//' <br>' +
+					// 					//' rsc:'+result[i][13]+ ',' +//' <br>' +
+					// 					//' scV:'+result[i][14]+ //',' +//' <br>' +
+					// 					' gTM:'+result[i][15]+ //',' +//' <br>' +
+					// 					' pHB:'+result[i][16]+ //',' +//' <br>' +
+					// 					//' mMv:'+result[i][17]+ //',' +//' <br>' +
 										
-										' <br>----<br>';
-						}			
+					// 					' <br>----<br>';
+					// 	}			
 										
 //		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, captureScore,
 //			 smallValScore, dontGetHit,tTable2Value, retProtect, mhit, hhit	, fwdVal,lsancValue,rsancValue,sancValue])
-					}
+					//}
 
 					var sendJson = {
 						aimove: aiMoveString,
