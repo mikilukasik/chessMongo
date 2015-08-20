@@ -251,13 +251,13 @@
 		
 
 		$scope.clickedItTrans = function(i, j) {
-			alert("called")
+			//alert("called")
 			console.log([i,j])
 			
 			var clickedField = [j, 8 - i]
 			var clickedString = dletters[j] + (9 - i)
 
-			if(!(opponentsName == "Spectator")) {
+			if(!($scope.opponentsName == "Spectator")) {
 				clickedIt(clickedField, clickedString)
 			}
 			//	console.log(clickedField,clickedString)
