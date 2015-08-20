@@ -211,6 +211,8 @@
 
 								$scope.lobbyChatLines = response.lobbychat
 								$scope.players = response.players
+								$scope.players.unshift("Computer")
+								
 								$scope.games = response.games
 								$scope.players.sort(function(a, b) {
 									return a.toLowerCase().localeCompare(b.toLowerCase());
