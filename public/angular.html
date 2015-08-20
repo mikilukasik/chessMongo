@@ -246,7 +246,7 @@
 
 		}
 
-		$scope.clickedItTrans = function(i, j) {
+		var clickedItTrans = function(i, j) {
 			alert("called")
 			console.log([i,j])
 			
@@ -260,6 +260,8 @@
 
 		}
 
+		$scope.clickedItTrans=clickedItTrans
+		
 		$scope.makeAMove = function(whatMove) {
 
 			$http.get('/move?m=' + whatMove + '&t=' + $scope.tableNum)
