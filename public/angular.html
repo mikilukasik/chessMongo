@@ -230,6 +230,14 @@
 							}
 
 						}) //lobbypoll callback ends here
+				}else{
+					//itt kene mast pollozni
+					
+					
+					if($scope.viewName == 'board.html'){
+						$scope.refreshTable()
+					}
+					
 				}
 			}, 500); //setinterval stuff ends here
 
@@ -342,8 +350,9 @@
 					//}
 				} else {
 
-					$interval.cancel($scope.lobbyPromise)
-
+					if(viewName == 'login.html'){
+						$interval.cancel($scope.lobbyPromise)
+					}
 					if(viewName == 'login.html') {
 						$scope.greetUser = ''
 						$scope.inOrOut = 'Login'
