@@ -271,7 +271,8 @@
 			$http.get('/getTPollNum?t=' + $scope.tableNum)
 				.success(function(response) {
 						if(!(response.tablepollnum == $scope.pollNum)) {
-							$scopepollNum = (response.tablepollnum getAndShowTable()
+							$scope.pollNum = response.tablepollnum 
+							getAndShowTable()
 							}
 
 						})
