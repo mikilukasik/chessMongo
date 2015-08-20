@@ -271,7 +271,7 @@
 				.success(function(response) {
 					if(!(response.tablepollnum == $scope.pollNum)) {
 						$scope.pollNum = response.tablepollnum
-						getAndShowTable()
+						$scope.getAndShowTable()
 					}
 
 				})
