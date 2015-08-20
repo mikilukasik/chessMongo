@@ -268,7 +268,7 @@
 
 			$http.get('/move?m=' + whatMove + '&t=' + $scope.tableNum)
 				.success(function(response) {
-					wNext = !wNext
+					$scope.wNext = !$scope.wNext
 					return response.table
 
 				})
