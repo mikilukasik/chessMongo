@@ -55,6 +55,116 @@
 		
 
 		}
+		
+		
+		$scope.drawTable=  function (wPlayer){
+	$(".ideRakd").empty();
+	var appendTable = $('<table class="main-table"> border="1"')  
+	$(".ideRakd").append(appendTable)
+	
+	if($('.main-table').height()<$('.main-table').width()){
+
+
+		var atHeight = $('.main-table').height();
+		$('.main-table').css({'width':atHeight});
+
+	}else{
+
+		var atWidth = $('.main-table').width();
+		$('.main-table').css({'height':atWidth});
+
+
+	}
+
+
+	if(wPlayer){
+
+
+		for(var i=0;i < 9;i++){
+		   	var rowEndTr=$('</tr>')
+		   	if(i==0){
+		   		var rowTr=$('<tr class="heading row'+i+'">')
+		   		var rowNumber=""
+
+		   	}else{
+		   		var rowTr=$('<tr class="row'+i+'">')
+		   		var rowNumber=(9-i)
+		   	}
+		   	var firstTd=$('<td class="left-column">'+rowNumber+'</td>')
+		   	$(".main-table").append(rowTr)
+		   	$(".row"+i).append(firstTd)
+			
+			for (var j = 0; j < 8; j++) {
+				if(i==0){
+					$(".row"+i).append($('<td>'+dletters[j].toUpperCase()+'</td>'))
+				}else{
+					if ((i+j) & 1) {
+						$(".row"+i).append($('<td onclick="clickedItTrans('+i+','+j+')" class="square '+dletters[j]+(9-i)+'"></td>'))
+					}else{
+						$(".row"+i).append($('<td onclick="clickedItTrans('+i+','+j+')" class="darker '+dletters[j]+(9-i)+'"></td>'))
+					}
+				}
+		   
+			};
+			$(".main-table").append(rowEndTr)
+		   	
+		}
+	
+
+	}else{
+
+
+
+		for(var i=8;i >= 0;i--){
+		   	var rowEndTr=$('</tr>')
+		   	if(i==8){
+		   		var rowTr=$('<tr class="heading row'+i+'">')
+		   		var rowNumber=""
+
+		   	}else{
+		   		var rowTr=$('<tr class="row'+i+'">')
+		   		var rowNumber=(8-i)
+		   	}
+		   	var firstTd=$('<td class="left-column">'+rowNumber+'</td>')
+		   	$(".main-table").append(rowTr)
+		   	$(".row"+i).append(firstTd)
+			
+			for (var j = 7; j >= 0; j--) {
+				if(i==8){
+					$(".row"+i).append($('<td>'+dletters[j].toUpperCase()+'</td>'))
+				}else{
+					if ((i+j+1) & 1) {
+						$(".row"+i).append($('<td onclick="clickedItTrans('+(i+1)+','+j+')" class="square '+dletters[j]+(8-i)+'"></td>'))
+					}else{
+						$(".row"+i).append($('<td onclick="clickedItTrans('+(i+1)+','+j+')" class="darker '+dletters[j]+(8-i)+'"></td>'))
+					}
+				}
+		   
+			};
+			$(".main-table").append(rowEndTr)
+		   	
+		}
+	
+
+	}
+
+	console.log("drawTable done")
+	
+
+}	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		$scope.askToWatch=function (gameID){
 			
 			$http.get('/watchGame?v='+$scope.loginName+"&t="+gameID)
