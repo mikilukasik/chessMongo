@@ -10,9 +10,9 @@
 
 	function ApplicationController($scope, $http, $interval) {
 
-		$scope.inOrOut = 'Login'		//displayed on nav when not logged in
+		$scope.inOrOut = 'Login' //displayed on nav when not logged in
 		$scope.loggedIn = false
-		$scope.lobbyPollNum=0
+		$scope.lobbyPollNum = 0
 
 		$scope.login = function(user) {
 			// if(!(user.pwd == undefined || user.name == undefined)) {
@@ -32,11 +32,11 @@
 							//alert("User logged in.")
 							$scope.loggedIn = true
 							$scope.greetUser = 'Logged in as ' + user.name + '. '
-							
-							$scope.inOrOut = 'Logoff'	//displayed on nav when logged in
+
+							$scope.inOrOut = 'Logoff' //displayed on nav when logged in
 							$scope.loginName = user.name
 							$scope.showView('lobby.html')
-							
+
 							if(!$scope.$$phase) {
 								$apply
 							}
@@ -49,187 +49,161 @@
 				})
 
 		}
-		$scope.askToStart=function(opponentsName){
-			
-				$http.get('/startGame?w='+$scope.loginName+"&b="+opponentsName)
-		
+		$scope.askToStart = function(opponentsName) {
+
+			$http.get('/startGame?w=' + $scope.loginName + "&b=" + opponentsName)
 
 		}
-		
-		
-		$scope.drawTable=  function (wPlayer){
-			
-			var dletters = ["a","b","c","d","e","f","g","h"]
-var dfigures = ["","King","Queen","Rook","Bishop","Knight","Pawn"]
-var dcolors = ["","Black","White"]
 
+		$scope.drawTable = function(wPlayer) {
 
-	$(".ideRakd").empty();
-	var appendTable = $('<table class="main-table"> border="1"')  
-	$(".ideRakd").append(appendTable)
-	
-	if($('.main-table').height()<$('.main-table').width()){
+			var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
+			var dfigures = ["", "King", "Queen", "Rook", "Bishop", "Knight", "Pawn"]
+			var dcolors = ["", "Black", "White"]
 
+			$(".ideRakd").empty();
+			var appendTable = $('<table class="main-table"> border="1"')
+			$(".ideRakd").append(appendTable)
 
-		var atHeight = $('.main-table').height();
-		$('.main-table').css({'width':atHeight});
+			if($('.main-table').height() < $('.main-table').width()) {
 
-	}else{
+				var atHeight = $('.main-table').height();
+				$('.main-table').css({
+					'width': atHeight
+				});
 
-		var atWidth = $('.main-table').width();
-		$('.main-table').css({'height':atWidth});
+			} else {
 
+				var atWidth = $('.main-table').width();
+				$('.main-table').css({
+					'height': atWidth
+				});
 
-	}
+			}
 
+			if(wPlayer) {
 
-	if(wPlayer){
+				for(var i = 0; i < 9; i++) {
+					var rowEndTr = $('</tr>')
+					if(i == 0) {
+						var rowTr = $('<tr class="heading row' + i + '">')
+						var rowNumber = ""
 
-
-		for(var i=0;i < 9;i++){
-		   	var rowEndTr=$('</tr>')
-		   	if(i==0){
-		   		var rowTr=$('<tr class="heading row'+i+'">')
-		   		var rowNumber=""
-
-		   	}else{
-		   		var rowTr=$('<tr class="row'+i+'">')
-		   		var rowNumber=(9-i)
-		   	}
-		   	var firstTd=$('<td class="left-column">'+rowNumber+'</td>')
-		   	$(".main-table").append(rowTr)
-		   	$(".row"+i).append(firstTd)
-			
-			for (var j = 0; j < 8; j++) {
-				if(i==0){
-					$(".row"+i).append($('<td>'+dletters[j].toUpperCase()+'</td>'))
-				}else{
-					if ((i+j) & 1) {
-						$(".row"+i).append($('<td onclick="clickedItTrans('+i+','+j+')" class="square '+dletters[j]+(9-i)+'"></td>'))
-					}else{
-						$(".row"+i).append($('<td onclick="clickedItTrans('+i+','+j+')" class="darker '+dletters[j]+(9-i)+'"></td>'))
+					} else {
+						var rowTr = $('<tr class="row' + i + '">')
+						var rowNumber = (9 - i)
 					}
-				}
-		   
-			};
-			$(".main-table").append(rowEndTr)
-		   	
-		}
-	
+					var firstTd = $('<td class="left-column">' + rowNumber + '</td>')
+					$(".main-table").append(rowTr)
+					$(".row" + i).append(firstTd)
 
-	}else{
-
-
-
-		for(var i=8;i >= 0;i--){
-		   	var rowEndTr=$('</tr>')
-		   	if(i==8){
-		   		var rowTr=$('<tr class="heading row'+i+'">')
-		   		var rowNumber=""
-
-		   	}else{
-		   		var rowTr=$('<tr class="row'+i+'">')
-		   		var rowNumber=(8-i)
-		   	}
-		   	var firstTd=$('<td class="left-column">'+rowNumber+'</td>')
-		   	$(".main-table").append(rowTr)
-		   	$(".row"+i).append(firstTd)
-			
-			for (var j = 7; j >= 0; j--) {
-				if(i==8){
-					$(".row"+i).append($('<td>'+dletters[j].toUpperCase()+'</td>'))
-				}else{
-					if ((i+j+1) & 1) {
-						$(".row"+i).append($('<td onclick="clickedItTrans('+(i+1)+','+j+')" class="square '+dletters[j]+(8-i)+'"></td>'))
-					}else{
-						$(".row"+i).append($('<td onclick="clickedItTrans('+(i+1)+','+j+')" class="darker '+dletters[j]+(8-i)+'"></td>'))
-					}
-				}
-		   
-			};
-			$(".main-table").append(rowEndTr)
-		   	
-		}
-	
-
-	}
-
-	console.log("drawTable done")
-	
-
-}	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		$scope.askToWatch=function (gameID){
-			
-			$http.get('/watchGame?v='+$scope.loginName+"&t="+gameID)
-			
-	
-
-		}
-
-		$scope.pollLobby = function(){
-			$scope.lobbyPromise=	$interval(function() {
-
-					//refreshLobby()
-					
-					$http.get('/getLobby?p=' + $scope.loginName)
-						.success(function(response) {
-							
-							if(response.asktoopen) {
-								console.log('opening')
-								
-								$scope.openTableNum = response.opentablenum
-								$scope.openPlayerColor = response.opentablecolor
-								$scope.openOpponentsName = response.opponentsname
-							
-								$scope.openNow = true;
-						
+					for(var j = 0; j < 8; j++) {
+						if(i == 0) {
+							$(".row" + i).append($('<td>' + dletters[j].toUpperCase() + '</td>'))
+						} else {
+							if((i + j) & 1) {
+								$(".row" + i).append($('<td onclick="clickedItTrans(' + i + ',' + j + ')" class="square ' + dletters[j] + (9 - i) + '"></td>'))
+							} else {
+								$(".row" + i).append($('<td onclick="clickedItTrans(' + i + ',' + j + ')" class="darker ' + dletters[j] + (9 - i) + '"></td>'))
 							}
-							
-							if(!($scope.lobbyPollNum == response.lobbypollnum)) {
+						}
 
-								console.log('polling')
-		
-								$scope.lobbyChatLines = response.lobbychat
-								$scope.players = response.players
-								$scope.games = response.games
-								$scope.players.sort(function(a, b) {
-									return a.toLowerCase().localeCompare(b.toLowerCase());
-								});
-								$scope.lobbyPollNum = response.lobbyPollNum
+					};
+					$(".main-table").append(rowEndTr)
+
+				}
+
+			} else {
+
+				for(var i = 8; i >= 0; i--) {
+					var rowEndTr = $('</tr>')
+					if(i == 8) {
+						var rowTr = $('<tr class="heading row' + i + '">')
+						var rowNumber = ""
+
+					} else {
+						var rowTr = $('<tr class="row' + i + '">')
+						var rowNumber = (8 - i)
+					}
+					var firstTd = $('<td class="left-column">' + rowNumber + '</td>')
+					$(".main-table").append(rowTr)
+					$(".row" + i).append(firstTd)
+
+					for(var j = 7; j >= 0; j--) {
+						if(i == 8) {
+							$(".row" + i).append($('<td>' + dletters[j].toUpperCase() + '</td>'))
+						} else {
+							if((i + j + 1) & 1) {
+								$(".row" + i).append($('<td onclick="clickedItTrans(' + (i + 1) + ',' + j + ')" class="square ' + dletters[j] + (8 - i) + '"></td>'))
+							} else {
+								$(".row" + i).append($('<td onclick="clickedItTrans(' + (i + 1) + ',' + j + ')" class="darker ' + dletters[j] + (8 - i) + '"></td>'))
+							}
+						}
+
+					};
+					$(".main-table").append(rowEndTr)
+
+				}
+
+			}
+
+			console.log("drawTable done")
+
+		}
+
+		$scope.askToWatch = function(gameID) {
+
+			$http.get('/watchGame?v=' + $scope.loginName + "&t=" + gameID)
+
+		}
+
+		$scope.pollLobby = function() {
+			$scope.lobbyPromise = $interval(function() {
+
+				//refreshLobby()
+
+				$http.get('/getLobby?p=' + $scope.loginName)
+					.success(function(response) {
+
+						if(response.asktoopen) {
+							console.log('opening')
+
+							$scope.openTableNum = response.opentablenum
+							$scope.openPlayerColor = response.opentablecolor
+							$scope.openOpponentsName = response.opponentsname
+
+							$scope.openNow = true;
+
+						}
+
+						if(!($scope.lobbyPollNum == response.lobbypollnum)) {
+
+							console.log('polling')
+
+							$scope.lobbyChatLines = response.lobbychat
+							$scope.players = response.players
+							$scope.games = response.games
+							$scope.players.sort(function(a, b) {
+								return a.toLowerCase().localeCompare(b.toLowerCase());
+							});
+							$scope.lobbyPollNum = response.lobbyPollNum
 								//showLobby(lobbyChatLines, players, games, $scope.lobbyPollNum)
-								if(!$scope.$$phase) {
-									$apply
-								}
-							
-		
+							if(!$scope.$$phase) {
+								$apply
 							}
-							if($scope.openNow) {
-						
-								$scope.viewName="board.html"
-								$scope.openNow = false
-								$scope.drawTable(true)
-									
-							}
-								
-							
-							
-						})//lobbypoll callback ends here
-						
-			
-				}, 500);//setinterval stuff ends here
+
+						}
+						if($scope.openNow) {
+
+							$scope.viewName = "board.html"
+							$scope.openNow = false
+							$scope.drawTable(true)
+
+						}
+
+					}) //lobbypoll callback ends here
+
+			}, 500); //setinterval stuff ends here
 
 		}
 		$scope.register = function(user) {
@@ -262,24 +236,20 @@ var dcolors = ["","Black","White"]
 
 		$scope.showView = function(viewName) {
 			$scope.viewName = viewName;
-			
-			
-			
+
 			if(viewName == 'lobby.html') {
-			$scope.openNow=false
-			//$scope.lobbyPollNum=0	
-				
-				
-		/////////////////////////////////		////lobby polling
-				
-				$scope.pollLobby() 
-					
+				$scope.openNow = false
+					//$scope.lobbyPollNum=0	
+
+				/////////////////////////////////		////lobby polling
+
+				$scope.pollLobby()
 
 				//}
 			} else {
-				
+
 				$interval.cancel($scope.lobbyPromise)
-				
+
 				if(viewName == 'login.html') {
 					$scope.greetUser = ''
 					$scope.inOrOut = 'Login'
