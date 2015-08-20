@@ -345,10 +345,17 @@
 
 		$scope.newView = function(viewName) {
 			if(viewName == 'board.html') {
-				$scope.drawTable($scope.wPlayer)
+				if($scope.wPlayer){
+						$scope.draTable("wtable.html")
+				}else{
+					$scope.draTable("btable.html")
+				}
 			}
 		}
-
+		
+		$scope.drTable = function(viewName) {
+			$scope.draTable = viewName;
+		}
 		$scope.showView = function(viewName) {
 			$scope.viewName = viewName;
 
