@@ -584,15 +584,13 @@
 	<nav width=100%>
 		<table>
 			<tr>
-				<td width=100% align="left">
+				<td nowrap align="left">
 		<a href="#" ng-click="showView('login.html')" ng-class="{ selected: viewName == 'login.html' }">{{inOrOut}}</a>
 		<a href="#" ng-click="showView('lobby.html')" ng-class="{ selected: viewName == 'lobby.html' }">Lobby</a>
 		<a href="#" ng-click="showView('board.html')" ng-class="{ selected: viewName == 'board.html' }">Chessboard</a>
 		</td>
 		
-		<td nowrap width=100% align="right">
-		{{greetUser}}
-		</td>
+		<td nowrap width=100% align="right">{{greetUser}}</td>
 		</tr>
 		</table>
 	</nav>
