@@ -479,29 +479,33 @@ function letsPlay(){
 	<table width=100% class="frame-table" ng-controller="ApplicationController">
 		<tr>
 			
-			<td class="myGamesHere">
-				<table class="leftTable">
-					<tr class="yourTurnTr">
-						<td class="blink">
-							
-							
-						</td>
-					</tr>
-					<tr class="yourTurnTr">
-						<td class="isItYourTurn">
-							
-							
-						</td>
-						
-					</tr>
-					<tr class="statusTr">
+			<td class="myGamesHere"></td>
+			
+				<td class="ideRakd" ng-include="'/wtable.html'"></td>	
 					
-						<td class="statusCell"></td>
-					</tr>
-				</table>
-			</td>
-			<td class="ideRakd" ng-include="'/wtable.html'"></td>		
-			<td>
+				<td>
+					<table class="leftTable">
+						<tr class="yourTurnTr">
+							<td class="blink">
+								
+								
+							</td>
+						</tr>
+						<tr class="yourTurnTr">
+							<td class="isItYourTurn">
+								
+								
+							</td>
+							
+						</tr>
+						<tr class="statusTr">
+						
+							<td class="statusCell"></td>
+						</tr>
+					</table>
+				</td>
+			
+			<td>	
 				<table>
 				<tr class="chatTextTr">
 					<td class="chatCell"></td>
