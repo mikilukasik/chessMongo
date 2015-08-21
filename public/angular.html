@@ -586,7 +586,7 @@
 		<a href="#" ng-click="showView('login.html')" ng-class="{ selected: viewName == 'login.html' }">{{inOrOut}}</a>
 		<a href="#" ng-click="showView('lobby.html')" ng-class="{ selected: viewName == 'lobby.html' }">Lobby</a>
 		<a href="#" ng-click="showView('board.html')" ng-class="{ selected: viewName == 'board.html' }">Chessboard</a>
-		<div width=100%></div>
+		<span width=100%></span>
 		<span width=100% align="right">{{greetUser}}</span>
 	</nav>
 	<div id="content" ng-include="viewName" onload="newView(viewName)">
