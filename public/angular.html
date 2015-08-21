@@ -58,8 +58,7 @@
 
 		}
 		$scope.askToStart = function(opponentsName) {
-
-			$http.get('/startGame?w=' + $scope.loginName + "&b=" + opponentsName)
+			if(opponentsName!=$scope.loginName)	$http.get('/startGame?w=' + $scope.loginName + "&b=" + opponentsName)
 
 		}
 
