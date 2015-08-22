@@ -484,7 +484,7 @@ function letsPlay(){
 						<tr class="displayedGame">
 							Table {{tableNum}}
 						</tr>
-						<tr class="recentGames" ng-repeat="x in myRecentGames"><td>{{x}}</td>
+						<tr class="recentGames" ng-repeat="x in myRecentGames"><td ng-click="tableNum=x">{{x}}</td>
 						</tr>
 					</table>
 			</td>
