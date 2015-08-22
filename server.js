@@ -594,7 +594,7 @@ app.get('/chat', function(req, res) {
 					tableInDb.chat.push(req.query.c)
 					tableInDb.pollNum++
 
-						var passChat = tableInDb.chat
+						//var passChat = tableInDb.chat
 
 					db.collection("tables")
 						.save(tableInDb, function(err3, res) {})
@@ -620,6 +620,26 @@ app.get('/startGame', function(req, res) {
 		db.collection("users")
 			.findOne({
 				name: req.query.w
+			}, function(err2, userInDb) {
+
+				userInDb.games.unshift(initedTable.tableNum)
+				
+		
+
+				db.collection("users")
+					.save(userInDb, function(err3, res) {})
+				db.close()
+				// res.json({
+				
+				// });
+			});
+
+	});
+	
+	mongodb.connect(cn, function(err, db) {
+		db.collection("users")
+			.findOne({
+				name: req.query.b
 			}, function(err2, userInDb) {
 
 				userInDb.games.unshift(initedTable.tableNum)
