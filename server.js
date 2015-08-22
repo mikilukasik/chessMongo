@@ -753,6 +753,25 @@ app.get('/lobbyChat', function(req, res) {
 
 });
 
+app.get('/getMyRecentGames', function(req, res) {
+	//console.log(req)
+	mongodb.connect(cn, function(err, db) {
+		db.collection("users")
+			.findOne({
+				name: req.query.n
+			}, function(err2, xData) {
+				res.json({
+		recentgames: xData.games
+	});
+				
+				db.close()
+			});
+	});
+
+	
+
+});
+
 function clearDisconnectedPlayers() {
 	for(var i = players.length - 1; i >= 0; i--) {
 
