@@ -191,7 +191,7 @@
 			$http.get('/getMyRecentGames?n=' + $scope.loginName)
 				.success(function(response) {
 					$scope.myRecentGames = response.recentgames
-					
+					$scope.$apply()
 
 					//$scope.showTable()
 
