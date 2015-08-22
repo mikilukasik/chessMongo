@@ -1,6 +1,7 @@
 var Dbuser = function(name,pwd){
 	this.name=name
 	this.pwd=pwd
+	this.games=[]		//his recent games 
 	
 }
 var Dbtable = function(tableNum, wName, bName) { //class
