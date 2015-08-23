@@ -39,34 +39,34 @@ app.get('/aiChoice', function(req, res) {
 
 					for(var i = 1; i < result.length; i++) {
 						
-						if(false){//i<4){
+						// if(false){//i<4){
 							
-							// allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, captureScore, smallValScore,
-			 				// dontGetHit,tTable2Value, retProtect, mhit, hhit, fwdVal,lsancValue,rsancValue,
-							//  sancValue,getToMiddle,pushHimBack,mostMoved])
+						// 	allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, captureScore, smallValScore,
+			 			// 	dontGetHit,tTable2Value, retProtect, mhit, hhit, fwdVal,lsancValue,rsancValue,
+						// 	 sancValue,getToMiddle,pushHimBack,mostMoved])
 							
-							toConsole[i] = 	'stepMove: '+result[i][0] + //' <br> ' +
-										'pushThisValue: '+result[i][1]+ ' <br>' +
-										'hisBestRtnMove: '+result[i][2]+ ' <br>' +
-										'loopValue: '+result[i][3]+ ' <br>' +
-										'captureScore: '+result[i][4]+ ' <br>' +
-										'smallValScore: '+result[i][5]+ ' <br>' +
-										'dontGetHit: '+result[i][6]+ ' <br>' +
-										'tTable2Value: '+result[i][7]+ ' <br>' +
-										'retProtect: '+result[i][8]+ ' <br>' +
-										'mhit: '+result[i][9]+ ' <br>' +
-										'hhit: '+result[i][10]+ ' <br>' +
-										'fwdVal: '+result[i][11]+ ' <br>' +
-										'lsancValue: '+result[i][12]+ ' <br>' +
-										'rsancValue: '+result[i][13]+ ' <br>' +
-										'sancValue: '+result[i][14]+ ' <br>' +
-										'getToMiddle: '+result[i][15]+ ' <br>' +
+						// 	toConsole[i] = 	'stepMove: '+result[i][0] + //' <br> ' +
+						// 				'pushThisValue: '+result[i][1]+ ' <br>' +
+						// 				'hisBestRtnMove: '+result[i][2]+ ' <br>' +
+						// 				'loopValue: '+result[i][3]+ ' <br>' +
+						// 				'captureScore: '+result[i][4]+ ' <br>' +
+						// 				'smallValScore: '+result[i][5]+ ' <br>' +
+						// 				'dontGetHit: '+result[i][6]+ ' <br>' +
+						// 				'tTable2Value: '+result[i][7]+ ' <br>' +
+						// 				'retProtect: '+result[i][8]+ ' <br>' +
+						// 				'mhit: '+result[i][9]+ ' <br>' +
+						// 				'hhit: '+result[i][10]+ ' <br>' +
+						// 				'fwdVal: '+result[i][11]+ ' <br>' +
+						// 				'lsancValue: '+result[i][12]+ ' <br>' +
+						// 				'rsancValue: '+result[i][13]+ ' <br>' +
+						// 				'sancValue: '+result[i][14]+ ' <br>' +
+						// 				'getToMiddle: '+result[i][15]+ ' <br>' +
 										
-										' ----<br>';
+						// 				' ----<br>';
 							
-						}else{
+						// }else{
 
-							toConsole[i] = 	'Move:'+result[i][0] + ' RMv:'+result[i][2]+ ','+	'Val:'+result[i][1]//+ ',' +
+							toConsole[i] = 	'Move:'+result[i][0] + ' RMv:'+result[i][2]+ ','+	'Val:'+result[i][1]+ 'a' //+
 										// //' RMv:'+result[i][2]+ ',' +
 										// ' lpV:'+result[i][3]+ ',' +
 										// ' cpS:'+result[i][4]+ ',' +//
@@ -85,7 +85,7 @@ app.get('/aiChoice', function(req, res) {
 										// //' mMv:'+result[i][17]+ //',' +//' <br>' +
 										
 										// ' <br>----<br>';
-						}			
+						//}			
 										
 		// allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, captureScore,
 		// 	 smallValScore, dontGetHit,tTable2Value, retProtect, mhit, hhit	, fwdVal,lsancValue,rsancValue,sancValue])
