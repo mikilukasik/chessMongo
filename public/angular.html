@@ -265,9 +265,9 @@
 						}) //lobbypoll callback ends here
 				} else {
 					//itt kene mast pollozni
-					console.log($scope.tempMoveString.length)
+					console.log($scope.tempMoveString)
 
-					if($scope.viewName == 'board.html'&& ! ($scope.tempMoveString.length==2)) {
+					if($scope.viewName == 'board.html'&& $scope.tempMoveString=="") {
 						console.log('refreshtable called from interval '+ $scope.tempMoveString)
 						$scope.refreshTable()
 						
@@ -397,7 +397,7 @@
 			if(viewName == 'lobby.html'||viewName == 'board.html') {
 				$scope.openNow = false
 					//$scope.lobbyPollNum=0	
-
+					$scope.tempMoveString=""
 				/////////////////////////////////		////lobby polling
 
 				$scope.pollLobby()
