@@ -37,7 +37,7 @@ app.get('/aiChoice', function(req, res) {
 					
 					
 
-					for(var i = 1; i < result.length; i++) {
+					//for(var i = 1; i < result.length; i++) {
 						
 						// if(false){//i<4){
 							
@@ -66,7 +66,7 @@ app.get('/aiChoice', function(req, res) {
 							
 						// }else{
 
-							toConsole[i] = 	'Move:'+result[i][0] + ' RMv:'+result[i][2]+ ','+	'Val:'+result[i][1]+ 'a' //+
+						//	toConsole[i] = 	'Move:'+result[i][0] + ' RMv:'+result[i][2]+ ','+	'Val:'+result[i][1]+ 'a' //+
 										// //' RMv:'+result[i][2]+ ',' +
 										// ' lpV:'+result[i][3]+ ',' +
 										// ' cpS:'+result[i][4]+ ',' +//
@@ -89,7 +89,7 @@ app.get('/aiChoice', function(req, res) {
 										
 		// allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, captureScore,
 		// 	 smallValScore, dontGetHit,tTable2Value, retProtect, mhit, hhit	, fwdVal,lsancValue,rsancValue,sancValue])
-					}
+			//		}
 
 					var sendJson = {
 						aimove: aiMoveString,
