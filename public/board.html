@@ -491,7 +491,7 @@ function letsPlay(){
 									<table>
 										<tr class="recentGames pointed" ng-repeat="x in myRecentGames">
 											<td ng-click="setTableNum(x)" ng-class="{ selected: x==tableNum}">{{x}}<span ng-if="x==tableNum">&lArr;</span>
-												</td>
+											</td>
 										</tr>
 									</table>
 								</div>
@@ -532,22 +532,25 @@ function letsPlay(){
 
 			<td>
 				<div class="chatCell">
-				<table>
-					<tr ng-repeat="x in chatLines">
-						<td>{{x}}</td>
-					</tr>
-					<tr class="chatInputRow">
-						<td>
+					<table>
+						<tr ng-repeat="x in chatLines">
+							<td>{{x}}</td>
+						</tr>
+						<tr class="chatInputRow">
+							<td>
 
-							<!--fix this to form-->
-							
-							
-						</td>
-					</tr>
+								<!--fix this to form-->
 
-				</table>
+
+							</td>
+						</tr>
+
+					</table>
 				</div>
-				<div class="chatInput"><input type="text" ng-model="sendThis" onkeydown="if (event.keyCode == 13) sendChat()"><button class="chatButton" ng-click="sendChat()">Send</button></div>
+				<form class="chatInput" ng-submit="sendChat()">
+					<input type="text" ng-model="sendThis">
+					<button class="chatButton">Send</button>
+				</form>
 			</td>
 
 
