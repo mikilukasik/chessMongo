@@ -382,7 +382,7 @@
 		$scope.showView = function(viewName) {
 			$scope.viewName = viewName;
 
-			if(viewName == 'lobby.html') {
+			if(viewName == 'lobby.html'||viewName == 'board.html') {
 				$scope.openNow = false
 					//$scope.lobbyPollNum=0	
 
@@ -395,8 +395,8 @@
 
 				if(viewName == 'login.html') {
 					$interval.cancel($scope.lobbyPromise)
-				}
-				if(viewName == 'login.html') {
+				// }
+				// if(viewName == 'login.html') {
 					$scope.greetUser = ''
 					$scope.inOrOut = 'Login'
 					$scope.loginName = 'someone'
