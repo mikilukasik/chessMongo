@@ -18,8 +18,8 @@
 		$scope.loggedIn = false
 		$scope.lobbyPollNum = 0
 
-		//$scope.tempMoveString = ""
-		$scope.pollNum = -2
+		//$rootScope.tempMoveString = ""
+		$rootScope.pollNum = -2
 		//$scope.table = []
 		
 
@@ -181,7 +181,7 @@
 					$scope.wNext = response.next
 					$scope.allMoves = response.allmoves
 					$scope.chatLines = response.chat
-					$scope.pollNum=response.tablepollnum
+					$rootScope.pollNum=response.tablepollnum
 
 					$scope.refreshRecentGames()
 					$scope.showTable()
@@ -191,7 +191,7 @@
 		}
 		$scope.setTableNum = function(num){
 			$scope.tableNum=num
-			$scope.pollNum=-1
+			$rootScope.pollNum=-1
 			$scope.refreshTable()
 		}
 		$scope.refreshRecentGames = function() {
@@ -224,7 +224,7 @@
 								$scope.tableNum = response.opentablenum
 								$scope.wPlayer = response.opentablecolor
 								$scope.opponentsName = response.opponentsname
-								$scope.pollNum = 0
+								$rootScope.pollNum = 0
 
 								$scope.openNow = true;
 
@@ -250,7 +250,7 @@
 
 							}
 							if($scope.openNow) {
-								$scope.tempMoveString=""
+								$rootScope.tempMoveString=""
 								$scope.viewName = "board.html"
 								
 								$scope.openNow = false
@@ -266,10 +266,10 @@
 						}) //lobbypoll callback ends here
 				} else {
 					//itt kene mast pollozni
-					console.log($scope.tempMoveString)
+					console.log($rootScope.tempMoveString)
 
-					if($scope.viewName == 'board.html'&& $scope.tempMoveString=="") {
-						console.log('refreshtable called from interval '+ $scope.tempMoveString)
+					if($scope.viewName == 'board.html'&& $rootScope.tempMoveString=="") {
+						console.log('refreshtable called from interval '+ $rootScope.tempMoveString)
 						$scope.refreshTable()
 						
 					}
@@ -283,7 +283,7 @@
 
 		$scope.clickedItTrans = function(i, j) {
 			//alert("called")
-			console.log([i,j,$scope.tempMoveString])
+			console.log([i,j,$rootScope.tempMoveString])
 			
 			var clickedField = [j, 8 - i]
 			var clickedString = dletters[j] + (9 - i)
@@ -300,7 +300,7 @@
 			$http.get('/move?m=' + whatMove + '&t=' + $scope.tableNum)
 				.success(function(response) {
 					$scope.wNext = !$scope.wNext
-					$scope.pollNum-=5
+					$rootScope.pollNum-=5
 					$scope.refreshTable()
 					return response.table
 
@@ -312,9 +312,9 @@
 
 			$http.get('/getTPollNum?t=' + $scope.tableNum)
 				.success(function(response) {
-					console.log('getting board pollnum: '+response.tablepollnum+" vs "+$scope.pollNum)
-					if(!(response.tablepollnum == $scope.pollNum)) {
-						$scope.pollNum = response.tablepollnum
+					console.log('getting board pollnum: '+response.tablepollnum+" vs "+$rootScope.pollNum)
+					if(!(response.tablepollnum == $rootScope.pollNum)) {
+						$rootScope.pollNum = response.tablepollnum
 						console.log('calling getandshow')
 						$scope.getAndShowTable()
 						$scope.$apply()
@@ -398,7 +398,7 @@
 			if(viewName == 'lobby.html'||viewName == 'board.html') {
 				$scope.openNow = false
 					//$scope.lobbyPollNum=0	
-					$scope.tempMoveString=""
+					$rootScope.tempMoveString=""
 				/////////////////////////////////		////lobby polling
 
 				// $scope.pollLobby()
@@ -427,40 +427,40 @@
 				//alert("called")
 				// console.log([x,y,clickedString])
 				// console.log($scope.table)
-			if((!($scope.table[x][y][5] == []) || $scope.tempMoveString.length > 0) && $scope.wNext == $scope.wPlayer) {
+			if((!($scope.table[x][y][5] == []) || $rootScope.tempMoveString.length > 0) && $scope.wNext == $scope.wPlayer) {
 
-				if(clickedString == $scope.tempMoveString) {
+				if(clickedString == $rootScope.tempMoveString) {
 					$scope.table[x][y][8] = false
 					$scope.clearHighlights()
 					$scope.showTable()
-					$scope.tempMoveString = ""
+					$rootScope.tempMoveString = ""
 				} else {
-					if($scope.table[x][y][0] > 0 && $scope.tempMoveString == "") {
+					if($scope.table[x][y][0] > 0 && $rootScope.tempMoveString == "") {
 
 						$scope.table[x][y][5].forEach($scope.highLightThem) //5odik elem ahova lephet
 						$scope.showTable()
-							//console.log($scope.tempMoveString)
+							//console.log($rootScope.tempMoveString)
 					};
-					if($scope.table[x][y][0] > 0 || 0 < $scope.tempMoveString.length) {
+					if($scope.table[x][y][0] > 0 || 0 < $rootScope.tempMoveString.length) {
 
-						$scope.tempMoveString += clickedString
+						$rootScope.tempMoveString += clickedString
 
-						if($scope.tempMoveString.length < 3) {
+						if($rootScope.tempMoveString.length < 3) {
 							$scope.table[x][y][8] = true;
 						}
 
 					}
-					if($scope.tempMoveString.length > 3) {
+					if($rootScope.tempMoveString.length > 3) {
 
 						if($scope.table[x][y][9] == true) {
 
-							$scope.makeAMove($scope.tempMoveString)
+							$scope.makeAMove($rootScope.tempMoveString)
 							$scope.wNext = !$scope.wNext
 
-							$scope.tempMoveString = ""
+							$rootScope.tempMoveString = ""
 
 						} else {
-							$scope.tempMoveString = $scope.tempMoveString[0] + $scope.tempMoveString[1]
+							$rootScope.tempMoveString = $rootScope.tempMoveString[0] + $rootScope.tempMoveString[1]
 						}
 
 					}
