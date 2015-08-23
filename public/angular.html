@@ -484,6 +484,16 @@
 				}
 			}
 		}
+		$scope.sendChat= function (){
+			
+			$http.get('/chat?t='+$rootScope.tableNum+'&c='+$rootScope.loginName+": "+$scope.sendThis)
+				
+					
+					
+	
+			$scope.sendThis=""
+			
+		}
 	}
 
 	</script>
