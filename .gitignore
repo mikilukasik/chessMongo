@@ -4,8 +4,8 @@ node_modules
 *.exe
 *.pdb
 
-
-
+*.ns
+*.0
 
 # Lock file
 logs
