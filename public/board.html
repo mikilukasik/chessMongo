@@ -483,9 +483,10 @@ function letsPlay(){
 				<table class="myGamesHere">
 						<tr class="displayedGame">
 							<!--{{tempMoveString}}-->
-							{{pollNum}}
+							str: {{tempMoveString}}
+							Pollnum: {{pollNum}}
 							<br>
-							Table {{tableNum}}
+							on table {{tableNum}}
 						</tr>
 						<tr class="recentGames" ng-repeat="x in myRecentGames"><td ng-click="setTableNum(x)">{{x}}</td>
 						</tr>
