@@ -303,7 +303,7 @@
 
 			$http.get('/getTPollNum?t=' + $scope.tableNum)
 				.success(function(response) {
-					console.log('getting board pollnum')
+					console.log('getting board pollnum: '+response.tablepollnum+" vs "+$scope.pollNum)
 					if(!(response.tablepollnum == $scope.pollNum)) {
 						$scope.pollNum = response.tablepollnum
 						console.log('calling getandshow')
