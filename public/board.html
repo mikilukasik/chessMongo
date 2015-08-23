@@ -490,7 +490,9 @@ function letsPlay(){
 								<div class="scrollThis lbborder">
 									<table>
 										<tr class="recentGames pointed" ng-repeat="x in myRecentGames">
-											<td ng-click="setTableNum(x)" ng-class="{ selected: x==tableNum}">{{x}}<div ng-if="x==tableNum"></div>xxx</td>
+											<td ng-click="setTableNum(x)" ng-class="{ selected: x==tableNum}">{{x}}
+												<div ng-if="x==tableNum">xxx</div>
+												</td>
 										</tr>
 									</table>
 								</div>
