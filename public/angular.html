@@ -265,7 +265,7 @@
 				} else {
 					//itt kene mast pollozni
 
-					if($scope.viewName == 'board.html'&&$scope.tempMoveString.length<1) {
+					if($scope.viewName == 'board.html'&& ! $scope.tempMoveString.length==2) {
 						console.log('refreshtable called from interval')
 						$scope.refreshTable()
 						
