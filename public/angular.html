@@ -165,7 +165,11 @@
 			$http.get('/watchGame?v=' + $scope.loginName + "&t=" + gameID)
 
 		}
-
+		$scope.applyIt=function(){
+			$scope.$apply()
+		}
+		
+		
 		$scope.getAndShowTable = function() {
 
 			console.log('polling table ' + $scope.tableNum)
