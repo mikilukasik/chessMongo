@@ -178,7 +178,7 @@
 			$http.get('/getTable?t=' + $rootScope.tableNum)
 				.success(function(response) {
 					$rootScope.table = response.table
-					$scope.wNext = response.next
+					$rootScope.wNext = response.next
 					$scope.allMoves = response.allmoves
 					$scope.chatLines = response.chat
 					$rootScope.pollNum=response.tablepollnum
@@ -299,7 +299,7 @@
 
 			$http.get('/move?m=' + whatMove + '&t=' + $rootScope.tableNum)
 				.success(function(response) {
-					$scope.wNext = !$scope.wNext
+					$rootScope.wNext = !$rootScope.wNext
 					$rootScope.pollNum-=5
 					$scope.refreshTable()
 					return response.table
@@ -427,7 +427,7 @@
 				//alert("called")
 				// //console.log([x,y,clickedString])
 				// //console.log($rootScope.table)
-			if((!($rootScope.table[x][y][5] == []) || $rootScope.tempMoveString.length > 0) && $scope.wNext == $scope.wPlayer) {
+			if((!($rootScope.table[x][y][5] == []) || $rootScope.tempMoveString.length > 0) && $rootScope.wNext == $scope.wPlayer) {
 
 				if(clickedString == $rootScope.tempMoveString) {
 					$rootScope.table[x][y][8] = false
@@ -455,7 +455,7 @@
 						if($rootScope.table[x][y][9] == true) {
 
 							$scope.makeAMove($rootScope.tempMoveString)
-							$scope.wNext = !$scope.wNext
+							$rootScope.wNext = !$rootScope.wNext
 
 							$rootScope.tempMoveString = ""
 
