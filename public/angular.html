@@ -209,7 +209,7 @@
 		}
 
 		$scope.pollLobby = function() {
-			$scope.lobbyPromise = $interval(function() {
+			$scope.lobbyPromise = $scope.$interval(function() {
 
 				//refreshLobby()
 				if($scope.viewName == 'lobby.html') {
@@ -282,7 +282,7 @@
 
 		$scope.clickedItTrans = function(i, j) {
 			//alert("called")
-			console.log([i,j])
+			console.log([i,j,$scope.tempMoveString])
 			
 			var clickedField = [j, 8 - i]
 			var clickedString = dletters[j] + (9 - i)
