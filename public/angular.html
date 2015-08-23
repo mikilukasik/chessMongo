@@ -264,6 +264,7 @@
 						}) //lobbypoll callback ends here
 				} else {
 					//itt kene mast pollozni
+					console.log($scope.tempMoveString)
 
 					if($scope.viewName == 'board.html'&& ! $scope.tempMoveString.length==2) {
 						console.log('refreshtable called from interval '+ $scope.tempMoveString)
