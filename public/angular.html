@@ -157,7 +157,7 @@
 
 			}
 
-			console.log("drawTable done")
+			//console.log("drawTable done")
 
 		}
 
@@ -173,7 +173,7 @@
 		
 		$scope.getAndShowTable = function() {
 
-			console.log('polling table ' + $rootScope.tableNum)
+			//console.log('polling table ' + $rootScope.tableNum)
 
 			$http.get('/getTable?t=' + $rootScope.tableNum)
 				.success(function(response) {
@@ -196,7 +196,7 @@
 		}
 		$scope.refreshRecentGames = function() {
 
-			//console.log('polling table ' + $rootScope.tableNum)
+			////console.log('polling table ' + $rootScope.tableNum)
 
 			$http.get('/getMyRecentGames?n=' + $scope.loginName)
 				.success(function(response) {
@@ -217,9 +217,9 @@
 
 					$http.get('/getLobby?p=' + $scope.loginName)
 						.success(function(response) {
-							console.log('polling lobby')
+							//console.log('polling lobby')
 							if(response.asktoopen) {
-								console.log('opening')
+								//console.log('opening')
 
 								$rootScope.tableNum = response.opentablenum
 								$scope.wPlayer = response.opentablecolor
@@ -232,7 +232,7 @@
 
 							if(!($scope.lobbyPollNum == response.lobbypollnum)) {
 
-								//console.log('polling lobby')
+								////console.log('polling lobby')
 
 								$scope.lobbyChatLines = response.lobbychat
 								$scope.players = response.players
@@ -266,10 +266,10 @@
 						}) //lobbypoll callback ends here
 				} else {
 					//itt kene mast pollozni
-					console.log($rootScope.tempMoveString)
+					//console.log($rootScope.tempMoveString)
 
 					if($scope.viewName == 'board.html'&& $rootScope.tempMoveString=="") {
-						console.log('refreshtable called from interval '+ $rootScope.tempMoveString)
+						//console.log('refreshtable called from interval '+ $rootScope.tempMoveString)
 						$scope.refreshTable()
 						
 					}
@@ -283,7 +283,7 @@
 
 		$scope.clickedItTrans = function(i, j) {
 			//alert("called")
-			console.log([i,j,$rootScope.tempMoveString])
+			//console.log([i,j,$rootScope.tempMoveString])
 			
 			var clickedField = [j, 8 - i]
 			var clickedString = dletters[j] + (9 - i)
@@ -291,7 +291,7 @@
 			if(!($scope.opponentsName == "Spectator")) {
 				$scope.clickedIt(clickedField, clickedString)
 			}
-			//	console.log(clickedField,clickedString)
+			//	//console.log(clickedField,clickedString)
 
 		}
 		
@@ -312,10 +312,10 @@
 
 			$http.get('/getTPollNum?t=' + $rootScope.tableNum)
 				.success(function(response) {
-					console.log('getting board pollnum: '+response.tablepollnum+" vs "+$rootScope.pollNum)
+					//console.log('getting board pollnum: '+response.tablepollnum+" vs "+$rootScope.pollNum)
 					if(!(response.tablepollnum == $rootScope.pollNum)) {
 						$rootScope.pollNum = response.tablepollnum
-						console.log('calling getandshow')
+						//console.log('calling getandshow')
 						$scope.getAndShowTable()
 						$scope.$apply()
 					}
@@ -425,8 +425,8 @@
 			var clickedColor = false
 			
 				//alert("called")
-				// console.log([x,y,clickedString])
-				// console.log($rootScope.table)
+				// //console.log([x,y,clickedString])
+				// //console.log($rootScope.table)
 			if((!($rootScope.table[x][y][5] == []) || $rootScope.tempMoveString.length > 0) && $scope.wNext == $scope.wPlayer) {
 
 				if(clickedString == $rootScope.tempMoveString) {
@@ -439,7 +439,7 @@
 
 						$rootScope.table[x][y][5].forEach($scope.highLightThem) //5odik elem ahova lephet
 						$scope.showTable()
-							//console.log($rootScope.tempMoveString)
+							////console.log($rootScope.tempMoveString)
 					};
 					if($rootScope.table[x][y][0] > 0 || 0 < $rootScope.tempMoveString.length) {
 
