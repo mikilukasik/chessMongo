@@ -644,13 +644,14 @@ app.get('/startGame', function(req, res) {
 			.findOne({
 				name: req.query.b
 			}, function(err2, userInDb) {
-
-				userInDb.games.unshift(initedTable.tableNum)
-				
-		
-
-				db.collection("users")
-					.save(userInDb, function(err3, res) {})
+if(!(userInDb==null)){
+					userInDb.games.unshift(initedTable.tableNum)
+					
+			
+	
+					db.collection("users")
+						.save(userInDb, function(err3, res) {})
+			}
 				db.close()
 				// res.json({
 				
