@@ -20,7 +20,7 @@
 
 		//$rootScope.tempMoveString = ""
 		$rootScope.pollNum = -2
-		//$scope.table = []
+		//$rootScope.table = []
 		
 
 		$scope.login = function(user) {
@@ -173,11 +173,11 @@
 		
 		$scope.getAndShowTable = function() {
 
-			console.log('polling table ' + $scope.tableNum)
+			console.log('polling table ' + $rootScope.tableNum)
 
-			$http.get('/getTable?t=' + $scope.tableNum)
+			$http.get('/getTable?t=' + $rootScope.tableNum)
 				.success(function(response) {
-					$scope.table = response.table
+					$rootScope.table = response.table
 					$scope.wNext = response.next
 					$scope.allMoves = response.allmoves
 					$scope.chatLines = response.chat
@@ -190,13 +190,13 @@
 
 		}
 		$scope.setTableNum = function(num){
-			$scope.tableNum=num
+			$rootScope.tableNum=num
 			$rootScope.pollNum=-1
 			$scope.refreshTable()
 		}
 		$scope.refreshRecentGames = function() {
 
-			//console.log('polling table ' + $scope.tableNum)
+			//console.log('polling table ' + $rootScope.tableNum)
 
 			$http.get('/getMyRecentGames?n=' + $scope.loginName)
 				.success(function(response) {
@@ -221,7 +221,7 @@
 							if(response.asktoopen) {
 								console.log('opening')
 
-								$scope.tableNum = response.opentablenum
+								$rootScope.tableNum = response.opentablenum
 								$scope.wPlayer = response.opentablecolor
 								$scope.opponentsName = response.opponentsname
 								$rootScope.pollNum = 0
@@ -297,7 +297,7 @@
 		
 		$scope.makeAMove = function(whatMove) {
 
-			$http.get('/move?m=' + whatMove + '&t=' + $scope.tableNum)
+			$http.get('/move?m=' + whatMove + '&t=' + $rootScope.tableNum)
 				.success(function(response) {
 					$scope.wNext = !$scope.wNext
 					$rootScope.pollNum-=5
@@ -310,7 +310,7 @@
 
 		$scope.refreshTable = function() {
 
-			$http.get('/getTPollNum?t=' + $scope.tableNum)
+			$http.get('/getTPollNum?t=' + $rootScope.tableNum)
 				.success(function(response) {
 					console.log('getting board pollnum: '+response.tablepollnum+" vs "+$rootScope.pollNum)
 					if(!(response.tablepollnum == $rootScope.pollNum)) {
@@ -328,9 +328,9 @@
 			for(var i = 0; i < 8; i++) {
 				for(var j = 0; j < 8; j++) {
 
-					var thisFigure = $('<img src="cPiecesPng/' + $scope.table[i][j][0] + $scope.table[i][j][1] + '.png" alt=' + dcolors[$scope.table[i][j][0]][0] + dfigures[$scope.table[i][j][1]] + '></img>')
+					var thisFigure = $('<img src="cPiecesPng/' + $rootScope.table[i][j][0] + $rootScope.table[i][j][1] + '.png" alt=' + dcolors[$rootScope.table[i][j][0]][0] + dfigures[$rootScope.table[i][j][1]] + '></img>')
 
-					if($scope.table[i][j][8] == true || $scope.table[i][j][9] == true) {
+					if($rootScope.table[i][j][8] == true || $rootScope.table[i][j][9] == true) {
 
 						thisFigure.addClass('selected');
 					} else {
@@ -426,33 +426,33 @@
 			
 				//alert("called")
 				// console.log([x,y,clickedString])
-				// console.log($scope.table)
-			if((!($scope.table[x][y][5] == []) || $rootScope.tempMoveString.length > 0) && $scope.wNext == $scope.wPlayer) {
+				// console.log($rootScope.table)
+			if((!($rootScope.table[x][y][5] == []) || $rootScope.tempMoveString.length > 0) && $scope.wNext == $scope.wPlayer) {
 
 				if(clickedString == $rootScope.tempMoveString) {
-					$scope.table[x][y][8] = false
+					$rootScope.table[x][y][8] = false
 					$scope.clearHighlights()
 					$scope.showTable()
 					$rootScope.tempMoveString = ""
 				} else {
-					if($scope.table[x][y][0] > 0 && $rootScope.tempMoveString == "") {
+					if($rootScope.table[x][y][0] > 0 && $rootScope.tempMoveString == "") {
 
-						$scope.table[x][y][5].forEach($scope.highLightThem) //5odik elem ahova lephet
+						$rootScope.table[x][y][5].forEach($scope.highLightThem) //5odik elem ahova lephet
 						$scope.showTable()
 							//console.log($rootScope.tempMoveString)
 					};
-					if($scope.table[x][y][0] > 0 || 0 < $rootScope.tempMoveString.length) {
+					if($rootScope.table[x][y][0] > 0 || 0 < $rootScope.tempMoveString.length) {
 
 						$rootScope.tempMoveString += clickedString
 
 						if($rootScope.tempMoveString.length < 3) {
-							$scope.table[x][y][8] = true;
+							$rootScope.table[x][y][8] = true;
 						}
 
 					}
 					if($rootScope.tempMoveString.length > 3) {
 
-						if($scope.table[x][y][9] == true) {
+						if($rootScope.table[x][y][9] == true) {
 
 							$scope.makeAMove($rootScope.tempMoveString)
 							$scope.wNext = !$scope.wNext
@@ -470,14 +470,14 @@
 			}
 		}
 		$scope.highLightThem = function(arrayOfCoords) {
-			$scope.table[arrayOfCoords[0]][arrayOfCoords[1]][9] = true;
+			$rootScope.table[arrayOfCoords[0]][arrayOfCoords[1]][9] = true;
 		}
 
 		$scope.clearHighlights = function() {
 			for(var i = 0; i < 8; i++) {
 				for(var j = 0; j < 8; j++) {
-					$scope.table[i][j][8] = false;
-					$scope.table[i][j][9] = false;
+					$rootScope.table[i][j][8] = false;
+					$rootScope.table[i][j][9] = false;
 
 				}
 			}
