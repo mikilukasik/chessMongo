@@ -209,7 +209,7 @@
 		}
 
 		$scope.pollLobby = function() {
-			$scope.lobbyPromise = $scope.$interval(function() {
+			$scope.lobbyPromise = $interval(function($scope) {
 
 				//refreshLobby()
 				if($scope.viewName == 'lobby.html') {
