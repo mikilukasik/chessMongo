@@ -19,7 +19,7 @@
 		$scope.lobbyPollNum = 0
 
 		$scope.tempMoveString = ""
-		$scope.pollNum = -1
+		$scope.pollNum = -2
 		//$scope.table = []
 
 		$scope.login = function(user) {
@@ -291,6 +291,7 @@
 				.success(function(response) {
 					$scope.wNext = !$scope.wNext
 					$scope.pollNum-=5
+					$scope.refreshTable()
 					return response.table
 
 				})
