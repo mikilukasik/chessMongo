@@ -289,10 +289,11 @@
 		}
 		
 		$scope.makeAMove = function(whatMove) {
-
+			console.log('makeAMove called '+whatmove+' '+$scope.tableNum)
 			$http.get('/move?m=' + whatMove + '&t=' + $scope.tableNum)
 				.success(function(response) {
 					$scope.wNext = !$scope.wNext
+					ma
 					return response.table
 
 				})
