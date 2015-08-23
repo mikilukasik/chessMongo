@@ -185,7 +185,8 @@
 		}
 		$scope.setTableNum = function(num){
 			$scope.tableNum=num
-			$scope.refreshAndShowTable()
+			// $scope.refreshAndShowTable()
+			$scope.pullNum=0
 		}
 		$scope.refreshRecentGames = function() {
 
@@ -197,7 +198,7 @@
 					//$scope.$apply()
 
 					//$scope.showTable()
-					$scope.tableNum=0
+					
 					
 				})
 
