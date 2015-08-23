@@ -480,7 +480,7 @@ function letsPlay(){
 		<tr>
 			
 			<td>
-				<div class="leftBar">
+			
 				<table class="myGamesHere lbborder">
 						<!--<tr ng-bind="tempMoveString" ng-init=""></tr>-->
 						<tr class="displayedGame">
@@ -490,10 +490,14 @@ function letsPlay(){
 							<br>
 							on table {{tableNum}}
 						</tr>
-						<tr class="recentGames" ng-repeat="x in myRecentGames"><td ng-click="setTableNum(x)">{{x}}</td>
+							
+						<tr class="recentGames" ng-repeat="x in myRecentGames">
+							<td ng-click="setTableNum(x)">
+									<div class="leftBar">{{x}}</div>
+								</td>
 						</tr>
 					</table>
-				</div>
+				
 			</td>
 			
 				<td class="ideRakd" ng-include="'/wtable.html'"></td>	
