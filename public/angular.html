@@ -317,7 +317,9 @@
 						$rootScope.pollNum = response.tablepollnum
 						//console.log('calling getandshow')
 						$scope.getAndShowTable()
-						$scope.$apply()
+						if(!$scope.$$phase) {
+								$scope.$apply()
+							}
 					}
 
 				})
