@@ -523,7 +523,8 @@ app.get('/getTable', function(req, res) {
 					table: passTable,
 					next: passWnext,
 					allmoves: passMoves,
-					chat: passChat
+					chat: passChat,
+					tablepollnum: passPollNum
 				});
 			});
 
