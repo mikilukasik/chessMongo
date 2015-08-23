@@ -763,10 +763,12 @@ app.get('/getMyRecentGames', function(req, res) {
 			.findOne({
 				name: req.query.n
 			}, function(err2, xData) {
-				res.json({
-		recentgames: xData.games
-	});
-				
+				if(!(xData==null)){
+					
+					res.json({
+						recentgames: xData.games
+					});
+			}
 				db.close()
 			});
 	});
