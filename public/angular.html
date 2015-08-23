@@ -43,7 +43,7 @@
 							$scope.greetUser = 'Logged in as ' + user.name + '. '
 
 							$scope.inOrOut = 'Logoff' //displayed on nav when logged in
-							$scope.loginName = user.name
+							$rootScope.loginName = user.name
 							$scope.showView('lobby.html')
 
 							if(!$scope.$$phase) {
@@ -59,7 +59,7 @@
 
 		}
 		$scope.askToStart = function(opponentsName) {
-			if(opponentsName!=$scope.loginName)	$http.get('/startGame?w=' + $scope.loginName + "&b=" + opponentsName)
+			if(opponentsName!=$rootScope.loginName)	$http.get('/startGame?w=' + $rootScope.loginName + "&b=" + opponentsName)
 
 		}
 
@@ -163,7 +163,7 @@
 
 		$scope.askToWatch = function(gameID) {
 
-			$http.get('/watchGame?v=' + $scope.loginName + "&t=" + gameID)
+			$http.get('/watchGame?v=' + $rootScope.loginName + "&t=" + gameID)
 
 		}
 		$scope.applyIt=function(){
@@ -198,7 +198,7 @@
 
 			////console.log('polling table ' + $rootScope.tableNum)
 
-			$http.get('/getMyRecentGames?n=' + $scope.loginName)
+			$http.get('/getMyRecentGames?n=' + $rootScope.loginName)
 				.success(function(response) {
 					$scope.myRecentGames = response.recentgames
 					//$scope.$apply()
@@ -215,7 +215,7 @@
 				//refreshLobby()
 				if($scope.viewName == 'lobby.html') {
 
-					$http.get('/getLobby?p=' + $scope.loginName)
+					$http.get('/getLobby?p=' + $rootScope.loginName)
 						.success(function(response) {
 							//console.log('polling lobby')
 							if(response.asktoopen) {
@@ -414,7 +414,7 @@
 				// if(viewName == 'login.html') {
 					$scope.greetUser = ''
 					$scope.inOrOut = 'Login'
-					$scope.loginName = 'someone'
+					$rootScope.loginName = 'someone'
 					$scope.loggedIn = false
 				}
 			}
