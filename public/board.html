@@ -479,7 +479,8 @@ function letsPlay(){
 	<table width=100% class="frame-table" ng-controller="ApplicationController">
 		<tr>
 			
-			<td class="leftBar">
+			<td>
+				<div class="leftBar">
 				<table class="myGamesHere">
 						<tr ng-bind="tempMoveString" ng-init=""></tr>
 						<tr class="displayedGame">
@@ -492,6 +493,7 @@ function letsPlay(){
 						<tr class="recentGames" ng-repeat="x in myRecentGames"><td ng-click="setTableNum(x)">{{x}}</td>
 						</tr>
 					</table>
+				</div>
 			</td>
 			
 				<td class="ideRakd" ng-include="'/wtable.html'"></td>	
