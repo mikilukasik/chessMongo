@@ -211,7 +211,7 @@
 
 					$http.get('/getLobby?p=' + $scope.loginName)
 						.success(function(response) {
-
+							console.log('polling lobby')
 							if(response.asktoopen) {
 								console.log('opening')
 
@@ -226,7 +226,7 @@
 
 							if(!($scope.lobbyPollNum == response.lobbypollnum)) {
 
-								console.log('polling lobby')
+								//console.log('polling lobby')
 
 								$scope.lobbyChatLines = response.lobbychat
 								$scope.players = response.players
@@ -262,6 +262,7 @@
 
 					if($scope.viewName == 'board.html') {
 						$scope.refreshTable()
+						
 					}
 
 				}
@@ -302,8 +303,10 @@
 
 			$http.get('/getTPollNum?t=' + $scope.tableNum)
 				.success(function(response) {
+					console.log('getting board pollnum')
 					if(!(response.tablepollnum == $scope.pollNum)) {
 						$scope.pollNum = response.tablepollnum
+						console.log('calling getandshow')
 						$scope.getAndShowTable()
 					}
 
