@@ -1,28 +1,23 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Chess</title>
-<!--<script src="jquery.js"></script>
+	<title>Chess</title>
+	<!--<script src="jquery.js"></script>
 <script src="brandNewAi.js"></script>-->
-<script src="engine.js"></script>
+	<script src="engine.js"></script>
 
-<!--<link rel="stylesheet" type="text/css" href="forblink.css">-->
-<!--
+	<!--<link rel="stylesheet" type="text/css" href="forblink.css">-->
+	<!--
 <style src="forblink.css"></style>-->
-<!-- <script src="ai2.js"></script> -->
-<!-- <script src="trialfunc.js"></script>
+	<!-- <script src="ai2.js"></script> -->
+	<!-- <script src="trialfunc.js"></script>
  -->
-<!-- <script src="chessai.js"></script>
+	<!-- <script src="chessai.js"></script>
  -->
 
 
-
-
-
-
-
-
-<!--
+	<!--
 <script >
 //alert()
 var pollNum=-1
@@ -94,7 +89,7 @@ function clickedItTrans(i,j){
 
 }
 -->
-<!--<script>
+	<!--<script>
 // function drawTable(wPlayer){
 // 	$(".ideRakd").empty();
 // 	var appendTable = $('<table class="main-table"> border="1"')  
@@ -191,7 +186,7 @@ function clickedItTrans(i,j){
 
 // }	
 </script>-->
-<!--
+	<!--
 function initTable(){	
 	var wNext=true
 	alerted=false
@@ -474,73 +469,83 @@ function letsPlay(){
 
 </script>-->
 </head>
-<body > 
-<!--  -->
+
+<body>
+	<!--  -->
 	<table width=100% class="frame-table lbborder" ng-controller="ApplicationController">
 		<tr>
-			
+
 			<td>
 				<div class="leftBar">
-				<table class="myGamesHere wborder">
+					<table class="myGamesHere wborder">
 						<!--<tr ng-bind="tempMoveString" ng-init=""></tr>-->
 						<tr class="displayedGame">
 							<!--{{tempMoveString}}-->
 							<!--str: {{tempMoveString}}-->
 							Pollnum: {{pollNum}}
-							<br>
-							on table {{tableNum}}
+							<br> on table {{tableNum}}
 						</tr>
-						<div class="scrollThis">
-							<table>
-							<tr class="recentGames" ng-repeat="x in myRecentGames"><td ng-click="setTableNum(x)">{{x}}</td></tr>
-							</table>
-						</div>	
-						
+						<tr>
+							<td>
+								<div class="scrollThis">
+									<table>
+										<tr class="recentGames" ng-repeat="x in myRecentGames">
+											<td ng-click="setTableNum(x)">{{x}}</td>
+										</tr>
+									</table>
+								</div>
+							</td>
+						</tr>
+
 					</table>
 				</div>
 			</td>
-			
-				<td class="ideRakd" ng-include="'/wtable.html'"></td>	
-					
-				<td>
-					<table class="leftTable">
-						<tr class="yourTurnTr">
-							<td class="blink">
-								
-								
-							</td>
-						</tr>
-						<tr class="yourTurnTr">
-							<td class="isItYourTurn">
-								
-								
-							</td>
-							
-						</tr>
-						<tr class="statusTr">
-						
-							<td class="statusCell"></td>
-						</tr>
-					</table>
-				</td>
-			
-			<td>	
+
+			<td class="ideRakd" ng-include="'/wtable.html'"></td>
+
+			<td>
+				<table class="leftTable">
+					<tr class="yourTurnTr">
+						<td class="blink">
+
+
+						</td>
+					</tr>
+					<tr class="yourTurnTr">
+						<td class="isItYourTurn">
+
+
+						</td>
+
+					</tr>
+					<tr class="statusTr">
+
+						<td class="statusCell"></td>
+					</tr>
+				</table>
+			</td>
+
+			<td>
 				<table>
-				<tr class="chatTextTr">
-					<td class="chatCell"></td>
-				</tr>
-				<tr class="chatInputRow"><td>
-					
-					<!--fix this to form-->
-					<input type="text" class="chatInput" onkeydown="if (event.keyCode == 13) sendChat()"><button class="chatButton" ng-click="applyIt()">Send</button>
-				</td></tr>
+					<tr class="chatTextTr">
+						<td class="chatCell"></td>
+					</tr>
+					<tr class="chatInputRow">
+						<td>
+
+							<!--fix this to form-->
+							<input type="text" class="chatInput" onkeydown="if (event.keyCode == 13) sendChat()">
+							<button class="chatButton" ng-click="applyIt()">Send</button>
+						</td>
+					</tr>
 
 				</table>
 			</td>
 
-			
+
 		</tr>
 	</table>
-	
+
 </body>
+
 </html>
