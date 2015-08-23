@@ -19,7 +19,7 @@
 		$scope.lobbyPollNum = 0
 
 		$scope.tempMoveString = ""
-		$scope.pollNum = -3
+		$scope.pollNum = -1
 		//$scope.table = []
 
 		$scope.login = function(user) {
@@ -176,7 +176,6 @@
 					$scope.wNext = response.next
 					$scope.allMoves = response.allmoves
 					$scope.chatLines = response.chat
-					$scope.pollNum=response.tablepollnum
 
 					$scope.refreshRecentGames()
 					$scope.showTable()
@@ -186,10 +185,7 @@
 		}
 		$scope.setTableNum = function(num){
 			$scope.tableNum=num
-			// $scope.refreshAndShowTable()
-			$scope.pullNum=0
-			$scope.tempMoveString=""
-			$scope.getAndShowTable()
+			$scope.refreshAndShowTable()
 		}
 		$scope.refreshRecentGames = function() {
 
@@ -201,8 +197,7 @@
 					//$scope.$apply()
 
 					//$scope.showTable()
-					
-					
+
 				})
 
 		}
@@ -222,7 +217,7 @@
 								$scope.tableNum = response.opentablenum
 								$scope.wPlayer = response.opentablecolor
 								$scope.opponentsName = response.opponentsname
-								$scope.pollNum = -2
+								$scope.pollNum = 0
 
 								$scope.openNow = true;
 
@@ -243,8 +238,8 @@
 								$scope.lobbyPollNum = response.lobbyPollNum
 									//showLobby(lobbyChatLines, players, games, $scope.lobbyPollNum)
 								if(!$scope.$$phase) {
-									$scope.$apply()
-								}
+								$scope.$apply()
+							}
 
 							}
 							if($scope.openNow) {
@@ -290,11 +285,10 @@
 		}
 		
 		$scope.makeAMove = function(whatMove) {
-			console.log('makeAMove called '+whatMove+' '+$scope.tableNum)
+
 			$http.get('/move?m=' + whatMove + '&t=' + $scope.tableNum)
 				.success(function(response) {
 					$scope.wNext = !$scope.wNext
-					//$scope.pollNum=-5
 					return response.table
 
 				})
