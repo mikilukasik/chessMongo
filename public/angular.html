@@ -327,30 +327,45 @@
 		}
 
 		$scope.showTable = function() { //this will update the displayed table from the array
-			for(var i = 0; i < 8; i++) {
-				for(var j = 0; j < 8; j++) {
+			
+			$rootScope.sTable=$rootScope.table
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			// for(var i = 0; i < 8; i++) {
+			// 	for(var j = 0; j < 8; j++) {
 
-					var thisFigure = $('<img src="cPiecesPng/' + $rootScope.table[i][j][0] + $rootScope.table[i][j][1] + '.png" alt=' + dcolors[$rootScope.table[i][j][0]][0] + dfigures[$rootScope.table[i][j][1]] + '></img>')
+			// 		var thisFigure = $('<img src="cPiecesPng/' + $rootScope.table[i][j][0] + $rootScope.table[i][j][1] + '.png" alt=' + dcolors[$rootScope.table[i][j][0]][0] + dfigures[$rootScope.table[i][j][1]] + '></img>')
 
-					if($rootScope.table[i][j][8] == true || $rootScope.table[i][j][9] == true) {
+			// 		if($rootScope.table[i][j][8] == true || $rootScope.table[i][j][9] == true) {
 
-						thisFigure.addClass('selected');
-					} else {
+			// 			thisFigure.addClass('selected');
+			// 		} else {
 
-					}
-					var thisSquare = "." + dletters[i] + (j + 1)
+			// 		}
+			// 		var thisSquare = "." + dletters[i] + (j + 1)
 
-					$(thisSquare).empty();
+			// 		$(thisSquare).empty();
 
-					$(thisSquare).append(thisFigure);
+			// 		$(thisSquare).append(thisFigure);
 
-				}
-			}
-			// showTableStatus()
-			// showChat()
-			if(!$scope.$$phase) {
-								$scope.$apply()
-							}
+			// 	}
+			// }
+			// // showTableStatus()
+			// // showChat()
+			// if(!$scope.$$phase) {
+			// 					$scope.$apply()
+			// 				}
 		}
 
 		$scope.register = function(user) {
