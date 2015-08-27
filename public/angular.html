@@ -330,12 +330,12 @@
 			
 			
 			
-			$rootScope.sTable=[]
+			$rootScope.sTable=$rootScope.table
 			
 			
 			for(var i=0; i<8; i++) {
 				for(var j=0; j<8; j++) {
-					$rootScope.sTable[i][j]=$rootScope.table[j][8-i]
+					$rootScope.sTable[i][j]=$rootScope.table[j][7-i]
 				}
 			}
 			
