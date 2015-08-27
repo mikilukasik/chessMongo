@@ -338,6 +338,7 @@
 				tt[i]=[]
 				for(var j=0; j<8; j++) {
 					tt[i][j]=$rootScope.table[j][7-i]
+					if((i+j)&1)tt[i][j][7]=true
 				}
 			}
 			
