@@ -413,6 +413,10 @@
 				}else{
 					$scope.drTable("btable.html")
 				}
+			}else{
+				if(viewName == 'login.html'){
+					focusOnLogin()
+				}
 			}
 		}
 		
@@ -527,7 +531,7 @@
 	</script>
 </head>
 
-<body ng-app="appModule" ng-controller="ApplicationController" onload="focusOnLogin()">
+<body ng-app="appModule" ng-controller="ApplicationController">
 
 
 	
