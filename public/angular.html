@@ -520,11 +520,14 @@
 			
 		}
 	}
-
+	
+	function focusOnLogin() {
+    document.getElementById("inputLoginUser").focus();
+}
 	</script>
 </head>
 
-<body ng-app="appModule" ng-controller="ApplicationController">
+<body ng-app="appModule" ng-controller="ApplicationController" onload="focusOnLogin()">
 
 
 	
