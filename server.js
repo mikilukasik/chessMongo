@@ -619,7 +619,7 @@ app.get('/longPollTable', function(req, res) {
 							
 					}else{
 						//nincs mit kuldeni
-						
+						if(pendingLongPolls[req.query.t]==undefined) pendingLongPolls[req.query.t]=[]
 						pendingLongPolls[req.query.t].push(res)	//hold that request for that table 
 						db.close()
 					}
