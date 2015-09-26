@@ -25,9 +25,7 @@
 		
 
 		$scope.login = function(user) {
-			// if(!(user.pwd == undefined || user.name == undefined)) {
-			// 	//alert('logging in '+user.name+' with password '+user.pwd)
-			// }
+			
 
 			$http.get("/checkUserPwd?n=" + user.name + '&p=' + user.pwd)
 				.success(function(response) {
@@ -175,7 +173,7 @@
 
 					if($scope.viewName == 'board.html'&& $rootScope.tempMoveString=="") {
 						//console.log('refreshtable called from interval '+ $rootScope.tempMoveString)
-						$scope.refreshTable()
+						//temp $scope.refreshTable()
 						
 					}
 
