@@ -79,7 +79,8 @@
 			//console.log('polling table ' + $rootScope.tableNum)
 
 			$http.get('/longPollTable?t=' + $rootScope.tableNum + '&pn=' + $rootScope.pollNum + '&r=' + Math.random())
-				.then(function(response) {
+				.then(function(responseData) {
+					var response=responseData.data
 					if(response.tablenum==$rootScope.tableNum){		//break poll on changed tablenum
 						$rootScope.table = response.table
 						$rootScope.wNext = response.next
