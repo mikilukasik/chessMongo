@@ -30,6 +30,9 @@ var playerDisconnectConst = 15000 //15sec
 var gameInactiveConst = 300000 //5min
 var checkGamesConst = 300
 
+var pendingLongPolls=[]
+
+
 
 
 
@@ -49,7 +52,7 @@ var lobbyChat = []
 var firstFreeTable = 0
 
 function createXData() {
-	console.log("can't find xData in db, creating..")
+	console.log("can't find xData in db, creating..")		//header in db
 
 	mongodb.connect(cn, function(err, db) {
 
@@ -161,6 +164,9 @@ setInterval(function() {
 
 														tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
 
+														popThem(Number(checkThisGame.tableNum),tableInDb)	//respond to pending longpolls
+	
+															
 														setIntDB2.collection("tables")
 															.save(tableInDb, function(err3, res) {})
 													}
@@ -263,6 +269,37 @@ setInterval(function() {
 
 }, checkGamesConst);
 
+var popThem = function(tNum,tableInDb){
+	if(pendingLongPolls[tNum].length>0){
+		//van mire valaszolni
+		
+		while(pendingLongPolls[tNum].length>0){
+			
+			var resp = pendingLongPolls[tNum].pop()
+			
+			var passMoves = tableInDb.moves
+			var passTable = tableInDb.table
+			var passWnext = tableInDb.wNext
+			
+			var passChat = tableInDb.chat
+			
+			var passPollNum = tableInDb.pollNum
+			// db.close()
+			
+			resp.json({
+				table: passTable,
+				next: passWnext,
+				allmoves: passMoves,
+				chat: passChat,
+				tablepollnum: passPollNum
+			});
+			
+			
+		}
+		
+	}
+}
+
 app.get('/move', function(req, res) {
 
 	mongodb.connect(cn, function(err, db) {
@@ -286,12 +323,17 @@ app.get('/move', function(req, res) {
 					tableInDb.wNext = !tableInDb.wNext
 
 					tableInDb.pollNum++ //<---- majd increment a checkTableStatus ha kiertekelte	//nemis
-
-						tableInDb.toBeChecked = true //tells it to server(itself) to evaluate table
+					
+					
+					
+					tableInDb.toBeChecked = true //tells it to server(itself) to evaluate table
 
 					tableInDb.moved = new Date().getTime()
 
 					tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
+					
+					popThem(req.query.t,tableInDb)	//respond to pending longpolls
+
 
 					//}
 
@@ -395,6 +437,8 @@ app.get('/getTPollNum', function(req, res) {
 	});
 
 });
+
+
 
 //////////////////////////			user register
 
@@ -532,6 +576,89 @@ app.get('/getTable', function(req, res) {
 
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+app.get('/longPollTable', function(req, res) {
+
+	mongodb.connect(cn, function(err, db) {
+		db.collection("tables")
+			.findOne({
+				tableNum: Number(req.query.t)
+			}, function(err2, tableInDb) {
+				if(!(tableInDb == null)) {
+					
+					//long
+					var passPollNum = tableInDb.pollNum
+					
+					if(passPollNum>req.query.pn){
+						//frissebb a tabla, kuldjuk
+					
+					
+						var passMoves = tableInDb.moves
+						var passTable = tableInDb.table
+						var passWnext = tableInDb.wNext
+						
+						var passChat = tableInDb.chat
+						
+						
+						db.close()
+						
+						res.json({
+							table: passTable,
+							next: passWnext,
+							allmoves: passMoves,
+							chat: passChat,
+							tablepollnum: passPollNum
+						});
+							
+					}else{
+						//nincs mit kuldeni
+						
+						pendingLongPolls[req.query.t].push(res)	//keep that request for that table
+						
+					}
+					
+					
+					
+					
+				} else {
+					//nincs meg a tabla
+					
+					
+					// var passMoves = 0.0
+					// var passTable = 0.0
+					// var passWnext = 0.0
+					// var passPollNum = 0.0
+					// var passChat = 0.0
+				}
+
+				
+			});
+
+	});
+
+});
+
+
+
+
+
+
+
+
+
+
+
 app.get('/chat', function(req, res) {
 
 	if(req.query.c == 'miki: test') {
@@ -566,7 +693,8 @@ app.get('/chat', function(req, res) {
 										tableInDb.chat.push(resJsn.toconsole)
 
 									//tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
-
+									popThem(Number(req.query.t),tableInDb)
+									
 									db.collection("tables")
 										.save(tableInDb, function(err3, res) {})
 										//}
@@ -869,9 +997,9 @@ app.get('/getLobby', function(req, res) {
 
 });
 
-io.on('connection', function(socket){
-  console.log('IO: a user connected');
-});
+// io.on('connection', function(socket){
+//   console.log('IO: a user connected');
+// });
 
 var server = app.listen(80, function() {
 
