@@ -609,7 +609,7 @@ app.get('/longPollTable', function(req, res) {
 						db.close()
 						
 						res.json({
-							tablenum: Number(req.query.t),
+							tablenum: req.query.t,
 							table: passTable,
 							next: passWnext,
 							allmoves: passMoves,
