@@ -271,7 +271,7 @@ setInterval(function() {
 
 var popThem = function(tNum,tableInDb){
 	
-	if(!(pendingLongPolls[tNum]=='undefined')){
+	if(!(pendingLongPolls[tNum]==undefined)){
 	
 		if(pendingLongPolls[tNum].length>0){
 			//van mire valaszolni
