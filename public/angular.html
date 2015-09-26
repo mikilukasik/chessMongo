@@ -91,11 +91,12 @@
 						$scope.refreshRecentGames()
 						$scope.showTable()
 						
-						if($scope.viewName=="board.html") {			
+						if($scope.viewName == "board.html") {			
 							console.log('longpolling table '+ response.tablenum)			
 							$scope.logPollTable()	//loop till change view	(or table)
 						}else{
-							console.log('board not displayed, discontinuing longpoll for table ' + response.tablenum)
+							console.log('board not displayed (viewName: '+ $scope.viewName+'), discontinuing longpoll for table ' + response.tablenum)
+							
 						}
 					}else{
 						console.log('tableNum changed, discontinuing longpoll for table ' + response.tablenum)
