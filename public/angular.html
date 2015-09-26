@@ -78,24 +78,29 @@
 
 			//console.log('polling table ' + $rootScope.tableNum)
 
-			$http.get('/getTable?t=' + $rootScope.tableNum)
-				.success(function(response) {
-					$rootScope.table = response.table
-					$rootScope.wNext = response.next
-					$scope.allMoves = response.allmoves
-					$rootScope.chatLines = response.chat
-					$rootScope.pollNum=response.tablepollnum
-
-					$scope.refreshRecentGames()
-					$scope.showTable()
-
+			$http.get('/longPollTable?t=' + $rootScope.tableNum + '&pn=' + $rootScope.pollNum)
+				.then(function(response) {
+					if(response.tablenum==$rootScope.tableNum){		//break poll on changed tablenum
+						$rootScope.table = response.table
+						$rootScope.wNext = response.next
+						$scope.allMoves = response.allmoves
+						$rootScope.chatLines = response.chat
+						$rootScope.pollNum=response.tablepollnum
+	
+						$scope.refreshRecentGames()
+						$scope.showTable()
+						
+						if($scope.viewName=="board.html") $scope.getAndShowTable()	//loop till change view	(or table)
+					}
 				})
 
 		}
 		$scope.setTableNum = function(num){
 			$rootScope.tableNum=num
 			$rootScope.pollNum=-1
-			$scope.refreshTable()
+			
+			$scope.getAndShowTable()
+			//$scope.refreshTable()
 		}
 		$scope.refreshRecentGames = function() {
 
@@ -168,14 +173,14 @@
 
 						}) //lobbypoll callback ends here
 				} else {
-					//itt kene mast pollozni
+					//itt lehetne mast pollozni
 					//console.log($rootScope.tempMoveString)
 
-					if($scope.viewName == 'board.html'&& $rootScope.tempMoveString=="") {
-						//console.log('refreshtable called from interval '+ $rootScope.tempMoveString)
-						//temp $scope.refreshTable()
+					// if($scope.viewName == 'board.html'&& $rootScope.tempMoveString=="") {
+					// 	//console.log('refreshtable called from interval '+ $rootScope.tempMoveString)
+					// 	$scope.refreshTable()
 						
-					}
+					// }
 
 				}
 			}, 500); //setinterval stuff ends here
@@ -231,12 +236,8 @@
 
 		$scope.showTable = function() { //this will update the displayed table from the array
 			
-			//shit i need to rotate it
-			
-			
-			
-			//$rootScope.sTable=[]
-			 
+			//shit i need to rotate it first
+		
 			var tt=[]
 			
 			for(var i=0; i<8; i++) {
@@ -248,38 +249,7 @@
 			}
 			
 			$rootScope.sTable=tt
-			
-			
-			
-			
-			
-			
-			
-			
-			// for(var i = 0; i < 8; i++) {
-			// 	for(var j = 0; j < 8; j++) {
-
-			// 		var thisFigure = $('<img src="cPiecesPng/' + $rootScope.table[i][j][0] + $rootScope.table[i][j][1] + '.png" alt=' + dcolors[$rootScope.table[i][j][0]][0] + dfigures[$rootScope.table[i][j][1]] + '></img>')
-
-			// 		if($rootScope.table[i][j][8] == true || $rootScope.table[i][j][9] == true) {
-
-			// 			thisFigure.addClass('selected');
-			// 		} else {
-
-			// 		}
-			// 		var thisSquare = "." + dletters[i] + (j + 1)
-
-			// 		$(thisSquare).empty();
-
-			// 		$(thisSquare).append(thisFigure);
-
-			// 	}
-			// }
-			// // showTableStatus()
-			// // showChat()
-			// if(!$scope.$$phase) {
-			// 					$scope.$apply()
-			// 				}
+	
 		}
 
 		$scope.register = function(user) {
@@ -300,8 +270,6 @@
 							}
 						});
 
-					//alert('registering '+user.rName+' with password '+user.pwd1)
-
 				}
 			} else {
 				alert("Passwords don't match, try again!")
@@ -312,6 +280,7 @@
 
 		$scope.newView = function(viewName) {
 			if(viewName == 'board.html') {
+				$scope.getAndShowTable()		//start longpoll
 				if($scope.wPlayer){
 						$scope.drTable("wtable.html")
 				}else{
@@ -334,17 +303,11 @@
 				$scope.openNow = false
 					//$scope.lobbyPollNum=0	
 					$rootScope.tempMoveString=""
-				/////////////////////////////////		////lobby polling
-
-				// $scope.pollLobby()
-
-				//}
+			
 			} else {
 
 				if(viewName == 'login.html') {
-					//$interval.cancel($scope.lobbyPromise)
-				// }
-				// if(viewName == 'login.html') {
+				
 					$scope.greetUser = ''
 					$scope.inOrOut = 'Login'
 					$rootScope.loginName = 'someone'
@@ -359,9 +322,7 @@
 			var y = clickedField[1]
 			var clickedColor = false
 			
-				//alert("called")
-				// //console.log([x,y,clickedString])
-				// //console.log($rootScope.table)
+			
 			if((!($rootScope.table[x][y][5] == []) || $rootScope.tempMoveString.length > 0) && $rootScope.wNext == $scope.wPlayer) {
 
 				if(clickedString == $rootScope.tempMoveString) {
@@ -374,7 +335,7 @@
 
 						$rootScope.table[x][y][5].forEach($scope.highLightThem) //5odik elem ahova lephet
 						$scope.showTable()
-							////console.log($rootScope.tempMoveString)
+							
 					};
 					if($rootScope.table[x][y][0] > 0 || 0 < $rootScope.tempMoveString.length) {
 

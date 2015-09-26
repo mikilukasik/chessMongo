@@ -290,6 +290,7 @@ var popThem = function(tNum,tableInDb){
 				// db.close()
 				
 				resp.json({
+					tablenum: tNum,
 					table: passTable,
 					next: passWnext,
 					allmoves: passMoves,
@@ -582,16 +583,6 @@ app.get('/getTable', function(req, res) {
 
 
 
-
-
-
-
-
-
-
-
-
-
 app.get('/longPollTable', function(req, res) {
 
 	mongodb.connect(cn, function(err, db) {
@@ -618,6 +609,7 @@ app.get('/longPollTable', function(req, res) {
 						db.close()
 						
 						res.json({
+							tablenum: Number(req.query.t),
 							table: passTable,
 							next: passWnext,
 							allmoves: passMoves,
@@ -628,8 +620,8 @@ app.get('/longPollTable', function(req, res) {
 					}else{
 						//nincs mit kuldeni
 						
-						pendingLongPolls[req.query.t].push(res)	//keep that request for that table
-						
+						pendingLongPolls[req.query.t].push(res)	//hold that request for that table 
+						db.close()
 					}
 					
 					
@@ -637,13 +629,8 @@ app.get('/longPollTable', function(req, res) {
 					
 				} else {
 					//nincs meg a tabla
-					
-					
-					// var passMoves = 0.0
-					// var passTable = 0.0
-					// var passWnext = 0.0
-					// var passPollNum = 0.0
-					// var passChat = 0.0
+					db.close()
+				
 				}
 
 				
