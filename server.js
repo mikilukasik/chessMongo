@@ -270,34 +270,38 @@ setInterval(function() {
 }, checkGamesConst);
 
 var popThem = function(tNum,tableInDb){
-	if(pendingLongPolls[tNum].length>0){
-		//van mire valaszolni
-		
-		while(pendingLongPolls[tNum].length>0){
+	
+	if(!(pendingLongPolls[tNum]=='undefined')){
+	
+		if(pendingLongPolls[tNum].length>0){
+			//van mire valaszolni
 			
-			var resp = pendingLongPolls[tNum].pop()
-			
-			var passMoves = tableInDb.moves
-			var passTable = tableInDb.table
-			var passWnext = tableInDb.wNext
-			
-			var passChat = tableInDb.chat
-			
-			var passPollNum = tableInDb.pollNum
-			// db.close()
-			
-			resp.json({
-				table: passTable,
-				next: passWnext,
-				allmoves: passMoves,
-				chat: passChat,
-				tablepollnum: passPollNum
-			});
-			
+			while(pendingLongPolls[tNum].length>0){
+				
+				var resp = pendingLongPolls[tNum].pop()
+				
+				var passMoves = tableInDb.moves
+				var passTable = tableInDb.table
+				var passWnext = tableInDb.wNext
+				
+				var passChat = tableInDb.chat
+				
+				var passPollNum = tableInDb.pollNum
+				// db.close()
+				
+				resp.json({
+					table: passTable,
+					next: passWnext,
+					allmoves: passMoves,
+					chat: passChat,
+					tablepollnum: passPollNum
+				});
+				
+				
+			}
 			
 		}
-		
-	}
+}
 }
 
 app.get('/move', function(req, res) {
