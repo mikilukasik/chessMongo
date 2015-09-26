@@ -91,6 +91,8 @@
 						$scope.showTable()
 						
 						if($scope.viewName=="board.html") $scope.getAndShowTable()	//loop till change view	(or table)
+					}else{
+						console.log('tabla valtozott, longpoll stop for table ' + response.tablenum)
 					}
 				})
 
