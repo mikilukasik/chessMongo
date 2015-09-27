@@ -333,7 +333,7 @@ app.get('/move', function(req, res) {
 					tableInDb.table = moveIt(moveStr, tableInDb.table)
 					tableInDb.wNext = !tableInDb.wNext
 
-					//tableInDb.pollNum++ //<---- majd increment a checkTableStatus ha kiertekelte	//nemis
+					tableInDb.pollNum++ //<---- majd increment a checkTableStatus ha kiertekelte	//nemis
 					
 					
 					
