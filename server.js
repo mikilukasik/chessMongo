@@ -667,7 +667,9 @@ app.get('/forcePopTable', function(req, res) {
 
 	});
 				
-					
+	res.json({
+		ok : 1
+	})				
 });
 
 

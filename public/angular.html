@@ -105,12 +105,18 @@
 
 		}
 		$scope.setTableNum = function(num){
+			var oldNum = $rootScope.tableNum
+			
 			$rootScope.tableNum=num
 			$rootScope.pollNum=-1
 			
 			
-			console.log('tableNum changed, calling new longpoll for table '+ num)
+			
+			console.log('tableNum changed, calling new longpoll on t'+ num + ', forcePop on t'+oldNum)
+			
+			$http.get('/forcePopTable?t='+oldNum)
 			$scope.logPollTable()
+			
 			//$scope.refreshTable()
 		}
 		$scope.refreshRecentGames = function() {
