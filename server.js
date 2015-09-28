@@ -626,6 +626,7 @@ app.get('/longPollTable', function(req, res) {
 					}else{
 						//nincs mit kuldeni
 						if(pendingLongPolls[req.query.t]==undefined) pendingLongPolls[req.query.t]=[]
+						
 						pendingLongPolls[req.query.t].push(res)	//hold that request for that table 
 						db.close()
 					}
@@ -644,6 +645,29 @@ app.get('/longPollTable', function(req, res) {
 
 	});
 
+});
+
+app.get('/forcePopTable', function(req, res) {
+
+
+	mongodb.connect(cn, function(err, db) {
+		db.collection("tables")
+			.findOne({
+				tableNum: Number(req.query.t)
+			}, function(err2, tableInDb) {
+				
+				if(!(tableInDb == null)) {
+					
+					popThem(Number(req.query.t),tableInDb)
+					
+					
+				}
+				db.close()
+			});
+
+	});
+				
+					
 });
 
 
