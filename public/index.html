@@ -81,6 +81,10 @@
 			$http.get('/longPollTable?t=' + $rootScope.tableNum + '&pn=' + $rootScope.pollNum + '&r=' + Math.random())
 				.then(function(responseData) {
 					var response=responseData.data
+					
+					console.log('Data received.')
+					console.log(response.command+': '+response.message)
+					
 					if(response.tablenum==$rootScope.tableNum){		//break poll on changed tablenum
 						$rootScope.table = response.table
 						$rootScope.wNext = response.next
@@ -114,7 +118,7 @@
 			
 			console.log('tableNum changed, calling new longpoll on t'+ num + ', forcePop on t'+oldNum)
 			
-			$http.get('/forcePopTable?t='+oldNum)
+			$http.get('/forcePopTable?t='+oldNum+'&p='+$rootScope.loginName+'&m=Went to t'+num)
 			$scope.logPollTable()
 			
 			//$scope.refreshTable()

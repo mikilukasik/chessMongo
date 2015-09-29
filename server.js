@@ -163,14 +163,14 @@ setInterval(function() {
 														
 														
 														
-															tableInDb.moved = new Date().getTime()
+														tableInDb.moved = new Date().getTime()
 														tableInDb.chat = resJsn.toconsole
 
 														//tableInDb.toBeChecked = false //checked for now. this should be done later, there are other stuff to be checked
 
 														tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
 
-														popThem(Number(checkThisGame.tableNum),tableInDb)	//respond to pending longpolls
+														popThem(Number(checkThisGame.tableNum),tableInDb,'moved','Ai moved: '+moveStr)	//respond to pending longpolls
 	
 															
 														setIntDB2.collection("tables")
@@ -275,7 +275,7 @@ setInterval(function() {
 
 }, checkGamesConst);
 
-var popThem = function(tNum,tableInDb){
+var popThem = function(tNum,tableInDb,commandToSend,messageToSend){
 	
 	if(!(pendingLongPolls[tNum]==undefined)){
 	
@@ -301,7 +301,9 @@ var popThem = function(tNum,tableInDb){
 					next: passWnext,
 					allmoves: passMoves,
 					chat: passChat,
-					tablepollnum: passPollNum
+					tablepollnum: passPollNum,
+					command: commandToSend,
+					message: messageToSend
 				});
 				
 				
@@ -343,7 +345,7 @@ app.get('/move', function(req, res) {
 
 					tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
 					
-					popThem(req.query.t,tableInDb)	//respond to pending longpolls
+					popThem(req.query.t,tableInDb,'moved','Player moved: '+moveStr)	//respond to pending longpolls
 
 
 					//}
@@ -658,7 +660,7 @@ app.get('/forcePopTable', function(req, res) {
 				
 				if(!(tableInDb == null)) {
 					
-					popThem(Number(req.query.t),tableInDb)
+					popThem(Number(req.query.t),tableInDb,'forcepop','Forcepop, '+req.query.p+': '+req.query.m)
 					
 					
 				}
@@ -716,7 +718,7 @@ app.get('/chat', function(req, res) {
 										tableInDb.chat.push(resJsn.toconsole)
 
 									//tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
-									popThem(Number(req.query.t),tableInDb)
+									popThem(Number(req.query.t),tableInDb,'chat','chat')
 									
 									db.collection("tables")
 										.save(tableInDb, function(err3, res) {})
