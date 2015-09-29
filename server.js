@@ -622,7 +622,10 @@ app.get('/longPollTable', function(req, res) {
 							next: passWnext,
 							allmoves: passMoves,
 							chat: passChat,
-							tablepollnum: passPollNum
+							tablepollnum: passPollNum,
+							command: 'answer',
+							message: 'sync t'+req.query.t+', poll'+passPollNum
+							
 						});
 							
 					}else{
