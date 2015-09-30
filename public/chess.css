@@ -16,32 +16,32 @@
 	
 	
 @-webkit-keyframes fadeIt {
-  0%   { background-color: #FFFFFF; }
+  /*0%   { background-color: #FFFFFF; }*/
   50%  { background-color: #AD301B; }
-  100% { background-color: #FFFFFF; }
+  /*100% { background-color: #FFFFFF; }*/
 }
 @-moz-keyframes fadeIt {
-  0%   { background-color: #FFFFFF; }
+  /*0%   { background-color: #FFFFFF; }*/
   50%  { background-color: #AD301B; }
-  100% { background-color: #FFFFFF; }
+  /*100% { background-color: #FFFFFF; }*/
 }
 @-o-keyframes fadeIt {
-  0%   { background-color: #FFFFFF; }
+  /*0%   { background-color: #FFFFFF; }*/
   50%  { background-color: #AD301B; }
-  100% { background-color: #FFFFFF; }
+  /*100% { background-color: #FFFFFF; }*/
 }
 @keyframes fadeIt {
-  0%   { background-color: #FFFFFF; }
+  /*0%   { background-color: #FFFFFF; }*/
   50%  { background-color: #AD301B; }
-  100% { background-color: #FFFFFF; }
+  /*100% { background-color: #FFFFFF; }*/
 }
 
 .selected2{    
     /*background-image:none !important;*/
-    -webkit-animation: fadeIt 5s ease-in-out; 
-       -moz-animation: fadeIt 5s ease-in-out; 
-         -o-animation: fadeIt 5s ease-in-out; 
-            animation: fadeIt 5s ease-in-out; 
+    -webkit-animation: fadeIt 1s ease-in-out; 
+       -moz-animation: fadeIt 1s ease-in-out; 
+         -o-animation: fadeIt 1s ease-in-out; 
+            animation: fadeIt 1s ease-in-out; 
 }
 	/*.selected2 {
 	    background-color: green;
@@ -101,6 +101,7 @@
 	.square {
 	    width: auto;
 	    height: 0;
+		background-color: white;
 	    /*padding-bottom: 12.2%;*/
 	    /*padding: 2% 1%;*/
 	}
