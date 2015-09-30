@@ -126,7 +126,11 @@ setInterval(function() {
 					gameIsOn:true
 					
 				},function(err,tableInDb){
-					console.log(tableInDb.tableNum)
+					if(tableInDb!=null){
+						
+						console.log(tableInDb.tableNum)
+				
+					}
 				})
 					
 		}
