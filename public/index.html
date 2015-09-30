@@ -95,7 +95,7 @@
 						$scope.showTable()
 						
 						if($scope.viewName == "board.html") {			
-							console.log('longpolling table '+ response.tablenum)			
+							console.log('Repeating longpoll on table '+ response.tablenum+'.')			
 							$scope.logPollTable()	//loop till change view	(or table)
 						}else{
 							console.log('board not displayed (viewName: '+ $scope.viewName+'), discontinuing longpoll for table ' + response.tablenum)
@@ -300,6 +300,7 @@
 
 		$scope.newView = function(viewName) {
 			if(viewName == 'board.html') {
+				console.log('View changed to board, calling longpoll on t'+$rootScope.tableNum)
 				$scope.logPollTable()		//start longpoll
 				if($scope.wPlayer){
 						$scope.drTable("wtable.html")
