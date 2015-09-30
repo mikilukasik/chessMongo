@@ -17,22 +17,22 @@
 	
 @-webkit-keyframes fadeIt {
   /*0%   { background-color: #FFFFFF; }*/
-  50%  { background-color: #AD301B; }
+  50%  { background-color: orange; }
   /*100% { background-color: #FFFFFF; }*/
 }
 @-moz-keyframes fadeIt {
   /*0%   { background-color: #FFFFFF; }*/
-  50%  { background-color: #AD301B; }
+  50%  { background-color: orange; }
   /*100% { background-color: #FFFFFF; }*/
 }
 @-o-keyframes fadeIt {
   /*0%   { background-color: #FFFFFF; }*/
-  50%  { background-color: #AD301B; }
+  50%  { background-color: orange; }
   /*100% { background-color: #FFFFFF; }*/
 }
 @keyframes fadeIt {
   /*0%   { background-color: #FFFFFF; }*/
-  50%  { background-color: #AD301B; }
+  50%  { background-color: orange; }
   /*100% { background-color: #FFFFFF; }*/
 }
 
