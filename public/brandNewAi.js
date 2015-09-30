@@ -1123,7 +1123,7 @@ function createState(table){
 								String.fromCharCode(65+table[i][j][1])
 								if(table[i][j][5]){
 								table[i][j][5].forEach(function(canmov){
-									stateToRemember[8*i+j]=stateToRemember[8*i+j].concat(String.fromCharCode(65+canmov[0])+String.fromCharCode(65+canmov[1]))
+									stateToRemember[8*i+j]=stateToRemember[8*i+j].concat(String.fromCharCode(85+canmov[0])+String.fromCharCode(75+canmov[1]))
 								})
 								}
 								
