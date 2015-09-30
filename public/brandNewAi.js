@@ -1213,6 +1213,7 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast) {
 			loopValue-=1000
 		}else{
 			console.log (counted)
+			console.log(allPast)
 		}
 						
 
