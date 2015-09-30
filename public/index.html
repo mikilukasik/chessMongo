@@ -82,8 +82,7 @@
 				.then(function(responseData) {
 					var response=responseData.data
 					
-					console.log('Data received.')
-					console.log(response.command+': '+response.message)
+					console.log('Data received: '+response.command+' - '+response.message)
 					
 					if(response.tablenum==$rootScope.tableNum){		//break poll on changed tablenum
 						$rootScope.table = response.table

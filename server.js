@@ -623,7 +623,7 @@ app.get('/longPollTable', function(req, res) {
 							allmoves: passMoves,
 							chat: passChat,
 							tablepollnum: passPollNum,
-							command: 'answer',
+							command: 'sync',
 							message: 'sync t'+req.query.t+', poll'+passPollNum
 							
 						});
