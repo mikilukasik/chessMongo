@@ -30,12 +30,7 @@ var playerDisconnectConst = 15000 //15sec
 var gameInactiveConst = 300000 //5min
 var checkGamesConst = 300
 
-var pendingLongPolls=[]
-
-
-
-
-
+var pendingLongPolls = []
 
 players[0] = [] //player names
 
@@ -52,7 +47,7 @@ var lobbyChat = []
 var firstFreeTable = 0
 
 function createXData() {
-	console.log("can't find xData in db, creating..")		//header in db
+	console.log("can't find xData in db, creating..") //header in db
 
 	mongodb.connect(cn, function(err, db) {
 
@@ -86,186 +81,144 @@ mongodb.connect(cn, function(err, db) {
 		});
 });
 
-function evalGame(tableInDb){
+function evalGame(tableInDb) {
 
-									//if(!(tableInDb == null)) {
+	//if(!(tableInDb == null)) {
 
-										//tableInDb.pollNum++
+	//tableInDb.pollNum++
 
-											if(!canIMove(tableInDb.table, tableInDb.wNext)) {
-												tableInDb.gameIsOn = false
-												if(captured(tableInDb.table, tableInDb.wNext)) {
+	if(!canIMove(tableInDb.table, tableInDb.wNext)) {
+		tableInDb.gameIsOn = false
+		if(captured(tableInDb.table, tableInDb.wNext)) {
 
-													if(tableInDb.wNext) {
+			if(tableInDb.wNext) {
 
-														tableInDb.blackWon = true
-													} else {
-														tableInDb.whiteWon = true
-													}
-												} else {
-													tableInDb.isDraw = true
-												}
-											}
+				tableInDb.blackWon = true
+			} else {
+				tableInDb.whiteWon = true
+			}
+		} else {
+			tableInDb.isDraw = true
+		}
+	}
 
-											
-										//tableInDb.toBeChecked = false
+	//tableInDb.toBeChecked = false
 
-										// setIntDB3.collection("tables")
-										// 	.save(tableInDb, function(err3, res) {})
+	// setIntDB3.collection("tables")
+	// 	.save(tableInDb, function(err3, res) {})
 
-									// }
-									// setIntDB3.close()
-								}
+	// }
+	// setIntDB3.close()
+}
 
 setInterval(function() {
 
-	var needForEval = {
-		"wNext": true,
-		"tableNum": true,
-		"wName": true,
-		"bName": true,
-		"toBeChecked": true,
-		"whiteWon": true,
-		"blackWon": true,
-		"isDraw": true,
-		"gameIsOn": true,
-		"askWhiteDraw": true,
-		"askBlackDraw": true,
-		"whiteCanForceDraw": true,
-		"blackCanForceDraw": true,
-		"aiToMove": true
-		//"table": true
-	}
+	// var needForEval = {
+	// 	"wNext": true,
+	// 	"tableNum": true,
+	// 	"wName": true,
+	// 	"bName": true,
+	// 	"toBeChecked": true,
+	// 	"whiteWon": true,
+	// 	"blackWon": true,
+	// 	"isDraw": true,
+	// 	"gameIsOn": true,
+	// 	"askWhiteDraw": true,
+	// 	"askBlackDraw": true,
+	// 	"whiteCanForceDraw": true,
+	// 	"blackCanForceDraw": true,
+	// 	"aiToMove": true
+	// 		//"table": true
+	// }
 
-	mongodb.connect(cn, function(err, setIntDB) {
-		//var laterThan = new Date().getTime()-gameInactiveConst
-		//if(!(setIntDB==null)){
-		setIntDB.collection("tables")
-			.find({
-				"toBeChecked": true // {"$gte": laterThan} 
-			}, needForEval).toArray(function(err2, gamesToCheck) {
+	// mongodb.connect(cn, function(err, setIntDB) {
+	// 	//var laterThan = new Date().getTime()-gameInactiveConst
+	// 	//if(!(setIntDB==null)){
+	// 	setIntDB.collection("tables")
+	// 		.find({
+	// 			"toBeChecked": true // {"$gte": laterThan} 
+	// 		}, needForEval).toArray(function(err2, gamesToCheck) {
 
-				gamesToCheck.forEach(function(checkThisGame) {
-					if((checkThisGame.wNext && checkThisGame.wName == "Computer") ||
-						(!checkThisGame.wNext && checkThisGame.bName == "Computer")) {
-						//need to make aiMove
-						var options = {
-							host: 'localhost',
-							port: 16789,
-							path: '/aichoice?t=' + checkThisGame.tableNum
-						};
+	// 			gamesToCheck.forEach(function(checkThisGame) {
 
-						http.request(options, function(response) {
-								var resJsn = {};
+	// 				if((checkThisGame.wNext && checkThisGame.wName == "Computer") ||
+	// 					(!checkThisGame.wNext && checkThisGame.bName == "Computer")) {
+	// 					//need to make aiMove
+	// 					var options = {
+	// 						host: 'localhost',
+	// 						port: 16789,
+	// 						path: '/aichoice?t=' + checkThisGame.tableNum
+	// 					};
 
-								//another chunk of data has been recieved, so append it to `resJsn`
-								response.on('data', function(chunk) {
-									resJsn = JSON.parse(chunk);
-								});
+	// 					http.request(options, function(response) {
+	// 							var resJsn = {};
 
-								response.on('end', function() {
-									/////////
+	// 							//another chunk of data has been recieved, so append it to `resJsn`
+	// 							response.on('data', function(chunk) {
+	// 								resJsn = JSON.parse(chunk);
+	// 							});
 
-									mongodb.connect(cn, function(err, setIntDB2) { //itt egy server moveitot csinalunk vegulis
-										setIntDB2.collection("tables")
-											.findOne({
-												tableNum: Number(checkThisGame.tableNum)
-											}, function(err2, tableInDb) {
-												// console.log(resJsn)
-												// console.log('dssdfsdgs')
-												if(!(resJsn == null || tableInDb == null)) {
-													var moveStr = String(resJsn.aimove)
-													if(!(moveStr == "")) { //there's at least 1 move
-														var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
-															tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
-															moveStr + //the string
-															tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][0] + //color of whats hit
-															tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][1] //piece
-															//en passnal nem latszik a leveett paraszt
+	// 							response.on('end', function() {
+	// 								/////////
 
-														tableInDb.moves.push(toPush)
-														tableInDb.toBeChecked=true
-														tableInDb.table = moveIt(moveStr, tableInDb.table)
-														tableInDb.wNext = !tableInDb.wNext
-														
-														evalGame(tableInDb)
-														
-														tableInDb.pollNum++
-														
-														
-														
-														tableInDb.moved = new Date().getTime()
-														tableInDb.chat = resJsn.toconsole
+	// 								mongodb.connect(cn, function(err, setIntDB2) { //itt egy server moveitot csinalunk vegulis
+	// 									setIntDB2.collection("tables")
+	// 										.findOne({
+	// 											tableNum: Number(checkThisGame.tableNum)
+	// 										}, function(err2, tableInDb) {
+	// 											// console.log(resJsn)
+	// 											// console.log('dssdfsdgs')
+	// 											if(!(resJsn == null || tableInDb == null)) {
+	// 												var moveStr = String(resJsn.aimove)
+	// 												if(!(moveStr == "")) { //there's at least 1 move
+	// 													var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
+	// 														tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
+	// 														moveStr + //the string
+	// 														tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][0] + //color of whats hit
+	// 														tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][1] //piece
+	// 														//en passnal nem latszik a leveett paraszt
 
-														//tableInDb.toBeChecked = false //checked for now. this should be done later, there are other stuff to be checked
+	// 													tableInDb.moves.push(toPush)
+	// 													tableInDb.toBeChecked = true
+	// 													tableInDb.table = moveIt(moveStr, tableInDb.table)
+	// 													tableInDb.wNext = !tableInDb.wNext
 
-														tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
+	// 													evalGame(tableInDb)
 
-														popThem(Number(checkThisGame.tableNum),tableInDb,'moved','Ai moved: '+moveStr)	//respond to pending longpolls
-	
-															
-														setIntDB2.collection("tables")
-															.save(tableInDb, function(err3, res) {})
-													}
-												}
-												setIntDB2.close()
-											});
+	// 													tableInDb.pollNum++
 
-									});
-									/////////
+	// 														tableInDb.moved = new Date().getTime()
+	// 													tableInDb.chat = resJsn.toconsole
 
-								});
-							})
-							.end();
+	// 													//tableInDb.toBeChecked = false //checked for now. this should be done later, there are other stuff to be checked
 
-					}
+	// 													tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
 
-					// mongodb.connect(cn, function(err, setIntDB3) { //this is last after game is checked
-					// 	if(!(setIntDB3 == null)) {
+	// 													popThem(Number(checkThisGame.tableNum), tableInDb, 'moved', 'Ai moved: ' + moveStr) //respond to pending longpolls
 
-					// 		setIntDB3.collection("tables")
-					// 			.findOne({
-					// 				tableNum: Number(checkThisGame.tableNum)
-					// 			}, function(err2, tableInDb) {
+	// 													setIntDB2.collection("tables")
+	// 														.save(tableInDb, function(err3, res) {})
+	// 												}
+	// 											}
+	// 											setIntDB2.close()
+	// 										});
 
-					// 				if(!(tableInDb == null)) {
+	// 								});
+	// 								/////////
 
-					// 					tableInDb.pollNum++
+	// 							});
+	// 						})
+	// 						.end();
 
-					// 						if(!canIMove(tableInDb.table, tableInDb.wNext)) {
-					// 							tableInDb.gameIsOn = false
-					// 							if(captured(tableInDb.table, tableInDb.wNext)) {
+	// 				}
 
-					// 								if(tableInDb.wNext) {
+	// 			})
 
-					// 									tableInDb.blackWon = true
-					// 								} else {
-					// 									tableInDb.whiteWon = true
-					// 								}
-					// 							} else {
-					// 								tableInDb.isDraw = true
-					// 							}
-					// 						}
+	// 			setIntDB.close()
 
-											
-					// 					tableInDb.toBeChecked = false
+	// 		});
 
-					// 					setIntDB3.collection("tables")
-					// 						.save(tableInDb, function(err3, res) {})
-
-					// 				}
-					// 				setIntDB3.close()
-					// 			});
-					// 	}
-					// });
-
-				})
-
-				setIntDB.close()
-
-			});
-
-	});
+	// });
 
 	//----------
 
@@ -295,7 +248,7 @@ setInterval(function() {
 								.save(xData, function(err3, res) {
 									db2.close()
 								})
-							//console.log('Games checked.')
+								//console.log('Games checked.')
 
 						});
 
@@ -306,26 +259,26 @@ setInterval(function() {
 
 }, checkGamesConst);
 
-var popThem = function(tNum,tableInDb,commandToSend,messageToSend){
-	
-	if(!(pendingLongPolls[tNum]==undefined)){
-	
-		if(pendingLongPolls[tNum].length>0){
+var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
+
+	if(!(pendingLongPolls[tNum] == undefined)) {
+
+		if(pendingLongPolls[tNum].length > 0) {
 			//van mire valaszolni
-			
-			while(pendingLongPolls[tNum].length>0){
-				
+
+			while(pendingLongPolls[tNum].length > 0) {
+
 				var resp = pendingLongPolls[tNum].pop()
-				
+
 				var passMoves = tableInDb.moves
 				var passTable = tableInDb.table
 				var passWnext = tableInDb.wNext
-				
+
 				var passChat = tableInDb.chat
-				
+
 				var passPollNum = tableInDb.pollNum
-				// db.close()
-				
+					// db.close()
+
 				resp.json({
 					tablenum: tNum,
 					table: passTable,
@@ -336,12 +289,11 @@ var popThem = function(tNum,tableInDb,commandToSend,messageToSend){
 					command: commandToSend,
 					message: messageToSend
 				});
-				
-				
+
 			}
-			
+
 		}
-}
+	}
 }
 
 app.get('/move', function(req, res) {
@@ -363,28 +315,110 @@ app.get('/move', function(req, res) {
 
 					// if(!(toPush==tableInDb.moves[tableInDb.moves.length-1])){
 					tableInDb.moves.push(toPush)
+					
 					tableInDb.table = moveIt(moveStr, tableInDb.table)
+					
 					tableInDb.wNext = !tableInDb.wNext
 
 					//tableInDb.pollNum++ //<---- majd increment a checkTableStatus ha kiertekelte	//nemis
-					
+
 					evalGame(tableInDb)
-														
+
 					tableInDb.pollNum++
-					
-					if(tableInDb.gameIsOn)tableInDb.toBeChecked = true //tells it to server(itself) to evaluate table
+
+						//tableInDb.toBeChecked = true //tells it to server(itself) to evaluate table
 
 					tableInDb.moved = new Date().getTime()
 
 					tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
-					
-					popThem(req.query.t,tableInDb,'moved','Player moved: '+moveStr)	//respond to pending longpolls
 
+					popThem(req.query.t, tableInDb, 'moved', 'Player moved: ' + moveStr) //respond to pending longpolls
 
 					//}
 
 					db.collection("tables")
 						.save(tableInDb, function(err3, res) {})
+
+					///////
+
+					//	if(tableInDb.gameIsOn){
+
+					if(tableInDb.gameIsOn &&
+						((tableInDb.wNext && tableInDb.wName == "Computer") ||
+							(!tableInDb.wNext && tableInDb.bName == "Computer"))) {
+						//need to make aiMove
+						var options = {
+							host: 'localhost',
+							port: 16789,
+							path: '/aichoice?t=' + tableInDb.tableNum
+						};
+
+						http.request(options, function(response) {
+								var resJsn = {};
+
+								//another chunk of data has been recieved, so append it to `resJsn`
+								response.on('data', function(chunk) {
+									resJsn = JSON.parse(chunk);
+								});
+
+								response.on('end', function() {
+									/////////
+
+						//			mongodb.connect(cn, function(err, setIntDB2) { //itt egy server moveitot csinalunk vegulis
+										// setIntDB2.collection("tables")
+										// 	.findOne({
+										// 		tableNum: Number(tableInDb.tableNum)
+										// 	}, function(err2, tableInDb2) {
+												// console.log(resJsn)
+												// console.log('dssdfsdgs')
+												if(!(resJsn == null)) {
+													var moveStr = String(resJsn.aimove)
+													if(!(moveStr == "")) { //there's at least 1 move
+														var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
+															tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
+															moveStr + //the string
+															tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][0] + //color of whats hit
+															tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][1] //piece
+															//en passnal nem latszik a leveett paraszt
+
+														tableInDb.moves.push(toPush)
+														//tableInDb.toBeChecked = true
+														tableInDb.table = moveIt(moveStr, tableInDb.table)
+														
+														tableInDb.wNext = !tableInDb.wNext
+
+														evalGame(tableInDb)
+
+														tableInDb.pollNum++
+
+															tableInDb.moved = new Date().getTime()
+														tableInDb.chat = resJsn.toconsole
+
+														//tableInDb.toBeChecked = false //checked for now. this should be done later, there are other stuff to be checked
+
+														tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
+
+														popThem(Number(tableInDb.tableNum), tableInDb, 'moved', 'Ai moved: ' + moveStr) //respond to pending longpolls
+
+														db.collection("tables")
+															.save(tableInDb, function(err3, res) {})
+													}
+												}
+												//setIntDB2.close()
+											//});
+
+								//	});
+									/////////
+
+								});
+							})
+							.end();
+
+					}
+
+					//}
+
+					////////////	
 
 				}
 				db.close()
@@ -484,108 +518,96 @@ app.get('/getTPollNum', function(req, res) {
 
 });
 
-
-
 //////////////////////////			user register
 
 app.get('/newUser', function(req, res) {
 	//var initedTable =
-	
 
-	
-	var user=new Dbuser(req.query.n, req.query.p)
+	var user = new Dbuser(req.query.n, req.query.p)
 	mongodb.connect(cn, function(err, db) {
 		db.collection("users")
 			.insert(user, function(err, doc) {});
 		db.close()
 
-	});	
+	});
 	res.json({});
 });
 
 app.get('/checkUser', function(req, res) {
 	//var initedTable =
-	
-	var retJsn={}
-	
+
+	var retJsn = {}
+
 	//var user=new Dbuser(req.query.n, req.query.p)
 	mongodb.connect(cn, function(err, db) {
 		//db.collection("users")
-		
-		db.collection("users").findOne({name : req.query.n},function(err,thing){
-		if(thing==null)	{
-			retJsn={'exists':false}
-		}else{
-			retJsn={'exists':true}
-		}
-		db.close()
-		res.json(retJsn)
-	})
 
-	});	
-	
+		db.collection("users").findOne({
+			name: req.query.n
+		}, function(err, thing) {
+			if(thing == null) {
+				retJsn = {
+					'exists': false
+				}
+			} else {
+				retJsn = {
+					'exists': true
+				}
+			}
+			db.close()
+			res.json(retJsn)
+		})
+
+	});
+
 });
-
-
 
 app.get('/checkUserPwd', function(req, res) {
 	//var initedTable =
-	
-	var retJsn={}
-	
+
+	var retJsn = {}
+
 	//var user=new Dbuser(req.query.n, req.query.p)
 	mongodb.connect(cn, function(err, db) {
 		//db.collection("users")
-		
-		db.collection("users").findOne({name : req.query.n},function(err,thing){
-		if(thing==null)	{
-			retJsn={
-				'exists':false,
-				'denied':true
+
+		db.collection("users").findOne({
+			name: req.query.n
+		}, function(err, thing) {
+			if(thing == null) {
+				retJsn = {
+					'exists': false,
+					'denied': true
 				}
-			
-		}else{
-			//record exists, let's check pwd
-			if(thing.pwd==req.query.p){
-				//password match, log him in
-				//alert('match')
-				retJsn={
-				'exists':true,
-				'denied':false
-				}
-				
-			}else{
-				//wrong pwd
-				//alert("Username and password don't match, try again!")
-				retJsn={
-				'exists':true,
-				'denied':true
+
+			} else {
+				//record exists, let's check pwd
+				if(thing.pwd == req.query.p) {
+					//password match, log him in
+					//alert('match')
+					retJsn = {
+						'exists': true,
+						'denied': false
+					}
+
+				} else {
+					//wrong pwd
+					//alert("Username and password don't match, try again!")
+					retJsn = {
+						'exists': true,
+						'denied': true
+					}
 				}
 			}
-		}
-		db.close()
-		res.json(retJsn)
-	})
+			db.close()
+			res.json(retJsn)
+		})
 
-	});	
-	
+	});
+
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /////////////////////////
-
 
 app.get('/getTable', function(req, res) {
 
@@ -622,8 +644,6 @@ app.get('/getTable', function(req, res) {
 
 });
 
-
-
 app.get('/longPollTable', function(req, res) {
 
 	mongodb.connect(cn, function(err, db) {
@@ -632,23 +652,21 @@ app.get('/longPollTable', function(req, res) {
 				tableNum: Number(req.query.t)
 			}, function(err2, tableInDb) {
 				if(!(tableInDb == null)) {
-					
+
 					//long
 					var passPollNum = tableInDb.pollNum
-					
-					if(passPollNum>req.query.pn){
+
+					if(passPollNum > req.query.pn) {
 						//frissebb a tabla, kuldjuk
-					
-					
+
 						var passMoves = tableInDb.moves
 						var passTable = tableInDb.table
 						var passWnext = tableInDb.wNext
-						
+
 						var passChat = tableInDb.chat
-						
-						
+
 						db.close()
-						
+
 						res.json({
 							tablenum: req.query.t,
 							table: passTable,
@@ -657,28 +675,24 @@ app.get('/longPollTable', function(req, res) {
 							chat: passChat,
 							tablepollnum: passPollNum,
 							command: 'sync',
-							message: 'sync t'+req.query.t+', poll'+passPollNum
-							
+							message: 'sync t' + req.query.t + ', poll' + passPollNum
+
 						});
-							
-					}else{
+
+					} else {
 						//nincs mit kuldeni
-						if(pendingLongPolls[req.query.t]==undefined) pendingLongPolls[req.query.t]=[]
-						
-						pendingLongPolls[req.query.t].push(res)	//hold that request for that table 
+						if(pendingLongPolls[req.query.t] == undefined) pendingLongPolls[req.query.t] = []
+
+						pendingLongPolls[req.query.t].push(res) //hold that request for that table 
 						db.close()
 					}
-					
-					
-					
-					
+
 				} else {
 					//nincs meg a tabla
 					db.close()
-				
+
 				}
 
-				
 			});
 
 	});
@@ -687,38 +701,26 @@ app.get('/longPollTable', function(req, res) {
 
 app.get('/forcePopTable', function(req, res) {
 
-
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
 				tableNum: Number(req.query.t)
 			}, function(err2, tableInDb) {
-				
+
 				if(!(tableInDb == null)) {
-					
-					popThem(Number(req.query.t),tableInDb,'forcepop','Forcepop, '+req.query.p+': '+req.query.m)
-					
-					
+
+					popThem(Number(req.query.t), tableInDb, 'forcepop', 'Forcepop, ' + req.query.p + ': ' + req.query.m)
+
 				}
 				db.close()
 			});
 
 	});
-				
+
 	res.json({
-		ok : 1
-	})				
+		ok: 1
+	})
 });
-
-
-
-
-
-
-
-
-
-
 
 app.get('/chat', function(req, res) {
 
@@ -746,16 +748,16 @@ app.get('/chat', function(req, res) {
 							.findOne({
 								tableNum: Number(req.query.t)
 							}, function(err2, tableInDb) {
-								
+
 								if(!(resJsn == null || tableInDb == null)) {
-									
+
 									tableInDb.pollNum++
 										//tableInDb.moved = new Date().getTime()
 										tableInDb.chat.push(resJsn.toconsole)
 
 									//tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
-									popThem(Number(req.query.t),tableInDb,'chat','chat')
-									
+									popThem(Number(req.query.t), tableInDb, 'chat', 'chat')
+
 									db.collection("tables")
 										.save(tableInDb, function(err3, res) {})
 										//}
@@ -786,7 +788,7 @@ app.get('/chat', function(req, res) {
 
 						//var passChat = tableInDb.chat
 
-					db.collection("tables")
+						db.collection("tables")
 						.save(tableInDb, function(err3, res) {})
 					db.close()
 					res.json({
@@ -804,59 +806,45 @@ app.get('/startGame', function(req, res) {
 	var bPNum = players[0].indexOf(req.query.b)
 
 	var initedTable = new Dbtable(firstFreeTable, req.query.w, req.query.b)
-	
-	
+
 	mongodb.connect(cn, function(err, db) {
 		db.collection("users")
 			.findOne({
 				name: req.query.w
 			}, function(err2, userInDb) {
-				if(!(userInDb==null)){
+				if(!(userInDb == null)) {
 					userInDb.games.unshift(initedTable.tableNum)
-					
-			
-	
+
 					db.collection("users")
 						.save(userInDb, function(err3, res) {})
-						
-			}
+
+				}
 				db.close()
-				// res.json({
-				
+					// res.json({
+
 				// });
 			});
 
 	});
-	
+
 	mongodb.connect(cn, function(err, db) {
 		db.collection("users")
 			.findOne({
 				name: req.query.b
 			}, function(err2, userInDb) {
-if(!(userInDb==null)){
+				if(!(userInDb == null)) {
 					userInDb.games.unshift(initedTable.tableNum)
-					
-			
-	
+
 					db.collection("users")
 						.save(userInDb, function(err3, res) {})
-			}
+				}
 				db.close()
-				// res.json({
-				
+					// res.json({
+
 				// });
 			});
 
 	});
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
@@ -953,17 +941,15 @@ app.get('/getMyRecentGames', function(req, res) {
 			.findOne({
 				name: req.query.n
 			}, function(err2, xData) {
-				if(!(xData==null)){
-					
+				if(!(xData == null)) {
+
 					res.json({
 						recentgames: xData.games
 					});
-			}
+				}
 				db.close()
 			});
 	});
-
-	
 
 });
 
@@ -1072,4 +1058,3 @@ var server = app.listen(80, function() {
 	console.log('app listening at http://%s:%s', host, port);
 
 });
-
