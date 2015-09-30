@@ -129,7 +129,17 @@ setInterval(function() {
 					if(tableInDb!=null){
 						
 						console.log(tableInDb.tableNum)
-				
+						
+						tableInDb.wName="learner thinking..."
+						
+						
+						
+						
+						
+						
+						db2.collection("tables")
+ 							.save(tableInDb, function(err3, res) {})
+						
 					}else{
 						//nothing to do
 					}
