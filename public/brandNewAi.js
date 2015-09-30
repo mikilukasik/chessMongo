@@ -1217,7 +1217,7 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast) {
 		
 		var thisTState= createState(tempTable)
 		var counted=countInArray(thisTState ,allPast)
-		if(counted ==2){
+		if(counted >1){
 			//3szorra lepnenk ugyanabba a statuszba
 			//ideiglenesen ne
 			console.log ('i could 3fold '+counted)
@@ -1328,7 +1328,7 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast) {
 				
 				tempRetTable= addMovesToTable(tempRetTable,cfColor)
 				
-				if(countInArray(createState(tempRetTable) ,allPast) ==2){
+				if(countInArray(createState(tempRetTable) ,allPast) >1){
 					//3szorra lephetne ugyanabba a statuszba
 					//ideiglenesen ne
 					loopValue-=1000
