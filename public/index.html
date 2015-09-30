@@ -91,7 +91,7 @@
 						$rootScope.chatLines = response.chat
 						$rootScope.pollNum=response.tablepollnum
 	
-						$scope.refreshRecentGames()
+						// $scope.refreshRecentGames()
 						$scope.showTable()
 						
 						if($scope.viewName == "board.html") {			
@@ -300,6 +300,7 @@
 
 		$scope.newView = function(viewName) {
 			if(viewName == 'board.html') {
+				$scope.refreshRecentGames()
 				console.log('View changed to board, calling longpoll on t'+$rootScope.tableNum)
 				$scope.logPollTable()		//start longpoll
 				if($scope.wPlayer){
