@@ -89,31 +89,31 @@
 						
 						if(response.command=='moved'){
 							//highlight changed squares
-							var changed=false
+							//var changed=false
 							for(var i=0;i<8;i++){
 								for (var j=0;j<8;j++){
 									var theSame=($rootScope.table[i][j][0]!=response.table[i][j][0])
 									$rootScope.table[i][j]=response.table[i][j]
 									if(theSame){
 										$rootScope.table[i][j][15]=true
-										changed=true
+										//changed=true
 									}
 								}
 							}
-							if (changed){
-								$timeout(function(){
-									//clear movedselected
-							for(var i=0;i<8;i++){
-								for (var j=0;j<8;j++){
-									$rootScope.table[i][j][15]=false
+							// if (changed){
+							// 	$timeout(function(){
+							// 		//clear movedselected
+							// for(var i=0;i<8;i++){
+							// 	for (var j=0;j<8;j++){
+							// 		$rootScope.table[i][j][15]=false
 									
-								}}	
-								//$scope.showTable()
+							// 	}}	
+							// 	//$scope.showTable()
 								
-								}
+							// 	}
 									
-								,100)
-							}
+							// 	,100)
+							// }
 						}else{
 							//
 							//just copy the table
