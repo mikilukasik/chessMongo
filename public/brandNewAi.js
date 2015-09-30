@@ -1205,12 +1205,14 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast) {
 		//indul a noloop
 		
 		tempTable= addMovesToTable(tempTable,!cfColor)
-		
-		if(countInArray(createState(tempTable) ,allPast) ==2){
+		var counted=countInArray(createState(tempTable) ,allPast)
+		if(counted ==2){
 			//3szorra lepnenk ugyanabba a statuszba
 			//ideiglenesen ne
-			console.log ('i could 3fold')
+			console.log ('i could 3fold '+counted)
 			loopValue-=1000
+		}else{
+			console.log (counted)
 		}
 						
 
