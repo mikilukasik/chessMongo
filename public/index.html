@@ -90,8 +90,8 @@
 						if(response.command=='moved'){
 							//highlight changed squares
 							
-							for(var i=0,i<8,i++){
-								for (var j=0,j<8,j++){
+							for(var i=0;i<8;i++){
+								for (var j=0;j<8;j++){
 									var theSame=($rootscope.table[i][j][0]==response.table[i][j][0])
 									$rootscope.table[i][j]=response.table[i][j]
 									if(theSame){
