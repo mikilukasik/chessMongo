@@ -1129,7 +1129,8 @@ function createState(table){
 								
 						}	
 					}
-	return stateToRemember
+	return stateToRemember.join()
+	
 }
 
 function countInArray(inValue,inArray){
