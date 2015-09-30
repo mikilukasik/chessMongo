@@ -148,7 +148,7 @@ setInterval(function() {
 
 			gamesToCheck=gamesToCheck1
 				
-			});
+			// });
 			
 			setIntDB.collection("tables")
 			.find({
@@ -157,25 +157,8 @@ setInterval(function() {
 			}, needForEval).toArray(function(err2, gamesToCheck2) {
 
 			gamesToCheck=gamesToCheck.concat(gamesToCheck2)
-				
-			});
 			
-			
-			
-		setIntDB.close()
-	});
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-				gamesToCheck.forEach(function(checkThisGame) {
+							gamesToCheck.forEach(function(checkThisGame) {
 					if((checkThisGame.wNext && checkThisGame.wName == "Computer") ||
 						(!checkThisGame.wNext && checkThisGame.bName == "Computer")) {
 						//need to make aiMove
@@ -292,6 +275,27 @@ setInterval(function() {
 					// });
 
 				})
+
+			
+			
+				
+			});
+			
+			});
+			
+		setIntDB.close()
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 				//setIntDB.close()
 	
