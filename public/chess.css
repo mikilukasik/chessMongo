@@ -41,10 +41,10 @@
 
 .selected2{    
     /*background-image:none !important;*/
-    -webkit-animation: fadeIt 1s ease-in-out; 
-       -moz-animation: fadeIt 1s ease-in-out; 
-         -o-animation: fadeIt 1s ease-in-out; 
-            animation: fadeIt 1s ease-in-out; 
+    -webkit-animation: fadeIt 2s ease-in-out; 
+       -moz-animation: fadeIt 2s ease-in-out; 
+         -o-animation: fadeIt 2s ease-in-out; 
+            animation: fadeIt 2s ease-in-out; 
 }
 	/*.selected2 {
 	    background-color: green;
