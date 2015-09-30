@@ -306,7 +306,9 @@ app.get('/move', function(req, res) {
 
 				var moveStr = String(req.query.m)
 
-				if(!(tableInDb == null)) {
+				if(tableInDb == null){
+					db.close()	
+				}else {
 					var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
 						tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
 						moveStr + //the string
@@ -372,7 +374,7 @@ app.get('/move', function(req, res) {
 												// console.log(resJsn)
 												// console.log('dssdfsdgs')
 												if(!(resJsn == null)) {
-													moveStr = String(resJsn.aimove)
+													var moveStr = String(resJsn.aimove)
 													if(!(moveStr == "")) { //there's at least 1 move
 														var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
 															tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
@@ -403,7 +405,7 @@ app.get('/move', function(req, res) {
 															.save(tableInDb, function(err3, res) {})
 															
 														popThem(Number(tableInDb.tableNum), tableInDb, 'moved', 'Ai moved: ' + moveStr) //respond to pending longpolls
-
+														
 													}
 												}
 												//setIntDB2.close()
@@ -411,11 +413,13 @@ app.get('/move', function(req, res) {
 
 								//	});
 									/////////
-
+									db.close()
 								});
 							})
 							.end();
 
+					}else{
+						db.close()
 					}
 
 					//}
@@ -423,7 +427,7 @@ app.get('/move', function(req, res) {
 					////////////	
 
 				}
-				db.close()
+				//db.close()
 			});
 
 		//db.close()
