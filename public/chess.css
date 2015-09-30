@@ -17,21 +17,25 @@
 	
 @-webkit-keyframes fadeIt {
   /*0%   { background-color: #FFFFFF; }*/
+  0%  { background-color: orange; }
   50%  { background-color: orange; }
   /*100% { background-color: #FFFFFF; }*/
 }
 @-moz-keyframes fadeIt {
   /*0%   { background-color: #FFFFFF; }*/
+  0%  { background-color: orange; }
   50%  { background-color: orange; }
   /*100% { background-color: #FFFFFF; }*/
 }
 @-o-keyframes fadeIt {
   /*0%   { background-color: #FFFFFF; }*/
+  0%  { background-color: orange; }
   50%  { background-color: orange; }
   /*100% { background-color: #FFFFFF; }*/
 }
 @keyframes fadeIt {
   /*0%   { background-color: #FFFFFF; }*/
+  0%  { background-color: orange; }
   50%  { background-color: orange; }
   /*100% { background-color: #FFFFFF; }*/
 }
@@ -175,7 +179,7 @@
 	    text-align-content: stretch;
 	    height: 600px;
 	    /*width: 220px;*/
-	    width: 300px;
+	    width: 200px;
   		
 	    
 	    overflow-y: scroll;
