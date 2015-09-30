@@ -87,7 +87,7 @@
 					if(response.tablenum==$rootScope.tableNum){		//break poll on changed tablenum
 						//$rootScope.table = response.table
 						
-						if(response.command=='moved'){
+						// if(response.command=='moved'){
 							//highlight changed squares
 							//var changed=false
 							for(var i=0;i<8;i++){
@@ -114,11 +114,11 @@
 									
 							// 	,100)
 							// }
-						}else{
-							//
-							//just copy the table
-							$rootScope.table = response.table
-						}
+						// }else{
+						// 	//
+						// 	//just copy the table
+						// 	$rootScope.table = response.table
+						// }
 						
 						$rootScope.wNext = response.next
 						$scope.allMoves = response.allmoves
