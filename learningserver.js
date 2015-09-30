@@ -128,20 +128,64 @@ setInterval(function() {
 				},function(err,tableInDb){
 					if(tableInDb!=null){
 						
-						console.log(tableInDb.tableNum)
+						console.log('learner is thinking on t'+tableInDb.tableNum+'...')
 						
-						tableInDb.wName="learner thinking..."
-						
-						
-						
-						
+						tableInDb.wName="learner thinking..."					//rename to mark it as processing...
+						db2.collection("tables")									
+ 							.save(tableInDb, function(err3, res) {})			//save it right away so i won't pick up on it twice
 						
 						
-						db2.collection("tables")
- 							.save(tableInDb, function(err3, res) {})
+						//temp: get regular aimove on this table from node aiserver
+						
+						
+						
+						
+						var options = {
+							host: 'localhost',
+							port: 16789,
+							path: '/aichoice?t=' + tableInDb.tableNum
+						};
+
+						http.request(options, function(response) {
+								var resJsn = {};
+
+								//another chunk of data has been recieved, so append it to `resJsn`
+								response.on('data', function(chunk) {
+									resJsn = JSON.parse(chunk);
+								});
+
+								response.on('end', function() {
+									/////////
+
+				
+												if(!(resJsn == null)) {
+													var moveStr = String(resJsn.aimove)
+													if(!(moveStr == "")) { //there's at least 1 move
+														
+														console.log(moveStr)
+														
+													}
+												}
+												//setIntDB2.close()
+											//});
+
+								//	});
+									/////////
+								//	db.close()
+								});
+							})
+							.end();
+
+						
+						
+						
+						
+						
+						
+						
 						
 					}else{
-						//nothing to do
+						//no game found, nothing to do 
 					}
 				})
 					
