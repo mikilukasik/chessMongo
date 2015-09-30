@@ -1212,8 +1212,10 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast) {
 		////
 		//indul a noloop
 		
-		tempTable= addMovesToTable(tempTable,cfColor)
-		var counted=countInArray(createState(tempTable) ,allPast)
+		tempTable= addMovesToTable(tempTable,!cfColor)
+		
+		var thisTState= createState(tempTable)
+		var counted=countInArray(thisTState ,allPast)
 		if(counted ==2){
 			//3szorra lepnenk ugyanabba a statuszba
 			//ideiglenesen ne
@@ -1221,7 +1223,7 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast) {
 			loopValue-=1000
 		}else{
 			console.log (counted)
-			//console.log(allPast)
+			console.log(thisTState)
 		}
 						
 
