@@ -172,7 +172,7 @@ setInterval(function() {
 															path: '/move?t=' + tableInDb.tableNum+'&m='+moveStr
 														};
 														
-														http.request(options2, function(response,db2,tableInDb){
+														http.request(options2, function(response,db2){
 															//itt kene visszaneveni a learnert
 															tableInDb.wName="learner"
 															db2.collection("tables")									
