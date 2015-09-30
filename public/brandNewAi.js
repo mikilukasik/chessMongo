@@ -1209,6 +1209,7 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast) {
 		if(countInArray(createState(tempTable) ,allPast) ==2){
 			//3szorra lepnenk ugyanabba a statuszba
 			//ideiglenesen ne
+			console.log ('i could 3fold')
 			loopValue-=1000
 		}
 						
@@ -1317,6 +1318,7 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast) {
 					//3szorra lephetne ugyanabba a statuszba
 					//ideiglenesen ne
 					loopValue-=1000
+					console.log('he could 3fold')
 				}
 								
 		
