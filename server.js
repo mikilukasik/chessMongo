@@ -144,7 +144,8 @@ setInterval(function() {
 			.find({
 				//"toBeChecked": true // {"$gte": laterThan} 
 				"wName":"Computer",
-				"gameIsOn":true
+				"gameIsOn":true,
+				"wNext":true
 			}, needForEval).toArray(function(err2, gamesToCheck1) {
 
 			gamesToCheck=gamesToCheck1
@@ -155,7 +156,8 @@ setInterval(function() {
 			.find({
 				//"toBeChecked": true // {"$gte": laterThan} 
 				"bName":"Computer",
-				"gameIsOn":true
+				"gameIsOn":true,
+				"wNext":false
 			}, needForEval).toArray(function(err2, gamesToCheck2) {
 
 			gamesToCheck=gamesToCheck.concat(gamesToCheck2)
