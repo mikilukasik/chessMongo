@@ -398,10 +398,12 @@ app.get('/move', function(req, res) {
 
 														tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
 
-														popThem(Number(tableInDb.tableNum), tableInDb, 'moved', 'Ai moved: ' + moveStr) //respond to pending longpolls
-
+														
 														db.collection("tables")
 															.save(tableInDb, function(err3, res) {})
+															
+														popThem(Number(tableInDb.tableNum), tableInDb, 'moved', 'Ai moved: ' + moveStr) //respond to pending longpolls
+
 													}
 												}
 												//setIntDB2.close()
