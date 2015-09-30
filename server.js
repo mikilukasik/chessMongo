@@ -296,6 +296,17 @@ var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 	}
 }
 
+function createState(tableInDb){
+	var stateToRemember=[]
+					
+					for(var i=0;i<8;i++){
+						for(var j=0;j<8;j++){
+							stateToRemember[8*i+j]=[tableInDb.table[i][j][0],tableInDb.table[i][j][1],tableInDb.table[i][j][5]]
+						}	
+					}
+	return stateToRemember
+}
+
 app.get('/move', function(req, res) {
 
 	mongodb.connect(cn, function(err, db) {
@@ -333,6 +344,16 @@ app.get('/move', function(req, res) {
 					tableInDb.moved = new Date().getTime()
 
 					tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
+					
+					//remember this state for 3fold rule
+					
+					
+					
+					
+					
+					tableInDb.allPastTables.push(createState(tableInDb))
+					
+					
 
 					popThem(req.query.t, tableInDb, 'moved', 'Player moved: ' + moveStr) //respond to pending longpolls
 
@@ -399,12 +420,20 @@ app.get('/move', function(req, res) {
 														//tableInDb.toBeChecked = false //checked for now. this should be done later, there are other stuff to be checked
 
 														tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
+														
+														//remember this state for 3fold rule
+					
+					
+					
+					
+					
+														tableInDb.allPastTables.push(createState(tableInDb))
 
+														popThem(Number(tableInDb.tableNum), tableInDb, 'moved', 'Ai moved: ' + moveStr) //respond to pending longpolls
 														
 														db.collection("tables")
 															.save(tableInDb, function(err3, res) {})
 															
-														popThem(Number(tableInDb.tableNum), tableInDb, 'moved', 'Ai moved: ' + moveStr) //respond to pending longpolls
 														
 													}
 												}

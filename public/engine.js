@@ -11,8 +11,8 @@ var Dbtable = function(tableNum, wName, bName) { //class
 	this.bName = bName,
 
 	
-	this.aiToMove=false		//kell ez??	keelll haat!!
-	this.toBeChecked=true		//new game needs to be checked in case computer plays white
+	this.aiToMove=false		//unused
+	this.toBeChecked=true		//unused
 	this.gameIsOn=true
 	this.whiteWon=false
 	this.blackWon=false
