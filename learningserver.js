@@ -162,7 +162,20 @@ setInterval(function() {
 													var moveStr = String(resJsn.aimove)
 													if(!(moveStr == "")) { //there's at least 1 move
 														
-														console.log(moveStr)
+														console.log('learner will move '+moveStr+' on t'+tableInDb.tableNum)
+														
+														//get the node server to move learner's choice
+														
+														var options2 = {
+															host: 'localhost',
+															port: 80,
+															path: '/move?t=' + tableInDb.tableNum+'&m='+moveStr
+														};
+														
+														http.request(options2, function(){}).end()
+														
+														
+														
 														
 													}
 												}
