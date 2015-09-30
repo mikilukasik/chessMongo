@@ -172,7 +172,14 @@ setInterval(function() {
 															path: '/move?t=' + tableInDb.tableNum+'&m='+moveStr
 														};
 														
-														http.request(options2, function(){}).end()
+														http.request(options2, function(response){
+															//itt kene visszaneveni a learnert
+															tableInDb.wName="learner"
+															db2.collection("tables")									
+ 																.save(tableInDb, function(err3, res) {})
+															db2.close()
+															
+														}).end()
 														
 														
 														
@@ -199,6 +206,7 @@ setInterval(function() {
 						
 					}else{
 						//no game found, nothing to do 
+						db2.close()
 					}
 				})
 					
