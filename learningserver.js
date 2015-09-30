@@ -130,6 +130,8 @@ setInterval(function() {
 						
 						console.log(tableInDb.tableNum)
 				
+					}else{
+						//nothing to do
 					}
 				})
 					
