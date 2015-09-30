@@ -10,6 +10,9 @@
 	.selected {
 	    background-color: orange;
 	}
+	.selected2 {
+	    background-color: green;
+	}
 	nav {
 	    background-color: lightblue;
 	}
