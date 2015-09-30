@@ -23,7 +23,7 @@ app.get('/aiChoice', function(req, res) {
 
 			if(!(tableFromDb == null)) {
 
-				var result = ai(tableFromDb.table, tableFromDb.wNext)			//		ai	<------------
+				var result = ai(tableFromDb.table, tableFromDb.wNext, tableFromDb.allPastTables)			//		ai	<------------
 
 				if(result.length > 1) { //if there are any moves
 

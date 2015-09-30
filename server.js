@@ -342,7 +342,7 @@ app.get('/move', function(req, res) {
 					
 					
 					
-					tableInDb.allPastTables.push(createState(tableInDb))
+					tableInDb.allPastTables.push(createState(tableInDb.table))
 					
 					
 
@@ -418,7 +418,7 @@ app.get('/move', function(req, res) {
 					
 					
 					
-														tableInDb.allPastTables.push(createState(tableInDb))
+														tableInDb.allPastTables.push(createState(tableInDb.table))
 
 														popThem(Number(tableInDb.tableNum), tableInDb, 'moved', 'Ai moved: ' + moveStr) //respond to pending longpolls
 														

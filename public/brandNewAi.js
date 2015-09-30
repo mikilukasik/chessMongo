@@ -1110,12 +1110,15 @@ function canIMove(winTable,winColor){
 	}
 }
 
-function createState(tableInDb){
+function createState(table){
+	// if(orTable){
+		
+	// }
 	var stateToRemember=[]
 					
 					for(var i=0;i<8;i++){
 						for(var j=0;j<8;j++){
-							stateToRemember[8*i+j]=[tableInDb.table[i][j][0],tableInDb.table[i][j][1],tableInDb.table[i][j][5]]
+							stateToRemember[8*i+j]=[table[i][j][0],table[i][j][1],table[i][j][5]]
 						}	
 					}
 	return stateToRemember
@@ -1129,7 +1132,7 @@ function countInArray(inValue,inArray){
 	return occured
 }
 
-function createAiTable(cfTable, cfColor, skipScnd) {
+function createAiTable(cfTable, cfColor, skipScnd, allPast) {
 
 	var allTempTables = [
 		[true, 0, new Date().getTime()] //array heading:true,0,timeStarted for timeItTook
@@ -1197,12 +1200,17 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		protectTable(tempTable)
 		
 		
-		
+		var loopValue = 0 //=(fHitValue-retHitValue)*10
 		////
 		//indul a noloop
 		
 		tempTable= addMovesToTable(tempTable,!cfColor)
 		
+		if(countInArray(createState(tempTable) ,allPast) ==2){
+			//3szorra lepnenk ugyanabba a statuszba
+			//ideiglenesen ne
+			loopValue-=1000
+		}
 						
 
 
@@ -1244,7 +1252,7 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		}
 
 		var retTable = []
-		var loopValue = 0 //=(fHitValue-retHitValue)*10
+		
 		var hhit = 0 //(origHisHitValue-rtnHisHitValue)
 		var mhit = 0 //(rtnMyHitValue-origMyHitValue)*10
 		var dontGetHit=0
@@ -1261,11 +1269,11 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		if(cfRetMoves.length == 0) {
 
 			if(captured(tempTable, !cfColor)) {
-				loopValue = 10000 //ott a matt
+				loopValue += 10000 //ott a matt
 			} else {
 
 				//pattot adna
-				loopValue= - 10000//ideiglenesen ne adjunk pattot sosem!!
+				loopValue -= 10000//ideiglenesen ne adjunk pattot sosem!!
 			}
 
 			//retTable = cfTable //vmit vissza kell azert adni..., legyen az eredeti         
@@ -1299,6 +1307,27 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 				//how abot en pass????//kivonni kesobb a leutott babu erteke, vagy 0
 
 				var tempRetTable = moveIt(stepRetMove, tempTable, true ,tretHitValue) //, false, hitValue)
+				
+				////
+				//indul a noloop
+				
+				tempRetTable= addMovesToTable(tempRetTable,cfColor)
+				
+				if(countInArray(createState(tempRetTable) ,allPast) ==2){
+					//3szorra lephetne ugyanabba a statuszba
+					//ideiglenesen ne
+					loopValue-=1000
+				}
+								
+		
+		
+		
+		
+				
+				////
+			
+				
+				
 				
 				//vonjuk ki ha vedett
 				if(eztVondKi>0){
@@ -1495,9 +1524,9 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 	return allTempTables
 }
 
-function ai(tablE, wn) {
+function ai(tablE, wn, allPast) {
 
-	return createAiTable(tablE, wn)
+	return createAiTable(tablE, wn, false, allPast)
 
 }
 
