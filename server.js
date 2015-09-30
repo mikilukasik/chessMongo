@@ -372,7 +372,7 @@ app.get('/move', function(req, res) {
 												// console.log(resJsn)
 												// console.log('dssdfsdgs')
 												if(!(resJsn == null)) {
-													var moveStr = String(resJsn.aimove)
+													moveStr = String(resJsn.aimove)
 													if(!(moveStr == "")) { //there's at least 1 move
 														var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
 															tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
@@ -391,7 +391,7 @@ app.get('/move', function(req, res) {
 
 														tableInDb.pollNum++
 
-															tableInDb.moved = new Date().getTime()
+														tableInDb.moved = new Date().getTime()
 														tableInDb.chat = resJsn.toconsole
 
 														//tableInDb.toBeChecked = false //checked for now. this should be done later, there are other stuff to be checked
