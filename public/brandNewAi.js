@@ -1118,7 +1118,14 @@ function createState(table){
 					
 					for(var i=0;i<8;i++){
 						for(var j=0;j<8;j++){
-							stateToRemember[8*i+j]=[table[i][j][0],table[i][j][1],table[i][j][5]]
+							stateToRemember[8*i+j]=
+								String.fromCharCode(65+table[i][j][0])+
+								String.fromCharCode(65+table[i][j][1])
+								
+								table[i][j][5].forEach(function(canmov){
+									stateToRemember[8*i+j]=stateToRemember[8*i+j].concat(String.fromCharCode(65+canmov[0])+String.fromCharCode(65+canmov[1]))
+								})
+								
 						}	
 					}
 	return stateToRemember
