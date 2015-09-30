@@ -296,16 +296,7 @@ var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 	}
 }
 
-function createState(tableInDb){
-	var stateToRemember=[]
-					
-					for(var i=0;i<8;i++){
-						for(var j=0;j<8;j++){
-							stateToRemember[8*i+j]=[tableInDb.table[i][j][0],tableInDb.table[i][j][1],tableInDb.table[i][j][5]]
-						}	
-					}
-	return stateToRemember
-}
+
 
 app.get('/move', function(req, res) {
 

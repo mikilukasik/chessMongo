@@ -1110,6 +1110,25 @@ function canIMove(winTable,winColor){
 	}
 }
 
+function createState(tableInDb){
+	var stateToRemember=[]
+					
+					for(var i=0;i<8;i++){
+						for(var j=0;j<8;j++){
+							stateToRemember[8*i+j]=[tableInDb.table[i][j][0],tableInDb.table[i][j][1],tableInDb.table[i][j][5]]
+						}	
+					}
+	return stateToRemember
+}
+
+function countInArray(inValue,inArray){
+	var occured = 0
+	inArray.forEach(function(arrayItem){
+		if(arrayItem==inValue)occured++	
+	})	
+	return occured
+}
+
 function createAiTable(cfTable, cfColor, skipScnd) {
 
 	var allTempTables = [
@@ -1176,9 +1195,22 @@ function createAiTable(cfTable, cfColor, skipScnd) {
 		
 		var tempTable = moveIt(stepMove, cfTable, true, fHitValue) //, false, hitValue)
 		protectTable(tempTable)
+		
+		
+		
+		////
+		//indul a noloop
+		
+		tempTable= addMovesToTable(tempTable,!cfColor)
+		
+						
+
+
+
 
 		
-
+		////
+		
 		var cfRetMoves = []
 		var cfRetMoveCoords = []
 		//ide is full getallmoves kene, de vhogy tudnunk kell hany lepest szedett le sakk miatt, es azt is ebbol hanyszor lep a kirallyal..
