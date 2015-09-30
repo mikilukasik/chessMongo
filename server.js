@@ -86,6 +86,37 @@ mongodb.connect(cn, function(err, db) {
 		});
 });
 
+function evalGame(tableInDb){
+
+									//if(!(tableInDb == null)) {
+
+										//tableInDb.pollNum++
+
+											if(!canIMove(tableInDb.table, tableInDb.wNext)) {
+												tableInDb.gameIsOn = false
+												if(captured(tableInDb.table, tableInDb.wNext)) {
+
+													if(tableInDb.wNext) {
+
+														tableInDb.blackWon = true
+													} else {
+														tableInDb.whiteWon = true
+													}
+												} else {
+													tableInDb.isDraw = true
+												}
+											}
+
+											
+										//tableInDb.toBeChecked = false
+
+										// setIntDB3.collection("tables")
+										// 	.save(tableInDb, function(err3, res) {})
+
+									// }
+									// setIntDB3.close()
+								}
+
 setInterval(function() {
 
 	var needForEval = {
@@ -157,9 +188,9 @@ setInterval(function() {
 														tableInDb.table = moveIt(moveStr, tableInDb.table)
 														tableInDb.wNext = !tableInDb.wNext
 														
+														evalGame(tableInDb)
 														
-														
-														//tableInDb.pollNum++
+														tableInDb.pollNum++
 														
 														
 														
@@ -189,44 +220,44 @@ setInterval(function() {
 
 					}
 
-					mongodb.connect(cn, function(err, setIntDB3) { //this is last after game is checked
-						if(!(setIntDB3 == null)) {
+					// mongodb.connect(cn, function(err, setIntDB3) { //this is last after game is checked
+					// 	if(!(setIntDB3 == null)) {
 
-							setIntDB3.collection("tables")
-								.findOne({
-									tableNum: Number(checkThisGame.tableNum)
-								}, function(err2, tableInDb) {
+					// 		setIntDB3.collection("tables")
+					// 			.findOne({
+					// 				tableNum: Number(checkThisGame.tableNum)
+					// 			}, function(err2, tableInDb) {
 
-									if(!(tableInDb == null)) {
+					// 				if(!(tableInDb == null)) {
 
-										tableInDb.pollNum++
+					// 					tableInDb.pollNum++
 
-											if(!canIMove(tableInDb.table, tableInDb.wNext)) {
-												tableInDb.gameIsOn = false
-												if(captured(tableInDb.table, tableInDb.wNext)) {
+					// 						if(!canIMove(tableInDb.table, tableInDb.wNext)) {
+					// 							tableInDb.gameIsOn = false
+					// 							if(captured(tableInDb.table, tableInDb.wNext)) {
 
-													if(tableInDb.wNext) {
+					// 								if(tableInDb.wNext) {
 
-														tableInDb.blackWon = true
-													} else {
-														tableInDb.whiteWon = true
-													}
-												} else {
-													tableInDb.isDraw = true
-												}
-											}
+					// 									tableInDb.blackWon = true
+					// 								} else {
+					// 									tableInDb.whiteWon = true
+					// 								}
+					// 							} else {
+					// 								tableInDb.isDraw = true
+					// 							}
+					// 						}
 
 											
-										tableInDb.toBeChecked = false
+					// 					tableInDb.toBeChecked = false
 
-										setIntDB3.collection("tables")
-											.save(tableInDb, function(err3, res) {})
+					// 					setIntDB3.collection("tables")
+					// 						.save(tableInDb, function(err3, res) {})
 
-									}
-									setIntDB3.close()
-								});
-						}
-					});
+					// 				}
+					// 				setIntDB3.close()
+					// 			});
+					// 	}
+					// });
 
 				})
 
@@ -335,11 +366,13 @@ app.get('/move', function(req, res) {
 					tableInDb.table = moveIt(moveStr, tableInDb.table)
 					tableInDb.wNext = !tableInDb.wNext
 
-					tableInDb.pollNum++ //<---- majd increment a checkTableStatus ha kiertekelte	//nemis
+					//tableInDb.pollNum++ //<---- majd increment a checkTableStatus ha kiertekelte	//nemis
 					
+					evalGame(tableInDb)
+														
+					tableInDb.pollNum++
 					
-					
-					tableInDb.toBeChecked = true //tells it to server(itself) to evaluate table
+					if(tableInDb.gameIsOn)tableInDb.toBeChecked = true //tells it to server(itself) to evaluate table
 
 					tableInDb.moved = new Date().getTime()
 
