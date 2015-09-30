@@ -124,7 +124,7 @@ setInterval(function() {
 		"tableNum": true,
 		"wName": true,
 		"bName": true,
-		"toBeChecked": true,
+		//"toBeChecked": true,
 		"whiteWon": true,
 		"blackWon": true,
 		"isDraw": true,
@@ -136,15 +136,45 @@ setInterval(function() {
 		"aiToMove": true
 		//"table": true
 	}
-
+	var gamesToCheck=[]
 	mongodb.connect(cn, function(err, setIntDB) {
 		//var laterThan = new Date().getTime()-gameInactiveConst
 		//if(!(setIntDB==null)){
 		setIntDB.collection("tables")
 			.find({
-				"toBeChecked": true // {"$gte": laterThan} 
-			}, needForEval).toArray(function(err2, gamesToCheck) {
+				//"toBeChecked": true // {"$gte": laterThan} 
+				"wName":"Computer"
+			}, needForEval).toArray(function(err2, gamesToCheck1) {
 
+			gamesToCheck=gamesToCheck1
+				
+			});
+			
+			setIntDB.collection("tables")
+			.find({
+				//"toBeChecked": true // {"$gte": laterThan} 
+				"bName":"Computer"
+			}, needForEval).toArray(function(err2, gamesToCheck2) {
+
+			gamesToCheck=gamesToCheck.concat(gamesToCheck2)
+				
+			});
+			
+			
+			
+		setIntDB.close()
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 				gamesToCheck.forEach(function(checkThisGame) {
 					if((checkThisGame.wNext && checkThisGame.wName == "Computer") ||
 						(!checkThisGame.wNext && checkThisGame.bName == "Computer")) {
@@ -186,6 +216,8 @@ setInterval(function() {
 														tableInDb.moves.push(toPush)
 														tableInDb.toBeChecked=true
 														tableInDb.table = moveIt(moveStr, tableInDb.table)
+														
+														
 														tableInDb.wNext = !tableInDb.wNext
 														
 														evalGame(tableInDb)
@@ -261,11 +293,16 @@ setInterval(function() {
 
 				})
 
-				setIntDB.close()
-
-			});
-
-	});
+				//setIntDB.close()
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	//----------
 
