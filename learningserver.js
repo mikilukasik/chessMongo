@@ -120,7 +120,7 @@ setInterval(function() {
 
 		if(!(db2 == null)) {
 			db2.collection("tables")
-				.findone({
+				.findOne({
 					wNext:true,
 					wName:"learner",
 					gameIsOn:true
