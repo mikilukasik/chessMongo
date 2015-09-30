@@ -9,7 +9,7 @@
 
 	appModule.controller("ApplicationController", ApplicationController);
 
-	function ApplicationController($rootScope, $scope, $http, $interval, $compile) {
+	function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
 
 		var dletters = ["a","b","c","d","e","f","g","h"]
 		var dfigures = ["","King","Queen","Rook","Bishop","Knight","Pawn"]
@@ -89,17 +89,31 @@
 						
 						if(response.command=='moved'){
 							//highlight changed squares
-							
+							var changed=false
 							for(var i=0;i<8;i++){
 								for (var j=0;j<8;j++){
 									var theSame=($rootScope.table[i][j][0]!=response.table[i][j][0])
 									$rootScope.table[i][j]=response.table[i][j]
 									if(theSame){
 										$rootScope.table[i][j][15]=true
+										changed=true
 									}
 								}
 							}
-							
+							if (changed){
+								$timeout(function(){
+									//clear movedselected
+							for(var i=0;i<8;i++){
+								for (var j=0;j<8;j++){
+									$rootScope.table[i][j][15]=false
+									
+								}}	
+								$scope.showTable()
+								
+								}
+									
+								,1000)
+							}
 						}else{
 							//
 							//just copy the table
