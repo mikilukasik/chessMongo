@@ -208,13 +208,13 @@ setInterval(function() {
 														
 														//get the node server to move learner's choice
 														
-														var options2 = {
+														var optionsb = {
 															host: 'localhost',
-															port: 80,
+															port: 17889,
 															path: '/move?t=' + tableInDb.tableNum+'&m='+moveStr+'&r='+Math.random()
 														};
 														
-														http.request(options2, function(){
+														http.request(optionsb, function(){
 															//itt kene visszaneveni a learnert
 															// tableInDb.wName="learner"
 															// db2.collection("tables")									
