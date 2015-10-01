@@ -272,7 +272,7 @@ setInterval(function() {
 						// console.log(namethisback.learnerIsBusy)
 						// namethisback.learnerIsBusy=false
 						// console.log('false back on t'+namethisback.tableNum)
-						/falseIt(namethisback.tablenum)
+						falseIt(namethisback.tablenum)
 						// console.log(namethisback.learnerIsBusy)
 						
 						// db3.collection("tables")
