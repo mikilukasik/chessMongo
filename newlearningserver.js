@@ -95,15 +95,15 @@ mongodb.connect(cn, function(err, db) {
 
 	// });
 
-	mongodb.connect(cn, function(err, db) {
+	//mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.insert(initedTable, function(err, doc) {});
-		db.close()
-	})
+	//	db.close()
+	//})
 	var myGame=initedTable
 	firstFreeTable++
 
-	mongodb.connect(cn, function(err, db) {
+	//mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
 				tableNum: "xData"
@@ -113,9 +113,9 @@ mongodb.connect(cn, function(err, db) {
 
 				db.collection("tables")
 					.save(xData, function(err3, res) {})
-				db.close()
+	//			db.close()
 			});
-	});
+	//});
 	
 	//?dbTables.insert(initedTable, function (err, doc) {});
 
