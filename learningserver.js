@@ -207,7 +207,7 @@ setInterval(function() {
 						
 						
 						
-						
+						//db2.close()
 						
 						
 					}else{
@@ -222,7 +222,8 @@ setInterval(function() {
 				db2.collection("tables")
 				.find({
 					wNext:false,
-					wName:"learner thinking..."
+					wName:"learner thinking...",
+					gameIsOn:true
 					
 				}).toArray(function(err2,nameTheseBack){
 					nameTheseBack.forEach(function(namethisback){
@@ -230,6 +231,7 @@ setInterval(function() {
 						db2.collection("tables")
 						.save(namethisback, function(err3, res) {})
 					})
+					db2.close()
 				})
 				
 				
