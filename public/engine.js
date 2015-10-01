@@ -26,7 +26,7 @@ var Dbtable = function(tableNum, wName, bName) { //class
 	
 	
 	
-	
+	this.learnerIsBusy=false
 	
 	
 	

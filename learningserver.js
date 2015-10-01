@@ -124,14 +124,15 @@ setInterval(function() {
 				.findOne({
 					wNext:true,
 					wName:"learner",
-					gameIsOn:true
+					gameIsOn:true,
+					learnerIsBusy:false
 					
 				},function(err,tableInDb){
 					if(tableInDb!=null){
 						
 						console.log('learner is thinking on t'+tableInDb.tableNum+'...')
 						
-						tableInDb.wName="learner thinking..."					//rename to mark it as processing...
+						tableInDb.learnerIsBusy=true					// to mark it as processing...
 						db2.collection("tables")									
  							.save(tableInDb, function(err3, res) {})			//save it right away so i won't pick up on it twice
 						
@@ -243,13 +244,15 @@ setInterval(function() {
 		db2.collection("tables")
 				.find({
 					wNext:false,
-					wName:"learner thinking...",
-					gameIsOn:true
+					wName:"learner",
+					gameIsOn:true,
+					learnerIsBusy:true
+					
 					
 				}).toArray(function(err2,nameTheseBack){
 					nameTheseBack.forEach(function(namethisback){
-						namethisback.wName="learner"
-						console.log('named back.')
+						namethisback.learnerIsBusy=false
+						console.log('false back.')
 						db2.collection("tables")
 						.save(namethisback, function(err3, res) {
 							console.log('saved')
