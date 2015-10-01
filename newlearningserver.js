@@ -294,7 +294,7 @@ function playgame (myGame,mt,mv) {
 								response.on('end', function() {
 									});
 									
-								}).end()
+								//}).end()
 							
 								
 								
