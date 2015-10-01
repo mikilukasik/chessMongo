@@ -20,7 +20,7 @@ app.get('/startLearningGame', function(req, res) {
 //var myGame=0
 	//var wPNum = players[0].indexOf(req.query.w)
 	//var bPNum = players[0].indexOf(req.query.b)
-var firstFreeTable=1000
+//var firstFreeTable=1111
 
 function createXData() {
 	console.log("can't find xData in db, creating..") //header in db
@@ -48,9 +48,9 @@ mongodb.connect(cn, function(err, db) {
 
 				createXData();
 
-				firstFreeTable = 1
+				var firstFreeTable = 143223
 			} else {
-				firstFreeTable = xData.firstFreeTable
+				var firstFreeTable = xData.firstFreeTable
 			}
 
 			db.close()
@@ -248,7 +248,13 @@ mongodb.connect(cn, function(err, db) {
 								tableNum: myGame.tableNum
 							}, function(err2, result) {
 								console.log('found table:'+result.tableNum)
-								result=myGame
+								
+								
+								
+								result.table=myGame.table
+								
+								
+								
 								console.log('will save moved table..')
 								db.collection("tables")
 									.save(result, function(err3, res) {})
