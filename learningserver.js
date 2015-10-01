@@ -262,12 +262,17 @@ setInterval(function() {
 						.save(namethisback, function(err3, res) {
 							console.log('saved')
 						
+						
 						})
 					})
+					db3.close()
+				}else{
+					//nincs mit tenni
+					db3.close()
 				}
 				})
 		
-		db3.close()
+		
 	})
 		
 }, renameCheckConst);
