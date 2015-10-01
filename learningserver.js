@@ -124,28 +124,28 @@ setInterval(function() {
 			
 			
 			db2.collection("tables")
-				.find({
+				.findOne({
 					
-					//wName:"learner",
+					wName:"learner",
 					gameIsOn:true
 					
 					
-				}).toArray(function(err,tablesInDb){
-					if(tablesInDb==undefined){
+				},function(err,tableInDb){
+					if(tableInDb==null){
 						//no active learner game, let's start some
-						console.log("no active learner game, let's start some "+tablesInDb)
+						console.log("no active learner game, let's start some")
 						var options3 = {
 							host: 'localhost',
 							port: 80,
 							path: '/startGame?w=learner&b=Computer'
 						};
 						
-						// http.request(options3, function(){
+						http.request(options3, function(){
 							
-						// 	console.log('learner game started on server')
+							console.log('learner game started on server')
 							
 							
-						// }).end()
+						}).end()
 						
 						
 						
@@ -214,7 +214,7 @@ setInterval(function() {
 															path: '/move?t=' + tableInDb.tableNum+'&m='+moveStr+'&r='+Math.random()
 														};
 														
-														http.request(optionsb, function(bbbb){
+														http.request(optionsb, function(){
 															//itt kene visszaneveni a learnert
 															// tableInDb.wName="learner"
 															// db2.collection("tables")									
@@ -222,8 +222,6 @@ setInterval(function() {
 															// db2.close()
 															console.log('jott vmi')
 															
-															bbbb.on('data', function() {})
-															bbbb.on('end', function() {})
 															
 														}).end()
 														
