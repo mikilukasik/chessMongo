@@ -224,7 +224,7 @@ setInterval(function() {
 					wNext:false,
 					wName:"learner thinking..."
 					
-				}).toArray(function(nameTheseBack){
+				}).toArray(function(err2,nameTheseBack){
 					nameTheseBack.forEach(function(namethisback){
 						db2.collection("tables")
 						.save(namethisback, function(err3, res) {})
