@@ -20,7 +20,7 @@ app.get('/startLearningGame', function(req, res) {
 //var myGame=0
 	//var wPNum = players[0].indexOf(req.query.w)
 	//var bPNum = players[0].indexOf(req.query.b)
-//var firstFreeTable=1111
+var firstFreeTable=1111
 
 function createXData() {
 	console.log("can't find xData in db, creating..") //header in db
