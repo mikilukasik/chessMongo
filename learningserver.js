@@ -126,8 +126,8 @@ setInterval(function() {
 			db2.collection("tables")
 				.find({
 					
-					wName:"learner",
-					// gameIsOn:true
+					//wName:"learner",
+					gameIsOn:true
 					
 					
 				}).toArray(function(err,tablesInDb){
