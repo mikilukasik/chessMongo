@@ -283,7 +283,7 @@ function playgame (myGame,mt,mv) {
 									path: '/forcePopTable?t='+myGame.tableNum+'&p=learner&m=move: '+aiMoveString
 								};
 								
-								http.request(optionsb, function(response){
+								//http.request(optionsb, function(response){
 									
 									console.log('jott vmi')
 									
