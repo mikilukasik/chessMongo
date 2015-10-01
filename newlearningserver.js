@@ -14,7 +14,7 @@ var cn = 'mongodb://localhost:17890/chessdb'
 eval(fs.readFileSync('public/brandNewAi.js') + '');
 eval(fs.readFileSync('public/engine.js')+'');
 
-
+var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
 
 app.get('/startLearningGame', function(req, res) {
 //var myGame=0
@@ -194,8 +194,86 @@ mongodb.connect(cn, function(err, db) {
 			//}
 
 			//db.close()
-			console.log(sendJson);//trick
-			console.log(aiMoveString)
+			//console.log(sendJson);//trick
+			console.log('Will move '+aiMoveString)
+			
+			
+			
+			
+			
+			
+			
+					var toPush = String(myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][0]) + //color of whats moving
+						myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][1] + //piece
+						aiMoveString + //the string
+						myGame.table[dletters.indexOf(aiMoveString[2])][aiMoveString[3] - 1][0] + //color of whats hit
+						myGame.table[dletters.indexOf(aiMoveString[2])][aiMoveString[3] - 1][1] //piece
+
+					// if(!(toPush==myGame.moves[myGame.moves.length-1])){
+					myGame.moves.push(toPush)
+					
+					myGame.table = moveIt(aiMoveString, myGame.table)
+					
+					myGame.wNext = !myGame.wNext
+
+					//myGame.pollNum++ //<---- majd increment a checkTableStatus ha kiertekelte	//nemis
+
+					//evalGame(myGame)
+
+					myGame.pollNum++
+
+						//myGame.toBeChecked = true //tells it to server(itself) to evaluate table
+
+					myGame.moved = new Date().getTime()
+
+					myGame.table = addMovesToTable(myGame.table, myGame.wNext)
+					
+					//remember this state for 3fold rule
+					
+					
+					
+					
+					
+					myGame.allPastTables.push(createState(myGame.table))
+					
+					
+
+					//popThem(req.query.t, myGame, 'moved', 'Player moved: ' + aiMoveString) //respond to pending longpolls
+
+					//}
+
+					mongodb.connect(cn, function(err, db) {
+						db.collection("tables")
+							.findOne({
+								tableNum: myGame.tableNum
+							}, function(err2, result) {
+				
+								result=myGame
+				
+								db.collection("tables")
+									.save(result, function(err3, res) {})
+								db.close()
+							});
+					});
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 });
 
 
