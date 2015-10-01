@@ -247,7 +247,7 @@ mongodb.connect(cn, function(err, db) {
 							.findOne({
 								tableNum: myGame.tableNum
 							}, function(err2, result) {
-								console.log('found table:'result.tableNum)
+								console.log('found table:'+result.tableNum)
 								result=myGame
 								console.log('will save moved table..')
 								db.collection("tables")
