@@ -226,6 +226,7 @@ setInterval(function() {
 					
 				}).toArray(function(err2,nameTheseBack){
 					nameTheseBack.forEach(function(namethisback){
+						namethisback.wName="learner"
 						db2.collection("tables")
 						.save(namethisback, function(err3, res) {})
 					})
