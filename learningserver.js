@@ -269,14 +269,14 @@ setInterval(function() {
 					
 					
 				if(nameTheseBack!=undefined){
-					//nameTheseBack.forEach(function(namethisback){
+					nameTheseBack.forEach(function(namethisback){
 						// console.log(namethisback.learnerIsBusy)
 						// namethisback.learnerIsBusy=false
 						// console.log('false back on t'+namethisback.tableNum)
-						var tempNum=nameTheseBack.tablenum
+						var tempNum=namethisback.tablenum
 						console.log(tempNum)
 						//console.log(namethisback)
-						console.log(nameTheseBack)
+						//console.log(nameTheseBack)
 						
 						falseIt(tempNum)
 						// console.log(namethisback.learnerIsBusy)
@@ -286,7 +286,7 @@ setInterval(function() {
 						// 	console.log('saved')
 						
 						
-						// })
+						 })
 					//})
 					db3.close()
 				}else{
