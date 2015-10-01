@@ -238,7 +238,7 @@ function falseIt(tNum){
 		db4.collection("tables").findOne({
 			tableNum:Number(tNum)
 		},function(err,tInD){
-		if(tInD!=null)
+		if(tInD!=null){}
 				tInD.learnerIsBusy=false
 				db4.collection("tables").save(tInD,function(err,vmi){})
 		}
