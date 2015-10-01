@@ -133,7 +133,7 @@ setInterval(function() {
 				},function(err,tableInDb){
 					if(tableInDb==null){
 						//no active learner game, let's start some
-						
+						console.log("no active learner game, let's start some")
 						var options3 = {
 							host: 'localhost',
 							port: 80,
