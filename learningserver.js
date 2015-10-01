@@ -29,6 +29,7 @@ var tryWhite=true
 // var playerDisconnectConst = 15000 //15sec
 // var gameInactiveConst = 300000 //5min
 var checkGamesConst = 1300
+var renameCheckConst = 40
 
 // var pendingLongPolls = []
 
@@ -219,7 +220,27 @@ setInterval(function() {
 				
 				console.log('.')
 				
-				db2.collection("tables")
+				
+				
+				
+				
+				
+				
+					
+		}
+
+	});
+
+}, checkGamesConst);
+
+setInterval(function() {
+
+	
+
+	mongodb.connect(cn, function(err5, db2) {
+		
+		
+		db2.collection("tables")
 				.find({
 					wNext:false,
 					wName:"learner thinking...",
@@ -237,17 +258,11 @@ setInterval(function() {
 					})
 					db2.close()
 				})
-				
-				
-				
-				
-				
-					
-		}
-
-	});
-
-}, checkGamesConst);
+		
+		
+	})
+		
+}, renameCheckConst);
 
 // var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 
