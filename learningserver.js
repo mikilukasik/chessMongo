@@ -206,7 +206,7 @@ setInterval(function() {
 						
 					}else{
 						//no game found, nothing to do 
-						db2.close()
+						//db2.close()
 					}
 				})
 					
