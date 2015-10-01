@@ -147,6 +147,11 @@ mongodb.connect(cn, function(err, db) {
 	
 //if(!(myGame == null)) {
 
+while (myGame.gameIsOn) {
+	
+
+
+
 				var result = ai(myGame.table, myGame.wNext, myGame.allPastTables, req.query.mt, req.query.mv)			//		ai	<------------
 
 				if(result.length > 1) { //if there are any moves
@@ -179,7 +184,7 @@ mongodb.connect(cn, function(err, db) {
 					//eval
 				
 				
-				
+					myGame.gameIsOn=false
 				
 				
 					var sendJson = {
@@ -252,6 +257,11 @@ mongodb.connect(cn, function(err, db) {
 								
 								
 								result.table=myGame.table
+								result.moves=myGame.moves
+								result.pollNum=myGame.pollNum
+								result.wNext=myGame.wNext
+								result.moved=myGame.moved
+								result.allPastTables=myGame.allPastTables
 								
 								
 								
@@ -273,7 +283,7 @@ mongodb.connect(cn, function(err, db) {
 			
 			
 			
-			
+			}
 			
 			
 			
