@@ -241,6 +241,7 @@ function falseIt(tNum){
 			tableNum:tNum
 		},function(err,tInD){
 		if(tInD!=null){
+			console.log('changing something')
 				tInD.learnerIsBusy=false
 				db4.collection("tables").save(tInD,function(err,vmi){})
 		}
