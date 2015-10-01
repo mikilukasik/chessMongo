@@ -268,11 +268,13 @@ setInterval(function() {
 				}).toArray(function(err2,nameTheseBack){
 					
 					
-				if(nameTheseBack!=undefined)	{nameTheseBack.forEach(function(namethisback){
+				if(nameTheseBack!=undefined){
+					nameTheseBack.forEach(function(namethisback){
 						// console.log(namethisback.learnerIsBusy)
 						// namethisback.learnerIsBusy=false
 						// console.log('false back on t'+namethisback.tableNum)
-						falseIt(namethisback.tablenum)
+						var tempNum=namethisback.tablenum
+						falseIt(tempNum)
 						// console.log(namethisback.learnerIsBusy)
 						
 						// db3.collection("tables")
