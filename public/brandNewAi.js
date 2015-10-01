@@ -1141,7 +1141,7 @@ function countInArray(inValue,inArray){
 	return occured
 }
 
-function createAiTable(cfTable, cfColor, skipScnd, allPast) {
+function createAiTable(cfTable, cfColor, skipScnd, allPast, modType) {
 
 	var allTempTables = [
 		[true, 0, new Date().getTime()] //array heading:true,0,timeStarted for timeItTook
@@ -1523,9 +1523,27 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast) {
 		// lsancValue*=10
 		// rsancValue*=10
 		
-		var pushThisValue = tTable2Value + loopValue + captureScore + //fHitValue +
-							smallValScore+dontGetHit+
-							retProtect+mhit+hhit+fwdVal+lsancValue+rsancValue+sancValue+getToMiddle+pushHimBack+mostMoved
+		///modType 'l' is loopval *=-1
+		
+		if(modType=="l")loopValue*= -1
+		
+		var pushThisValue = 
+		
+							tTable2Value + 
+							loopValue + 
+							captureScore + //fHitValue +
+							smallValScore+
+							dontGetHit+
+							retProtect+
+							mhit+
+							hhit+
+							fwdVal+
+							lsancValue+
+							rsancValue+
+							sancValue+
+							getToMiddle+
+							pushHimBack+
+							mostMoved
 
 		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, captureScore, smallValScore,
 			 				dontGetHit,tTable2Value, retProtect, mhit, hhit, fwdVal,lsancValue,rsancValue,
@@ -1540,9 +1558,9 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast) {
 	return allTempTables
 }
 
-function ai(tablE, wn, allPast) {
+function ai(tablE, wn, allPast, modType) {
 
-	return createAiTable(tablE, wn, false, allPast)
+	return createAiTable(tablE, wn, false, allPast, modType)
 
 }
 
