@@ -285,14 +285,14 @@ function playgame (myGame,mt,mv) {
 								
 								//http.request(optionsb, function(response){
 									
-									console.log('jott vmi')
+								// 	console.log('jott vmi')
 									
-									response.on('data', function(chunk) {
-									//resJsn = JSON.parse(chunk);
-								});
+								// 	response.on('data', function(chunk) {
+								// 	//resJsn = JSON.parse(chunk);
+								// });
 
-								response.on('end', function() {
-									});
+								// response.on('end', function() {
+								// 	});
 									
 								//}).end()
 							
