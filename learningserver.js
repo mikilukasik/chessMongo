@@ -238,8 +238,10 @@ function falseIt(tNum){
 		db4.collection("tables").findOne({
 			tableNum:Number(tNum)
 		},function(err,tInD){
-			tInD.learnerIsBusy=false
-			db4.collection("tables").save(tInD,function(err,vmi){})
+		if(tInD!=null)
+				tInD.learnerIsBusy=false
+				db4.collection("tables").save(tInD,function(err,vmi){})
+		}
 			db4.close()
 		})
 		
