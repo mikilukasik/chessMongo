@@ -236,7 +236,7 @@ setInterval(function() {
 function falseIt(tNum){
 	mongodb.connect(cn, function(err5, db4) {
 		db4.collection("tables").findOne({
-			tableNum:tNum
+			tableNum:Number(tNum)
 		},function(err,tInD){
 			tInD.learnerIsBusy=false
 			db4.collection("tables").save(tInD,function(err,vmi){})
