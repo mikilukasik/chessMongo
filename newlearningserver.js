@@ -188,9 +188,9 @@ mongodb.connect(cn, function(err, db) {
 					}
 				}
 			//} else {
-				var sendJson = {
-					error: "error"
-				}
+				// var sendJson = {
+				// 	error: "error"
+				// }
 			//}
 
 			//db.close()
