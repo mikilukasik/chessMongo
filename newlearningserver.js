@@ -52,13 +52,9 @@ mongodb.connect(cn, function(err, db) {
 			} else {
 				firstFreeTable = xData.firstFreeTable
 			}
-
-			db.close()
-		});
-});
-
-
-	var initedTable = new Dbtable(firstFreeTable, "mod lpV:"+ req.query.mv,"standard")
+			
+			
+				var initedTable = new Dbtable(firstFreeTable, "mod lpV:"+ req.query.mv,"standard")
 
 	// mongodb.connect(cn, function(err, db) {
 	// 	db.collection("users")
@@ -147,6 +143,15 @@ mongodb.connect(cn, function(err, db) {
 	
 //if(!(myGame == null)) {
 playgame(myGame)
+			
+			db.close()
+			
+			
+		});
+});
+
+
+
 function playgame (myGame,mt,mv) {
 	
 
