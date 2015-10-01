@@ -238,7 +238,7 @@ function falseIt(tNum){
 						
 	mongodb.connect(cn, function(err5, db4) {
 		db4.collection("tables").findOne({
-			tableNum:Number(tNum)
+			tableNum:tNum
 		},function(err,tInD){
 		if(tInD!=null){
 				tInD.learnerIsBusy=false
