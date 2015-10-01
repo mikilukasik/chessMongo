@@ -181,12 +181,12 @@ setInterval(function() {
 															
 														}).end()
 														
-														setTimeout(function(){
-															tableInDb.wName="learner"
-															db2.collection("tables")									
- 																.save(tableInDb, function(err3, res) {})
-															db2.close()
-														},1000)
+														// setTimeout(function(){
+														// 	tableInDb.wName="learner"
+														// 	db2.collection("tables")									
+ 														// 		.save(tableInDb, function(err3, res) {})
+														// 	db2.close()
+														// },1000)
 														
 														
 														
@@ -215,6 +215,26 @@ setInterval(function() {
 						//db2.close()
 					}
 				})
+				
+				
+				
+				
+				db2.collection("tables")
+				.find({
+					wNext:false,
+					wName:"learner thinking..."
+					
+				}).toArray(function(nameTheseBack){
+					nameTheseBack.forEach(function(namethisback){
+						db2.collection("tables")
+						.save(namethisback, function(err3, res) {})
+					})
+				})
+				
+				
+				
+				
+				
 					
 		}
 
