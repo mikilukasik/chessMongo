@@ -146,13 +146,13 @@ mongodb.connect(cn, function(err, db) {
 	console.log('Response sent, thinking 1st move..')
 	
 //if(!(myGame == null)) {
-
-while (myGame.gameIsOn) {
+playgame(myGame)
+function playgame (myGame,mt,mv) {
 	
 
 
 
-				var result = ai(myGame.table, myGame.wNext, myGame.allPastTables, req.query.mt, req.query.mv)			//		ai	<------------
+				var result = ai(myGame.table, myGame.wNext, myGame.allPastTables, mt, mv)			//		ai	<------------
 
 				if(result.length > 1) { //if there are any moves
 
@@ -273,7 +273,11 @@ while (myGame.gameIsOn) {
 								
 								db.close()
 								console.log('closed.')
-								
+								if (myGame.gameIsOn){
+									console.log('recalling playgame')
+									playgame(myGame)
+									
+								}				
 							});
 					});
 
