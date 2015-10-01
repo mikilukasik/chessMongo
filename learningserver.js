@@ -127,7 +127,7 @@ setInterval(function() {
 				.find({
 					
 					wName:"learner",
-					gameIsOn:true
+					// gameIsOn:true
 					
 					
 				}).toArray(function(err,tablesInDb){
