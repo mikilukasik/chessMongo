@@ -217,7 +217,7 @@ setInterval(function() {
 				})
 				
 				
-				
+				console.log('.')
 				
 				db2.collection("tables")
 				.find({
@@ -228,8 +228,12 @@ setInterval(function() {
 				}).toArray(function(err2,nameTheseBack){
 					nameTheseBack.forEach(function(namethisback){
 						namethisback.wName="learner"
+						console.log('named back.')
 						db2.collection("tables")
-						.save(namethisback, function(err3, res) {})
+						.save(namethisback, function(err3, res) {
+							console.log('saved')
+						
+						})
 					})
 					db2.close()
 				})
