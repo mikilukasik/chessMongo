@@ -185,7 +185,7 @@ setInterval(function() {
 						var options = {
 							host: 'localhost',
 							port: 16789,
-							path: '/aichoice?t=' + tableInDb.tableNum+'&v=l'		//try getting  move with manipulated constansts
+							path: '/aichoice?t=' + tableInDb.tableNum+'&mt=l&mv=1'		//try getting  move with manipulated constansts
 						};
 
 						http.request(options, function(response) {

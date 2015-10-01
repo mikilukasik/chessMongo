@@ -1141,7 +1141,15 @@ function countInArray(inValue,inArray){
 	return occured
 }
 
-function createAiTable(cfTable, cfColor, skipScnd, allPast, modType) {
+function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
+	var lpVMod=1
+	if (modType=="l"){
+		if(modVal<=50){
+			lpVMod=modVal/50
+		}else{
+			lpVMod= 50/(modVal-50)
+		}
+	}
 
 	var allTempTables = [
 		[true, 0, new Date().getTime()] //array heading:true,0,timeStarted for timeItTook
@@ -1525,7 +1533,7 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType) {
 		
 		///modType 'l' is loopval *=-1
 		
-		if(modType=="l")loopValue*= -1
+		if(modType=="l")loopValue*= lpVMod
 		
 		var pushThisValue = 
 		
@@ -1558,9 +1566,9 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType) {
 	return allTempTables
 }
 
-function ai(tablE, wn, allPast, modType) {
+function ai(tablE, wn, allPast, modType, modVal) {
 
-	return createAiTable(tablE, wn, false, allPast, modType)
+	return createAiTable(tablE, wn, false, allPast, modType, modVal)
 
 }
 
