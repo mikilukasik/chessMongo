@@ -25,7 +25,7 @@ var Dbtable = function(tableNum, wName, bName) { //class
 	this.blackCanForceDraw=false
 	
 	
-	
+	this.learner=false
 	this.learnerIsBusy=false
 	
 	

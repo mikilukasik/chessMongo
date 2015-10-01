@@ -120,6 +120,46 @@ setInterval(function() {
 		//var laterThan = new Date().getTime() - gameInactiveConst
 
 		if(!(db2 == null)) {
+			
+			
+			
+			db2.collection("tables")
+				.findOne({
+					
+					learner:true,
+					gameIsOn:true
+					
+					
+				},function(err,tableInDb){
+					if(tableInDb==null){
+						//no active learner game, let's start some
+						
+						var options3 = {
+							host: 'localhost',
+							port: 80,
+							path: '/startGame?w=learner&b=Computer'
+						};
+						
+						http.request(options3, function(){
+							
+							console.log('learner game started on server')
+							
+							
+						}).end()
+						
+						
+						
+						
+						
+						
+					}else{
+						//learner active.
+					}
+				})
+			
+			
+			
+			
 			db2.collection("tables")
 				.findOne({
 					wNext:true,
