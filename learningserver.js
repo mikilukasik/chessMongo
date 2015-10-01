@@ -265,10 +265,10 @@ setInterval(function() {
 						
 						})
 					})
-					db3.close()
+					//db3.close()
 				}else{
 					//nincs mit tenni
-					db3.close()
+					//db3.close()
 				}
 				})
 		
