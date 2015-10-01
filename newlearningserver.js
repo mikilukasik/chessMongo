@@ -193,7 +193,7 @@ mongodb.connect(cn, function(err, db) {
 				}
 			//}
 
-			db.close()
+			//db.close()
 			console.log(sendJson);//trick
 			console.log(aiMoveString)
 });
