@@ -262,10 +262,10 @@ setInterval(function() {
 						
 						})
 					})
-					db3.close()
+					
 				})
 		
-		
+		db3.close()
 	})
 		
 }, renameCheckConst);
