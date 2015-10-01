@@ -250,7 +250,9 @@ setInterval(function() {
 					
 					
 				}).toArray(function(err2,nameTheseBack){
-					nameTheseBack.forEach(function(namethisback){
+					
+					
+				if(nameTheseBack!=undefined)	{nameTheseBack.forEach(function(namethisback){
 						console.log(namethisback.learnerIsBusy)
 						namethisback.learnerIsBusy=false
 						console.log('false back.')
@@ -262,7 +264,7 @@ setInterval(function() {
 						
 						})
 					})
-					
+				}
 				})
 		
 		db3.close()
