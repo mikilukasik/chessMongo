@@ -15,12 +15,12 @@ eval(fs.readFileSync('public/brandNewAi.js') + '');
 eval(fs.readFileSync('public/engine.js')+'');
 
 var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
-
+var http = require('http')
 app.get('/startLearningGame', function(req, res) {
 //var myGame=0
 	//var wPNum = players[0].indexOf(req.query.w)
 	//var bPNum = players[0].indexOf(req.query.b)
-var firstFreeTable=1111
+var firstFreeTable=0
 
 function createXData() {
 	console.log("can't find xData in db, creating..") //header in db
@@ -48,9 +48,9 @@ mongodb.connect(cn, function(err, db) {
 
 				createXData();
 
-				var firstFreeTable = 143223
+				firstFreeTable = 143223
 			} else {
-				var firstFreeTable = xData.firstFreeTable
+				firstFreeTable = xData.firstFreeTable
 			}
 
 			db.close()
@@ -273,8 +273,57 @@ function playgame (myGame,mt,mv) {
 								
 								db.close()
 								console.log('closed.')
+								
+								
+								
+								
+								var optionsb = {
+									host: 'localhost',
+									port: 80,
+									path: '/forcePopTable?t='+myGame.tableNum+'&p=learner&m=move: '+aiMoveString
+								};
+								
+								http.request(optionsb, function(){
+									
+									console.log('jott vmi')
+									
+									
+								}).end()
+							
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
 								if (myGame.gameIsOn){
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
 									console.log('recalling playgame')
+									
+									
+									
+									
+									
 									playgame(myGame)
 									
 								}				
