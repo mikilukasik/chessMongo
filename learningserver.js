@@ -214,7 +214,7 @@ setInterval(function() {
 															path: '/move?t=' + tableInDb.tableNum+'&m='+moveStr+'&r='+Math.random()
 														};
 														
-														http.request(optionsb, function(){
+														http.request(optionsb, function(bbbb){
 															//itt kene visszaneveni a learnert
 															// tableInDb.wName="learner"
 															// db2.collection("tables")									
@@ -222,6 +222,8 @@ setInterval(function() {
 															// db2.close()
 															console.log('jott vmi')
 															
+															bbbb.on('data', function() {})
+															bbbb.on('end', function() {})
 															
 														}).end()
 														
