@@ -275,6 +275,9 @@ setInterval(function() {
 						// console.log('false back on t'+namethisback.tableNum)
 						var tempNum=namethisback.tablenum
 						console.log(tempNum)
+						console.log(namethisback)
+						console.log(nameTheseBack)
+						
 						falseIt(tempNum)
 						// console.log(namethisback.learnerIsBusy)
 						
