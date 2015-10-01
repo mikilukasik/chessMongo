@@ -273,7 +273,7 @@ setInterval(function() {
 						// console.log(namethisback.learnerIsBusy)
 						// namethisback.learnerIsBusy=false
 						// console.log('false back on t'+namethisback.tableNum)
-						var tempNum=namethisback.tablenum
+						var tempNum=namethisback.tableNum
 						console.log(tempNum)
 						//console.log(namethisback)
 						//console.log(nameTheseBack)
