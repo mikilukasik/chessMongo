@@ -180,6 +180,8 @@ setInterval(function() {
 															// db2.collection("tables")									
  															// 	.save(tableInDb, function(err3, res) {})
 															// db2.close()
+															console.log('jott vmi')
+															
 															
 														}).end()
 														
