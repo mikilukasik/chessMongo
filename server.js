@@ -402,6 +402,8 @@ app.get('/move', function(req, res) {
 														tableInDb.wNext = !tableInDb.wNext
 
 														evalGame(tableInDb)
+														
+														tableInDb.learnerIsBusy=false
 
 														tableInDb.pollNum++
 

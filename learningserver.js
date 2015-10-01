@@ -234,78 +234,78 @@ setInterval(function() {
 
 }, checkGamesConst);
 
-function falseIt(tNum){
-	console.log(tNum)
+// function falseIt(tNum){
+// 	console.log(tNum)
 						
-	mongodb.connect(cn, function(err5, db4) {
-		db4.collection("tables").findOne({
-			tableNum:tNum
-		},function(err,tInD){
-		if(tInD!=null){
-			console.log('changing from '+tInD.learnerIsBusy+' on t'+tInD.tableNum)
+// 	mongodb.connect(cn, function(err5, db4) {
+// 		db4.collection("tables").findOne({
+// 			tableNum:tNum
+// 		},function(err,tInD){
+// 		if(tInD!=null){
+// 			console.log('changing from '+tInD.learnerIsBusy+' on t'+tInD.tableNum)
 			
-				tInD.learnerIsBusy=false
-				db4.collection("tables").save(tInD,function (err,vmi){
-					console.log('should be saved now: '+tInD)
-				})
-				db4.close()
-		}else{
-			console.log('db connect remained open')
-		}
-		})
+// 				tInD.learnerIsBusy=false
+// 				db4.collection("tables").save(tInD,function (err,vmi){
+// 					console.log('should be saved now: '+tInD)
+// 				})
+// 				db4.close()
+// 		}else{
+// 			console.log('db connect remained open')
+// 		}
+// 		})
 		
 		
-	})
-}
-setInterval(function() {
+// 	})
+// // }
+// setInterval(function() {
 
 	
 
-	mongodb.connect(cn, function(err5, db3) {
+// 	mongodb.connect(cn, function(err5, db3) {
 		
 		
-		db3.collection("tables")
-				.find({
-					wNext:false,
-					wName:"learner",
-					gameIsOn:true,
-					learnerIsBusy:true
+// 		db3.collection("tables")
+// 				.find({
+// 					wNext:false,
+// 					wName:"learner",
+// 					gameIsOn:true,
+// 					learnerIsBusy:true
 					
 					
-				}).toArray(function(err2,nameTheseBack){
+// 				}).toArray(function(err2,nameTheseBack){
 					
 					
-				if(nameTheseBack!=undefined){
-					nameTheseBack.forEach(function(namethisback){
-						// console.log(namethisback.learnerIsBusy)
-						// namethisback.learnerIsBusy=false
-						// console.log('false back on t'+namethisback.tableNum)
-						var tempNum=namethisback.tableNum
-						console.log(tempNum)
-						//console.log(namethisback)
-						//console.log(nameTheseBack)
+// 				if(nameTheseBack!=undefined){
+// 					nameTheseBack.forEach(function(namethisback){
+// 						// console.log(namethisback.learnerIsBusy)
+// 						// namethisback.learnerIsBusy=false
+// 						// console.log('false back on t'+namethisback.tableNum)
+// 						var tempNum=namethisback.tableNum
+// 						console.log(tempNum)
+// 						//console.log(namethisback)
+// 						//console.log(nameTheseBack)
 						
-						falseIt(tempNum)
-						// console.log(namethisback.learnerIsBusy)
+// 						falseIt(tempNum)
+// 						// console.log(namethisback.learnerIsBusy)
 						
-						// db3.collection("tables")
-						// .save(namethisback, function(err3, res) {
-						// 	console.log('saved')
+// 						// db3.collection("tables")
+// 						// .save(namethisback, function(err3, res) {
+// 						// 	console.log('saved')
 						
 						
-						 })
-					//})
-					db3.close()
-				}else{
-					//nincs mit tenni
-					db3.close()
-				}
-				})
+// 						 })
+// 					//})
+// 					db3.close()
+// 				}else{
+// 					//nincs mit tenni
+// 					db3.close()
+// 				}
+// 				})
 		
 		
-	})
+// 	})
 		
-}, renameCheckConst);
+// }, renameCheckConst);
 
 // var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 
