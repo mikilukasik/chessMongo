@@ -245,10 +245,13 @@ function falseIt(tNum){
 			console.log('changing from '+tInD.learnerIsBusy)
 			
 				tInD.learnerIsBusy=false
-				db4.collection("tables").save(tInD,function (err,vmi){})
+				db4.collection("tables").save(tInD,function (err,vmi){
+					console.log('should be saved now: '+tInD)
+				})
 				db4.close()
-		}
+		}else{
 			console.log('db connect remained open')
+		}
 		})
 		
 		
