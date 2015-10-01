@@ -252,7 +252,7 @@ function playgame (myGame,mt,mv) {
 
 					//}
 
-					mongodb.connect(cn, function(err, db) {
+					//mongodb.connect(cn, function(err, db2) {
 						db.collection("tables")
 							.findOne({
 								tableNum: myGame.tableNum
@@ -276,8 +276,8 @@ function playgame (myGame,mt,mv) {
 									
 								console.log('saved.')
 								
-								db.close()
-								console.log('closed.')
+								// db.close()
+								// console.log('closed.')
 								
 								
 								
@@ -339,7 +339,7 @@ function playgame (myGame,mt,mv) {
 									
 								}				
 							});
-					});
+					//});
 
 			
 			
