@@ -1147,7 +1147,7 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 		if(modVal<=50){
 			lpVMod=modVal/50
 		}else{
-			lpVMod= 50/(modVal-50)
+			lpVMod=1/((100-modVal)/50)
 		}
 	}
 
