@@ -104,17 +104,17 @@ mongodb.connect(cn, function(err, db) {
 	firstFreeTable++
 
 	//mongodb.connect(cn, function(err, db) {
-		db.collection("tables")
-			.findOne({
-				tableNum: "xData"
-			}, function(err2, xData) {
+	// 	db.collection("tables")
+	// 		.findOne({
+	// 			tableNum: "xData"
+	// 		}, function(err2, xData) {
 
-				xData.firstFreeTable++
+	// 			xData.firstFreeTable++
 
-				db.collection("tables")
-					.save(xData, function(err3, res) {})
-	//			db.close()
-			});
+	// 			db.collection("tables")
+	// 				.save(xData, function(err3, res) {})
+	// //			db.close()
+	// 		});
 	//});
 	
 	//?dbTables.insert(initedTable, function (err, doc) {});
