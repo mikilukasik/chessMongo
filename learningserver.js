@@ -233,6 +233,7 @@ setInterval(function() {
 	});
 
 }, checkGamesConst);
+
 function falseIt(tNum){
 	console.log(tNum)
 						
@@ -241,11 +242,13 @@ function falseIt(tNum){
 			tableNum:tNum
 		},function(err,tInD){
 		if(tInD!=null){
-			console.log('changing something')
+			console.log('changing from '+tInD.learnerIsBusy)
+			
 				tInD.learnerIsBusy=false
-				db4.collection("tables").save(tInD,function(err,vmi){})
+				db4.collection("tables").save(tInD,function (err,vmi){})
+				db4.close()
 		}
-			db4.close()
+			console.log('db connect remained open')
 		})
 		
 		
