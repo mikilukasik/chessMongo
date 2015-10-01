@@ -131,7 +131,7 @@ setInterval(function() {
 					
 					
 				},function(err,tableInDb){
-					if(tableInDb==null){
+					if(false){
 						//no active learner game, let's start some
 						console.log("no active learner game, let's start some")
 						var options3 = {
