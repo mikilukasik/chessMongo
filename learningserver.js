@@ -140,12 +140,12 @@ setInterval(function() {
 							path: '/startGame?w=learner&b=Computer'
 						};
 						
-						http.request(options3, function(){
+						// http.request(options3, function(){
 							
-							console.log('learner game started on server')
+						// 	console.log('learner game started on server')
 							
 							
-						}).end()
+						// }).end()
 						
 						
 						
