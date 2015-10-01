@@ -131,7 +131,7 @@ setInterval(function() {
 					
 					
 				}).toArray(function(err,tablesInDb){
-					if(tablesInDb.length<1){
+					if(tablesInDb==undefined){
 						//no active learner game, let's start some
 						console.log("no active learner game, let's start some "+tablesInDb)
 						var options3 = {
