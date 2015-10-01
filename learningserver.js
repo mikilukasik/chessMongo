@@ -28,7 +28,7 @@ var tryWhite=true
 
 // var playerDisconnectConst = 15000 //15sec
 // var gameInactiveConst = 300000 //5min
-var checkGamesConst = 1300
+var checkGamesConst = 3000
 var renameCheckConst = 40
 
 // var pendingLongPolls = []
