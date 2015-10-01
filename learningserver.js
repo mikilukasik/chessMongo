@@ -174,13 +174,19 @@ setInterval(function() {
 														
 														http.request(options2, function(){
 															//itt kene visszaneveni a learnert
+															// tableInDb.wName="learner"
+															// db2.collection("tables")									
+ 															// 	.save(tableInDb, function(err3, res) {})
+															// db2.close()
+															
+														}).end()
+														
+														setTimeout(function(){
 															tableInDb.wName="learner"
 															db2.collection("tables")									
  																.save(tableInDb, function(err3, res) {})
 															db2.close()
-															
-														}).end()
-														
+														},1000)
 														
 														
 														
