@@ -126,7 +126,7 @@ setInterval(function() {
 			db2.collection("tables")
 				.findOne({
 					
-					learner:true,
+					wName="learner",
 					gameIsOn:true
 					
 					
