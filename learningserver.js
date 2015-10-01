@@ -233,7 +233,19 @@ setInterval(function() {
 	});
 
 }, checkGamesConst);
-
+function falseIt(tNum){
+	mongodb.connect(cn, function(err5, db4) {
+		db4.collection("tables").findOne({
+			tableNum:tNum
+		},function(err,tInD){
+			tInD.learnerIsBusy=false
+			db4.collection("tables").save(tInD,function(err,vmi){})
+			db4.close()
+		})
+		
+		
+	})
+}
 setInterval(function() {
 
 	
@@ -253,17 +265,18 @@ setInterval(function() {
 					
 					
 				if(nameTheseBack!=undefined)	{nameTheseBack.forEach(function(namethisback){
-						console.log(namethisback.learnerIsBusy)
-						namethisback.learnerIsBusy=false
+						// console.log(namethisback.learnerIsBusy)
+						// namethisback.learnerIsBusy=false
 						console.log('false back on t'+namethisback.tableNum)
-						console.log(namethisback.learnerIsBusy)
+						falseIt(namethisback.tablenum)
+						// console.log(namethisback.learnerIsBusy)
 						
-						db3.collection("tables")
-						.save(namethisback, function(err3, res) {
-							console.log('saved')
+						// db3.collection("tables")
+						// .save(namethisback, function(err3, res) {
+						// 	console.log('saved')
 						
 						
-						})
+						// })
 					})
 					db3.close()
 				}else{
