@@ -251,8 +251,11 @@ setInterval(function() {
 					
 				}).toArray(function(err2,nameTheseBack){
 					nameTheseBack.forEach(function(namethisback){
+						console.log(namethisback.learnerIsBusy)
 						namethisback.learnerIsBusy=false
 						console.log('false back.')
+						console.log(namethisback.learnerIsBusy)
+						
 						db2.collection("tables")
 						.save(namethisback, function(err3, res) {
 							console.log('saved')
