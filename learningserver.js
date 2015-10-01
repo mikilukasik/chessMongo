@@ -124,16 +124,16 @@ setInterval(function() {
 			
 			
 			db2.collection("tables")
-				.findOne({
+				.find({
 					
 					wName:"learner",
 					gameIsOn:true
 					
 					
-				},function(err,tableInDb){
-					if(tableInDb==null){
+				}).toArray(function(err,tablesInDb){
+					if(tablesInDb.length<1){
 						//no active learner game, let's start some
-						console.log("no active learner game, let's start some")
+						console.log("no active learner game, let's start some "+tablesInDb)
 						var options3 = {
 							host: 'localhost',
 							port: 80,
