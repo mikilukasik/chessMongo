@@ -234,7 +234,7 @@ setInterval(function() {
 
 }, checkGamesConst);
 function falseIt(tNum){
-	console.log('false back on t'+tNum)
+	console.log(tNum)
 						
 	mongodb.connect(cn, function(err5, db4) {
 		db4.collection("tables").findOne({
@@ -274,6 +274,7 @@ setInterval(function() {
 						// namethisback.learnerIsBusy=false
 						// console.log('false back on t'+namethisback.tableNum)
 						var tempNum=namethisback.tablenum
+						console.log(tempNum)
 						falseIt(tempNum)
 						// console.log(namethisback.learnerIsBusy)
 						
