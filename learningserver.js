@@ -238,10 +238,10 @@ setInterval(function() {
 
 	
 
-	mongodb.connect(cn, function(err5, db2) {
+	mongodb.connect(cn, function(err5, db3) {
 		
 		
-		db2.collection("tables")
+		db3.collection("tables")
 				.find({
 					wNext:false,
 					wName:"learner",
@@ -256,13 +256,13 @@ setInterval(function() {
 						console.log('false back.')
 						console.log(namethisback.learnerIsBusy)
 						
-						db2.collection("tables")
+						db3.collection("tables")
 						.save(namethisback, function(err3, res) {
 							console.log('saved')
 						
 						})
 					})
-					db2.close()
+					db3.close()
 				})
 		
 		
