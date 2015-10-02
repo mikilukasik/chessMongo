@@ -208,6 +208,8 @@ function playgame (myGame,mt,mv) {
 			//db.close()
 			//console.log(sendJson);//trick
 			console.log(' DONE. ')
+			
+		if(myGame.gameIsOn){
 			console.log('Will move '+aiMoveString)
 			
 			
@@ -254,7 +256,10 @@ function playgame (myGame,mt,mv) {
 					//popThem(req.query.t, myGame, 'moved', 'Player moved: ' + aiMoveString) //respond to pending longpolls
 
 					//}
-
+		}else{
+			console.log('Game finished, evaluating..')
+			evalGame(myGame)
+		}
 					mongodb.connect(cn, function(err, db2) {
 						db2.collection("tables")
 							.findOne({

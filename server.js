@@ -81,35 +81,6 @@ mongodb.connect(cn, function(err, db) {
 		});
 });
 
-function evalGame(tableInDb) {
-
-	//if(!(tableInDb == null)) {
-
-	//tableInDb.pollNum++
-
-	if(!canIMove(tableInDb.table, tableInDb.wNext)) {
-		tableInDb.gameIsOn = false
-		if(captured(tableInDb.table, tableInDb.wNext)) {
-
-			if(tableInDb.wNext) {
-
-				tableInDb.blackWon = true
-			} else {
-				tableInDb.whiteWon = true
-			}
-		} else {
-			tableInDb.isDraw = true
-		}
-	}
-
-	//tableInDb.toBeChecked = false
-
-	// setIntDB3.collection("tables")
-	// 	.save(tableInDb, function(err3, res) {})
-
-	// }
-	// setIntDB3.close()
-}
 
 setInterval(function() {
 
