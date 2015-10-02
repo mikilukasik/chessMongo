@@ -105,14 +105,8 @@ var Modtable = function(tableNum, wName, bName) { //class
 
 
 
-
-
-
-
-
-
-app.get('/startLearningGame', function(req, res) {
-	//var myGame=0
+function playOneGame(wModded,modType,modVal){
+		//var myGame=0
 	//var wPNum = players[0].indexOf(req.query.w)
 	//var bPNum = players[0].indexOf(req.query.b)
 	var firstFreeTable = 0
@@ -151,7 +145,7 @@ app.get('/startLearningGame', function(req, res) {
 				db.collection("tables")
 					.save(xData, function(err, doc) {});
 
-				var initedTable = new Modtable(firstFreeTable, "mod lpV:" + req.query.mv, "standard")
+				var initedTable = new Modtable(firstFreeTable, "mod lpV:" + modVal, "standard")
 
 				db.collection("tables")
 					.insert(initedTable, function(err, doc) {});
@@ -166,16 +160,22 @@ app.get('/startLearningGame', function(req, res) {
 
 				console.log('Response sent, thinking 1st move..')
 
-				playgame(myGame)
+				playgame(myGame,modType,modVal,true,wModded)
 
 				db.close()
 
 			});
 	});
 
-	function playgame(myGame, mt, mv) {
+	function playgame(myGame, mt, mv, wNx, wMod) {
 
-		var result = ai(myGame.table, myGame.wNext, myGame.allPastTables, mt, mv) //		ai	<------------
+		var result = []
+		if(wNx==wMod){
+			result = ai(myGame.table, myGame.wNext, myGame.allPastTables, mt, mv)			//get modded result
+		}else{
+			result = ai(myGame.table, myGame.wNext, myGame.allPastTables)
+		}
+			 //		ai	<------------
 
 		if(result.length > 1) { //if there are any moves
 
@@ -310,12 +310,12 @@ app.get('/startLearningGame', function(req, res) {
 
 						console.log('recalling playgame')
 
-						playgame(myGame)
+						playgame(myGame,mt,mv,!wNx, wMod)
 
 					} else {
 
 						//not calling this function anymore, should recall with opposit color just once
-						console.log('Starting rematch..')
+						//console.log('Starting rematch..')
 
 					}
 					
@@ -324,6 +324,14 @@ app.get('/startLearningGame', function(req, res) {
 		});
 
 	}
+}
+
+
+
+
+app.get('/startLearningGame', function(req, res) {
+	playOneGame(true,'lpV',1)
+	playOneGame(false,'lpV',1)
 
 });
 

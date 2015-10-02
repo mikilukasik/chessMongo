@@ -1176,7 +1176,7 @@ function countInArray(inValue,inArray){
 
 function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 	var lpVMod=1
-	if (modType=="l"){
+	if (modType=="lpV"){
 		if(modVal<=50){
 			lpVMod=modVal/50
 		}else{
@@ -1569,7 +1569,7 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 		
 		///modType 'l' is loopval *=-1
 		
-		if(modType=="l")loopValue*= lpVMod
+		if(modType=="lpV")loopValue*= lpVMod
 		
 		var pushThisValue = 
 		
