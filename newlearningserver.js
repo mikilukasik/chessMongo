@@ -71,7 +71,7 @@ var Modtable = function(tableNum, wName, bName) { //class
 
 	for(var i = 0; i < 8; i++) { //row of white pawns
 
-		this.table[i][1] = [2, 1, 0, false, false] //,pawnCanMove]
+		this.table[i][1] = [0, 0, 0, false, false] //,pawnCanMove]
 	}
 	for(var i = 0; i < 8; i++) { //NONO row of black pawns
 		this.table[i][6] = [0, 0, 0, false, false] //,pawnCanMove]
@@ -79,23 +79,23 @@ var Modtable = function(tableNum, wName, bName) { //class
 
 	this.table[0][0] = [2, 4, 0, true, false] //,rookCanMove]				//rooks		//0 stands for times it moved
 	this.table[7][0] = [2, 4, 0, true, false] //,rookCanMove]
-	this.table[0][7] = [0, 0, 0, false, false]
-	this.table[7][7] = [0, 0, 0, false, false]
+	this.table[0][7] = [1, 4, 0, true, false]
+	this.table[7][7] = [1, 4, 0, true, false]
 
-	this.table[1][0] = [2, 3, 0, true, false] //,horseCanMove]					//knights
-	this.table[6][0] = [2, 3, 0, true, false] //,horseCanMove]
-	this.table[1][7] = [0, 0, 0, false, false]
-	this.table[6][7] = [0, 0, 0, false, false]
+	this.table[1][0] = [0, 0, 0, true, false] //,horseCanMove]					//knights
+	this.table[6][0] = [0, 0, 0, true, false] //,horseCanMove]
+	this.table[1][7] = [0, 0, 0, true, false]
+	this.table[6][7] = [0, 0, 0, true, false]
 
 	this.table[2][0] = [2, 2, 0, true, false] //,bishopCanMove]				//bishops
 	this.table[5][0] = [2, 2, 0, true, false] //,bishopCanMove]
-	this.table[2][7] = [0, 0, 0, false, false]
-	this.table[5][7] = [0, 0, 0, false, false]
+	this.table[2][7] = [1, 2, 0, true, false]
+	this.table[5][7] = [1, 2, 0, true, false]
 
 	this.table[3][0] = [2, 5, 0, true, false] //,queenCanMove]				//w queen
 	this.table[4][0] = [2, 9, 0, true, false] //,kingCanMove]				//w king
 
-	this.table[3][7] = [0, 0, 0, false, false]			//b q
+	this.table[3][7] = [0, 0, 0, true, false]			//b q
 	this.table[4][7] = [1, 9, 0, true, false] //,kingCanMove]				//b k
 
 	this.table = addMovesToTable(this.table, true)
@@ -145,7 +145,13 @@ function playOneGame(wModded,modType,modVal){
 				db.collection("tables")
 					.save(xData, function(err, doc) {});
 
-				var initedTable = new Modtable(firstFreeTable, "mod lpV:" + modVal, "standard")
+				var initedTable = []
+				if(wModded){
+					new Modtable(firstFreeTable, "mod lpV:" + modVal, "standard")
+				}else{
+					new Modtable(firstFreeTable, "standard", "mod lpV:" + modVal)
+				}
+					
 
 				db.collection("tables")
 					.insert(initedTable, function(err, doc) {});
