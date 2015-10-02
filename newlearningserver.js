@@ -187,11 +187,13 @@ function playgame (myGame,mt,mv) {
 				} else {		//can't move
 				
 					//eval
-				
+					console.log('ran into eval bit')
 				
 					myGame.gameIsOn=false
 				
-				
+					
+					
+					
 					var sendJson = {
 						aimove: "",
 						fulltable: result
