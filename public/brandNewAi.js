@@ -200,7 +200,7 @@ function canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm){//, try2st
 	var try2steps=false
 	
 	//too slow
-	//if(speedy)try2steps=true
+	if(speedy)try2steps=true
 	
 	var what = moveTable[k][l][1]
 	var possibleMoves = []
