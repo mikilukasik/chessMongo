@@ -269,12 +269,19 @@ function playgame (myGame,mt,mv) {
 								
 								
 								
-								result.table=myGame.table
-								result.moves=myGame.moves
-								result.pollNum=myGame.pollNum
-								result.wNext=myGame.wNext
-								result.moved=myGame.moved
-								result.allPastTables=myGame.allPastTables
+								if(myGame.gameIsOn){
+									result.table=myGame.table
+									result.moves=myGame.moves
+									result.pollNum=myGame.pollNum
+									result.wNext=myGame.wNext
+									result.moved=myGame.moved
+									result.allPastTables=myGame.allPastTables
+								}else{
+									result.gameIsOn=false //as it's just finished
+									result.blackWon=myGame.blackWon
+									result.whiteWon=myGame.whiteWon
+									result.isDraw=myGame.isDraw
+								}
 								
 								
 								
