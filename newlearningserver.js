@@ -152,11 +152,7 @@ function playOneGame(wModded,modType,modVal){
 
 				var myGame = initedTable
 
-				console.log('Sending response to start request...')
-
-				res.json({
-					message: "table in db, thinking on first move..."
-				});
+				
 
 				console.log('Response sent, thinking 1st move..')
 
@@ -330,6 +326,12 @@ function playOneGame(wModded,modType,modVal){
 
 
 app.get('/startLearningGame', function(req, res) {
+	
+	console.log('Sending response to start request...')
+
+				res.json({
+					message: "..."
+				});
 	playOneGame(true,'lpV',1)
 	playOneGame(false,'lpV',1)
 
