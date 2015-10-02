@@ -207,6 +207,7 @@ function playgame (myGame,mt,mv) {
 
 			//db.close()
 			//console.log(sendJson);//trick
+			console.log(' DONE. ')
 			console.log('Will move '+aiMoveString)
 			
 			
