@@ -147,9 +147,9 @@ function playOneGame(wModded,modType,modVal){
 
 				var initedTable = []
 				if(wModded){
-					new Modtable(firstFreeTable, "mod lpV:" + modVal, "standard")
+					initedTable = new Modtable(firstFreeTable, "mod lpV:" + modVal, "standard")
 				}else{
-					new Modtable(firstFreeTable, "standard", "mod lpV:" + modVal)
+					initedTable = new Modtable(firstFreeTable, "standard", "mod lpV:" + modVal)
 				}
 					
 
