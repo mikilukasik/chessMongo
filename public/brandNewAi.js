@@ -236,65 +236,65 @@ function canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm){//, try2st
 
 	}
 	
-	if(try2steps){
+	// if(try2steps){
 		
-		switch(what) {
-			// case 0:
+	// 	switch(what) {
+	// 		// case 0:
 	
-			case 1:
+	// 		case 1:
 	
-				possibleMoves.forEach(function(stepPossibleMove){
+	// 			possibleMoves.forEach(function(stepPossibleMove){
 					
-					pawnCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
-	
-					
-				}) 
-				break;
-			case 2:
-				possibleMoves.forEach(function(stepPossibleMove){
-					
-					bishopCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
+	// 				pawnCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
 	
 					
-				}) 
-				break;
-			case 3:
-				possibleMoves.forEach(function(stepPossibleMove){
+	// 			}) 
+	// 			break;
+	// 		case 2:
+	// 			possibleMoves.forEach(function(stepPossibleMove){
 					
-					horseCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
+	// 				bishopCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
 	
 					
-				}) 
-				break;
-			case 4:
-				possibleMoves.forEach(function(stepPossibleMove){
+	// 			}) 
+	// 			break;
+	// 		case 3:
+	// 			possibleMoves.forEach(function(stepPossibleMove){
 					
-					rookCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
+	// 				horseCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
 	
 					
-				}) 
-				break;
-			case 5:
-				possibleMoves.forEach(function(stepPossibleMove){
+	// 			}) 
+	// 			break;
+	// 		case 4:
+	// 			possibleMoves.forEach(function(stepPossibleMove){
 					
-					queenCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
+	// 				rookCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
 	
 					
-				}) 
-				break;
-			case 9:
-				possibleMoves.forEach(function(stepPossibleMove){
+	// 			}) 
+	// 			break;
+	// 		case 5:
+	// 			possibleMoves.forEach(function(stepPossibleMove){
 					
-					kingCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
+	// 				queenCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
 	
 					
-				}) 
-				break;
+	// 			}) 
+	// 			break;
+	// 		case 9:
+	// 			possibleMoves.forEach(function(stepPossibleMove){
+					
+	// 				kingCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
 	
-		}
+					
+	// 			}) 
+	// 			break;
+	
+	// 	}
 		
 		
-	}
+	// }
 	hitSumm[0] += scndHitSum[0]/10000 //masodik lepes is szamit egy kicsit
 	//hitSumm[0] -= moveTable[k][l][1] / 100 //amit ut-amivel uti
 
