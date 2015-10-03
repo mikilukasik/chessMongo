@@ -338,8 +338,8 @@ app.get('/startLearningGame', function(req, res) {
 				res.json({
 					message: "..."
 				});
-	playOneGame(true,'lpV',1)
-	playOneGame(false,'lpV',1)
+	playOneGame(true,'lpV',-100)
+	playOneGame(false,'lpV',-100)
 
 });
 
