@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Chess</title>
+<script src="jquery.js"></script>
+<script src="brandNewAi.js"></script>
+<script src="engine.js"></script>
+
+<link rel="stylesheet" type="text/css" href="forblink.css">
+<!--
+<style src="forblink.css"></style>-->
+<!-- <script src="ai2.js"></script> -->
+<!-- <script src="trialfunc.js"></script>
+ -->
+<!-- <script src="chessai.js"></script>
+ -->
+
+
+
+ <style>
+	
+	html, body {
+		height: 98%;
+		/*overflow-x: scroll;*/
+	}
+	.rotate90 {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+	}
+	
+	.square img{
+		width:80%; height:auto;;
+	}
+	.darker img{
+		width:80%; height:auto;;
+	}
+	.heading {
+		height: 4%;
+		background-color: grey;
+	}
+	.square {
+		height: 10%;
+		width: 10%;
+	}
+	.left-column {
+		width: 4%;
+		background-color: grey;
+		
+	}
+	.main-table {
+		height: 600px;
+		width: 600px;
+		text-align: center;
+		
+	}
+	.statusCell {
+		display: block;
+		text-align-content: stretch;  
+		height: 100%;
+		width: 100px;
+  		overflow-y: scroll;
+	}
+	.chatTextTr {
+		
+		height: 100%;
+		
+	}
+	.chatCell {
+		display: block;
+		text-align-content: stretch;  
+		height: 566px;
+		width: 220px;
+		/*width: 300px;
+  		*/overflow-y: scroll;
+	}
+	.frame-table {
+		
+		/*text-align-content: stretch;  */
+		height: 602px;
+
+		/*width:95%;
+*/
+  		
+	}
+	
+	.statusTr {
+		height: 100%;
+	}
+	.leftTable {
+		height: 100%;
+	}
+	.darker {
+		background-color: silver;
+		height: 10%;
+		width: 10%;
+	}
+	.myPiece:hover {
+		
+		cursor: pointer;
+	}
+	
+	
+	.selected {
+		background-color: yellow;
+		
+		
+	}
+	/*table {
+  		
+	}*/
+	
+</style>
+
+
+
+
+
+<script >
+//alert()
+var pollNum=-1
+var tableNum=window.opener.tableNum//1
+
+var dletters = ["a","b","c","d","e","f","g","h"]
+var dfigures = ["","King","Queen","Rook","Bishop","Knight","Pawn"]
+var dcolors = ["","Black","White"]
+var wNext=true
+var wPlayer=window.opener.playerColor//false
+var escConst=2
+var fadeConst=1
+var level=1
+hitValue=0
+var table=[]
+//bAi=window.opener.bAi
+//wAi=window.opener.wAi
+//var ai=false
+var opponentsName=window.opener.opponentsName
+var alerted=false
+
+var playerID=window.opener.playerName//prompt("What's your name?")
+
+
+var bestHit=0
+var pollNum=0
+var pollConst=150
+					
+		
+//var aiCount =0
+
+
+
+
+
+
+					//poll it!!!
+		setInterval(function(){
+			if(tempMoveString.length<2){
+				refreshTable()
+				
+		// 		if(wNext==wPlayer){
+		// 			aiCount=0
+		// 		}else{
+					
+		// 			aiCount++
+					
+					
+		// 			if(aiCount==2&&opponentsName=="Computer"){
+		// 				getAiMove(!wPlayer)
+						
+		// 			}
+		// 		}
+				
+				
+			}
+		
+					},pollConst);
+
+function clickedItTrans(i,j){
+	
+	var clickedField=[j,8-i]
+	var clickedString=dletters[j]+(9-i)
+	
+	if(!(opponentsName=="Spectator")){
+		clickedIt(clickedField,clickedString)
+	}
+//	console.log(clickedField,clickedString)
+
+}
+
+function drawTable(){
+	$(".ideRakd").empty();
+	var appendTable = $('<table class="main-table"> border="1"')  
+	$(".ideRakd").append(appendTable)
+	
+	if($('.main-table').height()<$('.main-table').width()){
+
+
+		var atHeight = $('.main-table').height();
+		$('.main-table').css({'width':atHeight});
+
+	}else{
+
+		var atWidth = $('.main-table').width();
+		$('.main-table').css({'height':atWidth});
+
+
+	}
+
+
+	if(wPlayer){
+
+
+		for(var i=0;i < 9;i++){
+		   	var rowEndTr=$('</tr>')
+		   	if(i==0){
+		   		var rowTr=$('<tr class="heading row'+i+'">')
+		   		var rowNumber=""
+
+		   	}else{
+		   		var rowTr=$('<tr class="row'+i+'">')
+		   		var rowNumber=(9-i)
+		   	}
+		   	var firstTd=$('<td class="left-column">'+rowNumber+'</td>')
+		   	$(".main-table").append(rowTr)
+		   	$(".row"+i).append(firstTd)
+			
+			for (var j = 0; j < 8; j++) {
+				if(i==0){
+					$(".row"+i).append($('<td>'+dletters[j].toUpperCase()+'</td>'))
+				}else{
+					if ((i+j) & 1) {
+						$(".row"+i).append($('<td onclick="clickedItTrans('+i+','+j+')" class="square '+dletters[j]+(9-i)+'"></td>'))
+					}else{
+						$(".row"+i).append($('<td onclick="clickedItTrans('+i+','+j+')" class="darker '+dletters[j]+(9-i)+'"></td>'))
+					}
+				}
+		   
+			};
+			$(".main-table").append(rowEndTr)
+		   	
+		}
+	
+
+	}else{
+
+
+
+		for(var i=8;i >= 0;i--){
+		   	var rowEndTr=$('</tr>')
+		   	if(i==8){
+		   		var rowTr=$('<tr class="heading row'+i+'">')
+		   		var rowNumber=""
+
+		   	}else{
+		   		var rowTr=$('<tr class="row'+i+'">')
+		   		var rowNumber=(8-i)
+		   	}
+		   	var firstTd=$('<td class="left-column">'+rowNumber+'</td>')
+		   	$(".main-table").append(rowTr)
+		   	$(".row"+i).append(firstTd)
+			
+			for (var j = 7; j >= 0; j--) {
+				if(i==8){
+					$(".row"+i).append($('<td>'+dletters[j].toUpperCase()+'</td>'))
+				}else{
+					if ((i+j+1) & 1) {
+						$(".row"+i).append($('<td onclick="clickedItTrans('+(i+1)+','+j+')" class="square '+dletters[j]+(8-i)+'"></td>'))
+					}else{
+						$(".row"+i).append($('<td onclick="clickedItTrans('+(i+1)+','+j+')" class="darker '+dletters[j]+(8-i)+'"></td>'))
+					}
+				}
+		   
+			};
+			$(".main-table").append(rowEndTr)
+		   	
+		}
+	
+
+	}
+
+	console.log("drawTable done")
+	
+
+}	
+
+function initTable(){	
+	var wNext=true
+	alerted=false
+	tempString=""							
+	
+}
+function showTable(){								//this will update the displayed table from the array
+	for(var i=0; i<8; i++){
+		for(var j=0; j<8; j++){
+			
+			var thisFigure = $('<img src="cPiecesPng/'+ table[i][j][0]+table[i][j][1]+'.png" alt='+dcolors[table[i][j][0]][0]+dfigures[table[i][j][1]]+'></img>')
+			
+		 	if (table[i][j][8]==true||table[i][j][9]==true) {
+				
+				thisFigure.addClass('selected');
+		 	}else{
+		 		
+		 		
+		 	}
+			var thisSquare = "."+dletters[i]+(j+1)
+
+			
+			
+			$(thisSquare).empty();
+			
+
+			$(thisSquare).append(thisFigure);
+
+		}
+	}
+	showTableStatus()
+	showChat()
+}
+
+
+
+
+
+function showTableStatus(){								//this will update the displayed status 
+
+			
+	$(".statusCell").empty();
+	if(opponentsName=="Spectator"){
+		var thisStatusStr = "<span>"+opponentsName+"</span><br><span>tableNum:<br>"+tableNum+"</span><br>"
+
+	}else{
+		
+		var thisStatusStr = "<span>Opponent:<br>"+opponentsName+"</span><br><span>tableNum:<br>"+tableNum+"</span><br>"
+
+	}	
+	allMoves.forEach(function(thisMoveStr){
+
+		var thisSFigure = '<img src="cPiecesPng/'+thisMoveStr.substring(0,2)+'.png" height=18></img>'
+		var thisMoveHTML =  '<span style="vertical-align: 10%;">'+thisMoveStr.substring(2,6)+'</span>'
+		var thisLayingFigure = '<img src="cPiecesPng/'+thisMoveStr.substring(6)+'.png" class="rotate90" height=18></img>'
+
+		thisStatusStr=thisStatusStr+thisSFigure+thisMoveHTML+thisLayingFigure+'<br>'
+	}) 
+	var thisStatus= $('<p style="font-size:105%">'+thisStatusStr+'</p>')
+	
+	$(".statusCell").append(thisStatus)
+
+	$(".isItYourTurn").empty()
+	$(".blink").empty()
+	if(!(opponentsName=="Spectator")){
+		if(wNext==wPlayer){
+			$(".blink").append($("<div>Your turn</div>"))
+			
+			
+			
+		}else{
+			
+			$(".isItYourTurn").append($("<div>Please wait..</div>"))
+			
+		}
+	}
+}
+
+function showChat(){								//this will update the chat field 
+
+			
+	$(".chatCell").empty();
+	var thisChatHTML = ""
+	chatLines.forEach(function(chatLine){
+
+		
+		thisChatHTML = thisChatHTML+'<span>'+chatLine+'</span><br>'
+		
+	}) 
+	var thisChat= $('<p>'+thisChatHTML+'</p>')
+	
+	$(".chatCell").append(thisChat)
+	
+}
+
+
+
+
+
+
+var tempMoveString=""
+
+function getAiMove(whosMove){
+	if(whosMove){
+		var playerCN = 2 //this goes to server as color
+	}
+	var tempTable=$.ajax({
+			    type: 'GET',
+			    url: '/aiMove?p='+playerCN+'&t='+tableNum,
+			    dataType: 'json',
+			    success: function() { },
+			    data: {},
+			    async: false
+			});
+			
+			return tempTable.responseJSON.aimove
+}
+function makeAMove(whatMove){
+	var tempTable=$.ajax({
+			    type: 'GET',
+			    url: '/move?m='+whatMove+'&t='+tableNum,
+			    dataType: 'json',
+			    success: function() { },
+			    data: {},
+			    async: false
+			});
+			wNext=!wNext
+			return tempTable.responseJSON.table
+}
+function makeAsyncMove(whatMove){
+	var tempTable=$.ajax({
+			    type: 'GET',
+			    url: '/move?m='+whatMove+'&t='+tableNum,
+			    dataType: 'json',
+			    success: function() { },
+			    data: {},
+			    async: true
+			});
+			wNext=!wNext
+			
+}
+
+function sendChat(){
+	var tempTable=$.ajax({
+			    type: 'GET',
+			    url: '/chat?t='+tableNum+'&c='+playerID+": "+$(".chatInput").val(),
+			    dataType: 'json',
+			    success: function() { },
+			    data: {},
+			    async: false,
+			});
+			$(".chatInput").val("")
+			
+}
+function  refreshTable(){
+	var gotTablePollNum=$.ajax({
+	    type: 'GET',
+	    url: '/getTPollNum?t='+tableNum,
+	    dataType: 'json',
+	    success: function() { },
+	    data: {},
+	    async: false
+	});
+	if(!(gotTablePollNum.responseJSON.tablepollnum==pollNum)){
+		pollNum=gotTablePollNum.responseJSON.tablepollnum
+		getAndShowTable()
+	}
+			
+}
+function getAndShowTable(){
+	
+	console.log('polling')
+	
+	var tempTable=$.ajax({
+			    type: 'GET',
+			    url: '/getTable?t='+tableNum,
+			    dataType: 'json',
+			    success: function() { },
+			    data: {},
+			    async: false
+			});
+	
+
+
+	
+	table=tempTable.responseJSON.table
+	wNext=tempTable.responseJSON.next
+	allMoves=tempTable.responseJSON.allmoves
+	chatLines=tempTable.responseJSON.chat
+	
+	showTable()
+
+				
+
+			
+}
+
+function clickedIt(clickedField,clickedString){
+	
+	var x=clickedField[0]
+	var y=clickedField[1]
+	var clickedColor=false
+	
+	if ((  !(table[x][y][5]==[]) ||tempMoveString.length>0)&&wNext==wPlayer){
+		
+	
+		if(clickedString==tempMoveString){
+			table[x][y][8]=false
+			clearHighlights()
+			showTable()
+			tempMoveString=""
+		}else{
+			if (table[x][y][0]>0 && tempMoveString=="") {
+				
+					table[x][y][5].forEach(highLightThem)  //5odik elem ahova lephet
+					showTable
+					//console.log(tempMoveString)
+			};
+			if(table[x][y][0]>0||0<tempMoveString.length){
+				
+				tempMoveString+=clickedString
+			
+				if(tempMoveString.length<3){
+					table[x][y][8]=true;
+				}
+				
+			
+			}
+			if(tempMoveString.length>3){
+				
+				
+				if(table[x][y][9]==true){
+
+					
+					makeAMove(tempMoveString)
+					wNext=!wNext
+				
+					
+					
+					tempMoveString=""
+			
+				
+
+				}else{
+					tempMoveString=tempMoveString[0]+tempMoveString[1]
+				}
+
+					
+
+			}
+			showTable()
+
+		}
+	}
+}
+function highLightThem(arrayOfCoords){
+	table[arrayOfCoords[0]][arrayOfCoords[1]][9]=true;
+}
+function clearHighlights(){
+	for(var i=0;i<8;i++){
+		for(var j=0;j<8;j++){
+			table[i][j][8]=false;
+			table[i][j][9]=false;
+
+		}				
+	}
+}
+function letsPlay(){
+	drawTable()
+	
+	refreshTable()
+	
+}
+
+
+
+//-----------------------------------------------------------------------------------------------------------
+
+
+
+</script>
+</head>
+<body onload="letsPlay()"> 
+<!--  -->
+	<table class="frame-table" border="1">
+		<tr>
+			
+			<td>
+				<table class="leftTable">
+					<tr class="yourTurnTr">
+						<td class="blink">
+							
+							
+						</td>
+					</tr>
+					<tr class="yourTurnTr">
+						<td class="isItYourTurn">
+							
+							
+						</td>
+						
+					</tr>
+					<tr class="statusTr">
+					
+						<td class="statusCell"></td>
+					</tr>
+				</table>
+			</td>
+			<td class="ideRakd"></td>
+			<td>
+				<table>
+				<tr class="chatTextTr">
+					<td class="chatCell"></td>
+				</tr>
+				<tr class="chatInputRow"><td>
+					<input type="text" class="chatInput" onkeydown="if (event.keyCode == 13) sendChat()">
+
+
+
+
+
+					<button class="chatButton" onclick="sendChat()">Send</button>
+				</td></tr>
+
+				</table>
+			</td>
+
+			
+		</tr>
+	</table>
+	
+</body>
+</html>
