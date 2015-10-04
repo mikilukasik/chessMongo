@@ -14,10 +14,76 @@ var cn = 'mongodb://localhost:17890/chessdb'
 eval(fs.readFileSync('public/brandNewAi.js') + '');
 eval(fs.readFileSync('public/engine.js') + '');
 
+
+
 var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
 var http = require('http')
 
+var stuffToDo=false
+var whatToDo=""
 
+var whatToMod="lpV"
+
+var gamePairCounter=0
+
+var heartBeat=1500
+
+var modVal=50	//translates to x1
+
+setInterval(function(){
+	
+	if(stuffToDo){
+		switch(whatToDo){
+			
+			
+			
+			case "moved":
+				//eval that move and call for next move
+			
+			break;
+			
+			case "finished":
+				//check if should call another game and call it
+			
+			break;
+			
+			case "busy":
+				//do nothing
+				
+			break;
+			
+			case "idle":
+				//do nothing
+				
+			break;
+			
+			case "onHold":
+				//there's stuff to do but we're waiting to save processor credit
+				
+			
+			break;
+			case "startNewGame":
+			
+				whatToDo="busy"
+			
+				//new random then pair of games then decrease counter, then recall
+				if(gamePairCounter==0){
+					stuffToDo=false
+				}else{
+					modVal=Math.random()*100
+					console.log('starting game, playing white')
+					playOneGame(true,whatToMod,modVal)	//this will call another game with black when done
+					
+				}
+			
+			
+			break;
+			
+			
+		}	//switch(whatToDo)
+	}	//if(stuffToDo)
+	
+},heartBeat)
 
 
 
@@ -310,15 +376,23 @@ function playOneGame(wModded,modType,modVal){
 
 					if(myGame.gameIsOn) {
 
-						console.log('recalling playgame')
+						console.log('recalling playgame (new move)')
 
 						playgame(myGame,mt,mv,!wNx, wMod)
 
 					} else {
 
 						//not calling this function anymore, should recall with opposit color just once
-						//console.log('Starting rematch..')
-
+						console.log(' ')
+						console.log('Starting rematch (play black)')
+						
+						if(wModded) {
+							playOneGame(false,modType,modVal)
+						}else{
+							gamePairCounter--
+							whatToDo="startNewGame"
+						}
+						
 					}
 					
 					
@@ -338,8 +412,12 @@ app.get('/startLearningGame', function(req, res) {
 				res.json({
 					message: "..."
 				});
-	playOneGame(true,'lpV',-100)
-	playOneGame(false,'lpV',-100)
+	//playOneGame(true,'lpV',-100)
+	//playOneGame(false,'lpV',-100)
+	
+	stuffToDo=true
+	whatToDo="startNewGame"
+	gamePairCounter=2
 
 });
 
