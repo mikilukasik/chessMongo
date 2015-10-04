@@ -153,15 +153,15 @@ var Modtable = function(tableNum, wName, bName) { //class
 	this.table[1][7] = [0, 0, 0, true, false]
 	this.table[6][7] = [0, 0, 0, true, false]
 
-	this.table[2][0] = [2, 2, 0, true, false] //,bishopCanMove]				//bishops
-	this.table[5][0] = [2, 2, 0, true, false] //,bishopCanMove]
-	this.table[2][7] = [1, 2, 0, true, false]
-	this.table[5][7] = [1, 2, 0, true, false]
+	this.table[2][0] = [0, 0, 0, true, false] //,bishopCanMove]				//bishops
+	this.table[5][0] = [0, 0, 0, true, false] //,bishopCanMove]
+	this.table[2][7] = [0, 0, 0, true, false]
+	this.table[5][7] = [0, 0, 0, true, false]
 
 	this.table[3][0] = [2, 5, 0, true, false] //,queenCanMove]				//w queen
 	this.table[4][0] = [2, 9, 0, true, false] //,kingCanMove]				//w king
 
-	this.table[3][7] = [0, 0, 0, true, false]			//b q
+	this.table[3][7] = [1, 5, 0, true, false]			//b q
 	this.table[4][7] = [1, 9, 0, true, false] //,kingCanMove]				//b k
 
 	this.table = addMovesToTable(this.table, true)
@@ -213,9 +213,9 @@ function playOneGame(wModded,modType,modVal){
 
 				var initedTable = []
 				if(wModded){
-					initedTable = new Modtable(firstFreeTable, "mod lpV:" + modVal, "standard")
+					initedTable = new Dbtable(firstFreeTable, "mod lpV:" + modVal, "standard")
 				}else{
-					initedTable = new Modtable(firstFreeTable, "standard", "mod lpV:" + modVal)
+					initedTable = new Dbtable(firstFreeTable, "standard", "mod lpV:" + modVal)
 				}
 					
 
@@ -242,6 +242,11 @@ function playOneGame(wModded,modType,modVal){
 			result = ai(myGame.table, myGame.wNext, myGame.allPastTables, mt, mv)			//get modded result
 		}else{
 			result = ai(myGame.table, myGame.wNext, myGame.allPastTables)
+		}
+		
+		if(result[0][6]){
+			//looped
+			myGame.gameIsOn=false //looped
 		}
 			 //		ai	<------------
 
@@ -323,7 +328,7 @@ function playOneGame(wModded,modType,modVal){
 			//}
 		} else {
 			console.log('Game finished, evaluating..')
-			evalGame(myGame)
+			evalGame(myGame)	
 		}
 		mongodb.connect(cn, function(err, db2) {
 			db2.collection("tables")

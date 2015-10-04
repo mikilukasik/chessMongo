@@ -1175,6 +1175,7 @@ function countInArray(inValue,inArray){
 }
 
 function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
+	var looped=false
 	var lpVMod=1
 	if (modType=="lpV"){
 		if(modVal<=50){
@@ -1264,7 +1265,13 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 			//3szorra lepnenk ugyanabba a statuszba
 			//ideiglenesen ne
 			//console.log ('i could 3fold '+counted)
-			loopValue-=1000
+			loopValue-=10
+			if(counted >3){
+				//surely looped
+				looped=true
+				
+			}
+			
 		}else{
 			// console.log (counted)
 			// console.log(thisTState)
@@ -1374,7 +1381,9 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 				if(countInArray(createState(tempRetTable) ,allPast) >1){
 					//3szorra lephetne ugyanabba a statuszba
 					//ideiglenesen ne
-					loopValue-=1000
+					loopValue-=10
+					
+					looped=true
 					//console.log('he could 3fold')
 				}
 								
@@ -1598,6 +1607,7 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 	allTempTables = allTempTables.sort(sortAiArray)
 
 	allTempTables[0][2] = (new Date().getTime() - allTempTables[0][2]) //1st row has timeItTook
+	if(looped)allTempTables[0][6] = true //looped
 
 	return allTempTables
 }
