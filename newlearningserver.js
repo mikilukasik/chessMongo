@@ -389,11 +389,13 @@ function playOneGame(wModded,modType,modVal){
 
 						//not calling this function anymore, should recall with opposit color just once
 						console.log(' ')
-						console.log('Starting rematch (play black)')
+						
 						
 						if(wModded) {
+							console.log('Starting rematch (play black)')
 							playOneGame(false,modType,modVal)
 						}else{
+							console.log('lowering counter then start new gamepair or quit')
 							gamePairCounter--
 							whatToDo="startNewGame"
 						}
