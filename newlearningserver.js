@@ -424,7 +424,8 @@ app.get('/startLearningGame', function(req, res) {
 	
 	stuffToDo=true
 	whatToDo="startNewGame"
-	gamePairCounter=2
+	gamePairCounter=req.query.c
+	
 
 });
 
