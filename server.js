@@ -1177,7 +1177,8 @@ app.get('/stats', function(req, res) {
 									
 								})
 								
-								if(wPairModGame){
+								if(//wPairModGame
+									true){
 									//van feher parja
 									
 									//resArray.push(["wonScore","modVal","modType"])
