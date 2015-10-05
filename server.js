@@ -1144,7 +1144,7 @@ app.get('/stats', function(req, res) {
 
 							
 						} 
-						db.close()
+						//db.close()
 				
 
 					});	//<--.toArray
