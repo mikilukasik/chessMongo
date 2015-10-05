@@ -1135,7 +1135,7 @@ app.get('/stats', function(req, res) {
 						if(statData != null) {
 							
 							statData.forEach(function(wModGame){
-								
+								console.log(".")
 								tempArray.push(wModGame)
 								//pairedArray.push(wModGame.wName)
 								
