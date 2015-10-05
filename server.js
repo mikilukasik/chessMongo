@@ -1135,7 +1135,7 @@ app.get('/stats', function(req, res) {
 						if(statData != null) {
 							
 							statData.forEach(function(wModGame){
-								console.log(".")
+								
 								tempArray.push(wModGame)
 								//pairedArray.push(wModGame.wName)
 								
@@ -1167,7 +1167,7 @@ app.get('/stats', function(req, res) {
 						if(statData != null) {
 							
 							statData.forEach(function(bModGame){
-								
+								console.log(".")
 								// tempArray.push(wModGame)
 								// pairedArray.push(wModGame.wName)
 								var wPairModGame=tempArray.find(function(thisWGame){
