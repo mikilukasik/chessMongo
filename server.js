@@ -1076,6 +1076,97 @@ app.get('/getLobby', function(req, res) {
 
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+app.get('/getStats', function(req, res) {
+	//console.log(req)
+	
+	
+	
+
+		mongodb.connect(cn, function(err, db) {
+			if(!(db == null)) {
+				db.collection("tables")
+					.find({
+						tableNum: "xData"
+					}).toArray(function(err28, statData) {
+						if(statData == null) {
+
+							
+						} else {
+
+						}
+						db.close()
+							///////
+						res.send('text file');
+						///////
+
+					});
+			}
+		});
+
+	
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 // io.on('connection', function(socket){
 //   console.log('IO: a user connected');
 // });
@@ -1090,6 +1181,8 @@ var server = app.listen(80, function() {
 	console.log('app listening at http://%s:%s', host, port);
 
 });
+
+
 
 var server2 = app.listen(17889, function() {
 
