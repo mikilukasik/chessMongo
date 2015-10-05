@@ -1111,7 +1111,7 @@ app.get('/getLobby', function(req, res) {
 
 
 
-app.get('/getStats', function(req, res) {
+app.get('/stats.txt', function(req, res) {
 	//console.log(req)
 	
 	
