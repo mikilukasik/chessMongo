@@ -9,7 +9,7 @@ var app = express();
 //app.use(express.static('public'))
 app.use(morgan("combined"))
 
-var cn = 'mongodb://localhost:17890/chessdb'
+var cn = 'mongodb://ec2-52-24-20-162.us-west-2.compute.amazonaws.com:17890//chessdb'
 
 eval(fs.readFileSync('public/brandNewAi.js') + '');
 eval(fs.readFileSync('public/engine.js') + '');
