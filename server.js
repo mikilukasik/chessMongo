@@ -1131,7 +1131,7 @@ app.get('/stats.txt', function(req, res) {
 						}
 						db.close()
 							///////
-						res.send('text file');
+						res.write('text file');
 						///////
 
 					});
