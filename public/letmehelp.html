@@ -38,7 +38,7 @@ $rootScope.move = function(whatMove,tableNum) {
 				})
 
 		}
-$rootScope.start=function(wName,bName){
+$rootScope.start=function(wName,bName,wModded){
 	var tableNum=0
 	$rootScope.sendMessage('start func called')
 	$http.get('/startGame?w='+wName+"&b="+bName)
@@ -47,11 +47,29 @@ $rootScope.start=function(wName,bName){
 					$rootScope.tableNum= response.tableNum
 					tableNum= response.tableNum
 					
+					//
 					
+					var initedTable = []
+				if(wModded){
+					//firstFreeTable=$rootScope.start("mod lpV:" + modVal, "standard").tableNum
+					initedTable = new Dbtable(response.tableNum, "mod lpV:" + modVal, "standard")
+				}else{
+					//firstFreeTable=$rootScope.start( "standard", "mod lpV:" + modVal).tableNum
+					initedTable = new Dbtable(response.tableNum, "standard", "mod lpV:" + modVal)
+				}
+				$rootScope.table=initedTable.table
+				//initedTable.chat=[new String(new Date())]
+
+				// db.collection("tables")
+				// 	.insert(initedTable, function(err, doc) {});
+
+				$rootScope.myGame = initedTable
+				
+				$rootScope.whatToDo='idle'
 
 				})
 
-	if ($rootScope.tableNum>0)return tableNum
+	//if (tableNum>0)return tableNum
 	
 }
 
@@ -235,7 +253,7 @@ $rootScope.playOneGame=function(wModded,modType,modVal){
 	//var bPNum = players[0].indexOf(req.query.b)
 $rootScope.sendMessage('playOneGame called')
 	var firstFreeTable = 0
-
+	$rootScope.whatToDo='busy'
 	// function createXData() {
 	// 	$rootScope.sendMessage("can't find xData in db, creating..") //header in db
 
@@ -271,27 +289,27 @@ $rootScope.sendMessage('playOneGame called')
 			// 		.save(xData, function(err, doc) {});
 			
 		
-				var initedTable = []
+				//var initedTable = []
 				if(wModded){
-					firstFreeTable=$rootScope.start("mod lpV:" + modVal, "standard").tableNum
-					initedTable = new Dbtable(firstFreeTable, "mod lpV:" + modVal, "standard")
+					$rootScope.start("mod lpV:" + modVal, "standard").tableNum
+					//initedTable = new Dbtable(firstFreeTable, "mod lpV:" + modVal, "standard")
 				}else{
-					firstFreeTable=$rootScope.start( "standard", "mod lpV:" + modVal).tableNum
-					initedTable = new Dbtable(firstFreeTable, "standard", "mod lpV:" + modVal)
+					$rootScope.start( "standard", "mod lpV:" + modVal).tableNum
+					//initedTable = new Dbtable(firstFreeTable, "standard", "mod lpV:" + modVal)
 				}
-				$rootScope.table=initedTable.table
+				//$rootScope.table=initedTable.table
 				//initedTable.chat=[new String(new Date())]
 
 				// db.collection("tables")
 				// 	.insert(initedTable, function(err, doc) {});
 
-				$rootScope.myGame = initedTable
+				//$rootScope.myGame = initedTable
 
 				
 
-				$rootScope.sendMessage('Table should be in DB, thinking on 1st move..')
+				$rootScope.sendMessage('Table should be in DB, start soon..')
 
-				$rootScope.playgame($rootScope.myGame,modType,modVal,true,wModded)
+				$rootScope.playWhenReady($rootScope.myGame,modType,modVal,true,wModded)
 
 				//db.close()
 
@@ -552,6 +570,7 @@ $rootScope.sendMessage('playOneGame called')
 						if($rootScope.whatToDo=="busy"){
 							$timeout($rootScope.playWhenReady(myGame,mt,mv,wNx, wMod),12000)
 						}else{
+							$rootScope.sendMessage('ready')
 							$timeout($rootScope.playgame(myGame,mt,mv,wNx, wMod),12000)
 						}
 						
