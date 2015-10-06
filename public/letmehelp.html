@@ -23,7 +23,9 @@
 // 			//wNext=!wNext
 // 			return result.responseJSON.table
 // }
-
+$scope.sendMessage=function(message){
+	$scope.messages.push(message+' '+Math.random())
+}
 
 $scope.move = function(whatMove,tableNum) {
 
@@ -87,7 +89,7 @@ var heartBeat=1500
 var modVal=50	//translates to x1
 
 $interval(function(){
-	$scope.messages.push('.')
+	$scope.sendMessage('.')
 	
 	if($scope.stuffToDo){
 		switch($scope.whatToDo){
@@ -101,7 +103,7 @@ $interval(function(){
 					$scope.stuffToDo=false
 				}else{
 					modVal=Math.random()*100
-					$scope.messages.push('starting game, playing white')
+					$scope.sendMessage('starting game, playing white')
 					playOneGame(true,whatToMod,modVal)	//this will call another game with black when done
 					
 				}
@@ -233,7 +235,7 @@ $scope.playOneGame=function(wModded,modType,modVal){
 	var firstFreeTable = 0
 
 	// function createXData() {
-	// 	$scope.messages.push("can't find xData in db, creating..") //header in db
+	// 	$scope.sendMessage("can't find xData in db, creating..") //header in db
 
 	// 	mongodb.connect(cn, function(err, db) {
 
@@ -284,7 +286,7 @@ $scope.playOneGame=function(wModded,modType,modVal){
 
 				
 
-				$scope.messages.push('Table should be in DB, thinking on 1st move..')
+				$scope.sendMessage('Table should be in DB, thinking on 1st move..')
 
 				playgame(myGame,modType,modVal,true,wModded)
 
@@ -330,7 +332,7 @@ $scope.playOneGame=function(wModded,modType,modVal){
 		} else { //can't move
 
 			//eval
-			$scope.messages.push('ran into eval bit')
+			$scope.sendMessage('ran into eval bit')
 
 			myGame.gameIsOn = false
 
@@ -346,11 +348,11 @@ $scope.playOneGame=function(wModded,modType,modVal){
 		//}
 
 		//db.close()
-		//$scope.messages.push(sendJson);//trick
-		$scope.messages.push(' DONE. ')
+		//$scope.sendMessage(sendJson);//trick
+		$scope.sendMessage(' DONE. ')
 
 		if(myGame.gameIsOn) {
-			$scope.messages.push('Will move ' + aiMoveString)
+			$scope.sendMessage('Will move ' + aiMoveString)
 			
 			move(aiMoveString,myGame.tableNum)
 
@@ -389,7 +391,7 @@ $scope.playOneGame=function(wModded,modType,modVal){
 
 			//}
 		} else {
-			$scope.messages.push('Game finished, evaluating..')
+			$scope.sendMessage('Game finished, evaluating..')
 			evalGame(myGame)	
 		}
 // 		mongodb.connect(cn, function(err, db2) {
@@ -397,7 +399,7 @@ $scope.playOneGame=function(wModded,modType,modVal){
 // 				.findOne({
 // 					tableNum: myGame.tableNum
 // 				}, function(err2, result) {
-// 					$scope.messages.push('found table:' + result.tableNum)
+// 					$scope.sendMessage('found table:' + result.tableNum)
 
 // 					if(myGame.gameIsOn) {
 // 						result.table = myGame.table
@@ -413,11 +415,11 @@ $scope.playOneGame=function(wModded,modType,modVal){
 // 						result.isDraw = myGame.isDraw
 // 					}
 
-// 					$scope.messages.push('will save moved table..')
+// 					$scope.sendMessage('will save moved table..')
 // 					db2.collection("tables")
 // 						.save(result, function(err3, res) {})
 
-// 					$scope.messages.push('saved. Trying forcepop..')
+// 					$scope.sendMessage('saved. Trying forcepop..')
 					
 					
 					
@@ -473,7 +475,7 @@ $scope.playOneGame=function(wModded,modType,modVal){
 					
 					
 // 					db2.close()
-// 					$scope.messages.push('closed.')
+// 					$scope.sendMessage('closed.')
 
 // 					// var optionsb = {
 // 					// 	host: 'localhost',
@@ -483,7 +485,7 @@ $scope.playOneGame=function(wModded,modType,modVal){
 
 // 					//http.request(optionsb, function(response){
 
-// 					// 	$scope.messages.push('jott vmi')
+// 					// 	$scope.sendMessage('jott vmi')
 
 // 					// 	response.on('data', function(chunk) {
 // 					// 	//resJsn = JSON.parse(chunk);
@@ -496,21 +498,21 @@ $scope.playOneGame=function(wModded,modType,modVal){
 
 					if(myGame.gameIsOn) {
 
-						$scope.messages.push('recalling playgame (new move)')
+						$scope.sendMessage('recalling playgame (new move)')
 
 						playgame(myGame,mt,mv,!wNx, wMod)
 
 					} else {
 
 						//not calling this function anymore, should recall with opposit color just once
-						$scope.messages.push(' ')
+						$scope.sendMessage(' ')
 						
 						
 						if(wModded) {
-							$scope.messages.push('Starting rematch (play black)')
+							$scope.sendMessage('Starting rematch (play black)')
 							playOneGame(false,modType,modVal)
 						}else{
-							$scope.messages.push('lowering counter then start new gamepair or quit')
+							$scope.sendMessage('lowering counter then start new gamepair or quit')
 							gamePairCounter--
 							$scope.whatToDo="startNewGame"
 						}
@@ -529,7 +531,7 @@ $scope.playOneGame=function(wModded,modType,modVal){
 
 // app.get('/startLearningGame', function(req, res) {
 	
-	$scope.messages.push('Sending response to start request...???nope')
+	$scope.sendMessage('Sending response to start request...???nope')
 
 				// res.json({
 				// 	message: "starting..."
@@ -552,7 +554,7 @@ appModule.controller("ApplicationController", ApplicationController);
 // 	var host = server.address().address;
 // 	var port = server.address().port;
 
-// 	$scope.messages.push('learningserver is listening at http://%s:%s', host, port);
+// 	$scope.sendMessage('learningserver is listening at http://%s:%s', host, port);
 
 // });
 </script>
