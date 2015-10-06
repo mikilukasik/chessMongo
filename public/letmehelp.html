@@ -361,7 +361,7 @@ $scope.sendMessage('playOneGame called')
 		if(myGame.gameIsOn) {
 			$scope.sendMessage('Will move ' + aiMoveString)
 			
-			move(aiMoveString,myGame.tableNum)
+			$scope.move(aiMoveString,myGame.tableNum)
 
 			var toPush = String(myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][0]) + //color of whats moving
 				myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][1] + //piece
