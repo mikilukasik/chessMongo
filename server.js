@@ -1143,22 +1143,25 @@ app.get('/stats.txt', function(req, res) {
 											// 	res.end()
 											// }
 											
-											if(statIndex==statData.length-1){
-												res.write('end')
-												//res.end()
-										}
+											// if(statIndex==statData.length-1){
+											// 	res.write('end')
+											// 	//res.end()
+										//}
 
 										}else{
-											if(statIndex==statData.length-1){
-												res.write('end')
-												//res.end()
-										}
+											// if(statIndex==statData.length-1){
+											// 	res.write('end')
+											// 	//res.end()
+										//}
 
 											
 											
 											//console.log('nincs')
 										}
-										
+										if(statIndex==statData.length-1){
+												res.write('end')
+												//res.end()
+												}
 										
 									})
 
