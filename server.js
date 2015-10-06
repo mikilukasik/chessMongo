@@ -1096,19 +1096,32 @@ app.get('/stats', function(req, res) {
 											//van matching pair game
 											//console.log('van')
 											var wonScore = 0
+											var resText=''
+											resText=resText.concat('t'+bModGame.tableNum)
 											if(bModGame.blacWon) {
 												wonScore++
+												resText=resText.concat(' black won, ')
 											} else {
 												if(bModGame.whiteWon) {
 													wonScore--
+													resText=resText.concat(' black lost, ')
+												}else{
+													resText=resText.concat(' black drew, ')
 												}
 											}
+											
+											resText=resText.concat('t'+wModGame.tableNum)
+											
 
 											if(wModGame.whiteWon) {
 												wonScore++
+												resText=resText.concat(' white won.')
 											} else {
 												if(wModGame.blackWon) {
 													wonScore--
+													resText=resText.concat(' white won.')
+												}else{
+													resText=resText.concat(' white drew.')
 												}
 											}
 
