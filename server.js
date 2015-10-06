@@ -1137,6 +1137,58 @@ app.get('/stats', function(req, res) {
 							statData.forEach(function(wModGame){
 								
 								tempArray.push(wModGame)
+								
+								
+								db.collection("tables")
+									.findOne({
+										gameIsOn:false,
+										wName:"standard",
+										bName:wModGame.wName
+									},function(errs,bModGame){
+										if(bModGame){
+											//van matching pair game
+											
+											
+											
+											
+											
+											
+											
+								var wonScore=0
+									if(bModGame.blacWon){
+										wonScore++
+									}else{
+										if(bModGame.whiteWon){
+											wonScore--
+										}
+									}
+									
+									if(wModGame.whiteWon){
+										wonScore++
+									}else{
+										if(wModGame.blackWon){
+											wonScore--
+										}
+									}
+									
+									//var resArray=["wonScore",String.fromCharCode(9),"modVal",String.fromCharCode(9),"modType",String.fromCharCode(13)]
+	
+									
+									resArray.push(wonScore.toString(),String.fromCharCode(9),bModGame.bName,String.fromCharCode(9),"lpV",String.fromCharCode(13))	//to be fixed
+								
+											
+											
+											
+										}
+										
+										
+										
+									})
+										
+								
+								
+								
+								
 								//pairedArray.push(wModGame.wName)
 								
 							})		//<--statData.forEach(function(wModGame){
@@ -1154,67 +1206,74 @@ app.get('/stats', function(req, res) {
 					//repeat with bMod and filter unmatched
 					
 					
-					db.collection("tables")
-					.find({
+					// db.collection("tables")
+					// .find({
 						
-						gameIsOn:false,
-						wName:"standard"
+					// 	gameIsOn:false,
+					// 	wName:"standard"
 					
 
 						
 						
-					}).toArray(function(err28, statData) {
-						if(statData != null) {
+					// }).toArray(function(err28, statData) {
+					// 	if(statData != null) {
 							
-							statData.forEach(function(bModGame){
-								console.log(".")
-								// tempArray.push(wModGame)
-								// pairedArray.push(wModGame.wName)
-								var wPairModGame=tempArray.find(function(thisWGame){
-									if(thisWGame.wName==bModGame.bName){
-										return true
-									}
+					// 		statData.forEach(function(bModGame){
+					// 			console.log(".")
+					// 			// tempArray.push(wModGame)
+					// 			// pairedArray.push(wModGame.wName)
+					// 			var wPairModGame=false
+					// 			var num=countInArray(bModGame.bName,tempArray)
+					// 			if(num==1){
+					// 				wPairModGame=
+					// 			}else{
 									
-								})
+					// 			}
+					// 			// var wPairModGame=tempArray.find(function(thisWGame){
+					// 			// 	if(thisWGame.wName==bModGame.bName){
+					// 			// 		return true
+					// 			// 	}
+									
+					// 			// })
 								
-								if(//wPairModGame
-									true){
-									//van feher parja
+					// 			if(//wPairModGame
+					// 				true){
+					// 				//van feher parja
 									
-									//resArray.push(["wonScore","modVal","modType"])
-									var wonScore=0
-									if(bModGame.blacWon){
-										wonScore++
-									}else{
-										if(bModGame.whiteWon){
-											wonScore--
-										}
-									}
+					// 				//resArray.push(["wonScore","modVal","modType"])
+					// 				var wonScore=0
+					// 				if(bModGame.blacWon){
+					// 					wonScore++
+					// 				}else{
+					// 					if(bModGame.whiteWon){
+					// 						wonScore--
+					// 					}
+					// 				}
 									
-									if(wPairModGame.Won){
-										wonScore--
-									}else{
-										if(bModGame.whiteWon){
-											wonScore++
-										}
-									}
+					// 				if(wPairModGame.Won){
+					// 					wonScore--
+					// 				}else{
+					// 					if(bModGame.whiteWon){
+					// 						wonScore++
+					// 					}
+					// 				}
 									
-									//var resArray=["wonScore",String.fromCharCode(9),"modVal",String.fromCharCode(9),"modType",String.fromCharCode(13)]
+					// 				//var resArray=["wonScore",String.fromCharCode(9),"modVal",String.fromCharCode(9),"modType",String.fromCharCode(13)]
 	
 									
-									resArray.push(wonScore.toString(),String.fromCharCode(9),bModGame.bName,String.fromCharCode(9),"lpV",String.fromCharCode(13))	//to be fixed
-								}
+					// 				resArray.push(wonScore.toString(),String.fromCharCode(9),bModGame.bName,String.fromCharCode(9),"lpV",String.fromCharCode(13))	//to be fixed
+					// 			}
 								
 								
-							})		//<--statData.forEach(function(bModGame){
+					// 		})		//<--statData.forEach(function(bModGame){
 							
 
 							
-						} 
-						db.close()
+					// 	} 
+					// 	db.close()
 				
 
-					});	//<--.toArray
+					// });	//<--.toArray
 					
 					
 					
