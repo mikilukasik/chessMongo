@@ -273,10 +273,10 @@ $rootScope.sendMessage('playOneGame called')
 		
 				var initedTable = []
 				if(wModded){
-					firstFreeTable=$rootScope.start("mod lpV:" + modVal, "standard")
+					firstFreeTable=$rootScope.start("mod lpV:" + modVal, "standard").tableNum
 					initedTable = new Dbtable(firstFreeTable, "mod lpV:" + modVal, "standard")
 				}else{
-					firstFreeTable=$rootScope.start( "standard", "mod lpV:" + modVal)
+					firstFreeTable=$rootScope.start( "standard", "mod lpV:" + modVal).tableNum
 					initedTable = new Dbtable(firstFreeTable, "standard", "mod lpV:" + modVal)
 				}
 				$rootScope.table=initedTable.table
