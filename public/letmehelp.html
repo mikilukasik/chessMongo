@@ -30,7 +30,7 @@ $rootScope.sendMessage=function(message){
 
 $rootScope.move = function(whatMove,tableNum) {
 
-			$http.get('/move?m=' + whatMove + '&t=' + $rootScope.tableNum)
+			$http.get('/move?m=' + whatMove + '&t=' + $rootScope.myGame.tableNum)
 				.then(function(response) {
 					
 					$rootScope.table= response.table
@@ -549,9 +549,9 @@ $rootScope.sendMessage('playOneGame called')
 	$rootScope.playWhenReady=function(myGame,mt,mv,wNx, wMod){
 			$rootScope.sendMessage('recalling playgame (new move)')
 						if($rootScope.whatToDo=="busy"){
-							$timeout($rootScope.playWhenReady(myGame,mt,mv,wNx, wMod),2000)
+							$timeout($rootScope.playWhenReady(myGame,mt,mv,wNx, wMod),12000)
 						}else{
-							$timeout($rootScope.playgame(myGame,mt,mv,wNx, wMod),2000)
+							$timeout($rootScope.playgame(myGame,mt,mv,wNx, wMod),12000)
 						}
 						
 						
@@ -586,7 +586,7 @@ appModule.controller("ApplicationController", ApplicationController);
 				<td class="ideRakd" ng-include="'/wtable.html'"></td>
 			
 			<td>
-	tablenum: {{tableNum}}
+	tablenum: {{myGame.tableNum}}
 		{{gamePairCounter}}
 		{{stuffToDo}}
 	{{whatToDo}}
