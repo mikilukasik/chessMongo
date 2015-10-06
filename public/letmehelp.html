@@ -298,18 +298,18 @@ $scope.sendMessage('playOneGame called')
 		//	});
 	//});
 
-	var playgame=function($scope.myGame, mt, mv, wNx, wMod) {
+	var playgame=function(myGame, mt, mv, wNx, wMod) {
 
 		var result = []
 		if(wNx==wMod){
-			result = ai($scope.myGame.table, $scope.myGame.wNext, $scope.myGame.allPastTables, mt, mv)			//get modded result
+			result = ai(myGame.table, myGame.wNext, myGame.allPastTables, mt, mv)			//get modded result
 		}else{
-			result = ai($scope.myGame.table, $scope.myGame.wNext, $scope.myGame.allPastTables)
+			result = ai(myGame.table, myGame.wNext, myGame.allPastTables)
 		}
 		
 		if(result[0][6]){
 			//looped
-			$scope.myGame.gameIsOn=false //looped
+			myGame.gameIsOn=false //looped
 		}
 			 //		ai	<------------
 
@@ -337,7 +337,7 @@ $scope.sendMessage('playOneGame called')
 			//eval
 			$scope.sendMessage('ran into eval bit')
 
-			$scope.myGame.gameIsOn = false
+			myGame.gameIsOn = false
 
 			var sendJson = {
 				aimove: "",
@@ -354,69 +354,69 @@ $scope.sendMessage('playOneGame called')
 		//$scope.sendMessage(sendJson);//trick
 		$scope.sendMessage(' DONE. ')
 
-		if($scope.myGame.gameIsOn) {
+		if(myGame.gameIsOn) {
 			$scope.sendMessage('Will move ' + aiMoveString)
 			
-			move(aiMoveString,$scope.myGame.tableNum)
+			move(aiMoveString,myGame.tableNum)
 
-			var toPush = String($scope.myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][0]) + //color of whats moving
-				$scope.myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][1] + //piece
+			var toPush = String(myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][0]) + //color of whats moving
+				myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][1] + //piece
 				aiMoveString + //the string
-				$scope.myGame.table[dletters.indexOf(aiMoveString[2])][aiMoveString[3] - 1][0] + //color of whats hit
-				$scope.myGame.table[dletters.indexOf(aiMoveString[2])][aiMoveString[3] - 1][1] //piece
+				myGame.table[dletters.indexOf(aiMoveString[2])][aiMoveString[3] - 1][0] + //color of whats hit
+				myGame.table[dletters.indexOf(aiMoveString[2])][aiMoveString[3] - 1][1] //piece
 				
 				+new String(new Date())
 
-			// if(!(toPush==$scope.myGame.moves[$scope.myGame.moves.length-1])){
-			$scope.myGame.moves.push(toPush)
+			// if(!(toPush==myGame.moves[myGame.moves.length-1])){
+			myGame.moves.push(toPush)
 
-			$scope.myGame.table = moveIt(aiMoveString, $scope.myGame.table)
-			$scope.table=$scope.myGame.table
+			myGame.table = moveIt(aiMoveString, myGame.table)
+			$scope.table=myGame.table
 
-			$scope.myGame.wNext = !$scope.myGame.wNext
+			myGame.wNext = !myGame.wNext
 
-			//$scope.myGame.pollNum++ //<---- majd increment a checkTableStatus ha kiertekelte	//nemis
+			//myGame.pollNum++ //<---- majd increment a checkTableStatus ha kiertekelte	//nemis
 
-			//evalGame($scope.myGame)
+			//evalGame(myGame)
 
-			$scope.myGame.pollNum++
+			myGame.pollNum++
 
-				//$scope.myGame.toBeChecked = true //tells it to server(itself) to evaluate table
+				//myGame.toBeChecked = true //tells it to server(itself) to evaluate table
 
-				$scope.myGame.moved = new Date().getTime()
+				myGame.moved = new Date().getTime()
 
-			$scope.myGame.table = addMovesToTable($scope.myGame.table, $scope.myGame.wNext)
+			myGame.table = addMovesToTable(myGame.table, myGame.wNext)
 
 			//remember this state for 3fold rule
 
-			$scope.myGame.allPastTables.push(createState($scope.myGame.table))
+			myGame.allPastTables.push(createState(myGame.table))
 
-			//popThem(req.query.t, $scope.myGame, 'moved', 'Player moved: ' + aiMoveString) //respond to pending longpolls
+			//popThem(req.query.t, myGame, 'moved', 'Player moved: ' + aiMoveString) //respond to pending longpolls
 
 			//}
 		} else {
 			$scope.sendMessage('Game finished, evaluating..')
-			evalGame($scope.myGame)	
+			evalGame(myGame)	
 		}
 // 		mongodb.connect(cn, function(err, db2) {
 // 			db2.collection("tables")
 // 				.findOne({
-// 					tableNum: $scope.myGame.tableNum
+// 					tableNum: myGame.tableNum
 // 				}, function(err2, result) {
 // 					$scope.sendMessage('found table:' + result.tableNum)
 
-// 					if($scope.myGame.gameIsOn) {
-// 						result.table = $scope.myGame.table
-// 						result.moves = $scope.myGame.moves
-// 						result.pollNum = $scope.myGame.pollNum
-// 						result.wNext = $scope.myGame.wNext
-// 						result.moved = $scope.myGame.moved
-// 						result.allPastTables = $scope.myGame.allPastTables
+// 					if(myGame.gameIsOn) {
+// 						result.table = myGame.table
+// 						result.moves = myGame.moves
+// 						result.pollNum = myGame.pollNum
+// 						result.wNext = myGame.wNext
+// 						result.moved = myGame.moved
+// 						result.allPastTables = myGame.allPastTables
 // 					} else {
 // 						result.gameIsOn = false //as it's just finished
-// 						result.blackWon = $scope.myGame.blackWon
-// 						result.whiteWon = $scope.myGame.whiteWon
-// 						result.isDraw = $scope.myGame.isDraw
+// 						result.blackWon = myGame.blackWon
+// 						result.whiteWon = myGame.whiteWon
+// 						result.isDraw = myGame.isDraw
 // 					}
 
 // 					$scope.sendMessage('will save moved table..')
@@ -440,7 +440,7 @@ $scope.sendMessage('playOneGame called')
 // 					var options = {
 // 							host: 'ec2-52-24-20-162.us-west-2.compute.amazonaws.com',
 // 							port: 80,
-// 							path: '/forcePopTable?t=' + $scope.myGame.tableNum
+// 							path: '/forcePopTable?t=' + myGame.tableNum
 // 						};
 
 // http.request(options, function(response) {
@@ -484,7 +484,7 @@ $scope.sendMessage('playOneGame called')
 // 					// var optionsb = {
 // 					// 	host: 'localhost',
 // 					// 	port: 80,
-// 					// 	path: '/forcePopTable?t=' + $scope.myGame.tableNum + '&p=learner&m=move: ' + aiMoveString
+// 					// 	path: '/forcePopTable?t=' + myGame.tableNum + '&p=learner&m=move: ' + aiMoveString
 // 					// };
 
 // 					//http.request(optionsb, function(response){
@@ -500,11 +500,11 @@ $scope.sendMessage('playOneGame called')
 
 // 					//}).end()
 
-					if($scope.myGame.gameIsOn) {
+					if(myGame.gameIsOn) {
 
 						$scope.sendMessage('recalling playgame (new move)')
 
-						playgame($scope.myGame,mt,mv,!wNx, wMod)
+						playgame(myGame,mt,mv,!wNx, wMod)
 
 					} else {
 
