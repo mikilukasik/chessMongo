@@ -90,10 +90,12 @@ $interval(function(){
 	//$scope.sendMessage('.')
 	
 	if($scope.stuffToDo){
+		$scope.sendMessage('1')
 		switch($scope.whatToDo){
 			
 			case "startNewGame":
-			
+				$scope.sendMessage('2')
+		
 				$scope.whatToDo="busy"
 			
 				//new random then pair of games then decrease counter, then recall
