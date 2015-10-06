@@ -39,7 +39,8 @@ $rootScope.move = function(whatMove,tableNum) {
 
 		}
 $rootScope.start=function(wName,bName){
-	var tableNum=-5
+	var tableNum=0
+	$rootScope.sendMessage('start func called')
 	$http.get('/startGame?w='+wName+"&b="+bName)
 		.then(function(response) {
 					
