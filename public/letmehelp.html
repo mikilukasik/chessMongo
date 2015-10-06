@@ -273,10 +273,10 @@ $scope.sendMessage('playOneGame called')
 		
 				var initedTable = []
 				if(wModded){
-					firstFreeTable=start("mod lpV:" + modVal, "standard")
+					firstFreeTable=$scope.start("mod lpV:" + modVal, "standard")
 					initedTable = new Dbtable(firstFreeTable, "mod lpV:" + modVal, "standard")
 				}else{
-					firstFreeTable=start( "standard", "mod lpV:" + modVal)
+					firstFreeTable=$scope.start( "standard", "mod lpV:" + modVal)
 					initedTable = new Dbtable(firstFreeTable, "standard", "mod lpV:" + modVal)
 				}
 				$scope.table=initedTable.table
