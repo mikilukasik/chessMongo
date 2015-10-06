@@ -1066,7 +1066,9 @@ app.get('/stats.txt', function(req, res) {
 	//console.log(req)
 	res.writeHead(200, {
   
-  'Content-Type': 'text/plain' });
+  'Content-Type': 'text/plain' 
+  
+  });
   
 	var resArray = []
 	resArray.push("wonScore", String.fromCharCode(9), "modVal", String.fromCharCode(9), "resText", String.fromCharCode(13))
@@ -1086,7 +1088,9 @@ app.get('/stats.txt', function(req, res) {
 				}).toArray(function(err28, statData) {
 					if(statData != null) {
 
-						statData.forEach(function(wModGame) {
+						statData.forEach(function(wModGame, statIndex) {
+
+							//var kellEz=0
 
 								tempArray.push(wModGame)
 
@@ -1134,8 +1138,21 @@ app.get('/stats.txt', function(req, res) {
 											resArray.push(wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9), resText, String.fromCharCode(13)) //to be fixed
 											console.log([wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9)])
 											res.write(resArray.join(''));
+											
+											// if(statIndex==statData.length()-1){
+											// 	res.end()
+											// }
+											
+											
 										}else{
+											
+											
+											
 											//console.log('nincs')
+										}
+										
+										if(statIndex==statData.length()-1){
+												res.end()
 										}
 
 									})
