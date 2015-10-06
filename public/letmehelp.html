@@ -278,6 +278,7 @@ $scope.sendMessage('playOneGame called')
 					firstFreeTable=start( "standard", "mod lpV:" + modVal)
 					initedTable = new Dbtable(firstFreeTable, "standard", "mod lpV:" + modVal)
 				}
+				$scope.table=initedTable.table
 				//initedTable.chat=[new String(new Date())]
 
 				// db.collection("tables")
@@ -369,6 +370,7 @@ $scope.sendMessage('playOneGame called')
 			$scope.myGame.moves.push(toPush)
 
 			$scope.myGame.table = moveIt(aiMoveString, $scope.myGame.table)
+			$scope.table=$scope.myGame.table
 
 			$scope.myGame.wNext = !$scope.myGame.wNext
 
@@ -561,10 +563,19 @@ appModule.controller("ApplicationController", ApplicationController);
 </script>
 </head>
 <body ng-app="appModule"  ng-controller="ApplicationController">
+	<table>
+		<tr>
+			
+				<td class="ideRakd" ng-include="'/wtable.html'"></td>
+			
+			<td>
 	tablenum: {{tableNum}}
 		{{stuffToDo}}
 	{{whatToDo}}
 	<p ng-repeat="x in messages" ng-init=".">{{x}}</p>
-
+			</td>
+		</tr>
+	</table>
+	
 	
 </body>
