@@ -1,22 +1,27 @@
 <head>
-	<script>	
+	
+	<!--<script src="jquery.js"></script>-->
+	<script src="brandNewAi.js"></script>
+	<script src="engine.js"></script>
+
+<script>	
 		
 	
-//app.listen(16789
-var express = require('express');
-var morgan = require('morgan');
-var mongodb = require('mongodb');
-var fs = require('fs');
+// //app.listen(16789
+// var express = require('express');
+// var morgan = require('morgan');
+// var mongodb = require('mongodb');
+// var fs = require('fs');
 
-var app = express();
+// var app = express();
 
-//app.use(express.static('public'))
-app.use(morgan("combined"))
+// //app.use(express.static('public'))
+// app.use(morgan("combined"))
 
 var cn = 'mongodb://ec2-52-24-20-162.us-west-2.compute.amazonaws.com:17890/chessdb'
 
-eval(fs.readFileSync('public/brandNewAi.js') + '');
-eval(fs.readFileSync('public/engine.js') + '');
+// eval(fs.readFileSync('public/brandNewAi.js') + '');
+// eval(fs.readFileSync('public/engine.js') + '');
 
 
 
@@ -48,7 +53,7 @@ setInterval(function(){
 					stuffToDo=false
 				}else{
 					modVal=Math.random()*100
-					console.log('starting game, playing white')
+					document.write('starting game, playing white')
 					playOneGame(true,whatToMod,modVal)	//this will call another game with black when done
 					
 				}
@@ -182,7 +187,7 @@ function playOneGame(wModded,modType,modVal){
 	var firstFreeTable = 0
 
 	function createXData() {
-		console.log("can't find xData in db, creating..") //header in db
+		document.write("can't find xData in db, creating..") //header in db
 
 		mongodb.connect(cn, function(err, db) {
 
@@ -230,7 +235,7 @@ function playOneGame(wModded,modType,modVal){
 
 				
 
-				console.log('Response sent, thinking 1st move..')
+				document.write('Response sent, thinking 1st move..')
 
 				playgame(myGame,modType,modVal,true,wModded)
 
@@ -276,7 +281,7 @@ function playOneGame(wModded,modType,modVal){
 		} else { //can't move
 
 			//eval
-			console.log('ran into eval bit')
+			document.write('ran into eval bit')
 
 			myGame.gameIsOn = false
 
@@ -292,11 +297,11 @@ function playOneGame(wModded,modType,modVal){
 		//}
 
 		//db.close()
-		//console.log(sendJson);//trick
-		console.log(' DONE. ')
+		//document.write(sendJson);//trick
+		document.write(' DONE. ')
 
 		if(myGame.gameIsOn) {
-			console.log('Will move ' + aiMoveString)
+			document.write('Will move ' + aiMoveString)
 
 			var toPush = String(myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][0]) + //color of whats moving
 				myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][1] + //piece
@@ -333,7 +338,7 @@ function playOneGame(wModded,modType,modVal){
 
 			//}
 		} else {
-			console.log('Game finished, evaluating..')
+			document.write('Game finished, evaluating..')
 			evalGame(myGame)	
 		}
 		mongodb.connect(cn, function(err, db2) {
@@ -341,7 +346,7 @@ function playOneGame(wModded,modType,modVal){
 				.findOne({
 					tableNum: myGame.tableNum
 				}, function(err2, result) {
-					console.log('found table:' + result.tableNum)
+					document.write('found table:' + result.tableNum)
 
 					if(myGame.gameIsOn) {
 						result.table = myGame.table
@@ -357,11 +362,11 @@ function playOneGame(wModded,modType,modVal){
 						result.isDraw = myGame.isDraw
 					}
 
-					console.log('will save moved table..')
+					document.write('will save moved table..')
 					db2.collection("tables")
 						.save(result, function(err3, res) {})
 
-					console.log('saved. Trying forcepop..')
+					document.write('saved. Trying forcepop..')
 					
 					
 					
@@ -417,7 +422,7 @@ http.request(options, function(response) {
 					
 					
 					db2.close()
-					console.log('closed.')
+					document.write('closed.')
 
 					// var optionsb = {
 					// 	host: 'localhost',
@@ -427,7 +432,7 @@ http.request(options, function(response) {
 
 					//http.request(optionsb, function(response){
 
-					// 	console.log('jott vmi')
+					// 	document.write('jott vmi')
 
 					// 	response.on('data', function(chunk) {
 					// 	//resJsn = JSON.parse(chunk);
@@ -440,21 +445,21 @@ http.request(options, function(response) {
 
 					if(myGame.gameIsOn) {
 
-						console.log('recalling playgame (new move)')
+						document.write('recalling playgame (new move)')
 
 						playgame(myGame,mt,mv,!wNx, wMod)
 
 					} else {
 
 						//not calling this function anymore, should recall with opposit color just once
-						console.log(' ')
+						document.write(' ')
 						
 						
 						if(wModded) {
-							console.log('Starting rematch (play black)')
+							document.write('Starting rematch (play black)')
 							playOneGame(false,modType,modVal)
 						}else{
-							console.log('lowering counter then start new gamepair or quit')
+							document.write('lowering counter then start new gamepair or quit')
 							gamePairCounter--
 							whatToDo="startNewGame"
 						}
@@ -471,30 +476,30 @@ http.request(options, function(response) {
 
 
 
-app.get('/startLearningGame', function(req, res) {
+// app.get('/startLearningGame', function(req, res) {
 	
-	console.log('Sending response to start request...')
+	document.write('Sending response to start request...')
 
-				res.json({
-					message: "starting..."
-				});
+				// res.json({
+				// 	message: "starting..."
+				// });
 	//playOneGame(true,'lpV',-100)
 	//playOneGame(false,'lpV',-100)
 	
 	stuffToDo=true
 	whatToDo="startNewGame"
-	gamePairCounter=req.query.c
+	gamePairCounter=-1
 	
 
-});
+// });
 
-var server = app.listen(16778, function() {
+// var server = app.listen(16778, function() {
 
-	var host = server.address().address;
-	var port = server.address().port;
+// 	var host = server.address().address;
+// 	var port = server.address().port;
 
-	console.log('learningserver is listening at http://%s:%s', host, port);
+// 	document.write('learningserver is listening at http://%s:%s', host, port);
 
-});
+// });
 </script>
 </head>
