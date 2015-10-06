@@ -1230,7 +1230,7 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 		
 	cfMoves.forEach(function(stepMove, moveIndex) {
 		
-		process.stdout.write(".");
+		//process.stdout.write(".");
 		
 		var smallValScore=(10-cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1])/1000
 
