@@ -370,9 +370,9 @@ function playOneGame(wModded,modType,modVal){
 					
 					
 					var options = {
-							host: 'miki.space',
-							port: 16789,
-							path: '/forcePop?t=' + checkThisGame.tableNum
+							host: 'http://ec2-52-24-20-162.us-west-2.compute.amazonaws.com',
+							port: 80,
+							path: '/forcePopTable?t=' + myGame.tableNum
 						};
 
 http.request(options, function(response) {
@@ -410,8 +410,6 @@ http.request(options, function(response) {
 					
 					
 					
-					http.req
-
 					db2.close()
 					console.log('closed.')
 
