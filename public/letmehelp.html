@@ -25,7 +25,7 @@
 // }
 
 
-var move = function(whatMove,tableNum) {
+$scope.move = function(whatMove,tableNum) {
 
 			$http.get('/move?m=' + whatMove + '&t=' + tableNum)
 				// .success(function(response) {
@@ -37,8 +37,7 @@ var move = function(whatMove,tableNum) {
 				// })
 
 		}
-
-function start(wName,bName){
+$scope.start=function(wName,bName){
 	var tableNum=0
 	var tempTable=$.ajax({
 		    type: 'GET',
@@ -66,7 +65,7 @@ function start(wName,bName){
 // //app.use(express.static('public'))
 // app.use(morgan("combined"))
 
-var cn = 'mongodb://ec2-52-24-20-162.us-west-2.compute.amazonaws.com:17890/chessdb'
+//var cn = 'mongodb://ec2-52-24-20-162.us-west-2.compute.amazonaws.com:17890/chessdb'
 
 // eval(fs.readFileSync('public/brandNewAi.js') + '');
 // eval(fs.readFileSync('public/engine.js') + '');
@@ -76,8 +75,8 @@ var cn = 'mongodb://ec2-52-24-20-162.us-west-2.compute.amazonaws.com:17890/chess
 var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
 // var http = require('http')
 
-var stuffToDo=false
-var whatToDo=""
+var $scope.stuffToDo=false
+var $scope.whatToDo=""
 
 var whatToMod="lpV"
 
@@ -87,18 +86,18 @@ var heartBeat=1500
 
 var modVal=50	//translates to x1
 
-setInterval(function(){
+$interval(function(){
 	
-	if(stuffToDo){
-		switch(whatToDo){
+	if($scope.stuffToDo){
+		switch($scope.whatToDo){
 			
 			case "startNewGame":
 			
-				whatToDo="busy"
+				$scope.whatToDo="busy"
 			
 				//new random then pair of games then decrease counter, then recall
 				if(gamePairCounter==0){
-					stuffToDo=false
+					$scope.stuffToDo=false
 				}else{
 					modVal=Math.random()*100
 					document.write('starting game, playing white')
@@ -137,15 +136,14 @@ setInterval(function(){
 			
 			
 			
-		}	//switch(whatToDo)
-	}	//if(stuffToDo)
+		}	//switch($scope.whatToDo)
+	}	//if($scope.stuffToDo)
 	
 },heartBeat)
 
 
 
-
-var Modtable = function(tableNum, wName, bName) { //class
+$scope.Modtable = function(tableNum, wName, bName) { //class
 	
 	this.tableNum = tableNum,
 	this.wName = wName,
@@ -227,8 +225,7 @@ var Modtable = function(tableNum, wName, bName) { //class
 }
 
 
-
-function playOneGame(wModded,modType,modVal){
+$scope.playOneGame=function(wModded,modType,modVal){
 		//var myGame=0
 	//var wPNum = players[0].indexOf(req.query.w)
 	//var bPNum = players[0].indexOf(req.query.b)
@@ -295,7 +292,7 @@ function playOneGame(wModded,modType,modVal){
 		//	});
 	//});
 
-	function playgame(myGame, mt, mv, wNx, wMod) {
+	var playgame=function(myGame, mt, mv, wNx, wMod) {
 
 		var result = []
 		if(wNx==wMod){
@@ -514,7 +511,7 @@ function playOneGame(wModded,modType,modVal){
 						}else{
 							document.write('lowering counter then start new gamepair or quit')
 							gamePairCounter--
-							whatToDo="startNewGame"
+							$scope.whatToDo="startNewGame"
 						}
 						
 					}
@@ -539,8 +536,8 @@ function playOneGame(wModded,modType,modVal){
 	//playOneGame(true,'lpV',-100)
 	//playOneGame(false,'lpV',-100)
 	
-	stuffToDo=true
-	whatToDo="startNewGame"
+	$scope.stuffToDo=true
+	$scope.whatToDo="startNewGame"
 	gamePairCounter=-1
 	
 	
