@@ -1133,7 +1133,7 @@ app.get('/stats', function(req, res) {
 			
 
 			///////
-			res.json({a:resArray});
+			res.send(resArray.join(''));
 			///////
 		}
 	});
