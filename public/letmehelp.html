@@ -303,7 +303,7 @@ $rootScope.sendMessage('playOneGame called')
 
 
 	$rootScope.playgame=function(myGame, mt, mv, wNx, wMod) {
-
+		$rootScope.whatToDo='busy'
 		var result = []
 		if(wNx==wMod){
 			result = ai(myGame.table, myGame.wNext, myGame.allPastTables, mt, mv)			//get modded result
