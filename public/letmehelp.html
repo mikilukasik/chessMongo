@@ -89,7 +89,7 @@ var heartBeat=1500
 var modVal=50	//translates to x1
 
 $interval(function(){
-	$scope.sendMessage('.')
+	//$scope.sendMessage('.')
 	
 	if($scope.stuffToDo){
 		switch($scope.whatToDo){
@@ -232,6 +232,7 @@ $scope.playOneGame=function(wModded,modType,modVal){
 		//var myGame=0
 	//var wPNum = players[0].indexOf(req.query.w)
 	//var bPNum = players[0].indexOf(req.query.b)
+$scope.sendMessage('.')
 	var firstFreeTable = 0
 
 	// function createXData() {
