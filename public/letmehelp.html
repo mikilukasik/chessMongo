@@ -560,8 +560,10 @@ appModule.controller("ApplicationController", ApplicationController);
 </script>
 </head>
 <body ng-app="appModule"  ng-controller="ApplicationController">
-	<p ng-repeat="x in messages" ng-init=".">{{x}}</p>
-	{{stuffToDo}}
+	tablenum: {{tableNum}}
+		{{stuffToDo}}
 	{{whatToDo}}
+	<p ng-repeat="x in messages" ng-init=".">{{x}}</p>
+
 	
 </body>
