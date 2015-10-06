@@ -88,7 +88,7 @@ var modVal=50	//translates to x1
 
 $interval(function(){
 	$scope.messages.push('.')
-	$scope.messages.push('.')
+	
 	if($scope.stuffToDo){
 		switch($scope.whatToDo){
 			
@@ -557,7 +557,7 @@ appModule.controller("ApplicationController", ApplicationController);
 // });
 </script>
 </head>
-<body>
+<body ng-app="appModule"  ng-controller="ApplicationController">
 	<p ng-repeat="x in messages" ng-init=".">{{x}}</p>
 	{{stuffToDo}}
 	{{whatToDo}}
