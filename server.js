@@ -1093,7 +1093,7 @@ app.get('/stats', function(req, res) {
 									}, function(errs, bModGame) {
 										if(bModGame) {
 											//van matching pair game
-
+											console.log('van')
 											var wonScore = 0
 											if(bModGame.blacWon) {
 												wonScore++
@@ -1115,6 +1115,8 @@ app.get('/stats', function(req, res) {
 
 											resArray.push(wonScore.toString(), String.fromCharCode(9), bModGame.bName, String.fromCharCode(9), "lpV", String.fromCharCode(13)) //to be fixed
 
+										}else{
+											console.log('nincs')
 										}
 
 									})
@@ -1128,68 +1130,7 @@ app.get('/stats', function(req, res) {
 
 				}); //<--.toArray
 
-			//repeat with bMod and filter unmatched
-
-			// db.collection("tables")
-			// .find({
-
-			// 	gameIsOn:false,
-			// 	wName:"standard"
-
-			// }).toArray(function(err28, statData) {
-			// 	if(statData != null) {
-
-			// 		statData.forEach(function(bModGame){
-			// 			console.log(".")
-			// 			// tempArray.push(wModGame)
-			// 			// pairedArray.push(wModGame.wName)
-			// 			var wPairModGame=false
-			// 			var num=countInArray(bModGame.bName,tempArray)
-			// 			if(num==1){
-			// 				wPairModGame=
-			// 			}else{
-
-			// 			}
-			// 			// var wPairModGame=tempArray.find(function(thisWGame){
-			// 			// 	if(thisWGame.wName==bModGame.bName){
-			// 			// 		return true
-			// 			// 	}
-
-			// 			// })
-
-			// 			if(//wPairModGame
-			// 				true){
-			// 				//van feher parja
-
-			// 				//resArray.push(["wonScore","modVal","modType"])
-			// 				var wonScore=0
-			// 				if(bModGame.blacWon){
-			// 					wonScore++
-			// 				}else{
-			// 					if(bModGame.whiteWon){
-			// 						wonScore--
-			// 					}
-			// 				}
-
-			// 				if(wPairModGame.Won){
-			// 					wonScore--
-			// 				}else{
-			// 					if(bModGame.whiteWon){
-			// 						wonScore++
-			// 					}
-			// 				}
-
-			// 				//var resArray=["wonScore",String.fromCharCode(9),"modVal",String.fromCharCode(9),"modType",String.fromCharCode(13)]
-
-			// 				resArray.push(wonScore.toString(),String.fromCharCode(9),bModGame.bName,String.fromCharCode(9),"lpV",String.fromCharCode(13))	//to be fixed
-			// 			}
-
-			// 		})		//<--statData.forEach(function(bModGame){
-
-			// 	} 
-			// 	db.close()
-
-			// });	//<--.toArray
+			
 
 			///////
 			res.send(resArray.join());
