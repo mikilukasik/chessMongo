@@ -8,8 +8,7 @@
 <script>	
 	var appModule = angular.module("appModule", []);
 
-	appModule.controller("ApplicationController", ApplicationController);
-
+	
 	function ApplicationController($scope, $http, $interval) {	
 		$scope.messages=["."]
 // function makeAMove(whatMove,tableNum){
@@ -544,6 +543,7 @@ $scope.playOneGame=function(wModded,modType,modVal){
 	
 	
 	}
+appModule.controller("ApplicationController", ApplicationController);
 
 // });
 
