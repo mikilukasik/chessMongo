@@ -25,7 +25,7 @@
 // 			return result.responseJSON.table
 // }
 $rootScope.sendMessage=function(message){
-	$rootScope.messages.push(message+' '+Math.random())
+	$rootScope.messages.push(message+' @'+new Date()+Math.random())
 }
 
 $rootScope.move = function(whatMove,tableNum) {
@@ -83,7 +83,7 @@ var whatToMod="lpV"
 
 $rootScope.gamePairCounter=0
 
-$rootScope.heartBeat=1500
+$rootScope.heartBeat=10500
 
 var modVal=50	//translates to x1
 
