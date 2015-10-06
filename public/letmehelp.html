@@ -6,7 +6,11 @@
 	<script src="engine.js"></script>
 
 <script>	
-		
+	var appModule = angular.module("appModule", []);
+
+	appModule.controller("ApplicationController", ApplicationController);
+
+	function ApplicationController($scope, $http, $interval) {	
 // function makeAMove(whatMove,tableNum){
 // 	var result=$.ajax({
 // 			    type: 'GET',
@@ -539,6 +543,8 @@ function playOneGame(wModded,modType,modVal){
 	whatToDo="startNewGame"
 	gamePairCounter=-1
 	
+	
+	}
 
 // });
 
