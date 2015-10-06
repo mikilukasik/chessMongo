@@ -394,6 +394,8 @@ $rootScope.sendMessage('playOneGame called')
 			//remember this state for 3fold rule
 
 			myGame.allPastTables.push(createState(myGame.table))
+			
+			$rootScope.whatToDo='idle'
 
 			//popThem(req.query.t, myGame, 'moved', 'Player moved: ' + aiMoveString) //respond to pending longpolls
 
@@ -506,14 +508,14 @@ $rootScope.sendMessage('playOneGame called')
 
 					if(myGame.gameIsOn) {
 
-						$rootScope.sendMessage('recalling playgame (new move)')
-
-						$timeout($rootScope.playgame(myGame,mt,mv,!wNx, wMod),2000)
+						$rootScope.playWhenReady(myGame,mt,mv,!wNx, wMod)
+						
+						
 
 					} else {
 
 						//not calling this function anymore, should recall with opposit color just once
-						$rootScope.sendMessage(' ')
+						$rootScope.sendMessage('eval2 bit')
 						
 						
 						if(wModded) {
@@ -544,10 +546,22 @@ $rootScope.sendMessage('playOneGame called')
 				// });
 	//playOneGame(true,'lpV',-100)
 	//playOneGame(false,'lpV',-100)
+	$rootScope.playWhenReady=function(myGame,mt,mv,wNx, wMod){
+			$rootScope.sendMessage('recalling playgame (new move)')
+						if($rootScope.whatToDo=="busy"){
+							$timeout($rootScope.playWhenReady(myGame,mt,mv,wNx, wMod),2000)
+						}else{
+							$timeout($rootScope.playgame(myGame,mt,mv,wNx, wMod),2000)
+						}
+						
+						
 	
+	}
 	$rootScope.stuffToDo=true
 	$rootScope.whatToDo="startNewGame"
 	gamePairCounter=-1
+	
+	
 	
 	
 	}
