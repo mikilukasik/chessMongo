@@ -12,18 +12,7 @@
 	
 	function ApplicationController($rootScope, $http, $interval, $timeout) {	
 		$rootScope.messages=["."]
-// function makeAMove(whatMove,tableNum){
-// 	var result=$.ajax({
-// 			    type: 'GET',
-// 			    url: '/move?m='+whatMove+'&t='+tableNum,
-// 			    dataType: 'json',
-// 			    success: function() { },
-// 			    data: {},
-// 			    async: false
-// 			});
-// 			//wNext=!wNext
-// 			return result.responseJSON.table
-// }
+
 $rootScope.sendMessage=function(message){
 	$rootScope.messages.push(message+' @'+new Date()+Math.random())
 }
@@ -73,21 +62,7 @@ $rootScope.start=function(wName,bName,wModded){
 	
 }
 
-// //app.listen(16789
-// var express = require('express');
-// var morgan = require('morgan');
-// var mongodb = require('mongodb');
-// var fs = require('fs');
 
-// var app = express();
-
-// //app.use(express.static('public'))
-// app.use(morgan("combined"))
-
-//var cn = 'mongodb://ec2-52-24-20-162.us-west-2.compute.amazonaws.com:17890/chessdb'
-
-// eval(fs.readFileSync('public/brandNewAi.js') + '');
-// eval(fs.readFileSync('public/engine.js') + '');
 
 
 
@@ -248,48 +223,11 @@ $rootScope.Modtable = function(tableNum, wName, bName) { //class
 
 
 $rootScope.playOneGame=function(wModded,modType,modVal){
-		//var $rootScope.myGame=0
-	//var wPNum = players[0].indexOf(req.query.w)
-	//var bPNum = players[0].indexOf(req.query.b)
+	
 $rootScope.sendMessage('playOneGame called')
 	var firstFreeTable = 0
 	$rootScope.whatToDo='busy'
-	// function createXData() {
-	// 	$rootScope.sendMessage("can't find xData in db, creating..") //header in db
 
-	// 	mongodb.connect(cn, function(err, db) {
-
-	// 		db.collection("tables")
-	// 			.insert({
-	// 				"tableNum": "xData",
-	// 				"firstFreeTable": 1,
-	// 				"lobbyChat": [],
-	// 				"activeTables": []
-	// 			}, function(err3, res) {})
-	// 		db.close()
-
-	// 	});
-	// }
-
-	//mongodb.connect(cn, function(err, db) {
-		// db.collection("tables")
-		// 	.findOne({
-			// 	tableNum: "xData"
-			// }, function(err2, xData) {
-			// 	if(xData == null) {
-
-			// 		createXData();
-
-			// 		firstFreeTable = 1
-			// 	} else {
-			// 		firstFreeTable = xData.firstFreeTable
-			// 		xData.firstFreeTable++
-			// 	}
-			// 	db.collection("tables")
-			// 		.save(xData, function(err, doc) {});
-			
-		
-				//var initedTable = []
 				if(wModded){
 					$rootScope.start("mod lpV:" + modVal, "standard",true).tableNum
 					//initedTable = new Dbtable(firstFreeTable, "mod lpV:" + modVal, "standard")
@@ -373,8 +311,7 @@ $rootScope.sendMessage('playOneGame called')
 		// }
 		//}
 
-		//db.close()
-		//$rootScope.sendMessage(sendJson);//trick
+		
 		$rootScope.sendMessage(' DONE. ')
 
 		if(myGame.gameIsOn) {
@@ -398,14 +335,11 @@ $rootScope.sendMessage('playOneGame called')
 
 			myGame.wNext = !myGame.wNext
 
-			//myGame.pollNum++ //<---- majd increment a checkTableStatus ha kiertekelte	//nemis
-
-			//evalGame(myGame)
+		
 
 			myGame.pollNum++
 
-				//myGame.toBeChecked = true //tells it to server(itself) to evaluate table
-
+			
 				myGame.moved = new Date().getTime()
 
 			myGame.table = addMovesToTable(myGame.table, myGame.wNext)
@@ -416,114 +350,13 @@ $rootScope.sendMessage('playOneGame called')
 			
 			$rootScope.whatToDo='idle'
 
-			//popThem(req.query.t, myGame, 'moved', 'Player moved: ' + aiMoveString) //respond to pending longpolls
-
+			
 			//}
 		} else {
 			$rootScope.sendMessage('Game finished, evaluating..')
 			evalGame(myGame)	
 		}
-// 		mongodb.connect(cn, function(err, db2) {
-// 			db2.collection("tables")
-// 				.findOne({
-// 					tableNum: myGame.tableNum
-// 				}, function(err2, result) {
-// 					$rootScope.sendMessage('found table:' + result.tableNum)
-
-// 					if(myGame.gameIsOn) {
-// 						result.table = myGame.table
-// 						result.moves = myGame.moves
-// 						result.pollNum = myGame.pollNum
-// 						result.wNext = myGame.wNext
-// 						result.moved = myGame.moved
-// 						result.allPastTables = myGame.allPastTables
-// 					} else {
-// 						result.gameIsOn = false //as it's just finished
-// 						result.blackWon = myGame.blackWon
-// 						result.whiteWon = myGame.whiteWon
-// 						result.isDraw = myGame.isDraw
-// 					}
-
-// 					$rootScope.sendMessage('will save moved table..')
-// 					db2.collection("tables")
-// 						.save(result, function(err3, res) {})
-
-// 					$rootScope.sendMessage('saved. Trying forcepop..')
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-// 					var options = {
-// 							host: 'ec2-52-24-20-162.us-west-2.compute.amazonaws.com',
-// 							port: 80,
-// 							path: '/forcePopTable?t=' + myGame.tableNum
-// 						};
-
-// http.request(options, function(response) {
-// 								var resJsn = {};
-
-// 								//another chunk of data has been recieved, so append it to `resJsn`
-// 								response.on('data', function(chunk) {
-// 									resJsn = JSON.parse(chunk);
-// 								});
-
-// 								response.on('end', function() {
-// 									/////////
-
-							
-// 									/////////
-
-// 								});
-// 							})
-// 							.end();
-
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-// 					db2.close()
-// 					$rootScope.sendMessage('closed.')
-
-// 					// var optionsb = {
-// 					// 	host: 'localhost',
-// 					// 	port: 80,
-// 					// 	path: '/forcePopTable?t=' + myGame.tableNum + '&p=learner&m=move: ' + aiMoveString
-// 					// };
-
-// 					//http.request(optionsb, function(response){
-
-// 					// 	$rootScope.sendMessage('jott vmi')
-
-// 					// 	response.on('data', function(chunk) {
-// 					// 	//resJsn = JSON.parse(chunk);
-// 					// });
-
-// 					// response.on('end', function() {
-// 					// 	});
-
-// 					//}).end()
+// 	
 
 					if(myGame.gameIsOn) {
 
@@ -587,16 +420,6 @@ $rootScope.sendMessage('playOneGame called')
 	}
 appModule.controller("ApplicationController", ApplicationController);
 
-// });
-
-// var server = app.listen(16778, function() {
-
-// 	var host = server.address().address;
-// 	var port = server.address().port;
-
-// 	$rootScope.sendMessage('learningserver is listening at http://%s:%s', host, port);
-
-// });
 </script>
 </head>
 <body ng-app="appModule"  ng-controller="ApplicationController">
