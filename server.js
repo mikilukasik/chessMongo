@@ -1063,7 +1063,10 @@ app.get('/getLobby', function(req, res) {
 
 app.get('/stats.txt', function(req, res) {
 	//console.log(req)
-
+	res.writeHead(200, {
+  
+  'Content-Type': 'text/plain' });
+  
 	var resArray = []
 	resArray.push("wonScore", String.fromCharCode(9), "modVal", String.fromCharCode(9), "resText", String.fromCharCode(13))
 		//var resText=""
