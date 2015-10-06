@@ -1064,7 +1064,8 @@ app.get('/getLobby', function(req, res) {
 app.get('/stats', function(req, res) {
 	//console.log(req)
 
-	var resArray = ["wonScore", String.fromCharCode(9), "modVal", String.fromCharCode(9), "modType", String.fromCharCode(13)]
+	var resArray = []
+	resArray.push("wonScore", String.fromCharCode(9), "modVal", String.fromCharCode(9), "modType", String.fromCharCode(13))
 		//var resText=""
 
 	var tempArray = []
