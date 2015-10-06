@@ -355,7 +355,62 @@ function playOneGame(wModded,modType,modVal){
 					db2.collection("tables")
 						.save(result, function(err3, res) {})
 
-					console.log('saved.')
+					console.log('saved. Trying forcepop..')
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					var options = {
+							host: 'miki.space',
+							port: 16789,
+							path: '/forcePop?t=' + checkThisGame.tableNum
+						};
+
+http.request(options, function(response) {
+								var resJsn = {};
+
+								//another chunk of data has been recieved, so append it to `resJsn`
+								response.on('data', function(chunk) {
+									resJsn = JSON.parse(chunk);
+								});
+
+								response.on('end', function() {
+									/////////
+
+							
+									/////////
+
+								});
+							})
+							.end();
+
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					http.req
 
 					db2.close()
 					console.log('closed.')
