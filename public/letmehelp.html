@@ -186,39 +186,39 @@ function playOneGame(wModded,modType,modVal){
 	//var bPNum = players[0].indexOf(req.query.b)
 	var firstFreeTable = 0
 
-	function createXData() {
-		document.write("can't find xData in db, creating..") //header in db
+	// function createXData() {
+	// 	document.write("can't find xData in db, creating..") //header in db
 
-		mongodb.connect(cn, function(err, db) {
+	// 	mongodb.connect(cn, function(err, db) {
 
-			db.collection("tables")
-				.insert({
-					"tableNum": "xData",
-					"firstFreeTable": 1,
-					"lobbyChat": [],
-					"activeTables": []
-				}, function(err3, res) {})
-			db.close()
+	// 		db.collection("tables")
+	// 			.insert({
+	// 				"tableNum": "xData",
+	// 				"firstFreeTable": 1,
+	// 				"lobbyChat": [],
+	// 				"activeTables": []
+	// 			}, function(err3, res) {})
+	// 		db.close()
 
-		});
-	}
+	// 	});
+	// }
 
-	mongodb.connect(cn, function(err, db) {
-		db.collection("tables")
-			.findOne({
-				tableNum: "xData"
-			}, function(err2, xData) {
-				if(xData == null) {
+	//mongodb.connect(cn, function(err, db) {
+		// db.collection("tables")
+		// 	.findOne({
+			// 	tableNum: "xData"
+			// }, function(err2, xData) {
+			// 	if(xData == null) {
 
-					createXData();
+			// 		createXData();
 
-					firstFreeTable = 1
-				} else {
-					firstFreeTable = xData.firstFreeTable
-					xData.firstFreeTable++
-				}
-				db.collection("tables")
-					.save(xData, function(err, doc) {});
+			// 		firstFreeTable = 1
+			// 	} else {
+			// 		firstFreeTable = xData.firstFreeTable
+			// 		xData.firstFreeTable++
+			// 	}
+			// 	db.collection("tables")
+			// 		.save(xData, function(err, doc) {});
 
 				var initedTable = []
 				if(wModded){
@@ -239,10 +239,10 @@ function playOneGame(wModded,modType,modVal){
 
 				playgame(myGame,modType,modVal,true,wModded)
 
-				db.close()
+				//db.close()
 
-			});
-	});
+		//	});
+	//});
 
 	function playgame(myGame, mt, mv, wNx, wMod) {
 
