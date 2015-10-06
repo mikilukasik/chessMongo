@@ -80,9 +80,9 @@ $rootScope.whatToDo=""
 
 var whatToMod="lpV"
 
-var gamePairCounter=0
+$rootcope.gamePairCounter=0
 
-var heartBeat=1500
+$rootcope.heartBeat=1500
 
 var modVal=50	//translates to x1
 
@@ -142,7 +142,7 @@ $interval(function(){
 		}	//switch($rootScope.whatToDo)
 	}	//if($rootScope.stuffToDo)
 	
-},heartBeat)
+},$rootScope.heartBeat)
 
 
 
