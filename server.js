@@ -1119,7 +1119,7 @@ app.get('/stats', function(req, res) {
 											} else {
 												if(wModGame.blackWon) {
 													wonScore--
-													resText=resText.concat(' white won.')
+													resText=resText.concat(' white lost.')
 												}else{
 													resText=resText.concat(' white drew.')
 												}
