@@ -350,7 +350,7 @@ function playOneGame(wModded,modType,modVal){
 		if(myGame.gameIsOn) {
 			document.write('Will move ' + aiMoveString)
 			
-			move(aiMoveString,tableNum)
+			move(aiMoveString,myGame.tableNum)
 
 			var toPush = String(myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][0]) + //color of whats moving
 				myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][1] + //piece
