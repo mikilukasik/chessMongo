@@ -1126,7 +1126,7 @@ app.get('/stats', function(req, res) {
 								//pairedArray.push(wModGame.wName)
 
 							}) //<--statData.forEach(function(wModGame){
-							res.send(resArray.join(''));
+							//res.send(resArray.join(''));
 
 					}
 					//db.close()
