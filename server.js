@@ -1061,7 +1061,7 @@ app.get('/getLobby', function(req, res) {
 
 // function existsInArray()
 
-app.get('/stats', function(req, res) {
+app.get('/stats.txt', function(req, res) {
 	//console.log(req)
 
 	var resArray = []
