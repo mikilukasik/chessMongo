@@ -263,23 +263,26 @@ function playOneGame(wModded,modType,modVal){
 			// 	}
 			// 	db.collection("tables")
 			// 		.save(xData, function(err, doc) {});
-
+			
+		
 				var initedTable = []
 				if(wModded){
+					firstFreeTable=start("mod lpV:" + modVal, "standard")
 					initedTable = new Dbtable(firstFreeTable, "mod lpV:" + modVal, "standard")
 				}else{
+					firstFreeTable=start( "standard", "mod lpV:" + modVal)
 					initedTable = new Dbtable(firstFreeTable, "standard", "mod lpV:" + modVal)
 				}
-				initedTable.chat=[new String(new Date())]
+				//initedTable.chat=[new String(new Date())]
 
-				db.collection("tables")
-					.insert(initedTable, function(err, doc) {});
+				// db.collection("tables")
+				// 	.insert(initedTable, function(err, doc) {});
 
 				var myGame = initedTable
 
 				
 
-				document.write('Response sent, thinking 1st move..')
+				document.write('Table should be in DB, thinking on 1st move..')
 
 				playgame(myGame,modType,modVal,true,wModded)
 
@@ -346,6 +349,8 @@ function playOneGame(wModded,modType,modVal){
 
 		if(myGame.gameIsOn) {
 			document.write('Will move ' + aiMoveString)
+			
+			move(aiMoveString,tableNum)
 
 			var toPush = String(myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][0]) + //color of whats moving
 				myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][1] + //piece
@@ -385,32 +390,32 @@ function playOneGame(wModded,modType,modVal){
 			document.write('Game finished, evaluating..')
 			evalGame(myGame)	
 		}
-		mongodb.connect(cn, function(err, db2) {
-			db2.collection("tables")
-				.findOne({
-					tableNum: myGame.tableNum
-				}, function(err2, result) {
-					document.write('found table:' + result.tableNum)
+// 		mongodb.connect(cn, function(err, db2) {
+// 			db2.collection("tables")
+// 				.findOne({
+// 					tableNum: myGame.tableNum
+// 				}, function(err2, result) {
+// 					document.write('found table:' + result.tableNum)
 
-					if(myGame.gameIsOn) {
-						result.table = myGame.table
-						result.moves = myGame.moves
-						result.pollNum = myGame.pollNum
-						result.wNext = myGame.wNext
-						result.moved = myGame.moved
-						result.allPastTables = myGame.allPastTables
-					} else {
-						result.gameIsOn = false //as it's just finished
-						result.blackWon = myGame.blackWon
-						result.whiteWon = myGame.whiteWon
-						result.isDraw = myGame.isDraw
-					}
+// 					if(myGame.gameIsOn) {
+// 						result.table = myGame.table
+// 						result.moves = myGame.moves
+// 						result.pollNum = myGame.pollNum
+// 						result.wNext = myGame.wNext
+// 						result.moved = myGame.moved
+// 						result.allPastTables = myGame.allPastTables
+// 					} else {
+// 						result.gameIsOn = false //as it's just finished
+// 						result.blackWon = myGame.blackWon
+// 						result.whiteWon = myGame.whiteWon
+// 						result.isDraw = myGame.isDraw
+// 					}
 
-					document.write('will save moved table..')
-					db2.collection("tables")
-						.save(result, function(err3, res) {})
+// 					document.write('will save moved table..')
+// 					db2.collection("tables")
+// 						.save(result, function(err3, res) {})
 
-					document.write('saved. Trying forcepop..')
+// 					document.write('saved. Trying forcepop..')
 					
 					
 					
@@ -424,29 +429,29 @@ function playOneGame(wModded,modType,modVal){
 					
 					
 					
-					var options = {
-							host: 'ec2-52-24-20-162.us-west-2.compute.amazonaws.com',
-							port: 80,
-							path: '/forcePopTable?t=' + myGame.tableNum
-						};
+// 					var options = {
+// 							host: 'ec2-52-24-20-162.us-west-2.compute.amazonaws.com',
+// 							port: 80,
+// 							path: '/forcePopTable?t=' + myGame.tableNum
+// 						};
 
-http.request(options, function(response) {
-								var resJsn = {};
+// http.request(options, function(response) {
+// 								var resJsn = {};
 
-								//another chunk of data has been recieved, so append it to `resJsn`
-								response.on('data', function(chunk) {
-									resJsn = JSON.parse(chunk);
-								});
+// 								//another chunk of data has been recieved, so append it to `resJsn`
+// 								response.on('data', function(chunk) {
+// 									resJsn = JSON.parse(chunk);
+// 								});
 
-								response.on('end', function() {
-									/////////
+// 								response.on('end', function() {
+// 									/////////
 
 							
-									/////////
+// 									/////////
 
-								});
-							})
-							.end();
+// 								});
+// 							})
+// 							.end();
 
 					
 					
@@ -465,27 +470,27 @@ http.request(options, function(response) {
 					
 					
 					
-					db2.close()
-					document.write('closed.')
+// 					db2.close()
+// 					document.write('closed.')
 
-					// var optionsb = {
-					// 	host: 'localhost',
-					// 	port: 80,
-					// 	path: '/forcePopTable?t=' + myGame.tableNum + '&p=learner&m=move: ' + aiMoveString
-					// };
+// 					// var optionsb = {
+// 					// 	host: 'localhost',
+// 					// 	port: 80,
+// 					// 	path: '/forcePopTable?t=' + myGame.tableNum + '&p=learner&m=move: ' + aiMoveString
+// 					// };
 
-					//http.request(optionsb, function(response){
+// 					//http.request(optionsb, function(response){
 
-					// 	document.write('jott vmi')
+// 					// 	document.write('jott vmi')
 
-					// 	response.on('data', function(chunk) {
-					// 	//resJsn = JSON.parse(chunk);
-					// });
+// 					// 	response.on('data', function(chunk) {
+// 					// 	//resJsn = JSON.parse(chunk);
+// 					// });
 
-					// response.on('end', function() {
-					// 	});
+// 					// response.on('end', function() {
+// 					// 	});
 
-					//}).end()
+// 					//}).end()
 
 					if(myGame.gameIsOn) {
 
@@ -511,8 +516,8 @@ http.request(options, function(response) {
 					}
 					
 					
-				});
-		});
+// 				});
+// 		});
 
 	}
 }
@@ -522,7 +527,7 @@ http.request(options, function(response) {
 
 // app.get('/startLearningGame', function(req, res) {
 	
-	document.write('Sending response to start request...')
+	document.write('Sending response to start request...???nope')
 
 				// res.json({
 				// 	message: "starting..."
