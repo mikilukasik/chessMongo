@@ -63,31 +63,27 @@ function createXData() {
 	});
 }
 
-	mongodb.connect(cn, function(err, db) {
-		db.collection("tables")
-			.findOne({
-				tableNum: "xData"
-			}, function(err2, xData) {
-				if(xData == null) {
+mongodb.connect(cn, function(err, db) {
+	db.collection("tables")
+		.findOne({
+			tableNum: "xData"
+		}, function(err2, xData) {
+			if(xData == null) {
 
-					createXData();
+				createXData();
 
-					firstFreeTable = 1
-				} else {
-					firstFreeTable = xData.firstFreeTable
+				firstFreeTable = 1
+			} else {
+				firstFreeTable = xData.firstFreeTable
 					//xData.firstFreeTable++
-				}
-				// db.collection("tables")
-				// 	.save(xData, function(err, doc) {});
+			}
+			// db.collection("tables")
+			// 	.save(xData, function(err, doc) {});
 
-				
+			db.close()
 
-				db.close()
-
-			});
-	});
-
-
+		});
+});
 
 setInterval(function() {
 
@@ -274,8 +270,6 @@ var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 	}
 }
 
-
-
 app.get('/move', function(req, res) {
 
 	mongodb.connect(cn, function(err, db) {
@@ -286,9 +280,9 @@ app.get('/move', function(req, res) {
 
 				var moveStr = String(req.query.m)
 
-				if(tableInDb == null){
-					db.close()	
-				}else {
+				if(tableInDb == null) {
+					db.close()
+				} else {
 					var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
 						tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
 						moveStr + //the string
@@ -297,9 +291,9 @@ app.get('/move', function(req, res) {
 
 					// if(!(toPush==tableInDb.moves[tableInDb.moves.length-1])){
 					tableInDb.moves.push(toPush)
-					
+
 					tableInDb.table = moveIt(moveStr, tableInDb.table)
-					
+
 					tableInDb.wNext = !tableInDb.wNext
 
 					//tableInDb.pollNum++ //<---- majd increment a checkTableStatus ha kiertekelte	//nemis
@@ -310,19 +304,13 @@ app.get('/move', function(req, res) {
 
 						//tableInDb.toBeChecked = true //tells it to server(itself) to evaluate table
 
-					tableInDb.moved = new Date().getTime()
+						tableInDb.moved = new Date().getTime()
 
 					tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
-					
+
 					//remember this state for 3fold rule
-					
-					
-					
-					
-					
+
 					tableInDb.allPastTables.push(createState(tableInDb.table))
-					
-					
 
 					popThem(req.query.t, tableInDb, 'moved', 'Player moved: ' + moveStr) //respond to pending longpolls
 
@@ -356,69 +344,64 @@ app.get('/move', function(req, res) {
 								response.on('end', function() {
 									/////////
 
-						//			mongodb.connect(cn, function(err, setIntDB2) { //itt egy server moveitot csinalunk vegulis
-										// setIntDB2.collection("tables")
-										// 	.findOne({
-										// 		tableNum: Number(tableInDb.tableNum)
-										// 	}, function(err2, tableInDb2) {
-												// console.log(resJsn)
-												// console.log('dssdfsdgs')
-												if(!(resJsn == null)) {
-													var moveStr = String(resJsn.aimove)
-													if(!(moveStr == "")) { //there's at least 1 move
-														var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
-															tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
-															moveStr + //the string
-															tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][0] + //color of whats hit
-															tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][1] //piece
-															//en passnal nem latszik a leveett paraszt
+									//			mongodb.connect(cn, function(err, setIntDB2) { //itt egy server moveitot csinalunk vegulis
+									// setIntDB2.collection("tables")
+									// 	.findOne({
+									// 		tableNum: Number(tableInDb.tableNum)
+									// 	}, function(err2, tableInDb2) {
+									// console.log(resJsn)
+									// console.log('dssdfsdgs')
+									if(!(resJsn == null)) {
+										var moveStr = String(resJsn.aimove)
+										if(!(moveStr == "")) { //there's at least 1 move
+											var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
+												tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
+												moveStr + //the string
+												tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][0] + //color of whats hit
+												tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][1] //piece
+												//en passnal nem latszik a leveett paraszt
 
-														tableInDb.moves.push(toPush)
-														//tableInDb.toBeChecked = true
-														tableInDb.table = moveIt(moveStr, tableInDb.table)
-														
-														tableInDb.wNext = !tableInDb.wNext
+											tableInDb.moves.push(toPush)
+												//tableInDb.toBeChecked = true
+											tableInDb.table = moveIt(moveStr, tableInDb.table)
 
-														evalGame(tableInDb)
-														
-														tableInDb.learnerIsBusy=false
+											tableInDb.wNext = !tableInDb.wNext
 
-														tableInDb.pollNum++
+											evalGame(tableInDb)
 
-														tableInDb.moved = new Date().getTime()
-														tableInDb.chat = resJsn.toconsole
+											tableInDb.learnerIsBusy = false
 
-														//tableInDb.toBeChecked = false //checked for now. this should be done later, there are other stuff to be checked
+											tableInDb.pollNum++
 
-														tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
-														
-														//remember this state for 3fold rule
-					
-					
-					
-					
-					
-														tableInDb.allPastTables.push(createState(tableInDb.table))
+												tableInDb.moved = new Date().getTime()
+											tableInDb.chat = resJsn.toconsole
 
-														popThem(Number(tableInDb.tableNum), tableInDb, 'moved', 'Ai moved: ' + moveStr) //respond to pending longpolls
-														
-														db.collection("tables")
-															.save(tableInDb, function(err3, res) {})
-															
-														
-													}
-												}
-												//setIntDB2.close()
-											//});
+											//tableInDb.toBeChecked = false //checked for now. this should be done later, there are other stuff to be checked
 
-								//	});
+											tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
+
+											//remember this state for 3fold rule
+
+											tableInDb.allPastTables.push(createState(tableInDb.table))
+
+											popThem(Number(tableInDb.tableNum), tableInDb, 'moved', 'Ai moved: ' + moveStr) //respond to pending longpolls
+
+											db.collection("tables")
+												.save(tableInDb, function(err3, res) {})
+
+										}
+									}
+									//setIntDB2.close()
+									//});
+
+									//	});
 									/////////
 									db.close()
 								});
 							})
 							.end();
 
-					}else{
+					} else {
 						db.close()
 					}
 
@@ -810,7 +793,7 @@ app.get('/startGame', function(req, res) {
 
 	var wPNum = players[0].indexOf(req.query.w)
 	var bPNum = players[0].indexOf(req.query.b)
-	
+
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
@@ -827,8 +810,6 @@ app.get('/startGame', function(req, res) {
 				}
 				db.collection("tables")
 					.save(xData, function(err, doc) {});
-
-				
 
 				db.close()
 
@@ -875,8 +856,6 @@ app.get('/startGame', function(req, res) {
 			});
 
 	});
-	
-	
 
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
@@ -1076,246 +1055,153 @@ app.get('/getLobby', function(req, res) {
 
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
 
 // function existsInArray()
 
 app.get('/stats', function(req, res) {
 	//console.log(req)
-	
-	var resArray=["wonScore",String.fromCharCode(9),"modVal",String.fromCharCode(9),"modType",String.fromCharCode(13)]
-	//var resText=""
-	
-	var tempArray=[]
-	//var arrToString=[]
 
-		mongodb.connect(cn, function(err, db) {
-			if(!(db == null)) {
-				db.collection("tables")
-					.find({
-						
-						gameIsOn:false,
-						bName:"standard"
-					
+	var resArray = ["wonScore", String.fromCharCode(9), "modVal", String.fromCharCode(9), "modType", String.fromCharCode(13)]
+		//var resText=""
 
-						
-						
-					}).toArray(function(err28, statData) {
-						if(statData != null) {
-							
-							statData.forEach(function(wModGame){
-								
+	var tempArray = []
+		//var arrToString=[]
+
+	mongodb.connect(cn, function(err, db) {
+		if(!(db == null)) {
+			db.collection("tables")
+				.find({
+
+					gameIsOn: false,
+					bName: "standard"
+
+				}).toArray(function(err28, statData) {
+					if(statData != null) {
+
+						statData.forEach(function(wModGame) {
+
 								tempArray.push(wModGame)
-								
-								
+
 								db.collection("tables")
 									.findOne({
-										gameIsOn:false,
-										wName:"standard",
-										bName:wModGame.wName
-									},function(errs,bModGame){
-										if(bModGame){
+										gameIsOn: false,
+										wName: "standard",
+										bName: wModGame.wName
+									}, function(errs, bModGame) {
+										if(bModGame) {
 											//van matching pair game
-											
-											
-											
-											
-											
-											
-											
-								var wonScore=0
-									if(bModGame.blacWon){
-										wonScore++
-									}else{
-										if(bModGame.whiteWon){
-											wonScore--
+
+											var wonScore = 0
+											if(bModGame.blacWon) {
+												wonScore++
+											} else {
+												if(bModGame.whiteWon) {
+													wonScore--
+												}
+											}
+
+											if(wModGame.whiteWon) {
+												wonScore++
+											} else {
+												if(wModGame.blackWon) {
+													wonScore--
+												}
+											}
+
+											//var resArray=["wonScore",String.fromCharCode(9),"modVal",String.fromCharCode(9),"modType",String.fromCharCode(13)]
+
+											resArray.push(wonScore.toString(), String.fromCharCode(9), bModGame.bName, String.fromCharCode(9), "lpV", String.fromCharCode(13)) //to be fixed
+
 										}
-									}
-									
-									if(wModGame.whiteWon){
-										wonScore++
-									}else{
-										if(wModGame.blackWon){
-											wonScore--
-										}
-									}
-									
-									//var resArray=["wonScore",String.fromCharCode(9),"modVal",String.fromCharCode(9),"modType",String.fromCharCode(13)]
-	
-									
-									resArray.push(wonScore.toString(),String.fromCharCode(9),bModGame.bName,String.fromCharCode(9),"lpV",String.fromCharCode(13))	//to be fixed
-								
-											
-											
-											
-										}
-										
-										
-										
+
 									})
-										
-								
-								
-								
-								
+
 								//pairedArray.push(wModGame.wName)
-								
-							})		//<--statData.forEach(function(wModGame){
-							
 
-							
-						} 
-						//db.close()
-				
+							}) //<--statData.forEach(function(wModGame){
 
-					});	//<--.toArray
-					
-					
-					
-					//repeat with bMod and filter unmatched
-					
-					
-					// db.collection("tables")
-					// .find({
-						
-					// 	gameIsOn:false,
-					// 	wName:"standard"
-					
+					}
+					//db.close()
 
-						
-						
-					// }).toArray(function(err28, statData) {
-					// 	if(statData != null) {
-							
-					// 		statData.forEach(function(bModGame){
-					// 			console.log(".")
-					// 			// tempArray.push(wModGame)
-					// 			// pairedArray.push(wModGame.wName)
-					// 			var wPairModGame=false
-					// 			var num=countInArray(bModGame.bName,tempArray)
-					// 			if(num==1){
-					// 				wPairModGame=
-					// 			}else{
-									
-					// 			}
-					// 			// var wPairModGame=tempArray.find(function(thisWGame){
-					// 			// 	if(thisWGame.wName==bModGame.bName){
-					// 			// 		return true
-					// 			// 	}
-									
-					// 			// })
-								
-					// 			if(//wPairModGame
-					// 				true){
-					// 				//van feher parja
-									
-					// 				//resArray.push(["wonScore","modVal","modType"])
-					// 				var wonScore=0
-					// 				if(bModGame.blacWon){
-					// 					wonScore++
-					// 				}else{
-					// 					if(bModGame.whiteWon){
-					// 						wonScore--
-					// 					}
-					// 				}
-									
-					// 				if(wPairModGame.Won){
-					// 					wonScore--
-					// 				}else{
-					// 					if(bModGame.whiteWon){
-					// 						wonScore++
-					// 					}
-					// 				}
-									
-					// 				//var resArray=["wonScore",String.fromCharCode(9),"modVal",String.fromCharCode(9),"modType",String.fromCharCode(13)]
-	
-									
-					// 				resArray.push(wonScore.toString(),String.fromCharCode(9),bModGame.bName,String.fromCharCode(9),"lpV",String.fromCharCode(13))	//to be fixed
-					// 			}
-								
-								
-					// 		})		//<--statData.forEach(function(bModGame){
-							
+				}); //<--.toArray
 
-							
-					// 	} 
-					// 	db.close()
-				
+			//repeat with bMod and filter unmatched
 
-					// });	//<--.toArray
-					
-					
-					
-					
-					
-					
-					
-					
-								///////
-						res.send(resArray.join());
-						///////
-			}
-		});
+			// db.collection("tables")
+			// .find({
 
-	
+			// 	gameIsOn:false,
+			// 	wName:"standard"
+
+			// }).toArray(function(err28, statData) {
+			// 	if(statData != null) {
+
+			// 		statData.forEach(function(bModGame){
+			// 			console.log(".")
+			// 			// tempArray.push(wModGame)
+			// 			// pairedArray.push(wModGame.wName)
+			// 			var wPairModGame=false
+			// 			var num=countInArray(bModGame.bName,tempArray)
+			// 			if(num==1){
+			// 				wPairModGame=
+			// 			}else{
+
+			// 			}
+			// 			// var wPairModGame=tempArray.find(function(thisWGame){
+			// 			// 	if(thisWGame.wName==bModGame.bName){
+			// 			// 		return true
+			// 			// 	}
+
+			// 			// })
+
+			// 			if(//wPairModGame
+			// 				true){
+			// 				//van feher parja
+
+			// 				//resArray.push(["wonScore","modVal","modType"])
+			// 				var wonScore=0
+			// 				if(bModGame.blacWon){
+			// 					wonScore++
+			// 				}else{
+			// 					if(bModGame.whiteWon){
+			// 						wonScore--
+			// 					}
+			// 				}
+
+			// 				if(wPairModGame.Won){
+			// 					wonScore--
+			// 				}else{
+			// 					if(bModGame.whiteWon){
+			// 						wonScore++
+			// 					}
+			// 				}
+
+			// 				//var resArray=["wonScore",String.fromCharCode(9),"modVal",String.fromCharCode(9),"modType",String.fromCharCode(13)]
+
+			// 				resArray.push(wonScore.toString(),String.fromCharCode(9),bModGame.bName,String.fromCharCode(9),"lpV",String.fromCharCode(13))	//to be fixed
+			// 			}
+
+			// 		})		//<--statData.forEach(function(bModGame){
+
+			// 	} 
+			// 	db.close()
+
+			// });	//<--.toArray
+
+			///////
+			res.send(resArray.join());
+			///////
+		}
+	});
 
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 // io.on('connection', function(socket){
 //   console.log('IO: a user connected');
@@ -1331,8 +1217,6 @@ var server = app.listen(80, function() {
 	console.log('app listening at http://%s:%s', host, port);
 
 });
-
-
 
 var server2 = app.listen(17889, function() {
 
