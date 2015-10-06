@@ -1152,6 +1152,7 @@ app.get('/stats.txt', function(req, res) {
 										}
 										
 										if(statIndex==statData.length()-1){
+												res.write('end')
 												res.end()
 										}
 
