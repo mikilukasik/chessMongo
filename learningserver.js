@@ -370,7 +370,7 @@ function playOneGame(wModded,modType,modVal){
 					
 					
 					var options = {
-							host: 'http://ec2-52-24-20-162.us-west-2.compute.amazonaws.com',
+							host: 'ec2-52-24-20-162.us-west-2.compute.amazonaws.com',
 							port: 80,
 							path: '/forcePopTable?t=' + myGame.tableNum
 						};
