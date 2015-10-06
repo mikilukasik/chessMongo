@@ -1088,7 +1088,7 @@ app.get('/stats.txt', function(req, res) {
 				}).toArray(function(err28, statData) {
 					if(statData != null) {
 
-						statData.forEach(function(wModGame, statIndex) {
+						statData.forEach(function(wModGame, statIndex,statData) {
 
 							//var kellEz=0
 
