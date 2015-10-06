@@ -217,7 +217,7 @@ function playOneGame(wModded,modType,modVal){
 				}else{
 					initedTable = new Dbtable(firstFreeTable, "standard", "mod lpV:" + modVal)
 				}
-					
+				initedTable.chat=[new String(new Date())]
 
 				db.collection("tables")
 					.insert(initedTable, function(err, doc) {});
@@ -299,6 +299,8 @@ function playOneGame(wModded,modType,modVal){
 				aiMoveString + //the string
 				myGame.table[dletters.indexOf(aiMoveString[2])][aiMoveString[3] - 1][0] + //color of whats hit
 				myGame.table[dletters.indexOf(aiMoveString[2])][aiMoveString[3] - 1][1] //piece
+				
+				+new String(new Date())
 
 			// if(!(toPush==myGame.moves[myGame.moves.length-1])){
 			myGame.moves.push(toPush)
