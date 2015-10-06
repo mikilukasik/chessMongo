@@ -1116,6 +1116,7 @@ app.get('/stats', function(req, res) {
 
 											resArray.push(wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9), "lpV", String.fromCharCode(13)) //to be fixed
 											console.log([wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9)])
+											res.send(resArray.join(''));
 										}else{
 											//console.log('nincs')
 										}
