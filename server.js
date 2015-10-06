@@ -894,7 +894,8 @@ app.get('/startGame', function(req, res) {
 	// });
 
 	res.json({
-		message: "ok"
+		message: "ok",
+		tableNum: firstFreeTable
 	});
 
 });

@@ -1,12 +1,56 @@
 <head>
 	
-	<!--<script src="jquery.js"></script>-->
+	<script src="jquery.js"></script>
+	<script src="anglar.js"></script>
 	<script src="brandNewAi.js"></script>
 	<script src="engine.js"></script>
 
 <script>	
 		
+// function makeAMove(whatMove,tableNum){
+// 	var result=$.ajax({
+// 			    type: 'GET',
+// 			    url: '/move?m='+whatMove+'&t='+tableNum,
+// 			    dataType: 'json',
+// 			    success: function() { },
+// 			    data: {},
+// 			    async: false
+// 			});
+// 			//wNext=!wNext
+// 			return result.responseJSON.table
+// }
+
+
+var move = function(whatMove,tableNum) {
+
+			$http.get('/move?m=' + whatMove + '&t=' + tableNum)
+				// .success(function(response) {
+				// 	$rootScope.wNext = !$rootScope.wNext
+				// 	$rootScope.pollNum-=5
+				// 	$scope.refreshTable()
+				// 	return response.table
+
+				// })
+
+		}
+
+function start(wName,bName){
+	var tableNum=0
+	var tempTable=$.ajax({
+		    type: 'GET',
+		    url: '/startGame?w='+wName+"&b="+bName,
+		    dataType: 'json',
+		    success: function(response) {
+				tableNum=response.tableNum
+			 },
+		    data: {},
+		    async: false,
+	});
+
+	if (tableNum>0)return tableNum
 	
+}
+
 // //app.listen(16789
 // var express = require('express');
 // var morgan = require('morgan');
