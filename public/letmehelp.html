@@ -10,7 +10,7 @@
 	var appModule = angular.module("appModule", []);
 
 	
-	function ApplicationController($rootScope, $http, $interval) {	
+	function ApplicationController($rootScope, $http, $interval, $timeOut) {	
 		$rootScope.messages=["."]
 // function makeAMove(whatMove,tableNum){
 // 	var result=$.ajax({
@@ -90,7 +90,7 @@ var modVal=50	//translates to x1
 $interval(function(){
 	$rootScope.sendMessage('.')
 	
-	if($rootScope.stuffToDo){
+	if($rootScope.stuffToDo&&!$rootScope.tableNum>0){
 		$rootScope.sendMessage('1')
 		switch($rootScope.whatToDo){
 			
@@ -508,7 +508,7 @@ $rootScope.sendMessage('playOneGame called')
 
 						$rootScope.sendMessage('recalling playgame (new move)')
 
-						$rootScope.playgame(myGame,mt,mv,!wNx, wMod)
+						$timeOut($rootScope.playgame(myGame,mt,mv,!wNx, wMod),2000)
 
 					} else {
 
@@ -518,7 +518,7 @@ $rootScope.sendMessage('playOneGame called')
 						
 						if(wModded) {
 							$rootScope.sendMessage('Starting rematch (play black)')
-							$rootScope.playOneGame(false,modType,modVal)
+							$timeOut($rootScope.playOneGame(false,modType,modVal),2000)
 						}else{
 							$rootScope.sendMessage('lowering counter then start new gamepair or quit')
 							gamePairCounter--
