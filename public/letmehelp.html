@@ -104,7 +104,7 @@ $interval(function(){
 				}else{
 					modVal=Math.random()*100
 					$scope.sendMessage('starting game, playing white')
-					playOneGame(true,whatToMod,modVal)	//this will call another game with black when done
+					$scope.playOneGame(true,whatToMod,modVal)	//this will call another game with black when done
 					
 				}
 			
@@ -510,7 +510,7 @@ $scope.playOneGame=function(wModded,modType,modVal){
 						
 						if(wModded) {
 							$scope.sendMessage('Starting rematch (play black)')
-							playOneGame(false,modType,modVal)
+							$scope.playOneGame(false,modType,modVal)
 						}else{
 							$scope.sendMessage('lowering counter then start new gamepair or quit')
 							gamePairCounter--
