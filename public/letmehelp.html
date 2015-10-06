@@ -291,14 +291,18 @@ $scope.sendMessage('playOneGame called')
 
 				$scope.sendMessage('Table should be in DB, thinking on 1st move..')
 
-				playgame($scope.myGame,modType,modVal,true,wModded)
+				$scope.playgame($scope.myGame,modType,modVal,true,wModded)
 
 				//db.close()
 
 		//	});
 	//});
 
-	var playgame=function(myGame, mt, mv, wNx, wMod) {
+
+}
+
+
+	$scope.playgame=function(myGame, mt, mv, wNx, wMod) {
 
 		var result = []
 		if(wNx==wMod){
@@ -504,7 +508,7 @@ $scope.sendMessage('playOneGame called')
 
 						$scope.sendMessage('recalling playgame (new move)')
 
-						playgame(myGame,mt,mv,!wNx, wMod)
+						$scope.playgame(myGame,mt,mv,!wNx, wMod)
 
 					} else {
 
@@ -528,8 +532,6 @@ $scope.sendMessage('playOneGame called')
 // 		});
 
 	}
-}
-
 
 
 
