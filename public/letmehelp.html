@@ -316,7 +316,7 @@ $rootScope.sendMessage('playOneGame called')
 			myGame.gameIsOn=false //looped
 		}
 			 //		ai	<------------
-
+			 
 		if(result.length > 1) { //if there are any moves
 
 			var aiMoveString = result[1][0] // the winning movestring
@@ -336,8 +336,9 @@ $rootScope.sendMessage('playOneGame called')
 				fulltable: result,
 				toconsole: toConsole
 			}
+			$rootScope.whatToDo='idle'
 		} else { //can't move
-
+			
 			//eval
 			$rootScope.sendMessage('ran into eval bit')
 
