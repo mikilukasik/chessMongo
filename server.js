@@ -1085,13 +1085,21 @@ app.get('/stats.txt', function(req, res) {
 					gameIsOn: false,
 					bName: "standard"
 
-				}).sort( {
+				})
+				// .sort( {
 					
-					 tableNum: 1 
+				// 	 tableNum: 1 
 					 
-				} ).toArray(function(err28, statData) {
+				// } )
+				.toArray(function(err28, statData) {
 					if(statData != null) {
-
+						statData.sort(function(a,b){
+							if(a.tableNum>b.tableNum){
+								return 1
+							}else{
+								return -1
+							}
+						})
 						statData.forEach(function(wModGame, statIndex,statData) {
 
 							//var kellEz=0
@@ -1168,10 +1176,7 @@ app.get('/stats.txt', function(req, res) {
 										// 		}
 										
 									})
-if(statIndex==statData.length-1){
-												res.write('end')
-												//res.end()
-												}
+												
 								//pairedArray.push(wModGame.wName)
 
 							}) //<--statData.forEach(function(wModGame){
