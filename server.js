@@ -820,12 +820,13 @@ app.get('/startGame', function(req, res) {
 
 	var wPNum = players[0].indexOf(req.query.w)
 	var bPNum = players[0].indexOf(req.query.b)
-	var firstFreeTable=-5
+	//var firstFreeTable=-5
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
 				tableNum: "xData"
 			}, function(err2, xData) {
+				var firstFreeTable=-5
 				if(xData == null) {
 
 					createXData();
@@ -838,14 +839,14 @@ app.get('/startGame', function(req, res) {
 				db.collection("tables")
 					.save(xData, function(err, doc) {
 						db.close()
-						});
+					});
 
 				
-
-			});
-	});
-
-	var initedTable = new Dbtable(firstFreeTable, req.query.w, req.query.b)
+				
+				//ide
+				
+				
+				var initedTable = new Dbtable(firstFreeTable, req.query.w, req.query.b)
 
 	mongodb.connect(cn, function(err, db2) {
 		db2.collection("users")
@@ -926,6 +927,13 @@ app.get('/startGame', function(req, res) {
 		message: "ok",
 		tableNum: firstFreeTable
 	});
+				
+				//ide
+
+			});
+	});
+
+	
 
 });
 
