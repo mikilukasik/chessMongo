@@ -687,7 +687,33 @@ app.get('/longPollTable', function(req, res) {
 	});
 
 });
+app.get('/forceStop', function(req, res) {
+	//console.log(req)
+	mongodb.connect(cn, function(err, db) {
+		db.collection("tables")
+			.findOne({
+				tableNum: req.query.t
+			}, function(err2, stopThisTable) {
 
+				stopThisTable.gameIsOn=false
+
+				db.collection("tables")
+					.save(stopThisTable, function(err3, res) {
+						db.close()
+							message:'ok'
+						res.json({
+		//lobbychat: lobbyChat
+	});
+					})
+				
+			});
+	});
+
+	
+
+	
+
+});
 app.get('/forcePopTable', function(req, res) {
 
 	mongodb.connect(cn, function(err, db) {
