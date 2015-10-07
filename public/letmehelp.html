@@ -78,11 +78,13 @@ $rootScope.start=function(wName,bName,wModded){
 				
 				$rootScope.showTable($rootScope.myGame.table)
 				
-				$rootScope.sendMessage("started, let's move")
+				//$rootScope.sendMessage("started, let's move")
 				
 				
 				$rootScope.whatToDo='idle'
+				$rootScope.sendMessage('Table should be in DB, start soon..')
 
+				$rootScope.playWhenReady($rootScope.myGame,modType,modVal,true,wModded)
 				})
 
 	//if (tableNum>0)return tableNum
@@ -272,9 +274,9 @@ $rootScope.sendMessage('playOneGame called')
 
 				
 
-				$rootScope.sendMessage('Table should be in DB, start soon..')
+				// $rootScope.sendMessage('Table should be in DB, start soon..')
 
-				$rootScope.playWhenReady($rootScope.myGame,modType,modVal,true,wModded)
+				// $rootScope.playWhenReady($rootScope.myGame,modType,modVal,true,wModded)
 
 				//db.close()
 
@@ -426,12 +428,12 @@ $rootScope.sendMessage('playOneGame called')
 	//playOneGame(true,'lpV',-100)
 	//playOneGame(false,'lpV',-100)
 	$rootScope.playWhenReady=function(myGame,mt,mv,wNx, wMod){
-			$rootScope.sendMessage('recalling playgame (new move)')
+			$rootScope.sendMessage('calling playgame (new move)')
 						if($rootScope.whatToDo=="busy"){
-							$timeout($rootScope.playWhenReady(myGame,mt,mv,wNx, wMod),12000)
+							$timeout($rootScope.playWhenReady(myGame,mt,mv,wNx, wMod),2000)
 						}else{
-							$rootScope.sendMessage('ready')
-							$timeout($rootScope.playgame(myGame,mt,mv,wNx, wMod),12000)
+							$rootScope.sendMessage('ready for next move')
+							$timeout($rootScope.playgame(myGame,mt,mv,wNx, wMod),2000)
 						}
 						
 						
