@@ -413,7 +413,7 @@ $rootScope.sendMessage('playOneGame called')
 							$rootScope.sendMessage('lowering counter then start new gamepair or quit')
 							//gamePairCounter--
 							$rootScope.whatToDo="startNewGame"
-							refresh
+							window.location.reload(true);
 						}
 						
 					}
