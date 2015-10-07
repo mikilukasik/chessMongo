@@ -24,8 +24,11 @@ $rootScope.showTable = function(table) { //this will update the displayed table 
 			for(var i=0; i<8; i++) {
 				tt[i]=[]
 				for(var j=0; j<8; j++) {
+					var same=(tt[i][j][0]==table[j][7-i][0])
 					tt[i][j]=table[j][7-i]
 					if((i+j)&1)tt[i][j][7]=true
+					if(same)tt[i][j][15]=true
+					
 				}
 			}
 			
