@@ -346,7 +346,7 @@ $rootScope.sendMessage('playOneGame called')
 		if(myGame.gameIsOn) {
 			$rootScope.sendMessage('Will move ' + aiMoveString)
 			
-			$rootScope.move(aiMoveString,myGame.tableNum)
+			// $rootScope.move(aiMoveString,myGame.tableNum)
 
 			var toPush = String(myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][0]) + //color of whats moving
 				myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][1] + //piece
@@ -360,7 +360,7 @@ $rootScope.sendMessage('playOneGame called')
 			myGame.moves.push(toPush)
 
 			myGame.table = moveIt(aiMoveString, myGame.table)
-			$rootScope.table=myGame.table
+			$rootScope.showTable(myGame.table)
 
 			myGame.wNext = !myGame.wNext
 
@@ -388,9 +388,10 @@ $rootScope.sendMessage('playOneGame called')
 // 	
 
 					if(myGame.gameIsOn) {
-
+						$http.get('/move?m=' + aiMoveString + '&t=' + $rootScope.tableNum)
+				.then(function(response) {
 						$rootScope.playWhenReady(myGame,mt,mv,!wNx, wMod)
-						
+				})
 						
 
 					} else {
