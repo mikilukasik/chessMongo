@@ -1162,13 +1162,16 @@ app.get('/stats.txt', function(req, res) {
 											
 											//console.log('nincs')
 										}
-										if(statIndex==statData.length-1){
+										// if(statIndex==statData.length-1){
+										// 		res.write('end')
+										// 		//res.end()
+										// 		}
+										
+									})
+if(statIndex==statData.length-1){
 												res.write('end')
 												//res.end()
 												}
-										
-									})
-
 								//pairedArray.push(wModGame.wName)
 
 							}) //<--statData.forEach(function(wModGame){
