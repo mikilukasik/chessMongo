@@ -32,7 +32,7 @@ $rootScope.start=function(wName,bName,wModded){
 	$rootScope.sendMessage('start func called')
 	$http.get('/startGame?w='+wName+"&b="+bName)
 		.then(function(response) {
-					var tableNum= response.tableNum
+					var tableNum= response.data.tableNum
 					
 					$rootScope.sendMessage('tableNum received: '+tableNum)
 					$rootScope.tableNum= tableNum
