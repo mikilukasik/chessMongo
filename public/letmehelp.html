@@ -411,8 +411,9 @@ $rootScope.sendMessage('playOneGame called')
 							$timeout($rootScope.playOneGame(false,mt,mv),200)
 						}else{
 							$rootScope.sendMessage('lowering counter then start new gamepair or quit')
-							gamePairCounter--
+							//gamePairCounter--
 							$rootScope.whatToDo="startNewGame"
+							refresh
 						}
 						
 					}
