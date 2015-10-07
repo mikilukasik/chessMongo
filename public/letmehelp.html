@@ -432,7 +432,7 @@ $rootScope.sendMessage('playOneGame called')
 						if($rootScope.whatToDo=="busy"){
 							$timeout($rootScope.playWhenReady(myGame,mt,mv,wNx, wMod),5000)
 						}else{
-							$scope.$apply()
+							//$scope.$apply()
 							$rootScope.sendMessage('ready for next move')
 							$timeout($rootScope.playgame(myGame,mt,mv,wNx, wMod),5000)
 						}
