@@ -39,7 +39,7 @@ $rootScope.start=function(wName,bName,wModded){
 					
 					$rootScope.sendMessage('tableNum received: '+tableNum)
 					$rootScope.tableNum= tableNum
-					$apply()
+					// $apply()
 					
 					//
 					
@@ -434,7 +434,7 @@ appModule.controller("ApplicationController", ApplicationController);
 				<td class="ideRakd" ng-include="'/wtable.html'"></td>
 			
 			<td>
-	tablenum: {{myGame.tableNum}}
+	tablenum: {tableNum}}
 		{{gamePairCounter}}
 		{{stuffToDo}}
 	{{whatToDo}}
