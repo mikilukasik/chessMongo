@@ -689,6 +689,7 @@ app.get('/longPollTable', function(req, res) {
 });
 app.get('/forceStop', function(req, res) {
 	//console.log(req)
+	res.send('sg')
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
@@ -703,13 +704,9 @@ app.get('/forceStop', function(req, res) {
 					.save(stopThisTable, function(err3, res) {
 						db.close()
 							
-						res.json({message:'ok'
-		//lobbychat: lobbyChat
-	});
+						
 					})
-				}else{res.json({message:'failed'
-		//lobbychat: lobbyChat
-	});
+				}else{
 					
 				}
 			});
