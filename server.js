@@ -44,8 +44,6 @@ players[5] = [] //opponents name
 var lobbyPollNum = 0
 var lobbyChat = []
 
-var firstFreeTable = 0
-
 function createXData() {
 	console.log("can't find xData in db, creating..") //header in db
 
@@ -54,7 +52,7 @@ function createXData() {
 		db.collection("tables")
 			.insert({
 				"tableNum": "xData",
-				"firstFreeTable": 1,
+				"$scope.firstFreeTable": 1,
 				"lobbyChat": [],
 				"activeTables": []
 			}, function(err3, res) {})
@@ -72,10 +70,10 @@ mongodb.connect(cn, function(err, db) {
 
 				createXData();
 
-				firstFreeTable = 1
+				//$scope.firstFreeTable = 1
 			} else {
-				firstFreeTable = xData.firstFreeTable
-					//xData.firstFreeTable++
+				//$scope.firstFreeTable = xData.$scope.firstFreeTable
+					//xData.$scope.firstFreeTable++
 			}
 			// db.collection("tables")
 			// 	.save(xData, function(err, doc) {});
@@ -822,7 +820,7 @@ app.get('/startGame', function(req, res) {
 
 	var wPNum = players[0].indexOf(req.query.w)
 	var bPNum = players[0].indexOf(req.query.b)
-
+	$scope.firstFreeTable=-5
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
@@ -832,10 +830,10 @@ app.get('/startGame', function(req, res) {
 
 					createXData();
 
-					firstFreeTable = 1
+					$scope.firstFreeTable = 1
 				} else {
-					firstFreeTable = xData.firstFreeTable
-					xData.firstFreeTable++
+					$scope.firstFreeTable = xData.$scope.firstFreeTable
+					xData.$scope.firstFreeTable++
 				}
 				db.collection("tables")
 					.save(xData, function(err, doc) {
@@ -847,7 +845,7 @@ app.get('/startGame', function(req, res) {
 			});
 	});
 
-	var initedTable = new Dbtable(firstFreeTable, req.query.w, req.query.b)
+	var initedTable = new Dbtable($scope.firstFreeTable, req.query.w, req.query.b)
 
 	mongodb.connect(cn, function(err, db2) {
 		db2.collection("users")
@@ -902,13 +900,13 @@ app.get('/startGame', function(req, res) {
 	players[3][wPNum] = true; //will play w
 	players[3][bPNum] = false; //will play b
 
-	players[4][wPNum] = firstFreeTable
-	players[4][bPNum] = firstFreeTable
+	players[4][wPNum] = $scope.firstFreeTable
+	players[4][bPNum] = $scope.firstFreeTable
 
 	players[5][wPNum] = req.query.b; //give them the opponents name
 	players[5][bPNum] = req.query.w;
 
-	//firstFreeTable++
+	//$scope.firstFreeTable++
 
 	// mongodb.connect(cn, function(err, db) {
 	// 	db.collection("tables")
@@ -916,7 +914,7 @@ app.get('/startGame', function(req, res) {
 	// 			tableNum: "xData"
 	// 		}, function(err2, xData) {
 
-	// 			xData.firstFreeTable = firstFreeTable
+	// 			xData.$scope.firstFreeTable = $scope.firstFreeTable
 
 	// 			db.collection("tables")
 	// 				.save(xData, function(err3, res) {})
@@ -926,7 +924,7 @@ app.get('/startGame', function(req, res) {
 
 	res.json({
 		message: "ok",
-		tableNum: firstFreeTable
+		tableNum: $scope.firstFreeTable
 	});
 
 });
