@@ -408,7 +408,7 @@ $rootScope.sendMessage('playOneGame called')
 						
 						if(wMod) {
 							$rootScope.sendMessage('Starting rematch (play black)')
-							$timeout($rootScope.playOneGame(false,modType,modVal),2000)
+							$timeout($rootScope.playOneGame(false,mt,mv),200)
 						}else{
 							$rootScope.sendMessage('lowering counter then start new gamepair or quit')
 							gamePairCounter--
