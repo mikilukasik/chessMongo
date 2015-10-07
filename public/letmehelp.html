@@ -305,6 +305,10 @@ $rootScope.sendMessage('playOneGame called')
 		if(result[0][6]){
 			//looped
 			myGame.gameIsOn=false //looped
+			$http.get('/forceStop?t='+$rootScope.tableNum)
+			.then(function(response){
+				$rootScope.sendMessage('looped, forceStop sent')
+			})
 		}
 			 //		ai	<------------
 			 
