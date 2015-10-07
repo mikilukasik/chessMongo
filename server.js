@@ -700,8 +700,8 @@ app.get('/forceStop', function(req, res) {
 				db.collection("tables")
 					.save(stopThisTable, function(err3, res) {
 						db.close()
-							message:'ok'
-						res.json({
+							
+						res.json({message:'ok'
 		//lobbychat: lobbyChat
 	});
 					})
