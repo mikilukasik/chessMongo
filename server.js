@@ -692,7 +692,7 @@ app.get('/forceStop', function(req, res) {
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
-				tableNum: req.query.t
+				tableNum: Number(req.query.t)
 			}, function(err2, stopThisTable) {
 
 				if(stopThisTable!=null){
