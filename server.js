@@ -1077,6 +1077,9 @@ app.get('/stats.txt', function(req, res) {
 	var tempArray = []
 		//var arrToString=[]
 
+	var asyncHack=0
+
+
 	mongodb.connect(cn, function(err, db) {
 		if(!(db == null)) {
 			db.collection("tables")
@@ -1086,11 +1089,11 @@ app.get('/stats.txt', function(req, res) {
 					bName: "standard"
 
 				})
-				.sort( {
+				// .sort( {
 					
-					 tableNum: 1 
+				// 	 tableNum: 1 
 					 
-				} )
+				// } )
 				//.toArray(function(err28, statData) {
 					//if(statData != null) {
 						// statData.sort(function(a,b){
@@ -1106,7 +1109,9 @@ app.get('/stats.txt', function(req, res) {
 						.forEach(function(wModGame) {
 
 							//var kellEz=0
-
+								asyncHack++	//countRequests
+								
+								
 								tempArray.push(wModGame)
 
 								db.collection("tables")
@@ -1177,7 +1182,10 @@ app.get('/stats.txt', function(req, res) {
 										// 		res.write('end')
 										// 		//res.end()
 										// 		}
-										
+										asyncHack--	//request answered
+										if(asyncHack==0){
+											res.write('end')
+										}
 									})
 												
 								//pairedArray.push(wModGame.wName)
