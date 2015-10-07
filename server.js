@@ -52,7 +52,7 @@ function createXData() {
 		db.collection("tables")
 			.insert({
 				"tableNum": "xData",
-				"$rootScope.firstFreeTable": 1,
+				"firstFreeTable": 1,
 				"lobbyChat": [],
 				"activeTables": []
 			}, function(err3, res) {})
@@ -70,10 +70,10 @@ mongodb.connect(cn, function(err, db) {
 
 				createXData();
 
-				//$rootScope.firstFreeTable = 1
+				//firstFreeTable = 1
 			} else {
-				//$rootScope.firstFreeTable = xData.$rootScope.firstFreeTable
-					//xData.$rootScope.firstFreeTable++
+				//firstFreeTable = xData.firstFreeTable
+					//xData.firstFreeTable++
 			}
 			// db.collection("tables")
 			// 	.save(xData, function(err, doc) {});
@@ -820,7 +820,7 @@ app.get('/startGame', function(req, res) {
 
 	var wPNum = players[0].indexOf(req.query.w)
 	var bPNum = players[0].indexOf(req.query.b)
-	$rootScope.firstFreeTable=-5
+	var firstFreeTable=-5
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
@@ -830,10 +830,10 @@ app.get('/startGame', function(req, res) {
 
 					createXData();
 
-					$rootScope.firstFreeTable = 1
+					firstFreeTable = 1
 				} else {
-					$rootScope.firstFreeTable = xData.$rootScope.firstFreeTable
-					xData.$rootScope.firstFreeTable++
+					firstFreeTable = xData.firstFreeTable
+					xData.firstFreeTable++
 				}
 				db.collection("tables")
 					.save(xData, function(err, doc) {
@@ -845,7 +845,7 @@ app.get('/startGame', function(req, res) {
 			});
 	});
 
-	var initedTable = new Dbtable($rootScope.firstFreeTable, req.query.w, req.query.b)
+	var initedTable = new Dbtable(firstFreeTable, req.query.w, req.query.b)
 
 	mongodb.connect(cn, function(err, db2) {
 		db2.collection("users")
@@ -900,13 +900,13 @@ app.get('/startGame', function(req, res) {
 	players[3][wPNum] = true; //will play w
 	players[3][bPNum] = false; //will play b
 
-	players[4][wPNum] = $rootScope.firstFreeTable
-	players[4][bPNum] = $rootScope.firstFreeTable
+	players[4][wPNum] = firstFreeTable
+	players[4][bPNum] = firstFreeTable
 
 	players[5][wPNum] = req.query.b; //give them the opponents name
 	players[5][bPNum] = req.query.w;
 
-	//$rootScope.firstFreeTable++
+	//firstFreeTable++
 
 	// mongodb.connect(cn, function(err, db) {
 	// 	db.collection("tables")
@@ -914,7 +914,7 @@ app.get('/startGame', function(req, res) {
 	// 			tableNum: "xData"
 	// 		}, function(err2, xData) {
 
-	// 			xData.$rootScope.firstFreeTable = $rootScope.firstFreeTable
+	// 			xData.firstFreeTable = firstFreeTable
 
 	// 			db.collection("tables")
 	// 				.save(xData, function(err3, res) {})
@@ -924,7 +924,7 @@ app.get('/startGame', function(req, res) {
 
 	res.json({
 		message: "ok",
-		tableNum: $rootScope.firstFreeTable
+		tableNum: firstFreeTable
 	});
 
 });
