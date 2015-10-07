@@ -258,10 +258,10 @@ $rootScope.sendMessage('playOneGame called')
 	$rootScope.whatToDo='busy'
 
 				if(wModded){
-					$rootScope.start("mod lpV:" + modVal, "standard",true,'lpV').tableNum
+					$rootScope.start("mod lpV:" + modVal, "standard",true,'lpV')//.tableNum
 					//initedTable = new Dbtable(firstFreeTable, "mod lpV:" + modVal, "standard")
 				}else{
-					$rootScope.start( "standard", "mod lpV:" + modVal,false,'lpV').tableNum
+					$rootScope.start( "standard", "mod lpV:" + modVal,false,'lpV')//.tableNum
 					//initedTable = new Dbtable(firstFreeTable, "standard", "mod lpV:" + modVal)
 				}
 				//$rootScope.table=initedTable.table
@@ -432,7 +432,7 @@ $rootScope.sendMessage('playOneGame called')
 						if($rootScope.whatToDo=="busy"){
 							$timeout($rootScope.playWhenReady(myGame,mt,mv,wNx, wMod),5000)
 						}else{
-							$rootScope.$apply()
+							$scope.$apply()
 							$rootScope.sendMessage('ready for next move')
 							$timeout($rootScope.playgame(myGame,mt,mv,wNx, wMod),5000)
 						}
