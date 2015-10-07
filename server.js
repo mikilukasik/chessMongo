@@ -695,6 +695,8 @@ app.get('/forceStop', function(req, res) {
 				tableNum: req.query.t
 			}, function(err2, stopThisTable) {
 
+				if(stopThisTable!=null){
+				
 				stopThisTable.gameIsOn=false
 
 				db.collection("tables")
@@ -705,7 +707,11 @@ app.get('/forceStop', function(req, res) {
 		//lobbychat: lobbyChat
 	});
 					})
-				
+				}else{res.json({message:'failed'
+		//lobbychat: lobbyChat
+	});
+					
+				}
 			});
 	});
 
