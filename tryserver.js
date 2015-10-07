@@ -1347,7 +1347,7 @@ app.get('/stats.txt', function(req, res) {
 //   console.log('IO: a user connected');
 // });
 
-var server = app.listen(80, function() {
+var server = app.listen(16778, function() {
 
 	var host = server.address()
 		.address;
@@ -1358,13 +1358,3 @@ var server = app.listen(80, function() {
 
 });
 
-var server2 = app.listen(17889, function() {
-
-	var host = server.address()
-		.address;
-	var port = server.address()
-		.port;
-
-	console.log('app listening at http://%s:%s', host, port);
-
-});
