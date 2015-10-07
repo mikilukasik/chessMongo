@@ -820,19 +820,19 @@ app.get('/startGame', function(req, res) {
 
 	var initedTable = new Dbtable(firstFreeTable, req.query.w, req.query.b)
 
-	mongodb.connect(cn, function(err, db) {
-		db.collection("users")
+	mongodb.connect(cn, function(err, db2) {
+		db2.collection("users")
 			.findOne({
 				name: req.query.w
 			}, function(err2, userInDb) {
 				if(!(userInDb == null)) {
 					userInDb.games.unshift(initedTable.tableNum)
 
-					db.collection("users")
+					db2.collection("users")
 						.save(userInDb, function(err3, res) {})
 
 				}
-				db.close()
+				db2.close()
 					// res.json({
 
 				// });
@@ -840,18 +840,18 @@ app.get('/startGame', function(req, res) {
 
 	});
 
-	mongodb.connect(cn, function(err, db) {
-		db.collection("users")
+	mongodb.connect(cn, function(err, db3) {
+		db3.collection("users")
 			.findOne({
 				name: req.query.b
 			}, function(err2, userInDb) {
 				if(!(userInDb == null)) {
 					userInDb.games.unshift(initedTable.tableNum)
 
-					db.collection("users")
+					db3.collection("users")
 						.save(userInDb, function(err3, res) {})
 				}
-				db.close()
+				db3.close()
 					// res.json({
 
 				// });
@@ -859,10 +859,10 @@ app.get('/startGame', function(req, res) {
 
 	});
 
-	mongodb.connect(cn, function(err, db) {
-		db.collection("tables")
+	mongodb.connect(cn, function(err, db4) {
+		db4.collection("tables")
 			.insert(initedTable, function(err, doc) {});
-		db.close()
+		db4.close()
 	})
 
 	//?dbTables.insert(initedTable, function (err, doc) {});
