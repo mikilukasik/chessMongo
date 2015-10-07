@@ -1027,7 +1027,7 @@ app.get('/learnerPoll', function(req, res) {
 			.getTime())
 			
 			
-		learners[2].push(req.headers.host)//(req.query.t)
+		learners[2].push(req.headers.client)//(req.query.t)
 		learners[3].push(req.query.w)
 		learners[4].push(req.query.mt)
 		learners[5].push(req.query.mv)
