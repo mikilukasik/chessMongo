@@ -1557,7 +1557,7 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 				//
 				if (ret2potMoves.length==0){
 					//mattot tudok adni a legjobbnak tuno lepesere
-					process.stdout.write("!");
+					//process.stdout.write("!");
 		//console.log('2 lepesbol mattolhatok')
 					if(tTable2Value<5)tTable2Value+=5
 					
