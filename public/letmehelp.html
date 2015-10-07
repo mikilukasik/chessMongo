@@ -116,9 +116,13 @@ $rootScope.gamePairCounter=-10
 
 
 var modVal=50	//translates to x1
+//var WshNetwork = new ActiveXObject("WScript.Network");
 
 $interval(function(){
 	$rootScope.sendMessage('.')
+	
+	//$http.get('/learnerPoll?n='+WshNetwork.ComputerName)
+	
 	
 	if($rootScope.stuffToDo&&!$rootScope.tableNum>0){
 		$rootScope.sendMessage('1')
