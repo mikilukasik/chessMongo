@@ -47,7 +47,7 @@ $rootScope.move = function(whatMove,tableNum) {
 				})
 
 		}
-$rootScope.start=function(wName,bName,wModded){
+$rootScope.start=function(wName,bName,wModded,modType){
 	var tableNum=0
 	$rootScope.sendMessage('start func called: /startGame?w='+wName+"&b="+bName)
 	$http.get('/startGame?w='+wName+"&b="+bName)
@@ -258,10 +258,10 @@ $rootScope.sendMessage('playOneGame called')
 	$rootScope.whatToDo='busy'
 
 				if(wModded){
-					$rootScope.start("mod lpV:" + modVal, "standard",true).tableNum
+					$rootScope.start("mod lpV:" + modVal, "standard",true,'lpV').tableNum
 					//initedTable = new Dbtable(firstFreeTable, "mod lpV:" + modVal, "standard")
 				}else{
-					$rootScope.start( "standard", "mod lpV:" + modVal,false).tableNum
+					$rootScope.start( "standard", "mod lpV:" + modVal,false,'lpV').tableNum
 					//initedTable = new Dbtable(firstFreeTable, "standard", "mod lpV:" + modVal)
 				}
 				//$rootScope.table=initedTable.table
