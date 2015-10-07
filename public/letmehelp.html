@@ -430,10 +430,10 @@ $rootScope.sendMessage('playOneGame called')
 	$rootScope.playWhenReady=function(myGame,mt,mv,wNx, wMod){
 			$rootScope.sendMessage('calling playgame (new move)')
 						if($rootScope.whatToDo=="busy"){
-							$timeout($rootScope.playWhenReady(myGame,mt,mv,wNx, wMod),2000)
+							$timeout($rootScope.playWhenReady(myGame,mt,mv,wNx, wMod),5000)
 						}else{
 							$rootScope.sendMessage('ready for next move')
-							$timeout($rootScope.playgame(myGame,mt,mv,wNx, wMod),2000)
+							$timeout($rootScope.playgame(myGame,mt,mv,wNx, wMod),5000)
 						}
 						
 						
@@ -459,7 +459,7 @@ appModule.controller("ApplicationController", ApplicationController);
 			
 			<td>
 	tablenum: {{tableNum}}
-		{{gamePairCounter}}
+		<!--{{gamePairCounter}}-->
 		{{stuffToDo}}
 	{{whatToDo}}
 	<p ng-repeat="x in messages" ng-init=".">{{x}}</p>
