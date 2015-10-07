@@ -1012,6 +1012,7 @@ app.get('/getMyRecentGames', function(req, res) {
 });
 
 app.get('/whoIsLearning', function(req, res) {
+	clearDisconnectedLearners()
 	res.json({
 		learners:learners
 	})
@@ -1019,7 +1020,7 @@ app.get('/whoIsLearning', function(req, res) {
 
 app.get('/learnerPoll', function(req, res) {
 	//console.log(req)
-	clearDisconnectedLearners()
+	
 	if(learners[0].indexOf(req.query.n) == -1) {
 		learners[0].push(req.query.n)
 		learners[1].push((new Date())
@@ -1095,6 +1096,12 @@ function clearDisconnectedLearners() {
 			.getTime()) {
 			learners[1].splice(i, 1)
 			learners[0].splice(i, 1)
+			learners[2].splice(i, 1)
+			learners[3].splice(i, 1)
+			learners[4].splice(i, 1)
+			learners[5].splice(i, 1)
+			learners[6].splice(i, 1)
+			
 			//lobbyPollNum++
 
 		}
