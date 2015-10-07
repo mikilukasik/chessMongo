@@ -809,9 +809,11 @@ app.get('/startGame', function(req, res) {
 					xData.firstFreeTable++
 				}
 				db.collection("tables")
-					.save(xData, function(err, doc) {});
+					.save(xData, function(err, doc) {
+						db.close()
+						});
 
-				db.close()
+				
 
 			});
 	});
