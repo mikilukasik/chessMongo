@@ -25,6 +25,15 @@ var t1const = 11
 var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
 
 var players = []
+var learners=[]
+learners[0]=[]  		//learner IDs
+learners[1]=[]		//learners last polled
+learners[2]=[]	//learner is on table
+learners[3]=[]	//learner plays white
+learners[4]=[]	//learner modType
+learners[5]=[]	//learner modVal
+learners[6]=[]	//learner at pollnum
+
 
 var playerDisconnectConst = 15000 //15sec
 var gameInactiveConst = 300000 //5min
@@ -1002,6 +1011,68 @@ app.get('/getMyRecentGames', function(req, res) {
 
 });
 
+app.get('/whoIsLearning', function(req, res) {
+	res.json({
+		learners:learners
+	})
+})
+
+app.get('/learnerPoll', function(req, res) {
+	//console.log(req)
+	clearDisconnectedLearners()
+	if(learners[0].indexOf(req.query.n) == -1) {
+		learners[0].push(req.query.n)
+		learners[1].push((new Date())
+			.getTime())
+			
+			
+		learners[2].push(req.query.t)
+		learners[3].push(req.query.w)
+		learners[4].push(req.query.mt)
+		learners[5].push(req.query.mv)
+		learners[6].push(req.query.p)
+		
+		
+			
+			
+	// var players = []
+	// var learners=[]
+	// learners[0]=[]  		//learner IDs
+	// learners[1]=[]		//learners last polled
+	// learners[2]=[]	//learner is on table
+	// learners[3]=[]	//learner plays white
+	// learners[4]=[]	//learner modType
+	// learners[5]=[]	//learner modVal
+	// learners[6]=[]	//learner at pollnum
+
+
+		//players.sort(sortPlayers)
+		lobbyPollNum++
+
+	} else {
+		
+		var learnerIndex = learners[0].indexOf(req.query.l)
+		
+		learners[1][learnerIndex] = (new Date())
+			.getTime()
+			
+			
+		learners[2][learnerIndex] = req.query.t
+		learners[3][learnerIndex] = req.query.w
+		learners[4][learnerIndex] = req.query.mt
+		learners[5][learnerIndex] = req.query.mv
+		learners[6][learnerIndex] = req.query.p
+		
+		
+			
+	}
+
+	
+	res.send('ok')
+	
+
+});
+
 function clearDisconnectedPlayers() {
 	for(var i = players.length - 1; i >= 0; i--) {
 
@@ -1010,6 +1081,21 @@ function clearDisconnectedPlayers() {
 			players[1].splice(i, 1)
 			players[0].splice(i, 1)
 			lobbyPollNum++
+
+		}
+
+	}
+	//clearInactiveGames()
+}
+
+function clearDisconnectedLearners() {
+	for(var i = learners.length - 1; i >= 0; i--) {
+
+		if(learners[1][i] + playerDisconnectConst < (new Date())
+			.getTime()) {
+			learners[1].splice(i, 1)
+			learners[0].splice(i, 1)
+			//lobbyPollNum++
 
 		}
 
