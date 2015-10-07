@@ -13,6 +13,9 @@
 	function ApplicationController($rootScope, $http, $interval, $timeout) {	
 		$rootScope.messages=["."]
 
+$rootScope.heartBeat=3500
+
+
 $rootScope.sendMessage=function(message){
 	$rootScope.messages.push(message+' @'+(new Date).getTime())
 }
@@ -36,6 +39,7 @@ $rootScope.start=function(wName,bName,wModded){
 					
 					$rootScope.sendMessage('tableNum received: '+tableNum)
 					$rootScope.tableNum= tableNum
+					$apply()
 					
 					//
 					
@@ -77,7 +81,7 @@ var whatToMod="lpV"
 
 $rootScope.gamePairCounter=0
 
-$rootScope.heartBeat=10500
+
 
 var modVal=50	//translates to x1
 
