@@ -15,6 +15,23 @@
 
 $rootScope.heartBeat=3500
 
+$rootScope.showTable = function(table) { //this will update the displayed table from the array
+			
+			//shit i need to rotate it first
+		
+			var tt=[]
+			
+			for(var i=0; i<8; i++) {
+				tt[i]=[]
+				for(var j=0; j<8; j++) {
+					tt[i][j]=table[j][7-i]
+					if((i+j)&1)tt[i][j][7]=true
+				}
+			}
+			
+			$rootScope.sTable=tt
+	
+		}
 
 $rootScope.sendMessage=function(message){
 	$rootScope.messages.push(message+' @'+(new Date).getTime())
@@ -32,7 +49,7 @@ $rootScope.move = function(whatMove,tableNum) {
 		}
 $rootScope.start=function(wName,bName,wModded){
 	var tableNum=0
-	$rootScope.sendMessage('start func called')
+	$rootScope.sendMessage('start func called: /startGame?w='+wName+"&b="+bName)
 	$http.get('/startGame?w='+wName+"&b="+bName)
 		.then(function(response) {
 					var tableNum= response.data.tableNum
@@ -51,13 +68,18 @@ $rootScope.start=function(wName,bName,wModded){
 					//firstFreeTable=$rootScope.start( "standard", "mod lpV:" + modVal).tableNum
 					initedTable = new Dbtable(response.tableNum, "standard", "mod lpV:" + modVal)
 				}
-				$rootScope.table=initedTable.table
+				//$rootScope.table=initedTable.table
 				//initedTable.chat=[new String(new Date())]
 
 				// db.collection("tables")
 				// 	.insert(initedTable, function(err, doc) {});
 
 				$rootScope.myGame = initedTable
+				
+				$rootScope.showTable($rootScope.myGame.table)
+				
+				$rootScope.sendMessage("started, let's move")
+				
 				
 				$rootScope.whatToDo='idle'
 
