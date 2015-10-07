@@ -1085,7 +1085,11 @@ app.get('/stats.txt', function(req, res) {
 					gameIsOn: false,
 					bName: "standard"
 
-				}).toArray(function(err28, statData) {
+				}).sort( {
+					
+					 tableNum: 1 
+					 
+				} ).toArray(function(err28, statData) {
 					if(statData != null) {
 
 						statData.forEach(function(wModGame, statIndex,statData) {
