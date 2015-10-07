@@ -1086,21 +1086,24 @@ app.get('/stats.txt', function(req, res) {
 					bName: "standard"
 
 				})
-				// .sort( {
+				.sort( {
 					
-				// 	 tableNum: 1 
+					 tableNum: 1 
 					 
-				// } )
-				.toArray(function(err28, statData) {
-					if(statData != null) {
-						statData.sort(function(a,b){
-							if(a.tableNum>b.tableNum){
-								return 1
-							}else{
-								return -1
-							}
-						})
-						statData.forEach(function(wModGame, statIndex,statData) {
+				} )
+				//.toArray(function(err28, statData) {
+					//if(statData != null) {
+						// statData.sort(function(a,b){
+						// 	if(a.tableNum>b.tableNum){
+						// 		return 1
+						// 	}else{
+						// 		return -1
+						// 	}
+						// })
+						//statData
+						
+						
+						.forEach(function(wModGame) {
 
 							//var kellEz=0
 
@@ -1182,10 +1185,10 @@ app.get('/stats.txt', function(req, res) {
 							}) //<--statData.forEach(function(wModGame){
 							//res.send(resArray.join(''));
 
-					}
+			//		}
 					//db.close()
 
-				}); //<--.toArray
+		//		}); //<--.toArray
 
 			
 
