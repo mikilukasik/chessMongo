@@ -40,7 +40,7 @@ $rootScope.showTable = function(table) { //this will update the displayed table 
 		}
 
 $rootScope.sendMessage=function(message){
-	$rootScope.messages.unshift(message+' @'+(new Date).getTime())
+	//$rootScope.messages.unshift(message+' @'+(new Date).getTime())
 }
 
 $rootScope.move = function(whatMove,tableNum) {
@@ -470,11 +470,11 @@ appModule.controller("ApplicationController", ApplicationController);
 	<table>
 		<tr>
 			
-				<td class="ideRakd" ng-include="'/wtable.html'"></td>
+				<!--<td class="ideRakd" ng-include="'/wtable.html'"></td>-->
 		</tr><tr>	
 			<td>
-	tablenum: {{tableNum}}
-	pollnum: {{myGame.pollNum}}
+	t{{tableNum}}
+	p{{myGame.pollNum}}
 	 <br>
 		<!--{{gamePairCounter}}-->
 	{{stuffToDo}}
