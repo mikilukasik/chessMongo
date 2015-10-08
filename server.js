@@ -973,6 +973,9 @@ app.get('/mod', function(req, res) {
 				db.collection("tables")
 					.save(xData, function(err, doc) {
 						db.close()
+						res.json({
+							message:'ok'
+						})
 					});
 
 	
