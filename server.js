@@ -221,10 +221,11 @@ setInterval(function() {
 					
 					actGames.sort(function(a,b){
 						if(a.tableNum>b.tableNum){
-							return 1
-						}else{
 							return -1
+						}else{
+							return 1
 						}
+						//no duplicates
 					})
 
 					db2.collection("tables")
