@@ -4,7 +4,7 @@ var morgan = require('morgan');
 
 var fs = require('fs');
 var mongodb = require('mongodb');
-var io = require('socket.io').listen(16778);
+//var io = require('socket.io').listen(16778);
 
 var app = express();
 var http = require('http')
