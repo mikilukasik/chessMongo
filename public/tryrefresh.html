@@ -191,14 +191,14 @@ $rootScope.sendMessage=function(message){
 $rootScope.move = function(whatMove,tableNum) {
 
 			$http.get('/move?m=' + whatMove + '&t=' + $rootScope.myGame.tableNum)
-				.then(function(response) {
+				// .then(function(response) {
 					
-					$rootScope.table= response.table
-					$rootScope.headMessage="Connection ok"
-	 			},
-				 function(data) {
-					 $rootScope.headMessage="Connection problem"
-				 })
+				// 	$rootScope.table= response.table
+				// 	$rootScope.headMessage="Connection ok"
+	 			// },
+				//  function(data) {
+				// 	 $rootScope.headMessage="Connection problem"
+				//  })
 	//.then(function(){
 					
 					
