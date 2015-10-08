@@ -7,35 +7,6 @@
 	<script src="engine.js"></script>
 
 <script>	
-function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    var expires = "expires="+d.toUTCString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
-}
-function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0; i<ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1);
-        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
-    }
-    return "";
-}
-//function checkCookie() {
-    var myCookieID=getCookie("myCookieID");
-    if (myCookieID!="") {
-      // cookie read.
-    }else{
-        myCookieID = (Math.random()+(1/Math.random()))*Math.random()
-        if (myCookieID != "" && myCookieID != null) {
-            setCookie("myCookieID", myCookieID, 365);
-        }
-    }
-//}
-	
-	
 	var appModule = angular.module("appModule", []);
 
 	
@@ -45,127 +16,6 @@ function getCookie(cname) {
 $rootScope.heartBeat=3500
 $rootScope.mv=0
 $rootScope.pw=false
-$rootScope.pollsPending=0
-
-$interval(function(){
-	$rootScope.sendMessage('.')
-	
-		// learners[0].push(req.query.n)
-		// learners[1].push((new Date())
-		// 	.getTime())
-			
-			
-		// learners[2].push(req.headers.host)//(req.query.t)
-		// learners[3].push(req.query.w)
-		// learners[4].push(req.query.mt)
-		// learners[5].push(req.query.mv)
-		// learners[6].push(req.query.p)
-		
-		
-			
-			
-	// var players = []
-	// var learners=[]
-	// learners[0]=[]  		//learner IDs
-	// learners[1]=[]		//learners last polled
-	// learners[2]=[]	//learner is on table
-	// learners[3]=[]	//learner plays white
-	// learners[4]=[]	//learner modType
-	// learners[5]=[]	//learner modVal
-	// learners[6]=[]	//learner at pollnum
-	
-	//$rootScope.pollsPending++
-	// $rootScope.pollsPending++
-	// $http.get('/learnerPoll?n='+myCookieID+'&t='+$rootScope.tableNum+'&mt='+$rootScope.mt+'&mv='+$rootScope.mv+'&p='+$rootScope.pollNum+'&r='+Math.random())
-	// .then(function(response){
-	// 	$rootScope.respo=response.message
-		
-	// 	if(response.message=='ok'){
-	// 		$rootScope.pollsPending--
-	// 		//$rootScope.headMessage=respo.message
-	// 	}
-		
-		// if($rootScope.pollsPending>2){
-		// 	$rootScope.headMessage="Connection problem"
-		
-		// 	if($rootScope.pollsPending>4){
-		// 		$rootScope.headMessage="Server is down, refreshing page once it's back"
-				
-				
-			
-				
-		// 	}
-		// }
-	// })
-	
-	
-	if($rootScope.stuffToDo&&!$rootScope.tableNum>0){
-		$rootScope.sendMessage('1')
-		switch($rootScope.whatToDo){
-			
-			case "startNewGame":
-				$rootScope.sendMessage('2')
-		
-				$rootScope.whatToDo="busy"
-			
-				//new random then pair of games then decrease counter, then recall
-				if(gamePairCounter==0){
-					$rootScope.stuffToDo=false
-				}else{
-					modVal=Math.random()*100
-					$rootScope.mv=modVal
-					
-					$rootScope.sendMessage('starting game, playing white')
-					$rootScope.playOneGame(true,whatToMod,modVal)	//this will call another game with black when done
-					
-				}
-			
-			
-			break;
-			
-			case "moved":
-				//eval that move and call for next move
-			
-			break;
-			
-			case "finished":
-				//check if should call another game and call it
-			
-			break;
-			
-			case "busy":
-				//do nothing
-				
-			break;
-			
-			case "idle":
-				//do nothing
-				
-			break;
-			
-			case "onHold":
-				//there's stuff to do but we're waiting to save processor credit
-				
-			
-			break;
-			
-			
-			
-		}	//switch($rootScope.whatToDo)
-	}	//if($rootScope.stuffToDo)
-	
-},$rootScope.heartBeat)
-
-$rootScope.refreshWhenUp=function(){
-		$http.get('/forceStop?t='+$rootScope.tableNum)
-			.then(function(response){
-				window.location.reload(true);//$rootScope.sendMessage('looped, forceStop sent')
-			},function(data){
-				$timeout($rootScope.refreshWhenUp(),3000)
-			})
-}
-
-
 
 $rootScope.showTable = function(table) { //this will update the displayed table from the array
 			
@@ -198,41 +48,11 @@ $rootScope.sendMessage=function(message){
 $rootScope.move = function(whatMove,tableNum) {
 
 			$http.get('/move?m=' + whatMove + '&t=' + $rootScope.myGame.tableNum)
-				// .then(function(response) {
+				.then(function(response) {
 					
-				// 	$rootScope.table= response.table
-				// 	$rootScope.headMessage="Connection ok"
-	 			// },
-				//  function(data) {
-				// 	 $rootScope.headMessage="Connection problem"
-				//  })
-	//.then(function(){
-					
-					
-	// 				$rootScope.pollsPending++
-	// $http.get('/learnerPoll?n='+myCookieID+'&t='+$rootScope.tableNum+'&mt='+$rootScope.mt+'&mv='+$rootScope.mv+'&p='+$rootScope.pollNum+'&r='+Math.random())
-	// .then(function(response){
-	// 	$rootScope.respo=response.message
-		
-	// 	if(response.message=='ok'){
-	// 		$rootScope.pollsPending--
-	// 		//$rootScope.headMessage=respo.message
-	// 	}
-		
-	// 	// if($rootScope.pollsPending>2){
-	// 	// 	$rootScope.headMessage="Connection problem"
-		
-	// 	// 	if($rootScope.pollsPending>4){
-	// 	// 		$rootScope.headMessage="Server is down, refreshing page once it's back"
-				
-				
-			
-				
-	// 	// 	}
-	// 	// }
-	// })
-					
-	// 			})
+					$rootScope.table= response.table
+
+				})
 
 		}
 $rootScope.start=function(wName,bName,wModded,modType){
@@ -297,6 +117,69 @@ $rootScope.gamePairCounter=-10
 
 var modVal=50	//translates to x1
 //var WshNetwork = new ActiveXObject("WScript.Network");
+
+$interval(function(){
+	$rootScope.sendMessage('.')
+	
+	//$http.get('/learnerPoll?n='+WshNetwork.ComputerName)
+	
+	
+	if($rootScope.stuffToDo&&!$rootScope.tableNum>0){
+		$rootScope.sendMessage('1')
+		switch($rootScope.whatToDo){
+			
+			case "startNewGame":
+				$rootScope.sendMessage('2')
+		
+				$rootScope.whatToDo="busy"
+			
+				//new random then pair of games then decrease counter, then recall
+				if(gamePairCounter==0){
+					$rootScope.stuffToDo=false
+				}else{
+					modVal=Math.random()*100
+					$rootScope.mv=modVal
+					
+					$rootScope.sendMessage('starting game, playing white')
+					$rootScope.playOneGame(true,whatToMod,modVal)	//this will call another game with black when done
+					
+				}
+			
+			
+			break;
+			
+			case "moved":
+				//eval that move and call for next move
+			
+			break;
+			
+			case "finished":
+				//check if should call another game and call it
+			
+			break;
+			
+			case "busy":
+				//do nothing
+				
+			break;
+			
+			case "idle":
+				//do nothing
+				
+			break;
+			
+			case "onHold":
+				//there's stuff to do but we're waiting to save processor credit
+				
+			
+			break;
+			
+			
+			
+		}	//switch($rootScope.whatToDo)
+	}	//if($rootScope.stuffToDo)
+	
+},$rootScope.heartBeat)
 
 
 
@@ -532,16 +415,6 @@ $rootScope.sendMessage('playOneGame called')
 						$http.get('/move?m=' + aiMoveString + '&t=' + $rootScope.tableNum)
 				.then(function(response) {
 						$rootScope.playWhenReady(myGame,mt,mv,!wNx, wMod)
-				},function(data){
-					$rootScope.headMessage='Connection error, refreshing'
-					
-					
-					$rootScope.refreshWhenUp()
-					
-					
-					
-					
-					
 				})
 						
 
@@ -558,7 +431,7 @@ $rootScope.sendMessage('playOneGame called')
 							$rootScope.sendMessage('lowering counter then start new gamepair or quit')
 							//gamePairCounter--
 							$rootScope.whatToDo="startNewGame"
-							$rootScope.refreshWhenUp()
+							window.location.reload(true);
 						}
 						
 					}
@@ -616,8 +489,8 @@ appModule.controller("ApplicationController", ApplicationController);
 			<td>
 	{{playerColor}} on table {{tableNum}}, modVal:{{mv}}
 	<br>
-	p{{myGame.pollNum}}, pending:{{pollsPending}}, res:{{respo}}
-	<h1>{{headMessage}}</h1>
+	p{{myGame.pollNum}}
+	
 	 <br>
 		<!--{{gamePairCounter}}-->
 	<!--{{stuffToDo}}
