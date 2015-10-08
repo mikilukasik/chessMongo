@@ -951,6 +951,39 @@ app.get('/startGame', function(req, res) {
 
 });
 
+app.get('/mod', function(req, res) {
+	
+	
+	mongodb.connect(cn, function(err, db) {
+		db.collection("tables")
+			.findOne({
+				tableNum: "xData"
+			}, function(err2, xData) {
+				var firstFreeTable=-5
+				if(xData == null) {
+
+					createXData();
+
+					// firstFreeTable = 1
+				} //else {
+					//firstFreeTable = xData.firstFreeTable
+					xData.modType=req.query.m
+				//	xData.firstFreeTable++
+				//}
+				db.collection("tables")
+					.save(xData, function(err, doc) {
+						db.close()
+					});
+
+	
+	
+	
+}
+)
+}
+)
+
+
 app.get('/watchGame', function(req, res) {
 
 	var viewerNum = players[0].indexOf(req.query.v)
