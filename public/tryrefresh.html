@@ -75,7 +75,7 @@ $interval(function(){
 	// learners[6]=[]	//learner at pollnum
 	
 	$rootScope.pollsPending++
-	$http.get('/learnerPoll?n='+myCookieID+'&t='+$rootScope.tableNum+'&mt='+$rootScope.mt+'&mv='+$rootScope.mv+'&p='+$rootScope.pollNum).then(function(response){
+	$http.get('/learnerPoll?n='+myCookieID+'&t='+$rootScope.tableNum+'&mt='+$rootScope.mt+'&mv='+$rootScope.mv+'&p='+$rootScope.pollNum+'&r='+Math.random()).then(function(response){
 		$rootScope.respo=response.message
 		$rootScope.pollsPending++
 		if(response.data.message=='ok'){
