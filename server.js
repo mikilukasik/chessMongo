@@ -63,7 +63,8 @@ function createXData() {
 				"tableNum": "xData",
 				"firstFreeTable": 1,
 				"lobbyChat": [],
-				"activeTables": []
+				"activeTables": [],
+				"modType":""
 			}, function(err3, res) {})
 		db.close()
 
@@ -826,7 +827,9 @@ app.get('/chat', function(req, res) {
 });
 
 app.get('/startGame', function(req, res) {
-
+	
+	var modType=""
+	
 	var wPNum = players[0].indexOf(req.query.w)
 	var bPNum = players[0].indexOf(req.query.b)
 	//var firstFreeTable=-5
@@ -843,6 +846,7 @@ app.get('/startGame', function(req, res) {
 					firstFreeTable = 1
 				} else {
 					firstFreeTable = xData.firstFreeTable
+					modType=xData.modType
 					xData.firstFreeTable++
 				}
 				db.collection("tables")
@@ -934,7 +938,8 @@ app.get('/startGame', function(req, res) {
 
 	res.json({
 		message: "ok",
-		tableNum: firstFreeTable
+		tableNum: firstFreeTable,
+		modType:modType
 	});
 				
 				//ide
