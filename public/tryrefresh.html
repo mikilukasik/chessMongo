@@ -156,7 +156,14 @@ $interval(function(){
 	
 },$rootScope.heartBeat)
 
-
+$rootScope.refreshWhenUp=function(){
+		$http.get('/forceStop?t='+$rootScope.tableNum)
+			.then(function(response){
+				window.location.reload(true);//$rootScope.sendMessage('looped, forceStop sent')
+			},function(data){
+				$timeout($rootScope.refreshWhenUp(),3000)
+			})
+}
 
 
 
@@ -527,6 +534,14 @@ $rootScope.sendMessage('playOneGame called')
 						$rootScope.playWhenReady(myGame,mt,mv,!wNx, wMod)
 				},function(data){
 					$rootScope.headMessage='Connection error, refreshing'
+					
+					
+					$rootScope.refreshWhenUp()
+					
+					
+					
+					
+					
 				})
 						
 
@@ -543,7 +558,7 @@ $rootScope.sendMessage('playOneGame called')
 							$rootScope.sendMessage('lowering counter then start new gamepair or quit')
 							//gamePairCounter--
 							$rootScope.whatToDo="startNewGame"
-							window.location.reload(true);
+							$rootScope.refreshWhenUp()
 						}
 						
 					}
