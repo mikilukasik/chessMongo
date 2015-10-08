@@ -1054,9 +1054,9 @@ app.get('/getModType', function(req, res) {
 
 	lobbyPollNum++
 
-	res.json({
-		//lobbychat: lobbyChat
-	});
+	// res.json({
+	// 	//lobbychat: lobbyChat
+	// });
 
 });
 
