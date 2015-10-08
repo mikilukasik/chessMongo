@@ -1580,8 +1580,11 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 		
 		//if(modType=="lpV")loopValue*= modConst
 		
-		console.log(modType)
+		//console.log(modType)
 		switch(modType){
+			case undefined:
+			
+			break;
 			
 			case "lpV":
 				
@@ -1594,6 +1597,49 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 				captureScore*= modConst
 				
 			break;
+			
+			case "tt2":
+			
+				tTable2Value*= modConst
+				
+			break;
+			
+			case "sVS":
+			
+				smallValScore*= modConst
+				
+			break;
+			
+			
+			case "dGH":
+			
+				dontGetHit*= modConst
+				
+			break;
+			
+			
+			case "rPr":
+			
+				retProtect*= modConst
+				
+			break;
+			
+			
+			case "mht":
+			
+				mhit*= modConst
+				
+			break;
+			
+			
+			case "hht":
+			
+				hhit*= modConst
+				
+			break;
+			
+			
+			
 			
 		}
 		
