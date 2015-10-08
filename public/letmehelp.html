@@ -112,11 +112,22 @@ $interval(function(){
 				if(gamePairCounter==0){
 					$rootScope.stuffToDo=false
 				}else{
+					
+					var modTypeRnd=Math.random()
+					
+					if(modTypeRnd>0.5){
+						modType="lpV"
+					}else{
+						modType="cpt"
+					}
+					
+					
 					modVal=Math.random()*100
 					$rootScope.mv=modVal
+					$rootScope.mt=modType
 					
 					$rootScope.sendMessage('starting game, playing white')
-					$rootScope.playOneGame(true,whatToMod,modVal)	//this will call another game with black when done
+					$rootScope.playOneGame(true,modType,modVal)	//this will call another game with black when done
 					
 				}
 			
@@ -251,10 +262,10 @@ $rootScope.start=function(wName,bName,wModded,modType){
 					var initedTable = []
 				if(wModded){
 					//firstFreeTable=$rootScope.start("mod lpV:" + modVal, "standard").tableNum
-					initedTable = new Dbtable(response.tableNum, "mod lpV:" + modVal, "standard")
+					initedTable = new Dbtable(response.tableNum, modType+" mod: " + modVal, "standard")
 				}else{
 					//firstFreeTable=$rootScope.start( "standard", "mod lpV:" + modVal).tableNum
-					initedTable = new Dbtable(response.tableNum, "standard", "mod lpV:" + modVal)
+					initedTable = new Dbtable(response.tableNum, "standard", modType+" mod: " + modVal)
 				}
 				//$rootScope.table=initedTable.table
 				//initedTable.chat=[new String(new Date())]
@@ -299,7 +310,7 @@ var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
 $rootScope.stuffToDo=false
 $rootScope.whatToDo=""
 
-var whatToMod="lpV"
+//var whatToMod="lpV"
 
 $rootScope.gamePairCounter=-10
 
@@ -405,10 +416,10 @@ $rootScope.sendMessage('playOneGame called')
 	$rootScope.whatToDo='busy'
 
 				if(wModded){
-					$rootScope.start("mod lpV:" + modVal, "standard",true,'lpV')//.tableNum
+					$rootScope.start(modType+" mod: " + modVal, "standard",true,modType)//.tableNum
 					//initedTable = new Dbtable(firstFreeTable, "mod lpV:" + modVal, "standard")
 				}else{
-					$rootScope.start( "standard", "mod lpV:" + modVal,false,'lpV')//.tableNum
+					$rootScope.start( "standard", modType+" mod: " + modVal,false,modType)//.tableNum
 					//initedTable = new Dbtable(firstFreeTable, "standard", "mod lpV:" + modVal)
 				}
 				//$rootScope.table=initedTable.table
@@ -634,7 +645,7 @@ appModule.controller("ApplicationController", ApplicationController);
 				<!--<td class="ideRakd" ng-include="'/wtable.html'"></td>-->
 		</tr><tr>	
 			<td>
-	{{playerColor}} on table {{tableNum}}, modVal:{{mv}}
+	{{playerColor}} {{modType}} mod on table {{tableNum}}, modVal:{{mv}}
 	<br>
 	p{{myGame.pollNum}}, pending:{{pollsPending}}, res:{{respo}}
 	<h1>{{headMessage}}</h1>
