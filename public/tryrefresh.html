@@ -74,12 +74,13 @@ $interval(function(){
 	// learners[5]=[]	//learner modVal
 	// learners[6]=[]	//learner at pollnum
 	
+	//$rootScope.pollsPending++
 	$rootScope.pollsPending++
 	$http.get('/learnerPoll?n='+myCookieID+'&t='+$rootScope.tableNum+'&mt='+$rootScope.mt+'&mv='+$rootScope.mv+'&p='+$rootScope.pollNum+'&r='+Math.random()).then(function(response){
 		$rootScope.respo=response.message
-		$rootScope.pollsPending++
+		
 		if(response.message=='ok'){
-			$rootScope.pollsPending-=2
+			$rootScope.pollsPending--
 			//$rootScope.headMessage=respo.message
 		}
 		
