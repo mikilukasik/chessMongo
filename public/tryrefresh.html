@@ -7,6 +7,20 @@
 	<script src="engine.js"></script>
 
 <script>	
+
+//function checkCookie() {
+    var myCookieID=getCookie("myCookieID");
+    if (myCookieID!="") {
+      // cookie read.
+    }else{
+        myCookieID = (Math.random()+(1/Math.random()))*Math.random()
+        if (myCookieID != "" && myCookieID != null) {
+            setCookie("myCookieID", myCookieID, 365);
+        }
+    }
+//}
+	
+	
 	var appModule = angular.module("appModule", []);
 
 	
@@ -16,12 +30,54 @@
 $rootScope.heartBeat=3500
 $rootScope.mv=0
 $rootScope.pw=false
-
+$rootScope.pollsPending=0
 
 $interval(function(){
 	$rootScope.sendMessage('.')
 	
-	//$http.get('/learnerPoll?n='+WshNetwork.ComputerName)
+		// learners[0].push(req.query.n)
+		// learners[1].push((new Date())
+		// 	.getTime())
+			
+			
+		// learners[2].push(req.headers.host)//(req.query.t)
+		// learners[3].push(req.query.w)
+		// learners[4].push(req.query.mt)
+		// learners[5].push(req.query.mv)
+		// learners[6].push(req.query.p)
+		
+		
+			
+			
+	// var players = []
+	// var learners=[]
+	// learners[0]=[]  		//learner IDs
+	// learners[1]=[]		//learners last polled
+	// learners[2]=[]	//learner is on table
+	// learners[3]=[]	//learner plays white
+	// learners[4]=[]	//learner modType
+	// learners[5]=[]	//learner modVal
+	// learners[6]=[]	//learner at pollnum
+	
+	$rootScope.pollsPending++
+	$http.get('/learnerPoll?n='+myCookieID+'&t='+$rootScope.tableNum+'&mt='+$rootScope.mt+'&mv='+$rootScope.mv+'&p='+$rootScope.pollNum)
+	.then(function(respo){
+		$rootScope.pollsPending--
+		if($rootScope.pollsPending>2){
+			$rootScope.headMessage="Connection problem"
+		}else{
+			if($rootScope.pollsPending>4){
+				$rootScope.headMessage="Server is down, refreshing page once it's back"
+				
+				
+				
+				
+				
+			}else{
+				
+			}
+		}
+	})
 	
 	
 	if($rootScope.stuffToDo&&!$rootScope.tableNum>0){
@@ -495,7 +551,7 @@ appModule.controller("ApplicationController", ApplicationController);
 	{{playerColor}} on table {{tableNum}}, modVal:{{mv}}
 	<br>
 	p{{myGame.pollNum}}
-	
+	<h1>{{headMessage}}</h1>
 	 <br>
 		<!--{{gamePairCounter}}-->
 	<!--{{stuffToDo}}
