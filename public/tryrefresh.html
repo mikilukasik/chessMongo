@@ -85,17 +85,17 @@ $interval(function(){
 	// 		//$rootScope.headMessage=respo.message
 	// 	}
 		
-		if($rootScope.pollsPending>2){
-			$rootScope.headMessage="Connection problem"
+		// if($rootScope.pollsPending>2){
+		// 	$rootScope.headMessage="Connection problem"
 		
-			if($rootScope.pollsPending>4){
-				$rootScope.headMessage="Server is down, refreshing page once it's back"
+		// 	if($rootScope.pollsPending>4){
+		// 		$rootScope.headMessage="Server is down, refreshing page once it's back"
 				
 				
 			
 				
-			}
-		}
+		// 	}
+		// }
 	// })
 	
 	
@@ -195,33 +195,36 @@ $rootScope.move = function(whatMove,tableNum) {
 					
 					$rootScope.table= response.table
 
-				}).then(function(){
+	 			},function(data){
+					 $rootScope.headMessage="Connection problem"
+				 })
+	//.then(function(){
 					
 					
-					$rootScope.pollsPending++
-	$http.get('/learnerPoll?n='+myCookieID+'&t='+$rootScope.tableNum+'&mt='+$rootScope.mt+'&mv='+$rootScope.mv+'&p='+$rootScope.pollNum+'&r='+Math.random())
-	.then(function(response){
-		$rootScope.respo=response.message
+	// 				$rootScope.pollsPending++
+	// $http.get('/learnerPoll?n='+myCookieID+'&t='+$rootScope.tableNum+'&mt='+$rootScope.mt+'&mv='+$rootScope.mv+'&p='+$rootScope.pollNum+'&r='+Math.random())
+	// .then(function(response){
+	// 	$rootScope.respo=response.message
 		
-		if(response.message=='ok'){
-			$rootScope.pollsPending--
-			//$rootScope.headMessage=respo.message
-		}
+	// 	if(response.message=='ok'){
+	// 		$rootScope.pollsPending--
+	// 		//$rootScope.headMessage=respo.message
+	// 	}
 		
-		// if($rootScope.pollsPending>2){
-		// 	$rootScope.headMessage="Connection problem"
+	// 	// if($rootScope.pollsPending>2){
+	// 	// 	$rootScope.headMessage="Connection problem"
 		
-		// 	if($rootScope.pollsPending>4){
-		// 		$rootScope.headMessage="Server is down, refreshing page once it's back"
+	// 	// 	if($rootScope.pollsPending>4){
+	// 	// 		$rootScope.headMessage="Server is down, refreshing page once it's back"
 				
 				
 			
 				
-		// 	}
-		// }
-	})
+	// 	// 	}
+	// 	// }
+	// })
 					
-				})
+	// 			})
 
 		}
 $rootScope.start=function(wName,bName,wModded,modType){
