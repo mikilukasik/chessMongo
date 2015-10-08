@@ -218,11 +218,21 @@ setInterval(function() {
 					"wName": true,
 					"bName": true
 				}).toArray(function(err25, actGames) {
+					
+					actGames.sort(function(a,b){
+						if(a.tableNum>b.tableNum){
+							return 1
+						}else{
+							return -1
+						}
+					})
 
 					db2.collection("tables")
 						.findOne({
 							"tableNum": "xData"
 						}, function(err24, xData) {
+							
+							
 
 							xData.activeTables = actGames
 
