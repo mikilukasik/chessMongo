@@ -118,17 +118,16 @@ $interval(function(){
 					// if(modTypeRnd>0.5){
 					// 	modType="lpV"
 					// }else{
-					// 	modType="cpt"
-					// }
-					
-					
-					modVal=Math.random()*100
-					$rootScope.mv=modVal
-					//$rootScope.mt=modType
-					
-					$rootScope.sendMessage('starting game, playing white')
+						//modType="cpt"
+					//}
 					$http.get('/getModType').then(function(response){
-						$rootScope.playOneGame(true,response.modType,modVal)	//this will call another game with black when done
+						modType=response.modType
+						modVal=Math.random()*100
+						$rootScope.mv=modVal
+						$rootScope.mt=modType
+						
+						$rootScope.sendMessage('starting game, playing white')
+						$rootScope.playOneGame(true,modType,modVal)	//this will call another game with black when done
 					})
 				}
 			
@@ -253,10 +252,9 @@ $rootScope.start=function(wName,bName,wModded,modType){
 	$http.get('/startGame?w='+wName+"&b="+bName)
 		.then(function(response) {
 					var tableNum= response.data.tableNum
-					//if(wModded) modType= response.data.modType
+					
 					$rootScope.sendMessage('tableNum received: '+tableNum)
 					$rootScope.tableNum= tableNum
-					$rootScope.mt=modType
 					// $apply()
 					
 					//
@@ -415,7 +413,6 @@ $rootScope.playOneGame=function(wModded,modType,modVal){
 	
 $rootScope.sendMessage('playOneGame called')
 	var firstFreeTable = 0
-	
 	$rootScope.whatToDo='busy'
 
 				if(wModded){
@@ -587,15 +584,7 @@ $rootScope.sendMessage('playOneGame called')
 						
 						if(wMod) {
 							$rootScope.sendMessage('Starting rematch (play black)')
-							
-							$http.get('/getModType').then(function(response){
-								$rootScope.playOneGame(false,response.modType,mv)
-							})
-							
-							
-							
-							
-							//$timeout($rootScope.playOneGame(false,mt,mv),200)
+							$timeout($rootScope.playOneGame(false,mt,mv),200)
 						}else{
 							$rootScope.sendMessage('lowering counter then start new gamepair or quit')
 							//gamePairCounter--
