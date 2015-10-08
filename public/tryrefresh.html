@@ -81,15 +81,12 @@ $interval(function(){
 		
 		if($rootScope.pollsPending>2){
 			$rootScope.headMessage="Connection problem"
-		}else{
+		
 			if($rootScope.pollsPending>4){
 				$rootScope.headMessage="Server is down, refreshing page once it's back"
 				
 				
-				
-				
-				
-			}else{
+			
 				
 			}
 		}
