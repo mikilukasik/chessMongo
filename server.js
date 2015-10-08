@@ -981,7 +981,7 @@ app.get('/mod', function(req, res) {
 }
 )
 }
-)
+)})
 
 
 app.get('/watchGame', function(req, res) {
