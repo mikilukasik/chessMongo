@@ -4,6 +4,8 @@
 data
 node_modules
 
+~*.*
+
 *.exe
 *.pdb
 
