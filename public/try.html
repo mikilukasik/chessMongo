@@ -127,7 +127,7 @@ $interval(function(){
 					//$rootScope.mt=modType
 					
 					$rootScope.sendMessage('starting game, playing white')
-					$rootScope.playOneGame(true,false,modVal)	//this will call another game with black when done
+					$rootScope.playOneGame(true,$rootScope.mt,modVal)	//this will call another game with black when done
 					
 				}
 			
