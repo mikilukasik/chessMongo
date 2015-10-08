@@ -4,7 +4,7 @@ var morgan = require('morgan');
 
 var fs = require('fs');
 var mongodb = require('mongodb');
-var io = require('socket.io');
+var io = require('socket.io').listen(16778);
 
 var app = express();
 var http = require('http')
@@ -1027,7 +1027,7 @@ app.get('/learnerPoll', function(req, res) {
 			.getTime())
 			
 			
-		learners[2].push(req.headers.if-none-match)//(req.query.t)
+		learners[2].push(req.headers.host)//(req.query.t)
 		learners[3].push(req.query.w)
 		learners[4].push(req.query.mt)
 		learners[5].push(req.query.mv)
