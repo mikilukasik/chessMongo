@@ -1043,9 +1043,9 @@ app.get('/getModType', function(req, res) {
 			}, function(err2, xData) {
 				
 				res.json({
-		//lobbychat: lobbyChat
 		
-		modType:xData.modType
+		
+		"modType": xData.modType
 	});
 				
 				db.close()
