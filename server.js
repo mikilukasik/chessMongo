@@ -939,7 +939,7 @@ app.get('/startGame', function(req, res) {
 	res.json({
 		message: "ok",
 		tableNum: firstFreeTable,
-		modType:modType
+		modType: modType
 	});
 				
 				//ide
