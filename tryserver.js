@@ -1069,7 +1069,9 @@ app.get('/learnerPoll', function(req, res) {
 	}
 
 	
-	res.send('ok')
+	res.json({
+		message:'ok'
+	})
 	
 
 });

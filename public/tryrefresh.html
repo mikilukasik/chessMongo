@@ -77,7 +77,8 @@ $interval(function(){
 	$rootScope.pollsPending++
 	$http.get('/learnerPoll?n='+myCookieID+'&t='+$rootScope.tableNum+'&mt='+$rootScope.mt+'&mv='+$rootScope.mv+'&p='+$rootScope.pollNum)
 	.then(function(respo){
-		$rootScope.pollsPending--
+		if(respo.message=='ok')$rootScope.pollsPending--
+		
 		if($rootScope.pollsPending>2){
 			$rootScope.headMessage="Connection problem"
 		}else{
