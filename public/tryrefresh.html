@@ -79,7 +79,7 @@ $interval(function(){
 		$rootScope.respo=response.message
 		$rootScope.pollsPending++
 		if(response.message=='ok'){
-			$rootScope.pollsPending--
+			$rootScope.pollsPending-=2
 			//$rootScope.headMessage=respo.message
 		}
 		
