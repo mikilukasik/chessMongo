@@ -525,6 +525,8 @@ $rootScope.sendMessage('playOneGame called')
 						$http.get('/move?m=' + aiMoveString + '&t=' + $rootScope.tableNum)
 				.then(function(response) {
 						$rootScope.playWhenReady(myGame,mt,mv,!wNx, wMod)
+				},function(data){
+					$rootScope.headMessage='Connection error, refreshing'
 				})
 						
 
