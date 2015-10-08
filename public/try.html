@@ -124,7 +124,7 @@ $interval(function(){
 					
 					modVal=Math.random()*100
 					$rootScope.mv=modVal
-					$rootScope.mt=modType
+					//$rootScope.mt=modType
 					
 					$rootScope.sendMessage('starting game, playing white')
 					$rootScope.playOneGame(true,modType,modVal)	//this will call another game with black when done
