@@ -121,7 +121,7 @@ $interval(function(){
 						//modType="cpt"
 					//}
 					$http.get('/getModType').then(function(response){
-						modType=response.modType
+						modType=response.data.modType
 						modVal=Math.random()*100
 						$rootScope.mv=modVal
 						$rootScope.mt=modType
