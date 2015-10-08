@@ -194,8 +194,9 @@ $rootScope.move = function(whatMove,tableNum) {
 				.then(function(response) {
 					
 					$rootScope.table= response.table
-
-	 			},function(data){
+					$rootScope.headMessage="Connection ok"
+	 			},
+				 function(data) {
 					 $rootScope.headMessage="Connection problem"
 				 })
 	//.then(function(){
