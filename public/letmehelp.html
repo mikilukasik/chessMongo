@@ -273,6 +273,16 @@ $rootScope.start=function(wName,bName,wModded,modType){
 				$rootScope.sendMessage('Table should be in DB, start soon..')
 
 				$rootScope.playWhenReady($rootScope.myGame,modType,modVal,true,wModded)
+				},function(data){
+					$rootScope.headMessage='Connection error, refreshing'
+					
+					
+					$rootScope.refreshWhenUp()
+					
+					
+					
+					
+					
 				})
 
 	//if (tableNum>0)return tableNum
@@ -439,7 +449,17 @@ $rootScope.sendMessage('playOneGame called')
 			$http.get('/forceStop?t='+$rootScope.tableNum)
 			.then(function(response){
 				$rootScope.sendMessage('looped, forceStop sent')
-			})
+			},function(data){
+					$rootScope.headMessage='Connection error, refreshing'
+					
+					
+					$rootScope.refreshWhenUp()
+					
+					
+					
+					
+					
+				})
 		}
 			 //		ai	<------------
 			 
