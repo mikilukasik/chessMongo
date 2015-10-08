@@ -588,9 +588,9 @@ $rootScope.sendMessage('playOneGame called')
 						if(wMod) {
 							$rootScope.sendMessage('Starting rematch (play black)')
 							
-							
-								$rootScope.playOneGame(false,$rootScope.mt,mv)
-							//})
+							$http.get('/getModType').then(function(response){
+								$rootScope.playOneGame(false,response.modType,mv)
+							})
 							
 							
 							
