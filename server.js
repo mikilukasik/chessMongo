@@ -1315,7 +1315,7 @@ app.get('/stats.txt', function(req, res) {
 										asyncHack--	//request answered
 										if(asyncHack==0){
 											res.write('end')
-											res.end()
+											//res.end()
 										}
 									})
 												
