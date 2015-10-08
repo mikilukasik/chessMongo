@@ -937,9 +937,9 @@ app.get('/startGame', function(req, res) {
 	// });
 
 	res.json({
-		message: "ok",
-		tableNum: firstFreeTable,
-		modType: modType
+		"message": "ok",
+		"tableNum": firstFreeTable,
+		"modType": modType
 	});
 				
 				//ide
