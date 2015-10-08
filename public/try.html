@@ -353,22 +353,7 @@
 				$rootScope.start("standard", modType + " mod: " + modVal, false, modType) //.tableNum
 					//initedTable = new Dbtable(firstFreeTable, "standard", "mod lpV:" + modVal)
 			}
-			//$rootScope.table=initedTable.table
-			//initedTable.chat=[new String(new Date())]
-
-			// db.collection("tables")
-			// 	.insert(initedTable, function(err, doc) {});
-
-			//$rootScope.myGame = initedTable
-
-			// $rootScope.sendMessage('Table should be in DB, start soon..')
-
-			// $rootScope.playWhenReady($rootScope.myGame,modType,modVal,true,wModded)
-
-			//db.close()
-
-			//	});
-			//});
+		
 
 		}
 
@@ -410,11 +395,7 @@
 
 				}
 
-				var sendJson = {
-					aimove: aiMoveString,
-					fulltable: result,
-					toconsole: toConsole
-				}
+				
 				$rootScope.whatToDo = 'idle'
 			} else { //can't move
 
@@ -423,17 +404,9 @@
 
 				myGame.gameIsOn = false
 
-				var sendJson = {
-					aimove: "",
-					fulltable: result
-				}
+				
 			}
-			//} else {
-			// var sendJson = {
-			// 	error: "error"
-			// }
-			//}
-
+			
 			$rootScope.sendMessage(' DONE. ')
 
 			if(myGame.gameIsOn) {
@@ -457,7 +430,7 @@
 
 				myGame.pollNum++
 
-					myGame.moved = new Date().getTime()
+				myGame.moved = new Date().getTime()
 
 				myGame.table = addMovesToTable(myGame.table, myGame.wNext)
 
@@ -475,7 +448,7 @@
 			// 	
 
 			if(myGame.gameIsOn) {
-				$http.get('/move?m=' + aiMoveString + '&t=' + $rootScope.tableNum)
+				$http.get('/move?s=1&m=' + aiMoveString + '&t=' + $rootScope.tableNum)
 					.then(function(response) {
 						$rootScope.playWhenReady(myGame, mt, mv, !wNx, wMod)
 					}, function(data) {
@@ -495,39 +468,26 @@
 					$timeout($rootScope.playOneGame(false, mt, mv), 200)
 				} else {
 					$rootScope.sendMessage('lowering counter then start new gamepair or quit')
-						//gamePairCounter--
+						
 					$rootScope.whatToDo = "startNewGame"
 					$rootScope.refreshWhenUp()
 				}
 
 			}
 
-			// 				});
-			// 		});
+		
 
 		}
 
-		// app.get('/startLearningGame', function(req, res) {
+		
 
 		$rootScope.sendMessage('Sending response to start request...???nope')
 
-		// res.json({
-		// 	message: "starting..."
-		// });
-		//playOneGame(true,'lpV',-100)
-		//playOneGame(false,'lpV',-100)
 		$rootScope.playWhenReady = function(myGame, mt, mv, wNx, wMod) {
+			
 			$rootScope.sendMessage('calling playgame (new move)')
-				// if($rootScope.whatToDo=="busy"){
-				// 	$timeout($rootScope.playWhenReady(myGame,mt,mv,wNx, wMod),5000)
-				// }else{
-				// 	//$scope.$apply()
-				// 	$rootScope.sendMessage('ready for next move')
-				//$timeout(
 			$rootScope.playgame(myGame, mt, mv, wNx, wMod)
-				//,5000)
-				//		}
-
+				
 		}
 		$rootScope.stuffToDo = true
 		$rootScope.whatToDo = "startNewGame"

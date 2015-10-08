@@ -279,6 +279,9 @@ var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 }
 
 app.get('/move', function(req, res) {
+	
+	var proper=true
+	if(req.query.s==1)proper=false
 
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
@@ -306,19 +309,20 @@ app.get('/move', function(req, res) {
 
 					//tableInDb.pollNum++ //<---- majd increment a checkTableStatus ha kiertekelte	//nemis
 
-					evalGame(tableInDb)
+					if(proper)evalGame(tableInDb)
 
 					tableInDb.pollNum++
 
 						//tableInDb.toBeChecked = true //tells it to server(itself) to evaluate table
 
-						tableInDb.moved = new Date().getTime()
+					tableInDb.moved = new Date().getTime()
 
-					tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
+					//if(proper)//kell az allpasttablehoz
+					if(proper)tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
 
 					//remember this state for 3fold rule
 
-					tableInDb.allPastTables.push(createState(tableInDb.table))
+					if(proper)tableInDb.allPastTables.push(createState(tableInDb.table))
 
 					popThem(req.query.t, tableInDb, 'moved', 'Player moved: ' + moveStr) //respond to pending longpolls
 
@@ -329,11 +333,11 @@ app.get('/move', function(req, res) {
 
 					///////
 
-					//	if(tableInDb.gameIsOn){
+					
 
 					if(tableInDb.gameIsOn &&
 						((tableInDb.wNext && tableInDb.wName == "Computer") ||
-							(!tableInDb.wNext && tableInDb.bName == "Computer"))) {
+							(!tableInDb.wNext && tableInDb.bName == "Computer"))) {		//if computer's next
 						//need to make aiMove
 						var options = {
 							host: 'localhost',
@@ -350,15 +354,7 @@ app.get('/move', function(req, res) {
 								});
 
 								response.on('end', function() {
-									/////////
-
-									//			mongodb.connect(cn, function(err, setIntDB2) { //itt egy server moveitot csinalunk vegulis
-									// setIntDB2.collection("tables")
-									// 	.findOne({
-									// 		tableNum: Number(tableInDb.tableNum)
-									// 	}, function(err2, tableInDb2) {
-									// console.log(resJsn)
-									// console.log('dssdfsdgs')
+								
 									if(!(resJsn == null)) {
 										var moveStr = String(resJsn.aimove)
 										if(!(moveStr == "")) { //there's at least 1 move
@@ -399,11 +395,7 @@ app.get('/move', function(req, res) {
 
 										}
 									}
-									//setIntDB2.close()
-									//});
-
-									//	});
-									/////////
+								
 									db.close()
 								});
 							})
@@ -413,16 +405,14 @@ app.get('/move', function(req, res) {
 						db.close()
 					}
 
-					//}
-
-					////////////	
+			
 
 				}
-				//db.close()
+			
 			});
 
-		//db.close()
-		res.json({});
+		
+		res.json({message: "moved"});
 
 	});
 });
