@@ -1033,6 +1033,33 @@ app.get('/lobbyChat', function(req, res) {
 
 });
 
+
+app.get('/getModType', function(req, res) {
+	//console.log(req)
+	mongodb.connect(cn, function(err, db) {
+		db.collection("tables")
+			.findOne({
+				tableNum: "xData"
+			}, function(err2, xData) {
+				
+				res.json({
+		//lobbychat: lobbyChat
+		
+		modType:xData.modType
+	});
+				
+				db.close()
+			});
+	});
+
+	lobbyPollNum++
+
+	res.json({
+		//lobbychat: lobbyChat
+	});
+
+});
+
 app.get('/getMyRecentGames', function(req, res) {
 	//console.log(req)
 	mongodb.connect(cn, function(err, db) {
