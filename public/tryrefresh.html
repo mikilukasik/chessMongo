@@ -76,7 +76,7 @@ $interval(function(){
 	
 	$rootScope.pollsPending++
 	$http.get('/learnerPoll?n='+myCookieID+'&t='+$rootScope.tableNum+'&mt='+$rootScope.mt+'&mv='+$rootScope.mv+'&p='+$rootScope.pollNum)
-	.then(function(respo){
+	.then(function(errd,respo){
 		$rootScope.respo=respo.message
 		if(respo.message=='ok'){
 			$rootScope.pollsPending--
