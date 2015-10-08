@@ -1176,12 +1176,12 @@ function countInArray(inValue,inArray){
 
 function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 	var looped=false
-	var lpVMod=1
+	var modConst=1
 	if (modType=="lpV"){
 		if(modVal<=50){
-			lpVMod=modVal/50
+			modConst=modVal/50
 		}else{
-			lpVMod=1/((100-modVal)/50)
+			modConst=1/((100-modVal)/50)
 		}
 	}
 
@@ -1578,7 +1578,26 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 		
 		///modType 'l' is loopval *=-1
 		
-		if(modType=="lpV")loopValue*= lpVMod
+		//if(modType=="lpV")loopValue*= modConst
+		
+		console.log(modType)
+		switch(modType){
+			
+			case "lpV":
+				
+				loopValue*= modConst
+			
+			break;
+			
+			case "cpt":
+			
+				captureScore*= modConst
+				
+			break;
+			
+		}
+		
+		
 		
 		var pushThisValue = 
 		
@@ -1598,9 +1617,9 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 							pushHimBack+
 							mostMoved
 
-		allTempTables.push([stepMove, pushThisValue, hisBestRtnMove, loopValue, captureScore, smallValScore,
-			 				dontGetHit,tTable2Value, retProtect, mhit, hhit, fwdVal,lsancValue,rsancValue,
-							 sancValue,getToMiddle,pushHimBack,mostMoved])
+		allTempTables.push([stepMove, pushThisValue])//, hisBestRtnMove, loopValue, captureScore, smallValScore,
+			 				// dontGetHit,tTable2Value, retProtect, mhit, hhit, fwdVal,lsancValue,rsancValue,
+							//  sancValue,getToMiddle,pushHimBack,mostMoved])
 
 	})
 
