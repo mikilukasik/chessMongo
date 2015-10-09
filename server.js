@@ -1098,7 +1098,7 @@ app.get('/whoIsLearning', function(req, res) {
 	// })
 	
 	for (var i=0;i<learners[0].length;i++){
-		texttosnd=texttosnd+learners[0][i]+String.fromCharCode(9)+learners[2][i]+String.fromCharCode(9)+learners[4][i]+String.fromCharCode(9)+learners[6][i]+String.fromCharCode(9)+learners[5][i]+String.fromCharCode(13)
+		texttosnd=texttosnd+learners[0][i]+String.fromCharCode(9)+String.fromCharCode(9)+learners[2][i]+String.fromCharCode(9)+learners[4][i]+String.fromCharCode(9)+learners[6][i]+String.fromCharCode(9)+learners[5][i]+String.fromCharCode(13)
 	}
 	res.send(texttosnd)
 })
