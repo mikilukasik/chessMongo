@@ -52,7 +52,7 @@
 			return "";
 		}
 
-		$scope.cookieID = getCookie("myCookieID");
+		$scope.cookieID = getCookie("myID");
 		if($scope.cookieID==""){
 		
 			$scope.sendID=Math.random*100000000
@@ -61,7 +61,7 @@
 		}
 
 		$scope.setID = function(id) {
-			setCookie("myCookieID", id, 365)
+			setCookie("myID", id, 365)
 			$scope.cookieID = id //$scope.gotID=true
 			$scope.sendID=id
 		}	
