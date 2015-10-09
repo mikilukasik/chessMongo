@@ -1090,11 +1090,7 @@ app.get('/whoIsLearning', function(req, res) {
 	// res.json({
 	// 	learners:learners
 	var texttosnd=[]
-	res.writeHead(200, {
-  
-  'Content-Type': 'text/plain' 
-  
-  });
+	
 	// })
 	
 	for (var i=0;i<learners[0].length;i++){
