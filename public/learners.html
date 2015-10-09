@@ -10,7 +10,7 @@
 	var appModule = angular.module("appModule", []);
 
 	
-	function ApplicationController( $http, $interval,  $rootScope) {	
+	function ApplicationController( $http, $interval,  $scope) {	
 		
 		
 		var heartBeat=3500
@@ -18,8 +18,8 @@
 		
 		$interval(function(){
 			$http.get('/whoIsLearning').then(function(response){
-				$rootScope.learners=response.learners
-				// $scope.$apply()
+				$scope.learners=response.learners
+				$scope.$apply()
 			})
 			
 	},heartBeat)
