@@ -58,7 +58,7 @@
 		$rootScope.totalTook = getCookie("totalTook");
 		$rootScope.moveCount = getCookie("moveCount");
 		
-		
+		if($rootScope.moveCount =="")$rootScope.moveCount=0
 		
 		if($scope.cookieID==""){
 		
@@ -253,6 +253,7 @@
 					$rootScope.sendMessage('tableNum received: ' + tableNum)
 					$rootScope.tableNum = tableNum
 						// $apply()
+					
 
 					//
 
