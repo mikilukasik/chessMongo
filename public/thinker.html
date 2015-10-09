@@ -9,7 +9,9 @@
 	<script>
 	var appModule = angular.module("appModule", []);
 
-	function ApplicationController($rootScope, $http, $interval, $timeout, $scope) {
+	function ApplicationController($scope, $http, $interval, $timeout, $scope) {
+		//var sendID=""
+		
 		$rootScope.cookieID = ""
 			//$rootScope.gotID=false
 
@@ -31,12 +33,49 @@
 			return "";
 		}
 
-		$rootScope.cookieID = getCookie("myCookieID");
+		$scope.cookieID = getCookie("myCookieID");
+		if($scope.cookieID==""){
+		
+			$scope.sendID=Math.random*100000000
+		}else{
+			$scope.sendID=$scope.cookieID
+		}
 
 		$scope.setID = function(id) {
 			setCookie("myCookieID", id, 365)
 			$rootScope.cookieID = id //$rootScope.gotID=true
+			$scope.sendID=id
 		}
+		
+		//$scope.taskNum=0
+		
+		var longPollTasks=function(){
+			
+			$http.get('/longPollTasks?id='+$scope.sendID)
+				.then(function(response){
+					
+					//$scope.taskNum=response.data.taskNum
+					
+					$scope.receivedMessage=response.data.message
+					
+					
+					
+					longPollTasks()			//recall for new task
+				},function(data){
+					//error, retry
+					$scope.receivedMessage='error'
+					$interval( longPollTasks(),3000)
+				})
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
 
 	}
 	appModule.controller("ApplicationController", ApplicationController);
@@ -55,5 +94,7 @@
 	</form>
 
 	{{cookieID}}
+	{{taskNum}}
+	{{receivedMessage}}
 
 </body>
