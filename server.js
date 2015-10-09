@@ -1089,7 +1089,7 @@ app.get('/whoIsLearning', function(req, res) {
 	// res.write
 	// res.json({
 	// 	learners:learners
-	var texttosnd=""
+	var texttosnd=[]
 	res.writeHead(200, {
   
   'Content-Type': 'text/plain' 
@@ -1098,7 +1098,7 @@ app.get('/whoIsLearning', function(req, res) {
 	// })
 	
 	for (var i=0;i<learners[0].length;i++){
-		texttosnd=texttosnd+learners[0][i]+String.fromCharCode(9)+String.fromCharCode(9)+learners[2][i]+String.fromCharCode(9)+learners[4][i]+String.fromCharCode(9)+learners[6][i]+String.fromCharCode(9)+learners[5][i]+String.fromCharCode(13)
+		texttosnd[i]=[learners[0][i],learners[2][i],learners[4][i],learners[6][i],learners[5][i]]
 	}
 	res.send(texttosnd)
 })
