@@ -1087,7 +1087,7 @@ app.get('/whoIsLearning', function(req, res) {
 	})
 })
 
-app.get('/learnerPing', function(req, res) {
+app.get('/learnerPoll', function(req, res) {
 	//console.log(req)
 	
 	if(learners[0].indexOf(req.query.n) == -1) {
