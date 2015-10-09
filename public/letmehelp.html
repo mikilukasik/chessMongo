@@ -55,8 +55,8 @@
 		$scope.cookieID = getCookie("myID");
 		
 		
-		$rootScope.totalTook = getCookie("totalTook");
-		$rootScope.moveCount = getCookie("moveCount");
+		$rootScope.totalTook = getCookie("totalT");
+		$rootScope.moveCount = getCookie("mCount");
 		
 		if($rootScope.moveCount =="")$rootScope.moveCount=0
 		
@@ -75,8 +75,8 @@
 		
 		
 		$scope.setCookies = function() {
-			 setCookie("totalTook", $rootScope.totalTook, 365);
-			 setCookie("moveCount", $rootScope.moveCount, 365);
+			 setCookie("totalT", $rootScope.totalTook, 365);
+			 setCookie("mCount", $rootScope.moveCount, 365);
 		}
 		
 	$rootScope.myGame={}
