@@ -1100,7 +1100,7 @@ app.get('/whoIsLearning', function(req, res) {
 	for (var i=0;i<learners[0].length;i++){
 		texttosnd[i]=[learners[0][i],learners[2][i],learners[4][i],learners[6][i],learners[5][i]]
 	}
-	res.send(texttosnd)
+	res.json({learners:texttosnd})
 })
 
 app.get('/learnerPoll', function(req, res) {
