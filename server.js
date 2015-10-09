@@ -1146,7 +1146,7 @@ app.get('/learnerPoll', function(req, res) {
 		learners[4][learnerIndex] = req.query.mt
 		learners[5][learnerIndex] = req.query.mv
 		learners[6][learnerIndex] = req.query.p
-		
+		learners[7].push(req.query.a)
 		
 			
 	}
