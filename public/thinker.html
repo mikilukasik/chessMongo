@@ -665,7 +665,7 @@ appModule.controller("ApplicationController", ApplicationController);
 </head>
 <body ng-app="appModule"  ng-controller="ApplicationController">
 	
-	<form ng-submit="setID(thisID)">
+	<form ng-if="gotID==false" ng-submit="setID(thisID)">
 
 					
 	<input id="inputID" ng-model="thisID"></input>
