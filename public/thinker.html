@@ -12,8 +12,8 @@
 	function ApplicationController($scope, $http, $interval, $timeout, $scope) {
 		//var sendID=""
 		
-		$rootScope.cookieID = ""
-			//$rootScope.gotID=false
+		$scope.cookieID = ""
+			//$scope.gotID=false
 
 		function setCookie(cname, cvalue, exdays) {
 			var d = new Date();
@@ -43,7 +43,7 @@
 
 		$scope.setID = function(id) {
 			setCookie("myCookieID", id, 365)
-			$rootScope.cookieID = id //$rootScope.gotID=true
+			$scope.cookieID = id //$scope.gotID=true
 			$scope.sendID=id
 		}
 		
