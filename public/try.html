@@ -66,7 +66,7 @@
 			$scope.sendID=id
 		}	
 		
-	
+	$rootScope.myGame=[]
 
 		$interval(function() {
 			$rootScope.sendMessage('.')
@@ -90,10 +90,10 @@
 			// learners[4]=[]	//learner modType
 			// learners[5]=[]	//learner modVal
 			// learners[6]=[]	//learner at pollnum
-
+			
 			//$rootScope.pollsPending++
 			// $rootScope.pollsPending++
-			$http.get('/learnerPoll?n='+$scope.cookieID+'&t='+$rootScope.tableNum+'&mt='+$rootScope.mt+'&mv='+$rootScope.mv+'&p='+myGame.pollNum+'&r='+Math.random())
+			$http.get('/learnerPoll?n='+$scope.cookieID+'&t='+$rootScope.tableNum+'&mt='+$rootScope.mt+'&mv='+$rootScope.mv+'&p='+$rootScope.myGame.pollNum+'&r='+Math.random())
 			// .then(function(response){
 			// 	$rootScope.respo=response.message
 
