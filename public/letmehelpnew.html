@@ -7,66 +7,44 @@
 	<script src="engine.js"></script>
 
 	<script>
-		
-	
+	function setCookie(cname, cvalue, exdays) {
+		var d = new Date();
+		d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+		var expires = "expires=" + d.toUTCString();
+		document.cookie = cname + "=" + cvalue + "; " + expires;
+	}
+
+	function getCookie(cname) {
+		var name = cname + "=";
+		var ca = document.cookie.split(';');
+		for(var i = 0; i < ca.length; i++) {
+			var c = ca[i];
+			while(c.charAt(0) == ' ') c = c.substring(1);
+			if(c.indexOf(name) == 0) return c.substring(name.length, c.length);
+		}
+		return "";
+	}
+	//function checkCookie() {
+	var myCookieID = getCookie("myCookieID");
+	if(myCookieID != "") {
+		// cookie read.
+	} else {
+		myCookieID = (Math.random() + (1 / Math.random())) * Math.random()
+		if(myCookieID != "" && myCookieID != null) {
+			setCookie("myCookieID", myCookieID, 365);
+		}
+	}
+	//}
 
 	var appModule = angular.module("appModule", []);
 
 	function ApplicationController($rootScope, $http, $interval, $timeout, $scope) {
 		$rootScope.messages = ["."]
 
-
-
-
-
-
-
-
-
 		$rootScope.heartBeat = 3500
 		$rootScope.mv = 0
 		$rootScope.pw = false
 		$rootScope.pollsPending = 0
-		
-		
-		
-			
-	$scope.cookieID = ""
-			//$scope.gotID=false
-
-		function setCookie(cname, cvalue, exdays) {
-			var d = new Date();
-			d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-			var expires = "expires=" + d.toUTCString();
-			document.cookie = cname + "=" + cvalue + "; " + expires;
-		}
-
-		function getCookie(cname) {
-			var name = cname + "=";
-			var ca = document.cookie.split(';');
-			for(var i = 0; i < ca.length; i++) {
-				var c = ca[i];
-				while(c.charAt(0) == ' ') c = c.substring(1);
-				if(c.indexOf(name) == 0) return c.substring(name.length, c.length);
-			}
-			return "";
-		}
-
-		$scope.cookieID = getCookie("myID");
-		if($scope.cookieID==""){
-		
-			$scope.sendID=Math.random*100000000
-		}else{
-			$scope.sendID=$scope.cookieID
-		}
-
-		$scope.setID = function(id) {
-			setCookie("myID", id, 365)
-			$scope.cookieID = id //$scope.gotID=true
-			$scope.sendID=id
-		}	
-		
-	$rootScope.myGame={}
 
 		$interval(function() {
 			$rootScope.sendMessage('.')
@@ -90,10 +68,10 @@
 			// learners[4]=[]	//learner modType
 			// learners[5]=[]	//learner modVal
 			// learners[6]=[]	//learner at pollnum
-			
+
 			//$rootScope.pollsPending++
 			// $rootScope.pollsPending++
-			$http.get('/learnerPoll?n='+$scope.cookieID+'&t='+$rootScope.tableNum+'&mt='+$rootScope.mt+'&mv='+$rootScope.mv+'&p='+$rootScope.myGame.pollNum+'&r='+Math.random())
+			// $http.get('/learnerPoll?n='+myCookieID+'&t='+$rootScope.tableNum+'&mt='+$rootScope.mt+'&mv='+$rootScope.mv+'&p='+$rootScope.pollNum+'&r='+Math.random())
 			// .then(function(response){
 			// 	$rootScope.respo=response.message
 
@@ -522,17 +500,6 @@
 </head>
 
 <body ng-app="appModule" ng-controller="ApplicationController">
-	
-	<form ng-if="cookieID==''" ng-submit="setID(thisID)">
-
-
-		<input id="inputID" ng-model="thisID"></input>
-
-
-	</form>
-	
-	
-	
 	<table>
 		<tr>
 

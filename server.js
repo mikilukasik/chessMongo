@@ -36,6 +36,7 @@ learners[6]=[]	//learner at pollnum
 
 
 var playerDisconnectConst = 15000 //15sec
+var learnerDisconnectConst = 150000 //150 sec
 var gameInactiveConst = 100000 //100sec
 var checkGamesConst = 300
 
@@ -1163,7 +1164,7 @@ function clearDisconnectedPlayers() {
 function clearDisconnectedLearners() {
 	for(var i = learners.length - 1; i >= 0; i--) {
 
-		if(learners[1][i] + playerDisconnectConst < (new Date())
+		if(learners[1][i] + learnerDisconnectConst < (new Date())
 			.getTime()) {
 			learners[1].splice(i, 1)
 			learners[0].splice(i, 1)
