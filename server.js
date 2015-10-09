@@ -6,9 +6,6 @@ var fs = require('fs');
 var mongodb = require('mongodb');
 var io = require('socket.io');
 
-//http://stackoverflow.com/questions/25507866/how-can-i-use-a-cursor-foreach-in-mongodb-using-node-js
-var Q = require('q');
-
 var app = express();
 var http = require('http')
 var httpServ = http.Server(app);
@@ -1280,8 +1277,35 @@ app.get('/stats.txt', function(req, res) {
 		//var arrToString=[]
 
 	var asyncHack=0
-	
-	var callBack1=function(wModGame) {
+
+
+	mongodb.connect(cn, function(err, db) {
+		if(!(db == null)) {
+			db.collection("tables")
+				.find({
+
+					gameIsOn: false,
+					bName: "standard"
+
+				})
+				// .sort( {
+					
+				// 	 tableNum: 1 
+					 
+				// } )
+				//.toArray(function(err28, statData) {
+					//if(statData != null) {
+						// statData.sort(function(a,b){
+						// 	if(a.tableNum>b.tableNum){
+						// 		return 1
+						// 	}else{
+						// 		return -1
+						// 	}
+						// })
+						//statData
+						
+						
+						.forEach(function(wModGame) {
 
 							//var kellEz=0
 								asyncHack++	//countRequests
@@ -1361,62 +1385,12 @@ app.get('/stats.txt', function(req, res) {
 										if(asyncHack==0){
 											//res.write('end')
 											//res.end()
-											
-											return
 										}
 									})
 												
 								//pairedArray.push(wModGame.wName)
 
-							}
-
-
-	mongodb.connect(cn, function(err, db) {
-		if(!(db == null)) {
-			var cursor=db.collection("tables")
-				.find({
-
-					gameIsOn: false,
-					bName: "standard"
-
-				})
-				// .sort( {
-					
-				// 	 tableNum: 1 
-					 
-				// } )
-				//.toArray(function(err28, statData) {
-					//if(statData != null) {
-						// statData.sort(function(a,b){
-						// 	if(a.tableNum>b.tableNum){
-						// 		return 1
-						// 	}else{
-						// 		return -1
-						// 	}
-						// })
-						//statData
-				var calls=[]
-						
-				cursor.each(function(err,doc){
-					 if (doc) calls.push(doc);
-				})
-				
-				var promises = calls.map(callBack1(doc));
-				
-				Q.all(promises).then(function(db,cursor){
-					
-					res.write('end')
-					
-				})
-				
-				
-				
-				
-				
-				
-				//.then(
-								
-							//) //<--statData.forEach(function(wModGame){
+							}) //<--statData.forEach(function(wModGame){
 							//res.send(resArray.join(''));
 
 			//		}
