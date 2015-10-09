@@ -1083,9 +1083,24 @@ app.get('/getMyRecentGames', function(req, res) {
 
 app.get('/whoIsLearning', function(req, res) {
 	clearDisconnectedLearners()
-	res.json({
-		learners:learners
-	})
+	//learners.forEach(function(learner){
+	// 	res.write(learner)
+	// //})
+	// res.write
+	// res.json({
+	// 	learners:learners
+	
+	res.writeHead(200, {
+  
+  'Content-Type': 'text/plain' 
+  
+  });
+	// })
+	
+	for (var i=0;i<learners[0].length,i++){
+		res.write(learners[0]+String.fromCharCode(9)+learners[2]+String.fromCharCode(9)+learners[4]+String.fromCharCode(9)+learners[6]+String.fromCharCode(9)+learners[5]+String.fromCharCode(13))
+	}
+	res.end()
 })
 
 app.get('/learnerPoll', function(req, res) {
