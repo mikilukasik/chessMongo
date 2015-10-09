@@ -55,8 +55,8 @@
 		$scope.cookieID = getCookie("myID");
 		
 		
-		$rootScope.totalTook = getCookie("totalTook");
-		$rootScope.moveCount = getCookie("moveCount");
+		//$rootScope.totalTook = getCookie("totalTook");
+		//$rootScope.moveCount = getCookie("moveCount");
 		
 		if($rootScope.moveCount =="")$rootScope.moveCount=0
 		
@@ -413,6 +413,10 @@
 			} else {
 				result = ai(myGame.table, myGame.wNext, myGame.allPastTables)
 			}
+			$rootScope.moveTook = result[0][2] //timeItTook
+				$rootScope.totalTook= Number($rootScope.totalTook) + Number(result[0][2])
+				$rootScope.moveCount++
+				$rootScope.avgTime=$rootScope.totalTook/$rootScope.moveCount
 
 			if(result[0][6]) {
 				//looped
@@ -435,10 +439,7 @@
 
 				var toConsole = [] //to chat?
 
-				$rootScope.moveTook = result[0][2] //timeItTook
-				$rootScope.totalTook+= result[0][2]
-				$rootScope.moveCount++
-				$rootScope.avgTime=$rootScope.totalTook/$rootScope.moveCount
+				
 				for(var i = 1; i < result.length; i++) {
 
 					toConsole[i] = 'Move:' + result[i][0] + ' RMv:' + result[i][2] + ',' + 'Val:' + result[i][1] + 'a' //+
