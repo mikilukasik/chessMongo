@@ -1638,6 +1638,38 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 				
 			break;
 			
+			case "mMv":
+			
+				mostMoved*= modConst
+				
+			break;
+			
+			case "pHB":
+			
+				pushHimBack*= modConst
+				
+			break;
+			
+			case "gTM":
+			
+				getToMiddle*= modConst
+				
+			break;
+			
+			case "fwV":
+			
+				fwdVal*= modConst
+				
+			break;
+			
+			case "scV":
+			
+							lsancValue*= modConst
+							rsancValue*= modConst
+							sancValue*= modConst
+				
+			break;
+			
 			
 			
 			

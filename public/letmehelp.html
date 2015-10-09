@@ -53,6 +53,13 @@
 		}
 
 		$scope.cookieID = getCookie("myID");
+		
+		
+		$rootScope.totalTook = getCookie("totalTook");
+		$rootScope.moveCount = getCookie("moveCount");
+		
+		
+		
 		if($scope.cookieID==""){
 		
 			$scope.sendID=Math.random*100000000
@@ -65,6 +72,12 @@
 			$scope.cookieID = id //$scope.gotID=true
 			$scope.sendID=id
 		}	
+		
+		
+		$scope.setCookies = function() {
+			 setCookie("totalTook", $rootScope.totalTook, 365);
+			 setCookie("moveCount", $rootScope.moveCount, 365);
+		}
 		
 	$rootScope.myGame={}
 
@@ -93,7 +106,18 @@
 			
 			//$rootScope.pollsPending++
 			// $rootScope.pollsPending++
-			$http.get('/learnerPoll?n='+$scope.cookieID+'&t='+$rootScope.tableNum+'&mt='+$rootScope.mt+'&mv='+$rootScope.mv+'&p='+$rootScope.myGame.pollNum+'&r='+Math.random())
+			$http.get('/learnerPoll?n='+$scope.cookieID+
+				'&t='+$rootScope.tableNum+
+				'&mt='+$rootScope.mt+
+				'&mv='+$rootScope.mv+'&p='+$rootScope.myGame.pollNum+
+				'&a='+$rootScope.avgTime+
+				'&r='+Math.random())
+				
+				.then(function(response){
+					
+				},function(data){
+					$rootScope.refreshWhenUp()
+				})
 			// .then(function(response){
 			// 	$rootScope.respo=response.message
 
@@ -179,6 +203,7 @@
 		$rootScope.refreshWhenUp = function() {
 			$http.get('/forceStop?t=' + $rootScope.tableNum)
 				.then(function(response) {
+					$scope.setCookies()
 					window.location.reload(true); //$rootScope.sendMessage('looped, forceStop sent')
 				}, function(data) {
 					$timeout($rootScope.refreshWhenUp(), 3000)
@@ -409,8 +434,10 @@
 
 				var toConsole = [] //to chat?
 
-				toConsole[0] = result[0][2] + " ms." //timeItTook
-
+				$rootScope.moveTook = result[0][2] //timeItTook
+				$rootScope.totalTook+= result[0][2]
+				$rootScope.moveCount++
+				$rootScope.avgTime=$rootScope.totalTook/$rootScope.moveCount
 				for(var i = 1; i < result.length; i++) {
 
 					toConsole[i] = 'Move:' + result[i][0] + ' RMv:' + result[i][2] + ',' + 'Val:' + result[i][1] + 'a' //+
@@ -537,7 +564,7 @@
 		<tr>
 			<td>
 				{{playerColor}} {{mt}} mod on table {{tableNum}}, modVal:{{mv}}
-				<br> p{{myGame.pollNum}}, pending:{{pollsPending}}, res:{{respo}}
+				<br> p{{myGame.pollNum}}, took:{{moveTook}}, avg:{{avgTime}}
 				<h1>{{headMessage}}</h1>
 				<br>
 				<!--{{gamePairCounter}}-->

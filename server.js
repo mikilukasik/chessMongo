@@ -36,7 +36,7 @@ learners[6]=[]	//learner at pollnum
 
 
 var playerDisconnectConst = 15000 //15sec
-var learnerDisconnectConst = 150000 //150 sec
+var learnerDisconnectConst = 240000 //4min
 var gameInactiveConst = 100000 //100sec
 var checkGamesConst = 300
 
