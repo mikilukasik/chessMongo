@@ -14,15 +14,15 @@
 		
 		
 		var heartBeat=3500
-		// $scope.learners=[]
+		$scope.learners=[]
 		
-		// window.setInterval(function(){
+		$interval(function(){
 			$http.get('/whoIsLearning').then(function(response){
-				$scope.learners=response.learners
-				// $scope.$apply()
+				$scope.learners=response.data.learners
+				//$scope.$apply()
 			})
 			
-	// },heartBeat)
+	},heartBeat)
 
 
 	
