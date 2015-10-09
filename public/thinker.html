@@ -47,11 +47,11 @@
 			$scope.sendID=id
 		}
 		
-		//$scope.taskNum=0
+		$scope.taskNum=0
 		
 		var longPollTasks=function(){
 			
-			$http.get('/longPollTasks?id='+$scope.sendID)
+			$http.get('/longPollTasks?id='+$scope.sendID+'&tn='+$scope.taskNum)
 				.then(function(response){
 					
 					//$scope.taskNum=response.data.taskNum
@@ -92,7 +92,11 @@
 
 
 	</form>
-
+	
+	<form ng-submit="sendshit(thisshit)">
+		<input id="inputshit" ng-model="thisshit"></input>
+	</form>
+	
 	
 	
 	{{receivedMessage}}
