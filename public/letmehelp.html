@@ -55,8 +55,8 @@
 		$scope.cookieID = getCookie("myID");
 		
 		
-		$rootScope.totalTook = getCookie("totalT");
-		$rootScope.moveCount = getCookie("mCount");
+		$rootScope.totalTook = getCookie("totalT1");
+		$rootScope.moveCount = getCookie("mCount1");
 		
 		if($rootScope.moveCount =="")$rootScope.moveCount=0
 		
@@ -75,8 +75,8 @@
 		
 		
 		$scope.setCookies = function() {
-			 setCookie("totalT", $rootScope.totalTook, 365);
-			 setCookie("mCount", $rootScope.moveCount, 365);
+			 setCookie("totalT1", $rootScope.totalTook, 365);
+			 setCookie("mCount1", $rootScope.moveCount, 365);
 		}
 		
 	$rootScope.myGame={}
@@ -500,7 +500,9 @@
 				.then(function(response){
 					$rootScope.playWhenReady(myGame, mt, mv, !wNx, wMod)
 				},function(data){
-					$rootScope.refreshWhenUp()
+					$rootScope.headMessage = 'Connection error, refreshing'
+
+$rootScope.refreshWhenUp()
 				})
 						
 						
