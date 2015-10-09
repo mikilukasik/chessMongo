@@ -14,7 +14,7 @@
 		
 		
 		var heartBeat=3500
-		
+		$scope.learners=[]
 		
 		$interval(function(){
 			$http.get('/whoIsLearning').then(function(response){
