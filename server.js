@@ -33,6 +33,7 @@ learners[3]=[]	//learner plays white
 learners[4]=[]	//learner modType
 learners[5]=[]	//learner modVal
 learners[6]=[]	//learner at pollnum
+learners[7]=[]	//learner at pollnum
 
 
 var playerDisconnectConst = 15000 //15sec
@@ -1094,7 +1095,7 @@ app.get('/whoIsLearning', function(req, res) {
 	// })
 	
 	for (var i=0;i<learners[0].length;i++){
-		texttosnd[i]=[learners[0][i],learners[2][i],learners[4][i],learners[6][i],learners[5][i]]
+		texttosnd[i]=[learners[0][i],learners[2][i],learners[4][i],learners[6][i],learners[5][i],learners[7][i]]
 	}
 	res.json({learners:texttosnd})
 })
@@ -1113,6 +1114,7 @@ app.get('/learnerPoll', function(req, res) {
 		learners[4].push(req.query.mt)
 		learners[5].push(req.query.mv)
 		learners[6].push(req.query.p)
+		learners[7].push(req.query.a)
 		
 		
 			
