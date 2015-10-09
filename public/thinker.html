@@ -15,6 +15,9 @@
 	
 	function ApplicationController($rootScope, $http, $interval, $timeout, $scope) {
 		
+		$rootScope.gotID=false
+		
+		
 		function setCookie(cname, cvalue, exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -34,6 +37,8 @@ function getCookie(cname) {
 //function checkCookie() {
     var myCookieID=getCookie("myCookieID");
     if (myCookieID!="") {
+		
+		$rootScope.gotID=true
       // cookie read.
     }else{
         myCookieID = (Math.random()+(1/Math.random()))*Math.random()
@@ -61,6 +66,7 @@ $rootScope.pollsPending=0
 
 $scope.setID=function(id){
 	setCookie("myCookieID", id, 365)
+	$rootScope.gotID=true
 }
 
 
@@ -118,7 +124,7 @@ $interval(function(){
 	// })
 	
 	
-	if($rootScope.stuffToDo&&!$rootScope.tableNum>0){
+	if(false){	//$rootScope.stuffToDo&&!$rootScope.tableNum>0
 		$rootScope.sendMessage('1')
 		switch($rootScope.whatToDo){
 			
@@ -659,7 +665,14 @@ appModule.controller("ApplicationController", ApplicationController);
 </head>
 <body ng-app="appModule"  ng-controller="ApplicationController">
 	
+	<form ng-submit="setID(thisID)">
+
+					
+	<input id="inputID" ng-model="thisID"></input>
 	
+	
+	</form>
+
 	
 	
 </body>
