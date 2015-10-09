@@ -19,6 +19,7 @@
 		$interval(function(){
 			$http.get('/whoIsLearning').then(function(response){
 				$scope.learners=response.learners
+				$scope.$apply()
 			})
 			
 	},heartBeat)
