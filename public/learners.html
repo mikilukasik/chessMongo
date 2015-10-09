@@ -19,7 +19,7 @@
 		$interval(function(){
 			$http.get('/whoIsLearning').then(function(response){
 				$scope.learners=response.learners
-				$scope.$apply()
+				//$scope.$apply()
 			})
 			
 	},heartBeat)
@@ -32,14 +32,15 @@ appModule.controller("ApplicationController", ApplicationController);
 </script>
 </head>
 <body ng-app="appModule"  ng-controller="ApplicationController">
-	<table>
+	<div ng-repeat="x in learners">{{x}}</div>
+	<!--<table>
 		<tr ng-repeat="x in learners">
 	
 			<td ng-repeat="y in x">
 				{{y}}
 			</td>
 		</tr>
-	</table>
+	</table>-->
 	
 	
 </body>
