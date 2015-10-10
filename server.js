@@ -75,6 +75,7 @@ function sendToAll(tasktosend,message){
 app.get('/refreshAllThinkers', function(req, res) {
 	//console.log(req)
 	sendToAll('refresh','refresh all')
+	res.end()
 
 });
 
