@@ -16,11 +16,72 @@
 		$rootScope.messages = ["."]
 
 
+     $scope.doTask=function(task){
+                 //where the magic happens
+                 switch(task.command){
+                     case "alert":
+                        
+                        // var tableForDB=0//make some dbtable
+                        // console.log('evalGame received')
+                        //sg like  evalGame(tableForDB)
+                      //ez megallit!!  alert(task.message)
+                        
+                     break;   
+					  case "refresh":
+                        
+						 console.log(task.message)
+						 $rootScope.refreshWhenUp()
+                       
+                        
+                     break;   
+
+                     
+                 }
+                 
+                 
+             }
+             
+           
+            /////////longpoll tasks stuff
+
+            $scope.taskNum=0
+               
+                var longPollTasks=function(){
+                    
+                    $http.get('/longPollTasks?id='+$scope.sendID+'&tn='+$scope.taskNum)
+                        .then(function(response){
+                            
+                            // 1 task received
+                            
+                            $scope.taskNum=response.data.taskNum
+                            
+                            $scope.receivedMessage=response.data.message        //display Heading
+                            
+                            $rootScope.sendMessage('task #'+response.data.taskNum+' received, '+response.data.message)
+                            
+                            $scope.doTask(response.data.task)
+                            
+                            
+                            longPollTasks()			//recall for new task, server will hold any new task until this one finishes
+                    
+                        },function(data){
+                            //error, retry
+                            $scope.receivedMessage='error'
+                            $interval( longPollTasks(),10000)   //retry in 10 secs
+                        })
+                    
+                }
+
+               
+                 
+              /////////longpoll tasks stuff end
 
 
+    $rootScope.sendMessage = function(message) {
+                $rootScope.messages.unshift(message + ' @' + (new Date).getTime())
+            }
 
-
-
+// all the crap here......
 
 
 		$rootScope.heartBeat = 3500
@@ -79,6 +140,10 @@
 			 setCookie("mCount2", $rootScope.moveCount, 365);
 		}
 		
+		
+		  longPollTasks()//start initial longpoll
+	
+	
 	$rootScope.myGame={}
 
 		$interval(function() {
@@ -561,9 +626,19 @@ $rootScope.refreshWhenUp()
 	</form>
 	
 	
-				<p>{{moveCount}}</p> 
-				<p>{{totalTook}} / {{moveCount}}</p>
-				<h1>{{headMessage}}</h1>
+				<p>Total moves: {{moveCount}}</p> 
+				<p>Learner average: {{totalTook}} / {{moveCount}} = {{avgTime}} </p>
+				
+				
+				
+				
+    <p>{{totalTaskCount}} tasks done in {{totalTasksTime}} milliseconds.</p>
+
+    <h1>{{headMessage}}</h1>
+
+    <div ng-repeat="x in messages">{{x}}</div>
+
+				
 				
 
 </body>
