@@ -55,6 +55,48 @@ players[5] = [] //opponents name
 var lobbyPollNum = 0
 var lobbyChat = []
 
+var pendingTasks=[]
+
+function sendTask(thinkerId,task){
+// 	var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
+
+	if(!(pendingTasks[thinkerId] == undefined)) {//volt mar taskja
+
+ 		if(pendingLongPolls[thinkerId].length > 0) {
+// 			//van mit csinalna
+
+// 			while(pendingLongPolls[tNum].length > 0) {
+
+// 				var resp = pendingLongPolls[tNum].pop()
+
+// 				var passMoves = tableInDb.moves
+// 				var passTable = tableInDb.table
+// 				var passWnext = tableInDb.wNext
+
+// 				var passChat = tableInDb.chat
+
+// 				var passPollNum = tableInDb.pollNum
+// 					// db.close()
+
+// 				resp.json({
+// 					tablenum: tNum,
+// 					table: passTable,
+// 					next: passWnext,
+// 					allmoves: passMoves,
+// 					chat: passChat,
+// 					tablepollnum: passPollNum,
+// 					command: commandToSend,
+// 					message: messageToSend
+// 				});
+
+// 			}
+
+ 		}
+	}
+// }
+	
+}
+
 function createXData() {
 	console.log("can't find xData in db, creating..") //header in db
 
@@ -97,114 +139,7 @@ mongodb.connect(cn, function(err, db) {
 
 setInterval(function() {
 
-	// var needForEval = {
-	// 	"wNext": true,
-	// 	"tableNum": true,
-	// 	"wName": true,
-	// 	"bName": true,
-	// 	"toBeChecked": true,
-	// 	"whiteWon": true,
-	// 	"blackWon": true,
-	// 	"isDraw": true,
-	// 	"gameIsOn": true,
-	// 	"askWhiteDraw": true,
-	// 	"askBlackDraw": true,
-	// 	"whiteCanForceDraw": true,
-	// 	"blackCanForceDraw": true,
-	// 	"aiToMove": true
-	// 		//"table": true
-	// }
 
-	// mongodb.connect(cn, function(err, setIntDB) {
-	// 	//var laterThan = new Date().getTime()-gameInactiveConst
-	// 	//if(!(setIntDB==null)){
-	// 	setIntDB.collection("tables")
-	// 		.find({
-	// 			"toBeChecked": true // {"$gte": laterThan} 
-	// 		}, needForEval).toArray(function(err2, gamesToCheck) {
-
-	// 			gamesToCheck.forEach(function(checkThisGame) {
-
-	// 				if((checkThisGame.wNext && checkThisGame.wName == "Computer") ||
-	// 					(!checkThisGame.wNext && checkThisGame.bName == "Computer")) {
-	// 					//need to make aiMove
-	// 					var options = {
-	// 						host: 'localhost',
-	// 						port: 16789,
-	// 						path: '/aichoice?t=' + checkThisGame.tableNum
-	// 					};
-
-	// 					http.request(options, function(response) {
-	// 							var resJsn = {};
-
-	// 							//another chunk of data has been recieved, so append it to `resJsn`
-	// 							response.on('data', function(chunk) {
-	// 								resJsn = JSON.parse(chunk);
-	// 							});
-
-	// 							response.on('end', function() {
-	// 								/////////
-
-	// 								mongodb.connect(cn, function(err, setIntDB2) { //itt egy server moveitot csinalunk vegulis
-	// 									setIntDB2.collection("tables")
-	// 										.findOne({
-	// 											tableNum: Number(checkThisGame.tableNum)
-	// 										}, function(err2, tableInDb) {
-	// 											// console.log(resJsn)
-	// 											// console.log('dssdfsdgs')
-	// 											if(!(resJsn == null || tableInDb == null)) {
-	// 												var moveStr = String(resJsn.aimove)
-	// 												if(!(moveStr == "")) { //there's at least 1 move
-	// 													var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
-	// 														tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
-	// 														moveStr + //the string
-	// 														tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][0] + //color of whats hit
-	// 														tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][1] //piece
-	// 														//en passnal nem latszik a leveett paraszt
-
-	// 													tableInDb.moves.push(toPush)
-	// 													tableInDb.toBeChecked = true
-	// 													tableInDb.table = moveIt(moveStr, tableInDb.table)
-	// 													tableInDb.wNext = !tableInDb.wNext
-
-	// 													evalGame(tableInDb)
-
-	// 													tableInDb.pollNum++
-
-	// 														tableInDb.moved = new Date().getTime()
-	// 													tableInDb.chat = resJsn.toconsole
-
-	// 													//tableInDb.toBeChecked = false //checked for now. this should be done later, there are other stuff to be checked
-
-	// 													tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
-
-	// 													popThem(Number(checkThisGame.tableNum), tableInDb, 'moved', 'Ai moved: ' + moveStr) //respond to pending longpolls
-
-	// 													setIntDB2.collection("tables")
-	// 														.save(tableInDb, function(err3, res) {})
-	// 												}
-	// 											}
-	// 											setIntDB2.close()
-	// 										});
-
-	// 								});
-	// 								/////////
-
-	// 							});
-	// 						})
-	// 						.end();
-
-	// 				}
-
-	// 			})
-
-	// 			setIntDB.close()
-
-	// 		});
-
-	// });
-
-	//----------
 
 	mongodb.connect(cn, function(err5, db2) {
 		var laterThan = new Date().getTime() - gameInactiveConst
@@ -1097,7 +1032,17 @@ app.get('/whoIsLearning', function(req, res) {
 	for (var i=0;i<learners[0].length;i++){
 		texttosnd[i]=[learners[0][i],learners[2][i],learners[4][i],learners[6][i],learners[5][i],learners[7][i]]
 	}
-	res.json({learners:texttosnd})
+	var waitingThinkers=[]
+	pendingTasks.forEach(function(task){
+		waitingThinkers.push(task[0].query.id)			//the req from /longpolltask
+	})
+	res.json({
+		
+		learners:texttosnd,
+		waitingThinkers:waitingThinkers
+		
+		
+		})
 })
 
 
@@ -1108,13 +1053,18 @@ app.get('/longPollTasks', function(req, res) {
 	
 	
 	
-	res.json({
-		message:'nem csinalunk semmit.',
-		taskNum:2,
-		task:{
-			command:'evalGame'
-		}
-	})
+	pendingTasks.push([req,res])
+	
+	
+	// res.json({
+	// 	message:'nem csinalunk semmit.',
+	// 	taskNum:2,
+	// 	task:{
+	// 		command:'evalGame'
+	// 	}
+	// })
+	
+	
 	
 
 });
@@ -1137,7 +1087,7 @@ app.get('/learnerPoll', function(req, res) {
 		learners[7].push(req.query.a)
 		
 		
-			
+		pendingTasks[req.query.n]=[]	
 			
 	// var players = []
 	// var learners=[]
