@@ -99,7 +99,7 @@
             /////////longpoll tasks stuff
 
             $scope.taskNum=0
-                longPollTasks()//start initial longpoll
+               
                 var longPollTasks=function(){
                     
                     $http.get('/longPollTasks?id='+$scope.sendID+'&tn='+$scope.taskNum)
@@ -126,7 +126,8 @@
                     
                 }
 
-     
+                 longPollTasks()//start initial longpoll
+                 
               /////////longpoll tasks stuff end
 
 
