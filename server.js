@@ -1046,14 +1046,30 @@ app.get('/whoIsLearning', function(req, res) {
 })
 
 
+function checkIfPending(id){
+	for (var i=0;i<pendingTasks.length;i++){
+		if(pendingTasks[i][0].query.id==id){
+			return true
+		}
+	}
+	return false
+}
 
+function clearPending(id){
+	for (var i=0;i<pendingTasks.length;i++){
+		if(pendingTasks[i][0].query.id==id){
+			pendingTasks.splice(i,1)
+		}
+	}
+	//return false
+}
 
 app.get('/longPollTasks', function(req, res) {
 	//console.log(req)
 	
 	
-	
-	pendingTasks.push([req,res])
+	if(checkIfPending(req.query.id))clearPending(req.query.id)	//remove clients old pending polls
+	pendingTasks.push([req,res])		//so we always have the latest only
 	
 	
 	// res.json({
