@@ -1186,6 +1186,7 @@ function clearDisconnectedLearners() {
 			learners[4].splice(i, 1)
 			learners[5].splice(i, 1)
 			learners[6].splice(i, 1)
+			learners[7].splice(i, 1)
 			
 			//lobbyPollNum++
 
