@@ -66,7 +66,7 @@ appModule.controller("ApplicationController", ApplicationController);
 <body ng-app="appModule"  ng-controller="ApplicationController">
 	
 	
-	<form ng-if="cookieID==''" ng-submit="setModType(thisModType)">
+	<form ng-submit="setModType(thisModType)">
 		ModType<input ng-model="thisModType"></input>
 <!--		
 		id="inputModType" 
