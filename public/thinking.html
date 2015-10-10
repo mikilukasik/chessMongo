@@ -24,7 +24,7 @@
                         var tableForDB=0//make some dbtable
                         
                         //sg like  evalGame(tableForDB)
-                        alert('eval task came')
+                        //alert('eval task came')
                         
                      break;   
 
@@ -613,9 +613,19 @@ $rootScope.refreshWhenUp()
 	</form>
 	
 	
-				<p>{{moveCount}}</p> 
-				<p>{{totalTook}} / {{moveCount}}</p>
-				<h1>{{headMessage}}</h1>
+				<p>Total moves: {{moveCount}}</p> 
+				<p>Learner average: {{totalTook}} / {{moveCount}} = {{avgTime}} </p>
+				
+				
+				
+				
+    <p>{{totalTaskCount}} tasks done in {{totalTasksTime}} milliseconds.</p>
+
+    <h1>{{headMessage}}</h1>
+
+    <div ng-repeat="x in messages">{{x}}</div>
+
+				
 				
 
 </body>
