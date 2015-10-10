@@ -78,6 +78,12 @@ app.get('/refreshAllThinkers', function(req, res) {
 	res.end()
 
 });
+app.get('/alertAllThinkers', function(req, res) {
+	//console.log(req)
+	sendToAll('alert','server message')
+	res.end()
+
+});
 
 function sendTask(thinkerId,task){
 // 	var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {

@@ -80,12 +80,12 @@
              $scope.doTask=function(task){
                  //where the magic happens
                  switch(task.command){
-                     case "evalGame":
+                     case "alert":
                         
-                        var tableForDB=0//make some dbtable
+                        //var tableForDB=0//make some dbtable
                         
                         //sg like  evalGame(tableForDB)
-                        alert('eval task came')
+                        alert(task.message)
                         
                      break;   
 
