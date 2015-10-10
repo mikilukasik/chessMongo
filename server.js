@@ -1039,7 +1039,7 @@ app.get('/whoIsLearning', function(req, res) {
 	res.json({
 		
 		learners:texttosnd,
-		waitingThinkers:waitingThinkers
+		thinkers:waitingThinkers
 		
 		
 		})

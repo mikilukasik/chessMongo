@@ -18,6 +18,7 @@
 		
 		$interval(function(){
 			$http.get('/whoIsLearning?r='+Math.random()).then(function(response){
+				$scope.waitingThinkers=response.data.thinkers
 				$scope.learners=response.data.learners
 				$scope.learners.sort(function(a,b){
 					if(Number(a[5])>Number(b[5])){
@@ -46,7 +47,7 @@
 				
 				$http.get('/getModType').then(
 					function(response2){
-						alert(response2.data.modType)
+						alert('modType verify: '+response2.data.modType)
 					}
 				)
 				
@@ -104,6 +105,8 @@ appModule.controller("ApplicationController", ApplicationController);
 			</td>
 		</tr>
 	</table>
+	
+	<div ng-repeat="x in waitingThinkers"> {{x}} </div>
 	
 	
 </body>
