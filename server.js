@@ -1135,7 +1135,7 @@ app.get('/learnerPoll', function(req, res) {
 
 	} else {
 		
-		var learnerIndex = learners[0].indexOf(req.query.l)
+		var learnerIndex = learners[0].indexOf(req.query.n)
 		
 		learners[1][learnerIndex] = (new Date())
 			.getTime()
