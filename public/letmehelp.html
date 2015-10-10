@@ -55,8 +55,8 @@
 		$scope.cookieID = getCookie("myID");
 		
 		
-		$rootScope.totalTook = getCookie("totalT1");
-		$rootScope.moveCount = getCookie("mCount1");
+		$rootScope.totalTook = getCookie("totalT2");
+		$rootScope.moveCount = getCookie("mCount2");
 		
 		if($rootScope.moveCount =="")$rootScope.moveCount=0
 		
@@ -75,8 +75,8 @@
 		
 		
 		$scope.setCookies = function() {
-			 setCookie("totalT1", $rootScope.totalTook, 365);
-			 setCookie("mCount1", $rootScope.moveCount, 365);
+			 setCookie("totalT2", $rootScope.totalTook, 365);
+			 setCookie("mCount2", $rootScope.moveCount, 365);
 		}
 		
 	$rootScope.myGame={}
@@ -405,7 +405,7 @@
 			$rootScope.moveTook = result[0][2] //timeItTook
 				$rootScope.totalTook= Number($rootScope.totalTook) + Number(result[0][2])
 				$rootScope.moveCount++
-				$rootScope.avgTime=$rootScope.totalTook/$rootScope.moveCount
+				$rootScope.avgTime=60000/($rootScope.totalTook/$rootScope.moveCount) //avg moves per minute
 
 			if(result[0][6]) {
 				//looped
