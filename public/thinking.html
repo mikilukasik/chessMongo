@@ -70,7 +70,9 @@
               /////////longpoll tasks stuff end
 
 
-
+    $rootScope.sendMessage = function(message) {
+                $rootScope.messages.unshift(message + ' @' + (new Date).getTime())
+            }
 
 // all the crap here......
 
