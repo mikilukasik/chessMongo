@@ -17,7 +17,7 @@
 		$scope.learners=[]
 		
 		$interval(function(){
-			$http.get('/whoIsLearning').then(function(response){
+			$http.get('/whoIsLearning?r='+Math.random()).then(function(response){
 				$scope.learners=response.data.learners
 				$scope.learners.sort(function(a,b){
 					if(Number(a[5])>Number(b[5])){
