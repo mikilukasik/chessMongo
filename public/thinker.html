@@ -43,7 +43,7 @@
                 return "";
             }
 
-            $scope.cookieID = new Text(getCookie("myThinkerId"));
+            $scope.cookieID = getCookie("myThinkerId");
 
 
             $rootScope.totalTasksTime = Number(getCookie("totalTasksTime"))
