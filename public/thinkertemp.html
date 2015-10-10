@@ -7,31 +7,12 @@
 	<script src="engine.js"></script>
 
 	<script>
-		
-	
-
 	var appModule = angular.module("appModule", []);
 
-	function ApplicationController($rootScope, $http, $interval, $timeout, $scope) {
-		$rootScope.messages = ["Starting.."]
-
-
-
-
-
-
-
-
-
-		$rootScope.heartBeat = 3500
-		$rootScope.mv = 0
-		$rootScope.pw = false
-		$rootScope.pollsPending = 0
+	function ApplicationController($scope, $http, $interval, $timeout, $scope) {
+		//var sendID=""
 		
-		
-		
-			
-	$scope.cookieID = ""
+		$scope.cookieID = ""
 			//$scope.gotID=false
 
 		function setCookie(cname, cvalue, exdays) {
@@ -52,14 +33,7 @@
 			return "";
 		}
 
-		$scope.cookieID = getCookie("myID");
-		
-		
-		$rootScope.totalTasksTime = getCookie("totalTasksTime");
-		$rootScope.totalTaskCount = getCookie("totalTaskCount");
-		
-		if($rootScope.moveCount =="")$rootScope.moveCount=0
-		
+		$scope.cookieID = getCookie("myCookieID");
 		if($scope.cookieID==""){
 		
 			$scope.sendID=Math.random*100000000
@@ -68,22 +42,38 @@
 		}
 
 		$scope.setID = function(id) {
-			setCookie("myID", id, 365)
+			setCookie("myCookieID", id, 365)
 			$scope.cookieID = id //$scope.gotID=true
 			$scope.sendID=id
-		}	
-		
-		
-		$scope.setCookies = function() {
-			 setCookie("totalTasksTime", $rootScope.totalTasksTime, 365);
-			 setCookie("totalTaskCount", $rootScope.totalTaskCount, 365);
 		}
 		
-	
-		$rootScope.sendMessage = function(message) {
-			$rootScope.messages.unshift(message+' @'+(new Date).getTime())
+		$scope.taskNum=0
+		
+		var longPollTasks=function(){
+			
+			$http.get('/longPollTasks?id='+$scope.sendID+'&tn='+$scope.taskNum)
+				.then(function(response){
+					
+					//$scope.taskNum=response.data.taskNum
+					
+					$scope.receivedMessage=response.data.message
+					
+					
+					
+					longPollTasks()			//recall for new task
+				},function(data){
+					//error, retry
+					$scope.receivedMessage='error'
+					$interval( longPollTasks(),3000)
+				})
+			
 		}
-
+		
+		
+		
+		
+		longPollTasks()		//here it starts
+		
 		
 		
 
@@ -94,17 +84,21 @@
 </head>
 
 <body ng-app="appModule" ng-controller="ApplicationController">
-	
+
 	<form ng-if="cookieID==''" ng-submit="setID(thisID)">
+
+
 		<input id="inputID" ng-model="thisID"></input>
+
+
+	</form>
+	
+	<form ng-submit="sendshit(thisshit)">
+		<input id="inputshit" ng-model="thisshit"></input>
 	</form>
 	
 	
-				<p>{{totalTaskCount}} tasks done in {{totalTasksTime}} milliseconds.</p> 
-				
-				<h1>{{headMessage}}</h1>
-				
-				<div ng-repeat="x in messages">{{x}}</div>
-				
+	
+	{{receivedMessage}}
 
 </body>
