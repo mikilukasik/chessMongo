@@ -1100,6 +1100,26 @@ app.get('/whoIsLearning', function(req, res) {
 	res.json({learners:texttosnd})
 })
 
+
+
+
+app.get('/longPollTasks', function(req, res) {
+	//console.log(req)
+	
+	
+	
+	res.json({
+		message:'nem csinalunk semmit.',
+		taskNum:2,
+		task:{
+			command:'evalGame'
+		}
+	})
+	
+
+});
+
+
 app.get('/learnerPoll', function(req, res) {
 	//console.log(req)
 	
