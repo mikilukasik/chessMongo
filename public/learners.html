@@ -20,10 +20,10 @@
 			$http.get('/whoIsLearning').then(function(response){
 				$scope.learners=response.data.learners
 				$scope.learners.sort(function(a,b){
-					if(a[5]>b[5]){
+					if(a[4]>b[4]){
 						return 1
 					}else{
-						if(a[5]<b[5]){
+						if(a[4]<b[4]){
 							return -1
 						}else{
 							return 0
