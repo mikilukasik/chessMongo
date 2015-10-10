@@ -19,12 +19,12 @@
      $scope.doTask=function(task){
                  //where the magic happens
                  switch(task.command){
-                     case "evalGame":
+                     case "alert":
                         
-                        var tableForDB=0//make some dbtable
-                        console.log('evalGame received')
+                        // var tableForDB=0//make some dbtable
+                        // console.log('evalGame received')
                         //sg like  evalGame(tableForDB)
-                        alert('eval task came')
+                        alert(task.message)
                         
                      break;   
 					  case "refresh":
