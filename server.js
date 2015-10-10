@@ -56,6 +56,27 @@ var lobbyPollNum = 0
 var lobbyChat = []
 
 var pendingTasks=[]
+function sendToAll(tasktosend,message){
+	while(pendingTasks.length > 0) {
+
+				var thisQuery = pendingTasks.pop()
+				
+				thisQuery[1].json({
+					message:message,
+					taskNum:thisQuery[0].query.tn+1,
+					task:{
+				command:tasktosend
+		}
+	})
+
+	}
+}
+
+app.get('/refreshAllThinkers', function(req, res) {
+	//console.log(req)
+	sendToAll('refresh','refresh all')
+
+});
 
 function sendTask(thinkerId,task){
 // 	var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
