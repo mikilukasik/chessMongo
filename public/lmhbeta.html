@@ -42,8 +42,9 @@
 					 
 					 	
 					 	$rootScope.pleasePlay=true
-						$rootScope.playGame($scope.readyTPD[0],$scope.readyTPD[1],$scope.readyTPD[2],$scope.readyTPD[3],$scope.readyTPD[4])
-					 
+						 if($rootScope.readyToPlay){
+							$rootScope.playGame($scope.readyTPD[0],$scope.readyTPD[1],$scope.readyTPD[2],$scope.readyTPD[3],$scope.readyTPD[4])
+						 }
 					 break;
 					 
 					 
@@ -309,6 +310,7 @@
 
 					$rootScope.whatToDo = 'idle'
 					//$rootScope.sendMessage('Table should be in DB, start soon..')
+					$rootScope.readyToPlay=true
 
 					$rootScope.playWhenReady($rootScope.myGame, modType, modVal, true, wModded)
 				}, function(data) {
@@ -643,6 +645,9 @@ $rootScope.refreshWhenUp()
 	<p>
 		Totals:
 		{{totalTaskCount}} tasks done in {{totalTasksTime}} milliseconds.
+		
+		{{readyToPlay}}
+		{{pleasePlay}}
 	</p>
 
     <div ng-repeat="x in messages">
