@@ -69,7 +69,7 @@ function sendToAll(tasktosend,message){
 				
 				thinkers[thisPop[0].query.id].taskNum=newTaskNum		//we need to remember the tasknum we sent
 				thinkers[thisPop[0].query.id].message=message		//do we we need to remember the message we sent?
-				thinkers[thisPop[0].query.id].task=task		//we need to remember the task we sent
+				thinkers[thisPop[0].query.id].task=tasktosend		//we need to remember the task we sent
 				thinkers[thisPop[0].query.id].sent=new Date().getTime()
 				thinkers[thisPop[0].query.id].lastSeen=thinkers[thisPop[0].query.id].sent
 				
