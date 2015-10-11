@@ -1312,34 +1312,19 @@ app.get('/stats.txt', function(req, res) {
 
 	mongodb.connect(cn, function(err, db) {
 		if(!(db == null)) {
-			db.collection("tables")
+			var promise1=db.collection("tables")
 				.find({
 
 					gameIsOn: false,
 					bName: "standard"
 
 				})
-				// .sort( {
-					
-				// 	 tableNum: 1 
-					 
-				// } )
-				//.toArray(function(err28, statData) {
-					//if(statData != null) {
-						// statData.sort(function(a,b){
-						// 	if(a.tableNum>b.tableNum){
-						// 		return 1
-						// 	}else{
-						// 		return -1
-						// 	}
-						// })
-						//statData
+			
 						
-						
-						.forEach(function(wModGame) {
+						promise1.each(function(wModGame) {
 
 							//var kellEz=0
-								asyncHack++	//countRequests
+								
 								
 								
 								tempArray.push(wModGame)
@@ -1384,39 +1369,19 @@ app.get('/stats.txt', function(req, res) {
 											}
 
 											//var resArray=["wonScore",String.fromCharCode(9),"modVal",String.fromCharCode(9),"modType",String.fromCharCode(13)]
-											resArray=[]
-											resArray.push(wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9), resText, String.fromCharCode(13)) //to be fixed
-											console.log([wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9)])
+											//resArray=[]
+											//resArray.push(wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9), resText, String.fromCharCode(13)) //to be fixed
+											//console.log([wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9)])
 											res.write(resArray.join(''));
 											
-											// if(statIndex==statData.length()-1){
-											// 	res.end()
-											// }
-											
-											// if(statIndex==statData.length-1){
-											// 	res.write('end')
-											// 	//res.end()
-										//}
+									
 
 										}else{
-											// if(statIndex==statData.length-1){
-											// 	res.write('end')
-											// 	//res.end()
-										//}
-
-											
-											
+								
 											//console.log('nincs')
 										}
-										// if(statIndex==statData.length-1){
-										// 		res.write('end')
-										// 		//res.end()
-										// 		}
-										asyncHack--	//request answered
-										if(asyncHack==0){
-											//res.write('end')
-											//res.end()
-										}
+										
+										
 									})
 												
 								//pairedArray.push(wModGame.wName)

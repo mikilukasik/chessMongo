@@ -261,14 +261,14 @@
 
 		}
 		$rootScope.start = function(wName, bName, wModded, modType) {
-			var tableNum = 0
+			//var tableNum = 0
 			$rootScope.sendMessage('start func called: /startGame?w=' + wName + "&b=" + bName)
 			$http.get('/startGame?w=' + wName + "&b=" + bName)
 				.then(function(response) {
-					var tableNum = response.data.tableNum
+					//var tableNum = response.data.tableNum
 
-					$rootScope.sendMessage('tableNum received: ' + tableNum)
-					$rootScope.tableNum = tableNum
+					//$rootScope.sendMessage('tableNum received: ' + tableNum)
+					$rootScope.tableNum = response.data.tableNum
 						// $apply()
 					
 
@@ -282,20 +282,16 @@
 						//firstFreeTable=$rootScope.start( "standard", "mod lpV:" + modVal).tableNum
 						initedTable = new Dbtable(response.tableNum, "standard", modType + " mod: " + modVal)
 					}
-					//$rootScope.table=initedTable.table
-					//initedTable.chat=[new String(new Date())]
-
-					// db.collection("tables")
-					// 	.insert(initedTable, function(err, doc) {});
+					
 
 					$rootScope.myGame = initedTable
 
-					$rootScope.showTable($rootScope.myGame.table)
+					//$rootScope.showTable($rootScope.myGame.table)
 
 					//$rootScope.sendMessage("started, let's move")
 
 					$rootScope.whatToDo = 'idle'
-					$rootScope.sendMessage('Table should be in DB, start soon..')
+					//$rootScope.sendMessage('Table should be in DB, start soon..')
 
 					$rootScope.playWhenReady($rootScope.myGame, modType, modVal, true, wModded)
 				}, function(data) {
@@ -431,9 +427,9 @@
 				result = ai(myGame.table, myGame.wNext, myGame.allPastTables)
 			}
 			$rootScope.moveTook = result[0][2] //timeItTook
-				$rootScope.totalTook= Number($rootScope.totalTook) + Number(result[0][2])
-				$rootScope.moveCount++
-				$rootScope.avgTime=60000/($rootScope.totalTook/$rootScope.moveCount) //avg moves per minute
+			$rootScope.totalTook= Number($rootScope.totalTook) + Number($rootScope.moveTook)
+			$rootScope.moveCount++
+			$rootScope.avgTime=60000/($rootScope.totalTook/$rootScope.moveCount) //avg moves per minute since cookie created
 
 			if(result[0][6]) {
 				//looped
@@ -454,7 +450,7 @@
 
 				var aiMoveString = result[1][0] // the winning movestring
 
-				var toConsole = [] //to chat?
+				//var toConsole = [] //to chat?
 
 				
 				for(var i = 1; i < result.length; i++) {
@@ -519,20 +515,20 @@
 				$http.get('/move?s=1&m=' + aiMoveString + '&t=' + $rootScope.tableNum)
 					.then(function(response) {
 						$http.get('/learnerPoll?n='+$scope.cookieID+
-				'&t='+$rootScope.tableNum+
-				'&mt='+$rootScope.mt+
-				'&mv='+$rootScope.mv+'&p='+$rootScope.myGame.pollNum+
-				'&a='+$rootScope.avgTime+
-				'&r='+Math.random())
-				
-				.then(function(response){
-					$rootScope.playWhenReady(myGame, mt, mv, !wNx, wMod)
-				},function(data){
-					$rootScope.headMessage = 'Connection error, refreshing'
-
-$rootScope.refreshWhenUp()
-				})
+						'&t='+$rootScope.tableNum+
+						'&mt='+$rootScope.mt+
+						'&mv='+$rootScope.mv+'&p='+$rootScope.myGame.pollNum+
+						'&a='+$rootScope.avgTime+
+						'&r='+Math.random())
 						
+						.then(function(response){
+							$rootScope.playWhenReady(myGame, mt, mv, !wNx, wMod)
+						},function(data){
+							$rootScope.headMessage = 'Connection error, refreshing'
+		
+							$rootScope.refreshWhenUp()
+						})
+							
 						
 					}, function(data) {
 						$rootScope.headMessage = 'Connection error, refreshing'
@@ -566,10 +562,19 @@ $rootScope.refreshWhenUp()
 
 		$rootScope.sendMessage('Sending response to start request...???nope')
 
-		$rootScope.playWhenReady = function(myGame, mt, mv, wNx, wMod) {
-			
-			$rootScope.sendMessage('calling playgame (new move)')
-			$rootScope.playgame(myGame, mt, mv, wNx, wMod)
+		$rootScope.playWhenReady = function(myGame, mt, mv, wNx, wMod) {			
+			if($rootScope.whatToDo=='idle'){
+				//$rootScope.sendMessage('thinker idle, calling playgame (new game)')
+				$rootScope.whatToDo=='busy'
+				$rootScope.playgame(myGame, mt, mv, wNx, wMod)
+			}else{
+				//$rootScope.sendMessage('waiting for idle state, then starting game..')
+				$timeout(function(){
+					
+					$rootScope.playWhenReady(myGame, mt, mv, wNx, wMod)		//tries again in 1s
+					
+				},1000)
+			}
 				
 		}
 		$rootScope.stuffToDo = true
