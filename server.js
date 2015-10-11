@@ -63,7 +63,7 @@ function sendToAll(tasktosend,message){
 				var newTaskNum=Number(thisPop[0].query.tn)+1
 				
 				
-				if(!knownThinkers[thisPop[0].query.id]) {
+				if(thisPop[0].query.id!=knownThinkers[thisPop[0].query.id].id) {
 					knownThinkers[thisPop[0].query.id]={id:thisPop[0].query.id}	// object has knownThinkers id
 				}
 				
