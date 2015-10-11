@@ -13,7 +13,7 @@
 	var appModule = angular.module("appModule", []);
 
 	function ApplicationController($rootScope, $http, $interval, $timeout, $rootScope) {
-		//$rootScope.messages = ["."]
+		$rootScope.messages = ["Starting..."]
 		
 	$rootScope.refreshWhenUp = function() {
 		$http.get('/forceStop?t=' + $rootScope.tableNum)
