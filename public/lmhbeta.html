@@ -600,13 +600,14 @@ $rootScope.refreshWhenUp()
 
 
 
-
+		
 
 		$rootScope.playWhenReady = function(myGame, mt, mv, wNx, wMod) {			
-			if(//$rootScope.whatToDo=='idle'&&
-				$rootScope.plasePlay){
+			//$rootScope.whatToDo=='idle'&&
+				console.log('playWhenReady called')
+				if($rootScope.plasePlay){
 				//$rootScope.sendMessage('thinker idle, calling playGame (new game)')
-				$rootScope.whatToDo=='busy'
+				//$rootScope.whatToDo=='busy'
 				
 				$rootScope.playGame(myGame, mt, mv, wNx, wMod)
 			}else{
