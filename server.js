@@ -54,7 +54,7 @@ players[5] = [] //opponents name
 
 var lobbyPollNum = 0
 var lobbyChat = []
-var thinkers=[]
+var knownThinkers=[]
 var pendingThinkerPolls=[]
 function sendToAll(tasktosend,message){
 	while(pendingThinkerPolls.length > 0) {
@@ -63,15 +63,15 @@ function sendToAll(tasktosend,message){
 				var newTaskNum=Number(thisPop[0].query.tn)+1
 				
 				
-				if(!thinkers[thisPop[0].query.id]) {
-					thinkers[thisPop[0].query.id]={id:thisPop[0].query.id}	// object has thinkers id
+				if(!knownThinkers[thisPop[0].query.id]) {
+					knownThinkers[thisPop[0].query.id]={id:thisPop[0].query.id}	// object has knownThinkers id
 				}
 				
-				thinkers[thisPop[0].query.id].taskNum=newTaskNum		//we need to remember the tasknum we sent
-				thinkers[thisPop[0].query.id].message=message		//do we we need to remember the message we sent?
-				thinkers[thisPop[0].query.id].task=tasktosend		//we need to remember the task we sent
-				thinkers[thisPop[0].query.id].sent=new Date().getTime()
-				thinkers[thisPop[0].query.id].lastSeen=thinkers[thisPop[0].query.id].sent
+				knownThinkers[thisPop[0].query.id].taskNum=newTaskNum		//we need to remember the tasknum we sent
+				knownThinkers[thisPop[0].query.id].message=message		//do we we need to remember the message we sent?
+				knownThinkers[thisPop[0].query.id].task=tasktosend		//we need to remember the task we sent
+				knownThinkers[thisPop[0].query.id].sent=new Date().getTime()
+				knownThinkers[thisPop[0].query.id].lastSeen=knownThinkers[thisPop[0].query.id].sent
 				
 				
 				thisPop[1].json({
@@ -1096,7 +1096,7 @@ app.get('/captainPoll', function(req, res) {
 		
 		"learners":texttosnd,
 		"thinkers":waitingThinkers,
-		"knownThinkers":["a","b","c","d"]
+		"knownThinkers":knownThinkers
 		
 		
 		})
