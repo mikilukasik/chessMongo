@@ -1,0 +1,656 @@
+<head>
+	<link rel="stylesheet" type="text/css" href="chess.css">
+
+	<script src="jquery.js"></script>
+	<script src="angular.js"></script>
+	<script src="brandNewAi.js"></script>
+	<script src="engine.js"></script>
+
+	<script>
+		
+	
+
+	var appModule = angular.module("appModule", []);
+
+	function ApplicationController($rootScope, $http, $interval, $timeout, $scope) {
+		$rootScope.messages = ["."]
+
+
+     $scope.doTask=function(task){
+                 //where the magic happens
+                
+				 switch(task.command){
+                     case "alert":
+                        
+                        // var tableForDB=0//make some dbtable
+                        // console.log('evalGame received')
+                        //sg like  evalGame(tableForDB)
+						
+						//!!!!!!!!!!!!
+                      //this will stop the client!!  alert(task.message)
+                        
+                     break;   
+					  case "refresh":
+                        
+						 console.log(task.message)
+						 $rootScope.refreshWhenUp()
+                       
+                        
+                     break;   
+
+                     
+                 }
+                 
+                 
+             }
+             
+           
+            /////////longpoll tasks stuff
+
+            $scope.taskNum=0
+               
+                var longPollTasks=function(){
+                    
+                    $http.get('/longPollTasks?id='+$scope.sendID+'&tn='+$scope.taskNum)
+                        .then(function(response){
+                            
+                            // 1 task received
+                            
+                            $scope.taskNum=response.data.taskNum
+                            
+                            $scope.receivedMessage=response.data.message        //display Heading
+                            
+                            $rootScope.sendMessage('task #'+response.data.taskNum+' received, '+response.data.message)
+                            
+                            $scope.doTask(response.data.task)
+                            
+                            
+                            longPollTasks()			//recall for new task, server will hold any new task until this one finishes
+                    
+                        },function(data){
+                            //error, retry
+                            $scope.receivedMessage='error'
+                            $interval( longPollTasks(),10000)   //retry in 10 secs
+                        })
+                    
+                }
+
+               
+                 
+              /////////longpoll tasks stuff end
+
+
+    $rootScope.sendMessage = function(message) {
+                $rootScope.messages.unshift(message + ' @' + (new Date).getTime())
+            }
+
+// all the crap here......
+
+
+		$rootScope.heartBeat = 3500
+		$rootScope.mv = 0
+		$rootScope.pw = false
+		$rootScope.pollsPending = 0
+		
+		
+		
+			
+	$scope.cookieID = ""
+			//$scope.gotID=false
+
+		function setCookie(cname, cvalue, exdays) {
+			var d = new Date();
+			d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+			var expires = "expires=" + d.toUTCString();
+			document.cookie = cname + "=" + cvalue + "; " + expires;
+		}
+
+		function getCookie(cname) {
+			var name = cname + "=";
+			var ca = document.cookie.split(';');
+			for(var i = 0; i < ca.length; i++) {
+				var c = ca[i];
+				while(c.charAt(0) == ' ') c = c.substring(1);
+				if(c.indexOf(name) == 0) return c.substring(name.length, c.length);
+			}
+			return "";
+		}
+
+		$scope.cookieID = getCookie("myID");
+		
+		
+		$rootScope.totalTook = getCookie("totalT2");
+		$rootScope.moveCount = getCookie("mCount2");
+		
+		if($rootScope.moveCount =="")$rootScope.moveCount=0
+		
+		if($scope.cookieID==""){
+		
+			$scope.sendID=Math.random*100000000
+		}else{
+			$scope.sendID=$scope.cookieID
+		}
+
+		$scope.setID = function(id) {
+			setCookie("myID", id, 365)
+			$scope.cookieID = id //$scope.gotID=true
+			$scope.sendID=id
+		}	
+		
+		
+		$scope.setCookies = function() {
+			 setCookie("totalT2", $rootScope.totalTook, 365);
+			 setCookie("mCount2", $rootScope.moveCount, 365);
+		}
+		
+		
+		  longPollTasks()//start initial longpoll
+	
+	
+	$rootScope.myGame={}
+
+		$interval(function() {
+			$rootScope.sendMessage('.')
+
+			// learners[0].push(req.query.n)
+			// learners[1].push((new Date())
+			// 	.getTime())
+
+			// learners[2].push(req.headers.host)//(req.query.t)
+			// learners[3].push(req.query.w)
+			// learners[4].push(req.query.mt)
+			// learners[5].push(req.query.mv)
+			// learners[6].push(req.query.p)
+
+			// var players = []
+			// var learners=[]
+			// learners[0]=[]  		//learner IDs
+			// learners[1]=[]		//learners last polled
+			// learners[2]=[]	//learner is on table
+			// learners[3]=[]	//learner plays white
+			// learners[4]=[]	//learner modType
+			// learners[5]=[]	//learner modVal
+			// learners[6]=[]	//learner at pollnum
+			
+			//$rootScope.pollsPending++
+			// $rootScope.pollsPending++
+			
+			// .then(function(response){
+			// 	$rootScope.respo=response.message
+
+			// 	if(response.message=='ok'){
+			// 		$rootScope.pollsPending--
+			// 		//$rootScope.headMessage=respo.message
+			// 	}
+
+			// if($rootScope.pollsPending>2){
+			// 	$rootScope.headMessage="Connection problem"
+
+			// 	if($rootScope.pollsPending>4){
+			// 		$rootScope.headMessage="Server is down, refreshing page once it's back"
+
+			// 	}
+			// }
+			// })
+
+			if($rootScope.stuffToDo && !$rootScope.tableNum > 0) {
+				$rootScope.sendMessage('1')
+				switch($rootScope.whatToDo) {
+
+					case "startNewGame":
+						$rootScope.sendMessage('2')
+
+						$rootScope.whatToDo = "busy"
+
+						//new random then pair of games then decrease counter, then recall
+						if(gamePairCounter == 0) {
+							$rootScope.stuffToDo = false
+						} else {
+
+							// var modTypeRnd=Math.random()
+
+							// if(modTypeRnd>0.5){
+							// 	modType="lpV"
+							// }else{
+							//modType="cpt"
+							//}
+							$http.get('/getModType').then(function(response) {
+								modType = response.data.modType
+								modVal = Math.random() * 100
+								$rootScope.mv = modVal
+								$rootScope.mt = modType
+
+								$rootScope.sendMessage('starting game, playing white')
+								$rootScope.playOneGame(true, modType, modVal) //this will call another game with black when done
+							})
+						}
+
+						break;
+
+					case "moved":
+						//eval that move and call for next move
+
+						break;
+
+					case "finished":
+						//check if should call another game and call it
+
+						break;
+
+					case "busy":
+						//do nothing
+
+						break;
+
+					case "idle":
+						//do nothing
+
+						break;
+
+					case "onHold":
+						//there's stuff to do but we're waiting to save processor credit
+
+						break;
+
+				} //switch($rootScope.whatToDo)
+			} //if($rootScope.stuffToDo)
+
+		}, $rootScope.heartBeat)
+
+		$rootScope.refreshWhenUp = function() {
+			$http.get('/forceStop?t=' + $rootScope.tableNum)
+				.then(function(response) {
+					$scope.setCookies()
+					window.location.reload(true); //$rootScope.sendMessage('looped, forceStop sent')
+				}, function(data) {
+					$timeout($rootScope.refreshWhenUp(), 3000)
+				})
+		}
+
+		$rootScope.showTable = function(table) { //this will update the displayed table from the array
+
+			//shit i need to rotate it first
+
+			var tt = []
+
+			for(var i = 0; i < 8; i++) {
+				tt[i] = []
+				for(var j = 0; j < 8; j++) {
+					var same = false
+					if((tt[i][j] != undefined) && (table[j][7 - i] != undefined)) {
+						if(tt[i][j][0] == table[j][7 - i][0]) same = true
+					}
+					tt[i][j] = table[j][7 - i]
+					if((i + j) & 1) tt[i][j][7] = true
+					if(same) tt[i][j][15] = true
+
+				}
+			}
+
+			$rootScope.sTable = tt
+
+		}
+
+		$rootScope.sendMessage = function(message) {
+			//$rootScope.messages.unshift(message+' @'+(new Date).getTime())
+		}
+
+		$rootScope.move = function(whatMove, tableNum) {
+
+			$http.get('/move?m=' + whatMove + '&t=' + $rootScope.myGame.tableNum)
+
+		}
+		$rootScope.start = function(wName, bName, wModded, modType) {
+			var tableNum = 0
+			$rootScope.sendMessage('start func called: /startGame?w=' + wName + "&b=" + bName)
+			$http.get('/startGame?w=' + wName + "&b=" + bName)
+				.then(function(response) {
+					var tableNum = response.data.tableNum
+
+					$rootScope.sendMessage('tableNum received: ' + tableNum)
+					$rootScope.tableNum = tableNum
+						// $apply()
+					
+
+					//
+
+					var initedTable = []
+					if(wModded) {
+						//firstFreeTable=$rootScope.start("mod lpV:" + modVal, "standard").tableNum
+						initedTable = new Dbtable(response.tableNum, modType + " mod: " + modVal, "standard")
+					} else {
+						//firstFreeTable=$rootScope.start( "standard", "mod lpV:" + modVal).tableNum
+						initedTable = new Dbtable(response.tableNum, "standard", modType + " mod: " + modVal)
+					}
+					//$rootScope.table=initedTable.table
+					//initedTable.chat=[new String(new Date())]
+
+					// db.collection("tables")
+					// 	.insert(initedTable, function(err, doc) {});
+
+					$rootScope.myGame = initedTable
+
+					$rootScope.showTable($rootScope.myGame.table)
+
+					//$rootScope.sendMessage("started, let's move")
+
+					$rootScope.whatToDo = 'idle'
+					$rootScope.sendMessage('Table should be in DB, start soon..')
+
+					$rootScope.playWhenReady($rootScope.myGame, modType, modVal, true, wModded)
+				}, function(data) {
+					$rootScope.headMessage = 'Connection error, refreshing'
+
+					$rootScope.refreshWhenUp()
+
+				})
+
+			//if (tableNum>0)return tableNum
+
+		}
+
+		var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
+			// var http = require('http')
+
+		$rootScope.stuffToDo = false
+		$rootScope.whatToDo = ""
+
+		//var whatToMod="lpV"
+
+		$rootScope.gamePairCounter = -10
+
+		var modVal = 50 //translates to x1
+			//var WshNetwork = new ActiveXObject("WScript.Network");
+
+		$rootScope.Modtable = function(tableNum, wName, bName) { //class
+
+			this.tableNum = tableNum,
+				this.wName = wName,
+				this.bName = bName,
+
+				this.aiToMove = false //unused
+			this.toBeChecked = true //unused
+			this.gameIsOn = true
+			this.whiteWon = false
+			this.blackWon = false
+			this.isDraw = false
+
+			this.askWhiteDraw = false
+			this.askBlackDraw = false
+
+			this.whiteCanForceDraw = false
+			this.blackCanForceDraw = false
+
+			this.learner = false
+			this.learnerIsBusy = false
+
+			this.wNext = true,
+				this.aiOn = false,
+				this.chat = [],
+				this.moves = [],
+				this.pollNum = 1,
+				this.allPastTables = []
+
+			this.created = new Date()
+			this.moved = this.created
+
+			this.table = new Array(8) //create 8x8 array
+			for(var i = 0; i < 8; i++) {
+				this.table[i] = new Array(8)
+			}
+
+			for(var j = 2; j < 6; j++) { //make the blanks blank
+				for(i = 0; i < 8; i++) {
+					this.table[i][j] = [0, 0, 0, false, false]
+				}
+			}
+
+			for(var i = 0; i < 8; i++) { //row of white pawns
+
+				this.table[i][1] = [0, 0, 0, false, false] //,pawnCanMove]
+			}
+			for(var i = 0; i < 8; i++) { //NONO row of black pawns
+				this.table[i][6] = [0, 0, 0, false, false] //,pawnCanMove]
+			}
+
+			this.table[0][0] = [2, 4, 0, true, false] //,rookCanMove]				//rooks		//0 stands for times it moved
+			this.table[7][0] = [2, 4, 0, true, false] //,rookCanMove]
+			this.table[0][7] = [1, 4, 0, true, false]
+			this.table[7][7] = [1, 4, 0, true, false]
+
+			this.table[1][0] = [0, 0, 0, true, false] //,horseCanMove]					//knights
+			this.table[6][0] = [0, 0, 0, true, false] //,horseCanMove]
+			this.table[1][7] = [0, 0, 0, true, false]
+			this.table[6][7] = [0, 0, 0, true, false]
+
+			this.table[2][0] = [0, 0, 0, true, false] //,bishopCanMove]				//bishops
+			this.table[5][0] = [0, 0, 0, true, false] //,bishopCanMove]
+			this.table[2][7] = [0, 0, 0, true, false]
+			this.table[5][7] = [0, 0, 0, true, false]
+
+			this.table[3][0] = [2, 5, 0, true, false] //,queenCanMove]				//w queen
+			this.table[4][0] = [2, 9, 0, true, false] //,kingCanMove]				//w king
+
+			this.table[3][7] = [1, 5, 0, true, false] //b q
+			this.table[4][7] = [1, 9, 0, true, false] //,kingCanMove]				//b k
+
+			this.table = addMovesToTable(this.table, true)
+				//protectPieces(this.table,true)
+				//protectPieces(this.table,false)
+		}
+
+		$rootScope.playOneGame = function(wModded, modType, modVal) {
+			if(wModded) {
+				$rootScope.playerColor = 'white'
+			} else {
+
+				$rootScope.playerColor = 'black'
+			}
+
+			$rootScope.sendMessage('playOneGame called')
+			var firstFreeTable = 0
+			$rootScope.whatToDo = 'busy'
+
+			if(wModded) {
+				$rootScope.start(modType + " mod: " + modVal, "standard", true, modType) //.tableNum
+					//initedTable = new Dbtable(firstFreeTable, "mod lpV:" + modVal, "standard")
+			} else {
+				$rootScope.start("standard", modType + " mod: " + modVal, false, modType) //.tableNum
+					//initedTable = new Dbtable(firstFreeTable, "standard", "mod lpV:" + modVal)
+			}
+		
+
+		}
+
+		$rootScope.playgame = function(myGame, mt, mv, wNx, wMod) {
+			$rootScope.whatToDo = 'busy'
+			var result = []
+			if(wNx == wMod) {
+				result = ai(myGame.table, myGame.wNext, myGame.allPastTables, mt, mv) //get modded result
+			} else {
+				result = ai(myGame.table, myGame.wNext, myGame.allPastTables)
+			}
+			$rootScope.moveTook = result[0][2] //timeItTook
+				$rootScope.totalTook= Number($rootScope.totalTook) + Number(result[0][2])
+				$rootScope.moveCount++
+				$rootScope.avgTime=60000/($rootScope.totalTook/$rootScope.moveCount) //avg moves per minute
+
+			if(result[0][6]) {
+				//looped
+				myGame.gameIsOn = false //looped
+				$http.get('/forceStop?t=' + $rootScope.tableNum)
+					.then(function(response) {
+						$rootScope.sendMessage('looped, forceStop sent')
+					}, function(data) {
+						$rootScope.headMessage = 'Connection error, refreshing'
+
+						$rootScope.refreshWhenUp()
+
+					})
+			}
+			//		ai	<------------
+
+			if(result.length > 1) { //if there are any moves
+
+				var aiMoveString = result[1][0] // the winning movestring
+
+				var toConsole = [] //to chat?
+
+				
+				for(var i = 1; i < result.length; i++) {
+
+					toConsole[i] = 'Move:' + result[i][0] + ' RMv:' + result[i][2] + ',' + 'Val:' + result[i][1] + 'a' //+
+
+				}
+
+				
+				$rootScope.whatToDo = 'idle'
+			} else { //can't move
+
+				//eval
+				$rootScope.sendMessage('ran into eval bit')
+
+				myGame.gameIsOn = false
+
+				
+			}
+			
+			$rootScope.sendMessage(' DONE. ')
+
+			if(myGame.gameIsOn) {
+				$rootScope.sendMessage('Will move ' + aiMoveString)
+
+				var toPush = String(myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][0]) + //color of whats moving
+					myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][1] + //piece
+					aiMoveString + //the string
+					myGame.table[dletters.indexOf(aiMoveString[2])][aiMoveString[3] - 1][0] + //color of whats hit
+					myGame.table[dletters.indexOf(aiMoveString[2])][aiMoveString[3] - 1][1] //piece
+
+				+new String(new Date())
+
+				// if(!(toPush==myGame.moves[myGame.moves.length-1])){
+				myGame.moves.push(toPush)
+
+				myGame.table = moveIt(aiMoveString, myGame.table)
+				$rootScope.showTable(myGame.table)
+
+				myGame.wNext = !myGame.wNext
+
+				myGame.pollNum++
+
+				myGame.moved = new Date().getTime()
+
+				myGame.table = addMovesToTable(myGame.table, myGame.wNext)
+
+				//remember this state for 3fold rule
+
+				myGame.allPastTables.push(createState(myGame.table))
+
+				$rootScope.whatToDo = 'idle'
+
+				//}
+			} else {
+				$rootScope.sendMessage('Game finished, evaluating..')
+				evalGame(myGame)
+			}
+			// 	
+
+			if(myGame.gameIsOn) {
+				$http.get('/move?s=1&m=' + aiMoveString + '&t=' + $rootScope.tableNum)
+					.then(function(response) {
+						$http.get('/learnerPoll?n='+$scope.cookieID+
+				'&t='+$rootScope.tableNum+
+				'&mt='+$rootScope.mt+
+				'&mv='+$rootScope.mv+'&p='+$rootScope.myGame.pollNum+
+				'&a='+$rootScope.avgTime+
+				'&r='+Math.random())
+				
+				.then(function(response){
+					$rootScope.playWhenReady(myGame, mt, mv, !wNx, wMod)
+				},function(data){
+					$rootScope.headMessage = 'Connection error, refreshing'
+
+$rootScope.refreshWhenUp()
+				})
+						
+						
+					}, function(data) {
+						$rootScope.headMessage = 'Connection error, refreshing'
+
+						$rootScope.refreshWhenUp()
+
+					})
+
+			} else {
+
+				//not calling this function anymore, should recall with opposit color just once
+				$rootScope.sendMessage('eval2 bit')
+
+				if(wMod) {
+					$rootScope.sendMessage('Starting rematch (play black)')
+					$timeout($rootScope.playOneGame(false, mt, mv), 200)
+				} else {
+					$rootScope.sendMessage('lowering counter then start new gamepair or quit')
+						
+					$rootScope.whatToDo = "startNewGame"
+					$rootScope.refreshWhenUp()
+				}
+
+			}
+
+		
+
+		}
+
+		
+
+		$rootScope.sendMessage('Sending response to start request...???nope')
+
+		$rootScope.playWhenReady = function(myGame, mt, mv, wNx, wMod) {
+			
+			$rootScope.sendMessage('calling playgame (new move)')
+			$rootScope.playgame(myGame, mt, mv, wNx, wMod)
+				
+		}
+		$rootScope.stuffToDo = true
+		$rootScope.whatToDo = "startNewGame"
+		gamePairCounter = -1
+
+	}
+	appModule.controller("ApplicationController", ApplicationController);
+
+	</script>
+</head>
+
+<body ng-app="appModule" ng-controller="ApplicationController">
+	
+	<form ng-if="cookieID==''" ng-submit="setID(thisID)">
+		<input id="inputID" ng-model="thisID"></input>
+	</form>
+	
+	
+	<!--<p>Total moves: {{moveCount}}</p> 
+	<p>Learner average: {{totalTook}} / {{moveCount}} = {{avgTime}} </p>-->
+			
+				
+				
+				
+    
+
+    <h1
+		>{{receivedMessage}}
+	</h1>
+
+	<p>
+		Totals:
+		{{totalTaskCount}} tasks done in {{totalTasksTime}} milliseconds.
+	</p>
+
+    <div ng-repeat="x in messages">
+		{{x}}
+	</div>
+
+				
+				
+
+</body>
