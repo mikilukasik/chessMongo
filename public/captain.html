@@ -61,6 +61,14 @@
 		$http.get('/refreshAllThinkers')
 	}
 	
+	$scope.stopAllLearners=function(){
+		$http.get('/stopAllLearners')
+	}
+	
+	$scope.startAllLearners=function(){
+		$http.get('/startAllLearners')
+	}
+	
 	}
 appModule.controller("ApplicationController", ApplicationController);
 
@@ -74,7 +82,10 @@ appModule.controller("ApplicationController", ApplicationController);
 <!--		
 		id="inputModType" 
 		-->
-	</form><button ng-click="refreshAllThinkers()">Refresh all thinkers</button> 
+	</form>
+	<button ng-click="refreshAllThinkers()">Refresh all thinkers</button> 
+	<button ng-click="startAllLearners()">Start all learners</button> 
+	<button ng-click="stopAllLearners()">Stop all learners</button> 
 	
 	
 	<!--<div ng-repeat="x in learners">{{x}}</div>-->

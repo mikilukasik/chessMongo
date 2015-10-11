@@ -78,6 +78,20 @@ app.get('/refreshAllThinkers', function(req, res) {
 	res.end()
 
 });
+
+app.get('/startAllLearners', function(req, res) {
+	//console.log(req)
+	sendToAll('learnStart','learnStart all')
+	res.end()
+
+});
+
+app.get('/stopAllLearners', function(req, res) {
+	//console.log(req)
+	sendToAll('learnStop','learnStop all')
+	res.end()
+
+});
 app.get('/alertAllThinkers', function(req, res) {
 	//console.log(req)
 	sendToAll('alert','server message')

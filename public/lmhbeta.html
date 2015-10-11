@@ -37,6 +37,22 @@
                        
                         
                      break;   
+					 
+					 case "learnStart": 
+					 
+					 	
+					 	$rootScope.pleasePlay=true
+					 
+					 break;
+					 
+					 
+					 case "learnStop": 
+					 
+					 
+					 	$rootScope.pleasePlay=false
+					 
+					 
+					 break;
 
                      
                  }
@@ -415,10 +431,19 @@
 					//initedTable = new Dbtable(firstFreeTable, "standard", "mod lpV:" + modVal)
 			}
 		
-
+		}	//if we are to plat at all
 		}
 
 		$rootScope.playgame = function(myGame, mt, mv, wNx, wMod) {
+			
+			if(!$rootScope.pleasePlay){	//if we shouldn't play
+				
+				$timeout($rootScope.playgame(myGame, mt, mv, wNx, wMod),1000)		//try again
+				
+			}else{
+			
+			
+			
 			$rootScope.whatToDo = 'busy'
 			var result = []
 			if(wNx == wMod) {
