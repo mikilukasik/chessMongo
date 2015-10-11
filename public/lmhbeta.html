@@ -191,7 +191,7 @@
 								$rootScope.mt = response.data.modType
 
 								//$rootScope.sendMessage('starting game, playing white')
-								$rootScope.playOneGame(true, modType, modVal) //this will call another game with black when done
+								$rootScope.playOneGame(true, $rootScope.mt, $rootScope.mv) //this will call another game with black when done
 								
 							}, function(data) {
 								$rootScope.receivedMessage = 'Connection error, refreshing'
