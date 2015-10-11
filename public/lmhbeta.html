@@ -605,7 +605,8 @@
 		$rootScope.playWhenReady = function(myGame, mt, mv, wNx, wMod) {			
 			//$rootScope.whatToDo=='idle'&&
 				console.log('playWhenReady called')
-			if($rootScope.plasePlay){
+			if(true//$rootScope.plasePlay
+				){
 				//$rootScope.sendMessage('thinker idle, calling playGame (new game)')
 				//$rootScope.whatToDo=='busy'
 				
@@ -659,6 +660,7 @@
 		{{readyToPlay}}
 		{{pleasePlay}}
 		{{myGame.pollNum}}
+		
 	</p>
 
     <div ng-repeat="x in messages">
