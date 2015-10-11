@@ -100,7 +100,7 @@ appModule.controller("ApplicationController", ApplicationController);
 	</form>
 	
 		Known thinkers:
-	<div ng-repeat="x in knownThinkers" ng-class="{ makeGreen, makeRed: x.busy }">
+	<div ng-repeat="x in knownThinkers" ng-class="{ makeGreen: !x.busy , makeRed: x.busy }">
 		  {{x}} 
 	</div>
 	<br>
