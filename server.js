@@ -54,16 +54,29 @@ players[5] = [] //opponents name
 
 var lobbyPollNum = 0
 var lobbyChat = []
-
+var thinkers=[]
 var pendingThinkerPolls=[]
 function sendToAll(tasktosend,message){
 	while(pendingThinkerPolls.length > 0) {
 
-				var thisQuery = pendingThinkerPolls.pop()
+				var thisPop = pendingThinkerPolls.pop()
+				var newTaskNum=Number(thisPop[0].query.tn)+1
 				
-				thisQuery[1].json({
+				
+				if(!thinkers[thisPop[0].query.id]) {
+					thinkers[thisPop[0].query.id]={id:thisPop[0].query.id}	// object has thinkers id
+				}
+				
+				thinkers[thisPop[0].query.id].taskNum=newTaskNum		//we need to remember the tasknum we sent
+				thinkers[thisPop[0].query.id].message=message		//do we we need to remember the message we sent?
+				thinkers[thisPop[0].query.id].task=task		//we need to remember the task we sent
+				thinkers[thisPop[0].query.id].sent=new Date().getTime()
+				thinkers[thisPop[0].query.id].lastSeen=thinkers[thisPop[0].query.id].sent
+				
+				
+				thisPop[1].json({
 					message:message,
-					taskNum:Number(thisQuery[0].query.tn)+1,
+					taskNum:newTaskNum,
 					task:{
 				command:tasktosend
 		}
@@ -92,12 +105,12 @@ app.get('/stopAllLearners', function(req, res) {
 	res.end()
 
 });
-app.get('/alertAllThinkers', function(req, res) {
-	//console.log(req)
-	sendToAll('alert','server message')
-	res.end()
+// app.get('/alertAllThinkers', function(req, res) {
+// 	//console.log(req)
+// 	sendToAll('alert','server message')
+// 	res.end()
 
-});
+// });
 
 function sendTask(thinkerId,task){
 // 	var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
@@ -1111,9 +1124,9 @@ app.get('/longPollTasks', function(req, res) {
 	//console.log(req)
 	
 	
-	if(checkIfPending(req.query.id))clearPending(req.query.id)	//remove clients old pending polls
-	pendingThinkerPolls.push([req,res])		//so we always have the latest only
+	if(checkIfPending(req.query.id))clearPending(req.query.id)	//remove clients old pending polls so we always have the latest only
 	
+	pendingThinkerPolls.push([req,res,new Date().getTime()])		//remember when it came
 	
 	// res.json({
 	// 	message:'nem csinalunk semmit.',
@@ -1202,6 +1215,34 @@ function clearDisconnectedPlayers() {
 	}
 	//clearInactiveGames()
 }
+var pingThinkersConst=10000	//10 sec, only pings them where inactive
+
+
+function pingWaitingThinkers() {
+	for(var i = pendingThinkerPolls.length - 1; i >= 0; i--) {
+
+		if(pendingThinkerPolls[i][2] + pingThinkersConst < (new Date())
+			.getTime()) {
+			
+			//pendingThinkerPolls
+			var pingThisPoll=pendingThinkerPolls.splice(i, 1)
+			
+			pingThisPoll[1].json({
+					message:'ping',
+					taskNum:pingThisPoll[0].tn,		//client likes .tn
+					task:{
+				command:""//tasktosend
+		}
+	})
+			//lobbyPollNum++
+
+		}
+
+	}
+	//clearInactiveGames()
+}
+
+
 
 function clearDisconnectedLearners() {
 	for(var i = learners.length - 1; i >= 0; i--) {
