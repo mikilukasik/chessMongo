@@ -1133,7 +1133,7 @@ app.get('/longPollTasks', function(req, res) {
 			lastSeen:new Date().getTime()
 		})
 	}else{
-		knownThinkers[pollerIndex].lastSeen:new Date().getTime()
+		knownThinkers[pollerIndex].lastSeen=new Date().getTime()
 		
 	}
 	
