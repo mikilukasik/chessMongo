@@ -1072,7 +1072,7 @@ app.get('/getMyRecentGames', function(req, res) {
 
 });
 
-app.get('/whoIsLearning', function(req, res) {
+app.get('/captainPoll', function(req, res) {
 	clearDisconnectedLearners()
 	//learners.forEach(function(learner){
 	// 	res.write(learner)
@@ -1093,8 +1093,9 @@ app.get('/whoIsLearning', function(req, res) {
 	})
 	res.json({
 		
-		learners:texttosnd,
-		thinkers:waitingThinkers
+		"learners":texttosnd,
+		"thinkers":waitingThinkers,
+		"knownThinkers":thinkers
 		
 		
 		})

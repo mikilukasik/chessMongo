@@ -13,11 +13,11 @@
 	function ApplicationController( $http, $interval,  $scope) {	
 		
 		
-		var whoIsLearningConst=1500
+		var captainPollConst=1500
 		$scope.learners=[]
 		
 		$interval(function(){
-			$http.get('/whoIsLearning?r='+Math.random()).then(function(response){
+			$http.get('/captainPoll?r='+Math.random()).then(function(response){
 				$scope.waitingThinkers=response.data.thinkers
 				$scope.learners=response.data.learners
 				$scope.learners.sort(function(a,b){
@@ -37,7 +37,7 @@
 				//$scope.$apply()
 			})
 			
-	},whoIsLearningConst)
+	},captainPollConst)
 	
 	
 	
