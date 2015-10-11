@@ -551,8 +551,8 @@
 				},function(data){
 					$rootScope.headMessage = 'Connection error, refreshing'
 
-$rootScope.refreshWhenUp()
-				})
+						$rootScope.refreshWhenUp()
+						})
 						
 						
 					}, function(data) {
@@ -658,6 +658,7 @@ $rootScope.refreshWhenUp()
 		
 		{{readyToPlay}}
 		{{pleasePlay}}
+		{{myGame.pollNum}}
 	</p>
 
     <div ng-repeat="x in messages">
