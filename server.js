@@ -1118,7 +1118,7 @@ function clearPending(id){
 
 function doIKnow(id){
 	for (var i=0; i<knownThinkers.length; i++){
-		if(knownThinkers[i].id==id)return true
+		if(knownThinkers[i].id==id)return i
 	}
 	return false
 }
@@ -1126,11 +1126,15 @@ function doIKnow(id){
 
 app.get('/longPollTasks', function(req, res) {
 	//console.log(req)
-	if(!doIKnow(req.query.id)){
+	var pollerIndex=doIKnow(req.query.id)
+	if(0==pollerIndex){
 		knownThinkers.push({
 			id:req.query.id,
 			lastSeen:new Date().getTime()
 		})
+	}else{
+		knownThinkers[pollerIndex].lastSeen:new Date().getTime()
+		
 	}
 	
 	if(checkIfPending(req.query.id))clearPending(req.query.id)	//remove clients old pending polls so we always have the latest only
