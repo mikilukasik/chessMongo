@@ -77,6 +77,9 @@ appModule.controller("ApplicationController", ApplicationController);
 </script>
 
 <style>
+	.makeGreen {
+		color: green
+	}
 	.makeRed {
 		color: red
 	}
@@ -97,7 +100,7 @@ appModule.controller("ApplicationController", ApplicationController);
 	</form>
 	
 		Known thinkers:
-	<div ng-repeat="x in knownThinkers" ng-class="{ makeRed: x.busy }">
+	<div ng-repeat="x in knownThinkers" ng-class="{ makeGreen, makeRed: x.busy }">
 		  {{x}} 
 	</div>
 	<br>
