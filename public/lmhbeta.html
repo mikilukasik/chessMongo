@@ -435,7 +435,7 @@
 		//}	//if we are to plat at all
 		}
 
-		$rootScope.playgame = function(myGame, mt, mv, wNx, wMod) {
+		$rootScope.playGame = function(myGame, mt, mv, wNx, wMod) {
 			
 			if(!$scope.plasePlay){
 				if(myGame) $scope.readyToPlay=true
@@ -586,9 +586,9 @@ $rootScope.refreshWhenUp()
 
 		$rootScope.playWhenReady = function(myGame, mt, mv, wNx, wMod) {			
 			if($rootScope.whatToDo=='idle'){
-				//$rootScope.sendMessage('thinker idle, calling playgame (new game)')
+				//$rootScope.sendMessage('thinker idle, calling playGame (new game)')
 				$rootScope.whatToDo=='busy'
-				$rootScope.playgame(myGame, mt, mv, wNx, wMod)
+				$rootScope.playGame(myGame, mt, mv, wNx, wMod)
 			}else{
 				//$rootScope.sendMessage('waiting for idle state, then starting game..')
 				$timeout(function(){
