@@ -57,6 +57,15 @@ var lobbyChat = []
 var knownThinkers=[]
 var pendingThinkerPolls=[]
 
+
+
+function doIKnow(id){
+	for (var i=0; i<knownThinkers.length; i++){
+		if(knownThinkers[i].id==id)return i
+	}
+	return -1
+}
+
 function sendToAll(tasktosend,message){
 	while(pendingThinkerPolls.length > 0) {
 
@@ -64,16 +73,29 @@ function sendToAll(tasktosend,message){
 				var newTaskNum=Number(thisPop[0].query.tn)+1
 				
 				
-				if(thisPop[0].query.id!=knownThinkers[thisPop[0].query.id].id) {
-					knownThinkers[thisPop[0].query.id]={id:thisPop[0].query.id}	// object has knownThinkers id
+				// if(thisPop[0].query.id!=knownThinkers[thisPop[0].query.id].id) {
+				// 	knownThinkers[thisPop[0].query.id]={id:thisPop[0].query.id}	// object has knownThinkers id
+				// }
+				
+				var thinkerIndex=doIKnow(thisPop[0].query.id)
+				
+				if(thinkerIndex==-1){
+					knownThinkers.push({
+						id:thisPop[0].query.id						
+					})
+					thinkerIndex=doIKnow(thisPop[0].query.id)		//itt mar benne lesz a tombben
+					
 				}
 				
-				knownThinkers[thisPop[0].query.id].taskNum=newTaskNum		//we need to remember the tasknum we sent
-				knownThinkers[thisPop[0].query.id].message=message		//do we we need to remember the message we sent?
-				knownThinkers[thisPop[0].query.id].task=tasktosend		//we need to remember the task we sent
-				knownThinkers[thisPop[0].query.id].sent=new Date().getTime()
-				knownThinkers[thisPop[0].query.id].lastSeen=knownThinkers[thisPop[0].query.id].sent
+				knownThinkers[thinkerIndex].taskNum=newTaskNum		//we need to remember the tasknum we sent
+				knownThinkers[thinkerIndex].message=message		//do we we need to remember the message we sent?
+				knownThinkers[thinkerIndex].task=tasktosend		//we need to remember the task we sent
+				knownThinkers[thinkerIndex].sent=new Date().getTime()
+				knownThinkers[thinkerIndex].lastSeen=knownThinkers[thinkerIndex].sent
+
 				
+				
+										
 				
 				thisPop[1].json({
 					message:message,
@@ -1116,18 +1138,12 @@ function clearPending(id){
 	//return false
 }
 
-function doIKnow(id){
-	for (var i=0; i<knownThinkers.length; i++){
-		if(knownThinkers[i].id==id)return i
-	}
-	return false
-}
 
 
 app.get('/longPollTasks', function(req, res) {
 	//console.log(req)
 	var pollerIndex=doIKnow(req.query.id)
-	if(0==pollerIndex){
+	if(-1==pollerIndex){
 		knownThinkers.push({
 			id:req.query.id,
 			lastSeen:new Date().getTime()
