@@ -55,11 +55,11 @@ players[5] = [] //opponents name
 var lobbyPollNum = 0
 var lobbyChat = []
 
-var pendingTasks=[]
+var pendingThinkerPolls=[]
 function sendToAll(tasktosend,message){
-	while(pendingTasks.length > 0) {
+	while(pendingThinkerPolls.length > 0) {
 
-				var thisQuery = pendingTasks.pop()
+				var thisQuery = pendingThinkerPolls.pop()
 				
 				thisQuery[1].json({
 					message:message,
@@ -102,7 +102,7 @@ app.get('/alertAllThinkers', function(req, res) {
 function sendTask(thinkerId,task){
 // 	var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 
-	if(!(pendingTasks[thinkerId] == undefined)) {//volt mar taskja
+	if(!(pendingThinkerPolls[thinkerId] == undefined)) {//volt mar taskja
 
  		if(pendingLongPolls[thinkerId].length > 0) {
 // 			//van mit csinalna
@@ -1075,7 +1075,7 @@ app.get('/whoIsLearning', function(req, res) {
 		texttosnd[i]=[learners[0][i],learners[2][i],learners[4][i],learners[6][i],learners[5][i],learners[7][i]]
 	}
 	var waitingThinkers=[]
-	pendingTasks.forEach(function(task){
+	pendingThinkerPolls.forEach(function(task){
 		waitingThinkers.push(task[0].query.id)			//the req from /longpolltask
 	})
 	res.json({
@@ -1089,8 +1089,8 @@ app.get('/whoIsLearning', function(req, res) {
 
 
 function checkIfPending(id){
-	for (var i=0;i<pendingTasks.length;i++){
-		if(pendingTasks[i][0].query.id==id){
+	for (var i=0;i<pendingThinkerPolls.length;i++){
+		if(pendingThinkerPolls[i][0].query.id==id){
 			return true
 		}
 	}
@@ -1098,9 +1098,10 @@ function checkIfPending(id){
 }
 
 function clearPending(id){
-	for (var i=0;i<pendingTasks.length;i++){
-		if(pendingTasks[i][0].query.id==id){
-			pendingTasks.splice(i,1)
+	for (var i=0;i<pendingThinkerPolls.length;i++){
+		if(pendingThinkerPolls[i][0].query.id==id){
+			//client sent repeated poll, remove pending one
+			pendingThinkerPolls.splice(i,1)
 		}
 	}
 	//return false
@@ -1111,7 +1112,7 @@ app.get('/longPollTasks', function(req, res) {
 	
 	
 	if(checkIfPending(req.query.id))clearPending(req.query.id)	//remove clients old pending polls
-	pendingTasks.push([req,res])		//so we always have the latest only
+	pendingThinkerPolls.push([req,res])		//so we always have the latest only
 	
 	
 	// res.json({
@@ -1145,7 +1146,7 @@ app.get('/learnerPoll', function(req, res) {
 		learners[7].push(req.query.a)
 		
 		
-		pendingTasks[req.query.n]=[]	
+		pendingThinkerPolls[req.query.n]=[]	
 			
 	// var players = []
 	// var learners=[]
