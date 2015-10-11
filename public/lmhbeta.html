@@ -172,431 +172,431 @@
 		  longPollTasks()//start initial longpoll
 	
 	
-	$rootScope.myGame={}
-	var whatsOn=[]
-		$interval(function() {
+	// $rootScope.myGame={}
+	// var whatsOn=[]
+	// 	$interval(function() {
 			
-			if($rootScope.stuffToDo && !$rootScope.tableNum > 0) {
+	// 		if($rootScope.stuffToDo && !$rootScope.tableNum > 0) {
 				
-				switch($rootScope.whatToDo) {
+	// 			switch($rootScope.whatToDo) {
 
-					case "startNewGame":
+	// 				case "startNewGame":
 						
-						$rootScope.whatToDo = "startingNewGame"
-						whatsOn.push('learnerGame')	//so we'll know it's on
+	// 					$rootScope.whatToDo = "startingNewGame"
+	// 					whatsOn.push('learnerGame')	//so we'll know it's on
 
 
-						//new random then pair of games then decrease counter, then recall
-						// if(gamePairCounter == 0) {
-						// 	$rootScope.stuffToDo = false
-						// } else {
+	// 					//new random then pair of games then decrease counter, then recall
+	// 					// if(gamePairCounter == 0) {
+	// 					// 	$rootScope.stuffToDo = false
+	// 					// } else {
 
 						
-							$http.get('/getModType').then(function(response) {		
+	// 						$http.get('/getModType').then(function(response) {		
 								
-								//modType = response.data.modType
-								//var modVal = Math.random() * 100
-								$rootScope.mv = Math.random() * 100// modVal
-								$rootScope.mt = response.data.modType
+	// 							//modType = response.data.modType
+	// 							//var modVal = Math.random() * 100
+	// 							$rootScope.mv = Math.random() * 100// modVal
+	// 							$rootScope.mt = response.data.modType
 
-								//$rootScope.sendMessage('starting game, playing white')
-								$rootScope.playOneGame(true, $rootScope.mt, $rootScope.mv) //this will call another game with black when done
+	// 							//$rootScope.sendMessage('starting game, playing white')
+	// 							$rootScope.playOneGame(true, $rootScope.mt, $rootScope.mv) //this will call another game with black when done
 								
-							}, function(data) {
-								$rootScope.receivedMessage = 'Connection error, refreshing'
+	// 						}, function(data) {
+	// 							$rootScope.receivedMessage = 'Connection error, refreshing'
 			
-								$rootScope.refreshWhenUp()
+	// 							$rootScope.refreshWhenUp()
 			
-							})		
-						//}
+	// 						})		
+	// 					//}
 
-						break;
+	// 					break;
 
-					case "moved":
-						//eval that move and call for next move
+	// 				case "moved":
+	// 					//eval that move and call for next move
 
-						break;
+	// 					break;
 
-					case "finished":
-						//check if should call another game and call it
+	// 				case "finished":
+	// 					//check if should call another game and call it
 
-						break;
+	// 					break;
 
-					case "busy":
-						//do nothing
+	// 				case "busy":
+	// 					//do nothing
 
-						break;
+	// 					break;
 
-					case "idle":
-						//do nothing
+	// 				case "idle":
+	// 					//do nothing
 
-						break;
+	// 					break;
 
-					case "onHold":
-						//there's stuff to do but we're waiting to save processor credit
+	// 				case "onHold":
+	// 					//there's stuff to do but we're waiting to save processor credit
 
-						break;
+	// 					break;
 
-				} //switch($rootScope.whatToDo)
-			} //if($rootScope.stuffToDo)
+	// 			} //switch($rootScope.whatToDo)
+	// 		} //if($rootScope.stuffToDo)
 
-		}, $rootScope.heartBeat)
+	// 	}, $rootScope.heartBeat)
 
-		$rootScope.refreshWhenUp = function() {
-			$http.get('/forceStop?t=' + $rootScope.tableNum)
-				.then(function(response) {
-					$rootScope.setCookies()
-					window.location.reload(true); //$rootScope.sendMessage('looped, forceStop sent')
-				}, function(data) {
-					$timeout($rootScope.refreshWhenUp(), 3000)
-				})
-		}
+	// 	$rootScope.refreshWhenUp = function() {
+	// 		$http.get('/forceStop?t=' + $rootScope.tableNum)
+	// 			.then(function(response) {
+	// 				$rootScope.setCookies()
+	// 				window.location.reload(true); //$rootScope.sendMessage('looped, forceStop sent')
+	// 			}, function(data) {
+	// 				$timeout($rootScope.refreshWhenUp(), 3000)
+	// 			})
+	// 	}
 
-		$rootScope.showTable = function(table) { //this will update the displayed table from the array
+	// 	$rootScope.showTable = function(table) { //this will update the displayed table from the array
 
-			//shit i need to rotate it first
+	// 		//shit i need to rotate it first
 
-			var tt = []
+	// 		var tt = []
 
-			for(var i = 0; i < 8; i++) {
-				tt[i] = []
-				for(var j = 0; j < 8; j++) {
-					var same = false
-					if((tt[i][j] != undefined) && (table[j][7 - i] != undefined)) {
-						if(tt[i][j][0] == table[j][7 - i][0]) same = true
-					}
-					tt[i][j] = table[j][7 - i]
-					if((i + j) & 1) tt[i][j][7] = true
-					if(same) tt[i][j][15] = true
+	// 		for(var i = 0; i < 8; i++) {
+	// 			tt[i] = []
+	// 			for(var j = 0; j < 8; j++) {
+	// 				var same = false
+	// 				if((tt[i][j] != undefined) && (table[j][7 - i] != undefined)) {
+	// 					if(tt[i][j][0] == table[j][7 - i][0]) same = true
+	// 				}
+	// 				tt[i][j] = table[j][7 - i]
+	// 				if((i + j) & 1) tt[i][j][7] = true
+	// 				if(same) tt[i][j][15] = true
 
-				}
-			}
+	// 			}
+	// 		}
 
-			$rootScope.sTable = tt
+	// 		$rootScope.sTable = tt
 
-		}
+	// 	}
 
-		$rootScope.sendMessage = function(message) {
-			//$rootScope.messages.unshift(message+' @'+(new Date).getTime())
-		}
+	// 	$rootScope.sendMessage = function(message) {
+	// 		//$rootScope.messages.unshift(message+' @'+(new Date).getTime())
+	// 	}
 
-		$rootScope.move = function(whatMove, tableNum) {
+	// 	$rootScope.move = function(whatMove, tableNum) {
 
-			$http.get('/move?m=' + whatMove + '&t=' + $rootScope.myGame.tableNum)
+	// 		$http.get('/move?m=' + whatMove + '&t=' + $rootScope.myGame.tableNum)
 
-		}
-		$rootScope.start = function(wName, bName, wModded, modType) {
-			//var tableNum = 0
-			$rootScope.sendMessage('start func called: /startGame?w=' + wName + "&b=" + bName)
-			$http.get('/startGame?w=' + wName + "&b=" + bName)
-				.then(function(response) {
-					//var tableNum = response.data.tableNum
+	// 	}
+	// 	$rootScope.start = function(wName, bName, wModded, modType) {
+	// 		//var tableNum = 0
+	// 		$rootScope.sendMessage('start func called: /startGame?w=' + wName + "&b=" + bName)
+	// 		$http.get('/startGame?w=' + wName + "&b=" + bName)
+	// 			.then(function(response) {
+	// 				//var tableNum = response.data.tableNum
 
-					//$rootScope.sendMessage('tableNum received: ' + tableNum)
-					$rootScope.tableNum = response.data.tableNum
-						// $apply()
+	// 				//$rootScope.sendMessage('tableNum received: ' + tableNum)
+	// 				$rootScope.tableNum = response.data.tableNum
+	// 					// $apply()
 					
 
-					//
+	// 				//
 
-					var initedTable = []
-					if(wModded) {
-						//firstFreeTable=$rootScope.start("mod lpV:" + modVal, "standard").tableNum
-						initedTable = new Dbtable(response.tableNum, modType + " mod: " + modVal, "standard")
-					} else {
-						//firstFreeTable=$rootScope.start( "standard", "mod lpV:" + modVal).tableNum
-						initedTable = new Dbtable(response.tableNum, "standard", modType + " mod: " + modVal)
-					}
+	// 				var initedTable = []
+	// 				if(wModded) {
+	// 					//firstFreeTable=$rootScope.start("mod lpV:" + modVal, "standard").tableNum
+	// 					initedTable = new Dbtable(response.tableNum, modType + " mod: " + modVal, "standard")
+	// 				} else {
+	// 					//firstFreeTable=$rootScope.start( "standard", "mod lpV:" + modVal).tableNum
+	// 					initedTable = new Dbtable(response.tableNum, "standard", modType + " mod: " + modVal)
+	// 				}
 					
 
-					$rootScope.myGame = initedTable
+	// 				$rootScope.myGame = initedTable
 
-					//$rootScope.showTable($rootScope.myGame.table)
+	// 				//$rootScope.showTable($rootScope.myGame.table)
 
-					//$rootScope.sendMessage("started, let's move")
+	// 				//$rootScope.sendMessage("started, let's move")
 
-					$rootScope.whatToDo = 'idle'
-					//$rootScope.sendMessage('Table should be in DB, start soon..')
-					$rootScope.readyToPlay=true
+	// 				$rootScope.whatToDo = 'idle'
+	// 				//$rootScope.sendMessage('Table should be in DB, start soon..')
+	// 				$rootScope.readyToPlay=true
 
-					$rootScope.playWhenReady($rootScope.myGame, modType, modVal, true, wModded)
-				}, function(data) {
-					$rootScope.receivedMessage = 'Connection error, refreshing'
+	// 				$rootScope.playWhenReady($rootScope.myGame, modType, modVal, true, wModded)
+	// 			}, function(data) {
+	// 				$rootScope.receivedMessage = 'Connection error, refreshing'
 
-					$rootScope.refreshWhenUp()
+	// 				$rootScope.refreshWhenUp()
 
-				})
+	// 			})
 
-			//if (tableNum>0)return tableNum
+	// 		//if (tableNum>0)return tableNum
 
-		}
+	// 	}
 
-		var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
-			// var http = require('http')
+	// 	var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
+	// 		// var http = require('http')
 
-		$rootScope.stuffToDo = false
-		$rootScope.whatToDo = ""
+	// 	$rootScope.stuffToDo = false
+	// 	$rootScope.whatToDo = ""
 
-		//var whatToMod="lpV"
+	// 	//var whatToMod="lpV"
 
-		$rootScope.gamePairCounter = -10
+	// 	$rootScope.gamePairCounter = -10
 
-		var modVal = 50 //translates to x1
-			//var WshNetwork = new ActiveXObject("WScript.Network");
+	// 	var modVal = 50 //translates to x1
+	// 		//var WshNetwork = new ActiveXObject("WScript.Network");
 
-		$rootScope.Modtable = function(tableNum, wName, bName) { //class
+	// 	$rootScope.Modtable = function(tableNum, wName, bName) { //class
 
-			this.tableNum = tableNum,
-				this.wName = wName,
-				this.bName = bName,
+	// 		this.tableNum = tableNum,
+	// 			this.wName = wName,
+	// 			this.bName = bName,
 
-				this.aiToMove = false //unused
-			this.toBeChecked = true //unused
-			this.gameIsOn = true
-			this.whiteWon = false
-			this.blackWon = false
-			this.isDraw = false
+	// 			this.aiToMove = false //unused
+	// 		this.toBeChecked = true //unused
+	// 		this.gameIsOn = true
+	// 		this.whiteWon = false
+	// 		this.blackWon = false
+	// 		this.isDraw = false
 
-			this.askWhiteDraw = false
-			this.askBlackDraw = false
+	// 		this.askWhiteDraw = false
+	// 		this.askBlackDraw = false
 
-			this.whiteCanForceDraw = false
-			this.blackCanForceDraw = false
+	// 		this.whiteCanForceDraw = false
+	// 		this.blackCanForceDraw = false
 
-			this.learner = false
-			this.learnerIsBusy = false
+	// 		this.learner = false
+	// 		this.learnerIsBusy = false
 
-			this.wNext = true,
-				this.aiOn = false,
-				this.chat = [],
-				this.moves = [],
-				this.pollNum = 1,
-				this.allPastTables = []
+	// 		this.wNext = true,
+	// 			this.aiOn = false,
+	// 			this.chat = [],
+	// 			this.moves = [],
+	// 			this.pollNum = 1,
+	// 			this.allPastTables = []
 
-			this.created = new Date()
-			this.moved = this.created
+	// 		this.created = new Date()
+	// 		this.moved = this.created
 
-			this.table = new Array(8) //create 8x8 array
-			for(var i = 0; i < 8; i++) {
-				this.table[i] = new Array(8)
-			}
+	// 		this.table = new Array(8) //create 8x8 array
+	// 		for(var i = 0; i < 8; i++) {
+	// 			this.table[i] = new Array(8)
+	// 		}
 
-			for(var j = 2; j < 6; j++) { //make the blanks blank
-				for(i = 0; i < 8; i++) {
-					this.table[i][j] = [0, 0, 0, false, false]
-				}
-			}
+	// 		for(var j = 2; j < 6; j++) { //make the blanks blank
+	// 			for(i = 0; i < 8; i++) {
+	// 				this.table[i][j] = [0, 0, 0, false, false]
+	// 			}
+	// 		}
 
-			for(var i = 0; i < 8; i++) { //row of white pawns
+	// 		for(var i = 0; i < 8; i++) { //row of white pawns
 
-				this.table[i][1] = [0, 0, 0, false, false] //,pawnCanMove]
-			}
-			for(var i = 0; i < 8; i++) { //NONO row of black pawns
-				this.table[i][6] = [0, 0, 0, false, false] //,pawnCanMove]
-			}
+	// 			this.table[i][1] = [0, 0, 0, false, false] //,pawnCanMove]
+	// 		}
+	// 		for(var i = 0; i < 8; i++) { //NONO row of black pawns
+	// 			this.table[i][6] = [0, 0, 0, false, false] //,pawnCanMove]
+	// 		}
 
-			this.table[0][0] = [2, 4, 0, true, false] //,rookCanMove]				//rooks		//0 stands for times it moved
-			this.table[7][0] = [2, 4, 0, true, false] //,rookCanMove]
-			this.table[0][7] = [1, 4, 0, true, false]
-			this.table[7][7] = [1, 4, 0, true, false]
+	// 		this.table[0][0] = [2, 4, 0, true, false] //,rookCanMove]				//rooks		//0 stands for times it moved
+	// 		this.table[7][0] = [2, 4, 0, true, false] //,rookCanMove]
+	// 		this.table[0][7] = [1, 4, 0, true, false]
+	// 		this.table[7][7] = [1, 4, 0, true, false]
 
-			this.table[1][0] = [0, 0, 0, true, false] //,horseCanMove]					//knights
-			this.table[6][0] = [0, 0, 0, true, false] //,horseCanMove]
-			this.table[1][7] = [0, 0, 0, true, false]
-			this.table[6][7] = [0, 0, 0, true, false]
+	// 		this.table[1][0] = [0, 0, 0, true, false] //,horseCanMove]					//knights
+	// 		this.table[6][0] = [0, 0, 0, true, false] //,horseCanMove]
+	// 		this.table[1][7] = [0, 0, 0, true, false]
+	// 		this.table[6][7] = [0, 0, 0, true, false]
 
-			this.table[2][0] = [0, 0, 0, true, false] //,bishopCanMove]				//bishops
-			this.table[5][0] = [0, 0, 0, true, false] //,bishopCanMove]
-			this.table[2][7] = [0, 0, 0, true, false]
-			this.table[5][7] = [0, 0, 0, true, false]
+	// 		this.table[2][0] = [0, 0, 0, true, false] //,bishopCanMove]				//bishops
+	// 		this.table[5][0] = [0, 0, 0, true, false] //,bishopCanMove]
+	// 		this.table[2][7] = [0, 0, 0, true, false]
+	// 		this.table[5][7] = [0, 0, 0, true, false]
 
-			this.table[3][0] = [2, 5, 0, true, false] //,queenCanMove]				//w queen
-			this.table[4][0] = [2, 9, 0, true, false] //,kingCanMove]				//w king
+	// 		this.table[3][0] = [2, 5, 0, true, false] //,queenCanMove]				//w queen
+	// 		this.table[4][0] = [2, 9, 0, true, false] //,kingCanMove]				//w king
 
-			this.table[3][7] = [1, 5, 0, true, false] //b q
-			this.table[4][7] = [1, 9, 0, true, false] //,kingCanMove]				//b k
+	// 		this.table[3][7] = [1, 5, 0, true, false] //b q
+	// 		this.table[4][7] = [1, 9, 0, true, false] //,kingCanMove]				//b k
 
-			this.table = addMovesToTable(this.table, true)
-				//protectPieces(this.table,true)
-				//protectPieces(this.table,false)
-		}
+	// 		this.table = addMovesToTable(this.table, true)
+	// 			//protectPieces(this.table,true)
+	// 			//protectPieces(this.table,false)
+	// 	}
 
-		$rootScope.playOneGame = function(wModded, modType, modVal) {
-			if(wModded) {
-				$rootScope.playerColor = 'white'
-			} else {
+	// 	$rootScope.playOneGame = function(wModded, modType, modVal) {
+	// 		if(wModded) {
+	// 			$rootScope.playerColor = 'white'
+	// 		} else {
 
-				$rootScope.playerColor = 'black'
-			}
+	// 			$rootScope.playerColor = 'black'
+	// 		}
 
-			$rootScope.sendMessage('playOneGame called')
-			var firstFreeTable = 0
-			$rootScope.whatToDo = 'busy'
+	// 		$rootScope.sendMessage('playOneGame called')
+	// 		var firstFreeTable = 0
+	// 		$rootScope.whatToDo = 'busy'
 
-			if(wModded) {
-				$rootScope.start(modType + " mod: " + modVal, "standard", true, modType) //.tableNum
-					//initedTable = new Dbtable(firstFreeTable, "mod lpV:" + modVal, "standard")
-			} else {
-				$rootScope.start("standard", modType + " mod: " + modVal, false, modType) //.tableNum
-					//initedTable = new Dbtable(firstFreeTable, "standard", "mod lpV:" + modVal)
-			}
+	// 		if(wModded) {
+	// 			$rootScope.start(modType + " mod: " + modVal, "standard", true, modType) //.tableNum
+	// 				//initedTable = new Dbtable(firstFreeTable, "mod lpV:" + modVal, "standard")
+	// 		} else {
+	// 			$rootScope.start("standard", modType + " mod: " + modVal, false, modType) //.tableNum
+	// 				//initedTable = new Dbtable(firstFreeTable, "standard", "mod lpV:" + modVal)
+	// 		}
 		
-		//}	//if we are to plat at all
-		}
+	// 	//}	//if we are to plat at all
+	// 	}
 
-		$rootScope.playGame = function(myGame, mt, mv, wNx, wMod) {
+	// 	$rootScope.playGame = function(myGame, mt, mv, wNx, wMod) {
 			
-			console.log('playGame called')
-			$rootScope.whatToDo = 'busy'
-			var result = []
-			if(wNx == wMod) {
-				result = ai(myGame.table, myGame.wNext, myGame.allPastTables, mt, mv) //get modded result
-			} else {
-				result = ai(myGame.table, myGame.wNext, myGame.allPastTables)
-			}
-			$rootScope.moveTook = result[0][2] //timeItTook
-				$rootScope.totalTook= Number($rootScope.totalTook) + Number(result[0][2])
-				$rootScope.moveCount++
-				$rootScope.avgTime=60000/($rootScope.totalTook/$rootScope.moveCount) //avg moves per minute
+	// 		console.log('playGame called')
+	// 		$rootScope.whatToDo = 'busy'
+	// 		var result = []
+	// 		if(wNx == wMod) {
+	// 			result = ai(myGame.table, myGame.wNext, myGame.allPastTables, mt, mv) //get modded result
+	// 		} else {
+	// 			result = ai(myGame.table, myGame.wNext, myGame.allPastTables)
+	// 		}
+	// 		$rootScope.moveTook = result[0][2] //timeItTook
+	// 			$rootScope.totalTook= Number($rootScope.totalTook) + Number(result[0][2])
+	// 			$rootScope.moveCount++
+	// 			$rootScope.avgTime=60000/($rootScope.totalTook/$rootScope.moveCount) //avg moves per minute
 
-			if(result[0][6]) {
-				//looped
-				myGame.gameIsOn = false //looped
-				$http.get('/forceStop?t=' + $rootScope.tableNum)
-					.then(function(response) {
-						$rootScope.sendMessage('looped, forceStop sent')
-					}, function(data) {
-						$rootScope.headMessage = 'Connection error, refreshing'
+	// 		if(result[0][6]) {
+	// 			//looped
+	// 			myGame.gameIsOn = false //looped
+	// 			$http.get('/forceStop?t=' + $rootScope.tableNum)
+	// 				.then(function(response) {
+	// 					$rootScope.sendMessage('looped, forceStop sent')
+	// 				}, function(data) {
+	// 					$rootScope.headMessage = 'Connection error, refreshing'
 
-						$rootScope.refreshWhenUp()
+	// 					$rootScope.refreshWhenUp()
 
-					})
-			}
-			//		ai	<------------
+	// 				})
+	// 		}
+	// 		//		ai	<------------
 
-			if(result.length > 1) { //if there are any moves
+	// 		if(result.length > 1) { //if there are any moves
 
-				var aiMoveString = result[1][0] // the winning movestring
+	// 			var aiMoveString = result[1][0] // the winning movestring
 
-				var toConsole = [] //to chat?
-
-				
-				for(var i = 1; i < result.length; i++) {
-
-					toConsole[i] = 'Move:' + result[i][0] + ' RMv:' + result[i][2] + ',' + 'Val:' + result[i][1] + 'a' //+
-
-				}
+	// 			var toConsole = [] //to chat?
 
 				
-				$rootScope.whatToDo = 'idle'
-			} else { //can't move
+	// 			for(var i = 1; i < result.length; i++) {
 
-				//eval
-				$rootScope.sendMessage('ran into eval bit')
+	// 				toConsole[i] = 'Move:' + result[i][0] + ' RMv:' + result[i][2] + ',' + 'Val:' + result[i][1] + 'a' //+
 
-				myGame.gameIsOn = false
+	// 			}
 
 				
-			}
+	// 			$rootScope.whatToDo = 'idle'
+	// 		} else { //can't move
+
+	// 			//eval
+	// 			$rootScope.sendMessage('ran into eval bit')
+
+	// 			myGame.gameIsOn = false
+
+				
+	// 		}
 			
-			$rootScope.sendMessage(' DONE. ')
+	// 		$rootScope.sendMessage(' DONE. ')
 
-			if(myGame.gameIsOn) {
-				$rootScope.sendMessage('Will move ' + aiMoveString)
+	// 		if(myGame.gameIsOn) {
+	// 			$rootScope.sendMessage('Will move ' + aiMoveString)
 
-				var toPush = String(myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][0]) + //color of whats moving
-					myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][1] + //piece
-					aiMoveString + //the string
-					myGame.table[dletters.indexOf(aiMoveString[2])][aiMoveString[3] - 1][0] + //color of whats hit
-					myGame.table[dletters.indexOf(aiMoveString[2])][aiMoveString[3] - 1][1] //piece
+	// 			var toPush = String(myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][0]) + //color of whats moving
+	// 				myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][1] + //piece
+	// 				aiMoveString + //the string
+	// 				myGame.table[dletters.indexOf(aiMoveString[2])][aiMoveString[3] - 1][0] + //color of whats hit
+	// 				myGame.table[dletters.indexOf(aiMoveString[2])][aiMoveString[3] - 1][1] //piece
 
-				+new String(new Date())
+	// 			+new String(new Date())
 
-				// if(!(toPush==myGame.moves[myGame.moves.length-1])){
-				myGame.moves.push(toPush)
+	// 			// if(!(toPush==myGame.moves[myGame.moves.length-1])){
+	// 			myGame.moves.push(toPush)
 
-				myGame.table = moveIt(aiMoveString, myGame.table)
-				$rootScope.showTable(myGame.table)
+	// 			myGame.table = moveIt(aiMoveString, myGame.table)
+	// 			$rootScope.showTable(myGame.table)
 
-				myGame.wNext = !myGame.wNext
+	// 			myGame.wNext = !myGame.wNext
 
-				myGame.pollNum++
+	// 			myGame.pollNum++
 
-				myGame.moved = new Date().getTime()
+	// 			myGame.moved = new Date().getTime()
 
-				myGame.table = addMovesToTable(myGame.table, myGame.wNext)
+	// 			myGame.table = addMovesToTable(myGame.table, myGame.wNext)
 
-				//remember this state for 3fold rule
+	// 			//remember this state for 3fold rule
 
-				myGame.allPastTables.push(createState(myGame.table))
+	// 			myGame.allPastTables.push(createState(myGame.table))
 
-				$rootScope.whatToDo = 'idle'
+	// 			$rootScope.whatToDo = 'idle'
 
-				//}
-			} else {
-				$rootScope.sendMessage('Game finished, evaluating..')
-				evalGame(myGame)
-			}
-			// 	
+	// 			//}
+	// 		} else {
+	// 			$rootScope.sendMessage('Game finished, evaluating..')
+	// 			evalGame(myGame)
+	// 		}
+	// 		// 	
 
-			if(myGame.gameIsOn) {
-				$http.get('/move?s=1&m=' + aiMoveString + '&t=' + $rootScope.tableNum)
-					.then(function(response) {
-						$http.get('/learnerPoll?n='+$rootScope.cookieID+
-				'&t='+$rootScope.tableNum+
-				'&mt='+$rootScope.mt+
-				'&mv='+$rootScope.mv+'&p='+$rootScope.myGame.pollNum+
-				'&a='+$rootScope.avgTime+
-				'&r='+Math.random())
+	// 		if(myGame.gameIsOn) {
+	// 			$http.get('/move?s=1&m=' + aiMoveString + '&t=' + $rootScope.tableNum)
+	// 				.then(function(response) {
+	// 					$http.get('/learnerPoll?n='+$rootScope.cookieID+
+	// 			'&t='+$rootScope.tableNum+
+	// 			'&mt='+$rootScope.mt+
+	// 			'&mv='+$rootScope.mv+'&p='+$rootScope.myGame.pollNum+
+	// 			'&a='+$rootScope.avgTime+
+	// 			'&r='+Math.random())
 				
-				.then(function(response){
-					$rootScope.playWhenReady(myGame, mt, mv, !wNx, wMod)
-				},function(data){
-					$rootScope.headMessage = 'Connection error, refreshing'
+	// 			.then(function(response){
+	// 				$rootScope.playWhenReady(myGame, mt, mv, !wNx, wMod)
+	// 			},function(data){
+	// 				$rootScope.headMessage = 'Connection error, refreshing'
 
-						$rootScope.refreshWhenUp()
-						})
+	// 					$rootScope.refreshWhenUp()
+	// 					})
 						
 						
-					}, function(data) {
-						$rootScope.headMessage = 'Connection error, refreshing'
+	// 				}, function(data) {
+	// 					$rootScope.headMessage = 'Connection error, refreshing'
 
-						$rootScope.refreshWhenUp()
+	// 					$rootScope.refreshWhenUp()
 
-					})
+	// 				})
 
-			} else {
+	// 		} else {
 
-				//not calling this function anymore, should recall with opposit color just once
-				$rootScope.sendMessage('eval2 bit')
+	// 			//not calling this function anymore, should recall with opposit color just once
+	// 			$rootScope.sendMessage('eval2 bit')
 
-				if(wMod) {
-					$rootScope.sendMessage('Starting rematch (play black)')
-					$timeout($rootScope.playOneGame(false, mt, mv), 200)
-				} else {
-					$rootScope.sendMessage('lowering counter then start new gamepair or quit')
+	// 			if(wMod) {
+	// 				$rootScope.sendMessage('Starting rematch (play black)')
+	// 				$timeout($rootScope.playOneGame(false, mt, mv), 200)
+	// 			} else {
+	// 				$rootScope.sendMessage('lowering counter then start new gamepair or quit')
 						
-					$rootScope.whatToDo = "startNewGame"
-					$rootScope.refreshWhenUp()
-				}
+	// 				$rootScope.whatToDo = "startNewGame"
+	// 				$rootScope.refreshWhenUp()
+	// 			}
 
-			}
+	// 		}
 
-		//}
+	// 	//}
 
-		}
+	// 	}
 
-		$rootScope.sendMessage('Sending response to start request...???nope')
-
-
+	// 	$rootScope.sendMessage('Sending response to start request...???nope')
 
 
-			// if(!$rootScope.plasePlay){
-			// 	if(myGame) $rootScope.readyToPlay=true
+
+
+	// 		// if(!$rootScope.plasePlay){
+	// 		// 	if(myGame) $rootScope.readyToPlay=true
 				
-			// 	$rootScope.readyTPD=[myGame, mt, mv, wNx, wMod]
+	// 		// 	$rootScope.readyTPD=[myGame, mt, mv, wNx, wMod]
 			
-			// }else{
+	// 		// }else{
 
 
 
@@ -605,33 +605,33 @@
 
 		
 
-		$rootScope.playWhenReady = function(myGame, mt, mv, wNx, wMod, skipCheck) {			
-			//$rootScope.whatToDo=='idle'&&
-				console.log('playWhenReady called')
-			if($rootScope.plasePlay||skipCheck){
-				//$rootScope.sendMessage('thinker idle, calling playGame (new game)')
-				//$rootScope.whatToDo=='busy'
+	// 	$rootScope.playWhenReady = function(myGame, mt, mv, wNx, wMod, skipCheck) {			
+	// 		//$rootScope.whatToDo=='idle'&&
+	// 			console.log('playWhenReady called')
+	// 		if($rootScope.plasePlay||skipCheck){
+	// 			//$rootScope.sendMessage('thinker idle, calling playGame (new game)')
+	// 			//$rootScope.whatToDo=='busy'
 				
-				//$rootScope.alreadyOn=true
+	// 			//$rootScope.alreadyOn=true
 				
-				$rootScope.readyTPD=[myGame, mt, mv, wNx, wMod]
-				$rootScope.playGame(myGame, mt, mv, wNx, wMod)
-			}else{
-				$rootScope.readyTPD=[myGame, mt, mv, wNx, wMod]
-				$rootScope.gotGame=true
+	// 			$rootScope.readyTPD=[myGame, mt, mv, wNx, wMod]
+	// 			$rootScope.playGame(myGame, mt, mv, wNx, wMod)
+	// 		}else{
+	// 			$rootScope.readyTPD=[myGame, mt, mv, wNx, wMod]
+	// 			$rootScope.gotGame=true
 				
-				//$rootScope.sendMessage('waiting for idle state, then starting game..')
-				$timeout(function(){
+	// 			//$rootScope.sendMessage('waiting for idle state, then starting game..')
+	// 			$timeout(function(){
 					
-					$rootScope.playWhenReady(myGame, mt, mv, wNx, wMod,true)		//tries again in 1s
+	// 				$rootScope.playWhenReady(myGame, mt, mv, wNx, wMod,true)		//tries again in 1s
 					
-				},1000)
-			}
+	// 			},1000)
+	// 		}
 				
-		}
-		// $rootScope.stuffToDo = true
-		// //$rootScope.whatToDo = "startNewGame"
-		// gamePairCounter = -1
+	// 	}
+	// 	// $rootScope.stuffToDo = true
+	// 	// //$rootScope.whatToDo = "startNewGame"
+	// 	// gamePairCounter = -1
 
 	}
 	appModule.controller("ApplicationController", ApplicationController);
