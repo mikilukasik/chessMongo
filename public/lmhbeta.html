@@ -87,7 +87,7 @@
                         },function(data){
                             //error, retry
                             $scope.receivedMessage='error'
-                            $rootScope.refreshWhenUp()   //retry in 10 secs
+                            $rootScope.refreshWhenUp()   //retry kene?
                         })
                     
                 }
@@ -437,12 +437,7 @@
 
 		$rootScope.playGame = function(myGame, mt, mv, wNx, wMod) {
 			
-			if(!$scope.plasePlay){
-				if(myGame) $scope.readyToPlay=true
-				
-				$scope.readyTPD=[myGame, mt, mv, wNx, wMod]
-			
-			}else{
+
 			$rootScope.whatToDo = 'busy'
 			var result = []
 			if(wNx == wMod) {
@@ -578,14 +573,31 @@ $rootScope.refreshWhenUp()
 
 			}
 
-		}
+		//}
 
 		}
 
 		$rootScope.sendMessage('Sending response to start request...???nope')
 
+
+
+
+			// if(!$scope.plasePlay){
+			// 	if(myGame) $scope.readyToPlay=true
+				
+			// 	$scope.readyTPD=[myGame, mt, mv, wNx, wMod]
+			
+			// }else{
+
+
+
+
+
+
+
+
 		$rootScope.playWhenReady = function(myGame, mt, mv, wNx, wMod) {			
-			if($rootScope.whatToDo=='idle'){
+			if($rootScope.whatToDo=='idle'&&$scope.plasePlay){
 				//$rootScope.sendMessage('thinker idle, calling playGame (new game)')
 				$rootScope.whatToDo=='busy'
 				$rootScope.playGame(myGame, mt, mv, wNx, wMod)
