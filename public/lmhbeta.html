@@ -443,7 +443,7 @@
 
 		$rootScope.playGame = function(myGame, mt, mv, wNx, wMod) {
 			
-
+			console.log('playGame called')
 			$rootScope.whatToDo = 'busy'
 			var result = []
 			if(wNx == wMod) {
@@ -605,7 +605,7 @@ $rootScope.refreshWhenUp()
 		$rootScope.playWhenReady = function(myGame, mt, mv, wNx, wMod) {			
 			//$rootScope.whatToDo=='idle'&&
 				console.log('playWhenReady called')
-				if($rootScope.plasePlay){
+			if($rootScope.plasePlay){
 				//$rootScope.sendMessage('thinker idle, calling playGame (new game)')
 				//$rootScope.whatToDo=='busy'
 				
@@ -613,6 +613,7 @@ $rootScope.refreshWhenUp()
 			}else{
 				$rootScope.readyTPD=[myGame, mt, mv, wNx, wMod]
 				$rootScope.gotGame=true
+				
 				//$rootScope.sendMessage('waiting for idle state, then starting game..')
 				$timeout(function(){
 					
