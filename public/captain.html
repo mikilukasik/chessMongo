@@ -20,6 +20,7 @@
 			$http.get('/captainPoll?r='+Math.random()).then(function(response){
 				$scope.waitingThinkers=response.data.thinkers
 				$scope.learners=response.data.learners
+				$scope.knownThinkers=response.data.knownThinkers
 				$scope.learners.sort(function(a,b){
 					if(Number(a[5])>Number(b[5])){
 						return -1
@@ -119,7 +120,11 @@ appModule.controller("ApplicationController", ApplicationController);
 		</tr>
 	</table>
 	
+	Ready thinkers:
 	<div ng-repeat="x in waitingThinkers"> {{x}} </div>
+	
+	Known thinkers:
+	<div ng-repeat="x in knownThinkers"> {{x}} </div>
 	
 	
 </body>
