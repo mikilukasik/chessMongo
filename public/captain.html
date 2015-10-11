@@ -75,6 +75,16 @@
 appModule.controller("ApplicationController", ApplicationController);
 
 </script>
+
+<style>
+	.makeRed {
+		color: red
+	}
+	
+	
+</style>
+
+
 </head>
 <body ng-app="appModule"  ng-controller="ApplicationController">
 	
@@ -128,7 +138,9 @@ appModule.controller("ApplicationController", ApplicationController);
 	
 	<br>
 	Known thinkers:
-	<div ng-repeat="x in knownThinkers"> {{x}} </div>
+	<div ng-repeat="x in knownThinkers" ng-class="{ makeRed: x.busy }">
+		  {{x}} 
+	</div>
 	
 	
 </body>

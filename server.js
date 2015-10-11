@@ -87,6 +87,8 @@ function sendToAll(tasktosend,message){
 					
 				}
 				
+				knownThinkers[thinkerIndex].busy=true
+				
 				knownThinkers[thinkerIndex].taskNum=newTaskNum		//we need to remember the tasknum we sent
 				knownThinkers[thinkerIndex].message=message		//do we we need to remember the message we sent?
 				knownThinkers[thinkerIndex].task=tasktosend		//we need to remember the task we sent
@@ -1152,6 +1154,7 @@ app.get('/longPollTasks', function(req, res) {
 		knownThinkers[pollerIndex].lastSeen=new Date().getTime()
 		
 	}
+	knownThinkers[pollerIndex].busy=false
 	
 	if(checkIfPending(req.query.id))clearPending(req.query.id)	//remove clients old pending polls so we always have the latest only
 	
