@@ -148,81 +148,41 @@
 	
 	
 	$rootScope.myGame={}
-
+	var whatsOn=[]
 		$interval(function() {
-			$rootScope.sendMessage('.')
-
-			// learners[0].push(req.query.n)
-			// learners[1].push((new Date())
-			// 	.getTime())
-
-			// learners[2].push(req.headers.host)//(req.query.t)
-			// learners[3].push(req.query.w)
-			// learners[4].push(req.query.mt)
-			// learners[5].push(req.query.mv)
-			// learners[6].push(req.query.p)
-
-			// var players = []
-			// var learners=[]
-			// learners[0]=[]  		//learner IDs
-			// learners[1]=[]		//learners last polled
-			// learners[2]=[]	//learner is on table
-			// learners[3]=[]	//learner plays white
-			// learners[4]=[]	//learner modType
-			// learners[5]=[]	//learner modVal
-			// learners[6]=[]	//learner at pollnum
 			
-			//$rootScope.pollsPending++
-			// $rootScope.pollsPending++
-			
-			// .then(function(response){
-			// 	$rootScope.respo=response.message
-
-			// 	if(response.message=='ok'){
-			// 		$rootScope.pollsPending--
-			// 		//$rootScope.headMessage=respo.message
-			// 	}
-
-			// if($rootScope.pollsPending>2){
-			// 	$rootScope.headMessage="Connection problem"
-
-			// 	if($rootScope.pollsPending>4){
-			// 		$rootScope.headMessage="Server is down, refreshing page once it's back"
-
-			// 	}
-			// }
-			// })
-
 			if($rootScope.stuffToDo && !$rootScope.tableNum > 0) {
-				$rootScope.sendMessage('1')
+				
 				switch($rootScope.whatToDo) {
 
 					case "startNewGame":
-						$rootScope.sendMessage('2')
-
+						
 						$rootScope.whatToDo = "busy"
+						whatsOn.push('learnerGame')
+
 
 						//new random then pair of games then decrease counter, then recall
 						if(gamePairCounter == 0) {
 							$rootScope.stuffToDo = false
 						} else {
 
-							// var modTypeRnd=Math.random()
+						
+							$http.get('/getModType').then(function(response) {		
+								
+								//modType = response.data.modType
+								//var modVal = Math.random() * 100
+								$rootScope.mv = Math.random() * 100// modVal
+								$rootScope.mt = response.data.modType
 
-							// if(modTypeRnd>0.5){
-							// 	modType="lpV"
-							// }else{
-							//modType="cpt"
-							//}
-							$http.get('/getModType').then(function(response) {
-								modType = response.data.modType
-								modVal = Math.random() * 100
-								$rootScope.mv = modVal
-								$rootScope.mt = modType
-
-								$rootScope.sendMessage('starting game, playing white')
+								//$rootScope.sendMessage('starting game, playing white')
 								$rootScope.playOneGame(true, modType, modVal) //this will call another game with black when done
-							})
+								
+							}, function(data) {
+								$rootScope.receivedMessage = 'Connection error, refreshing'
+			
+								$rootScope.refreshWhenUp()
+			
+							})		
 						}
 
 						break;
@@ -339,7 +299,7 @@
 
 					$rootScope.playWhenReady($rootScope.myGame, modType, modVal, true, wModded)
 				}, function(data) {
-					$rootScope.headMessage = 'Connection error, refreshing'
+					$rootScope.receivedMessage = 'Connection error, refreshing'
 
 					$rootScope.refreshWhenUp()
 
