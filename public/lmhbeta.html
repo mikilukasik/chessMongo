@@ -42,6 +42,7 @@
 					 
 					 	
 					 	$rootScope.pleasePlay=true
+						$scope.playGame($scope.readyTPD[0],$scope.readyTPD[1],$scope.readyTPD[2],$scope.readyTPD[3])
 					 
 					 break;
 					 
@@ -435,6 +436,13 @@
 		}
 
 		$rootScope.playgame = function(myGame, mt, mv, wNx, wMod) {
+			
+			if(!$scope.plasePlay){
+				if(myGame) $scope.readyToPlay=true
+				
+				$scope.readyTPD=[myGame, mt, mv, wNx, wMod]
+			
+			}else{
 			$rootScope.whatToDo = 'busy'
 			var result = []
 			if(wNx == wMod) {
@@ -570,7 +578,7 @@ $rootScope.refreshWhenUp()
 
 			}
 
-		
+		}
 
 		}
 
