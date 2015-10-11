@@ -40,15 +40,18 @@
 					 
 					 case "learnStart": 
 					 
-					 	
+					 	$rootScope.stuffToDo = true
+						//$rootScope.whatToDo = "startNewGame"
+						gamePairCounter = -1
+
 					 	$rootScope.pleasePlay=true
-						 if($rootScope.gotGame){
+						 //if($rootScope.gotGame){
 							if($rootScope.readyToPlay){
 								$rootScope.playGame($rootScope.readyTPD[0],$rootScope.readyTPD[1],$rootScope.readyTPD[2],$rootScope.readyTPD[3],$rootScope.readyTPD[4])
 							}
-						 }else{
-							 $rootScope.receivedMessage='would play but no table..'
-						 }
+						//  }else{
+						// 	 $rootScope.receivedMessage='would play but no table..'
+						//  }
 					 break;
 					 
 					 
@@ -626,9 +629,9 @@
 			}
 				
 		}
-		$rootScope.stuffToDo = true
-		//$rootScope.whatToDo = "startNewGame"
-		gamePairCounter = -1
+		// $rootScope.stuffToDo = true
+		// //$rootScope.whatToDo = "startNewGame"
+		// gamePairCounter = -1
 
 	}
 	appModule.controller("ApplicationController", ApplicationController);
