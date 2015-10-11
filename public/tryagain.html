@@ -12,22 +12,19 @@
 
 	var appModule = angular.module("appModule", []);
 
-	function ApplicationController($rootScope, $http, $interval, $timeout, $rootScope) {
+	function ApplicationController($rootScope, $http, $interval, $timeout, $scope) {
 		$rootScope.messages = ["."]
 
 
-     $rootScope.doTask=function(task){
+     $scope.doTask=function(task){
                  //where the magic happens
-                
-				 switch(task.command){
+                 switch(task.command){
                      case "alert":
                         
                         // var tableForDB=0//make some dbtable
                         // console.log('evalGame received')
                         //sg like  evalGame(tableForDB)
-						
-						//!!!!!!!!!!!!
-                      //this will stop the client!!  alert(task.message)
+                      //ez megallit!!  alert(task.message)
                         
                      break;   
 					  case "refresh":
@@ -40,22 +37,15 @@
 					 
 					 case "learnStart": 
 					 
-					 	
-					 	$rootScope.pleasePlay=true
-						 if($rootScope.gotGame){
-							if($rootScope.readyToPlay){
-								$rootScope.playGame($rootScope.readyTPD[0],$rootScope.readyTPD[1],$rootScope.readyTPD[2],$rootScope.readyTPD[3],$rootScope.readyTPD[4])
-							}
-						 }else{
-							 $rootScope.receivedMessage='would play but no table..'
-						 }
+					 	$rootScope.whatToDo = "startNewGame"
+					
 					 break;
 					 
 					 
 					 case "learnStop": 
 					 
 					 
-					 	$rootScope.pleasePlay=false
+					
 					 
 					 
 					 break;
@@ -69,30 +59,30 @@
            
             /////////longpoll tasks stuff
 
-            $rootScope.taskNum=0
+            $scope.taskNum=0
                
                 var longPollTasks=function(){
                     
-                    $http.get('/longPollTasks?id='+$rootScope.sendID+'&tn='+$rootScope.taskNum)
+                    $http.get('/longPollTasks?id='+$scope.sendID+'&tn='+$scope.taskNum)
                         .then(function(response){
                             
                             // 1 task received
                             
-                            $rootScope.taskNum=response.data.taskNum
+                            $scope.taskNum=response.data.taskNum
                             
-                            $rootScope.receivedMessage=response.data.message        //display Heading
+                            $scope.receivedMessage=response.data.message        //display Heading
                             
                             $rootScope.sendMessage('task #'+response.data.taskNum+' received, '+response.data.message)
                             
-                            $rootScope.doTask(response.data.task)
+                            $scope.doTask(response.data.task)
                             
                             
                             longPollTasks()			//recall for new task, server will hold any new task until this one finishes
                     
                         },function(data){
                             //error, retry
-                            $rootScope.receivedMessage='error'
-                            $rootScope.refreshWhenUp()   //retry kene?
+                            $scope.receivedMessage='error'
+                            $interval( longPollTasks(),10000)   //retry in 10 secs
                         })
                     
                 }
@@ -109,7 +99,7 @@
 // all the crap here......
 
 
-		$rootScope.heartBeat = 300
+		$rootScope.heartBeat = 3500
 		$rootScope.mv = 0
 		$rootScope.pw = false
 		$rootScope.pollsPending = 0
@@ -117,8 +107,8 @@
 		
 		
 			
-	$rootScope.cookieID = ""
-			//$rootScope.gotID=false
+	$scope.cookieID = ""
+			//$scope.gotID=false
 
 		function setCookie(cname, cvalue, exdays) {
 			var d = new Date();
@@ -138,7 +128,7 @@
 			return "";
 		}
 
-		$rootScope.cookieID = getCookie("myID");
+		$scope.cookieID = getCookie("myID");
 		
 		
 		$rootScope.totalTook = getCookie("totalT2");
@@ -146,21 +136,21 @@
 		
 		if($rootScope.moveCount =="")$rootScope.moveCount=0
 		
-		if($rootScope.cookieID==""){
+		if($scope.cookieID==""){
 		
-			$rootScope.sendID=Math.random*100000000
+			$scope.sendID=Math.random*100000000
 		}else{
-			$rootScope.sendID=$rootScope.cookieID
+			$scope.sendID=$scope.cookieID
 		}
 
-		$rootScope.setID = function(id) {
+		$scope.setID = function(id) {
 			setCookie("myID", id, 365)
-			$rootScope.cookieID = id //$rootScope.gotID=true
-			$rootScope.sendID=id
+			$scope.cookieID = id //$scope.gotID=true
+			$scope.sendID=id
 		}	
 		
 		
-		$rootScope.setCookies = function() {
+		$scope.setCookies = function() {
 			 setCookie("totalT2", $rootScope.totalTook, 365);
 			 setCookie("mCount2", $rootScope.moveCount, 365);
 		}
@@ -170,42 +160,82 @@
 	
 	
 	$rootScope.myGame={}
-	var whatsOn=[]
+
 		$interval(function() {
+			$rootScope.sendMessage('.')
+
+			// learners[0].push(req.query.n)
+			// learners[1].push((new Date())
+			// 	.getTime())
+
+			// learners[2].push(req.headers.host)//(req.query.t)
+			// learners[3].push(req.query.w)
+			// learners[4].push(req.query.mt)
+			// learners[5].push(req.query.mv)
+			// learners[6].push(req.query.p)
+
+			// var players = []
+			// var learners=[]
+			// learners[0]=[]  		//learner IDs
+			// learners[1]=[]		//learners last polled
+			// learners[2]=[]	//learner is on table
+			// learners[3]=[]	//learner plays white
+			// learners[4]=[]	//learner modType
+			// learners[5]=[]	//learner modVal
+			// learners[6]=[]	//learner at pollnum
 			
+			//$rootScope.pollsPending++
+			// $rootScope.pollsPending++
+			
+			// .then(function(response){
+			// 	$rootScope.respo=response.message
+
+			// 	if(response.message=='ok'){
+			// 		$rootScope.pollsPending--
+			// 		//$rootScope.headMessage=respo.message
+			// 	}
+
+			// if($rootScope.pollsPending>2){
+			// 	$rootScope.headMessage="Connection problem"
+
+			// 	if($rootScope.pollsPending>4){
+			// 		$rootScope.headMessage="Server is down, refreshing page once it's back"
+
+			// 	}
+			// }
+			// })
+
 			if($rootScope.stuffToDo && !$rootScope.tableNum > 0) {
-				
+				$rootScope.sendMessage('1')
 				switch($rootScope.whatToDo) {
 
 					case "startNewGame":
-						
-						$rootScope.whatToDo = "startingNewGame"
-						whatsOn.push('learnerGame')	//so we'll know it's on
+						$rootScope.sendMessage('2')
 
+						$rootScope.whatToDo = "busy"
 
 						//new random then pair of games then decrease counter, then recall
-						// if(gamePairCounter == 0) {
-						// 	$rootScope.stuffToDo = false
-						// } else {
+						if(gamePairCounter == 0) {
+							$rootScope.stuffToDo = false
+						} else {
 
-						
-							$http.get('/getModType').then(function(response) {		
-								
-								//modType = response.data.modType
-								//var modVal = Math.random() * 100
-								$rootScope.mv = Math.random() * 100// modVal
-								$rootScope.mt = response.data.modType
+							// var modTypeRnd=Math.random()
 
-								//$rootScope.sendMessage('starting game, playing white')
-								$rootScope.playOneGame(true, $rootScope.mt, $rootScope.mv) //this will call another game with black when done
-								
-							}, function(data) {
-								$rootScope.receivedMessage = 'Connection error, refreshing'
-			
-								$rootScope.refreshWhenUp()
-			
-							})		
-						//}
+							// if(modTypeRnd>0.5){
+							// 	modType="lpV"
+							// }else{
+							//modType="cpt"
+							//}
+							$http.get('/getModType').then(function(response) {
+								modType = response.data.modType
+								modVal = Math.random() * 100
+								$rootScope.mv = modVal
+								$rootScope.mt = modType
+
+								$rootScope.sendMessage('starting game, playing white')
+								$rootScope.playOneGame(true, modType, modVal) //this will call another game with black when done
+							})
+						}
 
 						break;
 
@@ -242,7 +272,7 @@
 		$rootScope.refreshWhenUp = function() {
 			$http.get('/forceStop?t=' + $rootScope.tableNum)
 				.then(function(response) {
-					$rootScope.setCookies()
+					$scope.setCookies()
 					window.location.reload(true); //$rootScope.sendMessage('looped, forceStop sent')
 				}, function(data) {
 					$timeout($rootScope.refreshWhenUp(), 3000)
@@ -283,14 +313,14 @@
 
 		}
 		$rootScope.start = function(wName, bName, wModded, modType) {
-			//var tableNum = 0
+			var tableNum = 0
 			$rootScope.sendMessage('start func called: /startGame?w=' + wName + "&b=" + bName)
 			$http.get('/startGame?w=' + wName + "&b=" + bName)
 				.then(function(response) {
-					//var tableNum = response.data.tableNum
+					var tableNum = response.data.tableNum
 
-					//$rootScope.sendMessage('tableNum received: ' + tableNum)
-					$rootScope.tableNum = response.data.tableNum
+					$rootScope.sendMessage('tableNum received: ' + tableNum)
+					$rootScope.tableNum = tableNum
 						// $apply()
 					
 
@@ -304,21 +334,24 @@
 						//firstFreeTable=$rootScope.start( "standard", "mod lpV:" + modVal).tableNum
 						initedTable = new Dbtable(response.tableNum, "standard", modType + " mod: " + modVal)
 					}
-					
+					//$rootScope.table=initedTable.table
+					//initedTable.chat=[new String(new Date())]
+
+					// db.collection("tables")
+					// 	.insert(initedTable, function(err, doc) {});
 
 					$rootScope.myGame = initedTable
 
-					//$rootScope.showTable($rootScope.myGame.table)
+					$rootScope.showTable($rootScope.myGame.table)
 
 					//$rootScope.sendMessage("started, let's move")
 
 					$rootScope.whatToDo = 'idle'
-					//$rootScope.sendMessage('Table should be in DB, start soon..')
-					$rootScope.readyToPlay=true
+					$rootScope.sendMessage('Table should be in DB, start soon..')
 
 					$rootScope.playWhenReady($rootScope.myGame, modType, modVal, true, wModded)
 				}, function(data) {
-					$rootScope.receivedMessage = 'Connection error, refreshing'
+					$rootScope.headMessage = 'Connection error, refreshing'
 
 					$rootScope.refreshWhenUp()
 
@@ -438,12 +471,10 @@
 					//initedTable = new Dbtable(firstFreeTable, "standard", "mod lpV:" + modVal)
 			}
 		
-		//}	//if we are to plat at all
+
 		}
 
-		$rootScope.playGame = function(myGame, mt, mv, wNx, wMod) {
-			
-			console.log('playGame called')
+		$rootScope.playgame = function(myGame, mt, mv, wNx, wMod) {
 			$rootScope.whatToDo = 'busy'
 			var result = []
 			if(wNx == wMod) {
@@ -539,7 +570,7 @@
 			if(myGame.gameIsOn) {
 				$http.get('/move?s=1&m=' + aiMoveString + '&t=' + $rootScope.tableNum)
 					.then(function(response) {
-						$http.get('/learnerPoll?n='+$rootScope.cookieID+
+						$http.get('/learnerPoll?n='+$scope.cookieID+
 				'&t='+$rootScope.tableNum+
 				'&mt='+$rootScope.mt+
 				'&mv='+$rootScope.mv+'&p='+$rootScope.myGame.pollNum+
@@ -551,8 +582,8 @@
 				},function(data){
 					$rootScope.headMessage = 'Connection error, refreshing'
 
-						$rootScope.refreshWhenUp()
-						})
+$rootScope.refreshWhenUp()
+				})
 						
 						
 					}, function(data) {
@@ -579,55 +610,22 @@
 
 			}
 
-		//}
+		
 
 		}
-
-		$rootScope.sendMessage('Sending response to start request...???nope')
-
-
-
-
-			// if(!$rootScope.plasePlay){
-			// 	if(myGame) $rootScope.readyToPlay=true
-				
-			// 	$rootScope.readyTPD=[myGame, mt, mv, wNx, wMod]
-			
-			// }else{
-
-
-
-
-
 
 		
 
-		$rootScope.playWhenReady = function(myGame, mt, mv, wNx, wMod, skipCheck) {			
-			//$rootScope.whatToDo=='idle'&&
-				console.log('playWhenReady called')
-			if($rootScope.plasePlay||skipCheck){
-				//$rootScope.sendMessage('thinker idle, calling playGame (new game)')
-				//$rootScope.whatToDo=='busy'
-				
-				//$rootScope.alreadyOn=true
-				
-				$rootScope.readyTPD=[myGame, mt, mv, wNx, wMod]
-				$rootScope.playGame(myGame, mt, mv, wNx, wMod)
-			}else{
-				$rootScope.readyTPD=[myGame, mt, mv, wNx, wMod]
-				$rootScope.gotGame=true
-				
-				//$rootScope.sendMessage('waiting for idle state, then starting game..')
-				$timeout(function(){
-					
-					$rootScope.playWhenReady(myGame, mt, mv, wNx, wMod,true)		//tries again in 1s
-					
-				},1000)
-			}
+		$rootScope.sendMessage('Sending response to start request...???nope')
+
+		$rootScope.playWhenReady = function(myGame, mt, mv, wNx, wMod) {
+			
+			$rootScope.sendMessage('calling playgame (new move)')
+			$rootScope.playgame(myGame, mt, mv, wNx, wMod)
 				
 		}
 		$rootScope.stuffToDo = true
-		$rootScope.whatToDo = "startNewGame"
+		
 		gamePairCounter = -1
 
 	}
@@ -643,31 +641,17 @@
 	</form>
 	
 	
-	<!--<p>Total moves: {{moveCount}}</p> 
-	<p>Learner average: {{totalTook}} / {{moveCount}} = {{avgTime}} </p>-->
-			
+				<p>Total moves: {{moveCount}}</p> 
+				<p>Learner average: {{totalTook}} / {{moveCount}} = {{avgTime}} </p>
 				
 				
 				
-    
+				
+    <p>{{totalTaskCount}} tasks done in {{totalTasksTime}} milliseconds.</p>
 
-    <h1
-		>{{receivedMessage}}
-	</h1>
+    <h1>{{headMessage}}</h1>
 
-	<p>
-		Totals:
-		{{totalTaskCount}} tasks done in {{totalTasksTime}} milliseconds.
-		
-		{{readyToPlay}}
-		{{pleasePlay}}
-		{{myGame.pollNum}}
-		
-	</p>
-
-    <div ng-repeat="x in messages">
-		{{x}}
-	</div>
+    <div ng-repeat="x in messages">{{x}}</div>
 
 				
 				
