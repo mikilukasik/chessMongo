@@ -1095,7 +1095,7 @@ app.get('/captainPoll', function(req, res) {
 		
 		"learners":texttosnd,
 		"thinkers":waitingThinkers,
-		"knownThinkers":thinkers
+		"knownThinkers":[a,b,c,d]
 		
 		
 		})
