@@ -12,11 +12,11 @@
 
 	var appModule = angular.module("appModule", []);
 
-	function ApplicationController($rootScope, $http, $interval, $timeout, $scope) {
+	function ApplicationController($rootScope, $http, $interval, $timeout, $rootScope) {
 		$rootScope.messages = ["."]
 
 
-     $scope.doTask=function(task){
+     $rootScope.doTask=function(task){
                  //where the magic happens
                 
 				 switch(task.command){
@@ -42,8 +42,12 @@
 					 
 					 	
 					 	$rootScope.pleasePlay=true
-						 if($rootScope.readyToPlay){
-							$rootScope.playGame($scope.readyTPD[0],$scope.readyTPD[1],$scope.readyTPD[2],$scope.readyTPD[3],$scope.readyTPD[4])
+						 if($rootScope.gotGame){
+							if($rootScope.readyToPlay){
+								$rootScope.playGame($rootScope.readyTPD[0],$rootScope.readyTPD[1],$rootScope.readyTPD[2],$rootScope.readyTPD[3],$rootScope.readyTPD[4])
+							}
+						 }else{
+							 $rootScope.receivedMessage='would play but no table..'
 						 }
 					 break;
 					 
@@ -65,29 +69,29 @@
            
             /////////longpoll tasks stuff
 
-            $scope.taskNum=0
+            $rootScope.taskNum=0
                
                 var longPollTasks=function(){
                     
-                    $http.get('/longPollTasks?id='+$scope.sendID+'&tn='+$scope.taskNum)
+                    $http.get('/longPollTasks?id='+$rootScope.sendID+'&tn='+$rootScope.taskNum)
                         .then(function(response){
                             
                             // 1 task received
                             
-                            $scope.taskNum=response.data.taskNum
+                            $rootScope.taskNum=response.data.taskNum
                             
-                            $scope.receivedMessage=response.data.message        //display Heading
+                            $rootScope.receivedMessage=response.data.message        //display Heading
                             
                             $rootScope.sendMessage('task #'+response.data.taskNum+' received, '+response.data.message)
                             
-                            $scope.doTask(response.data.task)
+                            $rootScope.doTask(response.data.task)
                             
                             
                             longPollTasks()			//recall for new task, server will hold any new task until this one finishes
                     
                         },function(data){
                             //error, retry
-                            $scope.receivedMessage='error'
+                            $rootScope.receivedMessage='error'
                             $rootScope.refreshWhenUp()   //retry kene?
                         })
                     
@@ -113,8 +117,8 @@
 		
 		
 			
-	$scope.cookieID = ""
-			//$scope.gotID=false
+	$rootScope.cookieID = ""
+			//$rootScope.gotID=false
 
 		function setCookie(cname, cvalue, exdays) {
 			var d = new Date();
@@ -134,7 +138,7 @@
 			return "";
 		}
 
-		$scope.cookieID = getCookie("myID");
+		$rootScope.cookieID = getCookie("myID");
 		
 		
 		$rootScope.totalTook = getCookie("totalT2");
@@ -142,21 +146,21 @@
 		
 		if($rootScope.moveCount =="")$rootScope.moveCount=0
 		
-		if($scope.cookieID==""){
+		if($rootScope.cookieID==""){
 		
-			$scope.sendID=Math.random*100000000
+			$rootScope.sendID=Math.random*100000000
 		}else{
-			$scope.sendID=$scope.cookieID
+			$rootScope.sendID=$rootScope.cookieID
 		}
 
-		$scope.setID = function(id) {
+		$rootScope.setID = function(id) {
 			setCookie("myID", id, 365)
-			$scope.cookieID = id //$scope.gotID=true
-			$scope.sendID=id
+			$rootScope.cookieID = id //$rootScope.gotID=true
+			$rootScope.sendID=id
 		}	
 		
 		
-		$scope.setCookies = function() {
+		$rootScope.setCookies = function() {
 			 setCookie("totalT2", $rootScope.totalTook, 365);
 			 setCookie("mCount2", $rootScope.moveCount, 365);
 		}
@@ -238,7 +242,7 @@
 		$rootScope.refreshWhenUp = function() {
 			$http.get('/forceStop?t=' + $rootScope.tableNum)
 				.then(function(response) {
-					$scope.setCookies()
+					$rootScope.setCookies()
 					window.location.reload(true); //$rootScope.sendMessage('looped, forceStop sent')
 				}, function(data) {
 					$timeout($rootScope.refreshWhenUp(), 3000)
@@ -535,7 +539,7 @@
 			if(myGame.gameIsOn) {
 				$http.get('/move?s=1&m=' + aiMoveString + '&t=' + $rootScope.tableNum)
 					.then(function(response) {
-						$http.get('/learnerPoll?n='+$scope.cookieID+
+						$http.get('/learnerPoll?n='+$rootScope.cookieID+
 				'&t='+$rootScope.tableNum+
 				'&mt='+$rootScope.mt+
 				'&mv='+$rootScope.mv+'&p='+$rootScope.myGame.pollNum+
@@ -584,10 +588,10 @@ $rootScope.refreshWhenUp()
 
 
 
-			// if(!$scope.plasePlay){
-			// 	if(myGame) $scope.readyToPlay=true
+			// if(!$rootScope.plasePlay){
+			// 	if(myGame) $rootScope.readyToPlay=true
 				
-			// 	$scope.readyTPD=[myGame, mt, mv, wNx, wMod]
+			// 	$rootScope.readyTPD=[myGame, mt, mv, wNx, wMod]
 			
 			// }else{
 
@@ -599,11 +603,14 @@ $rootScope.refreshWhenUp()
 
 
 		$rootScope.playWhenReady = function(myGame, mt, mv, wNx, wMod) {			
-			if($rootScope.whatToDo=='idle'&&$scope.plasePlay){
+			if($rootScope.whatToDo=='idle'&&$rootScope.plasePlay){
 				//$rootScope.sendMessage('thinker idle, calling playGame (new game)')
 				$rootScope.whatToDo=='busy'
+				
 				$rootScope.playGame(myGame, mt, mv, wNx, wMod)
 			}else{
+				$rootScope.readyTPD=[myGame, mt, mv, wNx, wMod]
+				$rootScope.gotGame=true
 				//$rootScope.sendMessage('waiting for idle state, then starting game..')
 				$timeout(function(){
 					
