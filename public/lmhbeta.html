@@ -87,7 +87,7 @@
                         },function(data){
                             //error, retry
                             $scope.receivedMessage='error'
-                            $interval( longPollTasks(),10000)   //retry in 10 secs
+                            $rootScope.refreshWhenUp()   //retry in 10 secs
                         })
                     
                 }
