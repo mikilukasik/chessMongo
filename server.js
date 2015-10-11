@@ -1091,11 +1091,12 @@ app.get('/captainPoll', function(req, res) {
 	pendingThinkerPolls.forEach(function(task){
 		waitingThinkers.push(task[0].query.id)			//the req from /longpolltask
 	})
+	//var aa=[]
 	res.json({
 		
 		"learners":texttosnd,
 		"thinkers":waitingThinkers,
-		"knownThinkers":[a,b,c,d]
+		"knownThinkers":["a","b","c","d"]
 		
 		
 		})
