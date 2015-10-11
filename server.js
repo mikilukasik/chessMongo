@@ -63,7 +63,7 @@ function sendToAll(tasktosend,message){
 				
 				thisQuery[1].json({
 					message:message,
-					taskNum:thisQuery[0].query.tn+1,
+					taskNum:Number(thisQuery[0]).query.tn+1,
 					task:{
 				command:tasktosend
 		}
