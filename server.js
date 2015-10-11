@@ -56,6 +56,7 @@ var lobbyPollNum = 0
 var lobbyChat = []
 var knownThinkers=[]
 var pendingThinkerPolls=[]
+
 function sendToAll(tasktosend,message){
 	while(pendingThinkerPolls.length > 0) {
 
@@ -1074,16 +1075,9 @@ app.get('/getMyRecentGames', function(req, res) {
 
 app.get('/captainPoll', function(req, res) {
 	clearDisconnectedLearners()
-	//learners.forEach(function(learner){
-	// 	res.write(learner)
-	// //})
-	// res.write
-	// res.json({
-	// 	learners:learners
+	
 	var texttosnd=[]
-	
-	// })
-	
+
 	for (var i=0;i<learners[0].length;i++){
 		texttosnd[i]=[learners[0][i],learners[2][i],learners[4][i],learners[6][i],learners[5][i],learners[7][i]]
 	}
@@ -1122,21 +1116,28 @@ function clearPending(id){
 	//return false
 }
 
+function doIKnow(id){
+	for (var i=0; i<knownThinkers.length; i++){
+		if(knownThinkers[i].id==id)return true
+	}
+	return false
+}
+
+
 app.get('/longPollTasks', function(req, res) {
 	//console.log(req)
-	
+	if(!doIKnow(req.query.id)){
+		knownThinkers.push({
+			id:req.query.id,
+			lastSeen:new Date().getTime()
+		})
+	}
 	
 	if(checkIfPending(req.query.id))clearPending(req.query.id)	//remove clients old pending polls so we always have the latest only
 	
 	pendingThinkerPolls.push([req,res,new Date().getTime()])		//remember when it came
 	
-	// res.json({
-	// 	message:'nem csinalunk semmit.',
-	// 	taskNum:2,
-	// 	task:{
-	// 		command:'evalGame'
-	// 	}
-	// })
+	
 	
 	
 	
