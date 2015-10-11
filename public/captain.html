@@ -95,6 +95,13 @@ appModule.controller("ApplicationController", ApplicationController);
 		id="inputModType" 
 		-->
 	</form>
+	
+		Known thinkers:
+	<div ng-repeat="x in knownThinkers" ng-class="{ makeRed: x.busy }">
+		  {{x}} 
+	</div>
+	<br>
+	
 	<button ng-click="refreshAllThinkers()">Refresh all thinkers</button> 
 	<button ng-click="startAllLearners()">Start all learners</button> 
 	<button ng-click="stopAllLearners()">Stop all learners</button> 
@@ -137,10 +144,6 @@ appModule.controller("ApplicationController", ApplicationController);
 	
 	
 	<br>
-	Known thinkers:
-	<div ng-repeat="x in knownThinkers" ng-class="{ makeRed: x.busy }">
-		  {{x}} 
-	</div>
-	
+
 	
 </body>
