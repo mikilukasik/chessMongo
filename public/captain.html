@@ -21,6 +21,7 @@
 				$scope.waitingThinkers=response.data.thinkers
 				$scope.learners=response.data.learners
 				$scope.knownThinkers=response.data.knownThinkers
+				
 				$scope.learners.sort(function(a,b){
 					if(Number(a[5])>Number(b[5])){
 						return -1
