@@ -224,6 +224,7 @@ function sendTask(thinkerId,task,message){
 							command:task
 					}
 				})
+				captainPop()
 				
 	}
 
