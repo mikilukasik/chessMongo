@@ -167,7 +167,7 @@ function sendTask(thinkerId,task,message){
 	if(thinkerId=='fastest'){
 		//replace id to fastest available!!!!!!!!!!!!!!!
 		thinkerPollIndex=maxIndex()
-		
+		console.log(thinkerId+' '+thinkerPollIndex)
 		
 		
 	}else{
