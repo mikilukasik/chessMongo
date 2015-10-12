@@ -1176,6 +1176,7 @@ function countInArray(inValue,inArray){
 
 function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 	var looped=false
+	//var loopedValue=0
 	var modConst=1
 	if (modType=="lpV"){
 		if(modVal<=50){
@@ -1213,6 +1214,12 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 	var origProtect=protectTable(cfTable,cfColor)
 
 	var origData = getTableData(cfTable, cfColor) //trick getTableScore(cfTable, !cfColor)
+	
+	var dontLoop=false
+	
+	if (origData[0]>1){
+		dontLoop=true
+	}
 
 	var origTableValue = origData[0]
 	var origMyHitValue = origData[1]
@@ -1254,6 +1261,9 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 		
 		
 		var loopValue = 0 //=(fHitValue-retHitValue)*10
+		var loopedValue = 0 //=(fHitValue-retHitValue)*10
+		
+		var forceLoopValue=0
 		////
 		//indul a noloop
 		
@@ -1265,7 +1275,13 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 			//3szorra lepnenk ugyanabba a statuszba
 			//ideiglenesen ne
 			//console.log ('i could 3fold '+counted)
-			loopValue-=10
+			
+			
+			
+			if(dontLoop) loopedValue-=1000
+			
+			
+			
 			if(counted >3){
 				//surely looped
 				looped=true
@@ -1381,7 +1397,11 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 				if(countInArray(createState(tempRetTable) ,allPast) >1){
 					//3szorra lephetne ugyanabba a statuszba
 					//ideiglenesen ne
-					loopValue-=10
+					if (dontLoop){
+						 loopedValue-=100
+					}else{
+						forceLoopValue+=0.5		
+					}
 					
 					looped=true
 					//console.log('he could 3fold')
@@ -1693,7 +1713,9 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 							sancValue+
 							getToMiddle+
 							pushHimBack+
-							mostMoved
+							mostMoved+
+							loopedValue+
+							forceLoopValue
 
 		allTempTables.push([stepMove, pushThisValue])//, hisBestRtnMove, loopValue, captureScore, smallValScore,
 			 				// dontGetHit,tTable2Value, retProtect, mhit, hhit, fwdVal,lsancValue,rsancValue,
