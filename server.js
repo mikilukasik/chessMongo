@@ -83,7 +83,7 @@ var getThinkerIndex = function(id){
 var maxIndex = function(){
 	var speedArray=[]
 	for(var i=0; i<pendingThinkerPolls.length;i++){
-		speedArray.push(pendingThinkerPolls[i][0].query.spd)
+		speedArray.push(Math.floor(100*(pendingThinkerPolls[i][0].query.spd)))
 	}
 	
 	var mx=speedArray.indexOf(Math.max.apply( Math, speedArray ));
