@@ -333,8 +333,8 @@ setInterval(function() {
 }, checkGamesConst);
 
 setInterval( function(){
-	sendTask('fastest','testing','testing')
-	},30)
+	sendToAll('ping','ping')
+	},5000)
 
 var evalToClient=function(){
 	
@@ -354,7 +354,7 @@ var evalToClient=function(){
 				argument:gameToEval
 				
 			}
-			sendTask('fastest','evalGame','testing')
+			sendTask('fastest','evalGame','')
 			db4.close()
 			
 			
