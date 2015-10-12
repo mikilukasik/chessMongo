@@ -206,7 +206,7 @@ function sendTask(thinkerId,task,message){
 				
 										
 				
-				thisres.json({
+				thisRes.json({
 					message:message,
 					taskNum:newTaskNum,
 					task:{
