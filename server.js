@@ -373,6 +373,14 @@ var evalToClient=function(){
 					
 				}
 				sendTask('fastest','evalGame',task)
+			}else{
+				
+				var task={
+					message:'nothing to eval',
+					command:[],
+					argument:[]
+				}
+				sendTask('fastest','message',task)
 			}
 			db4.close()
 			
