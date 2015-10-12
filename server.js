@@ -822,13 +822,15 @@ app.get('/forceStop', function(req, res) {
 
 				db.collection("tables")
 					.save(stopThisTable, function(err3, res) {
-						db.close()
+						
 							
 						
 					})
 				}else{
 					
 				}
+				
+				db.close()
 			});
 	});
 
