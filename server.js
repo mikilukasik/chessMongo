@@ -87,7 +87,7 @@ var maxIndex = function(){
 	}
 	
 	var mx=speedArray.indexOf(Math.max.apply( Math, speedArray ));
-	
+	console.log('mx: '+mx)
     return mx
 };
 
