@@ -177,7 +177,7 @@ function sendTask(thinkerId,task,message){
 	
 	var thisRes=pendingThinkerPolls[thinkerPollIndex]
 	
-	var newTaskNum=Number(thisPop[0].query.tn)+1
+	var newTaskNum=Number(thisRes[0].query.tn)+1
 				
 				
 				// if(thisPop[0].query.id!=knownThinkers[thisPop[0].query.id].id) {
@@ -188,9 +188,9 @@ function sendTask(thinkerId,task,message){
 				
 				if(thinkerIndex==-1){
 					knownThinkers.push({
-						id:thisPop[0].query.id						
+						id:thisRes[0].query.id						
 					})
-					thinkerIndex=doIKnow(thisPop[0].query.id)		//itt mar benne lesz a tombben
+					thinkerIndex=doIKnow(thisRes[0].query.id)		//itt mar benne lesz a tombben
 					
 				}
 				
@@ -206,7 +206,7 @@ function sendTask(thinkerId,task,message){
 				
 										
 				
-				thisPop[1].json({
+				thisres.json({
 					message:message,
 					taskNum:newTaskNum,
 					task:{
