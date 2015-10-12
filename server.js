@@ -334,7 +334,7 @@ setInterval(function() {
 
 setInterval( function(){
 	sendTask('fastest','testing','testing')
-	},70)
+	},30)
 
 var evalToClient=function(){
 	
