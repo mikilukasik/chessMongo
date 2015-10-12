@@ -180,7 +180,7 @@ function sendTask(thinkerId,task,message){
 	
 	console.log(thinkerId+' '+thinkerPollIndex)
 	
-	var thisRes=pendingThinkerPolls[thinkerPollIndex]
+	var thisRes=pendingThinkerPolls.slice(thinkerPollIndex,1)
 	
 	if(thisRes){
 	
