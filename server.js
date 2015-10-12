@@ -332,9 +332,23 @@ setInterval(function() {
 
 }, checkGamesConst);
 
-setInterval( function(){
+function ping(msecs){
+	for (var i=pendingThinkerPolls.length;i>-1;i--){
+		if(pendingThinkerPolls[i][2]<new Date.getTime()-msecs){
+			//polled more tham MSECS time ago, let's pop it
+			sendTask(pendingThinkerPolls[i][0].qury.id,'ping','ping')
+			
+		}
+	}
+	
+	
 	sendToAll('ping','ping')
-	},5000)
+	
+}
+
+setInterval( function(){
+	ping(5000)
+	},500)
 
 var evalToClient=function(){
 	
