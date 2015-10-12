@@ -351,7 +351,7 @@ var evalToClient=function(){
 				argument:gameToEval
 				
 			}
-			sendTask('fastest','testing on '+ gameToEval.tableNum,'testing on '+ gameToEval.tableNum)
+			if(gameToEval)sendTask('fastest','testing on '+ gameToEval.tableNum,'testing on '+ gameToEval.tableNum)
 			db4.close()
 		canEval=true
 			// db4.close()
