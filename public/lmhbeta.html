@@ -16,7 +16,8 @@
 		
 		$rootScope.mySpeed=60000/(ai(new Dbtable(1,'a','b').table,true,[])[0][2])
 		
-		
+		///////
+		$rootScope.pollOn=true
 		$rootScope.messages = ["Starting..."]
 		
 	$rootScope.refreshWhenUp = function() {
@@ -47,6 +48,7 @@
                         
 						 console.log(task.message)
 						 $rootScope.refreshWhenUp()
+						 $rootScope.pollOn=false
                        
                         
                      break;   
@@ -103,7 +105,7 @@
                             $rootScope.doTask(response.data.task)
                             
                             
-                            longPollTasks()			//recall for new task, server will hold any new task until this one finishes
+                            if($rootScope.pollOn)longPollTasks()			//recall for new task, server will hold any new task until this one finishes
                     
                         },function(data){
                             //error, retry
