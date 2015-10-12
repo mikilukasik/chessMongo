@@ -66,7 +66,21 @@ function doIKnow(id){
 	return -1
 }
 
-maxIndex = function(){
+
+
+
+var getThinkerIndex = function(id){
+	var speedArray=[]
+	for(var i=0; i<pendingThinkerPolls.length;i++){
+		if(pendingThinkerPolls[i].id=id)return i
+	}
+	return -1
+	
+	
+	
+    //return speedArray.indexOf(Math.max.apply( Math, speedArray ));
+};
+var maxIndex = function(){
 	var speedArray=[]
 	for(var i=0; i<pendingThinkerPolls.length;i++){
 		speedArray.push(pendingThinkerPolls[i].spd)
@@ -147,16 +161,59 @@ app.get('/stopAllLearners', function(req, res) {
 });
 
 
-function sendTask(thinkerId,task){
+function sendTask(thinkerId,task,message){
 // 	var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
+	var thinkerPollIndex=0
 	if(thinkerId=='fastest'){
 		//replace id to fastest available!!!!!!!!!!!!!!!
+		thinkerPollIndex=maxIndex()
 		
 		
 		
+	}else{
+		thinkerPollIndex=getthinkerPollIndex(thinkerId)
 		
 	}
 	
+	var thisRes=pendingThinkerPolls[thinkerPollIndex]
+	
+	var newTaskNum=Number(thisPop[0].query.tn)+1
+				
+				
+				// if(thisPop[0].query.id!=knownThinkers[thisPop[0].query.id].id) {
+				// 	knownThinkers[thisPop[0].query.id]={id:thisPop[0].query.id}	// object has knownThinkers id
+				// }
+				
+				var thinkerIndex=doIKnow(thisPop[0].query.id)
+				
+				if(thinkerIndex==-1){
+					knownThinkers.push({
+						id:thisPop[0].query.id						
+					})
+					thinkerIndex=doIKnow(thisPop[0].query.id)		//itt mar benne lesz a tombben
+					
+				}
+				
+				knownThinkers[thinkerIndex].busy=true
+				
+				knownThinkers[thinkerIndex].taskNum=newTaskNum		//we need to remember the tasknum we sent
+				knownThinkers[thinkerIndex].message=message		//do we we need to remember the message we sent?
+				knownThinkers[thinkerIndex].task=task		//we need to remember the task we sent
+				knownThinkers[thinkerIndex].sent=new Date().getTime()
+				knownThinkers[thinkerIndex].lastSeen=knownThinkers[thinkerIndex].sent
+
+				
+				
+										
+				
+				thisPop[1].json({
+					message:message,
+					taskNum:newTaskNum,
+					task:{
+				command:task
+		}
+	})
+
 	
  }
 	
