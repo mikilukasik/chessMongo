@@ -177,6 +177,8 @@ function sendTask(thinkerId,task,message){
 	
 	var thisRes=pendingThinkerPolls[thinkerPollIndex]
 	
+	if(thisRes){
+	
 	var newTaskNum=Number(8)+1	//!!!
 				
 				
@@ -210,9 +212,11 @@ function sendTask(thinkerId,task,message){
 					message:message,
 					taskNum:newTaskNum,
 					task:{
-				command:task
-		}
-	})
+							command:task
+					}
+				})
+				
+	}
 
 	
  }
