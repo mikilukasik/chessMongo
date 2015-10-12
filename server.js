@@ -327,10 +327,12 @@ setInterval(function() {
 	////innentol jon az eval by clients
 	
 	
-	evalToClient()
+	//evalToClient()
 	
 
 }, checkGamesConst);
+
+setInterval( sendTask('fastest','testing','testing'),300)
 
 var evalToClient=function(){
 	
