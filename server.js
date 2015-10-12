@@ -39,7 +39,8 @@ learners[7]=[]	//learner at pollnum
 var playerDisconnectConst = 15000 //15sec
 var learnerDisconnectConst = 240000 //4min
 var gameInactiveConst = 100000 //100sec
-var checkGamesConst = 500
+var checkGamesConst = 4000
+var evalGameConst = 4000
 
 var pendingLongPolls = []
 
@@ -327,7 +328,7 @@ setInterval(function() {
 	////innentol jon az eval by clients
 	
 	
-	//evalToClient()
+	evalToClient()
 	
 
 }, checkGamesConst);
@@ -347,8 +348,8 @@ function ping(msecs){
 }
 
 setInterval( function(){
-	ping(6000)
-	},1500)
+	ping(7000)
+},1000)
 
 var evalToClient=function(){
 	
@@ -368,7 +369,7 @@ var evalToClient=function(){
 				argument:gameToEval
 				
 			}
-			sendTask('fastest','evalGame','')
+			sendTask('fastest','evalGame',gameToEval)
 			db4.close()
 			
 			
