@@ -21,11 +21,23 @@
 		$rootScope.messages = ["Starting..."]
 		
 	$rootScope.refreshWhenUp = function() {
+		var succeeded=0
 		$http.get('/forceStop?t=' + $rootScope.tableNum)
 			.then(function(response) {
 				$rootScope.setCookies()
-				window.location.reload(true); //$rootScope.sendMessage('looped, forceStop sent')
+				succeeded++
+				//$rootScope.sendMessage('connection came back, will restart soon..')
+				$rootScope.receivedMessage='restart in 3s'
+				if(succeeded>5){	//server must be running
+					window.location.reload(true); //$rootScope.sendMessage('looped, forceStop sent')
+				}else{
+					
+					$timeout($rootScope.refreshWhenUp(), 500)
+				}
+				
+				
 			}, function(data) {
+				 $rootScope.receivedMessage='connection error, 3s retry'
 				$timeout($rootScope.refreshWhenUp(), 3000)
 			})
 	}
