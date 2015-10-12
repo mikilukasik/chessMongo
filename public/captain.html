@@ -7,20 +7,24 @@
 	<script src="engine.js"></script>
 
 <script>	
+	
 	var appModule = angular.module("appModule", []);
 
 	
 	function ApplicationController( $http, $interval,  $scope) {	
 		
-		
+		$scope.pollNum=0
 		var captainPollConst=500
 		$scope.learners=[]
 		
-		$interval(function(){
-			$http.get('/captainPoll?r='+Math.random()).then(function(response){
+		var longPoll=function(){
+			$http.get('/captainPoll?pn='+$scope.pollNum+'&r='+Math.random())
+			
+			.then(function(response){
 				//$scope.waitingThinkers=response.data.thinkers
 				$scope.learners=response.data.learners
 				$scope.knownThinkers=response.data.knownThinkers
+				$scope.pollNum=response.data.captainPollNum
 				
 				$scope.learners.sort(function(a,b){
 					if(Number(a[5])>Number(b[5])){
@@ -36,10 +40,10 @@
 						
 					}
 				})
-				//$scope.$apply()
+				longPoll()
 			})
 			
-	},captainPollConst)
+	}
 	
 	
 	
