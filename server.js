@@ -39,7 +39,7 @@ learners[7]=[]	//learner at pollnum
 var playerDisconnectConst = 15000 //15sec
 var learnerDisconnectConst = 240000 //4min
 var gameInactiveConst = 100000 //100sec
-var checkGamesConst = 50
+var checkGamesConst = 500
 
 var pendingLongPolls = []
 
@@ -350,7 +350,7 @@ var evalToClient=function(){
 				argument:gameToEval
 				
 			}
-			sendTask('fastest','testing on '+ gameToEval.tableNum,'testing on '+ gameToEval.tableNum)
+			sendTask('fastest','evalGame','testing')
 			db4.close()
 			
 			
