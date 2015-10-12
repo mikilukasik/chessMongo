@@ -350,11 +350,13 @@ var evalToClient=function(){
 				argument:gameToEval
 				
 			}
-			if(gameToEval)sendTask('fastest','testing on '+ gameToEval.tableNum,'testing on '+ gameToEval.tableNum)
-			db4.close()
+			sendTask('fastest','testing on '+ gameToEval.tableNum,'testing on '+ gameToEval.tableNum)
+			
 			
 			
 		})
+		
+		db4.close()
 	})
 	
 }
