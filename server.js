@@ -321,7 +321,7 @@ setInterval(function() {
 var evalToClient=function(){
 	
 	mongodb.connect(cn, function(err7, db4) {
-		db4.findOne({
+		db4.collection('tables').findOne({
 			
 			gameIsOn:false,
 			whiteWon:false,
