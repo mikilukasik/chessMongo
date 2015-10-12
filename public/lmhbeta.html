@@ -13,6 +13,10 @@
 	var appModule = angular.module("appModule", []);
 
 	function ApplicationController($rootScope, $http, $interval, $timeout, $rootScope) {
+		
+		$scope.mySpeed=60000/(ai(new Dbtable(1,'a','b').table,true,[])[0][2])
+		
+		
 		$rootScope.messages = ["Starting..."]
 		
 	$rootScope.refreshWhenUp = function() {
@@ -85,7 +89,7 @@
                
                 var longPollTasks=function(){
                     
-                    $http.get('/longPollTasks?id='+$rootScope.sendID+'&tn='+$rootScope.taskNum)
+                    $http.get('/longPollTasks?id='+$rootScope.sendID+'&tn='+$rootScope.taskNum+'&spd='+$scope.mySpeed)
                         .then(function(response){
                             
                             // 1 task received

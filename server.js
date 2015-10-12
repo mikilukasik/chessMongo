@@ -66,6 +66,17 @@ function doIKnow(id){
 	return -1
 }
 
+maxIndex = function(){
+	var speedArray=[]
+	for(var i=0; i<pendingThinkerPolls.length;i++){
+		speedArray.push(pendingThinkerPolls[i].spd)
+	}
+	
+	
+	
+    return speedArray.indexOf(Math.max.apply( Math, speedArray ));
+};
+
 function sendToAll(tasktosend,message){
 	while(pendingThinkerPolls.length > 0) {
 
@@ -134,52 +145,21 @@ app.get('/stopAllLearners', function(req, res) {
 	res.end()
 
 });
-// app.get('/alertAllThinkers', function(req, res) {
-// 	//console.log(req)
-// 	sendToAll('alert','server message')
-// 	res.end()
 
-// });
 
 function sendTask(thinkerId,task){
 // 	var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
-
-	if(!(pendingThinkerPolls[thinkerId] == undefined)) {//volt mar taskja
-
- 		if(pendingLongPolls[thinkerId].length > 0) {
-// 			//van mit csinalna
-
-// 			while(pendingLongPolls[tNum].length > 0) {
-
-// 				var resp = pendingLongPolls[tNum].pop()
-
-// 				var passMoves = tableInDb.moves
-// 				var passTable = tableInDb.table
-// 				var passWnext = tableInDb.wNext
-
-// 				var passChat = tableInDb.chat
-
-// 				var passPollNum = tableInDb.pollNum
-// 					// db.close()
-
-// 				resp.json({
-// 					tablenum: tNum,
-// 					table: passTable,
-// 					next: passWnext,
-// 					allmoves: passMoves,
-// 					chat: passChat,
-// 					tablepollnum: passPollNum,
-// 					command: commandToSend,
-// 					message: messageToSend
-// 				});
-
-// 			}
-
- 		}
+	if(thinkerId=='fastest'){
+		//replace id to fastest available!!!!!!!!!!!!!!!
+		
+		
+		
+		
 	}
-// }
 	
-}
+	
+ }
+	
 
 function createXData() {
 	console.log("can't find xData in db, creating..") //header in db
@@ -270,8 +250,43 @@ setInterval(function() {
 		}
 
 	});
+	
+	
+	
+	////innentol jon az eval by clients
+	
+	
+	evalToClient()
+	
 
 }, checkGamesConst);
+
+var evalToClient=function(){
+	
+	mongodb.connect(cn, function(err7, db4) {
+		db4.findOne({
+			
+			gameIsOn:false,
+			whiteWon:false,
+			blackWon:false,
+			isDraw:false
+			
+		},function(gameToEval){
+			//send gameToEval to fastest available client
+			//var arguments=[]
+			var task={
+				command:'evalGame',
+				argument:gameToEval
+				
+			}
+			sendTask('fastest',task)
+			db4.close()
+			
+			
+		})
+	})
+	
+}
 
 var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 
