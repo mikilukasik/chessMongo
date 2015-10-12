@@ -1148,13 +1148,15 @@ app.get('/longPollTasks', function(req, res) {
 	if(-1==pollerIndex){
 		knownThinkers.push({
 			id:req.query.id,
-			lastSeen:new Date().getTime()
+			lastSeen:new Date().getTime(),
+			busy:false
 		})
 	}else{
 		knownThinkers[pollerIndex].lastSeen=new Date().getTime()
+		knownThinkers[pollerIndex].busy=false
 		
 	}
-	knownThinkers[pollerIndex].busy=false
+	
 	
 	if(checkIfPending(req.query.id))clearPending(req.query.id)	//remove clients old pending polls so we always have the latest only
 	
