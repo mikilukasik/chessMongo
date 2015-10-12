@@ -332,7 +332,9 @@ setInterval(function() {
 
 }, checkGamesConst);
 
-setInterval( sendTask('fastest','testing','testing'),300)
+setInterval( function(){
+	sendTask('fastest','testing','testing')
+	},300)
 
 var evalToClient=function(){
 	
