@@ -184,7 +184,7 @@ function sendTask(thinkerId,task,message){
 	
 	if(thinkerPollIndex>-1){
 	
-	thisRes=pendingThinkerPolls.slice(thinkerPollIndex,1)
+	thisRes=pendingThinkerPolls.slice(thinkerPollIndex,1)[0]
 	console.log(thisRes,thinkerPollIndex)
 		var newTaskNum=thisRes[0].query.tn+1	//!!!!!!!!!!!!!!!!!!! get real tasknum
 				
