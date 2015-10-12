@@ -184,13 +184,13 @@ function sendTask(thinkerId,task,message){
 				// 	knownThinkers[thisPop[0].query.id]={id:thisPop[0].query.id}	// object has knownThinkers id
 				// }
 				
-				var thinkerIndex=doIKnow(id)
+				var thinkerIndex=doIKnow(thinkerId)
 				
 				if(thinkerIndex==-1){
 					knownThinkers.push({
 						id:id						
 					})
-					thinkerIndex=doIKnow(id)		//itt mar benne lesz a tombben
+					thinkerIndex=doIKnow(thinkerId)		//itt mar benne lesz a tombben
 					
 				}
 				
