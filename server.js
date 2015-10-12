@@ -365,6 +365,7 @@ var evalToClient=function(){
 			//send gameToEval to fastest available client
 			//var arguments=[]
 			var task={
+				message:'evalgame, t'+gameToEval.tableNum,
 				command:'evalGame',
 				argument:gameToEval
 				
