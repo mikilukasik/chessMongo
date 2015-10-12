@@ -188,7 +188,7 @@ function sendTask(thinkerId,task,message){
 				
 				if(thinkerIndex==-1){
 					knownThinkers.push({
-						id:id						
+						id:thinkerId						
 					})
 					thinkerIndex=doIKnow(thinkerId)		//itt mar benne lesz a tombben
 					
