@@ -19,9 +19,9 @@
 		///////
 		$rootScope.pollOn=true
 		$rootScope.messages = ["Starting..."]
-		
+	var succeeded=0	
 	$rootScope.refreshWhenUp = function() {
-		var succeeded=0
+		
 		$http.get('/forceStop?t=' + $rootScope.tableNum)
 			.then(function(response) {
 				$rootScope.setCookies()
