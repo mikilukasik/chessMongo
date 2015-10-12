@@ -1102,7 +1102,7 @@ app.get('/getMyRecentGames', function(req, res) {
 });
 var captainPop=function(){
 	captainPollNum++
-	while(captainPolls>0){
+	while(captainPolls.length>0){
 		var res=captainPolls.pop()
 		
 		
@@ -1136,11 +1136,8 @@ var captainPollNum=0
 var captainPolls=[]
 app.get('/captainPoll', function(req, res) {
 	
-	if(req.query.pn=captainPollNum){
-		captainPolls.push(res)
-	}
+	if(req.query.pn!=captainPollNum){
 	
-	else{
 		
 		clearDisconnectedLearners()
 		
@@ -1168,6 +1165,15 @@ app.get('/captainPoll', function(req, res) {
 		
 		
 		})
+		
+	}else{
+		
+			captainPolls.push(res)
+	
+	
+	
+		
+		
 		
 	}
 	//var aa=[]
