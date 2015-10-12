@@ -171,7 +171,7 @@ function sendTask(thinkerId,task,message){
 		
 		
 	}else{
-		thinkerPollIndex=getthinkerPollIndex(thinkerId)
+		thinkerPollIndex=getThinkerIndex(thinkerId)
 		
 	}
 	
