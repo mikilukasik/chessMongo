@@ -177,7 +177,7 @@ function sendTask(thinkerId,task,message){
 	
 	var thisRes=pendingThinkerPolls[thinkerPollIndex]
 	
-	var newTaskNum=Number(thisRes.query.tn)+1
+	var newTaskNum=Number(8)+1	//!!!
 				
 				
 				// if(thisPop[0].query.id!=knownThinkers[thisPop[0].query.id].id) {
