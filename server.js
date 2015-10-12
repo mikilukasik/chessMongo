@@ -83,7 +83,7 @@ var getThinkerIndex = function(id){
 var maxIndex = function(){
 	var speedArray=[]
 	for(var i=0; i<pendingThinkerPolls.length;i++){
-		speedArray.push(pendingThinkerPolls[i][0].spd)
+		speedArray.push(pendingThinkerPolls[i][0].query.spd)
 	}
 	
 	
@@ -167,13 +167,15 @@ function sendTask(thinkerId,task,message){
 	if(thinkerId=='fastest'){
 		//replace id to fastest available!!!!!!!!!!!!!!!
 		thinkerPollIndex=maxIndex()
-		console.log(thinkerId+' '+thinkerPollIndex)
+		
 		
 		
 	}else{
 		thinkerPollIndex=getThinkerIndex(thinkerId)
 		
 	}
+	
+	console.log(thinkerId+' '+thinkerPollIndex)
 	
 	var thisRes=pendingThinkerPolls[thinkerPollIndex]
 	
