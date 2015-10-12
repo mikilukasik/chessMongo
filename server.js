@@ -86,9 +86,9 @@ var maxIndex = function(){
 		speedArray.push(pendingThinkerPolls[i][0].query.spd)
 	}
 	
+	var mx=speedArray.indexOf(Math.max.apply( Math, speedArray ));
 	
-	
-    return speedArray.indexOf(Math.max.apply( Math, speedArray ));
+    return mx
 };
 
 function sendToAll(tasktosend,message){
