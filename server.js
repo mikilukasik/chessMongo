@@ -87,7 +87,7 @@ var maxIndex = function(){
 	}
 	
 	var mx=speedArray.indexOf(Math.max.apply( Math, speedArray ));
-	console.log('highest: '+Math.max.apply( Math, speedArray ))
+	//console.log('highest: '+Math.max.apply( Math, speedArray ))
 	
 	
 	
@@ -143,21 +143,21 @@ function sendToAll(tasktosend,message){
 }
 
 app.get('/refreshAllThinkers', function(req, res) {
-	//console.log(req)
+	////console.log(req)
 	sendToAll('refresh','refresh all')
 	res.end()
 
 });
 
 app.get('/startAllLearners', function(req, res) {
-	//console.log(req)
+	////console.log(req)
 	sendToAll('learnStart','learnStart all')
 	res.end()
 
 });
 
 app.get('/stopAllLearners', function(req, res) {
-	//console.log(req)
+	////console.log(req)
 	sendToAll('learnStop','learnStop all')
 	res.end()
 
@@ -178,7 +178,7 @@ function sendTask(thinkerId,task,message){
 		
 	}
 	
-	console.log(thinkerId+' '+thinkerPollIndex)
+	//console.log(thinkerId+' '+thinkerPollIndex)
 	
 	var thisRes=null
 	
@@ -187,7 +187,7 @@ function sendTask(thinkerId,task,message){
 		thinkerId=pendingThinkerPolls[thinkerPollIndex][0].query.id
 	
 	thisRes=pendingThinkerPolls.splice(thinkerPollIndex,1)[0]
-	console.log(thisRes,thinkerPollIndex)
+	//console.log(thisRes,thinkerPollIndex)
 		var newTaskNum=Number(thisRes[0].query.tn)+1	//!!!!!!!!!!!!!!!!!!! get real tasknum
 				
 				
@@ -233,7 +233,7 @@ function sendTask(thinkerId,task,message){
 	
 
 function createXData() {
-	console.log("can't find xData in db, creating..") //header in db
+	//console.log("can't find xData in db, creating..") //header in db
 
 	mongodb.connect(cn, function(err, db) {
 
@@ -313,7 +313,7 @@ setInterval(function() {
 								.save(xData, function(err3, res) {
 									db2.close()
 								})
-								//console.log('Games checked.')
+								////console.log('Games checked.')
 
 						});
 
@@ -559,8 +559,8 @@ app.get('/aiMove', function(req, res) {
 						.findOne({
 							tableNum: Number(req.query.t)
 						}, function(err2, tableInDb) {
-							// console.log(resJsn)
-							// console.log('dssdfsdgs')
+							// //console.log(resJsn)
+							// //console.log('dssdfsdgs')
 							if(!(resJsn == null || tableInDb == null)) {
 								var moveStr = String(resJsn.aimove)
 								if(!(moveStr == "")) { //there's at least 1 move
@@ -804,7 +804,7 @@ app.get('/longPollTable', function(req, res) {
 
 });
 app.get('/forceStop', function(req, res) {
-	//console.log(req)
+	////console.log(req)
 	res.send('sg')
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
@@ -1118,7 +1118,7 @@ app.get('/watchGame', function(req, res) {
 });
 
 app.get('/lobbyChat', function(req, res) {
-	//console.log(req)
+	////console.log(req)
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
@@ -1143,7 +1143,7 @@ app.get('/lobbyChat', function(req, res) {
 
 
 app.get('/getModType', function(req, res) {
-	//console.log(req)
+	////console.log(req)
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
@@ -1169,7 +1169,7 @@ app.get('/getModType', function(req, res) {
 });
 
 app.get('/getMyRecentGames', function(req, res) {
-	//console.log(req)
+	////console.log(req)
 	mongodb.connect(cn, function(err, db) {
 		db.collection("users")
 			.findOne({
@@ -1289,7 +1289,7 @@ function clearPending(id){
 
 
 app.get('/longPollTasks', function(req, res) {
-	//console.log(req)
+	////console.log(req)
 	var pollerIndex=doIKnow(req.query.id)
 	if(-1==pollerIndex){
 		knownThinkers.push({
@@ -1322,7 +1322,7 @@ app.get('/longPollTasks', function(req, res) {
 
 
 app.get('/learnerPoll', function(req, res) {
-	//console.log(req)
+	////console.log(req)
 	
 	if(learners[0].indexOf(req.query.n) == -1) {
 		learners[0].push(req.query.n)
@@ -1446,7 +1446,7 @@ function clearDisconnectedLearners() {
 }
 
 app.get('/getLobby', function(req, res) {
-	//console.log(req)
+	////console.log(req)
 	clearDisconnectedPlayers()
 	if(players[0].indexOf(req.query.p) == -1) {
 		players[0].push(req.query.p)
@@ -1528,7 +1528,7 @@ app.get('/getLobby', function(req, res) {
 // function existsInArray()
 
 app.get('/stats.txt', function(req, res) {
-	//console.log(req)
+	////console.log(req)
 	res.writeHead(200, {
   
   'Content-Type': 'text/plain' 
@@ -1572,7 +1572,7 @@ app.get('/stats.txt', function(req, res) {
 									}, function(errs, bModGame) {
 										if(bModGame) {
 											//van matching pair game
-											//console.log('van')
+											////console.log('van')
 											var wonScore = 0
 											var resText=''
 											resText=resText.concat('t'+bModGame.tableNum)
@@ -1606,14 +1606,14 @@ app.get('/stats.txt', function(req, res) {
 											//var resArray=["wonScore",String.fromCharCode(9),"modVal",String.fromCharCode(9),"modType",String.fromCharCode(13)]
 											//resArray=[]
 											//resArray.push(wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9), resText, String.fromCharCode(13)) //to be fixed
-											//console.log([wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9)])
+											////console.log([wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9)])
 											res.write(resArray.join(''));
 											
 									
 
 										}else{
 								
-											//console.log('nincs')
+											////console.log('nincs')
 										}
 										
 										
@@ -1644,7 +1644,7 @@ app.get('/stats.txt', function(req, res) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // io.on('connection', function(socket){
-//   console.log('IO: a user connected');
+//   //console.log('IO: a user connected');
 // });
 
 var server = app.listen(80, function() {
@@ -1654,7 +1654,7 @@ var server = app.listen(80, function() {
 	var port = server.address()
 		.port;
 
-	console.log('app listening at http://%s:%s', host, port);
+	//console.log('app listening at http://%s:%s', host, port);
 
 });
 
@@ -1665,6 +1665,6 @@ var server2 = app.listen(17889, function() {
 	var port = server.address()
 		.port;
 
-	console.log('app listening at http://%s:%s', host, port);
+	//console.log('app listening at http://%s:%s', host, port);
 
 });
