@@ -356,7 +356,7 @@ var evalToClient=function(){
 			
 		})
 		
-		setInterval( db4.close(),400)
+		setTimeout(db4.close(),400)
 	})
 	
 }
