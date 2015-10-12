@@ -107,9 +107,11 @@ function sendToAll(tasktosend,message){
 		}
 	})
 	
-	captainPop()
+	
 
 	}
+	
+	captainPop()
 }
 
 app.get('/refreshAllThinkers', function(req, res) {
@@ -1143,6 +1145,7 @@ app.get('/captainPoll', function(req, res) {
 		clearDisconnectedLearners()
 		
 		captainPollNum++
+		//captainPop()
 	
 		var texttosnd=[]
 	
@@ -1213,9 +1216,11 @@ app.get('/longPollTasks', function(req, res) {
 	
 	if(checkIfPending(req.query.id))clearPending(req.query.id)	//remove clients old pending polls so we always have the latest only
 	
+	captainPop()
+	
 	pendingThinkerPolls.push([req,res,new Date().getTime()])		//remember when it came
 	
-	captainPop()
+	
 	
 	
 	
