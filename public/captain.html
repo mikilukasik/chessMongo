@@ -102,10 +102,10 @@ appModule.controller("ApplicationController", ApplicationController);
 		Known thinkers:
 	<table><tr ng-repeat="x in knownThinkers">
 		
-		 <span ng-class="{ makeGreen: !x.busy , makeRed: x.busy }">{{x.id}}</span>
-		 <span>{{x.lastSeen}} </span>
-		 <span ng-if="x.busy">{{x.taskNum}}</span>
-		 <span ng-if="x.busy">{{x.task}}</span>
+		 <td ng-class="{ makeGreen: !x.busy , makeRed: x.busy }">{{x.id}}</td>
+		 <td>{{x.lastSeen}} </td>
+		 <td ng-if="x.busy">{{x.taskNum}}</td>
+		 <td ng-if="x.busy">{{x.task}}</td>
 	</tr></table>	 
 			
 		  
