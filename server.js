@@ -1113,7 +1113,7 @@ app.get('/captainPoll', function(req, res) {
 	res.json({
 		
 		"learners":texttosnd,
-		"thinkers":waitingThinkers,
+		// "thinkers":waitingThinkers,
 		"knownThinkers":knownThinkers
 		
 		

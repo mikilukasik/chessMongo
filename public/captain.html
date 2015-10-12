@@ -18,7 +18,7 @@
 		
 		$interval(function(){
 			$http.get('/captainPoll?r='+Math.random()).then(function(response){
-				$scope.waitingThinkers=response.data.thinkers
+				//$scope.waitingThinkers=response.data.thinkers
 				$scope.learners=response.data.learners
 				$scope.knownThinkers=response.data.knownThinkers
 				
@@ -154,11 +154,11 @@ appModule.controller("ApplicationController", ApplicationController);
 	</table>
 	
 	<br>
-	Ready thinkers:
+	<!--Ready thinkers:
 	<div ng-repeat="x in waitingThinkers"> {{x}} </div>
 	
 	
-	<br>
+	<br>-->
 
 	
 </body>
