@@ -184,7 +184,7 @@ function sendTask(thinkerId,task,message){
 	
 	if(thinkerPollIndex>-1){
 	
-	var newTaskNum=Number(8)+1	//!!!
+	var newTaskNum=Number(8)+1	//!!!!!!!!!!!!!!!!!!!
 				
 				
 				// if(thisPop[0].query.id!=knownThinkers[thisPop[0].query.id].id) {
@@ -213,7 +213,7 @@ function sendTask(thinkerId,task,message){
 				
 										
 				
-				thisRes[1].json({
+				thisRes.json({
 					message:message,
 					taskNum:newTaskNum,
 					task:{
