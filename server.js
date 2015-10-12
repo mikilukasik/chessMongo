@@ -182,7 +182,7 @@ function sendTask(thinkerId,task,message){
 	
 	var thisRes=pendingThinkerPolls.slice(thinkerPollIndex,1)
 	
-	if(thisRes){
+	if(thisRes>-1){
 	
 	var newTaskNum=Number(8)+1	//!!!
 				
