@@ -1333,7 +1333,7 @@ app.get('/learnerPoll', function(req, res) {
 		learners[7].push(req.query.a)
 		
 		
-		//pendingThinkerPolls[req.query.n]=[]	
+		//pendingThinkerPolls[req.query.n]=[]	!!!!!!!!!!!!!!!!!!
 			
 	// var players = []
 	// var learners=[]
