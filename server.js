@@ -352,11 +352,11 @@ var evalToClient=function(){
 			}
 			sendTask('fastest','testing on '+ gameToEval.tableNum,'testing on '+ gameToEval.tableNum)
 			
-			db4.close()
+			// db4.close()
 			
 		})
 		
-		// db4.close()
+		setInterval( db4.close(),400)
 	})
 	
 }
