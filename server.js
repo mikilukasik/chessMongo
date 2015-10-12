@@ -361,7 +361,7 @@ var evalToClient=function(){
 			blackWon:false,
 			isDraw:false
 			
-		},function(gameToEval){
+		},function(errx,gameToEval){
 			//send gameToEval to fastest available client
 			//var arguments=[]
 			
