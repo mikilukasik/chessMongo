@@ -101,7 +101,13 @@ appModule.controller("ApplicationController", ApplicationController);
 	
 		Known thinkers:
 	<div ng-repeat="x in knownThinkers" ng-class="{ makeGreen: !x.busy , makeRed: x.busy }">
-		  {{x}} 
+		   <!--< - - - - {{x.id}} {{x.taskNum}} {{x.task}} {{x.lastSeen}} -->-->
+		  
+		  <div ng-repeat="y in x">
+			  {{y}}
+		  </div>
+		  
+		  
 	</div>
 	<br>
 	
