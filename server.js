@@ -106,6 +106,8 @@ function sendToAll(tasktosend,message){
 				command:tasktosend
 		}
 	})
+	
+	captainPop()
 
 	}
 }
@@ -1096,28 +1098,77 @@ app.get('/getMyRecentGames', function(req, res) {
 	});
 
 });
-
-app.get('/captainPoll', function(req, res) {
-	clearDisconnectedLearners()
+var captainPop=function(){
+	captainPollNum++
+	while(captainPolls>0){
+		var res=captainPolls.pop()
+		
+		
+		clearDisconnectedLearners()
 	
-	var texttosnd=[]
-
-	for (var i=0;i<learners[0].length;i++){
-		texttosnd[i]=[learners[0][i],learners[2][i],learners[4][i],learners[6][i],learners[5][i],learners[7][i]]
-	}
-	var waitingThinkers=[]
-	pendingThinkerPolls.forEach(function(task){
-		waitingThinkers.push(task[0].query.id)			//the req from /longpolltask
-	})
-	//var aa=[]
-	res.json({
+		var texttosnd=[]
+	
+		for (var i=0;i<learners[0].length;i++){
+			texttosnd[i]=[learners[0][i],learners[2][i],learners[4][i],learners[6][i],learners[5][i],learners[7][i]]
+		}
+		var waitingThinkers=[]
+		pendingThinkerPolls.forEach(function(task){
+			waitingThinkers.push(task[0].query.id)			//the req from /longpolltask
+		})
+	
+		
+			res.json({
 		
 		"learners":texttosnd,
 		// "thinkers":waitingThinkers,
 		"knownThinkers":knownThinkers
 		
+		"captainPollNum":captainPollNum
+		
 		
 		})
+		
+	}
+}
+var captainPollNum=0
+var captainPolls=[]
+app.get('/captainPoll', function(req, res) {
+	
+	if(req.query.pn=captainPollNum){
+		captainPolls.push(res)
+	}
+	
+	else{
+		
+		clearDisconnectedLearners()
+		
+		captainPollNum++
+	
+		var texttosnd=[]
+	
+		for (var i=0;i<learners[0].length;i++){
+			texttosnd[i]=[learners[0][i],learners[2][i],learners[4][i],learners[6][i],learners[5][i],learners[7][i]]
+		}
+		var waitingThinkers=[]
+		pendingThinkerPolls.forEach(function(task){
+			waitingThinkers.push(task[0].query.id)			//the req from /longpolltask
+		})
+	
+		
+			res.json({
+		
+		"learners":texttosnd,
+		// "thinkers":waitingThinkers,
+		"knownThinkers":knownThinkers
+		
+		"captainPollNum":captainPollNum
+		
+		
+		})
+		
+	}
+	//var aa=[]
+	
 })
 
 
@@ -1151,6 +1202,8 @@ app.get('/longPollTasks', function(req, res) {
 			lastSeen:new Date().getTime(),
 			busy:false
 		})
+		
+		
 	}else{
 		knownThinkers[pollerIndex].lastSeen=new Date().getTime()
 		knownThinkers[pollerIndex].busy=false
@@ -1162,6 +1215,7 @@ app.get('/longPollTasks', function(req, res) {
 	
 	pendingThinkerPolls.push([req,res,new Date().getTime()])		//remember when it came
 	
+	captainPop()
 	
 	
 	
