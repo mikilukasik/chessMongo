@@ -186,7 +186,7 @@ function sendTask(thinkerId,task,message){
 		
 		thinkerId=pendingThinkerPolls[thinkerPollIndex][0].query.id
 	
-	thisRes=pendingThinkerPolls.slice(thinkerPollIndex,1)[0]
+	thisRes=pendingThinkerPolls.splice(thinkerPollIndex,1)[0]
 	console.log(thisRes,thinkerPollIndex)
 		var newTaskNum=Number(thisRes[0].query.tn)+1	//!!!!!!!!!!!!!!!!!!! get real tasknum
 				
