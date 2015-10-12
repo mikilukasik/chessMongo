@@ -345,14 +345,14 @@ var evalToClient=function(){
 		},function(gameToEval){
 			//send gameToEval to fastest available client
 			//var arguments=[]
-			if(gameToEval){var task={
+			var task={
 				command:'evalGame',
 				argument:gameToEval
 				
 			}
-			sendTask('fastest','testing on '+ gameToEval.tableNum,'testing on '+ gameToEval.tableNum)
+			if(gameToEval)sendTask('fastest','testing on '+ gameToEval.tableNum,'testing on '+ gameToEval.tableNum)
 			db4.close()
-			}
+			
 			
 		})
 	})
