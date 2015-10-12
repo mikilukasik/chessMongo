@@ -331,9 +331,10 @@ setInterval(function() {
 	
 
 }, checkGamesConst);
-
+var canEval=true
 var evalToClient=function(){
-	
+	if(canEval){
+		canEval=false
 	mongodb.connect(cn, function(err7, db4) {
 		db4.collection('tables').findOne({
 			
@@ -351,14 +352,16 @@ var evalToClient=function(){
 				
 			}
 			sendTask('fastest','testing on '+ gameToEval.tableNum,'testing on '+ gameToEval.tableNum)
-			
+			db4.close()
+		canEval=true
 			// db4.close()
 			
 		})
 		
-		db4.close()
+		// db4.close()
+		// canEval=true
 	})
-	
+}
 }
 
 var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
