@@ -333,7 +333,7 @@ setInterval(function() {
 }, checkGamesConst);
 
 function ping(msecs){
-	for (var i=pendingThinkerPolls.length;i>-1;i--){
+	for (var i=pendingThinkerPolls.length-1;i>-1;i--){
 		if(pendingThinkerPolls[i][2]<new Date.getTime()-msecs){
 			//polled more tham MSECS time ago, let's pop it
 			sendTask(pendingThinkerPolls[i][0].qury.id,'ping','ping')
