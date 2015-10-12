@@ -1121,7 +1121,7 @@ var captainPop=function(){
 		
 		"learners":texttosnd,
 		// "thinkers":waitingThinkers,
-		"knownThinkers":knownThinkers
+		"knownThinkers":knownThinkers,
 		
 		"captainPollNum":captainPollNum
 		
@@ -1159,7 +1159,7 @@ app.get('/captainPoll', function(req, res) {
 		
 		"learners":texttosnd,
 		// "thinkers":waitingThinkers,
-		"knownThinkers":knownThinkers
+		"knownThinkers":knownThinkers,
 		
 		"captainPollNum":captainPollNum
 		
