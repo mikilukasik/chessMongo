@@ -369,7 +369,7 @@ var evalToClient=function(){
 				argument:gameToEval
 				
 			}
-			sendTask('fastest','evalGame',gameToEval)
+			sendTask('fastest','evalGame',task)
 			db4.close()
 			
 			
