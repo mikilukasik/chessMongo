@@ -100,13 +100,19 @@ appModule.controller("ApplicationController", ApplicationController);
 	</form>
 	
 		Known thinkers:
-	<table><tr ng-repeat="x in knownThinkers" ng-class="{ makeGreen: !x.busy , makeRed: x.busy }">
-		   <!--< - - - - {{x.id}} {{x.taskNum}} {{x.task}} {{x.lastSeen}} -->
+	<table><tr ng-repeat="x in knownThinkers">
+		
+		 <span ng-class="{ makeGreen: !x.busy , makeRed: x.busy }">{{x.id}}</span>
+		 <span>{{x.lastSeen}} </span>
+		 <span ng-if="x.busy">{{x.taskNum}}</span>
+		 <span ng-if="x.busy">{{x.task}}</span>
+		 
+			
 		  
-		  <td ng-repeat="y in x">
+		  <!--<td ng-repeat="y in x">
 			  {{y}}
 		  </td>
-		  
+		  -->
 		  
 	</tr></table>
 	<br>
