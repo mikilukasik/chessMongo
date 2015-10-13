@@ -159,7 +159,7 @@
 					 break;
 					 
 					 case "evalGame":
-					 	console.log('eval received')
+					 	console.log('t'+task.data.tableNum+' eval received')
 						 var postThis=evaledGame(task.data)
 						 $http.post('/evaledGame',postThis,function(req,res){
 							 $rootScope.sendMessage('t'+postThis.tableNum+' posted.')
