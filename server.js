@@ -165,7 +165,7 @@ app.get('/stopAllLearners', function(req, res) {
 });
 
 
-function sendTask(thinkerId,task,message){
+function sendTask(thinkerId,message,task){
 // 	var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 	var thinkerPollIndex=0
 	if(thinkerId=='fastest'){
@@ -221,9 +221,7 @@ function sendTask(thinkerId,task,message){
 				thisRes[1].json({
 					message:message,
 					taskNum:newTaskNum,
-					task:{
-							command:task
-					}
+					task:task
 				})
 				captainPop()
 				
@@ -373,7 +371,7 @@ var evalToClient=function(){
 			var task={}
 			if(gameToEval!=null){
 				task={
-					message:'evalgame, t'+gameToEval.tableNum,
+					message:'evalGame, t'+gameToEval.tableNum,
 					command:'evalGame',
 					data:gameToEval
 					
