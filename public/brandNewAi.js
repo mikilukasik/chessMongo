@@ -1175,8 +1175,8 @@ function createState(table){
 					for(var i=0;i<8;i++){
 						for(var j=0;j<8;j++){
 							
-								var x= 10*Number(table[i][j][0]) +Number( table[i][j][1]) -10
-								if(x<0) x=0
+								var x= 10*Number(table[i][j][0]) +Number( table[i][j][1]) +55		//  B vagy nagyobb
+								if(x<65) x=65		// ez egy nagy A
 								
 								
 								
