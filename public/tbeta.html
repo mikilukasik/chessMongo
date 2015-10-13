@@ -19,7 +19,7 @@
 			var y = countInArray(pastTables[pastTables.length-2],pastTables)
 			
 			if(x==3||y==3){return true}else{return false}
-			
+		//	
 		}
 		
 		var evaledGame=function(data){
@@ -63,13 +63,13 @@
 
 				//$rootScope.whatToDo = 'idle'
 			
-				$rootScope.sendMessage('move '+moveStr+' processed.')
+				//$rootScope.sendMessage('move '+moveStr+' processed.')
 			
 			/////////////////////////
 			
 			
 			})
-			evalGame(myGame)
+			evalGame(myGame,true)	//true tells it was learnergame
 			
 			
 			if (learnerLooped(myGame.allPastTables)) myGame.isDraw=true
@@ -135,15 +135,15 @@
 					 
 					 case "learnStart": 
 					 
-					 	$rootScope.stuffToDo = true
-						//$rootScope.whatToDo = "startNewGame"
-						gamePairCounter = -1
+					 	// $rootScope.stuffToDo = true
+						// //$rootScope.whatToDo = "startNewGame"
+						// gamePairCounter = -1
 
-					 	$rootScope.pleasePlay=true
-						 //if($rootScope.gotGame){
-							if($rootScope.readyToPlay){
-								$rootScope.playGame($rootScope.readyTPD[0],$rootScope.readyTPD[1],$rootScope.readyTPD[2],$rootScope.readyTPD[3],$rootScope.readyTPD[4])
-							}
+					 	// $rootScope.pleasePlay=true
+						//  //if($rootScope.gotGame){
+						// 	if($rootScope.readyToPlay){
+						// 		$rootScope.playGame($rootScope.readyTPD[0],$rootScope.readyTPD[1],$rootScope.readyTPD[2],$rootScope.readyTPD[3],$rootScope.readyTPD[4])
+						// 	}
 						//  }else{
 						// 	 $rootScope.receivedMessage='would play but no table..'
 						//  }
@@ -153,7 +153,7 @@
 					 case "learnStop": 
 					 
 					 
-					 	$rootScope.pleasePlay=false
+					 	// $rootScope.pleasePlay=false
 					 
 					 
 					 break;
@@ -161,10 +161,10 @@
 					 case "evalGame":
 					 	console.log('eval received')
 						 var postThis=evaledGame(task.data)
-						 //$http.post('/evaledGame',postThis,function(req,res){
-							 
-						 //})
-						 
+						 $http.post('/evaledGame',postThis,function(req,res){
+							 $rootScope.sendMessage('t'+postThis.tableNum+' posted.')
+						 })
+						 //should ping
 					break;
                      
                  }
