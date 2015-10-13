@@ -364,23 +364,23 @@ var evalToClient=function(){
 		},function(errx,gameToEval){
 			//send gameToEval to fastest available client
 			//var arguments=[]
-			
+			var task={}
 			if(gameToEval!=null){
-				var task={
+				task={
 					message:'evalgame, t'+gameToEval.tableNum,
 					command:'evalGame',
 					argument:gameToEval
 					
 				}
-				sendTask('fastest','evalGame',task)
+				sendTask('fastest',task.message,task)
 			}else{
 				
-				var task={
+				task={
 					message:'nothing to eval',
 					command:[],
 					argument:[]
 				}
-				sendTask('fastest','message',task)
+				sendTask('fastest',task.message,task)
 			}
 			db4.close()
 			
