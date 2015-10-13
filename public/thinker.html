@@ -106,6 +106,7 @@
 				
 			}, function(data) {
 				 $rootScope.receivedMessage='connection error, 3s retry'
+				 succeeded=0
 				$timeout($rootScope.refreshWhenUp(), 3000)
 			})
 	}
