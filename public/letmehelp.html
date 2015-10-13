@@ -516,14 +516,15 @@
 
 			if(myGame.gameIsOn) {
 				$rootScope.sendMessage('Will move ' + aiMoveString)
-
+				
+				///replace this!!!
 				var toPush = String(myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][0]) + //color of whats moving
 					myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][1] + //piece
 					aiMoveString + //the string
 					myGame.table[dletters.indexOf(aiMoveString[2])][aiMoveString[3] - 1][0] + //color of whats hit
 					myGame.table[dletters.indexOf(aiMoveString[2])][aiMoveString[3] - 1][1] //piece
 
-				+new String(new Date())
+				+new String(new Date().getTime())
 
 				// if(!(toPush==myGame.moves[myGame.moves.length-1])){
 				myGame.moves.push(toPush)

@@ -1174,18 +1174,32 @@ function createState(table){
 					
 					for(var i=0;i<8;i++){
 						for(var j=0;j<8;j++){
-							stateToRemember[8*i+j]=
-								String.fromCharCode(65+table[i][j][0])+
-								String.fromCharCode(65+table[i][j][1])
-								if(table[i][j][5]){
-								table[i][j][5].forEach(function(canmov){
-									stateToRemember[8*i+j]=stateToRemember[8*i+j].concat(String.fromCharCode(65+canmov[0])+String.fromCharCode(65+canmov[1]))
-								})
+							
+								var x= 10*Number(table[i][j][0]) +Number( table[i][j][1]) -10
+								if(x<0) x=0
+								
+								
+								
+								
+								
+							stateToRemember[8*i+j]= String.fromCharCode(x)
+							
+							
+							
+							if(table[i][j][5]&&									//mozdulhat
+									(table[i][j][1]==1||table[i][j][1]==9)){	//paraszt v kiraly
+										
+									table[i][j][5].forEach(function(canmov){
+										stateToRemember[8*i+j]=stateToRemember[8*i+j]+canmov[0]+canmov[1]
+									})
 								}
+							
+								
+								
 								
 						}	
 					}
-	return stateToRemember.join()
+	return stateToRemember.join('')
 	
 }
 

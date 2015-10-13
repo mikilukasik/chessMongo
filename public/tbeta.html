@@ -1,0 +1,299 @@
+<head>
+	<link rel="stylesheet" type="text/css" href="chess.css">
+
+	<script src="jquery.js"></script>
+	<script src="angular.js"></script>
+	<script src="brandNewAi.js"></script>
+	<script src="engine.js"></script>
+
+	<script>
+		
+	
+
+	var appModule = angular.module("appModule", []);
+
+	function ApplicationController($rootScope, $http, $interval, $timeout, $rootScope) {
+		
+		var evaledGame=function(data){
+			var moves=data.moves
+			var myGame=new Dbtable(data.tableNum,data.wName,data.bName)
+			
+			moves.forEach(function(moveStr){
+			
+			
+			//////////////////////
+							///replace this!!!
+				var toPush =  getPushString(myGame.table,moveStr)//piece
+
+				+new String(new Date().getTime())
+
+				// if(!(toPush==myGame.moves[myGame.moves.length-1])){
+				myGame.moves.push(toPush)
+
+				myGame.table = moveIt(moveStr, myGame.table)			//	<----moves it
+				
+				//$rootScope.showTable(myGame.table)
+
+				myGame.wNext = !myGame.wNext
+
+				myGame.pollNum++
+
+				//myGame.moved = new Date().getTime()
+
+				myGame.table = addMovesToTable(myGame.table, myGame.wNext, true)	//true stands for pawn and king only: allpasttables only
+
+				//remember this state for 3fold rule
+
+				myGame.allPastTables.push(createState(myGame.table))
+
+				$rootScope.whatToDo = 'idle'
+			
+			
+			
+			/////////////////////////
+			
+			
+			})
+			
+			
+			
+		}
+		
+		
+		
+		$rootScope.mySpeed=60000/(ai(new Dbtable(1,'a','b').table,true,[])[0][2])
+		
+		///////
+		$rootScope.pollOn=true
+		$rootScope.messages = ["Starting..."]
+	var succeeded=0	
+	$rootScope.refreshWhenUp = function() {
+		
+		$http.get('/forceStop?t=' + $rootScope.tableNum)
+			.then(function(response) {
+				$rootScope.setCookies()
+				succeeded++
+				//$rootScope.sendMessage('connection came back, will restart soon..')
+				$rootScope.receivedMessage='restart in 3s'
+				if(succeeded>5){	//server must be running
+					window.location.reload(true); //$rootScope.sendMessage('looped, forceStop sent')
+				}else{
+					
+					$timeout($rootScope.refreshWhenUp(), 500)
+				}
+				
+				
+			}, function(data) {
+				 $rootScope.receivedMessage='connection error, 3s retry'
+				$timeout($rootScope.refreshWhenUp(), 3000)
+			})
+	}
+
+     $rootScope.doTask=function(task){
+                 //where the magic happens
+                
+				 switch(task.command){
+                     case "alert":
+                        
+                        // var tableForDB=0//make some dbtable
+                        // console.log('evalGame received')
+                        //sg like  evalGame(tableForDB)
+						
+						//!!!!!!!!!!!!
+                      //this will stop the client!!  alert(task.message)
+                        
+                     break;   
+					  case "refresh":
+                        
+						 console.log(task.message)
+						 $rootScope.refreshWhenUp()
+						 $rootScope.pollOn=false
+                       
+                        
+                     break;   
+					 
+					 case "learnStart": 
+					 
+					 	$rootScope.stuffToDo = true
+						//$rootScope.whatToDo = "startNewGame"
+						gamePairCounter = -1
+
+					 	$rootScope.pleasePlay=true
+						 //if($rootScope.gotGame){
+							if($rootScope.readyToPlay){
+								$rootScope.playGame($rootScope.readyTPD[0],$rootScope.readyTPD[1],$rootScope.readyTPD[2],$rootScope.readyTPD[3],$rootScope.readyTPD[4])
+							}
+						//  }else{
+						// 	 $rootScope.receivedMessage='would play but no table..'
+						//  }
+					 break;
+					 
+					 
+					 case "learnStop": 
+					 
+					 
+					 	$rootScope.pleasePlay=false
+					 
+					 
+					 break;
+					 
+					 case "eval":
+					 	
+						 var postThis=evaledGame(task.data)
+						 $http.post('/evaledGame',postThis,function(req,res){
+							 
+						 })
+						 
+					break;
+                     
+                 }
+                 
+                 
+             }
+             
+           
+            /////////longpoll tasks stuff
+
+            $rootScope.taskNum=0
+               
+                var longPollTasks=function(){
+                    
+                    $http.get('/longPollTasks?id='+$rootScope.sendID+'&tn='+$rootScope.taskNum+'&spd='+$rootScope.mySpeed)
+                        .then(function(response){
+                            
+                            // 1 task received
+                            
+                            $rootScope.taskNum=response.data.taskNum
+                            
+                            $rootScope.receivedMessage=response.data.message        //display Heading
+                            
+                            $rootScope.sendMessage('task #'+response.data.taskNum+' received, '+response.data.message)
+                            
+                            $rootScope.doTask(response.data.task)
+                            
+                            
+                            if($rootScope.pollOn)longPollTasks()			//recall for new task, server will hold any new task until this one finishes
+                    
+                        },function(data){
+                            //error, retry
+                            $rootScope.receivedMessage='error'
+                            $rootScope.refreshWhenUp()   //retry kene?
+                        })
+                    
+                }
+
+               
+                 
+              /////////longpoll tasks stuff end
+
+
+    $rootScope.sendMessage = function(message) {
+                $rootScope.messages.unshift(message + ' @' + (new Date).getTime())
+            }
+
+// all the crap here......
+
+
+		$rootScope.heartBeat = 300
+		$rootScope.mv = 0
+		$rootScope.pw = false
+		$rootScope.pollsPending = 0
+		
+		
+		
+			
+	$rootScope.cookieID = ""
+			//$rootScope.gotID=false
+
+		function setCookie(cname, cvalue, exdays) {
+			var d = new Date();
+			d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+			var expires = "expires=" + d.toUTCString();
+			document.cookie = cname + "=" + cvalue + "; " + expires;
+		}
+
+		function getCookie(cname) {
+			var name = cname + "=";
+			var ca = document.cookie.split(';');
+			for(var i = 0; i < ca.length; i++) {
+				var c = ca[i];
+				while(c.charAt(0) == ' ') c = c.substring(1);
+				if(c.indexOf(name) == 0) return c.substring(name.length, c.length);
+			}
+			return "";
+		}
+
+		$rootScope.cookieID = getCookie("myID");
+		
+		
+		$rootScope.totalTook = getCookie("totalT2");
+		$rootScope.moveCount = getCookie("mCount2");
+		
+		if($rootScope.moveCount =="")$rootScope.moveCount=0
+		
+		if($rootScope.cookieID==""){
+		
+			$rootScope.sendID=Math.random*100000000
+		}else{
+			$rootScope.sendID=$rootScope.cookieID
+		}
+
+		$rootScope.setID = function(id) {
+			setCookie("myID", id, 365)
+			$rootScope.cookieID = id //$rootScope.gotID=true
+			$rootScope.sendID=id
+		}	
+		
+		
+		$rootScope.setCookies = function() {
+			 setCookie("totalT2", $rootScope.totalTook, 365);
+			 setCookie("mCount2", $rootScope.moveCount, 365);
+		}
+		
+		
+		longPollTasks()//start initial longpoll
+	
+	
+	}
+	appModule.controller("ApplicationController", ApplicationController);
+
+	</script>
+</head>
+
+<body ng-app="appModule" ng-controller="ApplicationController">
+	
+	<form ng-if="cookieID==''" ng-submit="setID(thisID)">
+		<input id="inputID" ng-model="thisID"></input>
+	</form>
+	
+	
+	<!--<p>Total moves: {{moveCount}}</p> 
+	<p>Learner average: {{totalTook}} / {{moveCount}} = {{avgTime}} </p>-->
+			
+				
+				
+				
+    
+
+    <h3
+		>{{receivedMessage}}
+	</h>
+
+	<p>
+		Totals:
+		{{totalTaskCount}} tasks done in {{totalTasksTime}} milliseconds.
+		
+		{{readyToPlay}}
+		{{pleasePlay}}
+		{{myGame.pollNum}}
+		
+	</p>
+
+    <div style="font-size:10px" ng-repeat="x in messages">
+		{{x}}
+	</div>
+
+				
+				
+
+</body>
