@@ -1,4 +1,5 @@
 var Task = function(command,message,data){
+	
 	this.command=command
 	this.message=message
 	this.data=data
