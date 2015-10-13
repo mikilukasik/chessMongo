@@ -2,14 +2,20 @@
 var express = require('express');
 var morgan = require('morgan');
 
+
+var bodyParser     =         require("body-parser");
+
+
 var fs = require('fs');
 var mongodb = require('mongodb');
-var io = require('socket.io');
+//var io = require('socket.io');
 
 var app = express();
 var http = require('http')
 var httpServ = http.Server(app);
-var io = require('socket.io')(httpServ);
+app.use(bodyParser.urlencoded({ extended: false }));
+
+//var io = require('socket.io')(httpServ);
 
 app.use(express.static('public'))
 app.use(morgan("combined"))
