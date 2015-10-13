@@ -328,7 +328,7 @@ setInterval(function() {
 	////innentol jon az eval by clients
 	
 	
-	evalToClient()
+	//evalToClient()
 	
 
 }, checkGamesConst);
@@ -351,6 +351,11 @@ setInterval( function(){
 	ping(7000)
 },1000)
 
+
+setInterval( function(){
+	evalToClient()
+},30000)
+
 var evalToClient=function(){
 	
 	mongodb.connect(cn, function(err7, db4) {
@@ -359,7 +364,8 @@ var evalToClient=function(){
 			gameIsOn:false,
 			whiteWon:false,
 			blackWon:false,
-			isDraw:false
+			isDraw:false,
+			aiOn:false
 			
 		},function(errx,gameToEval){
 			//send gameToEval to fastest available client
@@ -862,9 +868,30 @@ app.get('/forceStop', function(req, res) {
 			});
 	});
 
-	
+});
 
-	
+app.get('/aiOn', function(req, res) {
+	////console.log(req)
+	res.send('sg')
+	mongodb.connect(cn, function(err, db) {
+		db.collection("tables")
+			.findOne({
+				tableNum: Number(req.query.t)
+			}, function(err2, ttable) {
+
+				if(ttable!=null){
+				
+				ttable.aiOn=true
+
+				db.collection("tables")
+					.save(ttable, function(err3, res) {})
+				}else{
+					
+				}
+				
+				db.close()
+			});
+	});
 
 });
 app.get('/forcePopTable', function(req, res) {

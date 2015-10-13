@@ -19,6 +19,7 @@
 			
 				var moves=data.moves
 			
+			$http.get('aiOn?t='+data.tableNum)
 			
 			var myGame=new Dbtable(data.tableNum,data.wName,data.bName)
 			
