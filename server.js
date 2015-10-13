@@ -398,7 +398,7 @@ var evalToClient=function(){
 			// aiOn:false,
 			// toBeChecked:true
 			
-			toBeChecked=false
+			toBeChecked:false
 			
 		},function(errx,gameToEval){
 			//send gameToEval to fastest available client
