@@ -120,7 +120,7 @@ function sendTask(task,thinkerId){
 	thisRes=pendingThinkerPolls.splice(thinkerPollIndex,1)[0]
 	//console.log(thisRes,thinkerPollIndex)
 		//var newTaskNum=Number(thisRes[0].query.tn)+1	//!!!!!!!!!!!!!!!!!!! get real tasknum
-			task.taskNum=Number(thisPop[0].query.tn)+1
+			task.taskNum=Number(thisRes[0].query.tn)+1
 				task.sentRnd=Math.random()
 				
 				// if(thisPop[0].query.id!=knownThinkers[thisPop[0].query.id].id) {
