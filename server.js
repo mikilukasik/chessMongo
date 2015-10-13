@@ -13,6 +13,9 @@ var mongodb = require('mongodb');
 var app = express();
 var http = require('http')
 var httpServ = http.Server(app);
+
+
+app.use( bodyParser.json() ); 
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //var io = require('socket.io')(httpServ);
