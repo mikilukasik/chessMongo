@@ -391,12 +391,14 @@ var evalToClient=function(){
 	mongodb.connect(cn, function(err7, db4) {
 		db4.collection('tables').findOne({
 			
-			gameIsOn:false,
-			whiteWon:false,
-			blackWon:false,
-			isDraw:false,
-			aiOn:false,
-			toBeChecked:true
+			// gameIsOn:false,
+			// whiteWon:false,
+			// blackWon:false,
+			// isDraw:false,
+			// aiOn:false,
+			// toBeChecked:true
+			
+			gameToEval.toBeChecked=false
 			
 		},function(errx,gameToEval){
 			//send gameToEval to fastest available client
@@ -408,7 +410,7 @@ var evalToClient=function(){
 			if(gameToEval!=null){
 				
 				
-				gameToEval.toBeChecked=false
+				gameToEval.toBeChecked=true
 			
 			db4.collection('tables').save(gameToEval,function(){})
 				// task={
@@ -417,13 +419,15 @@ var evalToClient=function(){
 				// 	data:gameToEval
 					
 				// }
-				task=new Task('evalGame',gameToEval,'evalGame, t'+gameToEval.tableNum)
+				task=new Task('resetGame',gameToEval,'resetGame, t'+gameToEval.tableNum)
+				
+				//task=new Task('evalGame',gameToEval,'evalGame, t'+gameToEval.tableNum)
 				sendTask(task)
 			}else{
 				
-				task=new Task('',0,'nothing to eval')
+				// task=new Task('',0,'nothing to eval')
 			
-				sendTask(task)
+				// sendTask(task)
 			}
 			db4.close()
 			
