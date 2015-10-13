@@ -888,6 +888,49 @@ app.get('/forceStop', function(req, res) {
 	});
 
 });
+////////////////////////////post
+app.post('/evaledGame', function(req, res) {
+	////console.log(req)
+	res.send('started, check DB for t'+req.body.tableNum)
+	mongodb.connect(cn, function(err, db) {
+		db.collection("tables")
+			.findOne({
+				tableNum: Number(req.body.tableNum)
+			}, function(err2, evaledTable) {
+
+				if(evaledTable!=null){
+				
+				evaledTable.evaled=true
+				
+				evaledTable.moves=req.body.moves
+				evaledTable.table=req.body.table
+				evaledTable.gameIsOn=req.body.gameIsOn
+				evaledTable.whiteWon=req.body.whiteWon
+				evaledTable.blackWon=req.body.blackWon
+				evaledTable.closingVal=req.body.closingVal
+				evaledTable.isDraw=req.body.isDraw
+				evaledTable.allPastTables=req.body.allPastTables
+								
+				evaledTable.wNext=req.body.wNext
+								
+				evaledTable.pollNum=req.body.pollNum
+								
+
+				db.collection("tables")
+					.save(evaledTable, function(err3, res) {
+						
+							
+						
+					})
+				}else{
+					
+				}
+				
+				db.close()
+			});
+	});
+
+});/////////////////////////////
 
 app.get('/aiOn', function(req, res) {
 	////console.log(req)
