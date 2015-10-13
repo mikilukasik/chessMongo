@@ -751,7 +751,30 @@ function sortAiArray(a, b) {
 
 	return 0
 }
-
+function getPushString(table,moveStr){
+	
+	var cWhatMoves= String(table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) //color of whats moving
+	var pWhatMoves= String(table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1])	//piece
+						
+						
+	var whatsHit= String(table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][0]) + //color of whats hit
+						table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][1] //piece
+						
+	if( pWhatMoves=="1"&&		//paraszt
+		moveStr[0]!=moveStr[2]&&	//keresztbe
+		whatsHit=='00'				//uresre
+		){						//akkor tuti enpass
+		if(cWhatMoves=='1'){	//fekete
+			whatsHit='21'		//akkor feher parasztot ut
+		}else{
+			whatsHit='11'
+		}
+		
+	}
+	
+	return cWhatMoves+pWhatMoves+moveStr+whatsHit
+	
+}
 function moveIt(moveString, intable, dontProtect, hitValue) {
 	if(hitValue==undefined)var hitValue=[0]
 	var thistable = []

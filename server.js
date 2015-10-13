@@ -443,16 +443,17 @@ app.get('/move', function(req, res) {
 				if(tableInDb == null) {
 					db.close()
 				} else {
-					var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
-						tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
-						moveStr + //the string
-						tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][0] + //color of whats hit
-						tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][1] //piece
+					//var toPush = 
 
 					// if(!(toPush==tableInDb.moves[tableInDb.moves.length-1])){
-					tableInDb.moves.push(toPush)
-
-					tableInDb.table = moveIt(moveStr, tableInDb.table)
+					
+					if(proper){
+						tableInDb.moves.push(getPushString(tableInDb.table,moveStr))		//getPushString external, en passed when table is ok
+					}else{
+						tableInDb.moves.push("00"+moveStr+"00")
+					}
+					
+					if(proper) tableInDb.table = moveIt(moveStr, tableInDb.table)		//ezt is elhagyhatnank ha !proper, needs eval after!!
 
 					tableInDb.wNext = !tableInDb.wNext
 
@@ -462,7 +463,7 @@ app.get('/move', function(req, res) {
 
 					tableInDb.pollNum++
 
-						//tableInDb.toBeChecked = true //tells it to server(itself) to evaluate table
+						
 
 					tableInDb.moved = new Date().getTime()
 
@@ -471,7 +472,7 @@ app.get('/move', function(req, res) {
 
 					//remember this state for 3fold rule
 
-					if(proper)tableInDb.allPastTables.push(createState(tableInDb.table))
+					if(proper)tableInDb.allPastTables.push(createState(tableInDb.table))		//we'll have all moves anyway
 
 					popThem(req.query.t, tableInDb, 'moved', 'Player moved: ' + moveStr) //respond to pending longpolls
 
