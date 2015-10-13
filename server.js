@@ -369,7 +369,7 @@ var evalToClient=function(){
 				task={
 					message:'evalgame, t'+gameToEval.tableNum,
 					command:'evalGame',
-					argument:gameToEval
+					data:gameToEval
 					
 				}
 				sendTask('fastest',task.message,task)
