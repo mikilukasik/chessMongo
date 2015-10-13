@@ -161,7 +161,7 @@
 					 case "evalGame":
 					 	//console.log('t'+task.data.tableNum+' eval received')
 						 var postThis=evaledGame(task.data)
-						 console.log(postThis)
+						 console.log('tnum,pollnum,wwon,bwon,isdraw: ',postThis.tableNum,postThis.pollNum,postThis.whiteWon,postThis.balckWon,postThis.isDraw)
 						 $http.post('/evaledGame',postThis,function(req,res){
 							 $rootScope.sendMessage('t'+postThis.tableNum+' posted.')
 						 })
