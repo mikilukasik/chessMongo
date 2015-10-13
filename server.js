@@ -1660,8 +1660,9 @@ app.get('/getLobby', function(req, res) {
 
 // function existsInArray()
 
+
 app.get('/stats.txt', function(req, res) {
-	////console.log(req)
+	//console.log(req)
 	res.writeHead(200, {
   
   'Content-Type': 'text/plain' 
@@ -1680,19 +1681,34 @@ app.get('/stats.txt', function(req, res) {
 
 	mongodb.connect(cn, function(err, db) {
 		if(!(db == null)) {
-			var promise1=db.collection("tables")
+			db.collection("tables")
 				.find({
 
 					gameIsOn: false,
 					bName: "standard"
 
 				})
-			
+				// .sort( {
+					
+				// 	 tableNum: 1 
+					 
+				// } )
+				//.toArray(function(err28, statData) {
+					//if(statData != null) {
+						// statData.sort(function(a,b){
+						// 	if(a.tableNum>b.tableNum){
+						// 		return 1
+						// 	}else{
+						// 		return -1
+						// 	}
+						// })
+						//statData
 						
-						promise1.each(function(wModGame) {
+						
+						.forEach(function(wModGame) {
 
 							//var kellEz=0
-								
+								asyncHack++	//countRequests
 								
 								
 								tempArray.push(wModGame)
@@ -1705,7 +1721,7 @@ app.get('/stats.txt', function(req, res) {
 									}, function(errs, bModGame) {
 										if(bModGame) {
 											//van matching pair game
-											////console.log('van')
+											//console.log('van')
 											var wonScore = 0
 											var resText=''
 											resText=resText.concat('t'+bModGame.tableNum)
@@ -1737,19 +1753,39 @@ app.get('/stats.txt', function(req, res) {
 											}
 
 											//var resArray=["wonScore",String.fromCharCode(9),"modVal",String.fromCharCode(9),"modType",String.fromCharCode(13)]
-											//resArray=[]
-											//resArray.push(wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9), resText, String.fromCharCode(13)) //to be fixed
-											////console.log([wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9)])
+											resArray=[]
+											resArray.push(wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9), resText, String.fromCharCode(13)) //to be fixed
+											console.log([wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9)])
 											res.write(resArray.join(''));
 											
-									
+											// if(statIndex==statData.length()-1){
+											// 	res.end()
+											// }
+											
+											// if(statIndex==statData.length-1){
+											// 	res.write('end')
+											// 	//res.end()
+										//}
 
 										}else{
-								
-											////console.log('nincs')
+											// if(statIndex==statData.length-1){
+											// 	res.write('end')
+											// 	//res.end()
+										//}
+
+											
+											
+											//console.log('nincs')
 										}
-										
-										
+										// if(statIndex==statData.length-1){
+										// 		res.write('end')
+										// 		//res.end()
+										// 		}
+										asyncHack--	//request answered
+										if(asyncHack==0){
+											//res.write('end')
+											//res.end()
+										}
 									})
 												
 								//pairedArray.push(wModGame.wName)
@@ -1771,6 +1807,7 @@ app.get('/stats.txt', function(req, res) {
 	});
 
 });
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
