@@ -229,7 +229,7 @@ function sendToAll(task){
 
 app.get('/refreshAllThinkers', function(req, res) {
 	////console.log(req)
-	sendToAll(new Task('refresh',,'refresh all'))
+	sendToAll(new Task('refresh',0,'refresh all'))
 	res.end()
 
 });
@@ -237,7 +237,7 @@ app.get('/refreshAllThinkers', function(req, res) {
 app.get('/startAllLearners', function(req, res) {
 	////console.log(req)
 	//sendToAll('learnStart','learnStart all')
-	sendToAll(new Task('learnStart',,'learnStart all'))
+	sendToAll(new Task('learnStart',0,'learnStart all'))
 	res.end()
 
 });
@@ -245,7 +245,7 @@ app.get('/startAllLearners', function(req, res) {
 app.get('/stopAllLearners', function(req, res) {
 	////console.log(req)
 	//sendToAll('learnStop','learnStop all')
-	sendToAll(new Task('learnStop',,'learnStop all'))
+	sendToAll(new Task('learnStop',0,'learnStop all'))
 	res.end()
 
 });
@@ -358,7 +358,7 @@ function ping(msecs){
 	for (var i=pendingThinkerPolls.length-1;i>-1;i--){
 		if(pendingThinkerPolls[i][2] < new Date().getTime()-msecs){
 			//polled more tham MSECS time ago, let's pop it
-			sendTask(new Task('ping',,'ping'),pendingThinkerPolls[i][0].query.id)
+			sendTask(new Task('ping',0,'ping'),pendingThinkerPolls[i][0].query.id)
 			
 		}
 	}
@@ -403,7 +403,7 @@ var evalToClient=function(){
 				sendTask(task)
 			}else{
 				
-				task=new Task('',,'nothing to eval')
+				task=new Task('',0,'nothing to eval')
 			
 				sendTask(task)
 			}
