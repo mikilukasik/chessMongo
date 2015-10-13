@@ -213,7 +213,7 @@ function sendTask(thinkerId,task){
 				
 				knownThinkers[thinkerIndex].taskNum=newTaskNum		//we need to remember the tasknum we sent
 				knownThinkers[thinkerIndex].message=message		//do we we need to remember the message we sent?
-				knownThinkers[thinkerIndex].command=command		//we need to remember the task we sent
+				knownThinkers[thinkerIndex].command=task.command		//we need to remember the task we sent
 				knownThinkers[thinkerIndex].sent=new Date().getTime()
 				knownThinkers[thinkerIndex].lastSeen=knownThinkers[thinkerIndex].sent
 
