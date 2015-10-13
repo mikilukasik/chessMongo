@@ -15,12 +15,16 @@
 	function ApplicationController($rootScope, $http, $interval, $timeout, $rootScope) {
 		
 		var evaledGame=function(data){
-			var moves=data.moves
+		
+			
+				var moves=data.moves
+			
+			
 			var myGame=new Dbtable(data.tableNum,data.wName,data.bName)
 			
-			moves.forEach(function(moveStr){
+			moves.forEach(function(moveFromDb){
 			
-			
+				var moveStr=moveFromDb.slice(2,4)		//levagni a kepeket...	(mi ut mit)
 			//////////////////////
 							///replace this!!!
 				var toPush =  getPushString(myGame.table,moveStr)//piece
@@ -43,19 +47,27 @@
 				myGame.table = addMovesToTable(myGame.table, myGame.wNext, true)	//true stands for pawn and king only: allpasttables only
 
 				//remember this state for 3fold rule
+				var sendThis=createState(myGame.table)
+				
+				
+				myGame.allPastTables.push(sendThis)
 
-				myGame.allPastTables.push(createState(myGame.table))
-
-				$rootScope.whatToDo = 'idle'
+				//$rootScope.whatToDo = 'idle'
 			
-			
+				$rootScope.sendMessage('move '+moveStr+' processed.')
 			
 			/////////////////////////
 			
 			
 			})
+			evalGame(myGame)
 			
 			
+			if (learnerLooped(myGame.allPastTables)) myGame.isDraw=true
+			
+			$rootScope.sendMessage('table '+myGame.tableNum+' processed. (eval)')
+			
+			return myGame
 			
 		}
 		
