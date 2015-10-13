@@ -14,6 +14,74 @@
 
 	function ApplicationController($rootScope, $http, $interval, $timeout, $rootScope) {
 		
+		function learnerLooped(pastTables){
+			var x = countInArray(pastTables[pastTables.length-1],pastTables)
+			var y = countInArray(pastTables[pastTables.length-2],pastTables)
+			
+			if(x==3||y==3){return true}else{return false}
+		//	
+		}
+		
+		var evaledGame=function(data){
+		
+			// console.log(data)
+				var moves=data.moves
+			
+			$http.get('aiOn?t='+data.tableNum)
+			
+			var myGame=new Dbtable(data.tableNum,data.wName,data.bName)
+			
+			moves.forEach(function(moveFromDb){
+			
+				var moveStr=moveFromDb.slice(2,6)		//levagni a kepeket...	(mi ut mit)
+			//////////////////////
+							///replace this!!!
+				var toPush =  getPushString(myGame.table,moveStr)//piece
+
+				+new String(new Date().getTime())
+
+				// if(!(toPush==myGame.moves[myGame.moves.length-1])){
+				myGame.moves.push(toPush)
+
+				myGame.table = moveIt(moveStr, myGame.table)			//	<----moves it
+				
+				//$rootScope.showTable(myGame.table)
+
+				myGame.wNext = !myGame.wNext
+
+				myGame.pollNum++
+
+				//myGame.moved = new Date().getTime()
+
+				myGame.table = addMovesToTable(myGame.table, myGame.wNext, true)	//true stands for pawn and king only: allpasttables only
+
+				//remember this state for 3fold rule
+				var sendThis=createState(myGame.table)
+				
+				
+				myGame.allPastTables.push(sendThis)
+
+				//$rootScope.whatToDo = 'idle'
+			
+				//$rootScope.sendMessage('move '+moveStr+' processed.')
+			
+			/////////////////////////
+			
+			
+			})
+			evalGame(myGame,true)	//true tells it was learnergame
+			
+			
+			if (learnerLooped(myGame.allPastTables)) myGame.isDraw=true
+			
+			$rootScope.sendMessage('table '+myGame.tableNum+' processed. (eval)')
+			
+			return myGame
+			
+		}
+		
+		
+		
 		$rootScope.mySpeed=60000/(ai(new Dbtable(1,'a','b').table,true,[])[0][2])
 		
 		///////
@@ -27,12 +95,12 @@
 				$rootScope.setCookies()
 				succeeded++
 				//$rootScope.sendMessage('connection came back, will restart soon..')
-				$rootScope.receivedMessage='restart in 3s'
-				if(succeeded>5){	//server must be running
+				$rootScope.receivedMessage='restart in 10s'
+				if(succeeded>3){	//server must be running
 					window.location.reload(true); //$rootScope.sendMessage('looped, forceStop sent')
 				}else{
 					
-					$timeout($rootScope.refreshWhenUp(), 500)
+					$timeout($rootScope.refreshWhenUp(), 3000)
 				}
 				
 				
@@ -67,15 +135,15 @@
 					 
 					 case "learnStart": 
 					 
-					 	$rootScope.stuffToDo = true
-						//$rootScope.whatToDo = "startNewGame"
-						gamePairCounter = -1
+					 	// $rootScope.stuffToDo = true
+						// //$rootScope.whatToDo = "startNewGame"
+						// gamePairCounter = -1
 
-					 	$rootScope.pleasePlay=true
-						 //if($rootScope.gotGame){
-							if($rootScope.readyToPlay){
-								$rootScope.playGame($rootScope.readyTPD[0],$rootScope.readyTPD[1],$rootScope.readyTPD[2],$rootScope.readyTPD[3],$rootScope.readyTPD[4])
-							}
+					 	// $rootScope.pleasePlay=true
+						//  //if($rootScope.gotGame){
+						// 	if($rootScope.readyToPlay){
+						// 		$rootScope.playGame($rootScope.readyTPD[0],$rootScope.readyTPD[1],$rootScope.readyTPD[2],$rootScope.readyTPD[3],$rootScope.readyTPD[4])
+						// 	}
 						//  }else{
 						// 	 $rootScope.receivedMessage='would play but no table..'
 						//  }
@@ -85,11 +153,20 @@
 					 case "learnStop": 
 					 
 					 
-					 	$rootScope.pleasePlay=false
+					 	// $rootScope.pleasePlay=false
 					 
 					 
 					 break;
-
+					 
+					 case "evalGame":
+					 	//console.log('t'+task.data.tableNum+' eval received')
+						 var postThis=evaledGame(task.data)
+						 console.log(postThis)
+						 $http.post('/evaledGame',postThis,function(req,res){
+							 $rootScope.sendMessage('t'+postThis.tableNum+' posted.')
+						 })
+						 //should ping
+					break;
                      
                  }
                  
@@ -112,9 +189,9 @@
                             
                             $rootScope.receivedMessage=response.data.message        //display Heading
                             
-                            $rootScope.sendMessage('task #'+response.data.taskNum+' received, '+response.data.message)
+                            $rootScope.sendMessage('task #'+response.data.taskNum+' received, '+response.data.command+': '+response.data.message)
                             
-                            $rootScope.doTask(response.data.task)
+                            $rootScope.doTask(response.data)
                             
                             
                             if($rootScope.pollOn)longPollTasks()			//recall for new task, server will hold any new task until this one finishes
