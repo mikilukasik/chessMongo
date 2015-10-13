@@ -1,8 +1,29 @@
-var Task = function(command,message,data){
+var Task = function(command,data,message,taskNum){
+	
+	var rnd=Math.random()
+	this.rnd=rnd
+	
+	if (taskNum){
+		this.taskNum=taskNum
+	}else{
+		this.taskNum=rnd
+	}
+	
+	
 	
 	this.command=command
 	this.message=message
 	this.data=data
+	this.response={}
+	
+	var fstTime=new Date().getTime()
+	
+	this.created=fstTime
+	this.called=fstTime
+	
+	
+	
+	
 }
 
 var Dbuser = function(name,pwd){

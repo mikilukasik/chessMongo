@@ -94,92 +94,19 @@ var maxIndex = function(){
 	
     return mx
 };
-
-function sendToAll(command,message,data){
-	while(pendingThinkerPolls.length > 0) {
-
-				var thisPop = pendingThinkerPolls.pop()
-				var newTaskNum=Number(thisPop[0].query.tn)+1
-				
-				
-				// if(thisPop[0].query.id!=knownThinkers[thisPop[0].query.id].id) {
-				// 	knownThinkers[thisPop[0].query.id]={id:thisPop[0].query.id}	// object has knownThinkers id
-				// }
-				
-				var thinkerIndex=doIKnow(thisPop[0].query.id)
-				
-				if(thinkerIndex==-1){
-					knownThinkers.push({
-						id:thisPop[0].query.id						
-					})
-					thinkerIndex=doIKnow(thisPop[0].query.id)		//itt mar benne lesz a tombben
-					
-				}
-				
-				knownThinkers[thinkerIndex].busy=true
-				
-				knownThinkers[thinkerIndex].taskNum=newTaskNum		//we need to remember the tasknum we sent
-				knownThinkers[thinkerIndex].message=message		//do we we need to remember the message we sent?
-				knownThinkers[thinkerIndex].command=command		//we need to remember the task we sent
-				knownThinkers[thinkerIndex].sent=new Date().getTime()
-				knownThinkers[thinkerIndex].lastSeen=knownThinkers[thinkerIndex].sent
-
-				
-				
-										
-				
-				thisPop[1].json({
-					message:message,
-					taskNum:newTaskNum,
-					task:{
-				message:message,
-				command:command,
-				data:data
-		}
-	})
-	
-	
-
-	}
-	
-	captainPop()
-}
-
-app.get('/refreshAllThinkers', function(req, res) {
-	////console.log(req)
-	sendToAll('refresh','refresh all')
-	res.end()
-
-});
-
-app.get('/startAllLearners', function(req, res) {
-	////console.log(req)
-	sendToAll('learnStart','learnStart all')
-	res.end()
-
-});
-
-app.get('/stopAllLearners', function(req, res) {
-	////console.log(req)
-	sendToAll('learnStop','learnStop all')
-	res.end()
-
-});
-
-
-function sendTask(thinkerId,task){
+function sendTask(task,thinkerId){
 // 	var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
-	var message=task.message
+	//var message=task.message
 	var thinkerPollIndex=0
-	if(thinkerId=='fastest'){
-		//replace id to fastest available!!!!!!!!!!!!!!!
-		thinkerPollIndex=maxIndex()
+	if(thinkerId){
+			
 		
-		
-		
-	}else{
 		thinkerPollIndex=getThinkerIndex(thinkerId)
 		
+	}else{
+		//replace id to fastest available!!!!!!!!!!!!!!!
+	
+		thinkerPollIndex=maxIndex()
 	}
 	
 	//console.log(thinkerId+' '+thinkerPollIndex)
@@ -192,8 +119,9 @@ function sendTask(thinkerId,task){
 	
 	thisRes=pendingThinkerPolls.splice(thinkerPollIndex,1)[0]
 	//console.log(thisRes,thinkerPollIndex)
-		var newTaskNum=Number(thisRes[0].query.tn)+1	//!!!!!!!!!!!!!!!!!!! get real tasknum
-				
+		//var newTaskNum=Number(thisRes[0].query.tn)+1	//!!!!!!!!!!!!!!!!!!! get real tasknum
+			task.taskNum=Number(thisPop[0].query.tn)+1
+				task.sentRnd=Math.random()
 				
 				// if(thisPop[0].query.id!=knownThinkers[thisPop[0].query.id].id) {
 				// 	knownThinkers[thisPop[0].query.id]={id:thisPop[0].query.id}	// object has knownThinkers id
@@ -211,8 +139,77 @@ function sendTask(thinkerId,task){
 				
 				knownThinkers[thinkerIndex].busy=true
 				
-				knownThinkers[thinkerIndex].taskNum=newTaskNum		//we need to remember the tasknum we sent
-				knownThinkers[thinkerIndex].message=message		//do we we need to remember the message we sent?
+				//knownThinkers[thinkerIndex].taskNum=newTaskNum		//we need to remember the tasknum we sent
+				knownThinkers[thinkerIndex].message=task.message		//do we we need to remember the message we sent?
+				knownThinkers[thinkerIndex].command=task.command		//we need to remember the task we sent
+				knownThinkers[thinkerIndex].sent=new Date().getTime()
+				knownThinkers[thinkerIndex].lastSeen=knownThinkers[thinkerIndex].sent
+
+				
+				
+				/////
+				
+				//knownThinkers[thinkerIndex].busy=true
+				
+				knownThinkers[thinkerIndex].taskNum=task.taskNum		//we need to remember the tasknum we sent
+				// knownThinkers[thinkerIndex].message=task.message		//do we we need to remember the message we sent?
+				// knownThinkers[thinkerIndex].command=task.command		//we need to remember the task we sent
+				// knownThinkers[thinkerIndex].sent=new Date().getTime()
+				// knownThinkers[thinkerIndex].lastSeen=knownThinkers[thinkerIndex].sent
+
+				
+				
+										
+				
+				thisRes[1].json(task)
+				
+				/////
+				
+										
+				
+				// thisRes[1].json({
+				// 	message:message,
+				// 	taskNum:newTaskNum,
+				// 	task:task
+				// })
+				captainPop()
+				
+	}
+
+	
+ }
+function sendToAll(task){
+	
+	// var command=task.command
+	// var message=task.message
+	// var data=task.data
+	
+	
+	
+	while(pendingThinkerPolls.length > 0) {
+
+				var thisPop = pendingThinkerPolls.pop()
+				task.taskNum=Number(thisPop[0].query.tn)+1
+				task.sentRnd=Math.random()
+				
+				// if(thisPop[0].query.id!=knownThinkers[thisPop[0].query.id].id) {
+				// 	knownThinkers[thisPop[0].query.id]={id:thisPop[0].query.id}	// object has knownThinkers id
+				// }
+				
+				var thinkerIndex=doIKnow(thisPop[0].query.id)
+				
+				if(thinkerIndex==-1){
+					knownThinkers.push({
+						id:thisPop[0].query.id						
+					})
+					thinkerIndex=doIKnow(thisPop[0].query.id)		//itt mar benne lesz a tombben
+					
+				}
+				
+				knownThinkers[thinkerIndex].busy=true
+				
+				knownThinkers[thinkerIndex].taskNum=task.taskNum		//we need to remember the tasknum we sent
+				knownThinkers[thinkerIndex].message=task.message		//do we we need to remember the message we sent?
 				knownThinkers[thinkerIndex].command=task.command		//we need to remember the task we sent
 				knownThinkers[thinkerIndex].sent=new Date().getTime()
 				knownThinkers[thinkerIndex].lastSeen=knownThinkers[thinkerIndex].sent
@@ -221,17 +218,40 @@ function sendTask(thinkerId,task){
 				
 										
 				
-				thisRes[1].json({
-					message:message,
-					taskNum:newTaskNum,
-					task:task
-				})
-				captainPop()
-				
-	}
-
+				thisPop[1].json(task)
 	
- }
+	
+
+	}
+	
+	captainPop()
+}
+
+app.get('/refreshAllThinkers', function(req, res) {
+	////console.log(req)
+	sendToAll(new Task('refresh',,'refresh all'))
+	res.end()
+
+});
+
+app.get('/startAllLearners', function(req, res) {
+	////console.log(req)
+	//sendToAll('learnStart','learnStart all')
+	sendToAll(new Task('learnStart',,'learnStart all'))
+	res.end()
+
+});
+
+app.get('/stopAllLearners', function(req, res) {
+	////console.log(req)
+	//sendToAll('learnStop','learnStop all')
+	sendToAll(new Task('learnStop',,'learnStop all'))
+	res.end()
+
+});
+
+
+
 	
 
 function createXData() {
@@ -338,7 +358,7 @@ function ping(msecs){
 	for (var i=pendingThinkerPolls.length-1;i>-1;i--){
 		if(pendingThinkerPolls[i][2] < new Date().getTime()-msecs){
 			//polled more tham MSECS time ago, let's pop it
-			sendTask(pendingThinkerPolls[i][0].query.id,'ping','ping')
+			sendTask(new Task('ping',,'ping'),pendingThinkerPolls[i][0].query.id)
 			
 		}
 	}
@@ -355,7 +375,7 @@ setInterval( function(){
 
 setInterval( function(){
 	evalToClient()
-},30000)
+},20000)
 
 var evalToClient=function(){
 	
@@ -373,21 +393,19 @@ var evalToClient=function(){
 			//var arguments=[]
 			var task={}
 			if(gameToEval!=null){
-				task={
-					message:'evalGame, t'+gameToEval.tableNum,
-					command:'evalGame',
-					data:gameToEval
+				// task={
+				// 	message:'evalGame, t'+gameToEval.tableNum,
+				// 	command:'evalGame',
+				// 	data:gameToEval
 					
-				}
-				sendTask('fastest',task)
+				// }
+				task=new Task('evalGame',gameToEval,'evalGame, t'+gameToEval.tableNum)
+				sendTask(task)
 			}else{
 				
-				task={
-					message:'nothing to eval',
-					command:[],
-					data:[]
-				}
-				sendTask('fastest',task)
+				task=new Task('',,'nothing to eval')
+			
+				sendTask(task)
 			}
 			db4.close()
 			
@@ -1467,7 +1485,7 @@ function pingWaitingThinkers() {
 			
 			//pendingThinkerPolls
 			var pingThisPoll=pendingThinkerPolls.splice(i, 1)
-			var retThis=new Task('ping','ping')
+			var retThis=new Task('ping','ping','ping')
 			
 			pingThisPoll[1].json(retThis)
 			//lobbyPollNum++

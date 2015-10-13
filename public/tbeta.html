@@ -180,9 +180,9 @@
                             
                             $rootScope.receivedMessage=response.data.message        //display Heading
                             
-                            $rootScope.sendMessage('task #'+response.data.taskNum+' received, '+response.data.message)
+                            $rootScope.sendMessage('task #'+response.data.taskNum+' received, '+response.data.command+': '+response.data.message)
                             
-                            $rootScope.doTask(response.data.task)
+                            $rootScope.doTask(response.data)
                             
                             
                             if($rootScope.pollOn)longPollTasks()			//recall for new task, server will hold any new task until this one finishes
