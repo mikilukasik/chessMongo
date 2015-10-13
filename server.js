@@ -401,13 +401,16 @@ var evalToClient=function(){
 		},function(errx,gameToEval){
 			//send gameToEval to fastest available client
 			//var arguments=[]
-			gameToEval.toBeChecked=false
 			
-			db4.collection('tables').save(gameToEval,function(){})
 			
 			
 			var task={}
 			if(gameToEval!=null){
+				
+				
+				gameToEval.toBeChecked=false
+			
+			db4.collection('tables').save(gameToEval,function(){})
 				// task={
 				// 	message:'evalGame, t'+gameToEval.tableNum,
 				// 	command:'evalGame',
