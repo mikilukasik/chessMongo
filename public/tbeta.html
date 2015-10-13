@@ -24,7 +24,7 @@
 		
 		var evaledGame=function(data){
 		
-			console.log(data)
+			// console.log(data)
 				var moves=data.moves
 			
 			$http.get('aiOn?t='+data.tableNum)
@@ -95,12 +95,12 @@
 				$rootScope.setCookies()
 				succeeded++
 				//$rootScope.sendMessage('connection came back, will restart soon..')
-				$rootScope.receivedMessage='restart in 3s'
-				if(succeeded>5){	//server must be running
+				$rootScope.receivedMessage='restart in 10s'
+				if(succeeded>3){	//server must be running
 					window.location.reload(true); //$rootScope.sendMessage('looped, forceStop sent')
 				}else{
 					
-					$timeout($rootScope.refreshWhenUp(), 500)
+					$timeout($rootScope.refreshWhenUp(), 3000)
 				}
 				
 				
@@ -159,8 +159,9 @@
 					 break;
 					 
 					 case "evalGame":
-					 	console.log('t'+task.data.tableNum+' eval received')
+					 	//console.log('t'+task.data.tableNum+' eval received')
 						 var postThis=evaledGame(task.data)
+						 console.log(postThis)
 						 $http.post('/evaledGame',postThis,function(req,res){
 							 $rootScope.sendMessage('t'+postThis.tableNum+' posted.')
 						 })
