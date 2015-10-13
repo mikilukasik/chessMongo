@@ -1465,16 +1465,9 @@ function pingWaitingThinkers() {
 			
 			//pendingThinkerPolls
 			var pingThisPoll=pendingThinkerPolls.splice(i, 1)
+			var retThis=new Task('ping','ping')
 			
-			pingThisPoll[1].json({
-					message:'ping',
-					taskNum:pingThisPoll[0].tn,		//client likes .tn
-					task:{
-				
-				messgae:'ping'
-		
-		}
-	})
+			pingThisPoll[1].json(retThis)
 			//lobbyPollNum++
 
 		}

@@ -1,3 +1,9 @@
+var Task = function(command,message,data){
+	this.command=command
+	this.message=message
+	this.data=data
+}
+
 var Dbuser = function(name,pwd){
 	this.name=name
 	this.pwd=pwd
