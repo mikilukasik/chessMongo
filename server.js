@@ -165,8 +165,9 @@ app.get('/stopAllLearners', function(req, res) {
 });
 
 
-function sendTask(thinkerId,message,task){
+function sendTask(thinkerId,task){
 // 	var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
+	var message=task.message
 	var thinkerPollIndex=0
 	if(thinkerId=='fastest'){
 		//replace id to fastest available!!!!!!!!!!!!!!!
@@ -376,15 +377,15 @@ var evalToClient=function(){
 					data:gameToEval
 					
 				}
-				sendTask('fastest',task.message,task)
+				sendTask('fastest',task)
 			}else{
 				
 				task={
 					message:'nothing to eval',
 					command:[],
-					argument:[]
+					data:[]
 				}
-				sendTask('fastest',task.message,task)
+				sendTask('fastest',task)
 			}
 			db4.close()
 			
@@ -1258,10 +1259,10 @@ var captainPop=function(){
 		for (var i=0;i<learners[0].length;i++){
 			texttosnd[i]=[learners[0][i],learners[2][i],learners[4][i],learners[6][i],learners[5][i],learners[7][i]]
 		}
-		var waitingThinkers=[]
-		pendingThinkerPolls.forEach(function(task){
-			waitingThinkers.push(task[0].query.id)			//the req from /longpolltask
-		})
+		// var waitingThinkers=[]
+		// pendingThinkerPolls.forEach(function(task){
+		// 	waitingThinkers.push(task[0].query.id)			//the req from /longpolltask
+		// })
 	
 		
 			res.json({
