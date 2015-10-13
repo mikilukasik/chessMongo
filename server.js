@@ -375,7 +375,7 @@ setInterval( function(){
 
 setInterval( function(){
 	evalToClient()
-},20000)
+},evalGameConst)
 
 var evalToClient=function(){
 	
