@@ -907,7 +907,7 @@ app.post('/evaledGame', function(req, res) {
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
-				tableNum: Number(req.body.tableNum)
+				tableNum: req.body.tableNum
 			}, function(err2, evaledTable) {
 
 				if(evaledTable!=null){
