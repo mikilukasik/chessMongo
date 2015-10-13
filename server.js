@@ -46,7 +46,7 @@ var playerDisconnectConst = 15000 //15sec
 var learnerDisconnectConst = 240000 //4min
 var gameInactiveConst = 100000 //100sec
 var checkGamesConst = 4000
-var evalGameConst = 4000
+var evalGameConst = 500
 
 var pendingLongPolls = []
 
