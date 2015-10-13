@@ -46,7 +46,7 @@ var playerDisconnectConst = 15000 //15sec
 var learnerDisconnectConst = 240000 //4min
 var gameInactiveConst = 100000 //100sec
 var checkGamesConst = 4000
-var evalGameConst = 500
+var evalGameConst = 1500
 
 var pendingLongPolls = []
 
@@ -392,11 +392,17 @@ var evalToClient=function(){
 			whiteWon:false,
 			blackWon:false,
 			isDraw:false,
-			aiOn:false
+			aiOn:false,
+			toBeChecked:true
 			
 		},function(errx,gameToEval){
 			//send gameToEval to fastest available client
 			//var arguments=[]
+			gameToEval.toBeChecked=false
+			
+			db4.collection('tables').save(gameToEval,function(){})
+			
+			
 			var task={}
 			if(gameToEval!=null){
 				// task={
