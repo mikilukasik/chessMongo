@@ -14,6 +14,14 @@
 
 	function ApplicationController($rootScope, $http, $interval, $timeout, $rootScope) {
 		
+		function learnerLooped(pastTables){
+			var x = countInArray(pastTables[pastTables.length-1],pastTables)
+			var y = countInArray(pastTables[pastTables.length-2],pastTables)
+			
+			if(x==3||y==3){return true}else{return false}
+			
+		}
+		
 		var evaledGame=function(data){
 		
 			console.log(data)
