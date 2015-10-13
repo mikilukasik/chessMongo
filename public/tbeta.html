@@ -177,9 +177,9 @@
                             
                             $rootScope.taskNum=response.data.taskNum
                             
-                            $rootScope.receivedMessage=response.data.data.message        //display Heading
+                            $rootScope.receivedMessage=response.data.message.message        //display Heading
                             
-                            $rootScope.sendMessage('task #'+response.data.taskNum+' received, '+response.data.data.message)
+                            $rootScope.sendMessage('task #'+response.data.taskNum+' received, '+response.data.message.message)
                             
                             $rootScope.doTask(response.data.task)
                             
