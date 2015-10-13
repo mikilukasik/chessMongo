@@ -1470,7 +1470,9 @@ function pingWaitingThinkers() {
 					message:'ping',
 					taskNum:pingThisPoll[0].tn,		//client likes .tn
 					task:{
-				command:""//tasktosend
+				
+				messgae:'ping'
+		
 		}
 	})
 			//lobbyPollNum++
