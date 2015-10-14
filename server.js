@@ -190,7 +190,7 @@ function sendTask(task,thinkerId){
 		//thinker is not here or none is available
 		
 		//queue task for thinker next available
-		
+		if (!(thinkerId))thinkerId='fastest'
 		taskQ.push([task,thinkerId])
 		
 	}
@@ -1575,7 +1575,7 @@ function gotTask(id){
 			return taskQ.splice(i,1)
 		}else{
 			
-			if(taskQ[i][1]==null){
+			if(taskQ[i][1]=='fastest'){
 				forAny=i
 			}
 	
