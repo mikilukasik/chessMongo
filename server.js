@@ -493,11 +493,12 @@ var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 
 var splitMoveTasks=[]		//store ongoing splitmoves
 
-function makeSplitMove(dbTable,percent){
+function makeSplitMove(dbTable){
 	
 	var aiTable=dbTable.aiTable
 	
 	aiTable.startedOnServer=new Date().getTime()
+	console.log(aiTable)
 	while(aiTable.movesLeftToSend()){
 		var sendThese=aiTable.getSplitMoveTask(0.1)
 		sendTask(new Task('splitMove',sendThese,'splitMove t'+dbTable.tableNum+' moves: '+sendThese.length))
