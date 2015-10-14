@@ -495,7 +495,7 @@ function makeSplitMove(dbTable){
 	var splitMoveTasks=[]
 	var aiTable=dbTable.aiTable
 	
-	aiTable.startedOnServer=new Date.getTime()
+	aiTable.startedOnServer=new Date(().getTime()
 	
 	aiTable.moves.forEach(function(move,index){
 		aiTable.yourPart=[index]		//could take more than 1 move at a time in this array!!!!!
