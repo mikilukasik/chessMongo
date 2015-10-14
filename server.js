@@ -90,7 +90,7 @@ var getThinkerIndex = function(id){
 	
     //return speedArray.indexOf(Math.max.apply( Math, speedArray ));
 };
-var maxIndex = function(){
+var fastestThinker = function(spdPct){
 	var speedArray=[]
 	for(var i=0; i<pendingThinkerPolls.length;i++){
 		speedArray.push(Math.floor(100*(pendingThinkerPolls[i][0].query.spd)))
@@ -98,10 +98,21 @@ var maxIndex = function(){
 	
 	var mx=speedArray.indexOf(Math.max.apply( Math, speedArray ));
 	//////console.log('highest: '+Math.max.apply( Math, speedArray ))
+	if(!spdPct){
+		return mx
+	}else{	//parameter true
+		//hany szazalaka az osszes geperonek a fastest thinker
+		var totalPower=speedArray.reduce(function(a,b){return a+b})	//sum
+		var maxPower=speedArray[mx]
+		
+		return maxPower / totalPower
+		
+		
+		
+	}
 	
 	
-	
-    return mx
+    
 };
 
 var taskQ=[]
@@ -118,7 +129,7 @@ function sendTask(task,thinkerId){
 	}else{
 		//replace id to fastest available!!!!!!!!!!!!!!!
 	
-		thinkerPollIndex=maxIndex()
+		thinkerPollIndex=fastestThinker()
 	}
 	
 	//////console.log(thinkerId+' '+thinkerPollIndex)
@@ -508,7 +519,10 @@ var getSplitMoveTask=function(aiTable,percent){
 		return splitMoveTask
 		
 	}
-		
+
+function getFastestThinkersSpdPct(
+	
+)
 
 function makeSplitMove(dbTable){
 	
@@ -517,7 +531,7 @@ function makeSplitMove(dbTable){
 	aiTable.startedOnServer=new Date().getTime()
 	console.log(aiTable)
 	while(aiTable.movesToSend.length>0){
-		var sendThese=getSplitMoveTask(aiTable,0.5)
+		var sendThese=getSplitMoveTask(aiTable,fastestThinker(true))
 		sendTask(new Task('splitMove',sendThese,'splitMove t'+dbTable.tableNum+' moves: '+sendThese.length))
 		//	) 	//10%
 	
