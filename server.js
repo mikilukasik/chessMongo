@@ -491,6 +491,21 @@ var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 	}
 }
 
+function makeSplitMove(dbTable){
+	var splitMoveTasks=[]
+	var aiTable=dbTable.aiTable
+	
+	aiTable.startedOnServer=new Date.getTime()
+	
+	aiTable.moves.forEach(function(move,index){
+		aiTable.yourPart=[index]		//could take more than 1 move at a time in this array!!!!!
+		var tasktosend=new Task('splitMove',aiTable,'splitmovr t'+dbTable.tableNum)
+		sendTask(tasktosend)
+	})
+	
+	
+}
+
 function makeAiMove(dbTable){
 	
 	switch(dbTable.aiType){
@@ -507,9 +522,8 @@ function makeAiMove(dbTable){
 		case 'thinkers':
 
 			//split between available thinkers to make it as fast as possible
+			makeSplitMove(dbTable)
 			
-
-
 
 		break;	
 		
@@ -529,7 +543,6 @@ function makeAiMove(dbTable){
 	
 	
 }
-
 
 app.post('/moved',function(req,res){
 	

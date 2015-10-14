@@ -1,7 +1,7 @@
 var SmallMoveTask=function(moveCoord, index, dbTable){
 	
 	this.rnd=Math.random()
-	this.created = new Date().getTime()
+	//this.created = new Date().getTime()
 	
 	//this.dbTable=dbTable
 	
