@@ -1583,9 +1583,9 @@ function gotTask(id){
 	}
 	if(forAny>-1){
 		return taskQ.splice(forAny,1)
-	}else{
-		return []
 	}
+	
+	return []
 	
 }
 
