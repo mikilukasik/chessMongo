@@ -1571,7 +1571,7 @@ function gotTask(taskForMe,id){
 	
 	//var forMe=false
 	var forAny=-1
-	for (var i=0;i<taskQ.length-1;i++){
+	for (var i=0;i<taskQ.length;i++){
 		console.log(taskQ[i][1])
 		if(taskQ[i][1]==id){
 			//task for me
