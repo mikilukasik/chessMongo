@@ -25,6 +25,7 @@
 				$scope.learners=response.data.learners
 				$scope.knownThinkers=response.data.knownThinkers
 				$scope.pollNum=response.data.captainPollNum
+				$scope.taskQ=response.data.taskQ
 				
 				$scope.learners.sort(function(a,b){
 					if(Number(a[5])>Number(b[5])){
@@ -158,7 +159,7 @@ appModule.controller("ApplicationController", ApplicationController);
 			</td>
 		</tr>
 	</table>
-	
+	<span ng-repeat="x in taskQ"> {{x}} </span>
 	<br>
 	<!--Ready thinkers:
 	<div ng-repeat="x in waitingThinkers"> {{x}} </div>

@@ -1487,7 +1487,9 @@ var captainPop=function(){
 		// "thinkers":waitingThinkers,
 		"knownThinkers":knownThinkers,
 		
-		"captainPollNum":captainPollNum
+		"captainPollNum":captainPollNum,
+		
+		"taskQ":taskQ
 		
 		
 		})
@@ -1523,7 +1525,9 @@ app.get('/captainPoll', function(req, res) {
 		// "thinkers":waitingThinkers,
 		"knownThinkers":knownThinkers,
 		
-		"captainPollNum":captainPollNum
+		"captainPollNum":captainPollNum,
+		
+		"taskQ":taskQ
 		
 		
 		})
