@@ -110,7 +110,7 @@ function sendTask(task,thinkerId){
 // 	var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 	//var message=task.message
 	var thinkerPollIndex=0
-	if(thinkerId&&thinkerId!='fastest'){
+	if(thinkerId){
 			
 		
 		thinkerPollIndex=getThinkerIndex(thinkerId)
@@ -1626,7 +1626,7 @@ app.get('/longPollTasks', function(req, res) {
 	if (gotTask(taskForMe,req.query.id)){		//ez beleirja a taskformebe
 		
 		console.log('for me: '+taskForMe)
-		sendTask(taskForMe[0],taskForMe[1])
+		sendTask(taskForMe[0][0],taskForMe[0][1])
 		
 		
 		
