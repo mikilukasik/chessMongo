@@ -460,14 +460,14 @@
 			
 			
 			if((!($rootScope.table[x][y][5] == []) || $rootScope.tempMoveString.length > 0) && $rootScope.wNext == $scope.wPlayer) {
-
+console.log('testing')
 				if(clickedString == $rootScope.tempMoveString) {
 					$rootScope.table[x][y][8] = false
 					$scope.clearHighlights()
 					$scope.showTable()
 					$rootScope.tempMoveString = ""
 				} else {
-					console.log('testing')
+					
 					if($rootScope.table[x][y][0] > 0 && $rootScope.tempMoveString == "") {
 						
 						for(var i=0;i<8;i++){
