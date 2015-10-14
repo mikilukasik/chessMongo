@@ -490,9 +490,10 @@ var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 		}
 	}
 }
+var splitMoveTasks=[]		//store ongoing splitmoves
 
-function makeSplitMove(dbTable){
-	var splitMoveTasks=[]
+function makeSplitMove(dbTable,percent){
+	
 	var aiTable=dbTable.aiTable
 	
 	aiTable.startedOnServer=new Date().getTime()
