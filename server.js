@@ -436,9 +436,9 @@ var evalToClient=function(){
 				sendTask(task)
 			}else{
 				
-				task=new Task('',0,'nothing to eval')
+				// task=new Task('',0,'nothing to eval')
 			
-				sendTask(task)
+				// sendTask(task)
 			}
 			db4.close()
 			
