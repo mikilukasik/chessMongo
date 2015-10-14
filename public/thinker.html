@@ -111,13 +111,7 @@
 			})
 	}
 	
-	function dbAi(dbTable){
-		
-		 var retMove=ai(dbTable.table,dbTable.wNext,dbTable.allPastTables)
-					 
-					 	var moveStr=""
-						 if(retMove.length>1)moveStr=retMove[1][0]
-						
+	function moveInTable(moveStr,dbTable){
 		
 		var toPush =  getPushString(dbTable.table,moveStr)//piece
 
@@ -158,9 +152,21 @@
 			
 			
 			
+			//return dbTable
 			
 			
-			
+		
+	}
+	
+	function dbAi(dbTable){
+		
+		 var retMove=ai(dbTable.table,dbTable.wNext,dbTable.allPastTables)
+					 
+					 	var moveStr=""
+						 if(retMove.length>1)moveStr=retMove[1][0]
+						
+		
+		moveInTable(moveStr,dbTable)		
 			
 			
 			// $http.post('/moved',dbTable,function(req,res){
@@ -168,7 +174,7 @@
 			// })
 			
 		
-		return dbTable
+		//return dbTable
 		
 		
 		
