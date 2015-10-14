@@ -97,28 +97,27 @@ var MoveTask =function(dbTable){
 	
 	this.pendingMoveCount=this.totalMoveCount
 
+	this.getSplitMoveTask=function(percent){
 	
+		//var numberOfTasks=movesToSend.length/100
+		var numberToSend=Math.ceil(percent*this.movesToSend.length)
+		//var aiTable=dbTable.aiTable
+		
+		var splitMoveTask = []
+		
+		for (var i=0; i<numberToSend; i++){
+			splitMoveTask.push(this.movesToSend.pop())
+		}
+		
+		return splitMoveTask
+		
+	}
 		
 	
 	
 	
 }
 
-MoveTask.prototype.getSplitMoveTask=function(percent){
-	
-	//var numberOfTasks=movesToSend.length/100
-	var numberToSend=Math.ceil(percent*this.movesToSend.length)
-	//var aiTable=dbTable.aiTable
-	
-	var splitMoveTask = []
-	
-	for (var i=0; i<numberToSend; i++){
-		splitMoveTask.push(this.movesToSend.pop())
-	}
-	
-	return splitMoveTask
-	
-}
 
 var Task = function(command,data,message,taskNum){
 	
