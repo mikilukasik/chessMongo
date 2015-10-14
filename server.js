@@ -514,11 +514,11 @@ function makeAiMove(dbTable){
 }
 
 
-app.post('/moved',movedTable,function(req,res){
+app.post('/moved',function(req,res){
 	
-	
+	var movedTable=req.body
 	////console.log(req)
-	res.send('')
+	res.send('received.')
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
