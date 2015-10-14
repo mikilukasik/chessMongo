@@ -141,6 +141,8 @@
 					}else{
 						console.log('tableNum changed, discontinuing longpoll for table ' + response.tablenum)
 					}
+				},function(data){
+					$interval($scope.longPollTable(),2000)	//retry
 				})
 
 		}
