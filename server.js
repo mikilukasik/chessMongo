@@ -110,7 +110,7 @@ function sendTask(task,thinkerId){
 // 	var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 	//var message=task.message
 	var thinkerPollIndex=0
-	if(thinkerId){
+	if(thinkerId&&thinkerId!='fastest'){
 			
 		
 		thinkerPollIndex=getThinkerIndex(thinkerId)
