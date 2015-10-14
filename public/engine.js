@@ -62,15 +62,15 @@ var MoveTask =function(dbTable){
 	
 	this.fHitValue=[0]
 
-	this.moves=[]
+	var moves=[]
 	//var cfMoves=[]
 	
 	moveCoords.forEach(function(moveCoord,index){
-		this.moves.push(new SmallMoveTask(moveCoord, index, dbTable))
+		moves.push(new SmallMoveTask(moveCoord, index, dbTable))
 		//cfMoves.push(f)
 	})
 	
-	//this.moves=moves
+	this.moves=moves
 	
 	// this.moves.array.forEach(function(move) {
 	// 	var taskToSend
