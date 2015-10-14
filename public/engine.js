@@ -1,29 +1,105 @@
-var SmallMoveTask=function(moveCoord){
+var SmallMoveTask=function(moveCoord, index, dbTable){
 	
 	this.rnd=Math.random()
 	this.created = new Date().getTime()
+	
+	//this.dbTable=dbTable
 	
 	this.moveCoord=moveCoord
 	this.moveStr=coordsToMoveString(moveCoord[0],moveCoord[1],moveCoord[2],moveCoord[3])
 	
+	this.index=index
+	this.value=0
+	
+	this.retMoves=[]
+	
+	this.table=moveIt(this.moveStr,dbTable.table,true)	//dontprotect works?? !!!!
+	
+	this.value=getTableData()
+	
+	
+	
+	
 }
 
-var BigMoveTask =function(dbTable){
+var MoveTask =function(dbTable){
 	
 	this.rnd=Math.random()
 	this.created = new Date().getTime()
+	
+	this.allTempTables = []
+	
+	
 	
 	
 	
 	var moveCoords=getAllMoves(dbTable.table,dbTable.wNext,false,0,true)
 	
-	var moves=[]
 	
-	moveCoords.forEach(function(moveCoord){
-		moves.push(new SmallMoveTask(moveCoord))
+	
+	this.origProtect=protectTable(dbTable.table,dbTable.wNext)
+	this.origData = getTableData(cfTable, cfColor)
+	
+	this.dontLoop=false
+	
+	if (this.origData[0]>1){
+		this.dontLoop=true
+	}
+	
+	
+	
+	
+	
+	
+	this.origTableValue = this.origData[0]
+	this.origMyHitValue = this.origData[1]
+	this.origHisHitValue = this.origData[2]
+	this.origlSanc = this.origData[3]
+	this.origrSanc = this.origData[4]
+	this.origGetToMiddle=this.origData[5]
+	this.origPushHimBack=this.origData[6]
+	this.origMostMoved=this.origData[7]
+	
+	this.fHitValue=[0]
+
+	this.moves=[]
+	var cfMoves=[]
+	
+	moveCoords.forEach(function(moveCoord,index){
+		this.moves.push(new SmallMoveTask(moveCoord, index, dbTable))
+		//cfMoves.push(f)
 	})
 	
-	this.moves=moves
+	//this.moves=moves
+	
+	// this.moves.array.forEach(function(move) {
+	// 	var taskToSend
+	// });
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	this.taskToSend=function(count){
+		
+	}
+	
+	
+	
+	
+	
 	
 	
 	
