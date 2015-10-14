@@ -534,9 +534,9 @@ app.post('/moved',function(req,res){
 				if(onTable!=null){
 				
 				//onTable.gameIsOn=false
-				
+				var rememberId=onTable._id
 				onTable=req.body
-				
+				onTable._id=rememberId
 				
 				
 				onTable.moved = new Date().getTime()
