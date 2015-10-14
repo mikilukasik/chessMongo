@@ -1567,6 +1567,8 @@ function clearPending(id){
 }
 
 function gotTask(taskForMe,id){
+	
+	taskQ[i][1]==id
 	//var forMe=false
 	var forAny=-1
 	for (var i=0;i<taskQ.length-1;i++){
