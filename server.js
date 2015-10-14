@@ -517,7 +517,7 @@ function makeSplitMove(dbTable){
 	aiTable.startedOnServer=new Date().getTime()
 	console.log(aiTable)
 	while(aiTable.movesToSend.length>0){
-		var sendThese=getSplitMoveTask(aiTable,0.1)
+		var sendThese=getSplitMoveTask(aiTable,0.5)
 		sendTask(new Task('splitMove',sendThese,'splitMove t'+dbTable.tableNum+' moves: '+sendThese.length))
 		//	) 	//10%
 	
