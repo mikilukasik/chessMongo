@@ -516,7 +516,7 @@ function makeAiMove(dbTable){
 
 app.post('/moved',function(req,res){
 	
-	var movedTable=req.body
+	//var movedTable=req.body
 	////console.log(req)
 	res.send('received.')
 	mongodb.connect(cn, function(err, db) {
@@ -534,13 +534,15 @@ app.post('/moved',function(req,res){
 				
 				
 				onTable.moved = new Date().getTime()
-
+				var command = onTable.command
+				onTable.command=''
+				
 				db.collection("tables")
 					.save(onTable, function(err3, res) {
 							//table moved and saved, let's check what to do
-						popThem(onTable.tableNum, onTable, 'updated', 'table updated.') //respond to pending longpolls
+					popThem(onTable.tableNum, onTable, 'updated', 'table updated.') //respond to pending longpolls
 
-						switch(onTable.command){
+						switch(command){
 							
 							case 'makeAiMove':
 							

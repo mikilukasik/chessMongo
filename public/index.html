@@ -260,7 +260,83 @@
 		
 		$scope.makeAMove = function(whatMove) {
 
+		if(true){
+			//
+			//$http
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			var moveStr=whatMove	//levagni a kepeket...	(mi ut mit)
+			//////////////////////
+							///replace this!!!
+							
+				var dbTable=new Dbtable($rootScope.tableNum, $rootScope.wName, $rootScope.bName)
+				
+				dbTable.table=$rootScope.table
+				dbTable.moves= $rootScope.moves
+				
+				var toPush =  getPushString(dbTable.table,moveStr)//piece
+
+				+new String(new Date().getTime())
+
+				// if(!(toPush==$rootScope.moves[$rootScope.moves.length-1])){
+				
+				
+				dbTable.moves.push(toPush)
+
+				dbTable.table = moveIt(moveStr, dbTable.table)			//	<----moves it
+				
+				//$rootScope.showTable($rootScope.table)
+
+				dbTable.wNext = !dbTable.wNext
+
+				dbTable.pollNum++
+
+				//$rootScope.moved = new Date().getTime()
+
+				dbTable.table = addMovesToTable($rootScope.table, $rootScope.wNext)	//true stands for pawn and king only: allpasttables only
+
+				//remember this state for 3fold rule
+				var sendThis=createState(dbTable.table)
+				
+				
+				dbTable.allPastTables.push(sendThis)
+
+				//$rootScope.whatToDo = 'idle'
+			
+				//$rootScope.sendMessage('move '+moveStr+' processed.')
+			
+			/////////////////////////
+			
+			
+			//})
+			evalGame(dbTable,true)	//true should tell it was learnergame, not yet
+			
+			
+			
+			
+			
+			
+			
+			
+			$http.post('/moved',dbTable,function(req,res){
+				
+			})
+			
+		}	else{
+		
 			$http.get('/move?m=' + whatMove + '&t=' + $rootScope.tableNum)
+			
+			
+		}
+			
+			
 				// .success(function(response) {
 				// 	$rootScope.wNext = !$rootScope.wNext
 				// 	$rootScope.pollNum-=5
