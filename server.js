@@ -474,6 +474,124 @@ var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 	}
 }
 
+function makeAiMove(dbTable){
+	
+	switch(dbTable.aiType){
+		
+		case 'fastest thinker':
+			
+			var moveTask = new Task('move',dbTable,'fastest thinker move t'+dbTable.tableNum)
+			sendTask(moveTask)
+
+			//callback handled as another post
+
+		break;	
+		
+		case 'thinkers':
+
+			//split between available thinkers to make it as fast as possible
+			
+
+
+
+		break;	
+		
+		case 'server':
+
+			
+
+
+
+		break;	
+		
+			
+		
+		
+	}
+	
+	
+	
+}
+
+
+app.post('/moved',movedTable,function(req,res){
+	
+	
+	////console.log(req)
+	res.send('')
+	mongodb.connect(cn, function(err, db) {
+		db.collection("tables")
+			.findOne({
+				tableNum: req.body.tableNum
+			}, function(err2, onTable) {
+
+				if(onTable!=null){
+				
+				//onTable.gameIsOn=false
+				
+				onTable=req.body
+				
+				
+				
+				onTable.moved = new Date().getTime()
+
+				db.collection("tables")
+					.save(onTable, function(err3, res) {
+							//table moved and saved, let's check what to do
+						popThem(onTable.tableNum, onTable, 'updated', 'table updated.') //respond to pending longpolls
+
+						switch(onTable.command){
+							
+							case 'makeAiMove':
+							
+								makeAiMove(onTable)
+							
+							
+							break;
+							
+							
+						}
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+							
+						
+					})
+				}else{
+					
+				}
+				
+				db.close()
+			});
+	
+
+});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+})
+
+
 app.get('/move', function(req, res) {
 	
 	var proper=true
@@ -599,6 +717,13 @@ app.get('/move', function(req, res) {
 							.end();
 
 					} else {
+						//not computer is next
+						
+						//fastest client, etc handled with post
+						
+						
+						
+						
 						db.close()
 					}
 
