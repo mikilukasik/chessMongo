@@ -458,7 +458,7 @@
 			var y = clickedField[1]
 			var clickedColor = false
 			
-		console.log('testing')	
+		console.log('testing',$rootScope.table[x][y][5] == [],$rootScope.tempMoveString.length > 0,$rootScope.wNext == $scope.wPlayer)	
 			if((!($rootScope.table[x][y][5] == []) || $rootScope.tempMoveString.length > 0) && $rootScope.wNext == $scope.wPlayer) {
 
 				if(clickedString == $rootScope.tempMoveString) {
