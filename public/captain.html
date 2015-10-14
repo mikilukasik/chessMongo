@@ -103,7 +103,8 @@ appModule.controller("ApplicationController", ApplicationController);
 		id="inputModType" 
 		-->
 	</form>
-	
+		Tasks in queue: {{taskQ}}
+		
 		Known thinkers:
 	<table><tr ng-repeat="x in knownThinkers">
 		
@@ -159,7 +160,7 @@ appModule.controller("ApplicationController", ApplicationController);
 			</td>
 		</tr>
 	</table>
-	<span ng-repeat="x in taskQ"> {{x}} </span>
+	
 	<br>
 	<!--Ready thinkers:
 	<div ng-repeat="x in waitingThinkers"> {{x}} </div>
