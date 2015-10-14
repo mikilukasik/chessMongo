@@ -520,9 +520,6 @@ var getSplitMoveTask=function(aiTable,percent){
 		
 	}
 
-function getFastestThinkersSpdPct(
-	
-)
 
 function makeSplitMove(dbTable){
 	
