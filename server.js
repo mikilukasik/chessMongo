@@ -927,28 +927,22 @@ app.get('/getTable', function(req, res) {
 			.findOne({
 				tableNum: Number(req.query.t)
 			}, function(err2, tableInDb) {
-				if(!(tableInDb == null)) {
-					var passMoves = tableInDb.moves
-					var passTable = tableInDb.table
-					var passWnext = tableInDb.wNext
-					var passPollNum = tableInDb.pollNum
-					var passChat = tableInDb.chat
-				} else {
-					var passMoves = 0.0
-					var passTable = 0.0
-					var passWnext = 0.0
-					var passPollNum = 0.0
-					var passChat = 0.0
-				}
+				// if(!(tableInDb == null)) {
+				// 	var passMoves = tableInDb.moves
+				// 	var passTable = tableInDb.table
+				// 	var passWnext = tableInDb.wNext
+				// 	var passPollNum = tableInDb.pollNum
+				// 	var passChat = tableInDb.chat
+				// } else {
+				// 	var passMoves = 0.0
+				// 	var passTable = 0.0
+				// 	var passWnext = 0.0
+				// 	var passPollNum = 0.0
+				// 	var passChat = 0.0
+				// }
 
 				db.close()
-				res.json({
-					table: passTable,
-					next: passWnext,
-					allmoves: passMoves,
-					chat: passChat,
-					tablepollnum: passPollNum
-				});
+				res.json(tableInDb);
 			});
 
 	});
