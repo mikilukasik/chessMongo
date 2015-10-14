@@ -113,7 +113,9 @@
 						//$scope.allMoves = response.allMoves				//these are my possible moves now
 						$rootScope.chatLines = response.chat
 						$rootScope.pollNum=response.pollNum
-						$rootScope.moves=response.moves				//these are all the past moves
+						$rootScope.moves=response.moves	
+						$rootScope.allPastTables=response.allPastTables	
+						//$rootScope.moves=response.moves										
 	
 						// $scope.refreshRecentGames()
 						$scope.showTable()
@@ -276,6 +278,9 @@
 				dbTable.table=$rootScope.table
 				dbTable.moves= $rootScope.moves
 				dbTable.pollNum= $rootScope.pollNum
+				dbTable.allPastTables= $rootScope.allPastTables
+				
+				
 				var toPush =  getPushString(dbTable.table,moveStr)//piece
 
 				+new String(new Date().getTime())
