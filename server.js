@@ -192,6 +192,7 @@ function sendTask(task,thinkerId){
 		//queue task for thinker next available
 		if (!(thinkerId))thinkerId='fastest'
 		taskQ.push([task,thinkerId])
+		captainPop()
 		
 	}
 
