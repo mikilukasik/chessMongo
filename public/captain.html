@@ -88,6 +88,9 @@ appModule.controller("ApplicationController", ApplicationController);
 	.makeRed {
 		color: red
 	}
+	.makeGrey {
+		color: grey
+	}
 	
 	
 </style>
@@ -114,8 +117,12 @@ appModule.controller("ApplicationController", ApplicationController);
 		 <td>{{x.lastSeen}} </td>
 		 <td ng-if="x.busy">{{x.taskNum}}</td>
 		 
-		  <td ng-if="x.busy">{{x.task.command}}</td>
-		  <td ng-if="x.busy">{{x.message}}</td>
+		  <td ng-class="{ makeGrey: !x.busy }">{{x.task.command}}</td>
+		  <td ng-class="{ makeGrey: !x.busy }">{{x.message}}</td>
+		  
+		  <!--<td ng-if="!x.busy">{{x.task.command}}</td>
+		  <td ng-if="!x.busy" ng-class="{ mak}">{{x.message}}</td>-->
+		  
 	</tr></table>	 
 			
 		  
