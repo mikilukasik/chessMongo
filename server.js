@@ -1584,7 +1584,7 @@ function gotTask(id){
 	if(forAny>-1){
 		return taskQ.splice(forAny,1)
 	}else{
-		return false
+		return []
 	}
 	
 }
@@ -1615,7 +1615,7 @@ app.get('/longPollTasks', function(req, res) {
 	
 	var taskForMe=gotTask(req.query.id)
 	
-	if (taskForMe){
+	if (taskForMe!=[]){
 		
 		
 		sendTask(taskForMe[0],taskForMe[1])
