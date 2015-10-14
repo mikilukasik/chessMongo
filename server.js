@@ -493,6 +493,23 @@ var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 
 var splitMoveTasks=[]		//store ongoing splitmoves
 
+var getSplitMoveTask=function(aiTable,percent){
+	
+		//var numberOfTasks=movesToSend.length/100
+		var numberToSend=Math.ceil(percent*aiTable.movesToSend.length)
+		//var aiTable=dbTable.aiTable
+		
+		var splitMoveTask = []
+		
+		for (var i=0; i<numberToSend; i++){
+			splitMoveTask.push(aiTable.movesToSend.pop())
+		}
+		
+		return splitMoveTask
+		
+	}
+		
+
 function makeSplitMove(dbTable){
 	
 	var aiTable=dbTable.aiTable
@@ -500,7 +517,7 @@ function makeSplitMove(dbTable){
 	aiTable.startedOnServer=new Date().getTime()
 	console.log(aiTable)
 	while(aiTable.movesToSend.length>0){
-		var sendThese=aiTable[0].getSplitMoveTask(0.1)
+		var sendThese=getSplitMoveTask(aiTable[0],0.1)
 		sendTask(new Task('splitMove',sendThese,'splitMove t'+dbTable.tableNum+' moves: '+sendThese.length))
 		//	) 	//10%
 	
