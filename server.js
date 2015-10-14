@@ -490,6 +490,7 @@ var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 		}
 	}
 }
+
 var splitMoveTasks=[]		//store ongoing splitmoves
 
 function makeSplitMove(dbTable,percent){
@@ -497,15 +498,14 @@ function makeSplitMove(dbTable,percent){
 	var aiTable=dbTable.aiTable
 	
 	aiTable.startedOnServer=new Date().getTime()
+	while(aiTable.movesLeftToSend()){
+		var sendThese=aiTable.getSplitMoveTask(0.1)
+		sendTask(new Task('splitMove',sendThese,'splitMove t'+dbTable.tableNum+' moves: '+sendThese.length))
+		//	) 	//10%
 	
-	aiTable.moves.forEach(function(move,index){
-		aiTable.yourPart=[index]		//could take more than 1 move at a time in this array!!!!!
-		var tasktosend=new Task('splitMove',aiTable,'splitmove t'+dbTable.tableNum+' move(s): '+aiTable.yourPart)
-		sendTask(tasktosend)
-	})
-	
-	
+	}
 }
+
 
 function makeAiMove(dbTable){
 	
@@ -514,7 +514,7 @@ function makeAiMove(dbTable){
 		case 'fastest thinker':
 			
 			var moveTask = new Task('move',dbTable,'fastest thinker move t'+dbTable.tableNum)
-			sendTask(moveTask)
+			sendTask(moveTask)	//sends to fastest thinker
 
 			//callback handled as another post
 
@@ -523,7 +523,7 @@ function makeAiMove(dbTable){
 		case 'thinkers':
 
 			//split between available thinkers to make it as fast as possible
-			makeSplitMove(dbTable)
+			makeSplitMove(dbTable)		//starts processing table in multi-thinker mode
 			
 
 		break;	
@@ -1504,7 +1504,7 @@ var captainPop=function(){
 		
 		"captainPollNum":captainPollNum,
 		
-		"taskQ":taskQ
+		"taskQ":taskQ.length
 		
 		
 		})

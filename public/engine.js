@@ -63,43 +63,56 @@ var MoveTask =function(dbTable){
 	this.fHitValue=[0]
 
 	var moves=[]
+	// var movesToSend=[]
+	
 	//var cfMoves=[]
 	
 	moveCoords.forEach(function(moveCoord,index){
 		moves.push(new SmallMoveTask(moveCoord, index, dbTable))
-		//cfMoves.push(f)
+		//movesToSend.push(moves[moves.length-1])
+		
+		
 	})
 	
+	this.movesToSend=moves.slice()		//copy it, these we vill sen out
+	
+	//var movesToSend=movesToSend
+	this.coords
 	this.moves=moves
 	
-	// this.moves.array.forEach(function(move) {
-	// 	var taskToSend
-	// });
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	this.taskToSend=function(count){
+	this.movesLeftToSend=function(){
+		
+		if(this.movesToSend.length=0){
+			return false
+		}else{
+			return true
+		}
 		
 	}
 	
 	
 	
+	this.totalMoveCount=this.moves.length
+	//var unsentMoveCount=totalMoveCount
 	
+	this.pendingMoveCount=this.totalMoveCount
+
+	this.getSplitMoveTask=function(percent){
 	
+		//var numberOfTasks=movesToSend.length/100
+		var numberToSend=Math.ceil(percent*this.movesToSend.length)
+		//var aiTable=dbTable.aiTable
+		
+		var splitMoveTask = []
+		
+		for (var i=0; i<numberToSend; i++){
+			splitMoveTask.push(this.movesToSend.pop())
+		}
+		
+		return splitMoveTask
+		
+	}
+		
 	
 	
 	
