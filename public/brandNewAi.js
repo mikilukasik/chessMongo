@@ -130,6 +130,8 @@ function addMovesToTable(originalTable, whiteNext) {
 
 }
 
+
+
 function captured(table, color) {
 	var myCol = 1;
 
@@ -704,7 +706,7 @@ function moveArrayToStrings(moveArray, ftable, fwNext) {
 
 }
 
-function getAllMoves(tableToMoveOn, whiteNext, hitItsOwn, allHitSum, removeCaptured) {
+function getAllMoves(tableToMoveOn, whiteNext, hitItsOwn, allHitSum, removeCaptured) {		//shouldn't always check hitsum
 	var speedy=true
 	if(removeCaptured)speedy=false
 	

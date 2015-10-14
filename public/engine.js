@@ -1,3 +1,34 @@
+var SmallMoveTask=function(moveCoord){
+	
+	this.rnd=Math.random()
+	this.created = new Date().getTime()
+	
+	this.moveCoord=moveCoord
+	this.moveStr=coordsToMoveString(moveCoord[0],moveCoord[1],moveCoord[2],moveCoord[3])
+	
+}
+
+var BigMoveTask =function(dbTable){
+	
+	this.rnd=Math.random()
+	this.created = new Date().getTime()
+	
+	
+	
+	var moveCoords=getAllMoves(dbTable.table,dbTable.wNext,false,0,true)
+	
+	var moves=[]
+	
+	moveCoords.forEach(function(moveCoord){
+		moves.push(new SmallMoveTask(moveCoord))
+	})
+	
+	this.moves=moves
+	
+	
+	
+}
+
 var Task = function(command,data,message,taskNum){
 	
 	var rnd=Math.random()
@@ -65,7 +96,7 @@ var Dbtable = function(tableNum, wName, bName) { //class
 	this.pollNum = 1,
 	this.allPastTables = []
 
-	this.created = new Date()
+	this.created = new Date().getTime()
 	this.moved = this.created
 
 	this.table = new Array(8) //create 8x8 array
