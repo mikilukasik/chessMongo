@@ -499,7 +499,7 @@ function makeSplitMove(dbTable){
 	
 	aiTable.moves.forEach(function(move,index){
 		aiTable.yourPart=[index]		//could take more than 1 move at a time in this array!!!!!
-		var tasktosend=new Task('splitMove',aiTable,'splitmovr t'+dbTable.tableNum)
+		var tasktosend=new Task('splitMove',aiTable,'splitmove t'+dbTable.tableNum+' move(s): '+aiTable.yourPart)
 		sendTask(tasktosend)
 	})
 	
