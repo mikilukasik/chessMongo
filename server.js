@@ -1575,7 +1575,7 @@ function gotTask(id){
 			return taskQ.splice(i,1)
 		}else{
 			
-			if(taskQ[i][1]=='fastest'){
+			if(taskQ[i][1]==null){
 				forAny=i
 			}
 	
@@ -1609,7 +1609,7 @@ app.get('/longPollTasks', function(req, res) {
 	
 	if(checkIfPending(req.query.id))clearPending(req.query.id)	//remove clients old pending polls so we always have the latest only
 	
-	captainPop()
+	
 	
 	pendingThinkerPolls.push([req,res,new Date().getTime()])
 	
@@ -1628,7 +1628,7 @@ app.get('/longPollTasks', function(req, res) {
 	
 	}
 	
-	
+	captainPop()
 	
 	
 	
