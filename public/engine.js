@@ -80,15 +80,15 @@ var MoveTask =function(dbTable){
 	this.coords
 	this.moves=moves
 	
-	this.movesLeftToSend=function(){
+	// this.movesLeftToSend=function(){
 		
-		if(this.movesToSend.length=0){
-			return false
-		}else{
-			return true
-		}
+	// 	if(this.movesToSend.length=0){
+	// 		return false
+	// 	}else{
+	// 		return true
+	// 	}
 		
-	}
+	// }
 	
 	
 	
