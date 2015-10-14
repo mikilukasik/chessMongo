@@ -1617,7 +1617,7 @@ app.get('/longPollTasks', function(req, res) {
 	
 	if (taskForMe!=[]){
 		
-		
+		console.log('for me: '+taskForMe)
 		sendTask(taskForMe[0],taskForMe[1])
 		
 		
