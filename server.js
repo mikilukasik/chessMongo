@@ -1566,13 +1566,15 @@ function clearPending(id){
 	//return false
 }
 
-function gotTask(id){
+function gotTask(taskForMe,id){
 	//var forMe=false
 	var forAny=-1
 	for (var i=0;i<taskQ.length-1;i++){
 		if(taskQ[i][1]==id){
 			//task for me
-			return taskQ.splice(i,1)
+			taskForMe.push( taskQ.splice(i,1))
+			return true
+			
 		}else{
 			
 			if(taskQ[i][1]=='fastest'){
@@ -1582,10 +1584,11 @@ function gotTask(id){
 		}
 	}
 	if(forAny>-1){
-		return taskQ.splice(forAny,1)
+		taskForMe.push( taskQ.splice(forAny,1))
+		return true
 	}
 	
-	return []
+	return false
 	
 }
 
@@ -1613,9 +1616,10 @@ app.get('/longPollTasks', function(req, res) {
 	
 	pendingThinkerPolls.push([req,res,new Date().getTime()])
 	
-	var taskForMe=gotTask(req.query.id)
+	var taskForMe=[]
 	
-	if (taskForMe!=[]){
+	
+	if (gotTask(taskForMe,req.query.id)){		//ez beleirja a taskformebe
 		
 		console.log('for me: '+taskForMe)
 		sendTask(taskForMe[0],taskForMe[1])
