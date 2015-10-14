@@ -102,26 +102,13 @@
 									}
 								}
 							}
-							// if (changed){
-							// 	$timeout(function(){
-							// 		//clear movedselected
-							// for(var i=0;i<8;i++){
-							// 	for (var j=0;j<8;j++){
-							// 		$rootScope.table[i][j][15]=false
-									
-							// 	}}	
-							// 	//$scope.showTable()
-								
-							// 	}
-									
-							// 	,100)
-							// }
+							
 						}else{
 						// 	//
 							//just copy the table
 							$rootScope.table = response.table
 						}
-						
+						$rootScope.tableId=response._id
 						$rootScope.wNext = response.wNext
 						//$scope.allMoves = response.allMoves				//these are my possible moves now
 						$rootScope.chatLines = response.chat
@@ -315,6 +302,8 @@
 				
 				
 				dbTable.allPastTables.push(sendThis)
+				
+				
 
 				//$rootScope.whatToDo = 'idle'
 			
@@ -330,7 +319,7 @@
 			
 			
 			
-			
+			dbTable._id=$rootScope.tableId
 			
 			
 			$http.post('/moved',dbTable,function(req,res){
