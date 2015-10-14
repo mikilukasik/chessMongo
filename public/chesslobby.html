@@ -97,8 +97,8 @@ function refreshLobby(){
 }
 function showLobby(lobbyChatLines,players,games,lobbyPollNum){
 	$(".putPlayersHere").empty();
-	var thisfunc="askToStart('Computer')"
-	var playersHTML = '<span class="pointed" onclick="'+thisfunc+'">Computer</span><br>'
+	var thisfunc="askToStart('Server')"
+	var playersHTML = '<span class="pointed" onclick="'+thisfunc+'">Server</span><br>'
 	players.forEach(function(player){
 
 		var thisfunc="askToStart('"+player+"')"

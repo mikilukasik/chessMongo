@@ -533,8 +533,8 @@ app.get('/move', function(req, res) {
 					
 
 					if(tableInDb.gameIsOn &&
-						((tableInDb.wNext && tableInDb.wName == "Computer") ||
-							(!tableInDb.wNext && tableInDb.bName == "Computer"))) {		//if computer's next
+						((tableInDb.wNext && tableInDb.wName == "Server") ||
+							(!tableInDb.wNext && tableInDb.bName == "Server"))) {		//if Server's next
 						//need to make aiMove
 						var options = {
 							host: 'localhost',
