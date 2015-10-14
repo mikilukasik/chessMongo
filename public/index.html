@@ -193,7 +193,9 @@
 								$scope.lobbyChatLines = response.lobbychat
 								$scope.players = response.players
 								$scope.players.unshift("Fastest thinker")
+								$scope.players.unshift("Multiple thinkers")
 								$scope.players.unshift("Server")
+								
 								
 								$scope.games = response.games
 								$scope.players.sort(function(a, b) {
@@ -272,8 +274,7 @@
 							
 				var dbTable=new Dbtable($rootScope.tableNum, $rootScope.wName, $rootScope.bName)
 				
-				dbTable.command='makeAiMove'
-				dbTable.aiType='fastest thinker'		///!!!!!!!!!!!!!
+				
 				
 				dbTable.table=$rootScope.table
 				dbTable.moves= $rootScope.moves
@@ -323,7 +324,16 @@
 			evalGame(dbTable,true)	//true should tell it was learnergame, not yet
 			
 			
-			
+				if($scope.opponentsName=='Fastest thinker'){
+					dbTable.command='makeAiMove'
+					dbTable.aiType='fastest thinker'		
+				}
+				
+				if($scope.opponentsName=='Multiple thinkers'){
+					dbTable.command='makeAiMove'
+					dbTable.aiType='multiple thinkers'	
+					dbTable.aiTable=new MoveTask(dbTable)	
+				}
 			
 			
 			dbTable._id=$rootScope.tableId
