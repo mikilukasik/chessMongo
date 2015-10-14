@@ -38,7 +38,7 @@ var MoveTask =function(dbTable){
 	
 	
 	this.origProtect=protectTable(dbTable.table,dbTable.wNext)
-	this.origData = getTableData(cfTable, cfColor)
+	this.origData = getTableData(dbTable.table, dbTable.wNext)
 	
 	this.dontLoop=false
 	
@@ -63,7 +63,7 @@ var MoveTask =function(dbTable){
 	this.fHitValue=[0]
 
 	this.moves=[]
-	var cfMoves=[]
+	//var cfMoves=[]
 	
 	moveCoords.forEach(function(moveCoord,index){
 		this.moves.push(new SmallMoveTask(moveCoord, index, dbTable))
