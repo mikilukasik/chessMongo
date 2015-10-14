@@ -123,10 +123,10 @@
 						}
 						
 						$rootScope.wNext = response.wNext
-						//$scope.allMoves = response.allmoves
+						$scope.allMoves = response.allmoves				//these are my possible moves now
 						$rootScope.chatLines = response.chat
 						$rootScope.pollNum=response.pollNum
-						$rootScope.moves=response.moves
+						$rootScope.moves=response.moves				//these are all the past moves
 	
 						// $scope.refreshRecentGames()
 						$scope.showTable()
