@@ -103,6 +103,9 @@ var maxIndex = function(){
 	
     return mx
 };
+
+var taskQ=[]
+
 function sendTask(task,thinkerId){
 // 	var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 	//var message=task.message
@@ -122,7 +125,7 @@ function sendTask(task,thinkerId){
 	
 	var thisRes=null
 	
-	if(thinkerPollIndex>-1){
+	if(thinkerPollIndex>-1){//thinker is waiting for us
 		
 		thinkerId=pendingThinkerPolls[thinkerPollIndex][0].query.id
 	
@@ -183,6 +186,13 @@ function sendTask(task,thinkerId){
 				// })
 				captainPop()
 				
+	}else{
+		//thinker is not here or none is available
+		
+		//queue task for thinker next available
+		
+		taskQ.push([task,thinkerId])
+		
 	}
 
 	
@@ -1552,7 +1562,28 @@ function clearPending(id){
 	//return false
 }
 
-
+function gotTask(id){
+	//var forMe=false
+	var forAny=-1
+	for (var i=0;i<taskQ.length-1;i++){
+		if(taskQ[i][1]==id){
+			//task for me
+			return taskQ.splice(i,1)
+		}else{
+			
+			if(taskQ[i][1]=='fastest'){
+				forAny=i
+			}
+	
+		}
+	}
+	if(forAny>-1){
+		return tasQ.splice(forAny,1)
+	}else{
+		return false
+	}
+	
+}
 
 app.get('/longPollTasks', function(req, res) {
 	////console.log(req)
@@ -1576,8 +1607,22 @@ app.get('/longPollTasks', function(req, res) {
 	
 	captainPop()
 	
-	pendingThinkerPolls.push([req,res,new Date().getTime()])		//remember when it came
+	pendingThinkerPolls.push([req,res,new Date().getTime()])
 	
+	var taskForMe=gotTask(req.query.id)
+	
+	if (taskForMe){
+		
+		
+		sendTask(taskForMe[0],taskForMe[1])
+		
+		
+		
+	}else{
+	
+				
+	
+	}
 	
 	
 	
