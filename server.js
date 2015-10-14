@@ -448,25 +448,31 @@ var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 
 				var resp = pendingLongPolls[tNum].pop()
 
-				var passMoves = tableInDb.moves
-				var passTable = tableInDb.table
-				var passWnext = tableInDb.wNext
+				// var passMoves = tableInDb.moves
+				// var passTable = tableInDb.table
+				// var passWnext = tableInDb.wNext
 
-				var passChat = tableInDb.chat
+				// var passChat = tableInDb.chat
 
-				var passPollNum = tableInDb.pollNum
+				// var passPollNum = tableInDb.pollNum
 					// db.close()
 
-				resp.json({
-					tablenum: tNum,
-					table: passTable,
-					next: passWnext,
-					allmoves: passMoves,
-					chat: passChat,
-					tablepollnum: passPollNum,
-					command: commandToSend,
-					message: messageToSend
-				});
+				resp.json(
+					tableInDb
+					
+				// 	{
+				// 	tablenum: tNum,
+				// 	table: passTable,
+				// 	next: passWnext,
+				// 	allmoves: passMoves,
+				// 	chat: passChat,
+				// 	tablepollnum: passPollNum,
+				// 	command: commandToSend,
+				// 	message: messageToSend
+				// }
+				
+				
+				);
 
 			}
 
@@ -964,25 +970,19 @@ app.get('/longPollTable', function(req, res) {
 					if(passPollNum > req.query.pn) {
 						//frissebb a tabla, kuldjuk
 
-						var passMoves = tableInDb.moves
-						var passTable = tableInDb.table
-						var passWnext = tableInDb.wNext
+						// var passMoves = tableInDb.moves
+						// var passTable = tableInDb.table
+						// var passWnext = tableInDb.wNext
 
-						var passChat = tableInDb.chat
+						// var passChat = tableInDb.chat
 
 						db.close()
 
-						res.json({
-							tablenum: req.query.t,
-							table: passTable,
-							next: passWnext,
-							allmoves: passMoves,
-							chat: passChat,
-							tablepollnum: passPollNum,
-							command: 'sync',
-							message: 'sync t' + req.query.t + ', poll' + passPollNum
 
-						});
+							tableInDb.command= 'sync'
+							tableInDb.message= 'sync t' + req.query.t + ', poll' + passPollNum
+							
+						res.json(tableInDb);
 
 					} else {
 						//nincs mit kuldeni
