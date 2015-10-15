@@ -619,6 +619,8 @@ app.post('/myPartIsDone',function(req,res){
 	
 
 });
+
+});
 	
 	
 app.post('/moved',function(req,res){
