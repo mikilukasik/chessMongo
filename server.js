@@ -574,6 +574,53 @@ function makeAiMove(dbTable){
 	
 }
 
+app.post('/myPartIsDone',function(req,res){
+	
+	//var movedTable=req.body
+	////////console.log(req)
+	res.send('received.')
+	mongodb.connect(cn, function(err, db) {
+		db.collection("tables")
+			.findOne({
+				tableNum: req.body[0].tableNum		//no header in post req
+			}, function(err2, onTable) {
+
+				if(onTable!=null){
+				
+				//onTable.gameIsOn=false
+				
+				req.body.forEach(function(move){
+					onTable.returnedMoves.push(move)
+				})
+				
+				
+				
+				
+				db.collection("tables")
+					.save(onTable, function(err3, res) {
+							//table moved and saved, let's check what to do
+					
+					//check if still waiting and eval if not
+					
+					
+					
+					popThem(onTable.tableNum, onTable, 'updated', 'table updated.') //respond to pending longpolls
+
+						
+					db.close()
+			
+					})
+				}else{
+					//hiba
+				}
+				
+				
+			});
+	
+
+});
+	
+	
 app.post('/moved',function(req,res){
 	
 	//var movedTable=req.body
@@ -614,17 +661,7 @@ app.post('/moved',function(req,res){
 							
 						}
 						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-							
-						
+			
 					})
 				}else{
 					

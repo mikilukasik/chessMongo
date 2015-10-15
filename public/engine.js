@@ -4,6 +4,7 @@ var SmallMoveTask=function(moveCoord, index, dbTable){
 	//this.created = new Date().getTime()
 	
 	//this.dbTable=dbTable
+	this.tableNum=dbTable.tableNum
 	
 	this.cfMoveCoords=moveCoord
 	this.stepMove=coordsToMoveString(moveCoord[0],moveCoord[1],moveCoord[2],moveCoord[3])
@@ -45,7 +46,7 @@ var MoveTask =function(dbTable){
 	this.allTempTables = []
 	
 	
-	
+	this.returnedMoves=[]
 	
 	
 	var moveCoords=getAllMoves(dbTable.table,dbTable.wNext,false,0,true)
