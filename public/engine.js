@@ -17,7 +17,7 @@ var SmallMoveTask=function(moveCoord, index, dbTable){
 	
 	this.value=getTableData(dbTable.table,dbTable.wNext)
 	
-	
+	this.allPast=dbTable.allPastTables
 	this.cfTable=dbTable.table
 	this.cfMoveCoords=moveCoord
 	this.moveIndex=index
