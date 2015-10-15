@@ -675,7 +675,7 @@ app.post('/myPartIsDone',function(req,res){
 					
 					/////
 					
-					moveDbTable(onTable.returnedMoves[0][0],onTable)
+					moveDbTable(onTable.returnedMoves[0].moveStr,onTable)
 					
 					popThem(onTable.tableNum,onTable,'splitMove','splitMove')
 					
