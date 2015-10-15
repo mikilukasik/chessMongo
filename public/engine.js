@@ -5,8 +5,8 @@ var SmallMoveTask=function(moveCoord, index, dbTable){
 	
 	//this.dbTable=dbTable
 	
-	this.stepMove=moveCoord
-	this.moveStr=coordsToMoveString(moveCoord[0],moveCoord[1],moveCoord[2],moveCoord[3])
+	this.cfMoveCoords=moveCoord
+	this.stepMove=coordsToMoveString(moveCoord[0],moveCoord[1],moveCoord[2],moveCoord[3])
 	
 	//this.index=index
 	this.value=0
