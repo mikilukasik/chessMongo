@@ -531,7 +531,7 @@ function makeSplitMove(dbTable){
 	
 	
 	
-	
+	console.log('534',dbTable.tableNum)
 	
 		mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
@@ -540,7 +540,8 @@ function makeSplitMove(dbTable){
 			}, function(err2, onTable) {
 
 				if(onTable!=null){
-				
+				console.log('543',onTable.tableNum)
+	
 				//onTable.gameIsOn=false
 				
 				onTable.pendingSolvedMoves=aiTable.totalMoveCount		//set it here, it will be decreased as the moves come in
