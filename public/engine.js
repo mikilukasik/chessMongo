@@ -26,7 +26,7 @@ var SmallMoveTask=function(moveCoord, index, dbTable){
 	
 	//this.stepMove=0
 	
-		
+	this.fHitValue=[0]	
 	
 }
 
