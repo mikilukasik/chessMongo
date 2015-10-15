@@ -523,7 +523,7 @@ var getSplitMoveTask=function(aiTable,percent){
 
 function makeSplitMove(dbTable){
 	
-	var aiTable=dbTable.aiTable
+	var aiTable=new MoveTask(dbTable)
 	
 	aiTable.startedOnServer=new Date().getTime()
 	//// console.log(aiTable)
