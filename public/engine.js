@@ -13,7 +13,7 @@ var SmallMoveTask=function(moveCoord, index, dbTable){
 	
 	this.retMoves=[]
 	
-	this.table=moveIt(this.moveStr,dbTable.table,true)	//dontprotect works?? !!!!
+	//this.table=moveIt(this.moveStr,dbTable.table,true)	//dontprotect works?? !!!!
 	
 	this.value=getTableData(dbTable.table,dbTable.wNext)
 	
