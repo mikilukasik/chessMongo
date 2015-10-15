@@ -527,6 +527,64 @@ function makeSplitMove(dbTable){
 	
 	aiTable.startedOnServer=new Date().getTime()
 	console.log(aiTable)
+	
+	
+	
+	
+	
+	
+		mongodb.connect(cn, function(err, db) {
+		db.collection("tables")
+			.findOne({
+				tableNum:dbTable.tableNum		//no header in post req
+			}, function(err2, onTable) {
+
+				if(onTable!=null){
+				
+				//onTable.gameIsOn=false
+				
+				onTable.pendingSolvedMoves=aiTable.totalMoveCount		//set it here, it will be decreased as the moves come in
+				
+				
+				
+				
+				db.collection("tables")
+					.save(onTable, function(err3, res) {
+							//table moved and saved, let's check what to do
+					
+					//check if still waiting and eval if not
+					
+					
+					
+					popThem(onTable.tableNum, onTable, 'updated', 'table updated.') //respond to pending longpolls
+
+						
+					db.close()
+			
+					})
+				}else{
+					//hiba
+				}
+				
+				
+			});
+	
+
+});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	while(aiTable.movesToSend.length>0){
 		var sendThese=getSplitMoveTask(aiTable,fastestThinker(true))
 		sendTask(new Task('splitMove',sendThese,'splitMove t'+dbTable.tableNum+' moves: '+sendThese.length))
@@ -593,8 +651,33 @@ app.post('/myPartIsDone',function(req,res){
 					onTable.returnedMoves.push(move)
 				})
 				
+				onTable.pendingSolvedMoves--
 				
-				
+				if(onTable.pendingSolvedMoves==0){
+					//all moves solved, check best and make a move
+					onTable.returnedMoves.sort(
+						
+					function(a,b){
+						if (a[1]>b[1]){
+							return 1
+						}else{
+							if(a[1]==b[1]){
+								return 0
+							}
+							
+							return -1
+						}
+					}) 
+					
+					
+					/////
+					
+					moveDbTable(onTable.returnedMoves[0][0],onTable)
+					
+					popThem(onTable.tableNum,onTable,'splitMove','splitMove')
+					
+					
+				}
 				
 				db.collection("tables")
 					.save(onTable, function(err3, res) {
@@ -604,7 +687,7 @@ app.post('/myPartIsDone',function(req,res){
 					
 					
 					
-					popThem(onTable.tableNum, onTable, 'updated', 'table updated.') //respond to pending longpolls
+					//popThem(onTable.tableNum, onTable, 'updated', 'table updated.') //respond to pending longpolls
 
 						
 					db.close()

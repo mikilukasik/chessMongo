@@ -71,6 +71,38 @@ function getSimpleTableState(itable) {
 	return tempString
 }
 
+function moveDbTable(moveStr,dbTable){
+	
+				var toPush =  getPushString(dbTable.table,moveStr)//piece
+
+				+new String(new Date().getTime())
+
+				// if(!(toPush==$rootScope.moves[$rootScope.moves.length-1])){
+				
+				
+				dbTable.moves.push(toPush)
+
+				dbTable.table = moveIt(moveStr, dbTable.table)			//	<----moves it
+				
+				//$rootScope.showTable($rootScope.table)
+
+				dbTable.wNext = !dbTable.wNext
+
+				dbTable.pollNum++
+
+				//$rootScope.moved = new Date().getTime()
+				
+				dbTable.table = addMovesToTable(dbTable.table, dbTable.wNext)	//true stands for pawn and king only: allpasttables only
+
+				//remember this state for 3fold rule
+				var sendThis=createState(dbTable.table)
+				
+				
+				dbTable.allPastTables.push(sendThis)
+				
+				
+}
+
 function protectPieces(originalTable, whitePlayer) {
 
 	//var flippedMoves=

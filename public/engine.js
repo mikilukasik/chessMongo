@@ -108,10 +108,10 @@ var MoveTask =function(dbTable){
 	
 	
 	
-	this.totalMoveCount=this.moves.length
+	//this.totalMoveCount=this.moves.length
 	//var unsentMoveCount=totalMoveCount
 	
-	this.pendingMoveCount=this.totalMoveCount
+	//this.pendingMoveCount=this.totalMoveCount
 
 	
 	
@@ -155,6 +155,9 @@ var Dbuser = function(name,pwd){
 	
 }
 var Dbtable = function(tableNum, wName, bName) { //class
+
+
+this.pendingMoveCount=0
 
 this.returnedMoves=[]
 	
