@@ -654,7 +654,7 @@ app.post('/myPartIsDone',function(req,res){
 					console.log(onTable.pendingSolvedMoves)
 				})
 				
-				console.log('657',onTable.aiTable.moves.length)
+				//console.log('657',onTable.aiTable.moves.length)
 				
 				if(onTable.pendingSolvedMoves==-1*onTable.aiTable.moves.length){
 					//all moves solved, check best and make a move
