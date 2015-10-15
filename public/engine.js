@@ -46,7 +46,7 @@ var MoveTask =function(dbTable){
 	this.allTempTables = []
 	
 	
-	this.returnedMoves=[]
+	
 	
 	
 	var moveCoords=getAllMoves(dbTable.table,dbTable.wNext,false,0,true)
@@ -155,6 +155,8 @@ var Dbuser = function(name,pwd){
 	
 }
 var Dbtable = function(tableNum, wName, bName) { //class
+
+this.returnedMoves=[]
 	
 	this.tableNum = tableNum,
 	this.wName = wName,
