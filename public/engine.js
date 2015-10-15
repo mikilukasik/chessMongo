@@ -5,10 +5,10 @@ var SmallMoveTask=function(moveCoord, index, dbTable){
 	
 	//this.dbTable=dbTable
 	
-	this.moveCoord=moveCoord
+	this.stepMove=moveCoord
 	this.moveStr=coordsToMoveString(moveCoord[0],moveCoord[1],moveCoord[2],moveCoord[3])
 	
-	this.index=index
+	//this.index=index
 	this.value=0
 	
 	this.retMoves=[]
@@ -18,7 +18,15 @@ var SmallMoveTask=function(moveCoord, index, dbTable){
 	this.value=getTableData(dbTable.table,dbTable.wNext)
 	
 	
+	this.cfTable=dbTable.table
+	this.cfMoveCoords=0
+	this.moveIndex=index
 	
+	this.cfColor=dbTable.wNext
+	
+	//this.stepMove=0
+	
+		
 	
 }
 
