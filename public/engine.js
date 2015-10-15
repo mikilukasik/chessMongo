@@ -55,7 +55,7 @@ var MoveTask =function(dbTable){
 	
 	this.dontLoop=false
 	
-	if (this.origData[0]>1){
+	if (dbTable.origData[0]>1){
 		this.dontLoop=true
 	}
 	
