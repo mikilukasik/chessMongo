@@ -649,10 +649,12 @@ app.post('/myPartIsDone',function(req,res){
 				
 				req.body.forEach(function(move){
 					onTable.returnedMoves.push(move)
+					onTable.pendingSolvedMoves--
+					console.log(onTable.pendingSolvedMoves)
 				})
 				
-				onTable.pendingSolvedMoves--
-				console.log(onTable.pendingSolvedMoves)
+				
+				
 				if(onTable.pendingSolvedMoves==0){
 					//all moves solved, check best and make a move
 					onTable.returnedMoves.sort(
