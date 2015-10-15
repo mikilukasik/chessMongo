@@ -50,8 +50,8 @@ var MoveTask =function(dbTable){
 	
 	
 	
-	this.origProtect=protectTable(dbTable.table,dbTable.wNext)
-	this.origData = getTableData(dbTable.table, dbTable.wNext)
+	dbTable.origProtect=protectTable(dbTable.table,dbTable.wNext)
+	dbTable.origData = getTableData(dbTable.table, dbTable.wNext)
 	
 	this.dontLoop=false
 	
@@ -64,16 +64,16 @@ var MoveTask =function(dbTable){
 	
 	
 	
-	this.origTableValue = this.origData[0]
-	this.origMyHitValue = this.origData[1]
-	this.origHisHitValue = this.origData[2]
-	this.origlSanc = this.origData[3]
-	this.origrSanc = this.origData[4]
-	this.origGetToMiddle=this.origData[5]
-	this.origPushHimBack=this.origData[6]
-	this.origMostMoved=this.origData[7]
+	// this.origTableValue = this.origData[0]
+	// this.origMyHitValue = this.origData[1]
+	// this.origHisHitValue = this.origData[2]
+	// this.origlSanc = this.origData[3]
+	// this.origrSanc = this.origData[4]
+	// this.origGetToMiddle=this.origData[5]
+	// this.origPushHimBack=this.origData[6]
+	// this.origMostMoved=this.origData[7]
 	
-	this.fHitValue=[0]
+	// this.fHitValue=[0]
 
 	var moves=[]
 	// var movesToSend=[]
