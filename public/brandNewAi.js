@@ -1345,7 +1345,7 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 		if(counted >1){
 			//3szorra lepnenk ugyanabba a statuszba
 			//ideiglenesen ne
-			//console.log ('i could 3fold '+counted)
+			////// console.log ('i could 3fold '+counted)
 			
 			
 			
@@ -1360,8 +1360,8 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 			}
 			
 		}else{
-			// console.log (counted)
-			// console.log(thisTState)
+			// //// console.log (counted)
+			// //// console.log(thisTState)
 		}
 						
 
@@ -1475,7 +1475,7 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 					}
 					
 					looped=true
-					//console.log('he could 3fold')
+					////// console.log('he could 3fold')
 				}
 								
 		
@@ -1649,7 +1649,7 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 				if (ret2potMoves.length==0){
 					//mattot tudok adni a legjobbnak tuno lepesere
 					//process.stdout.write("!");
-		//console.log('2 lepesbol mattolhatok')
+		////// console.log('2 lepesbol mattolhatok')
 					if(tTable2Value<5)tTable2Value+=5
 					
 						//meg kene nezni ki tud-e lepni belole
@@ -1671,7 +1671,7 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 		
 		//if(modType=="lpV")loopValue*= modConst
 		
-		//console.log(modType)
+		////// console.log(modType)
 		switch(modType){
 			case undefined:
 			
@@ -1809,8 +1809,8 @@ function ai(tablE, wn, allPast, modType, modVal) {
 }
 
 function helpMe(wp) {
-	console.log('MOVE SCORE    first    second')
+	//// console.log('MOVE SCORE    first    second')
 	ai(table, wp).forEach(function(thisline) {
-		console.log(thisline[0] + ' ' + thisline[1] + '  =  ' + thisline[2] + '  +  ' + thisline[3])
+		//// console.log(thisline[0] + ' ' + thisline[1] + '  =  ' + thisline[2] + '  +  ' + thisline[3])
 	})
 }
