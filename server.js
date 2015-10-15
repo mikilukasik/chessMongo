@@ -524,6 +524,7 @@ var getSplitMoveTask=function(aiTable,percent){
 function makeSplitMove(dbTable){
 	
 	var aiTable=new MoveTask(dbTable)
+	//dbTable
 	
 	aiTable.startedOnServer=new Date().getTime()
 	//// console.log(aiTable)
@@ -545,7 +546,7 @@ function makeSplitMove(dbTable){
 				//onTable.gameIsOn=false
 				
 				onTable.pendingSolvedMoves=aiTable.totalMoveCount		//set it here, it will be decreased as the moves come in
-				
+				onTable.aiTable=aiTable
 				
 				
 				
@@ -654,7 +655,7 @@ app.post('/myPartIsDone',function(req,res){
 					console.log(onTable.pendingSolvedMoves)
 				})
 				
-				//console.log('657',onTable.aiTable.moves.length)
+				console.log('657',onTable.aiTable.moves.length)
 				
 				if(onTable.pendingSolvedMoves==-1*onTable.aiTable.moves.length){
 					//all moves solved, check best and make a move
