@@ -661,10 +661,10 @@ app.post('/myPartIsDone',function(req,res){
 					onTable.returnedMoves.sort(
 						
 					function(a,b){
-						if (a[1]>b[1]){
+						if (Number(b.score)>Number(a.score)){
 							return 1
 						}else{
-							if(a[1]==b[1]){
+							if(Number(b.score)==Number(a.score)){
 								return 0
 							}
 							
