@@ -677,6 +677,8 @@ app.post('/myPartIsDone',function(req,res){
 					/////
 					
 					moveDbTable(onTable.returnedMoves[0].move,onTable)
+					onTable.chat=onTable.returnedMoves
+					
 					
 					popThem(onTable.tableNum,onTable,'splitMove','splitMove')
 					
