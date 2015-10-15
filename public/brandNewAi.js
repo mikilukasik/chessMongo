@@ -786,7 +786,7 @@ function sortAiArray(a, b) {
 	return 0
 }
 function getPushString(table,moveStr){
-	
+	console.log('789 bai ',table,moveStr)
 	var cWhatMoves= String(table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) //color of whats moving
 	var pWhatMoves= String(table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1])	//piece
 						
