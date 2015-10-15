@@ -185,12 +185,19 @@
 	}
 	function processMove(move){
 		
+		//var result=[]
 		
 		///////////////////////////////////////
+		var cfTable=0
+		var cfMoveCoords=0
+		var moveIndex=0
+		
+		var cfColor=0
+		
+		var stepMove=0
 		
 		
-		
-		
+		//var d
 		
 		
 		
@@ -467,7 +474,7 @@
 
 		var tTable2Value = 0
 
-		if(doScnd) {
+		if(false) {			//temp?
 			//
 			
 			var cf2Moves = []
@@ -678,7 +685,9 @@
 							loopedValue+
 							forceLoopValue
 
-		allTempTables.push([stepMove, pushThisValue])//, hisBestRtnMove, loopValue, captureScore, smallValScore,
+		move.score=pushThisValue
+		
+		return move//, hisBestRtnMove, loopValue, captureScore, smallValScore,
 			 				// dontGetHit,tTable2Value, retProtect, mhit, hhit, fwdVal,lsancValue,rsancValue,
 							//  sancValue,getToMiddle,pushHimBack,mostMoved])
 
