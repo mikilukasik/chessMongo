@@ -19,7 +19,7 @@ var SmallMoveTask=function(moveCoord, index, dbTable){
 	
 	
 	this.cfTable=dbTable.table
-	this.cfMoveCoords=0
+	this.cfMoveCoords=moveCoord
 	this.moveIndex=index
 	
 	this.cfColor=dbTable.wNext
