@@ -1841,7 +1841,8 @@ app.get('/longPollTasks', function(req, res) {
 		// }
 		
 		
-		
+	knownThinkers[pollerIndex].lastSeen=new Date().getTime()
+	knownThinkers[pollerIndex].busy=false	
 	
 	
 	
