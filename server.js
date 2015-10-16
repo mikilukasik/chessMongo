@@ -638,7 +638,7 @@ function makeAiMove(dbTable){
 function getTaskIndex(tNum){
 	
 	for (var i=0;i<splitTaskQ.length;i++){
-		if(splitTaskQ[i][1]==tNum)return i
+		if(splitTaskQ[i].tableNum==tNum)return i
 	}
 	
 }
