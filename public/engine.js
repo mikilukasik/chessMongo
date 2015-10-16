@@ -93,7 +93,7 @@ var MoveTask =function(dbTable){
 	this.movesToSend=moves.slice()		//copy it, these we vill sen out
 	
 	//var movesToSend=movesToSend
-	this.coords
+	//this.coords
 	this.moves=moves
 	
 	// this.movesLeftToSend=function(){

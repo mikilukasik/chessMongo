@@ -664,6 +664,10 @@ app.post('/myPartIsDone',function(req,res){
 
 				var index=getTaskIndex(req.body[0].tableNum)
 				
+				console.log(index)
+				
+				
+				
 				req.body.forEach(function(move){
 					splitTaskQ[index].returnedMoves.push(move)
 					splitTaskQ[index].pendingSolvedMoves--
