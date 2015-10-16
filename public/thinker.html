@@ -843,7 +843,7 @@
                             
                             
                           //  if($rootScope.idle){
-								if($rootScope.pollOn)longPollTasks()			//recall for new task, server will hold any new task until this one finishes
+								if($rootScope.pollOn&&response.data.command!='ping')longPollTasks()			//recall for new task, server will hold any new task until this one finishes
 							//}
                         },function(data){
                             //error, retry
@@ -921,8 +921,9 @@
 			 setCookie("mCount2", $rootScope.moveCount, 365);
 		}
 		
+		longPollTasks()	//start initial longpoll
 		
-		longPollTasks()//start initial longpoll
+		$interval( longPollTasks() , 5000)//ping
 	
 	
 	}

@@ -390,7 +390,7 @@ function ping(msecs){
 	for (var i=pendingThinkerPolls.length-1;i>-1;i--){
 		if(pendingThinkerPolls[i][2] < new Date().getTime()-msecs){
 			//polled more tham MSECS time ago, let's pop it
-			sendTask(new Task('ping',0,'ping'),pendingThinkerPolls[i][0].query.id)
+			sendTask(new Task('areYouThere',0,'Are you there?'),pendingThinkerPolls[i][0].query.id)
 			
 		}
 	}
@@ -401,7 +401,7 @@ function ping(msecs){
 }
 
 setInterval( function(){
-	ping(7000)
+	ping(10000)
 },1000)
 
 
@@ -1812,13 +1812,36 @@ app.get('/longPollTasks', function(req, res) {
 		
 		
 	}else{
+		
+		// first poll
+		
 		knownThinkers[pollerIndex].lastSeen=new Date().getTime()
 		knownThinkers[pollerIndex].busy=false
 		
 	}
 	
 	
-	if(checkIfPending(req.query.id))clearPending(req.query.id)	//remove clients old pending polls so we always have the latest only
+	if(checkIfPending(req.query.id)){
+		
+		sendTask(new Task('ping',0,'normal ping'),req.query.id)
+		
+		
+		
+		// if(req.query.type='ping'){
+		// 	res.json({
+		// 		// should give update on not urgent stuff
+		// 		pacsi:'megvolt'
+				
+				
+			// })
+		}
+		
+		// else{ could do callHome here
+		// 	clearPending(req.query.id)}	//remove clients old pending polls so we always have the latest only
+		// }
+		
+		
+		
 	
 	
 	
@@ -1921,27 +1944,27 @@ function clearDisconnectedPlayers() {
 	}
 	//clearInactiveGames()
 }
-var pingThinkersConst=10000	//10 sec, only pings them where inactive
+//var pingThinkersConst=10000	//10 sec, only pings them where inactive
 
 
-function pingWaitingThinkers() {
-	for(var i = pendingThinkerPolls.length - 1; i >= 0; i--) {
+// function pingWaitingThinkers() {
+// 	for(var i = pendingThinkerPolls.length - 1; i >= 0; i--) {
 
-		if(pendingThinkerPolls[i][2] + pingThinkersConst < (new Date())
-			.getTime()) {
+// 		if(pendingThinkerPolls[i][2] + pingThinkersConst < (new Date())
+// 			.getTime()) {
 			
-			//pendingThinkerPolls
-			var pingThisPoll=pendingThinkerPolls.splice(i, 1)
-			var retThis=new Task('ping','ping','ping')
+// 			//pendingThinkerPolls
+// 			var pingThisPoll=pendingThinkerPolls.splice(i, 1)
+// 			var retThis=new Task('ping','ping','ping')
 			
-			pingThisPoll[1].json(retThis)
-			//lobbyPollNum++
+// 			pingThisPoll[1].json(retThis)
+// 			//lobbyPollNum++
 
-		}
+// 		}
 
-	}
-	//clearInactiveGames()
-}
+// 	}
+// 	//clearInactiveGames()
+// }
 
 
 
