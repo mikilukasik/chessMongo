@@ -542,7 +542,7 @@ function makeSplitMove(dbTable){
 // 			}, function(err2, onTable) {
 
 // 				if(onTable!=null){
- 				console.log('547',onTable.tableNum)
+ 				//console.log('547',onTable.tableNum)
 	
 // 				//onTable.gameIsOn=false
 
