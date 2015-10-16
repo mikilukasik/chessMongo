@@ -701,7 +701,7 @@ app.post('/myPartIsDone',function(req,res){
 					
 					//console.log(dbTable.returnedMoves)
 					
-					moveDbTable(splitTaskQ[index].returnedMoves[0].move,dbTable)
+					moveDbTable(splitTaskQ[index].returnedMoves[0].move,splitTaskQ[index])
 					splitTaskQ[index].chat=splitTaskQ[index].returnedMoves
 					
 					
