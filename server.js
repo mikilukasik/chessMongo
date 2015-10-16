@@ -672,6 +672,7 @@ app.post('/myPartIsDone',function(req,res){
 					splitTaskQ[index].returnedMoves.push(move)
 					splitTaskQ[index].pendingSolvedMoves--
 					console.log(splitTaskQ[index].pendingSolvedMoves)
+					console.log(move)
 				})
 				
 // 				console.log('657',onTable.aiTable.moves.length)
