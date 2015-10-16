@@ -843,9 +843,7 @@
                             
                             
                           //  if($rootScope.idle){
-								if($rootScope.pollOn
-								//&&response.data.command!='ping'
-								)longPollTasks()			//recall for new task, server will hold any new task until this one finishes
+								if($rootScope.pollOn&&response.data.command!='ping')longPollTasks()			//recall for new task, server will hold any new task until this one finishes
 							//}
                         },function(data){
                             //error, retry
