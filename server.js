@@ -697,7 +697,7 @@ app.post('/myPartIsDone',function(req,res){
 					/////
 					
 					var dbTable=splitTaskQ.splice(index,1)
-					console.log(returnedMoves)
+					console.log(dbTable.returnedMoves)
 					moveDbTable(dbTable.returnedMoves[0].move,dbTable)
 					dbTable.chat=dbTable.returnedMoves
 					
