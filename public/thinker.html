@@ -744,6 +744,39 @@
 		
 		
 	}
+	
+	            $rootScope.taskNum=0
+               
+                var longPollTasks=function(){
+                    
+                    $http.get('/longPollTasks?id='+$rootScope.sendID+'&tn='+$rootScope.taskNum+'&spd='+$rootScope.mySpeed)
+                        .then(function(response){
+                            
+                            // 1 task received
+                            
+                            $rootScope.taskNum=response.data.taskNum
+                            
+                            $rootScope.receivedMessage=response.data.message        //display Heading
+                            
+                            $rootScope.sendMessage('task #'+response.data.taskNum+' received, '+response.data.command+': '+response.data.message)
+                            
+                            $rootScope.doTask(response.data)
+                            
+                            
+                          //  if($rootScope.idle){
+								if($rootScope.pollOn)longPollTasks()			//recall for new task, server will hold any new task until this one finishes
+							//}
+                        },function(data){
+                            //error, retry
+                            $rootScope.receivedMessage='error'
+                            $rootScope.refreshWhenUp()   //retry kene?
+                        })
+                    
+                }
+
+	
+	
+	
 	function processSplitMove(data){
 		
 		//var result=[]
@@ -782,11 +815,12 @@
                      break;   
 					 
 					 case "splitMove": 
-					 
+					 	$rootScope.pollOn=false
 					 	var postThis=processSplitMove(task.data)
 						 
 						 $http.post('/myPartIsDone',postThis,function(req,res){
-						
+							$rootScope.pollOn=true
+							longPollTasks()
 						})
 						 
 					 break;
@@ -794,12 +828,11 @@
 					 
 					 case "move": 
 					 	
-						$rootScope.pollOn=false
+						
 						var postThis= dbAi(task.data)			///!!!! 
 						 
 						$http.post('/moved',postThis,function(req,res){
-							$rootScope.pollOn=true
-							longPollTasks()
+							
 						})
 					 
 					 	// $rootScope.pleasePlay=false
@@ -825,34 +858,6 @@
            
             /////////longpoll tasks stuff
 
-            $rootScope.taskNum=0
-               
-                var longPollTasks=function(){
-                    
-                    $http.get('/longPollTasks?id='+$rootScope.sendID+'&tn='+$rootScope.taskNum+'&spd='+$rootScope.mySpeed)
-                        .then(function(response){
-                            
-                            // 1 task received
-                            
-                            $rootScope.taskNum=response.data.taskNum
-                            
-                            $rootScope.receivedMessage=response.data.message        //display Heading
-                            
-                            $rootScope.sendMessage('task #'+response.data.taskNum+' received, '+response.data.command+': '+response.data.message)
-                            
-                            $rootScope.doTask(response.data)
-                            
-                            
-                          //  if($rootScope.idle){
-								if($rootScope.pollOn)longPollTasks()			//recall for new task, server will hold any new task until this one finishes
-							//}
-                        },function(data){
-                            //error, retry
-                            $rootScope.receivedMessage='error'
-                            $rootScope.refreshWhenUp()   //retry kene?
-                        })
-                    
-                }
 
                
                  
