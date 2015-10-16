@@ -671,7 +671,7 @@ app.post('/myPartIsDone',function(req,res){
 				req.body.forEach(function(move){
 					splitTaskQ[index].returnedMoves.push(move)
 					splitTaskQ[index].pendingSolvedMoves--
-					console.log(splitTaskQ[index].pendingSolvedMoves)
+					//console.log(splitTaskQ[index].pendingSolvedMoves)
 					
 				})
 				
@@ -695,9 +695,12 @@ app.post('/myPartIsDone',function(req,res){
 					
 					
 					/////
+					console.log(splitTaskQ[index].returnedMoves)
 					
 					var dbTable=splitTaskQ.splice(index,1)
+					
 					console.log(dbTable.returnedMoves)
+					
 					moveDbTable(dbTable.returnedMoves[0].move,dbTable)
 					dbTable.chat=dbTable.returnedMoves
 					
