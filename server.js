@@ -712,7 +712,7 @@ app.post('/myPartIsDone',function(req,res){
 						db.collection("tables")
 						.save(splitTaskQ[index], function(err3, res) {
 							
-							
+							splitTaskQ.splice(index,1)
 							db.close()
 							})
 					})
