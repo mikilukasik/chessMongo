@@ -843,7 +843,9 @@
                             
                             
                           //  if($rootScope.idle){
-								if($rootScope.pollOn&&response.data.command!='ping')longPollTasks()			//recall for new task, server will hold any new task until this one finishes
+								if($rootScope.pollOn
+								//&&response.data.command!='ping'
+								)longPollTasks()			//recall for new task, server will hold any new task until this one finishes
 							//}
                         },function(data){
                             //error, retry
@@ -923,7 +925,10 @@
 		
 		longPollTasks()	//start initial longpoll
 		
-		$interval( longPollTasks() , 5000)//ping
+		$interval( function(){
+			console.log('holazaping')
+			longPollTasks()
+		} , 5000)//ping
 	
 	
 	}
