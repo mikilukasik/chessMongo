@@ -68,7 +68,6 @@ var knownThinkers=[]
 var pendingThinkerPolls=[]
 
 
-
 function doIKnow(id){
 	for (var i=0; i<knownThinkers.length; i++){
 		if(knownThinkers[i].id==id)return i
@@ -116,6 +115,8 @@ var fastestThinker = function(spdPct){
 };
 
 var taskQ=[]
+var splitTaskQ=[]
+
 
 function sendTask(task,thinkerId){
 // 	var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
@@ -534,66 +535,66 @@ function makeSplitMove(dbTable){
 	
 	console.log('534',dbTable.tableNum)
 	
-		mongodb.connect(cn, function(err, db) {
-		db.collection("tables")
-			.findOne({
-				tableNum:dbTable.tableNum		//no header in post req
-			}, function(err2, onTable) {
+// 		mongodb.connect(cn, function(err, db) {
+// 		db.collection("tables")
+// 			.findOne({
+// 				tableNum:dbTable.tableNum		//no header in post req
+// 			}, function(err2, onTable) {
 
-				if(onTable!=null){
-				console.log('543',onTable.tableNum)
+// 				if(onTable!=null){
+ 				console.log('547',onTable.tableNum)
 	
-				//onTable.gameIsOn=false
-				
-				onTable.pendingSolvedMoves=aiTable.totalMoveCount		//set it here, it will be decreased as the moves come in
-				onTable.aiTable=aiTable
-				
-				
-				
-				db.collection("tables")
-					.save(onTable, function(err3, res) {
-							//table moved and saved, let's check what to do
-					
-					//check if still waiting and eval if not
-					
-					
-					
-					popThem(onTable.tableNum, onTable, 'updated', 'table updated.') //respond to pending longpolls
+// 				//onTable.gameIsOn=false
 
-						
-					db.close()
-			
-					})
-				}else{
-					//hiba
+				dbTable.aiTable=aiTable
+				
+				dbTable.pendingSolvedMoves=aiTable.totalMoveCount		//set it here, it will be decreased as the moves come in
+				
+				dbTable.pendingSolvedMoves= aiTable.totalMoveCount,
+					//moves: aiTable.moves,
+				dbTable.returnedMoves= []
+					// notReceivedSplitMoves: aiTable.totalMoveCount
+				//}
+				
+				splitTaskQ.push(dbTable)		//use this when receiving
+				
+				while(aiTable.movesToSend.length>0){
+					
+					var sendThese=getSplitMoveTask(aiTable,fastestThinker(true))
+					sendTask(new Task('splitMove',sendThese,'splitMove t'+dbTable.tableNum+' moves: '+sendThese.length))
+					
+				
 				}
 				
 				
-			});
-	
+				
+				
+				// dont save now
+				
+				// mongodb.connect(cn, function(err, db) {
+				// db.collection("tables")
+				// 	.save(onTable, function(err3, res) {
+				// 			//table moved and saved, let's check what to do
+					
+				// 	//check if still waiting and eval if not
+					
+					
+					
+					
+					
+					
+					
+					// popThem(onTable.tableNum, onTable, 'updated', 'table updated.') //respond to pending longpolls
 
-});
+						
+					// db.close()
+			
+					}
 	
 	
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	while(aiTable.movesToSend.length>0){
-		var sendThese=getSplitMoveTask(aiTable,fastestThinker(true))
-		sendTask(new Task('splitMove',sendThese,'splitMove t'+dbTable.tableNum+' moves: '+sendThese.length))
-		//	) 	//10%
-	
-	}
-}
 
 
 function makeAiMove(dbTable){
@@ -634,32 +635,46 @@ function makeAiMove(dbTable){
 	
 }
 
+function getTaskIndex(tNum){
+	
+	for (var i=0;i<splitTaskQ.length;i++){
+		if(splitTaskQ[i][1]==tNum)return i
+	}
+	
+}
+
 app.post('/myPartIsDone',function(req,res){
 	
 	//var movedTable=req.body
 	//////////// console.log(req)
 	res.send('received.')
-	mongodb.connect(cn, function(err, db) {
-		db.collection("tables")
-			.findOne({
-				tableNum: req.body[0].tableNum		//no header in post req
-			}, function(err2, onTable) {
+	
+	
+	
+// 	mongodb.connect(cn, function(err, db) {
+// 		db.collection("tables")
+// 			.findOne({
+// 				tableNum: req.body[0].tableNum		//no header in post req
+// 			}, function(err2, onTable) {
 
-				if(onTable!=null){
+// 				if(onTable!=null){
 				
-				//onTable.gameIsOn=false
+// 				//onTable.gameIsOn=false
+				
+
+				var index=getTaskIndex(req.body[0].tableNum)
 				
 				req.body.forEach(function(move){
-					onTable.returnedMoves.push(move)
-					onTable.pendingSolvedMoves--
-					console.log(onTable.pendingSolvedMoves)
+					splitTaskQ[index].returnedMoves.push(move)
+					splitTaskQ[index].pendingSolvedMoves--
+					console.log(splitTaskQ[index].pendingSolvedMoves)
 				})
 				
-				console.log('657',onTable.aiTable.moves.length)
+// 				console.log('657',onTable.aiTable.moves.length)
 				
-				if(onTable.pendingSolvedMoves==-1*onTable.aiTable.moves.length){
+				if(splitTaskQ[index].pendingSolvedMoves==0){
 					//all moves solved, check best and make a move
-					onTable.returnedMoves.sort(
+					splitTaskQ[index].returnedMoves.sort(
 						
 					function(a,b){
 						if (Number(b.score)>Number(a.score)){
@@ -676,38 +691,46 @@ app.post('/myPartIsDone',function(req,res){
 					
 					/////
 					
-					moveDbTable(onTable.returnedMoves[0].move,onTable)
-					onTable.chat=onTable.returnedMoves
+					var dbTable=splitTaskQ.splice(index,1)
+					
+					moveDbTable(dbTable.returnedMoves[0].move,dbTable)
+					dbTable.chat=dbTable.returnedMoves
 					
 					
-					popThem(onTable.tableNum,onTable,'splitMove','splitMove')
+					popThem(dbTable.tableNum,dbTable,'splitMove','splitMove')
 					
-					
+					//save here
+					mongodb.connect(cn, function(err, db) {
+						db.collection("tables")
+						.save(dbTable, function(err3, res) {
+							db.close()
+							})
+					})
 				}
 				
-				db.collection("tables")
-					.save(onTable, function(err3, res) {
-							//table moved and saved, let's check what to do
+// 				db.collection("tables")
+// 					.save(onTable, function(err3, res) {
+// 							//table moved and saved, let's check what to do
 					
-					//check if still waiting and eval if not
+// 					//check if still waiting and eval if not
 					
 					
 					
-					//popThem(onTable.tableNum, onTable, 'updated', 'table updated.') //respond to pending longpolls
+// 					//popThem(onTable.tableNum, onTable, 'updated', 'table updated.') //respond to pending longpolls
 
 						
-					db.close()
+// 					db.close()
 			
-					})
-				}else{
-					//hiba
-				}
+// 					})
+// 				}else{
+// 					//hiba
+// 				}
 				
 				
-			});
+// 			});
 	
 
-});
+// });
 
 });
 	
