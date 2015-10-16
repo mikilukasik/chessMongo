@@ -697,20 +697,22 @@ app.post('/myPartIsDone',function(req,res){
 					/////
 					console.log(splitTaskQ[index].returnedMoves)
 					
-					var dbTable=splitTaskQ.splice(index,1)
+					//var dbTable=splitTaskQ.splice(index,1)
 					
-					console.log(dbTable.returnedMoves)
+					//console.log(dbTable.returnedMoves)
 					
-					moveDbTable(dbTable.returnedMoves[0].move,dbTable)
-					dbTable.chat=dbTable.returnedMoves
+					moveDbTable(splitTaskQ[index].returnedMoves[0].move,dbTable)
+					splitTaskQ[index].chat=splitTaskQ[index].returnedMoves
 					
 					
-					popThem(dbTable.tableNum,dbTable,'splitMove','splitMove')
+					popThem(splitTaskQ[index].tableNum,splitTaskQ[index],'splitMove','splitMove')
 					
 					//save here
 					mongodb.connect(cn, function(err, db) {
 						db.collection("tables")
-						.save(dbTable, function(err3, res) {
+						.save(splitTaskQ[index], function(err3, res) {
+							
+							
 							db.close()
 							})
 					})
