@@ -548,9 +548,9 @@ function makeSplitMove(dbTable){
 
 				dbTable.aiTable=aiTable
 				
-				dbTable.pendingSolvedMoves=aiTable.totalMoveCount		//set it here, it will be decreased as the moves come in
+				dbTable.pendingSolvedMoves=aiTable.moves.length		//set it here, it will be decreased as the moves come in
 				
-				dbTable.pendingSolvedMoves= aiTable.totalMoveCount,
+				///dbTable.pendingSolvedMoves= aiTable.totalMoveCount,
 					//moves: aiTable.moves,
 				dbTable.returnedMoves= []
 					// notReceivedSplitMoves: aiTable.totalMoveCount
