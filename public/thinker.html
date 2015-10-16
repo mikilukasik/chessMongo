@@ -786,7 +786,7 @@
 					 	var postThis=processSplitMove(task.data)
 						 
 						 $http.post('/myPartIsDone',postThis,function(req,res){
-				
+						
 						})
 						 
 					 break;
@@ -794,11 +794,12 @@
 					 
 					 case "move": 
 					 	
-						
+						$rootScope.pollOn=false
 						var postThis= dbAi(task.data)			///!!!! 
 						 
 						$http.post('/moved',postThis,function(req,res){
-				
+							$rootScope.pollOn=true
+							longPollTasks()
 						})
 					 
 					 	// $rootScope.pleasePlay=false
@@ -842,8 +843,9 @@
                             $rootScope.doTask(response.data)
                             
                             
-                            if($rootScope.pollOn)longPollTasks()			//recall for new task, server will hold any new task until this one finishes
-                    
+                          //  if($rootScope.idle){
+								if($rootScope.pollOn)longPollTasks()			//recall for new task, server will hold any new task until this one finishes
+							//}
                         },function(data){
                             //error, retry
                             $rootScope.receivedMessage='error'
