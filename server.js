@@ -405,9 +405,9 @@ setInterval( function(){
 },1000)
 
 
-setInterval( function(){
-	evalToClient()
-},evalGameConst)
+// setInterval( function(){
+// 	evalToClient()
+// },evalGameConst)
 
 var evalToClient=function(){
 	
