@@ -1,0 +1,60 @@
+<head>
+	<link rel="stylesheet" type="text/css" href="chess.css">
+	
+	<script src="jquery.js"></script>
+	<script src="angular.js"></script>
+	<!--<script src="brandNewAi.js"></script>
+	<script src="engine.js"></script>-->
+
+<script>	
+	var appModule = angular.module("appModule", []);
+
+	
+	function ApplicationController( $http, $interval,  $scope) {	
+		
+		
+		var heartBeat=3500
+		$scope.learners=[]
+		
+		$interval(function(){
+			$http.get('/whoIsLearning?r='+Math.random()).then(function(response){
+				$scope.learners=response.data.learners
+				$scope.learners.sort(function(a,b){
+					if(Number(a[5])>Number(b[5])){
+						return -1
+					}else{
+						if(Number(a[5])<Number(b[5])){
+							return 1
+						}else{
+							return 0
+						}
+							
+							
+						
+					}
+				})
+				//$scope.$apply()
+			})
+			
+	},heartBeat)
+
+
+	
+	}
+appModule.controller("ApplicationController", ApplicationController);
+
+</script>
+</head>
+<body ng-app="appModule"  ng-controller="ApplicationController">
+	<!--<div ng-repeat="x in learners">{{x}}</div>-->
+	<table>
+		<tr ng-repeat="x in learners">
+	
+			<td ng-repeat="y in x">
+				{{y}}
+			</td>
+		</tr>
+	</table>
+	
+	
+</body>
