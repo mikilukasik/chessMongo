@@ -9,6 +9,53 @@ var t2const = 0.0025
 var dontHitConst = 0.8
 var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
 
+function moveInTable(moveStr,dbTable){
+		
+		var toPush =  getPushString(dbTable.table,moveStr)//piece
+
+				+new String(new Date().getTime())
+
+				// if(!(toPush==$rootScope.moves[$rootScope.moves.length-1])){
+				
+				
+				dbTable.moves.push(toPush)
+
+				dbTable.table = moveIt(moveStr, dbTable.table)			//	<----moves it
+				
+				//$rootScope.showTable($rootScope.table)
+
+				dbTable.wNext = !dbTable.wNext
+
+				dbTable.pollNum++
+
+				//$rootScope.moved = new Date().getTime()
+				
+				dbTable.table = addMovesToTable(dbTable.table, dbTable.wNext)	//true stands for pawn and king only: allpasttables only
+
+				//remember this state for 3fold rule
+				var sendThis=createState(dbTable.table)
+				
+				
+				dbTable.allPastTables.push(sendThis)
+
+				//$rootScope.whatToDo = 'idle'
+			
+				//$rootScope.sendMessage('move '+moveStr+' processed.')
+			
+			/////////////////////////
+			
+			
+			//})
+			evalGame(dbTable,true)	//true should tell it was learnergame, not yet
+			
+			
+			
+			return dbTable
+			
+			
+		
+	}
+
 function getSimpleTableState(itable) {
 	var tempString = ""
 
