@@ -114,10 +114,10 @@
 	
 	
 	
-	function processMove(move){
+	function processMove(move,modType,modVal){
 		
 		//var result=[]
-		var modType=""
+		//var modType=""
 		//var modVal=1
 		
 		
@@ -517,7 +517,7 @@
 		
 		///modType 'l' is loopval *=-1
 		
-		//if(modType=="lpV")loopValue*= modConst
+		//if(modType=="lpV")loopValue*= modVal
 		
 		//console.log(modType)
 		switch(modType){
@@ -527,85 +527,85 @@
 			
 			case "lpV":
 				
-				loopValue*= modConst
+				loopValue*= modVal
 			
 			break;
 			
 			case "cpt":
 			
-				captureScore*= modConst
+				captureScore*= modVal
 				
 			break;
 			
 			case "tt2":
 			
-				tTable2Value*= modConst
+				tTable2Value*= modVal
 				
 			break;
 			
 			case "sVS":
 			
-				smallValScore*= modConst
+				smallValScore*= modVal
 				
 			break;
 			
 			
 			case "dGH":
 			
-				dontGetHit*= modConst
+				dontGetHit*= modVal
 				
 			break;
 			
 			
 			case "rPr":
 			
-				retProtect*= modConst
+				retProtect*= modVal
 				
 			break;
 			
 			
 			case "mht":
 			
-				mhit*= modConst
+				mhit*= modVal
 				
 			break;
 			
 			
 			case "hht":
 			
-				hhit*= modConst
+				hhit*= modVal
 				
 			break;
 			
 			case "mMv":
 			
-				mostMoved*= modConst
+				mostMoved*= modVal
 				
 			break;
 			
 			case "pHB":
 			
-				pushHimBack*= modConst
+				pushHimBack*= modVal
 				
 			break;
 			
 			case "gTM":
 			
-				getToMiddle*= modConst
+				getToMiddle*= modVal
 				
 			break;
 			
 			case "fwV":
 			
-				fwdVal*= modConst
+				fwdVal*= modVal
 				
 			break;
 			
 			case "scV":
 			
-							lsancValue*= modConst
-							rsancValue*= modConst
-							sancValue*= modConst
+							lsancValue*= modVal
+							rsancValue*= modVal
+							sancValue*= modVal
 				
 			break;
 			
@@ -693,14 +693,9 @@
                  //where the magic happens
                 
 				 switch(task.command){
-                     case "alert":
+                     case "learnStart":
                         
-                        // var tableForDB=0//make some dbtable
-                        // console.log('evalGame received')
-                        //sg like  evalGame(tableForDB)
-						
-						//!!!!!!!!!!!!
-                      //this will stop the client!!  alert(task.message)
+                       
                         
                      break;   
 					  case "refresh":
