@@ -8,7 +8,31 @@ var hitValueConst = 0.5
 var t2const = 0.0025
 var dontHitConst = 0.8
 var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
-
+function dbAi(dbTable){
+		
+		 var retMove=ai(dbTable.table,dbTable.wNext,dbTable.allPastTables)
+					 
+					 	var moveStr=""
+						 if(retMove.length>1)moveStr=retMove[1][0]
+						
+		
+		dbTable=moveInTable(moveStr,dbTable)		
+			
+			
+			// $http.post('/moved',dbTable,function(req,res){
+				
+			// })
+			
+		
+		return dbTable
+		
+		
+		
+		
+		
+		
+		
+	}
 function moveInTable(moveStr,dbTable){
 		
 		var toPush =  getPushString(dbTable.table,moveStr)//piece

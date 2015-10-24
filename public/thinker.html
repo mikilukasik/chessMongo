@@ -113,31 +113,7 @@
 	
 	
 	
-	function dbAi(dbTable){
-		
-		 var retMove=ai(dbTable.table,dbTable.wNext,dbTable.allPastTables)
-					 
-					 	var moveStr=""
-						 if(retMove.length>1)moveStr=retMove[1][0]
-						
-		
-		dbTable=moveInTable(moveStr,dbTable)		
-			
-			
-			// $http.post('/moved',dbTable,function(req,res){
-				
-			// })
-			
-		
-		return dbTable
-		
-		
-		
-		
-		
-		
-		
-	}
+	
 	function processMove(move){
 		
 		//var result=[]
@@ -750,7 +726,7 @@
 					 case "move": 
 					 	
 						
-						var postThis= dbAi(task.data)			///!!!! 
+						var postThis= dbAi(task.data)			///!!!! egesz dbtable lesz postolva
 						 
 						$http.post('/moved',postThis,function(req,res){
 							
