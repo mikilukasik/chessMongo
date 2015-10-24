@@ -1,6 +1,6 @@
 var SmallMoveTask=function(moveCoord, index, dbTable){
 	
-	this.rnd=Math.random()
+	//this.rnd=Math.random()
 	//this.created = new Date().getTime()
 	
 	//this.dbTable=dbTable
@@ -10,13 +10,13 @@ var SmallMoveTask=function(moveCoord, index, dbTable){
 	this.stepMove=coordsToMoveString(moveCoord[0],moveCoord[1],moveCoord[2],moveCoord[3])
 	
 	//this.index=index
-	this.value=0
+	//this.value=0
 	
 	this.retMoves=[]
 	
 	//this.table=moveIt(this.moveStr,dbTable.table,true)	//dontprotect works?? !!!!
 	
-	this.value=getTableData(dbTable.table,dbTable.wNext)
+	//this.value=dbTable.value
 	
 	this.allPast=dbTable.allPastTables
 	this.cfTable=dbTable.table
@@ -30,6 +30,7 @@ var SmallMoveTask=function(moveCoord, index, dbTable){
 	//this.stepMove=0
 	
 	this.origData=dbTable.origData
+	this.value=this.origData
 	
 	
 	this.fHitValue=[0]
@@ -82,6 +83,7 @@ var MoveTask =function(dbTable){
 	// var movesToSend=[]
 	
 	//var cfMoves=[]
+	//dbTable.value=getTableData(dbTable.table,dbTable.wNext)
 	
 	moveCoords.forEach(function(moveCoord,index){
 		moves.push(new SmallMoveTask(moveCoord, index, dbTable))
