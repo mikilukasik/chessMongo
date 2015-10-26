@@ -122,7 +122,12 @@
 		
 		while (data.length>0){
 			
-			newData.push(processMove(data.pop()))
+			var toPush=processMove(data.pop())
+			
+			
+			toPush.thinker= $rootScope.sendID
+			
+			newData.push()
 		}
 		
 		

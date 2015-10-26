@@ -2425,7 +2425,7 @@ function processMove(move,modType,modVal){
 			move: move.stepMove,
 			score: pushThisValue,
 			tableNum: move.tableNum,
-			thinker: $rootScope.sendID
+			// thinker: $rootScope.sendID
 			} //, hisBestRtnMove, loopValue, captureScore, smallValScore,
 			 				// dontGetHit,tTable2Value, retProtect, mhit, hhit, fwdVal,lsancValue,rsancValue,
 							//  sancValue,getToMiddle,pushHimBack,mostMoved])
