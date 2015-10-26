@@ -1,17 +1,17 @@
-var LearningGame=function(tableNum, modType, modVal){
-	this.state='startWhie'
-	this.dbTable=new Dbtable(tableNum,)
+// var LearningGame=function(tableNum, modType, modVal){
+// 	this.state='startWhie'
+// 	this.dbTable=new Dbtable(tableNum,)
 	
-	if(wModded) {
-				$rootScope.start(modType + " mod: " + modVal, "standard", true, modType) //.tableNum
-					//initedTable = new Dbtable(firstFreeTable, "mod lpV:" + modVal, "standard")
-			} else {
-				$rootScope.start("standard", modType + " mod: " + modVal, false, modType) //.tableNum
-					//initedTable = new Dbtable(firstFreeTable, "standard", "mod lpV:" + modVal)
-			}
+// 	if(wModded) {
+// 				$rootScope.start(modType + " mod: " + modVal, "standard", true, modType) //.tableNum
+// 					//initedTable = new Dbtable(firstFreeTable, "mod lpV:" + modVal, "standard")
+// 			} else {
+// 				$rootScope.start("standard", modType + " mod: " + modVal, false, modType) //.tableNum
+// 					//initedTable = new Dbtable(firstFreeTable, "standard", "mod lpV:" + modVal)
+// 			}
 	
 	
-}
+// }
 
 
 
