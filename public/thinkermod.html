@@ -404,11 +404,15 @@
 
                 switch (task.command) {
                     case "learnStart":
-                        $rootScope.learning=true
-                        $rootScope.startGamePair()
-                                            
-
-
+                        if(!$rootScope.learning){
+                            
+                            $rootScope.learning=true
+                            $rootScope.startGamePair()
+                                                
+    
+                        }else{
+                            console.log('already learning..')
+                        }
                         //$rootScope.learnerPair()
 
                         break;
