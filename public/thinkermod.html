@@ -181,10 +181,13 @@
 
 
             ///////more
+               $rootScope.playgame = function(myGame, mt, mv, wNx, wMod) {
 
-
-
-            $rootScope.playgame = function(myGame, mt, mv, wNx, wMod) {
+                    if($rootScope.learning){
+                         $rootScope.playgame2(myGame, mt, mv, wNx, wMod) 
+                    }
+               }
+            $rootScope.playgame2 = function(myGame, mt, mv, wNx, wMod) {
                 //$rootScope.whatToDo = 'busy'
                 console.log('thinking of some move..')
                 var result = []
@@ -250,7 +253,7 @@
 
                 console.log(' DONE. ')
 
-                if (myGame.gameIsOn&&$rootScope.learning) {
+                if (myGame.gameIsOn) {
                     console.log('Will move ' + aiMoveString)
 
                     moveInTable(aiMoveString, myGame)
@@ -301,7 +304,7 @@
                 }
                 // 	
  //if($rootScope.learning){
-                if (myGame.gameIsOn&&$rootScope.learning) {
+                if (myGame.gameIsOn) {
                     $http.get('/move?s=1&m=' + aiMoveString + '&t=' + myGame.tableNum)
                         .then(function(response) {
                             // $http.get('/learnerPoll?n=' + $scope.cookieID +
