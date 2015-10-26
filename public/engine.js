@@ -4,36 +4,36 @@ var SmallMoveTask=function(moveCoord, index, dbTable){
 	//this.created = new Date().getTime()
 	
 	//this.dbTable=dbTable
-	this.tableNum=dbTable.tableNum
+	this.tableNum=dbTable.tableNum		//server will need this when receiving solved moves
 	
-	this.cfMoveCoords=moveCoord
-	this.stepMove=coordsToMoveString(moveCoord[0],moveCoord[1],moveCoord[2],moveCoord[3])
+	this.cfMoveCoords=moveCoord			//4 numbers
+	this.stepMove=coordsToMoveString(moveCoord[0],moveCoord[1],moveCoord[2],moveCoord[3])		//4 char string
 	
 	//this.index=index
 	//this.value=0
 	
-	this.retMoves=[]
+	this.retMoves=[]			//ai will fill
 	
 	//this.table=moveIt(this.moveStr,dbTable.table,true)	//dontprotect works?? !!!!
 	
 	//this.value=dbTable.value
 	
-	this.allPast=dbTable.allPastTables
-	this.cfTable=dbTable.table
-	this.cfMoveCoords=moveCoord
-	this.moveIndex=index
+	this.allPast=dbTable.allPastTables		//ai needs it to avoid loop
+	this.cfTable=dbTable.table				//ai needs to know original table 
+	//this.cfMoveCoords=moveCoord
+	this.moveIndex=index					//who needs this??!!!!!!!
 	
-	this.origProtect=dbTable.origProtect
+	this.origProtect=dbTable.origProtect		//this should go in origData!!!!
 	
-	this.cfColor=dbTable.wNext
+	this.cfColor=dbTable.wNext					//this could too...
 	
 	//this.stepMove=0
 	
-	this.origData=dbTable.origData
-	this.value=this.origData
+	this.origData=dbTable.origData				// itt adom at ami kozos az osszes smalltaskban
+	this.value=this.origData					//ez meg minek is
 	
 	
-	this.fHitValue=[0]
+	this.fHitValue=[0]					//initial value, should happen masutt
 	
 	
 	
@@ -41,7 +41,7 @@ var SmallMoveTask=function(moveCoord, index, dbTable){
 
 var MoveTask =function(dbTable){
 	
-	this.rnd=Math.random()
+	//this.rnd=Math.random()
 	this.created = new Date().getTime()
 	
 	this.allTempTables = []
