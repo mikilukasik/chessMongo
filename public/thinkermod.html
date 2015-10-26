@@ -134,10 +134,10 @@
 
                 if (wModded) { //this tells us if wmodded
                     //firstFreeTable=$rootScope.start("mod lpV:" + modVal, "standard").tableNum
-                    initedTable = new Dbtable(response.tableNum, modType + " mod: " + modVal, "standard")
+                    initedTable = new Dbtable(1, modType + " mod: " + modVal, "standard")
                 } else {
                     //firstFreeTable=$rootScope.start( "standard", "mod lpV:" + modVal).tableNum
-                    initedTable = new Dbtable(response.tableNum, "standard", modType + " mod: " + modVal)
+                    initedTable = new Dbtable(1, "standard", modType + " mod: " + modVal)
 
 
                 }
