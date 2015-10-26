@@ -279,6 +279,15 @@
                 } else {
                     console.log('Game finished, evaluating..')
                     evalGame(myGame)
+                    
+                    //post it here
+                    
+                    $http.post('/moved',myGame,function(req,res){
+                        
+                    })
+                    
+                    
+                    
                 }
                 // 	
 
@@ -318,9 +327,12 @@
                         $timeout($rootScope.learnerPair(mt, mv, true), 200)
                     } else {
                         console.log('gamepair done')
-
-                       //$rootScope.whatToDo = "startNewGame"
-                        //$rootScope.refreshWhenUp()
+                        
+                        
+                        $rootScope.startGamePair()
+ 
+                        
+                      
                     }
 
                 }
@@ -355,15 +367,9 @@
 
                 return newData
             }
-
-            $rootScope.doTask = function(task) {
-                //where the magic happens
-
-                switch (task.command) {
-                    case "learnStart":
-
-
-                        $http.get('/getModType').then(function(response) {
+            
+            $rootScope.startGamePair=function(){
+                  $http.get('/getModType').then(function(response) {
                             modType = response.data.modType
                             modVal = Math.random() * 100
                             $rootScope.mv = modVal
@@ -372,6 +378,16 @@
                             $rootScope.sendMessage('starting game, playing white')
                             $rootScope.learnerPair(modType, modVal) //this will call another game with black when done
                         })
+            }
+            
+            $rootScope.doTask = function(task) {
+                //where the magic happens
+
+                switch (task.command) {
+                    case "learnStart":
+
+                        $rootScope.startGamePair()
+                                            
 
 
                         //$rootScope.learnerPair()
