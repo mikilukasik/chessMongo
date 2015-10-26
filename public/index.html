@@ -76,7 +76,7 @@
 		}
 		
 		
-		$scope.logPollTable = function() {
+		$rootScope.logPollTable = function() {
 
 			//console.log('polling table ' + $rootScope.tableNum)
 
@@ -122,7 +122,7 @@
 						
 						if($scope.viewName == "board.html") {			
 							console.log('Repeating longpoll on t'+ response.tablenum)			
-							$scope.logPollTable()	//loop till change view	(or table)
+							$rootScope.logPollTable()	//loop till change view	(or table)
 						}else{
 							console.log('board not displayed (viewName: '+ $scope.viewName+'), discontinuing longpoll for table ' + response.tablenum)
 							
@@ -146,7 +146,7 @@
 			console.log('tableNum changed, calling new longpoll on t'+ num + ', forcePop on t'+oldNum)
 			
 			$http.get('/forcePopTable?t='+oldNum+'&p='+$rootScope.loginName+'&m=Went to t'+num)
-			$scope.logPollTable()
+			$rootScope.logPollTable()
 			
 			//$scope.refreshTable()
 		}
@@ -372,7 +372,7 @@
 					if(!(response.tablepollnum == $rootScope.pollNum)) {
 						$rootScope.pollNum = response.tablepollnum
 						//console.log('calling getandshow')
-						$scope.logPollTable()
+						$rootScope.logPollTable()
 						if(!$scope.$$phase) {
 								$scope.$apply()
 							}
@@ -430,7 +430,7 @@
 			if(viewName == 'board.html') {
 				$scope.refreshRecentGames()
 				console.log('View changed to board, calling longpoll on t'+$rootScope.tableNum)
-				$scope.logPollTable()		//start longpoll
+				$rootScope.logPollTable()		//start longpoll
 				if($scope.wPlayer){
 						$scope.drTable("wtable.html")
 				}else{
