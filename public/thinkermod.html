@@ -324,10 +324,11 @@
 
                     if (wMod) {
                         console.log('Starting rematch (play black)')
+                       $rootScope.sendMessage('Starting rematch (play black)')
                         $timeout($rootScope.learnerPair(mt, mv, true), 500)
                     } else {
-                        console.log('gamepair done')
-                        
+                        console.log('gamepair done, starting again with white')
+                         $rootScope.sendMessage('gamepair done, starting again with white')
                          $timeout($rootScope.startGamePair(), 500)
                         
  
@@ -375,7 +376,7 @@
                             $rootScope.mv = modVal
                             $rootScope.mt = modType
 
-                            $rootScope.sendMessage('starting game, playing white')
+                            $rootScope.sendMessage('start learning...')
                             $rootScope.learnerPair(modType, modVal) //this will call another game with black when done
                         })
             }
