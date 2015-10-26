@@ -147,7 +147,7 @@
                 $http.get('/startGame?w=' + initedTable.wName + "&b=" + initedTable.bName)
                     .then(function(response) {
 
-                        console.log('tableNum received: ' + tableNum)
+                        console.log('tableNum received: ' + response.data.tableNum)
                         initedTable.tableNum = response.data.tableNum
 
 
