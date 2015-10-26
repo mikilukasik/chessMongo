@@ -188,10 +188,20 @@
                 //$rootScope.whatToDo = 'busy'
                 console.log('thinking of some move..')
                 var result = []
-                if (wNx == wMod) {
-                    result = ai(myGame.table, myGame.wNext, myGame.allPastTables, mt, mv) //get modded result
-                } else {
-                    result = ai(myGame.table, myGame.wNext, myGame.allPastTables)
+                
+                if($rootScope.learning){
+                
+                    
+                    if (wNx == wMod) {
+                        result = ai(myGame.table, myGame.wNext, myGame.allPastTables, mt, mv) //get modded result
+                    } else {
+                        result = ai(myGame.table, myGame.wNext, myGame.allPastTables)
+                    }
+                
+                
+                }else{
+                    //kikapcs
+                    
                 }
                 //$rootScope.moveTook = result[0][2] //timeItTook
                 // $rootScope.totalTook= Number($rootScope.totalTook) + Number(result[0][2])
@@ -240,7 +250,7 @@
 
                 console.log(' DONE. ')
 
-                if (myGame.gameIsOn) {
+                if (myGame.gameIsOn&&$rootScope.learning) {
                     console.log('Will move ' + aiMoveString)
 
                     moveInTable(aiMoveString, myGame)
@@ -290,8 +300,8 @@
                     
                 }
                 // 	
-
-                if (myGame.gameIsOn) {
+ //if($rootScope.learning){
+                if (myGame.gameIsOn&&$rootScope.learning) {
                     $http.get('/move?s=1&m=' + aiMoveString + '&t=' + myGame.tableNum)
                         .then(function(response) {
                             // $http.get('/learnerPoll?n=' + $scope.cookieID +
@@ -370,7 +380,8 @@
             }
             
             $rootScope.startGamePair=function(){
-                  $http.get('/getModType').then(function(response) {
+                 if($rootScope.learning){
+                      $http.get('/getModType').then(function(response) {
                             modType = response.data.modType
                             modVal = Math.random() * 100
                             $rootScope.mv = modVal
@@ -379,6 +390,10 @@
                             $rootScope.sendMessage('start learning...')
                             $rootScope.learnerPair(modType, modVal) //this will call another game with black when done
                         })
+                        
+                        
+                        
+            }
             }
             
             $rootScope.doTask = function(task) {
@@ -386,7 +401,7 @@
 
                 switch (task.command) {
                     case "learnStart":
-
+                        $rootScope.learning=true
                         $rootScope.startGamePair()
                                             
 
@@ -394,6 +409,20 @@
                         //$rootScope.learnerPair()
 
                         break;
+                        
+                        
+                        case "learnStop":
+                        $rootScope.learning=false
+                      //  $rootScope.startGamePair()
+                                            
+
+
+                        //$rootScope.learnerPair()
+
+                        break;
+                        
+                        
+                        
                     case "refresh":
 
                         console.log(task.message)
