@@ -88,16 +88,17 @@
             ///////
             $rootScope.pollOn = true
             $rootScope.messages = ["Starting..."]
-            var succeeded = 0
+            $rootScope.succeeded = 0
             $rootScope.refreshWhenUp = function() {
 
                 $http.get('/forceStop?t=' + $rootScope.tableNum)
                     .then(function(response) {
                         $rootScope.setCookies()
-                        succeeded++
+                        $rootScope.succeeded++
                         //$rootScope.sendMessage('connection came back, will restart soon..')
                         $rootScope.receivedMessage = 'restart in 10s'
-                        if (succeeded > 3) { //server must be running
+                        if ($rootScope.succeeded > 3) { //server must be running
+                            $rootScope.succeeded = 0
                             window.location.reload(true); //$rootScope.sendMessage('looped, forceStop sent')
                         } else {
 
@@ -107,7 +108,7 @@
 
                     }, function(data) {
                         $rootScope.receivedMessage = 'connection error, 3s retry'
-                        succeeded = 0
+                        $rootScope.succeeded = 0
                         $timeout($rootScope.refreshWhenUp(), 3000)
                     })
             }
