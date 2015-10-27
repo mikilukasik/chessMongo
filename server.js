@@ -834,33 +834,47 @@ app.get('/move', function(req, res) {
 					//var toPush = 
 
 					// if(!(toPush==tableInDb.moves[tableInDb.moves.length-1])){
-					
-					if(proper){
-						tableInDb.moves.push(getPushString(tableInDb.table,moveStr))		//getPushString external, en passed when table is ok
-					}else{
-						tableInDb.moves.push("00"+moveStr+"00")
-					}
-					
-					if(proper) tableInDb.table = moveIt(moveStr, tableInDb.table)		//ezt is elhagyhatnank ha !proper, needs eval after!!
-
+						
 					tableInDb.wNext = !tableInDb.wNext
 
 					//tableInDb.pollNum++ //<---- majd increment a checkTableStatus ha kiertekelte	//nemis
 
-					if(proper)evalGame(tableInDb)
+					//if(proper)evalGame(tableInDb)
 
 					tableInDb.pollNum++
+					
+					
+					if(proper){
+						
+						tableInDb.moves.push(getPushString(tableInDb.table,moveStr))		//getPushString external, en passed when table is ok
+						
+						tableInDb.table = moveIt(moveStr, tableInDb.table)
+						
+						evalGame(tableInDb)
+						
+						tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
+						
+						tableInDb.allPastTables.push(createState(tableInDb.table))
+						
+						
+					}else{
+						tableInDb.moves.push("00"+moveStr+"00")
+					}
+					
+					//if(proper) tableInDb.table = moveIt(moveStr, tableInDb.table)		//ezt is elhagyhatnank ha !proper, needs eval after!!
+
+					
 
 						
 
 					tableInDb.moved = new Date().getTime()
 
 					//if(proper)//kell az allpasttablehoz
-					if(proper)tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
+					//if(proper)tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
 
 					//remember this state for 3fold rule
 
-					if(proper)tableInDb.allPastTables.push(createState(tableInDb.table))		//we'll have all moves anyway
+					//if(proper)tableInDb.allPastTables.push(createState(tableInDb.table))		//we'll have all moves anyway
 
 					popThem(req.query.t, tableInDb, 'moved', 'Player moved: ' + moveStr) //respond to pending longpolls
 
