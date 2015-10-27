@@ -1361,7 +1361,7 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 	
 	if (origData[0]>1){
 		dontLoop=true
-		console.log('nem loopolok')
+		console.log('nem loopolhatok')
 	}
 
 	var origTableValue = origData[0]
@@ -1421,8 +1421,9 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 			
 			
 			
-			if(dontLoop) loopedValue-=1000
+			if(dontLoop) {loopedValue-=2000
 			
+						 console.log('dontloop: -2000')}
 			
 			
 			if(counted >3){
@@ -1541,9 +1542,12 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 					//3szorra lephetne ugyanabba a statuszba
 					//ideiglenesen ne
 					if (dontLoop){
-						 loopedValue-=100
+						 loopedValue-=1000
+						 console.log('dontloop: -1000')
 					}else{
-						forceLoopValue+=0.5		
+						forceLoopValue+=0.5	
+						
+						 console.log('forceLoopValue+=0.5')	
 					}
 					
 					looped=true
