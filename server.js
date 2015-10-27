@@ -1823,9 +1823,9 @@ app.get('/longPollTasks', function(req, res) {
 	
 	if(checkIfPending(req.query.id)){
 		
-		sendTask(new Task('ping',0,'normal ping'),req.query.id)
+		//sendTask(new Task('ping',0,'normal ping'),req.query.id)
 		
-		
+		clearPending(req.query.id)
 		
 		// if(req.query.type='ping'){
 		// 	res.json({
