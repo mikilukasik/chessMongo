@@ -1933,7 +1933,7 @@ function helpMe(wp) {
 
 
 
- function processSplitMoves(data) {
+ function processSplitMoves(data,thinker) {
 
                 //var result=[]
                 var newData = []
@@ -1943,7 +1943,7 @@ function helpMe(wp) {
                     var toPush = processMove(data.pop())
 
 
-                    toPush.thinker = $rootScope.sendID
+                    toPush.thinker = thinker
 
                     newData.push(toPush)
                 }

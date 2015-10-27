@@ -429,7 +429,7 @@
 
                     case "splitMove":
 
-                        var postThis = processSplitMoves(task.data)
+                        var postThis = processSplitMoves(task.data, $rootScope.sendID)
 
                         $http.post('/myPartIsDone', postThis, function(req, res) {
 
