@@ -1905,7 +1905,7 @@ var newAi=function(dbTable, modType, modVal){
 	
 	
 	
-	solvedMoves.unShift([true,new Date().getTime()-started])
+	solvedMoves.unshift([true,new Date().getTime()-started])
 	
 	return solvedMoves
 }
