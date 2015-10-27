@@ -33,7 +33,7 @@ function dbAi(dbTable){
 		
 		
 	}
-function moveInTable(moveStr,dbTable){
+function moveInTable(moveStr,dbTable, isLearner){
 		
 		var toPush =  getPushString(dbTable.table,moveStr)//piece
 
@@ -70,7 +70,7 @@ function moveInTable(moveStr,dbTable){
 			
 			
 			//})
-			evalGame(dbTable,true)	//true should tell it was learnergame, not yet
+			if(!isLearner)evalGame(dbTable)	//true should tell it was learnergame, not yet
 			
 			
 			
