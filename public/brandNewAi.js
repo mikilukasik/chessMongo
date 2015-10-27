@@ -1419,15 +1419,22 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 			//ideiglenesen ne
 			////// console.log ('i could 3fold '+counted)
 			
+			console.log('counted >1')
 			
+			if(dontLoop) {
+				
+						loopedValue-=2000
 			
-			if(dontLoop) {loopedValue-=2000
-			
-						 console.log('dontloop: -2000')}
+						console.log('dontloop: -2000')
+						 
+						 }
 			
 			
 			if(counted >3){
 				//surely looped
+				
+				console.log('counted >3')
+				
 				looped=true
 				
 			}
@@ -1543,11 +1550,11 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 					//ideiglenesen ne
 					if (dontLoop){
 						 loopedValue-=11000
-						 console.log('dontloop: -11000')
+						 console.log('temprettable:   loopedValue-=11000')
 					}else{
 						forceLoopValue+=0.5	
 						
-						 console.log('forceLoopValue+=0.5')	
+						 console.log('temprettable:   forceLoopValue+=0.5')	
 					}
 					
 					looped=true
