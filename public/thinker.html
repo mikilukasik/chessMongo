@@ -368,7 +368,7 @@
 
 
 
-            function processSplitMove(data) {
+            function processSplitMoves(data) {
 
                 //var result=[]
                 var newData = []
@@ -446,7 +446,7 @@
 
                     case "splitMove":
 
-                        var postThis = processSplitMove(task.data)
+                        var postThis = processSplitMoves(task.data)
 
                         $http.post('/myPartIsDone', postThis, function(req, res) {
 
