@@ -1891,6 +1891,29 @@ function ai(tablE, wn, allPast, modType, modVal) {
 
 }
 
+
+var newAi=function(dbTable, modType, modVal){
+	
+	var aiTable=new MoveTask(dbTable)
+	var solvedMoves=processSplitMoves(aiTable.movesToSend)
+	
+	console.log(solvedMoves)
+	
+	
+}
+
+ function moveSorter(a,b){
+						if (Number(b.score)>Number(a.score)){
+							return 1
+						}else{
+							if(Number(b.score)==Number(a.score)){
+								return 0
+							}
+							
+							return -1
+						}
+					}
+
 function helpMe(wp) {
 	//// console.log('MOVE SCORE    first    second')
 	ai(table, wp).forEach(function(thisline) {
@@ -1908,6 +1931,31 @@ function helpMe(wp) {
 //					new ai functions	
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
+ function processSplitMoves(data) {
+
+                //var result=[]
+                var newData = []
+
+                while (data.length > 0) {
+
+                    var toPush = processMove(data.pop())
+
+
+                    toPush.thinker = $rootScope.sendID
+
+                    newData.push(toPush)
+                }
+
+
+                return newData
+            }
+			
+			
+			
+			
+			
 
 function processMove(move,modType,modVal){
 		

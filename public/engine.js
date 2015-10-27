@@ -56,6 +56,7 @@ var SmallMoveTask=function(moveCoord, index, dbTable){
 	
 }
 
+
 var MoveTask =function(dbTable){
 	
 	//this.rnd=Math.random()
@@ -85,22 +86,8 @@ var MoveTask =function(dbTable){
 	
 	
 	
-	// this.origTableValue = this.origData[0]
-	// this.origMyHitValue = this.origData[1]
-	// this.origHisHitValue = this.origData[2]
-	// this.origlSanc = this.origData[3]
-	// this.origrSanc = this.origData[4]
-	// this.origGetToMiddle=this.origData[5]
-	// this.origPushHimBack=this.origData[6]
-	// this.origMostMoved=this.origData[7]
 	
-	// this.fHitValue=[0]
-
 	var moves=[]
-	// var movesToSend=[]
-	
-	//var cfMoves=[]
-	//dbTable.value=getTableData(dbTable.table,dbTable.wNext)
 	
 	moveCoords.forEach(function(moveCoord,index){
 		moves.push(new SmallMoveTask(moveCoord, index, dbTable))
@@ -111,8 +98,7 @@ var MoveTask =function(dbTable){
 	
 	this.movesToSend=moves.slice()		//copy it, these we vill sen out
 	
-	//var movesToSend=movesToSend
-	//this.coords
+	
 	this.moves=moves
 	
 	// this.movesLeftToSend=function(){
