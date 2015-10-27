@@ -1985,7 +1985,11 @@ function processMove(move,modType,modVal){
 			
 			
 			
-			if(dontLoop) loopedValue-=1000
+			if(dontLoop){
+				 loopedValue-=1000
+				 
+				 console.log(' loopedValue-=1000')
+			}
 			
 			
 			
