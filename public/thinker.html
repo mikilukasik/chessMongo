@@ -70,7 +70,7 @@
 
 
                 })
-                evalGame(myGame, true) //true should only!!!!tells it was learnergame
+                evalGame(myGame) 
 
 
                 if (learnerLooped(myGame.allPastTables)) myGame.isDraw = true
@@ -290,8 +290,12 @@
 
                     //}
                 } else {
-                    console.log('Game finished, evaluating..')
+                    console.log('Game finished on table '+myGame.tableNum+', evaluating..')
                     evalGame(myGame)
+                    console.log('gameIsOn: '+myGame.gameIsOn)
+                    console.log('whiteWon: '+myGame.whiteWon)
+                    console.log('blackWon: '+myGame.blackWon)
+                    console.log('isDraw: '+myGame.blackWon)
                     
                     //post it here
                     
