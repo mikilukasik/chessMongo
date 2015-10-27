@@ -1542,8 +1542,8 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 					//3szorra lephetne ugyanabba a statuszba
 					//ideiglenesen ne
 					if (dontLoop){
-						 loopedValue-=1000
-						 console.log('dontloop: -1000')
+						 loopedValue-=11000
+						 console.log('dontloop: -11000')
 					}else{
 						forceLoopValue+=0.5	
 						
