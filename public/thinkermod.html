@@ -70,7 +70,7 @@
 
 
                 })
-                evalGame(myGame, true) //true should only!!!!tells it was learnergame
+                evalGame(myGame) 
 
 
                 if (learnerLooped(myGame.allPastTables)) myGame.isDraw = true
@@ -88,16 +88,17 @@
             ///////
             $rootScope.pollOn = true
             $rootScope.messages = ["Starting..."]
-            var succeeded = 0
+            $rootScope.succeeded = 0
             $rootScope.refreshWhenUp = function() {
 
                 $http.get('/forceStop?t=' + $rootScope.tableNum)
                     .then(function(response) {
                         $rootScope.setCookies()
-                        succeeded++
+                        $rootScope.succeeded++
                         //$rootScope.sendMessage('connection came back, will restart soon..')
                         $rootScope.receivedMessage = 'restart in 10s'
-                        if (succeeded > 3) { //server must be running
+                        if ($rootScope.succeeded > 3) { //server must be running
+                            $rootScope.succeeded = 0
                             window.location.reload(true); //$rootScope.sendMessage('looped, forceStop sent')
                         } else {
 
@@ -107,7 +108,7 @@
 
                     }, function(data) {
                         $rootScope.receivedMessage = 'connection error, 3s retry'
-                        succeeded = 0
+                        $rootScope.succeeded = 0
                         $timeout($rootScope.refreshWhenUp(), 3000)
                     })
             }
@@ -244,7 +245,7 @@
                 } else { //can't move
 
                     //eval
-                    console.log('will run into eval bit')
+                    console.log('will run into eval bit - someone won!')
 
                     myGame.gameIsOn = false
 
@@ -256,7 +257,7 @@
                 if (myGame.gameIsOn) {
                     console.log('Will move ' + aiMoveString)
 
-                    moveInTable(aiMoveString, myGame)
+                    moveInTable(aiMoveString, myGame, true) //true means learnerGame,no need to eval within moveintable
 
 
                     ///replace this!!!
@@ -290,8 +291,12 @@
 
                     //}
                 } else {
-                    console.log('Game finished, evaluating..')
+                    console.log('Game finished on table '+myGame.tableNum+', evaluating..')
                     evalGame(myGame)
+                    console.log('gameIsOn: '+myGame.gameIsOn)
+                    console.log('whiteWon: '+myGame.whiteWon)
+                    console.log('blackWon: '+myGame.blackWon)
+                    console.log('isDraw: '+myGame.blackWon)
                     
                     //post it here
                     
@@ -363,24 +368,7 @@
 
 
 
-            function processSplitMove(data) {
-
-                //var result=[]
-                var newData = []
-
-                while (data.length > 0) {
-
-                    var toPush = processMove(data.pop())
-
-
-                    toPush.thinker = $rootScope.sendID
-
-                    newData.push(toPush)
-                }
-
-
-                return newData
-            }
+          
             
             $rootScope.startGamePair=function(){
                  if($rootScope.learning){
@@ -396,7 +384,7 @@
                         
                         
                         
-            }
+                }
             }
             
             $rootScope.doTask = function(task) {
@@ -441,7 +429,7 @@
 
                     case "splitMove":
 
-                        var postThis = processSplitMove(task.data)
+                        var postThis = processSplitMoves(task.data, $rootScope.sendID)
 
                         $http.post('/myPartIsDone', postThis, function(req, res) {
 
@@ -501,7 +489,8 @@
 
 
                         //  if($rootScope.idle){
-                        if ($rootScope.pollOn && response.data.command != 'ping') longPollTasks() //recall for new task, server will hold any new task until this one finishes
+                        //if ($rootScope.pollOn && response.data.command != 'ping') 
+                        longPollTasks() //recall for new task, server will hold any new task until this one finishes
                             //}
                     }, function(data) {
                         //error, retry

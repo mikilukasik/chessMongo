@@ -1908,6 +1908,7 @@ var newAi=function(dbTable, modType, modVal){
 	solvedMoves.unshift([true,true,new Date().getTime()-started])
 	
 	return solvedMoves
+	
 }
 
  function moveSorter(a,b){
