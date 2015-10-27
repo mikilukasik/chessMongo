@@ -23,11 +23,11 @@ app.get('/aiChoice', function(req, res) {
 
 			if(!(tableFromDb == null)) {
 
-				var result = ai(tableFromDb.table, tableFromDb.wNext, tableFromDb.allPastTables, req.query.mt, req.query.mv)			//		ai	<------------
+				var result = newAi(tableFromDb, req.query.mt, req.query.mv)			//		ai	<------------
 
 				if(result.length > 1) { //if there are any moves
 
-					var aiMoveString = result[1][0] // the winning movestring
+					var aiMoveString = result[1].move // the winning movestring
 
 					var toConsole = [] //to chat?
 
@@ -66,7 +66,8 @@ app.get('/aiChoice', function(req, res) {
 							
 						// }else{
 
-							toConsole[i] = 	'Move:'+result[i][0] + ' RMv:'+result[i][2]+ ','+	'Val:'+result[i][1]+ 'a' //+
+							toConsole[i] = 	'Move:'+result[i].move //+ ' RMv:'+result[i][2]
+							+ ', '+	'Val:'+result[i].score//+ 'a' //+
 										// //' RMv:'+result[i][2]+ ',' +
 										// ' lpV:'+result[i][3]+ ',' +
 										// ' cpS:'+result[i][4]+ ',' +//
