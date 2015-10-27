@@ -1894,12 +1894,20 @@ function ai(tablE, wn, allPast, modType, modVal) {
 
 var newAi=function(dbTable, modType, modVal){
 	
+	var started=new Date().getTime()
+	
 	var aiTable=new MoveTask(dbTable)
 	var solvedMoves=processSplitMoves(aiTable.movesToSend)
 	
 	console.log(solvedMoves)
 	
+	solvedMoves.sort(moveSorter)
 	
+	
+	
+	solvedMoves.unShift([true,new Date().getTime()-started])
+	
+	return solvedMoves
 }
 
  function moveSorter(a,b){
