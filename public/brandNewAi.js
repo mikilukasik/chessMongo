@@ -1361,6 +1361,7 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 	
 	if (origData[0]>1){
 		dontLoop=true
+		console.log('nem loopolok')
 	}
 
 	var origTableValue = origData[0]
