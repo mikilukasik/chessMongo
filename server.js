@@ -680,7 +680,7 @@ app.post('/myPartIsDone',function(req,res){
 				if(splitTaskQ[index].pendingSolvedMoves==0){
 					//all moves solved, check best and make a move
 					splitTaskQ[index].returnedMoves.sort(
-						moveSorter(a,b)	
+						moveSorter()	
 					) 
 					
 					
