@@ -1895,11 +1895,18 @@ function ai(tablE, wn, allPast, modType, modVal) {
 
 
 var newAi=function(dbTable, modType, modVal,thinker){
+	var modConst=1
+	
+	if(modVal<=50){
+			modConst=modVal/50
+		}else{
+			modConst=1/((100-modVal)/50)
+		}
 	
 	var started=new Date().getTime()
 	
 	var aiTable=new MoveTask(dbTable)
-	var solvedMoves=processSplitMoves(aiTable.movesToSend,thinker,modType,modVal)
+	var solvedMoves=processSplitMoves(aiTable.movesToSend,thinker,modType,modConst)
 	
 	//console.log(solvedMoves)
 	
