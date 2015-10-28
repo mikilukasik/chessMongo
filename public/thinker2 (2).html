@@ -83,7 +83,7 @@
 
 
 
-            $rootScope.mySpeed = 60000 / (ai(new Dbtable(1, 'a', 'b').table, true, [])[0][2])       //speed testing, replace!!!!!!
+            $rootScope.mySpeed = 60000 / (ai(new Dbtable(1, 'a', 'b').table, true, [])[0][2])
 
             ///////
             $rootScope.pollOn = true
@@ -197,9 +197,9 @@
                 
                     
                     if (wNx == wMod) {
-                        result = newAi(myGame, mt, mv, $rootScope.sendID) //get modded result
+                        result = ai(myGame.table, myGame.wNext, myGame.allPastTables, mt, mv) //get modded result
                     } else {
-                        result = newAi(myGame)
+                        result = ai(myGame.table, myGame.wNext, myGame.allPastTables)
                     }
                 
                 
@@ -229,16 +229,16 @@
 
                 if (result.length > 1) { //if there are any moves
 
-                    var aiMoveString = result[1].move // the winning movestring
+                    var aiMoveString = result[1][0] // the winning movestring
 
                     var toConsole = [] //to chat?
 
 
-                    // for (var i = 1; i < result.length; i++) {
+                    for (var i = 1; i < result.length; i++) {
 
-                    //     toConsole[i] = 'found move:' + result[i][0] + ' RMv:' + result[i][2] + ',' + 'Val:' + result[i][1] + 'a' //+
+                        toConsole[i] = 'found move:' + result[i][0] + ' RMv:' + result[i][2] + ',' + 'Val:' + result[i][1] + 'a' //+
 
-                    // }
+                    }
 
 
                     $rootScope.whatToDo = 'idle'
