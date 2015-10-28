@@ -293,16 +293,12 @@
                 } else {
                     console.log('Game finished on table '+myGame.tableNum+', evaluating..')
                     evalGame(myGame)
-                    console.log('gameIsOn: '+myGame.gameIsOn)
-                    console.log('whiteWon: '+myGame.whiteWon)
-                    console.log('blackWon: '+myGame.blackWon)
-                    console.log('isDraw: '+myGame.blackWon)
+                    
+                    console.log(myGame)
                     
                     //post it here
                     
-                    $http.post('/moved',myGame,function(req,res){
-                        
-                    })
+                    $http.post('/moved',myGame,function(req,res){})
                     
                     
                     
@@ -312,6 +308,19 @@
                 if (myGame.gameIsOn) {
                     $http.get('/move?s=1&m=' + aiMoveString + '&t=' + myGame.tableNum)
                         .then(function(response) {
+                            
+                            
+                            
+                            
+                            //temp
+                            $http.post('/moved',myGame,function(req,res){})
+                            //temp
+                            
+                            
+                            
+                            
+                            
+                            
                             // $http.get('/learnerPoll?n=' + $scope.cookieID +
                             //     '&t=' + $rootScope.tableNum +
                             //     '&mt=' + $rootScope.mt +
