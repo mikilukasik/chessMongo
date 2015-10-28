@@ -10,10 +10,10 @@ var dontHitConst = 0.8
 var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
 function dbAi(dbTable){
 		
-		 var retMove=ai(dbTable.table,dbTable.wNext,dbTable.allPastTables)
+		 var retMove=newAi(dbTable)
 					 
 					 	var moveStr=""
-						 if(retMove.length>1)moveStr=retMove[1][0]
+						 if(retMove.length>1)moveStr=retMove[1].move
 						
 		
 		dbTable=moveInTable(moveStr,dbTable)		
