@@ -1892,12 +1892,12 @@ function ai(tablE, wn, allPast, modType, modVal) {
 }
 
 
-var newAi=function(dbTable, modType, modVal){
+var newAi=function(dbTable, modType, modVal,thinker){
 	
 	var started=new Date().getTime()
 	
 	var aiTable=new MoveTask(dbTable)
-	var solvedMoves=processSplitMoves(aiTable.movesToSend)
+	var solvedMoves=processSplitMoves(aiTable.movesToSend,thinker,modType,modVal)
 	
 	console.log(solvedMoves)
 	
