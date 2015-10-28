@@ -1942,14 +1942,14 @@ function helpMe(wp) {
 
 
 
- function processSplitMoves(data,thinker) {
+ function processSplitMoves(data,thinker,mt,mv) {
 
                 //var result=[]
                 var newData = []
 
                 while (data.length > 0) {
 
-                    var toPush = processMove(data.pop())
+                    var toPush = processMove(data.pop(),mt,mv)
 
 
                     toPush.thinker = thinker
