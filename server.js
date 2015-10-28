@@ -2142,7 +2142,7 @@ app.get('/stats.txt', function(req, res) {
 											var wonScore = 0
 											var resText=''
 											resText=resText.concat('t'+bModGame.tableNum)
-											if(bModGame.blacWon) {
+											if(bModGame.blackWon) {
 												wonScore++
 												resText=resText.concat(' black won, ')
 											} else {
