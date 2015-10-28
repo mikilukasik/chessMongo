@@ -1894,14 +1894,14 @@ function ai(tablE, wn, allPast, modType, modVal) {
 }
 
 
-var newAi=function(dbTable, modType, modVal,thinker){
-	var modConst=1
+var newAi=function(dbTable, modType, modConst,thinker){
+	// var modConst=1
 	
-	if(modVal<=50){
-			modConst=modVal/50
-		}else{
-			modConst=1/((100-modVal)/50)
-		}
+	// if(modVal<=50){
+	// 		modConst=modVal/50
+	// 	}else{
+	// 		modConst=1/((100-modVal)/50)
+	// 	}
 	
 	var started=new Date().getTime()
 	
@@ -1918,6 +1918,21 @@ var newAi=function(dbTable, modType, modVal,thinker){
 	
 	return solvedMoves
 	
+}
+
+function getMcFromMv(modVal){
+	//var modConst=getMcFromMv(modVal)  
+                  
+                var modConst=1
+	
+                if(modVal<=50){
+                    modConst=modVal/50
+                }else{
+                    modConst=1/((100-modVal)/50)
+                }
+                modConst=modConst*modConst*modConst
+				
+				return modConst
 }
 
  function moveSorter(a,b){
@@ -1951,14 +1966,14 @@ function helpMe(wp) {
 
 
 
- function processSplitMoves(data,thinker,mt,mv) {
+ function processSplitMoves(data,thinker,mt,modConst) {
 
                 //var result=[]
                 var newData = []
 
                 while (data.length > 0) {
 
-                    var toPush = processMove(data.pop(),mt,mv)
+                    var toPush = processMove(data.pop(),mt,modConst)
 
 
                     toPush.thinker = thinker
@@ -1975,7 +1990,7 @@ function helpMe(wp) {
 			
 			
 
-function processMove(move,modType,modVal){
+function processMove(move,modType,modConst){
 		
 		//var result=[]
 		//var modType=""
@@ -2399,85 +2414,85 @@ function processMove(move,modType,modVal){
 			
 			case "lpV":
 				
-				loopValue*= modVal
-				//console.log('lpV modded: '+modVal)
+				loopValue*= modConst
+				//console.log('lpV modded: '+modConst)
 			break;
 			
 			case "cpt":
 			
-				captureScore*= modVal
+				captureScore*= modConst
 				
 			break;
 			
 			case "tt2":
 			
-				tTable2Value*= modVal
+				tTable2Value*= modConst
 				
 			break;
 			
 			case "sVS":
 			
-				smallValScore*= modVal
+				smallValScore*= modConst
 				
 			break;
 			
 			
 			case "dGH":
 			
-				dontGetHit*= modVal
+				dontGetHit*= modConst
 				
 			break;
 			
 			
 			case "rPr":
 			
-				retProtect*= modVal
+				retProtect*= modConst
 				
 			break;
 			
 			
 			case "mht":
 			
-				mhit*= modVal
+				mhit*= modConst
 				
 			break;
 			
 			
 			case "hht":
 			
-				hhit*= modVal
+				hhit*= modConst
 				
 			break;
 			
 			case "mMv":
 			
-				mostMoved*= modVal
+				mostMoved*= modConst
 				
 			break;
 			
 			case "pHB":
 			
-				pushHimBack*= modVal
+				pushHimBack*= modConst
 				
 			break;
 			
 			case "gTM":
 			
-				getToMiddle*= modVal
+				getToMiddle*= modConst
 				
 			break;
 			
 			case "fwV":
 			
-				fwdVal*= modVal
+				fwdVal*= modConst
 				
 			break;
 			
 			case "scV":
 			
-							lsancValue*= modVal
-							rsancValue*= modVal
-							sancValue*= modVal
+							lsancValue*= modConst
+							rsancValue*= modConst
+							sancValue*= modConst
 				
 			break;
 			
