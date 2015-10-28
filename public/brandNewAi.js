@@ -1801,14 +1801,14 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 			break;
 			
 			
-			case "mht":
+			case "mHt":
 			
 				mhit*= modConst
 				
 			break;
 			
 			
-			case "hht":
+			case "hHt":
 			
 				hhit*= modConst
 				
@@ -2451,14 +2451,14 @@ function processMove(move,modType,modConst){
 			break;
 			
 			
-			case "mht":
+			case "mHt":
 			
 				mhit*= modConst
 				
 			break;
 			
 			
-			case "hht":
+			case "hHt":
 			
 				hhit*= modConst
 				
