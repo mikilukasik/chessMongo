@@ -2393,7 +2393,7 @@ function processMove(move,modType,modVal){
 			case "lpV":
 				
 				loopValue*= modVal
-			
+				console.log('lpV modded')
 			break;
 			
 			case "cpt":
