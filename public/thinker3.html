@@ -188,20 +188,16 @@
                          $rootScope.playgame2(myGame, mt, mv, wNx, wMod) 
                     }
                }
-            $rootScope.playgame2 = function(myGame, mt, modVal, wNx, wMod) {
+            $rootScope.playgame2 = function(myGame, mt, mv, wNx, wMod) {
                 //$rootScope.whatToDo = 'busy'
                 console.log('thinking of some move..')
                 var result = []
                 
               //  if($rootScope.learning){
-                var modConst=getMcFromMv(modVal)  
-                  
-              
                 
-                console.log('modVal: '+modVal+', modConst: '+modConst)
                     
                     if (wNx == wMod) {
-                        result = newAi(myGame, mt, modConst, $rootScope.sendID) //get modded result   //dont need $rootScope.sendID!!!!
+                        result = newAi(myGame, mt, mv, $rootScope.sendID) //get modded result
                     } else {
                         result = newAi(myGame)
                     }
@@ -298,13 +294,6 @@
                     console.log('Game finished on table '+myGame.tableNum+', evaluating..')
                     evalGame(myGame)
                     
-                    myGame.learnerStats={
-                        modType: mt,
-                        modVal: modVal,
-                        modConst: modConst
-                        
-                    }
-                    
                     console.log(myGame)
                     
                     //post it here
@@ -346,7 +335,7 @@
 
                             //     $rootScope.refreshWhenUp()
                             // })
-                               $rootScope.playgame(myGame, mt, modVal, !wNx, wMod)
+                               $rootScope.playgame(myGame, mt, mv, !wNx, wMod)
 
                         }, function(data) {
                             $rootScope.headMessage = 'Connection error, refreshing'
@@ -363,7 +352,7 @@
                     if (wMod) {
                         console.log('Starting rematch (play black)')
                        $rootScope.sendMessage('Starting rematch (play black)')
-                        $timeout($rootScope.learnerPair(mt, modVal, true), 500)
+                        $timeout($rootScope.learnerPair(mt, mv, true), 500)
                     } else {
                         console.log('gamepair done, starting again with white')
                          $rootScope.sendMessage('gamepair done, starting again with white')
@@ -393,8 +382,8 @@
             $rootScope.startGamePair=function(){
                  if($rootScope.learning){
                       $http.get('/getModType').then(function(response) {
-                            var modType = response.data.modType
-                            var modVal = Math.random() * 100
+                            modType = response.data.modType
+                            modVal = Math.random() * 100
                             $rootScope.mv = modVal
                             $rootScope.mt = modType
 
