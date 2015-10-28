@@ -1886,7 +1886,7 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 }
 
 function ai(tablE, wn, allPast, modType, modVal) {
-
+	console.log('old ai func called!!!!!')
 	return createAiTable(tablE, wn, false, allPast, modType, modVal)
 
 }
