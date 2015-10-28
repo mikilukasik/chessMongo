@@ -1998,6 +1998,13 @@ function processMove(move,modType,modVal){
 		
 		var origProtect=move.origProtect
 		
+		var dontLoop=false
+		
+		if (origData[0]>1){
+			dontLoop=true
+			console.log('nem loopolhatok')
+		}
+		
 		
 		
 		//var d
