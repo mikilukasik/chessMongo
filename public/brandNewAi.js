@@ -1899,7 +1899,7 @@ var newAi=function(dbTable, modType, modVal,thinker){
 	var aiTable=new MoveTask(dbTable)
 	var solvedMoves=processSplitMoves(aiTable.movesToSend,thinker,modType,modVal)
 	
-	console.log(solvedMoves)
+	//console.log(solvedMoves)
 	
 	solvedMoves.sort(moveSorter)
 	
