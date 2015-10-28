@@ -995,8 +995,10 @@ function evalGame(tableInDb) {
 			if(tableInDb.wNext) {
 
 				tableInDb.blackWon = true
+				tableInDb.isDraw = false
 			} else {
 				tableInDb.whiteWon = true
+				tableInDb.isDraw = false
 			}
 		} else {
 			tableInDb.isDraw = true
