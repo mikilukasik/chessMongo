@@ -2520,13 +2520,13 @@ function processMove(move,modType,modConst,looped){
 		var pushThisValue = 
 		
 							tTable2Value + 
-							loopValue + 
+							loopValue*0.830584 + //from stats1
 							captureScore + //fHitValue +
 							smallValScore+
 							dontGetHit+
-							retProtect*0.57184+		//from stats
+							retProtect*0.57184+		//from stats1
 							mhit+
-							hhit+
+							hhit * 4.1959+		//from stats1
 							fwdVal+
 							lsancValue+
 							rsancValue+
