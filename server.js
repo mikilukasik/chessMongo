@@ -2177,6 +2177,12 @@ app.get('/stats.txt', function(req, res) {
 
 											//var resArray=["wonScore",String.fromCharCode(9),"modVal",String.fromCharCode(9),"modType",String.fromCharCode(13)]
 											resArray=[]
+											
+											if(wModGame.finalData!=undefined&&bModGame.finalData!=undefined) {
+												if(bModGame.finalData.black!=undefined) wonScore+=wModGame.finalData.white[0]/100+bModGame.finalData.black[0]/100
+											}
+											
+											
 											resArray.push(wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9), resText, String.fromCharCode(13)) //to be fixed
 											//////// console.log([wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9)])
 											res.write(resArray.join(''));
