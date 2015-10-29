@@ -993,7 +993,7 @@ function evalGame(tableInDb) {
 		
 		tableInDb.finalData={
 			white: getTableData(tableInDb.table,true),
-			black:getTableData(tableInDb.table,false)
+			black: getTableData(tableInDb.table,false)
 		}
 		
 		if(captured(tableInDb.table, tableInDb.wNext)) {
