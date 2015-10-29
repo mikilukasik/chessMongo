@@ -335,8 +335,10 @@
              //               $http.post('/moved',myGame,function(req,res){})
                             //temp
                             
-                            
-                            
+                            if(myGame.pollNum/15==Math.floor(myGame.pollNum/15)){
+                                 $http.post('/moved',myGame,function(req,res){})
+                            }
+                           
                             
                             
                             
