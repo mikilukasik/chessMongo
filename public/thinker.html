@@ -83,8 +83,13 @@
 
 
 
-            $rootScope.mySpeed = 60000 / (ai(new Dbtable(1, 'a', 'b').table, true, [])[0][2])       //speed testing, replace!!!!!!
-
+             //$rootScope.mySpeed = 60000 / (ai(new Dbtable(1, 'a', 'b').table, true, [])[0][2])       //speed testing, replace!!!!!!
+            
+            $rootScope.checkSpeed = function(){
+                return 20000 / newAi(new Dbtable(1, 'a', 'b'))[0][2]       //how many splitmoves / second
+            }
+            
+            $rootScope.mySpeed = $rootScope.checkSpeed()
             ///////
             $rootScope.pollOn = true
             $rootScope.messages = ["Starting..."]
