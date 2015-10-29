@@ -2141,7 +2141,7 @@ app.get('/stats.txt', function(req, res) {
 											////////// console.log('van')
 											var wonScore = 0
 											var resText=''
-											
+											console.log(wModGame.finalData,bModGame.finalData)
 											if(wModGame.finalData!=undefined&&bModGame.finalData!=undefined) resText=resText.concat(wModGame.finalData.white[0]+' '+bModGame.finalData.black[0])
 											
 											resText=resText.concat('       '+bModGame.modConst)
