@@ -234,6 +234,12 @@
                 if (result[0][6]) {
                     //looped
                     myGame.gameIsOn = false //looped
+                     evalGame(myGame)
+                     
+                     
+                       $http.post('/moved',myGame,function(req,res){})
+                     
+                     
                     $http.get('/forceStop?t=' + $rootScope._id)
                         .then(function(response) {
                             console.log('looped, forceStop sent')
