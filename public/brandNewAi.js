@@ -2428,77 +2428,77 @@ function processMove(move,modType,modConst,looped){
 			case "lpV":
 				
 				loopValue*= modConst
-				//console.log('lpV modded: '+modConst)
+				console.log('lpV modded: '+modConst)
 			break;
 			
 			case "cpt":
 			
 				captureScore*= modConst
-				
+				console.log('cpt modded: '+modConst)
 			break;
 			
 			case "tt2":
 			
 				tTable2Value*= modConst
-				
+				console.log('tt2 modded: '+modConst)
 			break;
 			
 			case "sVS":
 			
 				smallValScore*= modConst
-				
+				console.log('sVS modded: '+modConst)
 			break;
 			
 			
 			case "dGH":
 			
 				dontGetHit*= modConst
-				
+				console.log('dGH modded: '+modConst)
 			break;
 			
 			
 			case "rPr":
 			
 				retProtect*= modConst
-				
+				console.log('rPr modded: '+modConst)
 			break;
 			
 			
 			case "mHt":
 			
 				mhit*= modConst
-				
+				console.log('mHt modded: '+modConst)
 			break;
 			
 			
 			case "hHt":
 			
 				hhit*= modConst
-				
+				console.log('hHt modded: '+modConst)
 			break;
 			
 			case "mMv":
 			
 				mostMoved*= modConst
-				
+				console.log('mMv modded: '+modConst)
 			break;
 			
 			case "pHB":
 			
 				pushHimBack*= modConst
-				
+				console.log('pHB modded: '+modConst)
 			break;
 			
 			case "gTM":
 			
 				getToMiddle*= modConst
-				
+				console.log('gTM modded: '+modConst)
 			break;
 			
 			case "fwV":
 			
 				fwdVal*= modConst
-				
+				console.log('fwV modded: '+modConst)
 			break;
 			
 			case "scV":
@@ -2506,7 +2506,7 @@ function processMove(move,modType,modConst,looped){
 							lsancValue*= modConst
 							rsancValue*= modConst
 							sancValue*= modConst
-				
+				console.log('scV modded: '+modConst)
 			break;
 			
 			
