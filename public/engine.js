@@ -1,12 +1,12 @@
-// var LearningGame=function(tableNum, modType, modVal){
+// var LearningGame=function(_id, modType, modVal){
 // 	this.state='startWhie'
-// 	this.dbTable=new Dbtable(tableNum,)
+// 	this.dbTable=new Dbtable(_id,)
 	
 // 	if(wModded) {
-// 				$rootScope.start(modType + " mod: " + modVal, "standard", true, modType) //.tableNum
+// 				$rootScope.start(modType + " mod: " + modVal, "standard", true, modType) //._id
 // 					//initedTable = new Dbtable(firstFreeTable, "mod lpV:" + modVal, "standard")
 // 			} else {
-// 				$rootScope.start("standard", modType + " mod: " + modVal, false, modType) //.tableNum
+// 				$rootScope.start("standard", modType + " mod: " + modVal, false, modType) //._id
 // 					//initedTable = new Dbtable(firstFreeTable, "standard", "mod lpV:" + modVal)
 // 			}
 	
@@ -21,7 +21,7 @@ var SmallMoveTask=function(moveCoord, index, dbTable){
 	//this.created = new Date().getTime()
 	
 	//this.dbTable=dbTable
-	this.tableNum=dbTable.tableNum		//server will need this when receiving solved moves
+	this._id=dbTable._id		//server will need this when receiving solved moves
 	
 	this.cfMoveCoords=moveCoord			//4 numbers
 	this.stepMove=coordsToMoveString(moveCoord[0],moveCoord[1],moveCoord[2],moveCoord[3])		//4 char string
@@ -159,14 +159,14 @@ var Dbuser = function(name,pwd){
 	this.games=[]		//his recent games 
 	
 }
-var Dbtable = function(tableNum, wName, bName) { //class
+var Dbtable = function(_id, wName, bName) { //class
 
 
 this.pendingMoveCount=0
 
 this.returnedMoves=[]
 	
-	this.tableNum = tableNum,
+	this._id = _id,
 	this.wName = wName,
 	this.bName = bName,
 

@@ -18,7 +18,7 @@ app.get('/aiChoice', function(req, res) {
 
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables").findOne({
-			tableNum: Number(req.query.t)
+			_id: Number(req.query.t)
 		}, function(err2, tableFromDb) {
 
 			if(!(tableFromDb == null)) {

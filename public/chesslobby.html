@@ -60,7 +60,7 @@ function refreshLobby(){
 
 		if(lobbyPoll.responseJSON.asktoopen){
 					console.log('opening')
-					tableNum=lobbyPoll.responseJSON.opentablenum
+					_id=lobbyPoll.responseJSON.opentablenum
 					playerColor=lobbyPoll.responseJSON.opentablecolor
 					opponentsName=lobbyPoll.responseJSON.opponentsname
 					// if(lobbyPoll.responseJSON.playagainstai){playAgainstAi=lobbyPoll.responseJSON.playagainstai}else{
@@ -122,8 +122,8 @@ function showLobby(lobbyChatLines,players,games,lobbyPollNum){
 	
 	games.forEach(function(game){
 
-			var thisfunc="askToWatch('"+Number(game.tableNum)+"')"	//tricky
-			gamesHTML = gamesHTML+'<span class="pointed" onclick="'+thisfunc+'">Table '+Number(game.tableNum)+':  '+game.wName+' vs '+game.bName+'</span><br>'
+			var thisfunc="askToWatch('"+Number(game._id)+"')"	//tricky
+			gamesHTML = gamesHTML+'<span class="pointed" onclick="'+thisfunc+'">Table '+Number(game._id)+':  '+game.wName+' vs '+game.bName+'</span><br>'
 		
 		
 	})

@@ -121,7 +121,7 @@
 <script >
 //alert()
 var pollNum=-1
-var tableNum=window.opener.tableNum//1
+var _id=window.opener._id//1
 
 var dletters = ["a","b","c","d","e","f","g","h"]
 var dfigures = ["","King","Queen","Rook","Bishop","Knight","Pawn"]
@@ -328,11 +328,11 @@ function showTableStatus(){								//this will update the displayed status
 			
 	$(".statusCell").empty();
 	if(opponentsName=="Spectator"){
-		var thisStatusStr = "<span>"+opponentsName+"</span><br><span>tableNum:<br>"+tableNum+"</span><br>"
+		var thisStatusStr = "<span>"+opponentsName+"</span><br><span>_id:<br>"+_id+"</span><br>"
 
 	}else{
 		
-		var thisStatusStr = "<span>Opponent:<br>"+opponentsName+"</span><br><span>tableNum:<br>"+tableNum+"</span><br>"
+		var thisStatusStr = "<span>Opponent:<br>"+opponentsName+"</span><br><span>_id:<br>"+_id+"</span><br>"
 
 	}	
 	allMoves.forEach(function(thisMoveStr){
@@ -393,7 +393,7 @@ function getAiMove(whosMove){
 	}
 	var tempTable=$.ajax({
 			    type: 'GET',
-			    url: '/aiMove?p='+playerCN+'&t='+tableNum,
+			    url: '/aiMove?p='+playerCN+'&t='+_id,
 			    dataType: 'json',
 			    success: function() { },
 			    data: {},
@@ -405,7 +405,7 @@ function getAiMove(whosMove){
 function makeAMove(whatMove){
 	var tempTable=$.ajax({
 			    type: 'GET',
-			    url: '/move?m='+whatMove+'&t='+tableNum,
+			    url: '/move?m='+whatMove+'&t='+_id,
 			    dataType: 'json',
 			    success: function() { },
 			    data: {},
@@ -417,7 +417,7 @@ function makeAMove(whatMove){
 function makeAsyncMove(whatMove){
 	var tempTable=$.ajax({
 			    type: 'GET',
-			    url: '/move?m='+whatMove+'&t='+tableNum,
+			    url: '/move?m='+whatMove+'&t='+_id,
 			    dataType: 'json',
 			    success: function() { },
 			    data: {},
@@ -430,7 +430,7 @@ function makeAsyncMove(whatMove){
 function sendChat(){
 	var tempTable=$.ajax({
 			    type: 'GET',
-			    url: '/chat?t='+tableNum+'&c='+playerID+": "+$(".chatInput").val(),
+			    url: '/chat?t='+_id+'&c='+playerID+": "+$(".chatInput").val(),
 			    dataType: 'json',
 			    success: function() { },
 			    data: {},
@@ -442,7 +442,7 @@ function sendChat(){
 function  refreshTable(){
 	var gotTablePollNum=$.ajax({
 	    type: 'GET',
-	    url: '/getTPollNum?t='+tableNum,
+	    url: '/getTPollNum?t='+_id,
 	    dataType: 'json',
 	    success: function() { },
 	    data: {},
@@ -460,7 +460,7 @@ function getAndShowTable(){
 	
 	var tempTable=$.ajax({
 			    type: 'GET',
-			    url: '/getTable?t='+tableNum,
+			    url: '/getTable?t='+_id,
 			    dataType: 'json',
 			    success: function() { },
 			    data: {},

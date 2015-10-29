@@ -2530,7 +2530,7 @@ function processMove(move,modType,modConst,looped){
 		return {
 			move: move.stepMove,
 			score: pushThisValue,
-			tableNum: move.tableNum,
+			_id: move._id,
 			// thinker: $rootScope.sendID
 			} //, hisBestRtnMove, loopValue, captureScore, smallValScore,
 			 				// dontGetHit,tTable2Value, retProtect, mhit, hhit, fwdVal,lsancValue,rsancValue,

@@ -28,9 +28,9 @@
                 // console.log(data)
                 var moves = data.moves
 
-                $http.get('aiOn?t=' + data.tableNum)
+                $http.get('aiOn?t=' + data._id)
 
-                var myGame = new Dbtable(data.tableNum, data.wName, data.bName)
+                var myGame = new Dbtable(data._id, data.wName, data.bName)
 
                 moves.forEach(function(moveFromDb) {
 
@@ -75,7 +75,7 @@
 
                 if (learnerLooped(myGame.allPastTables)) myGame.isDraw = true
 
-                $rootScope.sendMessage('table ' + myGame.tableNum + ' processed. (eval)')
+                $rootScope.sendMessage('table ' + myGame._id + ' processed. (eval)')
 
                 return myGame
 
@@ -96,7 +96,7 @@
             $rootScope.succeeded = 0
             $rootScope.refreshWhenUp = function() {
 
-                $http.get('/forceStop?t=' + $rootScope.tableNum)
+                $http.get('/forceStop?t=' + $rootScope._id)
                     .then(function(response) {
                         $rootScope.setCookies()
                         $rootScope.succeeded++
@@ -125,7 +125,7 @@
 
             $rootScope.learnerPair = function(modType, modVal, scndGame) {
 
-                //var tableNum = 0
+                //var _id = 0
                 //console.log('start func called: /startGame?w=' + wName + "&b=" + bName)
 
 
@@ -139,22 +139,22 @@
 
 
                 if (wModded) { //this tells us if wmodded
-                    //firstFreeTable=$rootScope.start("mod lpV:" + modVal, "standard").tableNum
+                    //firstFreeTable=$rootScope.start("mod lpV:" + modVal, "standard")._id
                     initedTable = new Dbtable(1, modType + " mod: " + modVal, "standard")
                 } else {
-                    //firstFreeTable=$rootScope.start( "standard", "mod lpV:" + modVal).tableNum
+                    //firstFreeTable=$rootScope.start( "standard", "mod lpV:" + modVal)._id
                     initedTable = new Dbtable(1, "standard", modType + " mod: " + modVal)
 
 
                 }
 
-                console.log('finding tableNum for ' + initedTable.wName + " vs " + initedTable.bName)
+                console.log('finding _id for ' + initedTable.wName + " vs " + initedTable.bName)
 
                 $http.get('/startGame?w=' + initedTable.wName + "&b=" + initedTable.bName)
                     .then(function(response) {
 
-                        console.log('tableNum received: ' + response.data.tableNum)
-                        initedTable.tableNum = response.data.tableNum
+                        console.log('_id received: ' + response.data._id)
+                        initedTable._id = response.data._id
 
 
                         //var initedTable = []
@@ -175,7 +175,7 @@
                          var modConst=getMcFromMv(modVal)
                         
                         $http.get('/learnerPoll?n=' + $rootScope.sendID +
-                            '&t=' + initedTable.tableNum +
+                            '&t=' + initedTable._id +
                             '&mt=' + modType +
                             '&mv=' + modVal + '&p='+modConst+'&a=' + $rootScope.mySpeed
                           // +  '&r=' + Math.random()
@@ -191,7 +191,7 @@
 
                     })
 
-                //if (tableNum>0)return tableNum
+                //if (_id>0)return _id
 
             }
 
@@ -234,7 +234,7 @@
                 if (result[0][6]) {
                     //looped
                     myGame.gameIsOn = false //looped
-                    $http.get('/forceStop?t=' + $rootScope.tableNum)
+                    $http.get('/forceStop?t=' + $rootScope._id)
                         .then(function(response) {
                             console.log('looped, forceStop sent')
                         }, function(data) {
@@ -310,7 +310,7 @@
 
                     //}
                 } else {
-                    console.log('Game finished on table '+myGame.tableNum+', evaluating..')
+                    console.log('Game finished on table '+myGame._id+', evaluating..')
                     evalGame(myGame)
                     
                     myGame.learnerStats={
@@ -334,7 +334,7 @@
                 // 	
  //if($rootScope.learning){
                 if (myGame.gameIsOn) {
-                    $http.get('/move?s=1&m=' + aiMoveString + '&t=' + myGame.tableNum)
+                    $http.get('/move?s=1&m=' + aiMoveString + '&t=' + myGame._id)
                         .then(function(response) {
                             
                             
@@ -352,7 +352,7 @@
                             
                             
                             // $http.get('/learnerPoll?n=' + $scope.cookieID +
-                            //     '&t=' + $rootScope.tableNum +
+                            //     '&t=' + $rootScope._id +
                             //     '&mt=' + $rootScope.mt +
                             //     '&mv=' + $rootScope.mv + '&p=' + $rootScope.myGame.pollNum +
                             //     '&a=' + $rootScope.avgTime +
@@ -492,11 +492,11 @@
                         break;
 
                     case "evalGame":
-                        //console.log('t'+task.data.tableNum+' eval received')
+                        //console.log('t'+task.data._id+' eval received')
                         var postThis = evaledGame(task.data)
-                        console.log('tnum,pollnum,wwon,bwon,isdraw: ', postThis.tableNum, postThis.pollNum, postThis.whiteWon, postThis.blackWon, postThis.isDraw)
+                        console.log('tnum,pollnum,wwon,bwon,isdraw: ', postThis._id, postThis.pollNum, postThis.whiteWon, postThis.blackWon, postThis.isDraw)
                         $http.post('/evaledGame', postThis, function(req, res) {
-                                $rootScope.sendMessage('t' + postThis.tableNum + ' posted.')
+                                $rootScope.sendMessage('t' + postThis._id + ' posted.')
                             })
                             //should ping
                         break;

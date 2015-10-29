@@ -21,14 +21,14 @@
 						<tr class="displayedGame">
 							
 							Pollnum: {{pollNum}}
-							<br> on table {{tableNum}}
+							<br> on table {{_id}}
 						</tr>
 						<tr>
 							<td>
 								<div class="scrollThis lbborder">
 									<table>
 										<tr class="recentGames pointed" ng-repeat="x in myRecentGames">
-											<td ng-click="setTableNum(x)" ng-class="{ selected: x==tableNum}">{{x}}<span ng-if="x==tableNum">&lArr;</span>
+											<td ng-click="setTableNum(x)" ng-class="{ selected: x==_id}">{{x}}<span ng-if="x==_id">&lArr;</span>
 											</td>
 										</tr>
 									</table>

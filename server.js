@@ -293,7 +293,7 @@ function createXData() {
 
 		db.collection("tables")
 			.insert({
-				"tableNum": "xData",
+				"_id": "xData",
 				"firstFreeTable": 1,
 				"lobbyChat": [],
 				"activeTables": [],
@@ -307,7 +307,7 @@ function createXData() {
 mongodb.connect(cn, function(err, db) {
 	db.collection("tables")
 		.findOne({
-			tableNum: "xData"
+			_id: "xData"
 		}, function(err2, xData) {
 			if(xData == null) {
 
@@ -340,13 +340,13 @@ setInterval(function() {
 						"$gte": laterThan
 					}
 				}, {
-					"tableNum": true,
+					"_id": true,
 					"wName": true,
 					"bName": true
 				}).toArray(function(err25, actGames) {
 					
 					actGames.sort(function(a,b){
-						if(a.tableNum>b.tableNum){
+						if(a._id>b._id){
 							return -1
 						}else{
 							return 1
@@ -356,7 +356,7 @@ setInterval(function() {
 
 					db2.collection("tables")
 						.findOne({
-							"tableNum": "xData"
+							"_id": "xData"
 						}, function(err24, xData) {
 							
 							
@@ -437,14 +437,14 @@ var evalToClient=function(){
 			
 			db4.collection('tables').save(gameToEval,function(){})
 				// task={
-				// 	message:'evalGame, t'+gameToEval.tableNum,
+				// 	message:'evalGame, t'+gameToEval._id,
 				// 	command:'evalGame',
 				// 	data:gameToEval
 					
 				// }
-				task=new Task('resetGame',gameToEval,'resetGame, t'+gameToEval.tableNum)
+				task=new Task('resetGame',gameToEval,'resetGame, t'+gameToEval._id)
 				
-				//task=new Task('evalGame',gameToEval,'evalGame, t'+gameToEval.tableNum)
+				//task=new Task('evalGame',gameToEval,'evalGame, t'+gameToEval._id)
 				sendTask(task)
 			}else{
 				
@@ -484,7 +484,7 @@ var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 					tableInDb
 					
 				// 	{
-				// 	tablenum: tNum,
+				// 	_id: tNum,
 				// 	table: passTable,
 				// 	next: passWnext,
 				// 	allmoves: passMoves,
@@ -533,16 +533,16 @@ function makeSplitMove(dbTable){
 	
 	
 	
-	console.log('534',dbTable.tableNum)
+	console.log('534',dbTable._id)
 	
 // 		mongodb.connect(cn, function(err, db) {
 // 		db.collection("tables")
 // 			.findOne({
-// 				tableNum:dbTable.tableNum		//no header in post req
+// 				_id:dbTable._id		//no header in post req
 // 			}, function(err2, onTable) {
 
 // 				if(onTable!=null){
- 				//console.log('547',onTable.tableNum)
+ 				//console.log('547',onTable._id)
 	
 // 				//onTable.gameIsOn=false
 
@@ -561,7 +561,7 @@ function makeSplitMove(dbTable){
 				while(aiTable.movesToSend.length>0){
 					
 					var sendThese=getSplitMoveTask(aiTable,fastestThinker(true))
-					sendTask(new Task('splitMove',sendThese,'splitMove t'+dbTable.tableNum+' moves: '+sendThese.length))
+					sendTask(new Task('splitMove',sendThese,'splitMove t'+dbTable._id+' moves: '+sendThese.length))
 					
 				
 				}
@@ -584,7 +584,7 @@ function makeSplitMove(dbTable){
 					
 					
 					
-					// popThem(onTable.tableNum, onTable, 'updated', 'table updated.') //respond to pending longpolls
+					// popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
 
 						
 					// db.close()
@@ -603,7 +603,7 @@ function makeAiMove(dbTable){
 		
 		case 'fastest thinker':
 			
-			var moveTask = new Task('move',dbTable,'fastest thinker move t'+dbTable.tableNum)
+			var moveTask = new Task('move',dbTable,'fastest thinker move t'+dbTable._id)
 			sendTask(moveTask)	//sends to fastest thinker
 
 			//callback handled as another post
@@ -638,7 +638,7 @@ function makeAiMove(dbTable){
 function getTaskIndex(tNum){
 	
 	for (var i=0;i<splitTaskQ.length;i++){
-		if(splitTaskQ[i].tableNum==tNum)return i
+		if(splitTaskQ[i]._id==tNum)return i
 	}
 	
 }
@@ -654,7 +654,7 @@ app.post('/myPartIsDone',function(req,res){
 // 	mongodb.connect(cn, function(err, db) {
 // 		db.collection("tables")
 // 			.findOne({
-// 				tableNum: req.body[0].tableNum		//no header in post req
+// 				_id: req.body[0]._id		//no header in post req
 // 			}, function(err2, onTable) {
 
 // 				if(onTable!=null){
@@ -662,7 +662,7 @@ app.post('/myPartIsDone',function(req,res){
 // 				//onTable.gameIsOn=false
 				
 
-				var index=getTaskIndex(req.body[0].tableNum)
+				var index=getTaskIndex(req.body[0]._id)
 				
 				console.log(index)
 				
@@ -695,7 +695,7 @@ app.post('/myPartIsDone',function(req,res){
 					splitTaskQ[index].chat=splitTaskQ[index].returnedMoves
 					
 					
-					popThem(splitTaskQ[index].tableNum,splitTaskQ[index],'splitMove','splitMove')
+					popThem(splitTaskQ[index]._id,splitTaskQ[index],'splitMove','splitMove')
 					
 					//save here
 					mongodb.connect(cn, function(err, db) {
@@ -716,7 +716,7 @@ app.post('/myPartIsDone',function(req,res){
 					
 					
 					
-// 					//popThem(onTable.tableNum, onTable, 'updated', 'table updated.') //respond to pending longpolls
+// 					//popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
 
 						
 // 					db.close()
@@ -743,7 +743,7 @@ app.post('/moved',function(req,res){
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
-				tableNum: req.body.tableNum
+				_id: req.body._id
 			}, function(err2, onTable) {
 
 				if(onTable!=null){
@@ -761,7 +761,7 @@ app.post('/moved',function(req,res){
 				db.collection("tables")
 					.save(onTable, function(err3, res) {
 							//table moved and saved, let's check what to do
-					popThem(onTable.tableNum, onTable, 'updated', 'table updated.') //respond to pending longpolls
+					popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
 
 						switch(command){
 							
@@ -813,7 +813,7 @@ app.get('/move', function(req, res) {
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
-				tableNum: Number(req.query.t)
+				_id: Number(req.query.t)
 			}, function(err2, tableInDb) {
 
 				var moveStr = String(req.query.m)
@@ -884,7 +884,7 @@ app.get('/move', function(req, res) {
 						var options = {
 							host: 'localhost',
 							port: 16789,
-							path: '/aichoice?t=' + tableInDb.tableNum
+							path: '/aichoice?t=' + tableInDb._id
 						};
 
 						http.request(options, function(response) {
@@ -930,7 +930,7 @@ app.get('/move', function(req, res) {
 
 											tableInDb.allPastTables.push(createState(tableInDb.table))
 
-											popThem(Number(tableInDb.tableNum), tableInDb, 'moved', 'Ai moved: ' + moveStr) //respond to pending longpolls
+											popThem(Number(tableInDb._id), tableInDb, 'moved', 'Ai moved: ' + moveStr) //respond to pending longpolls
 
 											db.collection("tables")
 												.save(tableInDb, function(err3, res) {})
@@ -988,7 +988,7 @@ app.get('/aiMove', function(req, res) {
 				mongodb.connect(cn, function(err, db) {
 					db.collection("tables")
 						.findOne({
-							tableNum: Number(req.query.t)
+							_id: Number(req.query.t)
 						}, function(err2, tableInDb) {
 							// ////////// console.log(resJsn)
 							// ////////// console.log('dssdfsdgs')
@@ -1034,7 +1034,7 @@ app.get('/getTPollNum', function(req, res) {
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
-				tableNum: Number(req.query.t)
+				_id: Number(req.query.t)
 			}, function(err2, tableInDb) {
 
 				if(!(tableInDb == null)) {
@@ -1150,7 +1150,7 @@ app.get('/getTable', function(req, res) {
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
-				tableNum: Number(req.query.t)
+				_id: Number(req.query.t)
 			}, function(err2, tableInDb) {
 				// if(!(tableInDb == null)) {
 				// 	var passMoves = tableInDb.moves
@@ -1179,7 +1179,7 @@ app.get('/longPollTable', function(req, res) {
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
-				tableNum: Number(req.query.t)
+				_id: Number(req.query.t)
 			}, function(err2, tableInDb) {
 				if(!(tableInDb == null)) {
 
@@ -1228,7 +1228,7 @@ app.get('/forceStop', function(req, res) {
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
-				tableNum: Number(req.query.t)
+				_id: Number(req.query.t)
 			}, function(err2, stopThisTable) {
 
 				if(stopThisTable!=null){
@@ -1253,11 +1253,11 @@ app.get('/forceStop', function(req, res) {
 ////////////////////////////post
 app.post('/evaledGame', function(req, res) {
 	//////////// console.log(req)
-	res.send('started, check DB for t'+req.body.tableNum)
+	res.send('started, check DB for t'+req.body._id)
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
-				tableNum: req.body.tableNum
+				_id: req.body._id
 			}, function(err2, evaledTable) {
 
 				if(evaledTable!=null){
@@ -1300,7 +1300,7 @@ app.get('/aiOn', function(req, res) {
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
-				tableNum: Number(req.query.t)
+				_id: Number(req.query.t)
 			}, function(err2, ttable) {
 
 				if(ttable!=null){
@@ -1323,7 +1323,7 @@ app.get('/forcePopTable', function(req, res) {
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
-				tableNum: Number(req.query.t)
+				_id: Number(req.query.t)
 			}, function(err2, tableInDb) {
 
 				if(!(tableInDb == null)) {
@@ -1365,7 +1365,7 @@ app.get('/chat', function(req, res) {
 					mongodb.connect(cn, function(err, db) {
 						db.collection("tables")
 							.findOne({
-								tableNum: Number(req.query.t)
+								_id: Number(req.query.t)
 							}, function(err2, tableInDb) {
 
 								if(!(resJsn == null || tableInDb == null)) {
@@ -1399,7 +1399,7 @@ app.get('/chat', function(req, res) {
 		mongodb.connect(cn, function(err, db) {
 			db.collection("tables")
 				.findOne({
-					tableNum: Number(req.query.t)
+					_id: Number(req.query.t)
 				}, function(err2, tableInDb) {
 
 					tableInDb.chat.push(req.query.c)
@@ -1429,7 +1429,7 @@ app.get('/startGame', function(req, res) {
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
-				tableNum: "xData"
+				_id: "xData"
 			}, function(err2, xData) {
 				var firstFreeTable=-5
 				if(xData == null) {
@@ -1460,7 +1460,7 @@ app.get('/startGame', function(req, res) {
 				name: req.query.w
 			}, function(err2, userInDb) {
 				if(!(userInDb == null)) {
-					userInDb.games.unshift(initedTable.tableNum)
+					userInDb.games.unshift(initedTable._id)
 
 					db2.collection("users")
 						.save(userInDb, function(err3, res) {})
@@ -1480,7 +1480,7 @@ app.get('/startGame', function(req, res) {
 				name: req.query.b
 			}, function(err2, userInDb) {
 				if(!(userInDb == null)) {
-					userInDb.games.unshift(initedTable.tableNum)
+					userInDb.games.unshift(initedTable._id)
 
 					db3.collection("users")
 						.save(userInDb, function(err3, res) {})
@@ -1518,7 +1518,7 @@ app.get('/startGame', function(req, res) {
 	// mongodb.connect(cn, function(err, db) {
 	// 	db.collection("tables")
 	// 		.findOne({
-	// 			tableNum: "xData"
+	// 			_id: "xData"
 	// 		}, function(err2, xData) {
 
 	// 			xData.firstFreeTable = firstFreeTable
@@ -1531,7 +1531,7 @@ app.get('/startGame', function(req, res) {
 
 	res.json({
 		"message": "ok",
-		"tableNum": firstFreeTable,
+		"_id": firstFreeTable,
 		"modType": modType
 	});
 				
@@ -1550,7 +1550,7 @@ app.get('/mod', function(req, res) {
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
-				tableNum: "xData"
+				_id: "xData"
 			}, function(err2, xData) {
 				var firstFreeTable=-5
 				if(xData == null) {
@@ -1589,7 +1589,7 @@ app.get('/watchGame', function(req, res) {
 
 	players[3][viewerNum] = true; //will watch w
 
-	players[4][viewerNum] = req.query.t //tablenum
+	players[4][viewerNum] = req.query.t //_id
 
 	// will have to give names
 
@@ -1607,7 +1607,7 @@ app.get('/lobbyChat', function(req, res) {
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
-				tableNum: "xData"
+				_id: "xData"
 			}, function(err2, xData) {
 
 				xData.lobbyChat.push(req.query.c)
@@ -1632,7 +1632,7 @@ app.get('/getModType', function(req, res) {
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
-				tableNum: "xData"
+				_id: "xData"
 			}, function(err2, xData) {
 				
 				res.json({
@@ -2038,7 +2038,7 @@ app.get('/getLobby', function(req, res) {
 			if(!(db == null)) {
 				db.collection("tables")
 					.findOne({
-						tableNum: "xData"
+						_id: "xData"
 					}, function(err2, xData) {
 						if(xData == null) {
 
@@ -2107,13 +2107,13 @@ app.get('/stats.txt', function(req, res) {
 				})
 				// .sort( {
 					
-				// 	 tableNum: 1 
+				// 	 _id: 1 
 					 
 				// } )
 				//.toArray(function(err28, statData) {
 					//if(statData != null) {
 						// statData.sort(function(a,b){
-						// 	if(a.tableNum>b.tableNum){
+						// 	if(a._id>b._id){
 						// 		return 1
 						// 	}else{
 						// 		return -1
@@ -2142,7 +2142,7 @@ app.get('/stats.txt', function(req, res) {
 											var wonScore = 0
 											var resText=''
 											resText=resText.concat(bModGame.modConst)
-											resText=resText.concat('  t'+bModGame.tableNum)
+											resText=resText.concat('  t'+bModGame._id)
 											if(bModGame.blackWon) {
 												wonScore++
 												resText=resText.concat(' black won, ')
@@ -2155,7 +2155,7 @@ app.get('/stats.txt', function(req, res) {
 												}
 											}
 											
-											resText=resText.concat('t'+wModGame.tableNum)
+											resText=resText.concat('t'+wModGame._id)
 											
 
 											if(wModGame.whiteWon) {
