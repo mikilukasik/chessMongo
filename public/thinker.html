@@ -313,12 +313,12 @@
                     console.log('Game finished on table '+myGame._id+', evaluating..')
                     evalGame(myGame)
                     
-                    myGame.learnerStats={
-                        modType: mt,
-                        modVal: modVal,
-                        modConst: modConst
+                    // myGame.learnerStats={
+                    //     modType: mt,
+                    //     modVal: modVal,
+                    //     modConst: modConst
                         
-                    }
+                    // }
                     
                     console.log(myGame)
                     
@@ -353,7 +353,7 @@
                                  
                             }
                            
-                            if(myGame.pollNum/50==Math.floor(myGame.pollNum/50)){
+                            if(myGame.pollNum/250==Math.floor(myGame.pollNum/250)){    // !!!!!!!!!
                                  //$http.post('/moved',myGame,function(req,res){})
                                  
                                  //temp:
@@ -363,6 +363,7 @@
                                  
                                  if($rootScope.lastTotal==tableTotal){
                                     myGame.gameIsOn=false
+                                    evalGame(myGame)
                                  }else{
                                      $rootScope.lastTotal=tableTotal
                                  }
