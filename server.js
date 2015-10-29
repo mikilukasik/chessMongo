@@ -2192,7 +2192,7 @@ app.get('/stats.txt', function(req, res) {
 											}
 											
 											
-											resArray.push(finalDataScore,moveCountScore,wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9), resText, String.fromCharCode(13)) //to be fixed
+											resArray.push(finalDataScore, String.fromCharCode(9),moveCountScore, String.fromCharCode(9),wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9), resText, String.fromCharCode(13)) //to be fixed
 											//////// console.log([wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9)])
 											res.write(resArray.join(''));
 											
