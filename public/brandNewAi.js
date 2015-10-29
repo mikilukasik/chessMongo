@@ -2523,7 +2523,7 @@ function processMove(move,modType,modConst,looped){
 							loopValue*0.830584 + //from stats1
 							captureScore + //fHitValue +
 							smallValScore+
-							dontGetHit+
+							dontGetHit*56.895767+
 							retProtect*0.57184+		//from stats1
 							mhit+
 							hhit * 4.1959+		//from stats1
