@@ -450,7 +450,9 @@
                  if($rootScope.learning){
                       $http.get('/getModType').then(function(response) {
                             var modType = response.data.modType
-                            var modVal = Math.random() * 100
+                            
+                            //temp for rpr !!!!!!!!!!
+                            var modVal = Math.random() * 20 + 30
                             $rootScope.mv = modVal
                             $rootScope.mt = modType
 
