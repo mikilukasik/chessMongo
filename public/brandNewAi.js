@@ -2527,7 +2527,7 @@ function processMove(move,modType,modConst,looped){
 							retProtect*0.57184+		//from stats1
 							mhit+
 							hhit * 4.1959+		//from stats1
-							fwdVal+
+							fwdVal * 1.95+
 							lsancValue+
 							rsancValue+
 							sancValue+
