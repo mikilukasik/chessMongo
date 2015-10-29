@@ -2133,7 +2133,7 @@ app.get('/stats.txt', function(req, res) {
 								db.collection("tables")
 									.findOne({
 										gameIsOn: false,
-										wName: "standard",
+										//wName: "standard",
 										bName: wModGame.wName
 									}, function(errs, bModGame) {
 										if(bModGame) {
