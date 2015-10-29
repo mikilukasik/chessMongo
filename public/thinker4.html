@@ -81,10 +81,13 @@
 
             }
 
+            
 
-
-            $rootScope.mySpeed = 60000 / (ai(new Dbtable(1, 'a', 'b').table, true, [])[0][2])       //speed testing, replace!!!!!!
-
+            $rootScope.checkSpeed = function(){
+                return 20000 / newAi(new Dbtable(1, 'a', 'b'))[0][2]       //how many splitmoves / second
+            }
+            
+            $rootScope.mySpeed = $rootScope.checkSpeed()
             ///////
             $rootScope.pollOn = true
             $rootScope.messages = ["Starting..."]
@@ -167,14 +170,6 @@
 
                         //$rootScope.whatToDo = 'idle'
                         //console.log('Table should be in DB, start soon..')
-                        
-                        
-                        $http.get('/learnerPoll?n=' + $rootScope.sendID +
-                            '&t=' + initedTable.tableNum +
-                            '&mt=' + modType +
-                            '&mv=' + modVal + '&p=0&a=' + $rootScope.mySpeed
-                          // +  '&r=' + Math.random()
-                          )
 
                         $rootScope.playgame(initedTable, modType, modVal, true, wModded) //true stands for wNext
                     }, function(data) {
