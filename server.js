@@ -2142,7 +2142,7 @@ app.get('/stats.txt', function(req, res) {
 											var wonScore = 0
 											var resText=''
 											
-											if(wModGame.finalData.white&&bModGame.finalData.black) resText=resText.concat(wModGame.finalData.white[0]+' '+bModGame.finalData.black[0])
+											if(wModGame.finalData!=undefined&&bModGame.finalData!=undefined) resText=resText.concat(wModGame.finalData.white[0]+' '+bModGame.finalData.black[0])
 											
 											resText=resText.concat('       '+bModGame.modConst)
 											resText=resText.concat('  t'+bModGame._id)
