@@ -349,14 +349,30 @@
                                  
                                  //temp:
                                  
-                                 myGame.gameIsOn=false
+                                 //myGame.gameIsOn=false
+                                 
+                            }
+                           
+                            if(myGame.pollNum/50==Math.floor(myGame.pollNum/50)){
+                                 $http.post('/moved',myGame,function(req,res){})
+                                 
+                                 //temp:
+                                 var tableTotal=getTableTotal(myGame.table)
+                                 
+                                 
+                                 
+                                 if($rootScope.lastTotal==tableTotal){
+                                    myGame.gameIsOn=false
+                                 }else{
+                                     $rootScope.lastTotal=tableTotal
+                                 }
                                  
                             }
                            
                             
                             
                             
-                            // $http.get('/learnerPoll?n=' + $scope.cookieID +
+                            // $http.get('/learnerPoll?n=' + $rootScope.cookieID +
                             //     '&t=' + $rootScope._id +
                             //     '&mt=' + $rootScope.mt +
                             //     '&mv=' + $rootScope.mv + '&p=' + $rootScope.myGame.pollNum +
@@ -412,7 +428,15 @@
 
 
 
-          
+            function getTableTotal(table){
+                var tt=0
+                for(var i=0;i<8;i++){
+                    for(var j=0;j<8;j++){
+                        tt+=table[i][j][1]
+                    }
+                }
+                return tt
+            }
             
             $rootScope.startGamePair=function(){
                  if($rootScope.learning){
