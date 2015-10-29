@@ -1902,11 +1902,11 @@ var newAi=function(dbTable, modType, modConst,thinker){
 	// 	}else{
 	// 		modConst=1/((100-modVal)/50)
 	// 	}
-	
+	var looped=false
 	var started=new Date().getTime()
 	
 	var aiTable=new MoveTask(dbTable)
-	var solvedMoves=processSplitMoves(aiTable.movesToSend,thinker,modType,modConst)
+	var solvedMoves=processSplitMoves(aiTable.movesToSend,thinker,modType,modConst,looped)
 	
 	//console.log(solvedMoves)
 	
@@ -1915,6 +1915,8 @@ var newAi=function(dbTable, modType, modConst,thinker){
 	
 	
 	solvedMoves.unshift([true,true,new Date().getTime()-started])
+	
+	if(looped)allTempTables[0][6] = true //looped
 	
 	return solvedMoves
 	
@@ -1966,14 +1968,14 @@ function helpMe(wp) {
 
 
 
- function processSplitMoves(data,thinker,mt,modConst) {
+ function processSplitMoves(data,thinker,mt,modConst,looped) {
 
                 //var result=[]
                 var newData = []
 
                 while (data.length > 0) {
 
-                    var toPush = processMove(data.pop(),mt,modConst)
+                    var toPush = processMove(data.pop(),mt,modConst,looped)
 
 
                     toPush.thinker = thinker
@@ -1990,8 +1992,8 @@ function helpMe(wp) {
 			
 			
 
-function processMove(move,modType,modConst){
-		
+function processMove(move,modType,modConst,looped){
+		//var looped=false
 		//var result=[]
 		//var modType=""
 		//var modVal=1
