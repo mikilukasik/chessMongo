@@ -990,6 +990,12 @@ function evalGame(tableInDb) {
 
 	if(!canIMove(tableInDb.table, tableInDb.wNext)) {
 		tableInDb.gameIsOn = false
+		
+		tableInDb.finalData={
+			white: getTableData(tableInDb.table,true),
+			bleck:getTableData(tableInDb.table,false)
+		}
+		
 		if(captured(tableInDb.table, tableInDb.wNext)) {
 
 			if(tableInDb.wNext) {
@@ -1004,7 +1010,9 @@ function evalGame(tableInDb) {
 			tableInDb.isDraw = true
 		}
 	}
+	
 
+	
 	//tableInDb.toBeChecked = false
 
 	// setIntDB3.collection("tables")
