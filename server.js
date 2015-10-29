@@ -2141,7 +2141,8 @@ app.get('/stats.txt', function(req, res) {
 											////////// console.log('van')
 											var wonScore = 0
 											var resText=''
-											resText=resText.concat('t'+bModGame.tableNum)
+											resText=resText.concat(bModGame.modConst)
+											resText=resText.concat('  t'+bModGame.tableNum)
 											if(bModGame.blackWon) {
 												wonScore++
 												resText=resText.concat(' black won, ')

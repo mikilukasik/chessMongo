@@ -167,15 +167,17 @@
 
                         //$rootScope.whatToDo = 'idle'
                         //console.log('Table should be in DB, start soon..')
-                        
+                         var modConst=getMcFromMv(modVal)
                         
                         $http.get('/learnerPoll?n=' + $rootScope.sendID +
                             '&t=' + initedTable.tableNum +
                             '&mt=' + modType +
-                            '&mv=' + modVal + '&p=0&a=' + $rootScope.mySpeed
+                            '&mv=' + modVal + '&p='+modConst+'&a=' + $rootScope.mySpeed
                           // +  '&r=' + Math.random()
                           )
-
+                          
+                         initedTable.modConst=modConst
+                         
                         $rootScope.playgame(initedTable, modType, modVal, true, wModded) //true stands for wNext
                     }, function(data) {
                         $rootScope.headMessage = 'Connection error, refreshing'
@@ -314,6 +316,8 @@
                     }
                     
                     console.log(myGame)
+                    
+                    myGame.pollNum++
                     
                     //post it here
                     
