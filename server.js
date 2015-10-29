@@ -1234,6 +1234,7 @@ app.get('/forceStop', function(req, res) {
 				if(stopThisTable!=null){
 				
 				stopThisTable.gameIsOn=false
+				 evalGame(stopThisTable)
 
 				db.collection("tables")
 					.save(stopThisTable, function(err3, res) {
