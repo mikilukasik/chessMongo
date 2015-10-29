@@ -70,7 +70,7 @@
 
 
                 })
-                evalGame(myGame) 
+                evalGame(myGame,true) 
 
 
                 if (learnerLooped(myGame.allPastTables)) myGame.isDraw = true
@@ -234,7 +234,7 @@
                 if (result[0][6]) {
                     //looped
                     myGame.gameIsOn = false //looped
-                     evalGame(myGame)
+                     evalGame(myGame,true)
                      
                      
                        $http.post('/moved',myGame,function(req,res){})
@@ -273,7 +273,7 @@
                     console.log('will run into eval bit - someone won!')
 
                     myGame.gameIsOn = false
-                     evalGame(myGame)
+                     evalGame(myGame,true)
 
 
                 }
@@ -318,7 +318,7 @@
                     //}
                 } else {
                     console.log('Game finished on table '+myGame._id+', evaluating..')
-                    evalGame(myGame)
+                    evalGame(myGame,true)
                     
                     // myGame.learnerStats={
                     //     modType: mt,
@@ -370,7 +370,7 @@
                                  
                                  if($rootScope.lastTotal==tableTotal){
                                     myGame.gameIsOn=false
-                                    evalGame(myGame)
+                                    evalGame(myGame,true)
                                  }else{
                                      $rootScope.lastTotal=tableTotal
                                  }

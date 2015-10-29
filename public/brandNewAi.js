@@ -982,7 +982,7 @@ function protectTable(table, myCol) {
 
 }
 
-function evalGame(tableInDb) {
+function evalGame(tableInDb,stop) {
 
 	//if(!(tableInDb == null)) {
 
@@ -990,14 +990,11 @@ function evalGame(tableInDb) {
 
 	if(!canIMove(tableInDb.table, tableInDb.wNext)) {
 		tableInDb.gameIsOn = false
+		stop=true
 		
-		tableInDb.finalData={
-			white: getTableData(tableInDb.table,true),
-			black: getTableData(tableInDb.table,false)
-		}
 		
 		if(captured(tableInDb.table, tableInDb.wNext)) {
-
+			
 			if(tableInDb.wNext) {
 
 				tableInDb.blackWon = true
@@ -1011,6 +1008,12 @@ function evalGame(tableInDb) {
 		}
 	}
 	
+	if(stop){
+		tableInDb.finalData={
+			white: getTableData(tableInDb.table,true),
+			black: getTableData(tableInDb.table,false)
+		}
+	}
 
 	
 	//tableInDb.toBeChecked = false
