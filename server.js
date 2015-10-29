@@ -2141,6 +2141,10 @@ app.get('/stats.txt', function(req, res) {
 											//van matching pair game
 											////////// console.log('van')
 											var wonScore = 0
+											var moveCountScore=0
+											var finalDataScore=0
+											
+											
 											var resText=''
 											console.log(wModGame.finalData,bModGame.finalData)
 											if(wModGame.finalData!=undefined&&bModGame.finalData!=undefined) {
@@ -2151,10 +2155,12 @@ app.get('/stats.txt', function(req, res) {
 											resText=resText.concat('  t'+bModGame._id)
 											if(bModGame.blackWon) {
 												wonScore++
+												moveCountScore-=bModGame.pollNum
 												resText=resText.concat(' black won, ')
 											} else {
 												if(bModGame.whiteWon) {
 													wonScore--
+													moveCountScore+=bModGame.pollNum
 													resText=resText.concat(' black lost, ')
 												}else{
 													resText=resText.concat(' black drew, ')
@@ -2166,10 +2172,12 @@ app.get('/stats.txt', function(req, res) {
 
 											if(wModGame.whiteWon) {
 												wonScore++
+												moveCountScore-=bModGame.pollNum
 												resText=resText.concat(' white won.')
 											} else {
 												if(wModGame.blackWon) {
 													wonScore--
+													moveCountScore+=bModGame.pollNum
 													resText=resText.concat(' white lost.')
 												}else{
 													resText=resText.concat(' white drew.')
@@ -2180,11 +2188,11 @@ app.get('/stats.txt', function(req, res) {
 											resArray=[]
 											
 											if(wModGame.finalData!=undefined&&bModGame.finalData!=undefined) {
-												if(bModGame.finalData.black!=undefined) wonScore+=wModGame.finalData.white[0]/100+bModGame.finalData.black[0]/100
+												if(bModGame.finalData.black!=undefined) finalDataScore=wModGame.finalData.white[0]/100+bModGame.finalData.black[0]/100
 											}
 											
 											
-											resArray.push(wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9), resText, String.fromCharCode(13)) //to be fixed
+											resArray.push(finalDataScore,moveCountScore,wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9), resText, String.fromCharCode(13)) //to be fixed
 											//////// console.log([wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9)])
 											res.write(resArray.join(''));
 											

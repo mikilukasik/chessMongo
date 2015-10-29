@@ -2421,8 +2421,9 @@ function processMove(move,modType,modConst,looped){
 		
 		//console.log(modType)
 		switch(modType){
-			case undefined:
 			
+			case undefined:
+				console.log('modType == undefined')
 			break;
 			
 			case "lpV":
