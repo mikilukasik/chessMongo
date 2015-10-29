@@ -2192,7 +2192,7 @@ app.get('/stats.txt', function(req, res) {
 											}
 											
 											
-											resArray.push(10*finalDataScore, String.fromCharCode(9),moveCountScore, String.fromCharCode(9),100*wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9), resText, String.fromCharCode(13)) //to be fixed
+											resArray.push(10*finalDataScore, String.fromCharCode(9),moveCountScore, String.fromCharCode(9),100*wonScore, String.fromCharCode(9), 1000*wonScore+10*finalDataScore+moveCountScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9), resText, String.fromCharCode(13)) //to be fixed
 											//////// console.log([wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9)])
 											res.write(resArray.join(''));
 											
