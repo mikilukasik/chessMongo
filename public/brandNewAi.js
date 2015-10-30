@@ -2432,10 +2432,10 @@ function processMove(move,modType,modConst,looped){
 				console.log('lpV modded: '+modConst)
 			break;
 			
-			case "cpt":
+			case "cpS":
 			
 				captureScore*= modConst
-				console.log('cpt modded: '+modConst)
+				console.log('cpS modded: '+modConst)
 			break;
 			
 			case "tt2":
@@ -2533,7 +2533,7 @@ function processMove(move,modType,modConst,looped){
 							sancValue+
 							getToMiddle*37+	//6
 							pushHimBack *4.676+	//5
-							mostMoved+
+							mostMoved*0.105154+	//9
 							loopedValue+
 							forceLoopValue
 
