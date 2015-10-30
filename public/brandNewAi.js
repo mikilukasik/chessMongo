@@ -2532,7 +2532,7 @@ function processMove(move,modType,modConst,looped){
 							rsancValue+
 							sancValue+
 							getToMiddle+
-							pushHimBack+
+							pushHimBack *4.676+
 							mostMoved+
 							loopedValue+
 							forceLoopValue
