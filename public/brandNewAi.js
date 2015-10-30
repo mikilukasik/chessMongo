@@ -2521,7 +2521,7 @@ function processMove(move,modType,modConst,looped){
 		
 							tTable2Value + 
 							(mhit+loopValue)*3.8453 + //2
-							captureScore + //fHitValue +
+							captureScore*1.953 + //10
 							smallValScore * 1.7+	//8
 							dontGetHit*56.895767+	//4
 							retProtect*0.57184+		//from stats1
