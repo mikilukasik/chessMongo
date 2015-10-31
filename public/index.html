@@ -78,15 +78,15 @@
 		
 		$rootScope.longPollTable = function() {
 
-			//console.log('polling table ' + $rootScope.tableNum)
+			//console.log('polling table ' + $rootScope._id)
 
-			$http.get('/longPollTable?t=' + $rootScope.tableNum + '&pn=' + $rootScope.pollNum + '&r=' + Math.random())
+			$http.get('/longPollTable?t=' + $rootScope._id + '&pn=' + $rootScope.pollNum + '&r=' + Math.random())
 				.then(function(responseData) {
 					var response=responseData.data
 					
 					console.log('Data received: '+response.command+' - '+response.message)
 					
-					if(response.tableNum==$rootScope.tableNum){		//break poll on changed tablenum
+					if(response._id==$rootScope._id){		//break poll on changed _id
 						//$rootScope.table = response.table
 						
 						if($rootScope.table!=undefined){
@@ -121,14 +121,14 @@
 						$scope.showTable()
 						
 						if($scope.viewName == "board.html") {			
-							console.log('Repeating longpoll on t'+ response.tablenum)			
+							console.log('Repeating longpoll on t'+ response._id)			
 							$rootScope.longPollTable()	//loop till change view	(or table)
 						}else{
-							console.log('board not displayed (viewName: '+ $scope.viewName+'), discontinuing longpoll for table ' + response.tablenum)
+							console.log('board not displayed (viewName: '+ $scope.viewName+'), discontinuing longpoll for table ' + response._id)
 							
 						}
 					}else{
-						console.log('tableNum changed, discontinuing longpoll for table ' + response.tablenum)
+						console.log('_id changed, discontinuing longpoll for table ' + response._id)
 					}
 				},function(data){
 					$interval($rootScope.longPollTable(),2000)	//retry
@@ -136,14 +136,14 @@
 
 		}
 		$scope.setTableNum = function(num){
-			var oldNum = $rootScope.tableNum
+			var oldNum = $rootScope._id
 			
-			$rootScope.tableNum=num
+			$rootScope._id=num
 			$rootScope.pollNum=-1
 			
 			
 			
-			console.log('tableNum changed, calling new longpoll on t'+ num + ', forcePop on t'+oldNum)
+			console.log('_id changed, calling new longpoll on t'+ num + ', forcePop on t'+oldNum)
 			
 			$http.get('/forcePopTable?t='+oldNum+'&p='+$rootScope.loginName+'&m=Went to t'+num)
 			$rootScope.longPollTable()
@@ -152,7 +152,7 @@
 		}
 		$scope.refreshRecentGames = function() {
 
-			////console.log('polling table ' + $rootScope.tableNum)
+			////console.log('polling table ' + $rootScope._id)
 
 			$http.get('/getMyRecentGames?n=' + $rootScope.loginName)
 				.success(function(response) {
@@ -177,7 +177,7 @@
 							if(response.asktoopen) {
 								//console.log('opening')
 
-								$rootScope.tableNum = response.opentablenum
+								$rootScope._id = response.opentablenum
 								$scope.wPlayer = response.opentablecolor
 								$scope.opponentsName = response.opponentsname
 								$rootScope.pollNum = 0
@@ -272,7 +272,7 @@
 			//////////////////////
 							///replace this!!!
 							
-				var dbTable=new Dbtable($rootScope.tableNum, $rootScope.wName, $rootScope.bName)
+				var dbTable=new Dbtable($rootScope._id, $rootScope.wName, $rootScope.bName)
 				
 				
 				
@@ -348,7 +348,7 @@
 			
 		}	else{
 		
-			$http.get('/move?m=' + whatMove + '&t=' + $rootScope.tableNum)
+			$http.get('/move?m=' + whatMove + '&t=' + $rootScope._id)
 			
 			
 		}
@@ -366,7 +366,7 @@
 
 		$scope.refreshTable = function() {
 
-			$http.get('/getTPollNum?t=' + $rootScope.tableNum)
+			$http.get('/getTPollNum?t=' + $rootScope._id)
 				.success(function(response) {
 					//console.log('getting board pollnum: '+response.tablepollnum+" vs "+$rootScope.pollNum)
 					if(!(response.tablepollnum == $rootScope.pollNum)) {
@@ -429,7 +429,7 @@
 		$scope.newView = function(viewName) {
 			if(viewName == 'board.html') {
 				$scope.refreshRecentGames()
-				console.log('View changed to board, calling longpoll on t'+$rootScope.tableNum)
+				console.log('View changed to board, calling longpoll on t'+$rootScope._id)
 				$rootScope.longPollTable()		//start longpoll
 				if($scope.wPlayer){
 						$scope.drTable("wtable.html")
@@ -538,7 +538,7 @@
 		}
 		$scope.sendChat= function (){
 			
-			$http.get('/chat?t='+$rootScope.tableNum+'&c='+$rootScope.loginName+": "+$scope.sendThis)
+			$http.get('/chat?t='+$rootScope._id+'&c='+$rootScope.loginName+": "+$scope.sendThis)
 				
 					
 					
