@@ -285,6 +285,8 @@
 				
 				$rootScope.lastState= $.extend(true, {}, dbTable)
 				
+				$scope.clearHighlights($rootScope.lastState.table)
+				
 				
 				
 				var toPush =  getPushString(dbTable.table,moveStr)//piece
@@ -373,7 +375,7 @@
 				$rootScope.wNext=$rootScope.lastState.wNext
 				$rootScope.moves=$rootScope.lastState.moves
 				
-				$scope.clearHighlights()
+				//$scope.clearHighlights($rootScope.table)
 				
 			})
 		}
@@ -491,7 +493,7 @@
 
 				if(clickedString == $rootScope.tempMoveString) {
 					$rootScope.table[x][y][8] = false
-					$scope.clearHighlights()
+					$scope.clearHighlights($rootScope.table)
 					$scope.showTable()
 					$rootScope.tempMoveString = ""
 				} else {
@@ -541,11 +543,11 @@
 			$rootScope.table[arrayOfCoords[0]][arrayOfCoords[1]][9] = true;
 		}
 
-		$scope.clearHighlights = function() {
+		$scope.clearHighlights = function(onTable) {
 			for(var i = 0; i < 8; i++) {
 				for(var j = 0; j < 8; j++) {
-					$rootScope.table[i][j][8] = false;
-					$rootScope.table[i][j][9] = false;
+					onTable[i][j][8] = false;
+					onTable[i][j][9] = false;
 
 				}
 			}
