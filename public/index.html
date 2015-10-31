@@ -342,13 +342,13 @@
 			
 			
 				if($scope.opponentsName=='Fastest thinker'){
-					dbTable.command='makeAiMove'
-					dbTable.aiType='fastest thinker'		
+					$rootScope.dbTable.command='makeAiMove'						//this will tell the server vhat to do with the received table
+					$rootScope.dbTable.aiType='fastest thinker'		
 				}
 				
 				if($scope.opponentsName=='Multiple thinkers'){
-					dbTable.command='makeAiMove'
-					dbTable.aiType='thinkers'	
+					$rootScope.dbTable.command='makeAiMove'
+					$rootScope.dbTable.aiType='thinkers'	
 					// dbTable.aiTable=new MoveTask(dbTable)	
 				}
 			
