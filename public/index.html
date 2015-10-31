@@ -276,14 +276,27 @@
 				
 				
 				
-				dbTable.table=$rootScope.table
+				dbTable.table=$rootScope.table																		//refaktor!!!!!!
 				dbTable.moves= $rootScope.moves
 				dbTable.pollNum= $rootScope.pollNum
 				dbTable.allPastTables= $rootScope.allPastTables
 				dbTable.wName= $rootScope.wName
 				dbTable.bName= $rootScope.bName
 				
-				$rootScope.lastState=dbTable
+				$rootScope.lastState=new Dbtable($rootScope._id, $rootScope.wName, $rootScope.bName)
+				
+				
+				
+				$rootScope.lastState.table=$rootScope.table
+				$rootScope.lastState.moves= $rootScope.moves
+				$rootScope.lastState.pollNum= $rootScope.pollNum
+				$rootScope.lastState.allPastTables= $rootScope.allPastTables
+				$rootScope.lastState.wName= $rootScope.wName
+				$rootScope.lastState.bName= $rootScope.bName
+				
+				
+				
+				
 				
 				var toPush =  getPushString(dbTable.table,moveStr)//piece
 
