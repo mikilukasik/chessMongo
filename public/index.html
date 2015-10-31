@@ -12,6 +12,8 @@
 	appModule.controller("ApplicationController", ApplicationController);
 
 	function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
+		
+		$rootScope.dbTable={}
 
 		var dletters = ["a","b","c","d","e","f","g","h"]
 		var dfigures = ["","King","Queen","Rook","Bishop","Knight","Pawn"]
