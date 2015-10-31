@@ -21,6 +21,9 @@ var SmallMoveTask=function(moveCoord, index, dbTable){
 	//this.created = new Date().getTime()
 	
 	//this.dbTable=dbTable
+	
+	this.oppKingPos=dbTable.oppKingPos
+	
 	this._id=dbTable._id		//server will need this when receiving solved moves
 	
 	this.cfMoveCoords=moveCoord			//4 numbers
@@ -65,7 +68,7 @@ var MoveTask =function(dbTable){
 	this.allTempTables = []
 	
 	
-	
+	this.oppKingPos=whereIsTheKing(dbTable.table,!dbTable.wNext)
 	
 	
 	var moveCoords=getAllMoves(dbTable.table,dbTable.wNext,false,0,true)

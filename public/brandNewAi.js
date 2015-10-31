@@ -1046,7 +1046,7 @@ function evalGame(tableInDb,stop) {
 }
 
 
-function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
+function getTableData(origTable, isWhite, oppKingPos) { //, rtnSimpleValue) {
 	
 	var lSancVal=0
 	var rSancVal=0
@@ -1065,7 +1065,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 	
 	var rtnApproachTheKing=0
 	
-	var oppKingPos=whereIsTheKing(origTable,!isWhite)
+	if(oppKingPos==undefined)oppKingPos=whereIsTheKing(origTable,!isWhite)
 
 	var origColor = 1
 	if(isWhite) origColor = 2
@@ -2045,6 +2045,8 @@ function processMove(move,modType,modConst,looped){
 		
 		var cfColor=move.cfColor
 		
+		var cfOppKingPos=move.oppKingPos
+		
 		var stepMove=move.stepMove
 		
 		var fHitValue=move.fHitValue
@@ -2289,7 +2291,7 @@ function processMove(move,modType,modConst,looped){
 					}
 				}
 				
-				var tempRetData = getTableData(tempRetTable, cfColor)
+				var tempRetData = getTableData(tempRetTable, cfColor, cfOppKingPos)
 
 				//var tretTableValue = tempRetData[0] //tablevalue-t nem is kene szamolni, megvan a retHitValue		//talan az sem kell
 				var tretMyHitValue = tempRetData[1]
