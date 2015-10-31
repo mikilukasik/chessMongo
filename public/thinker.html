@@ -340,18 +340,9 @@
                 }
                 // 	
  //if($rootScope.learning){
-                if (myGame.gameIsOn) {
-                    $http.get('/move?s=1&m=' + aiMoveString + '&t=' + myGame._id)
-                        .then(function(response) {
-                            
-                            
-                            
-                            
-                            //temp
-             //               $http.post('/moved',myGame,function(req,res){})
-                            //temp
-                            
-                            if(myGame.pollNum/15==Math.floor(myGame.pollNum/15)){
+ 
+ 
+      if(myGame.pollNum/15==Math.floor(myGame.pollNum/15)){
                                  $http.post('/moved',myGame,function(req,res){})
                                  
                                  //temp:
@@ -378,6 +369,26 @@
                             }
                            
                             
+    
+    
+                if (myGame.gameIsOn) {
+                    
+                    $timeout(function(){
+                         $rootScope.playgame(myGame, mt, modVal, !wNx, wMod)
+
+                    },200)
+                    
+                    // $http.get('/move?s=1&m=' + aiMoveString + '&t=' + myGame._id)
+                    //     .then(function(response) {
+                            
+                            
+                            
+                            
+                            //temp
+             //               $http.post('/moved',myGame,function(req,res){})
+                            //temp
+                            
+                          
                             
                             
                             // $http.get('/learnerPoll?n=' + $rootScope.cookieID +
@@ -394,14 +405,16 @@
 
                             //     $rootScope.refreshWhenUp()
                             // })
-                               $rootScope.playgame(myGame, mt, modVal, !wNx, wMod)
+                               // $rootScope.playgame(myGame, mt, modVal, !wNx, wMod)
 
-                        }, function(data) {
-                            $rootScope.headMessage = 'Connection error, refreshing'
+                      //  }
+                        // , function(data) {
+                        //     $rootScope.headMessage = 'Connection error, refreshing'
 
-                            $rootScope.refreshWhenUp()
+                        //     $rootScope.refreshWhenUp()
 
-                        })
+                        // }
+                        )
 
                 } else {
 
