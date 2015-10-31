@@ -274,7 +274,7 @@
 							
 				var dbTable=new Dbtable($rootScope._id, $rootScope.wName, $rootScope.bName)
 				
-				$scope.clearHighlights()
+				
 				
 				dbTable.table=$rootScope.table																		//refaktor!!!!!!
 				dbTable.moves= $rootScope.moves
@@ -372,6 +372,8 @@
 				$rootScope.table=$rootScope.lastState.table
 				$rootScope.wNext=$rootScope.lastState.wNext
 				$rootScope.moves=$rootScope.lastState.moves
+				
+				$scope.clearHighlights()
 				
 			})
 		}
