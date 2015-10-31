@@ -233,13 +233,32 @@ function addMovesToTable(originalTable, whiteNext) {
 
 }
 
+function whereIsTheKing(table,wn){
+	
+	var myCol = 1;
+	if(wn) myCol++ //myCol is 2 when white
+	
+	for(var i = 0; i < 8; i++) {
+			for(var j = 0; j < 8; j++) {
+				if(table[i][j][1] == 9 && table[i][j][0] == myCol) {
+					//itt a kiraly
+				return [i,j]
+			}
+	}
+	
+}
 
 
 function captured(table, color) {
+	
+	var tempMoves = []
+	
+	
 	var myCol = 1;
 
-	var tempMoves = []
 	if(color) myCol++ //myCol is 2 when white
+	
+	
 		for(var i = 0; i < 8; i++) {
 			for(var j = 0; j < 8; j++) {
 
@@ -1042,6 +1061,10 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 	var rtnHisMoveCount = 0
 	
 	var rtnPushHimBack=0
+	
+	var rtnApproachTheKing=0
+	
+	var oppKingPos=whereIsTheKing(origTable,!isWhite)
 
 	var origColor = 1
 	if(isWhite) origColor = 2
@@ -1181,6 +1204,10 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 
 				//rtnMyHitSum = [0]
 				
+				//below:	minnel nagyobb erteku babum minnel kozelebb az ellenfel kiralyahoz
+				
+				rtnApproachTheKing+=	((7-Math.abs(oppKingPos[0]-lookI))	+	(7-Math.abs(oppKingPos[1]-lookJ)))* origTable[lookI][lookJ][1] 
+				
 				if((!(origTable[lookI][lookJ][1] == 1))&&lookI>1&&lookJ>1&&lookI<6&&lookJ<6){	//ha nem paraszt es kozepen van a babu
 					getToMiddle++
 				}
@@ -1224,7 +1251,7 @@ function getTableData(origTable, isWhite) { //, rtnSimpleValue) {
 	}
 
 	return [tableValue, rtnMyHitSum[0], rtnHisHitSum[0],// rtnHisMoveCount, 
-		lSancVal,rSancVal,getToMiddle,rtnPushHimBack,myMostMoved] //rtnData
+		lSancVal,rSancVal,getToMiddle,rtnPushHimBack,myMostMoved,rtnApproachTheKing] //rtnData
 
 }
 
@@ -2033,6 +2060,10 @@ function processMove(move,modType,modConst,looped){
 		var origPushHimBack=origData[6]
 		var origMostMoved=origData[7]
 		
+		var origApproachTheKing=origData[8]
+		
+		//var origDistanceFromKing=origData[10]
+		
 		var origProtect=move.origProtect
 		
 		var dontLoop=false
@@ -2163,6 +2194,8 @@ function processMove(move,modType,modConst,looped){
 		var pushHimBack=0
 		var mostMoved=0
 		
+		var approachTheKing=0
+		
 
 		var rtnValue=0 //=loopValue+mhit+hhit
 
@@ -2291,7 +2324,7 @@ function processMove(move,modType,modConst,looped){
 			var rtnPushHimBack=retData[6]
 			var rtnMostMoved=retData[7]
 			
-			
+			var rtnApproachTheKing=retData[8]
 
 			loopValue += (fHitValue[0]-retHitValue[0])*10 			//(rtnTableValue - origTableValue) * 10
 			hhit = (origHisHitValue - rtnHisHitValue)
@@ -2300,6 +2333,7 @@ function processMove(move,modType,modConst,looped){
 			rsancValue=(rtnrSanc- origrSanc)/100
 			getToMiddle=(rtnGetToMiddle-origGetToMiddle)/1000
 			pushHimBack=(rtnPushHimBack-origPushHimBack)/1000		//this could be somevhere between 100&1000
+			approachTheKing=(origApproachTheKing-rtnApproachTheKing)/10000	//lets see
 			
 			mostMoved=(origMostMoved-rtnMostMoved)/2			//temp high, we should lover this as the game goes on //will be -.5 or 0 always
 			if(mostMoved>0)mostMoved=0		//it is positive when our most moved piece goes off
@@ -2514,6 +2548,11 @@ function processMove(move,modType,modConst,looped){
 				//console.log('scV modded: '+modConst)
 			break;
 			
+			case "aTK":
+			
+				approachTheKing*=modConst
+			
+			break;
 			
 			
 			
@@ -2540,7 +2579,8 @@ function processMove(move,modType,modConst,looped){
 							pushHimBack *4.676+	//5
 							mostMoved*0.105154+	//9
 							loopedValue+
-							forceLoopValue
+							forceLoopValue+
+							approachTheKing
 
 		
 		
