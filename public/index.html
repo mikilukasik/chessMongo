@@ -358,6 +358,7 @@
 			
 			$http.post('/moved',$rootScope.dbTable,function(req,res){
 				$rootScope.table=$rootScope.dbTable.table
+				$rootScope.showTable()
 				// $rootScope.dbTable.wNext=dbTable.wNext
 				// $rootScope.moves=dbTable.moves
 				
