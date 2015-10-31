@@ -283,18 +283,7 @@
 				dbTable.wName= $rootScope.wName
 				dbTable.bName= $rootScope.bName
 				
-				$rootScope.lastState=new Dbtable($rootScope._id, $rootScope.wName, $rootScope.bName)
-				
-				
-				
-				$rootScope.lastState.table=$rootScope.table
-				$rootScope.lastState.moves= $rootScope.moves
-				$rootScope.lastState.pollNum= $rootScope.pollNum
-				$rootScope.lastState.allPastTables= $rootScope.allPastTables
-				$rootScope.lastState.wName= $rootScope.wName
-				$rootScope.lastState.bName= $rootScope.bName
-				
-				
+				$rootScope.lastState= $.extend(true, {}, dbTable)
 				
 				
 				
