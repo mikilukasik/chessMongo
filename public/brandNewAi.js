@@ -243,6 +243,7 @@ function whereIsTheKing(table,wn){
 				if(table[i][j][1] == 9 && table[i][j][0] == myCol) {
 					//itt a kiraly
 				return [i,j]
+				}
 			}
 	}
 	
