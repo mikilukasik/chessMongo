@@ -22,7 +22,7 @@
 		$scope.lobbyPollNum = 0
 
 		//$rootScope.tempMoveString = ""
-		$rootScope.pollNum = -2		//just in case
+		$rootScope.dbTable.pollNum = -2		//just in case
 		//$rootScope.table = []
 		
 
@@ -80,7 +80,7 @@
 
 			//console.log('polling table ' + $rootScope._id)
 
-			$http.get('/longPollTable?t=' + $rootScope._id + '&pn=' + $rootScope.pollNum + '&r=' + Math.random())
+			$http.get('/longPollTable?t=' + $rootScope._id + '&pn=' + $rootScope.dbTable.pollNum + '&r=' + Math.random())
 				.then(function(responseData) {
 					var response=responseData.data
 					
@@ -108,13 +108,13 @@
 							//just copy the table
 							$rootScope.table = response.table
 						}
-						$rootScope.tableId=response._id
-						$rootScope.wNext = response.wNext
-						//$scope.allMoves = response.allMoves				//these are my possible moves now
-						$rootScope.chatLines = response.chat
-						$rootScope.pollNum=response.pollNum
-						$rootScope.moves=response.moves	
-						$rootScope.allPastTables=response.allPastTables	
+						$rootScope.dbTable=response
+						// $rootScope.dbTable.wNext = response.wNext
+						// //$scope.allMoves = response.allMoves				//these are my possible moves now
+						// $rootScope.chatLines = response.chat
+						// $rootScope.dbTable.pollNum=response.pollNum
+						// $rootScope.moves=response.moves	
+						// $rootScope.allPastTables=response.allPastTables	
 						//$rootScope.moves=response.moves										
 	
 						// $scope.refreshRecentGames()
@@ -139,7 +139,7 @@
 			var oldNum = $rootScope._id
 			
 			$rootScope._id=num
-			$rootScope.pollNum=-1
+			$rootScope.dbTable.pollNum=-1
 			
 			
 			
@@ -180,7 +180,7 @@
 								$rootScope._id = response.opentablenum
 								$scope.wPlayer = response.opentablecolor
 								$scope.opponentsName = response.opponentsname
-								$rootScope.pollNum = 0
+								$rootScope.dbTable.pollNum = 0
 
 								$scope.openNow = true;
 
@@ -268,60 +268,75 @@
 			
 			
 			
-			var moveStr=whatMove	//levagni a kepeket...	(mi ut mit)
+			var moveStr=whatMove	
+			
+			$rootScope.previousState=$rootScope.dbTable
+			
+			$rootScope.dbTable=moveInTable(whatMove,$rootScope.dbTable)
+			
+			
+			
+			
+			
+			
+			//levagni a kepeket...	(mi ut mit)
+			
+			
+			
+			
 			//////////////////////
 							///replace this!!!
 							
-				var dbTable=new Dbtable($rootScope._id, $rootScope.wName, $rootScope.bName)
+			// 	var dbTable=new Dbtable($rootScope._id, $rootScope.wName, $rootScope.bName)
 				
 				
 				
-				dbTable.table=$rootScope.table
-				dbTable.moves= $rootScope.moves
-				dbTable.pollNum= $rootScope.pollNum
-				dbTable.allPastTables= $rootScope.allPastTables
-				dbTable.wName= $rootScope.wName
-				dbTable.bName= $rootScope.bName
+			// 	dbTable.table=$rootScope.table
+			// 	dbTable.moves= $rootScope.moves
+			// 	dbTable.pollNum= $rootScope.dbTable.pollNum
+			// 	dbTable.allPastTables= $rootScope.allPastTables
+			// 	dbTable.wName= $rootScope.wName
+			// 	dbTable.bName= $rootScope.bName
 				
 				
-				var toPush =  getPushString(dbTable.table,moveStr)//piece
+			// 	var toPush =  getPushString(dbTable.table,moveStr)//piece
 
-				+new String(new Date().getTime())
+			// 	+new String(new Date().getTime())
 
-				// if(!(toPush==$rootScope.moves[$rootScope.moves.length-1])){
+			// 	// if(!(toPush==$rootScope.moves[$rootScope.moves.length-1])){
 				
 				
-				dbTable.moves.push(toPush)
+			// 	dbTable.moves.push(toPush)
 
-				dbTable.table = moveIt(moveStr, dbTable.table)			//	<----moves it
+			// 	dbTable.table = moveIt(moveStr, dbTable.table)			//	<----moves it
 				
-				//$rootScope.showTable($rootScope.table)
+			// 	//$rootScope.showTable($rootScope.table)
 
-				dbTable.wNext = !dbTable.wNext
+			// 	dbTable.wNext = !dbTable.wNext
 
-				dbTable.pollNum++
+			// 	dbTable.pollNum++
 
-				//$rootScope.moved = new Date().getTime()
+			// 	//$rootScope.moved = new Date().getTime()
 				
-				dbTable.table = addMovesToTable(dbTable.table, dbTable.wNext)	//true stands for pawn and king only: allpasttables only
+			// 	dbTable.table = addMovesToTable(dbTable.table, dbTable.wNext)	//true stands for pawn and king only: allpasttables only
 
-				//remember this state for 3fold rule
-				var sendThis=createState(dbTable.table)
+			// 	//remember this state for 3fold rule
+			// 	var sendThis=createState(dbTable.table)
 				
 				
-				dbTable.allPastTables.push(sendThis)
+			// 	dbTable.allPastTables.push(sendThis)
 				
 				
 
-				//$rootScope.whatToDo = 'idle'
+			// 	//$rootScope.whatToDo = 'idle'
 			
-				//$rootScope.sendMessage('move '+moveStr+' processed.')
+			// 	//$rootScope.sendMessage('move '+moveStr+' processed.')
 			
-			/////////////////////////
+			// /////////////////////////
 			
 			
-			//})
-			evalGame(dbTable,true)	//true should tell it was learnergame, not yet
+			// //})
+			// evalGame(dbTable,true)	//true should tell it was learnergame, not yet
 			
 			
 				if($scope.opponentsName=='Fastest thinker'){
@@ -336,13 +351,13 @@
 				}
 			
 			
-			dbTable._id=$rootScope.tableId
+			//dbTable._id=$rootScope.tableId
 			
 			
-			$http.post('/moved',dbTable,function(req,res){
-				$rootScope.table=dbTable.table
-				$rootScope.wNext=dbTable.wNext
-				$rootScope.moves=dbTable.moves
+			$http.post('/moved',$rootScope.dbTable,function(req,res){
+				$rootScope.table=$rootScope.dbTable.table
+				// $rootScope.dbTable.wNext=dbTable.wNext
+				// $rootScope.moves=dbTable.moves
 				
 			})
 			
@@ -355,8 +370,8 @@
 			
 			
 				// .success(function(response) {
-				// 	$rootScope.wNext = !$rootScope.wNext
-				// 	$rootScope.pollNum-=5
+				// 	$rootScope.dbTable.wNext = !$rootScope.dbTable.wNext
+				// 	$rootScope.dbTable.pollNum-=5
 				// 	$scope.refreshTable()
 				// 	return response.table
 
@@ -368,9 +383,9 @@
 
 			$http.get('/getTPollNum?t=' + $rootScope._id)
 				.success(function(response) {
-					//console.log('getting board pollnum: '+response.tablepollnum+" vs "+$rootScope.pollNum)
-					if(!(response.tablepollnum == $rootScope.pollNum)) {
-						$rootScope.pollNum = response.tablepollnum
+					//console.log('getting board pollnum: '+response.tablepollnum+" vs "+$rootScope.dbTable.pollNum)
+					if(!(response.tablepollnum == $rootScope.dbTable.pollNum)) {
+						$rootScope.dbTable.pollNum = response.tablepollnum
 						//console.log('calling getandshow')
 						$rootScope.longPollTable()
 						if(!$scope.$$phase) {
@@ -472,8 +487,8 @@
 			var y = clickedField[1]
 			var clickedColor = false
 			
-		console.log('testing',$rootScope.table[x][y][5] , $rootScope.tempMoveString.length ,$rootScope.wNext , $scope.wPlayer)	
-			if((!($rootScope.table[x][y][5] == []) || $rootScope.tempMoveString.length > 0) && $rootScope.wNext == $scope.wPlayer) {
+		console.log('testing',$rootScope.table[x][y][5] , $rootScope.tempMoveString.length ,$rootScope.dbTable.wNext , $scope.wPlayer)	
+			if((!($rootScope.table[x][y][5] == []) || $rootScope.tempMoveString.length > 0) && $rootScope.dbTable.wNext == $scope.wPlayer) {
 
 				if(clickedString == $rootScope.tempMoveString) {
 					$rootScope.table[x][y][8] = false
@@ -509,7 +524,7 @@
 						if($rootScope.table[x][y][9] == true) {
 
 							$scope.makeAMove($rootScope.tempMoveString)
-							$rootScope.wNext = !$rootScope.wNext
+							$rootScope.dbTable.wNext = !$rootScope.dbTable.wNext
 
 							$rootScope.tempMoveString = ""
 
