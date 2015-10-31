@@ -297,7 +297,7 @@ function createXData() {
 				"firstFreeTable": 1,
 				"lobbyChat": [],
 				"activeTables": [],
-				"modType":""
+				"modTypes":[]
 			}, function(err3, res) {})
 		db.close()
 
@@ -1545,7 +1545,7 @@ app.get('/startGame', function(req, res) {
 
 });
 
-app.get('/mod', function(req, res) {
+app.post('/mod', function(req, res) {
 	
 	
 	mongodb.connect(cn, function(err, db) {
@@ -1553,7 +1553,7 @@ app.get('/mod', function(req, res) {
 			.findOne({
 				_id: "xData"
 			}, function(err2, xData) {
-				var firstFreeTable=-5
+				//var firstFreeTable=-5
 				if(xData == null) {
 
 					createXData();
@@ -1561,7 +1561,7 @@ app.get('/mod', function(req, res) {
 					// firstFreeTable = 1
 				} //else {
 					//firstFreeTable = xData.firstFreeTable
-					xData.modType=req.query.m
+					xData.modTypes=req.body
 				//	xData.firstFreeTable++
 				//}
 				db.collection("tables")
@@ -1628,7 +1628,7 @@ app.get('/lobbyChat', function(req, res) {
 });
 
 
-app.get('/getModType', function(req, res) {
+app.get('/getModTypes', function(req, res) {
 	//////////// console.log(req)
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
@@ -1639,7 +1639,7 @@ app.get('/getModType', function(req, res) {
 				res.json({
 		
 		
-		"modType": xData.modType
+		"modTypes": xData.modTypes
 	});
 				
 				db.close()

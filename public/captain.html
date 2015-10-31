@@ -13,6 +13,7 @@
 	
 	function ApplicationController( $http, $interval,  $scope) {	
 		
+		$scope.modTypes=[]
 		$scope.pollNum=0
 		var captainPollConst=500
 		$scope.learners=[]
@@ -48,20 +49,25 @@
 	
 	
 	longPoll()
-	$scope.setModType=function(modType){
-		$http.get('/mod?m='+modType).then(
-			function(response){
+	$scope.addModType=function(modType){
+		
+		$scope.modTypes.push(modType)
+		$scope.modTypes.sort()
+		
+		$http.post('/mod',$scope.modTypes)
+		// .then(
+		// 	function(response){
 				
-				$http.get('/getModType').then(
-					function(response2){
-						alert('modType verify: '+response2.data.modType)
-					}
-				)
+		// 		$http.get('/getModType').then(
+		// 			function(response2){
+		// 				alert('modType verify: '+response2.data.modType)
+		// 			}
+		// 		)
 				
-				//
+		// 		//
 				
-			}
-		)
+		// 	}
+		// )
 	}
 
 	$scope.refreshAllThinkers=function(){
@@ -100,12 +106,14 @@ appModule.controller("ApplicationController", ApplicationController);
 <body ng-app="appModule"  ng-controller="ApplicationController">
 	
 	
-	<form ng-submit="setModType(thisModType)">
-		ModType<input ng-model="thisModType"></input>
+	<form ng-submit="addModType(thisModType)">
+		add modType:<input ng-model="thisModType"></input>
 <!--		
 		id="inputModType" 
 		-->
 	</form>
+	modTypes: 
+	<ul ng-repeat="x in modTypes"> {{x}} </ul>
 		Tasks in queue: {{taskQ}}
 		
 		<br>

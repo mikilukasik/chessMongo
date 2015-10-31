@@ -448,9 +448,15 @@
             
             $rootScope.startGamePair=function(){
                  if($rootScope.learning){
-                      $http.get('/getModType').then(function(response) {
-                            var modType = response.data.modType
+                      $http.get('/getModTypes').then(function(response) {
                             
+                           var modType="" 
+                          
+                           var modTypes = response.data.modTypes
+                           var len=modTypes.length
+                          if(len>0) {
+                               modType=modTypes[Math.floor(Math.random()*len)]
+                          }
                            
                             var modVal = Math.random()  *100 //!!!!!!! 100  
                             $rootScope.mv = modVal
