@@ -69,6 +69,12 @@
 	
 	
 	longPoll()
+	$scope.clearModTypes=function(){
+		$scope.modTypes=[]
+		$http.post('/mod',$scope.modTypes)
+	}
+	
+	
 	$scope.addModType=function(modType){
 		
 		$scope.modTypes.push(modType)
@@ -127,11 +133,12 @@ appModule.controller("ApplicationController", ApplicationController);
 	
 	
 	<form ng-submit="addModType(thisModType)">
-		add modType:<input ng-model="thisModType"></input>
+		add modType:<input ng-model="thisModType"></input><button>Add</button>
 <!--		
 		id="inputModType" 
 		-->
 	</form>
+	<button ng-click="clearModTypes()">Clear modTypes</button>
 	modTypes: 
 	<span ng-repeat="x in modTypes"> {{x}} </span>
 		Tasks in queue: {{taskQ}}
