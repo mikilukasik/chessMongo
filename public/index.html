@@ -283,6 +283,7 @@
 				dbTable.wName= $rootScope.wName
 				dbTable.bName= $rootScope.bName
 				
+				$rootScope.lastState=dbTable
 				
 				var toPush =  getPushString(dbTable.table,moveStr)//piece
 
@@ -362,6 +363,15 @@
 
 				// })
 
+		}
+		
+		$rootScope.takeItBack= function(){
+			$http.post('/moved',$rootScope.lastState,function(req,res){
+				$rootScope.table=$rootScope.lastState.table
+				$rootScope.wNext=$rootScope.lastState.wNext
+				$rootScope.moves=$rootScope.lastState.moves
+				
+			})
 		}
 
 		$scope.refreshTable = function() {
