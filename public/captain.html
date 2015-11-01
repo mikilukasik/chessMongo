@@ -18,8 +18,7 @@
 		 $http.get('/getModTypes').then(function(response) {
                             
                            //var modType="" 
-                          
-                           $scope.modTypes = response.data.modTypes
+                          if( response.data.modTypes!=undefined) $scope.modTypes = response.data.modTypes
                         //    var len=modTypes.length
                         //   if(len>0) {
                         //        modType=modTypes[Math.floor(Math.random()*len)]
