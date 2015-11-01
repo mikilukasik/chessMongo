@@ -1364,577 +1364,577 @@ function countInArray(inValue, inArray) {
     return occured
 }
 
-function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
-    var looped = false
-        //var loopedValue=0
-    var modConst = 1
-    if (modType == "lpV") {
-        if (modVal <= 50) {
-            modConst = modVal / 50
-        } else {
-            modConst = 1 / ((100 - modVal) / 50)
-        }
-    }
+// function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
+//     var looped = false
+//         //var loopedValue=0
+//     var modConst = 1
+//     if (modType == "lpV") {
+//         if (modVal <= 50) {
+//             modConst = modVal / 50
+//         } else {
+//             modConst = 1 / ((100 - modVal) / 50)
+//         }
+//     }
 
-    var allTempTables = [
-        [true, 0, new Date().getTime()] //array heading:true,0,timeStarted for timeItTook
-    ]
-    var doScnd = !skipScnd
+//     var allTempTables = [
+//         [true, 0, new Date().getTime()] //array heading:true,0,timeStarted for timeItTook
+//     ]
+//     var doScnd = !skipScnd
 
-    //getAllMoves should be able to work fast or full (sanc, en pass, stb)
-    var cfMoves = []
-    var cfMoveCoords = []
+//     //getAllMoves should be able to work fast or full (sanc, en pass, stb)
+//     var cfMoves = []
+//     var cfMoveCoords = []
 
-    getAllMoves(cfTable, cfColor, false, 0, true).forEach(function(thisMove) { //get all my moves in array of strings
-        cfMoves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
-        cfMoveCoords.push(thisMove)
-    })
+//     getAllMoves(cfTable, cfColor, false, 0, true).forEach(function(thisMove) { //get all my moves in array of strings
+//         cfMoves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
+//         cfMoveCoords.push(thisMove)
+//     })
 
-    // es akkor nem kell ez:
-    // for(var i = cfMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
-    // 	if(captured(moveIt(cfMoves[i], cfTable), cfColor)) { //sakkba lepnenk
-    // 		cfMoves.splice(i, 1)
-    // 		cfMoveCoords.splice(i, 1)
-    // 	}
-    // }
+//     // es akkor nem kell ez:
+//     // for(var i = cfMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
+//     // 	if(captured(moveIt(cfMoves[i], cfTable), cfColor)) { //sakkba lepnenk
+//     // 		cfMoves.splice(i, 1)
+//     // 		cfMoveCoords.splice(i, 1)
+//     // 	}
+//     // }
 
-    //sakkbol sancolas, sakkon atugras is kene ide (new getallmoves  will help) //mindenkepp kell, vagy leleptetnek
+//     //sakkbol sancolas, sakkon atugras is kene ide (new getallmoves  will help) //mindenkepp kell, vagy leleptetnek
 
-    //
-    var origProtect = protectTable(cfTable, cfColor)
+//     //
+//     var origProtect = protectTable(cfTable, cfColor)
 
-    var origData = getTableData(cfTable, cfColor) //trick getTableScore(cfTable, !cfColor)
+//     var origData = getTableData(cfTable, cfColor) //trick getTableScore(cfTable, !cfColor)
 
-    var dontLoop = false
+//     var dontLoop = false
 
-    if (origData[0] > 1) {
-        dontLoop = true
-            //console.log('nem loopolhatok')
-    }
+//     if (origData[0] > 1) {
+//         dontLoop = true
+//             //console.log('nem loopolhatok')
+//     }
 
-    var origTableValue = origData[0]
-    var origMyHitValue = origData[1]
-    var origHisHitValue = origData[2]
-    var origlSanc = origData[3]
-    var origrSanc = origData[4]
-    var origGetToMiddle = origData[5]
-    var origPushHimBack = origData[6]
-    var origMostMoved = origData[7]
+//     var origTableValue = origData[0]
+//     var origMyHitValue = origData[1]
+//     var origHisHitValue = origData[2]
+//     var origlSanc = origData[3]
+//     var origrSanc = origData[4]
+//     var origGetToMiddle = origData[5]
+//     var origPushHimBack = origData[6]
+//     var origMostMoved = origData[7]
 
-    var fHitValue = [0]
+//     var fHitValue = [0]
 
 
-    var hisBestRtnMove
+//     var hisBestRtnMove
 
-    cfMoves.forEach(function(stepMove, moveIndex) {
+//     cfMoves.forEach(function(stepMove, moveIndex) {
 
-        //process.stdout.write(".");
+//         //process.stdout.write(".");
 
-        var smallValScore = (10 - cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]) / 1000
+//         var smallValScore = (10 - cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]) / 1000
 
-        //vonjuk ki ha vedett
-        // if (cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][6]){			//ha vedett 
-        // 	fHitValue-=cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]/10000	//kivonja amivel lep
-        // }
+//         //vonjuk ki ha vedett
+//         // if (cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][6]){			//ha vedett 
+//         // 	fHitValue-=cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1]/10000	//kivonja amivel lep
+//         // }
 
-        var fwdVal = 0
-        if (!cfColor && cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1] == 1) { //ha fekete parejt tol
-            fwdVal = (7 - stepMove[1]) * 0.01
-        }
-        if (cfColor && cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1] == 1) { //ha feher parejt tol
-            fwdVal = (stepMove[1] - 2) * 0.01
-        }
+//         var fwdVal = 0
+//         if (!cfColor && cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1] == 1) { //ha fekete parejt tol
+//             fwdVal = (7 - stepMove[1]) * 0.01
+//         }
+//         if (cfColor && cfTable[cfMoveCoords[moveIndex][0]][cfMoveCoords[moveIndex][1]][1] == 1) { //ha feher parejt tol
+//             fwdVal = (stepMove[1] - 2) * 0.01
+//         }
 
-        //fHitValue = cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1] //leutott babu erteke, vagy 0
+//         //fHitValue = cfTable[cfMoveCoords[moveIndex][2]][cfMoveCoords[moveIndex][3]][1] //leutott babu erteke, vagy 0
 
-        var tempTable = moveIt(stepMove, cfTable, true, fHitValue) //, false, hitValue)
-        protectTable(tempTable)
+//         var tempTable = moveIt(stepMove, cfTable, true, fHitValue) //, false, hitValue)
+//         protectTable(tempTable)
 
 
-        var loopValue = 0 //=(fHitValue-retHitValue)*10
-        var loopedValue = 0 //=(fHitValue-retHitValue)*10
+//         var loopValue = 0 //=(fHitValue-retHitValue)*10
+//         var loopedValue = 0 //=(fHitValue-retHitValue)*10
 
-        var forceLoopValue = 0
-            ////
-            //indul a noloop
+//         var forceLoopValue = 0
+//             ////
+//             //indul a noloop
 
-        tempTable = addMovesToTable(tempTable, !cfColor)
+//         tempTable = addMovesToTable(tempTable, !cfColor)
 
-        var thisTState = createState(tempTable)
-        var counted = countInArray(thisTState, allPast)
-        console.log(counted)
-        if (counted > 1) {
-            //3szorra lepnenk ugyanabba a statuszba
-            //ideiglenesen ne
-            ////// //console.log ('i could 3fold '+counted)
+//         var thisTState = createState(tempTable)
+//         var counted = countInArray(thisTState, allPast)
+//         console.log(counted)
+//         if (counted > 1) {
+//             //3szorra lepnenk ugyanabba a statuszba
+//             //ideiglenesen ne
+//             ////// //console.log ('i could 3fold '+counted)
 
-            //console.log('counted >1')
+//             //console.log('counted >1')
 
-            if (dontLoop) {
+//             if (dontLoop) {
 
-                loopedValue -= 2000
+//                 loopedValue -= 2000
 
-                //console.log('dontloop: -2000')
+//                 //console.log('dontloop: -2000')
 
-            }
+//             }
 
 
 
-            if (counted > 3) {
-                //surely looped
+//             if (counted > 3) {
+//                 //surely looped
 
-                console.log(counted > 3, counted)
+//                 console.log(counted > 3, counted)
 
-                looped = true
+//                 looped = true
 
-            }
+//             }
 
-        } else {
-            // //// //console.log (counted)
-            // //// //console.log(thisTState)
-        }
+//         } else {
+//             // //// //console.log (counted)
+//             // //// //console.log(thisTState)
+//         }
 
 
 
 
-        ////
+//         ////
 
-        var cfRetMoves = []
-        var cfRetMoveCoords = []
-            //ide is full getallmoves kene, de vhogy tudnunk kell hany lepest szedett le sakk miatt, es azt is ebbol hanyszor lep a kirallyal..
-        getAllMoves(tempTable, !cfColor).forEach(function(thisMove) { //get all his moves in array of strings
-            cfRetMoves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
-            cfRetMoveCoords.push(thisMove)
+//         var cfRetMoves = []
+//         var cfRetMoveCoords = []
+//             //ide is full getallmoves kene, de vhogy tudnunk kell hany lepest szedett le sakk miatt, es azt is ebbol hanyszor lep a kirallyal..
+//         getAllMoves(tempTable, !cfColor).forEach(function(thisMove) { //get all his moves in array of strings
+//             cfRetMoves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
+//             cfRetMoveCoords.push(thisMove)
 
-        })
-        var origLen = cfRetMoves.length
-        var removeCount = 0
-        for (var i = cfRetMoves.length - 1; i >= 0; i--) { //sakkba nem lephet o sem
-            if (captured(moveIt(cfRetMoves[i], tempTable), !cfColor)) { //sakkba lepne valaszkent	//moveit retmove ittis ottis
-                if (tempTable[cfRetMoveCoords[i][0]][cfRetMoveCoords[i][1]][1] == 9) {
-                    removeCount++ //fogja a kiraly koruli mezoket
-                } else {
-                    removeCount += 3 //ollo ha sakkba lepne de nem kirallyal lepett
-                }
-                cfRetMoves.splice(i, 1)
-                cfRetMoveCoords.splice(i, 1)
+//         })
+//         var origLen = cfRetMoves.length
+//         var removeCount = 0
+//         for (var i = cfRetMoves.length - 1; i >= 0; i--) { //sakkba nem lephet o sem
+//             if (captured(moveIt(cfRetMoves[i], tempTable), !cfColor)) { //sakkba lepne valaszkent	//moveit retmove ittis ottis
+//                 if (tempTable[cfRetMoveCoords[i][0]][cfRetMoveCoords[i][1]][1] == 9) {
+//                     removeCount++ //fogja a kiraly koruli mezoket
+//                 } else {
+//                     removeCount += 3 //ollo ha sakkba lepne de nem kirallyal lepett
+//                 }
+//                 cfRetMoves.splice(i, 1)
+//                 cfRetMoveCoords.splice(i, 1)
 
-                // if(!(tempTable[cfRetMoveCoords[i][0]][cfRetMoveCoords[i][1]][1]==9)){
+//                 // if(!(tempTable[cfRetMoveCoords[i][0]][cfRetMoveCoords[i][1]][1]==9)){
 
-                // }
-            }
-        }
-        var captureScore = 0
-        if (origLen == 0) { //not do devide by zero also mark won?
-            //pattot adne?
-        } else {
-            captureScore = parseInt(removeCount * 100 / origLen) / 10000
-        }
+//                 // }
+//             }
+//         }
+//         var captureScore = 0
+//         if (origLen == 0) { //not do devide by zero also mark won?
+//             //pattot adne?
+//         } else {
+//             captureScore = parseInt(removeCount * 100 / origLen) / 10000
+//         }
 
-        var retTable = []
+//         var retTable = []
 
-        var hhit = 0 //(origHisHitValue-rtnHisHitValue)
-        var mhit = 0 //(rtnMyHitValue-origMyHitValue)*10
-        var dontGetHit = 0
-        var lsancValue = 0
-        var rsancValue = 0
-        var sancValue = 0
-        var getToMiddle = 0
-        var pushHimBack = 0
-        var mostMoved = 0
+//         var hhit = 0 //(origHisHitValue-rtnHisHitValue)
+//         var mhit = 0 //(rtnMyHitValue-origMyHitValue)*10
+//         var dontGetHit = 0
+//         var lsancValue = 0
+//         var rsancValue = 0
+//         var sancValue = 0
+//         var getToMiddle = 0
+//         var pushHimBack = 0
+//         var mostMoved = 0
 
 
-        var rtnValue = 0 //=loopValue+mhit+hhit
+//         var rtnValue = 0 //=loopValue+mhit+hhit
 
-        if (cfRetMoves.length == 0) {
+//         if (cfRetMoves.length == 0) {
 
-            if (captured(tempTable, !cfColor)) {
-                loopValue += 10000 //ott a matt
-            } else {
+//             if (captured(tempTable, !cfColor)) {
+//                 loopValue += 10000 //ott a matt
+//             } else {
 
-                //pattot adna
-                loopValue -= 10000 //ideiglenesen ne adjunk pattot sosem!!
-            }
+//                 //pattot adna
+//                 loopValue -= 10000 //ideiglenesen ne adjunk pattot sosem!!
+//             }
 
-            //retTable = cfTable //vmit vissza kell azert adni..., legyen az eredeti         
-            retProtect = origProtect
-            retData = origData
-            retTable = cfTable
-            hisBestRtnMove = "stuck."
-            var retHitValue = [0]
+//             //retTable = cfTable //vmit vissza kell azert adni..., legyen az eredeti         
+//             retProtect = origProtect
+//             retData = origData
+//             retTable = cfTable
+//             hisBestRtnMove = "stuck."
+//             var retHitValue = [0]
 
-        } else {
+//         } else {
 
-            //lesz valaszlepese
+//             //lesz valaszlepese
 
-            var retData = []
-            var tempRetValue = -9999990
-            var retHitValue //= //[0]
-            var retProtect = 0
+//             var retData = []
+//             var tempRetValue = -9999990
+//             var retHitValue //= //[0]
+//             var retProtect = 0
 
 
-            cfRetMoves.forEach(function(stepRetMove, retMoveIndex) {
+//             cfRetMoves.forEach(function(stepRetMove, retMoveIndex) {
 
-                var tretHitValue = [0] //tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][1] 
-                var eztVondKi = 0
+//                 var tretHitValue = [0] //tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][1] 
+//                 var eztVondKi = 0
 
 
-                //kesobb vonjuk ki ha vedett
-                if (tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][6]) { //ha vedett 
-                    eztVondKi = tempTable[cfRetMoveCoords[retMoveIndex][0]][cfRetMoveCoords[retMoveIndex][1]][1] //kivonja amivel lep
-                }
+//                 //kesobb vonjuk ki ha vedett
+//                 if (tempTable[cfRetMoveCoords[retMoveIndex][2]][cfRetMoveCoords[retMoveIndex][3]][6]) { //ha vedett 
+//                     eztVondKi = tempTable[cfRetMoveCoords[retMoveIndex][0]][cfRetMoveCoords[retMoveIndex][1]][1] //kivonja amivel lep
+//                 }
 
-                //how abot en pass????//kivonni kesobb a leutott babu erteke, vagy 0
+//                 //how abot en pass????//kivonni kesobb a leutott babu erteke, vagy 0
 
-                var tempRetTable = moveIt(stepRetMove, tempTable, true, tretHitValue) //, false, hitValue)
+//                 var tempRetTable = moveIt(stepRetMove, tempTable, true, tretHitValue) //, false, hitValue)
 
-                ////
-                //indul a noloop
+//                 ////
+//                 //indul a noloop
 
-                tempRetTable = addMovesToTable(tempRetTable, cfColor)
+//                 tempRetTable = addMovesToTable(tempRetTable, cfColor)
 
-                if (countInArray(createState(tempRetTable), allPast) > 1) {
-                    //3szorra lephetne ugyanabba a statuszba
+//                 if (countInArray(createState(tempRetTable), allPast) > 1) {
+//                     //3szorra lephetne ugyanabba a statuszba
 
-                    if (dontLoop) {
-                        loopedValue -= 11000
-                            //console.log('temprettable:   loopedValue-=11000')
-                    } else {
-                        forceLoopValue += 0.5
+//                     if (dontLoop) {
+//                         loopedValue -= 11000
+//                             //console.log('temprettable:   loopedValue-=11000')
+//                     } else {
+//                         forceLoopValue += 0.5
 
-                        //console.log('temprettable:   forceLoopValue+=0.5')	
-                    }
+//                         //console.log('temprettable:   forceLoopValue+=0.5')	
+//                     }
 
-                    looped = true
-                        ////// //console.log('he could 3fold')
-                }
+//                     looped = true
+//                         ////// //console.log('he could 3fold')
+//                 }
 
 
 
 
-                ////
+//                 ////
 
 
 
 
-                //vonjuk ki ha vedett
-                //if(eztVondKi>0){			minek ez??
-                tretHitValue[0] -= eztVondKi
+//                 //vonjuk ki ha vedett
+//                 //if(eztVondKi>0){			minek ez??
+//                 tretHitValue[0] -= eztVondKi
 
-                //}
-                var tretProtect = (protectTable(tempRetTable, cfColor) - origProtect) / 1000 //majd kesobb
+//                 //}
+//                 var tretProtect = (protectTable(tempRetTable, cfColor) - origProtect) / 1000 //majd kesobb
 
-                if (captured(tempRetTable, cfColor)) { //captured kiszamolja osszes valaszlepest, kivonja sakkokat, tudna szamolni utest is, mindent!!!
-                    dontGetHit -= .001 //MERHETNEM KULON
-                        //var myTempMoves=getAllMoves(tempRetTable,cfColor,false,0)
-                    if (!canIMove(tempRetTable, cfColor)) { //lassit mit a szemet, kell ez? kesobb is kiszamoljuk tan...
-                        dontGetHit = -10000 //ha mattot tudna adni erre a lepesre, akkor meg ne lepjuk!
-                    }
-                }
+//                 if (captured(tempRetTable, cfColor)) { //captured kiszamolja osszes valaszlepest, kivonja sakkokat, tudna szamolni utest is, mindent!!!
+//                     dontGetHit -= .001 //MERHETNEM KULON
+//                         //var myTempMoves=getAllMoves(tempRetTable,cfColor,false,0)
+//                     if (!canIMove(tempRetTable, cfColor)) { //lassit mit a szemet, kell ez? kesobb is kiszamoljuk tan...
+//                         dontGetHit = -10000 //ha mattot tudna adni erre a lepesre, akkor meg ne lepjuk!
+//                     }
+//                 }
 
-                var tempRetData = getTableData(tempRetTable, cfColor)
+//                 var tempRetData = getTableData(tempRetTable, cfColor)
 
-                //var tretTableValue = tempRetData[0] //tablevalue-t nem is kene szamolni, megvan a retHitValue		//talan az sem kell
-                var tretMyHitValue = tempRetData[1]
-                var tretHisHitValue = tempRetData[2]
-                    // var tretlSanc = tempRetData[3]
-                    // var tretrSanc = tempRetData[4]
+//                 //var tretTableValue = tempRetData[0] //tablevalue-t nem is kene szamolni, megvan a retHitValue		//talan az sem kell
+//                 var tretMyHitValue = tempRetData[1]
+//                 var tretHisHitValue = tempRetData[2]
+//                     // var tretlSanc = tempRetData[3]
+//                     // var tretrSanc = tempRetData[4]
 
 
-                if ((tretHitValue[0]) * 10 - tretMyHitValue * 10 + tretHisHitValue > tempRetValue) {
+//                 if ((tretHitValue[0]) * 10 - tretMyHitValue * 10 + tretHisHitValue > tempRetValue) {
 
-                    tempRetValue = (tretHitValue[0]) * 10 - tretMyHitValue * 10 + tretHisHitValue
+//                     tempRetValue = (tretHitValue[0]) * 10 - tretMyHitValue * 10 + tretHisHitValue
 
-                    retProtect = tretProtect
-                    retData = tempRetData
-                    retTable = tempRetTable
-                    hisBestRtnMove = stepRetMove
-                    retHitValue = tretHitValue
-                        //retTableValue=tempRetTable
-                } else {
-                    // if((fHitValue[0]-tretHitValue[0]) * 10 - tretMyHitValue * 10 + tretHisHitValue == tempRetValue){
-                    // 	hisBestRtnMove = hisBestRtnMove+'.'//+stepRetMove//"many"
-                    // }						//jo is, kell is, kivettuk, mer lassit
-                }
+//                     retProtect = tretProtect
+//                     retData = tempRetData
+//                     retTable = tempRetTable
+//                     hisBestRtnMove = stepRetMove
+//                     retHitValue = tretHitValue
+//                         //retTableValue=tempRetTable
+//                 } else {
+//                     // if((fHitValue[0]-tretHitValue[0]) * 10 - tretMyHitValue * 10 + tretHisHitValue == tempRetValue){
+//                     // 	hisBestRtnMove = hisBestRtnMove+'.'//+stepRetMove//"many"
+//                     // }						//jo is, kell is, kivettuk, mer lassit
+//                 }
 
-            })
+//             })
 
-            var rtnTableValue = retData[0]
-            var rtnMyHitValue = retData[1]
-            var rtnHisHitValue = retData[2]
-            var rtnlSanc = retData[3]
-            var rtnrSanc = retData[4]
-            var rtnGetToMiddle = retData[5]
-            var rtnPushHimBack = retData[6]
-            var rtnMostMoved = retData[7]
+//             var rtnTableValue = retData[0]
+//             var rtnMyHitValue = retData[1]
+//             var rtnHisHitValue = retData[2]
+//             var rtnlSanc = retData[3]
+//             var rtnrSanc = retData[4]
+//             var rtnGetToMiddle = retData[5]
+//             var rtnPushHimBack = retData[6]
+//             var rtnMostMoved = retData[7]
 
 
 
-            loopValue += (fHitValue[0] - retHitValue[0]) * 10 //(rtnTableValue - origTableValue) * 10
-            hhit = (origHisHitValue - rtnHisHitValue)
-            mhit = (rtnMyHitValue - origMyHitValue) * 10
-            lsancValue = (rtnlSanc - origlSanc) / 100
-            rsancValue = (rtnrSanc - origrSanc) / 100
-            getToMiddle = (rtnGetToMiddle - origGetToMiddle) / 1000
-            pushHimBack = (rtnPushHimBack - origPushHimBack) / 1000 //this could be somevhere between 100&1000
+//             loopValue += (fHitValue[0] - retHitValue[0]) * 10 //(rtnTableValue - origTableValue) * 10
+//             hhit = (origHisHitValue - rtnHisHitValue)
+//             mhit = (rtnMyHitValue - origMyHitValue) * 10
+//             lsancValue = (rtnlSanc - origlSanc) / 100
+//             rsancValue = (rtnrSanc - origrSanc) / 100
+//             getToMiddle = (rtnGetToMiddle - origGetToMiddle) / 1000
+//             pushHimBack = (rtnPushHimBack - origPushHimBack) / 1000 //this could be somevhere between 100&1000
 
-            mostMoved = (origMostMoved - rtnMostMoved) / 2 //temp high, we should lover this as the game goes on //will be -.5 or 0 always
-            if (mostMoved > 0) mostMoved = 0 //it is positive when our most moved piece goes off
+//             mostMoved = (origMostMoved - rtnMostMoved) / 2 //temp high, we should lover this as the game goes on //will be -.5 or 0 always
+//             if (mostMoved > 0) mostMoved = 0 //it is positive when our most moved piece goes off
 
-            //rtnPushHimBack-
+//             //rtnPushHimBack-
 
 
-            //rtnValue = loopValue + mhit + hhit + retProtect//my hit matters most as i'm next
+//             //rtnValue = loopValue + mhit + hhit + retProtect//my hit matters most as i'm next
 
-            if (cfColor) {
-                if ((stepMove == 'e1g1' && cfTable[5][1][0] == 2 && cfTable[6][1][0] == 2 && cfTable[7][1][0] == 2) //vegig covered
-                    ||
-                    (stepMove == 'e1c1' && cfTable[0][1][0] == 2 && cfTable[1][1][0] == 2 && cfTable[2][1][0] == 2)) sancValue += .35 //sancoljon ha jol esik
+//             if (cfColor) {
+//                 if ((stepMove == 'e1g1' && cfTable[5][1][0] == 2 && cfTable[6][1][0] == 2 && cfTable[7][1][0] == 2) //vegig covered
+//                     ||
+//                     (stepMove == 'e1c1' && cfTable[0][1][0] == 2 && cfTable[1][1][0] == 2 && cfTable[2][1][0] == 2)) sancValue += .35 //sancoljon ha jol esik
 
-            } else {
-                if ((stepMove == 'e8g8' && cfTable[5][6][0] == 1 && cfTable[6][6][0] == 1 && cfTable[7][6][0] == 1) ||
-                    (stepMove == 'e8c8' && cfTable[0][6][0] == 1 && cfTable[1][6][0] == 1 && cfTable[2][6][0] == 1)) sancValue += .35 //sancoljon ha jol esik
+//             } else {
+//                 if ((stepMove == 'e8g8' && cfTable[5][6][0] == 1 && cfTable[6][6][0] == 1 && cfTable[7][6][0] == 1) ||
+//                     (stepMove == 'e8c8' && cfTable[0][6][0] == 1 && cfTable[1][6][0] == 1 && cfTable[2][6][0] == 1)) sancValue += .35 //sancoljon ha jol esik
 
-            }
+//             }
 
-        }
+//         }
 
-        //rtnValue += fwdVal
+//         //rtnValue += fwdVal
 
-        //	
+//         //	
 
-        var tTable2Value = 0
+//         var tTable2Value = 0
 
-        if (doScnd) {
-            //
+//         if (doScnd) {
+//             //
 
-            var cf2Moves = []
-            var cf2MoveCoords = []
+//             var cf2Moves = []
+//             var cf2MoveCoords = []
 
-            getAllMoves(retTable, cfColor).forEach(function(thisMove) { //get all my moves in array of strings
-                cf2Moves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
-                cf2MoveCoords.push(thisMove)
-            })
+//             getAllMoves(retTable, cfColor).forEach(function(thisMove) { //get all my moves in array of strings
+//                 cf2Moves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
+//                 cf2MoveCoords.push(thisMove)
+//             })
 
-            // es akkor nem kell ez:
-            for (var i = cf2Moves.length - 1; i >= 0; i--) { //sakkba nem lephetunk			
-                if (captured(moveIt(cf2Moves[i], retTable), cfColor)) { //sakkba lepnenk					<---  merge this
-                    cf2Moves.splice(i, 1)
-                    cf2MoveCoords.splice(i, 1) //ez is lehetne count:ranking, minus!!
-                    tTable2Value -= 0.0001
-                }
-            }
+//             // es akkor nem kell ez:
+//             for (var i = cf2Moves.length - 1; i >= 0; i--) { //sakkba nem lephetunk			
+//                 if (captured(moveIt(cf2Moves[i], retTable), cfColor)) { //sakkba lepnenk					<---  merge this
+//                     cf2Moves.splice(i, 1)
+//                     cf2MoveCoords.splice(i, 1) //ez is lehetne count:ranking, minus!!
+//                     tTable2Value -= 0.0001
+//                 }
+//             }
 
-            //check there's a win:
-            var potentMoves = [] //will make an array of potential winning moves
-            var potentTables = [] //and resulting tables
-                //							
-            for (var i = cf2Moves.length - 1; i >= 0; i--) {
+//             //check there's a win:
+//             var potentMoves = [] //will make an array of potential winning moves
+//             var potentTables = [] //and resulting tables
+//                 //							
+//             for (var i = cf2Moves.length - 1; i >= 0; i--) {
 
-                var potentTable = moveIt(cf2Moves[i], retTable)
+//                 var potentTable = moveIt(cf2Moves[i], retTable)
 
-                if (captured(potentTable, !cfColor)) { //az lehet potent, ahol sakkot adok
+//                 if (captured(potentTable, !cfColor)) { //az lehet potent, ahol sakkot adok
 
-                    //make a ranker here
-                    //							<---	with this
+//                     //make a ranker here
+//                     //							<---	with this
 
-                    tTable2Value += 0.00001 //ket lepesben sakkot ad(hat)ok
-                    potentMoves.push(cf2Moves[i])
-                    potentTables.push(potentTable)
-                        //cfMoveCoords.splice(i, 1)					//ez is lehetne count:ranking
-                }
-            }
+//                     tTable2Value += 0.00001 //ket lepesben sakkot ad(hat)ok
+//                     potentMoves.push(cf2Moves[i])
+//                     potentTables.push(potentTable)
+//                         //cfMoveCoords.splice(i, 1)					//ez is lehetne count:ranking
+//                 }
+//             }
 
 
-            //check if capturing moves are winners:
+//             //check if capturing moves are winners:
 
-            var twoStepWinners = []
+//             var twoStepWinners = []
 
-            potentMoves.forEach(function(potentMove, potentMoveCount) {
-                var potentTable = potentTables[potentMoveCount] //potent tablan mindenkepp sakkban all remember
-                    ////
+//             potentMoves.forEach(function(potentMove, potentMoveCount) {
+//                 var potentTable = potentTables[potentMoveCount] //potent tablan mindenkepp sakkban all remember
+//                     ////
 
-                var ret2potMoves = []
-                    //var ret2potMoveCoords = []
+//                 var ret2potMoves = []
+//                     //var ret2potMoveCoords = []
 
-                getAllMoves(potentTable, !cfColor).forEach(function(thisMove) { //get all his moves in array of strings
-                        ret2potMoves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
-                            //ret2potMoveCoords.push(thisMove)
+//                 getAllMoves(potentTable, !cfColor).forEach(function(thisMove) { //get all his moves in array of strings
+//                         ret2potMoves.push(dletters[thisMove[0]] + (thisMove[1] + 1) + dletters[thisMove[2]] + (1 + thisMove[3]))
+//                             //ret2potMoveCoords.push(thisMove)
 
-                    })
-                    //var origLen = ret2potMoves.length
-                    //var removeCount = 0
-                for (var i = ret2potMoves.length - 1; i >= 0; i--) { //sakkba nem lephet o sem
-                    if (captured(moveIt(ret2potMoves[i], potentTable), !cfColor)) { //sakkba lepne valaszkent	//moveit retmove ittis ottis
-                        ret2potMoves.splice(i, 1)
-                            //ret2potMoveCoords.splice(i, 1)
-                            //removeCount++
-                        tTable2Value += 0.000001 //sakkba lephetne
+//                     })
+//                     //var origLen = ret2potMoves.length
+//                     //var removeCount = 0
+//                 for (var i = ret2potMoves.length - 1; i >= 0; i--) { //sakkba nem lephet o sem
+//                     if (captured(moveIt(ret2potMoves[i], potentTable), !cfColor)) { //sakkba lepne valaszkent	//moveit retmove ittis ottis
+//                         ret2potMoves.splice(i, 1)
+//                             //ret2potMoveCoords.splice(i, 1)
+//                             //removeCount++
+//                         tTable2Value += 0.000001 //sakkba lephetne
 
-                    }
-                }
-                //
-                if (ret2potMoves.length == 0) {
-                    //mattot tudok adni a legjobbnak tuno lepesere
-                    //process.stdout.write("!");
-                    ////// //console.log('2 lepesbol mattolhatok')
-                    if (tTable2Value < 5) tTable2Value += 5
+//                     }
+//                 }
+//                 //
+//                 if (ret2potMoves.length == 0) {
+//                     //mattot tudok adni a legjobbnak tuno lepesere
+//                     //process.stdout.write("!");
+//                     ////// //console.log('2 lepesbol mattolhatok')
+//                     if (tTable2Value < 5) tTable2Value += 5
 
-                    //meg kene nezni ki tud-e lepni belole
+//                     //meg kene nezni ki tud-e lepni belole
 
 
-                    tTable2Value += 0.00001 //sakkba lephetne
-                }
+//                     tTable2Value += 0.00001 //sakkba lephetne
+//                 }
 
-                ////
-            })
+//                 ////
+//             })
 
-            ///
+//             ///
 
-        }
-        // lsancValue*=10
-        // rsancValue*=10
+//         }
+//         // lsancValue*=10
+//         // rsancValue*=10
 
-        ///modType 'l' is loopval *=-1
+//         ///modType 'l' is loopval *=-1
 
-        //if(modType=="lpV")loopValue*= modConst
+//         //if(modType=="lpV")loopValue*= modConst
 
-        ////// //console.log(modType)
-        switch (modType) {
-            case undefined:
+//         ////// //console.log(modType)
+//         switch (modType) {
+//             case undefined:
 
-                break;
+//                 break;
 
-            case "lpV":
+//             case "lpV":
 
-                loopValue *= modConst
+//                 loopValue *= modConst
 
-                break;
+//                 break;
 
-            case "cpt":
+//             case "cpt":
 
-                captureScore *= modConst
+//                 captureScore *= modConst
 
-                break;
+//                 break;
 
-            case "tt2":
+//             case "tt2":
 
-                tTable2Value *= modConst
+//                 tTable2Value *= modConst
 
-                break;
+//                 break;
 
-            case "sVS":
+//             case "sVS":
 
-                smallValScore *= modConst
+//                 smallValScore *= modConst
 
-                break;
+//                 break;
 
 
-            case "dGH":
+//             case "dGH":
 
-                dontGetHit *= modConst
+//                 dontGetHit *= modConst
 
-                break;
+//                 break;
 
 
-            case "rPr":
+//             case "rPr":
 
-                retProtect *= modConst
+//                 retProtect *= modConst
 
-                break;
+//                 break;
 
 
-            case "mHt":
+//             case "mHt":
 
-                mhit *= modConst
+//                 mhit *= modConst
 
-                break;
+//                 break;
 
 
-            case "hHt":
+//             case "hHt":
 
-                hhit *= modConst
+//                 hhit *= modConst
 
-                break;
+//                 break;
 
-            case "mMv":
+//             case "mMv":
 
-                mostMoved *= modConst
+//                 mostMoved *= modConst
 
-                break;
+//                 break;
 
-            case "pHB":
+//             case "pHB":
 
-                pushHimBack *= modConst
+//                 pushHimBack *= modConst
 
-                break;
+//                 break;
 
-            case "gTM":
+//             case "gTM":
 
-                getToMiddle *= modConst
+//                 getToMiddle *= modConst
 
-                break;
+//                 break;
 
-            case "fwV":
+//             case "fwV":
 
-                fwdVal *= modConst
+//                 fwdVal *= modConst
 
-                break;
+//                 break;
 
-            case "scV":
+//             case "scV":
 
-                lsancValue *= modConst
-                rsancValue *= modConst
-                sancValue *= modConst
+//                 lsancValue *= modConst
+//                 rsancValue *= modConst
+//                 sancValue *= modConst
 
-                break;
+//                 break;
 
 
 
 
-        }
+//         }
 
 
 
-        var pushThisValue =
+//         var pushThisValue =
 
-            tTable2Value +
-            loopValue +
-            captureScore + //fHitValue +
-            smallValScore +
-            dontGetHit +
-            retProtect +
-            mhit +
-            hhit +
-            fwdVal +
-            lsancValue +
-            rsancValue +
-            sancValue +
-            getToMiddle +
-            pushHimBack +
-            mostMoved +
-            loopedValue +
-            forceLoopValue
+//             tTable2Value +
+//             loopValue +
+//             captureScore + //fHitValue +
+//             smallValScore +
+//             dontGetHit +
+//             retProtect +
+//             mhit +
+//             hhit +
+//             fwdVal +
+//             lsancValue +
+//             rsancValue +
+//             sancValue +
+//             getToMiddle +
+//             pushHimBack +
+//             mostMoved +
+//             loopedValue +
+//             forceLoopValue
 
-        allTempTables.push([stepMove, pushThisValue]) //, hisBestRtnMove, loopValue, captureScore, smallValScore,
-            // dontGetHit,tTable2Value, retProtect, mhit, hhit, fwdVal,lsancValue,rsancValue,
-            //  sancValue,getToMiddle,pushHimBack,mostMoved])
+//         allTempTables.push([stepMove, pushThisValue]) //, hisBestRtnMove, loopValue, captureScore, smallValScore,
+//             // dontGetHit,tTable2Value, retProtect, mhit, hhit, fwdVal,lsancValue,rsancValue,
+//             //  sancValue,getToMiddle,pushHimBack,mostMoved])
 
-    })
+//     })
 
-    allTempTables = allTempTables.sort(sortAiArray)
+//     allTempTables = allTempTables.sort(sortAiArray)
 
-    allTempTables[0][2] = (new Date().getTime() - allTempTables[0][2]) //1st row has timeItTook
-    if (looped) allTempTables[0][6] = true //looped
+//     allTempTables[0][2] = (new Date().getTime() - allTempTables[0][2]) //1st row has timeItTook
+//     if (looped) allTempTables[0][6] = true //looped
 
-    return allTempTables
-}
+//     return allTempTables
+// }
 
-function ai(tablE, wn, allPast, modType, modVal) {
-    //console.log('old ai func called!!!!!')
-    return createAiTable(tablE, wn, false, allPast, modType, modVal)
+// function ai(tablE, wn, allPast, modType, modVal) {
+//     //console.log('old ai func called!!!!!')
+//     return createAiTable(tablE, wn, false, allPast, modType, modVal)
 
-}
+// }
 
 
 var newAi = function(dbTable, modType, modConst, thinker) {
