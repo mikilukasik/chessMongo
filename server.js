@@ -2083,7 +2083,7 @@ app.get('/getLobby', function(req, res) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // function existsInArray()
-
+var clear='empty'
 var stats=[clear]
 
 app.get('/refreshStats', function(req, res) {
