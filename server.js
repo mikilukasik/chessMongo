@@ -1636,11 +1636,7 @@ app.get('/getModTypes', function(req, res) {
 				_id: "xData"
 			}, function(err2, xData) {
 				
-				res.json({
-		
-		
-		"modTypes": xData.modTypes
-	});
+				res.json(xData.modTypes);
 				
 				db.close()
 			});

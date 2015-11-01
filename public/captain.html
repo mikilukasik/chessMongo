@@ -83,25 +83,21 @@
 	}
 	
 	
-	$scope.addModType=function(modType){
+	$scope.setMod=function(modType,min,max){
 		
-		$scope.modTypes.push(modType)
-		$scope.modTypes.sort()
+		$scope.mods.push(modtype)
+		$scope.mods.sort()
 		
-		$http.post('/mod',$scope.modTypes)
-		// .then(
-		// 	function(response){
-				
-		// 		$http.get('/getModType').then(
-		// 			function(response2){
-		// 				alert('modType verify: '+response2.data.modType)
-		// 			}
-		// 		)
-				
-		// 		//
-				
-		// 	}
-		// )
+		var modJson={
+			'modTypes':$scope.mods,
+			'min':min,
+			'max':max
+		}
+		//mod
+		$scope.mod.mods=$scope.mods//.push(mod.type)
+	
+		$http.post('/mod',modJson)
+		
 	}
 
 	$scope.refreshAllThinkers=function(){
@@ -140,8 +136,10 @@ appModule.controller("ApplicationController", ApplicationController);
 <body ng-app="appModule"  ng-controller="ApplicationController">
 	
 	
-	<form ng-submit="addModType(thisModType)">
-		add modType:<input ng-model="thisModType"></input><button>Add</button>
+	<form ng-submit="setMod(type,minVal,maxVal)">
+		add modType:<input ng-model="type"></input><button>Add</button><br>
+		min. modVal: (>0)<input ng-model="minVal"></input><button>Set</button><br>
+		max. modVal: (>0)<input ng-model="maxVal"></input><button>Set</button><br>
 <!--		
 		id="inputModType" 
 		-->
