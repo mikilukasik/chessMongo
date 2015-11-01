@@ -2073,7 +2073,7 @@ function processMove(move,modType,modConst,looped){
 		
 		var dontLoop=false
 		
-		if (origData[0]>1){
+		if (origData[0]>-1){
 			dontLoop=true
 			//console.log('nem loopolhatok')
 		}
