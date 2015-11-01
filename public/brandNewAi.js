@@ -2077,7 +2077,7 @@ function processMove(move,modType,modConst,looped){
 		
 		var dontLoop=false
 		
-		if (origData[0]>-1){
+		if (origData[0]>0){
 			dontLoop=true
 			//console.log('nem loopolhatok')
 		}
@@ -2335,16 +2335,16 @@ function processMove(move,modType,modConst,looped){
 			
 			var rtnApproachTheKing=retData[8]
 
-			loopValue += (fHitValue[0]-retHitValue[0])*10 			//(rtnTableValue - origTableValue) * 10
+			loopValue += (fHitValue[0]-retHitValue[0])//*10 			//(rtnTableValue - origTableValue) * 10
 			hhit = (origHisHitValue - rtnHisHitValue)
-			mhit = (rtnMyHitValue - origMyHitValue) * 10
-			lsancValue=(rtnlSanc- origlSanc)/100
-			rsancValue=(rtnrSanc- origrSanc)/100
-			getToMiddle=(rtnGetToMiddle-origGetToMiddle)/1000
-			pushHimBack=(rtnPushHimBack-origPushHimBack)/1000		//this could be somevhere between 100&1000
-			approachTheKing=(origApproachTheKing-rtnApproachTheKing)/10000	//lets see
+			mhit = (rtnMyHitValue - origMyHitValue)// * 10
+			lsancValue=(rtnlSanc- origlSanc)
+			rsancValue=(rtnrSanc- origrSanc)
+			getToMiddle=(rtnGetToMiddle-origGetToMiddle)///1000
+			pushHimBack=(rtnPushHimBack-origPushHimBack)///1000		//this could be somevhere between 100&1000
+			approachTheKing=(origApproachTheKing-rtnApproachTheKing)///10000	//lets see
 			
-			mostMoved=(origMostMoved-rtnMostMoved)/2			//temp high, we should lover this as the game goes on //will be -.5 or 0 always
+			mostMoved=(origMostMoved-rtnMostMoved)			//temp high, we should lover this as the game goes on //will be -.5 or 0 always
 			if(mostMoved>0)mostMoved=0		//it is positive when our most moved piece goes off
 			
 					//rtnPushHimBack-
@@ -2573,7 +2573,7 @@ function processMove(move,modType,modConst,looped){
 		
 							tTable2Value + 
 							//mhit*4.8+	//?
-							(mhit+loopValue)*5 + //?
+							(mhit+loopValue)*50 + //?
 							captureScore*1.953 + //10
 							smallValScore * 1.7+	//8
 							dontGetHit*56.895767+	//4
@@ -2581,15 +2581,15 @@ function processMove(move,modType,modConst,looped){
 							//mhit *3.8453 +		//7
 							hhit * 4.1959+		//from stats1
 							fwdVal * 1.95+	//3
-							lsancValue+
-							rsancValue+
+							lsancValue/100+	//mashonnan
+							rsancValue/100+	//mashonnan
 							sancValue+
-							getToMiddle*37+	//6
-							pushHimBack *4.676+	//5
-							mostMoved*0.105154+	//9
+							getToMiddle*0.037+	//6
+							pushHimBack *0.004676+	//5
+							mostMoved*0.052577+	//9
 							loopedValue+
 							forceLoopValue+
-							approachTheKing*0.008   //11
+							approachTheKing*0.0000008   //11
 
 		
 		
