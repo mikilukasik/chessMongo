@@ -2083,8 +2083,8 @@ app.get('/getLobby', function(req, res) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // function existsInArray()
-var clear='empty'
-var stats=[clear]
+var clear=['']
+var stats=clear
 
 app.get('/refreshStats', function(req, res) {
 	////////// console.log(req)
@@ -2096,7 +2096,7 @@ app.get('/refreshStats', function(req, res) {
 res.send('started.')
 
 
-  if (stats==[clear]){
+  if (stats==clear){
 	  
 	  stats=[]
 	  
@@ -2260,7 +2260,7 @@ res.send('started.')
 	});
 	
 	  }else{
-		  stats=[clear]
+		  stats=clear
 		  captainPop()
 	  }
 
