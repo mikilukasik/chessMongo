@@ -107,16 +107,16 @@
 	
 	$scope.setMod=function(modType,min,max){
 		
-		$scope.mods.push(modtype)
-		$scope.mods.sort()
+		$scope.modTypes.push(modtype)
+		$scope.modTypes.sort()
 		
 		var modJson={
-			'modTypes':$scope.mods,
+			'modTypes':$scope.modTypes,
 			'min':min,
 			'max':max
 		}
 		//mod
-		$scope.mod.mods=$scope.mods//.push(mod.type)
+		//$scope.mod.mods=$scope.mods//.push(mod.type)
 	
 		$http.post('/mod',modJson)
 		
