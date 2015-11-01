@@ -475,7 +475,7 @@
                                modType=modTypes[Math.floor(Math.random()*len)]
                           }
                            
-                            var modVal =  response.data.min + Math.random() * (response.data.max-response.data.min)    //*100 //!!!!!!! 100  
+                            var modVal =  Number(response.data.min) + (Math.random() * (response.data.max-response.data.min))   
                             
                             $rootScope.mv = modVal
                             $rootScope.mt = modType
