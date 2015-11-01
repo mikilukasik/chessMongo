@@ -351,7 +351,7 @@
                                  
                             }
                            
-                            if(myGame.pollNum/250==Math.floor(myGame.pollNum/250)){    // !!!!!!!!!
+                            if(myGame.pollNum/150==Math.floor(myGame.pollNum/150)){    // !!!!!!!!!
                                  //$http.post('/moved',myGame,function(req,res){})
                                  
                                  //temp:
@@ -362,6 +362,7 @@
                                  if($rootScope.lastTotal==tableTotal){
                                     myGame.gameIsOn=false
                                     evalGame(myGame,true)
+                                    myGame.gameIsOn=false
                                  }else{
                                      $rootScope.lastTotal=tableTotal
                                  }
