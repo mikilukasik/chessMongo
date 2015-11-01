@@ -1455,6 +1455,7 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 		
 		var thisTState= createState(tempTable)
 		var counted=countInArray(thisTState ,allPast)
+		console.log(counted)
 		if(counted >1){
 			//3szorra lepnenk ugyanabba a statuszba
 			//ideiglenesen ne
@@ -1469,6 +1470,7 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 						//console.log('dontloop: -2000')
 						 
 						 }
+			
 			
 			
 			if(counted >3){
