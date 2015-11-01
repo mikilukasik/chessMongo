@@ -2094,7 +2094,9 @@ app.get('/refreshStats', function(req, res) {
   
 //   });
 res.send('started.')
-  	stats=[]
+
+
+  	if (stats==[]){
 	  
 	var resArray = []
 	resArray.push("wonScore", String.fromCharCode(9), "modVal", String.fromCharCode(9), "resText", String.fromCharCode(13))
@@ -2203,7 +2205,7 @@ res.send('started.')
 											
 											resArray.push(10*finalDataScore, String.fromCharCode(9),moveCountScore, String.fromCharCode(9),100*wonScore, String.fromCharCode(9), 1000*wonScore+10*finalDataScore+moveCountScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9), resText, String.fromCharCode(13)) //to be fixed
 											//////// console.log([wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9)])
-											stats.push(resArray.join(''))
+											stats.push(resArray.join('&#9'))
 											captainPop()
 											//res.write(resArray.join(''));
 											
@@ -2254,6 +2256,11 @@ res.send('started.')
 			///////
 		}
 	});
+	
+	  }else{
+		  stats=[]
+		  captainPop()
+	  }
 
 });
 
