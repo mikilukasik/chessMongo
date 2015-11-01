@@ -1250,7 +1250,11 @@ function getTableData(origTable, isWhite, oppKingPos) { //, rtnSimpleValue) {
 			}
 		}
 	}
-
+	
+	
+	console.log(rtnApproachTheKing)
+	
+	
 	return [tableValue, rtnMyHitSum[0], rtnHisHitSum[0],// rtnHisMoveCount, 
 		lSancVal,rSancVal,getToMiddle,rtnPushHimBack,myMostMoved,rtnApproachTheKing] //rtnData
 
