@@ -2094,7 +2094,7 @@ function processMove(move,modType,modConst,looped){
 		
 		//process.stdout.write(".");
 		
-		var smallValScore=(10-cfTable[cfMoveCoords[0]][cfMoveCoords[1]][1])/1000
+		var smallValScore=(10-cfTable[cfMoveCoords[0]][cfMoveCoords[1]][1])///1000
 
 		//vonjuk ki ha vedett
 		// if (cfTable[cfMoveCoords[2]][cfMoveCoords[3]][6]){			//ha vedett 
@@ -2287,7 +2287,7 @@ function processMove(move,modType,modConst,looped){
 					tretHitValue[0]-=eztVondKi
 					
 				}
-				var tretProtect= (protectTable(tempRetTable, cfColor) - origProtect)/1000 //majd kesobb
+				var tretProtect= (protectTable(tempRetTable, cfColor) - origProtect)///1000 //majd kesobb
 				
 				if(captured(tempRetTable,cfColor)){
 					dontGetHit-=.001
@@ -2300,26 +2300,26 @@ function processMove(move,modType,modConst,looped){
 				var tempRetData = getTableData(tempRetTable, cfColor, cfOppKingPos)
 
 				//var tretTableValue = tempRetData[0] //tablevalue-t nem is kene szamolni, megvan a retHitValue		//talan az sem kell
-				var tretMyHitValue = tempRetData[1]
-				var tretHisHitValue = tempRetData[2]
+				//var tretMyHitValue = tempRetData[1]
+				//var tretHisHitValue = tempRetData[2]
 				// var tretlSanc = tempRetData[3]
 				// var tretrSanc = tempRetData[4]
 				
 
-				if((tretHitValue[0]) * 10 - tretMyHitValue * 10 + tretHisHitValue > tempRetValue) {			//this is very inaccurate
+				if((tretHitValue[0]) * 10 - tempRetData[1] * 10 + tempRetData[2] > tempRetValue) {			//this is very inaccurate
 
-					tempRetValue = (tretHitValue[0]) * 10 - tretMyHitValue * 10 + tretHisHitValue 
+					tempRetValue = (tretHitValue[0]) * 10 - tempRetData[1] * 10 + tempRetData[2] 
 					
 					retProtect = tretProtect
 					retData = tempRetData
 					retTable = tempRetTable
-					hisBestRtnMove = stepRetMove
+					//hisBestRtnMove = stepRetMove
 					retHitValue = tretHitValue
 					//retTableValue=tempRetTable
 				}else{
-					if((fHitValue[0]-tretHitValue[0]) * 10 - tretMyHitValue * 10 + tretHisHitValue == tempRetValue){
-						hisBestRtnMove = hisBestRtnMove+'.'//+stepRetMove//"many"
-					}
+					// if((fHitValue[0]-tretHitValue[0]) * 10 - tretMyHitValue * 10 + tretHisHitValue == tempRetValue){
+					// 	hisBestRtnMove = hisBestRtnMove+'.'//+stepRetMove//"many"
+					// }
 				}
 
 			})
@@ -2575,12 +2575,12 @@ function processMove(move,modType,modConst,looped){
 							//mhit*4.8+	//?
 							(mhit+loopValue)*50 + //?
 							captureScore*1.953 + //10
-							smallValScore * 1.7+	//8
-							dontGetHit*56.895767+	//4
-							retProtect*0.57184+		//from stats1
+							smallValScore * 0.0017+	//8
+							dontGetHit*55+	//4
+							retProtect*0.00057184+		//from stats1
 							//mhit *3.8453 +		//7
-							hhit * 4.1959+		//from stats1
-							fwdVal * 1.95+	//3
+							hhit * 4+		//from stats1
+							fwdVal * 2+	//3
 							lsancValue/100+	//mashonnan
 							rsancValue/100+	//mashonnan
 							sancValue+
