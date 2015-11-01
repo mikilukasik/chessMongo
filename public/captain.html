@@ -106,9 +106,13 @@
 	
 	$scope.setMod=function(modType,min,max){
 		
-		$scope.modTypes.push(modType)
-		$scope.modTypes.sort()
+		$scope.mType=''
+		if(modType!=undefined&&modType!=''){
+			$scope.modTypes.push(modType)
+			$scope.modTypes.sort()
 		
+		}
+			
 		var modJson={
 			'modTypes':$scope.modTypes,
 			'min':min,
@@ -157,10 +161,10 @@ appModule.controller("ApplicationController", ApplicationController);
 <body ng-app="appModule"  ng-controller="ApplicationController">
 	
 	
-	<form ng-submit="setMod(type,minVal,maxVal)">
-		add modType:<input ng-model="type"></input><button>Add</button><br>
-		min. modVal: (>0)<input ng-model="minVal"></input><button>Set</button><br>
-		max. modVal: (>0)<input ng-model="maxVal"></input><button>Set</button><br>
+	<form ng-submit="setMod(mType,min,max)">
+		add modType:<input ng-model="mType"></input><button>Add</button><br>
+		min. modVal: (>0)<input ng-model="min"></input><button>Set</button><br>
+		max. modVal: (>0)<input ng-model="max"></input><button>Set</button><br>
 <!--		
 		id="inputModType" 
 		-->
