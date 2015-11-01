@@ -1252,7 +1252,7 @@ function getTableData(origTable, isWhite, oppKingPos) { //, rtnSimpleValue) {
 	}
 	
 	
-	console.log(rtnApproachTheKing)
+	//console.log(rtnApproachTheKing)
 	
 	
 	return [tableValue, rtnMyHitSum[0], rtnHisHitSum[0],// rtnHisMoveCount, 
