@@ -2084,7 +2084,7 @@ app.get('/getLobby', function(req, res) {
 
 // function existsInArray()
 
-var stats=[]
+var stats=[clear]
 
 app.get('/refreshStats', function(req, res) {
 	////////// console.log(req)
@@ -2096,7 +2096,9 @@ app.get('/refreshStats', function(req, res) {
 res.send('started.')
 
 
-  	if (stats==[]){
+  if (stats==[clear]){
+	  
+	  stats=[]
 	  
 	var resArray = []
 	resArray.push("wonScore", String.fromCharCode(9), "modVal", String.fromCharCode(9), "resText", String.fromCharCode(13))
@@ -2258,7 +2260,7 @@ res.send('started.')
 	});
 	
 	  }else{
-		  stats=[]
+		  stats=[clear]
 		  captainPop()
 	  }
 
