@@ -2583,7 +2583,7 @@ function processMove(move,modType,modConst,looped){
 							mostMoved*0.105154+	//9
 							loopedValue+
 							forceLoopValue+
-							approachTheKing
+							approachTheKing*0.008   //11
 
 		
 		
