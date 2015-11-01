@@ -47,6 +47,8 @@
 				$scope.knownThinkers=response.data.knownThinkers
 				$scope.pollNum=response.data.captainPollNum
 				$scope.taskQ=response.data.taskQ
+				$scope.stats=response.data.stats
+				
 				
 				$scope.learners.sort(function(a,b){
 					if(Number(a[5])>Number(b[5])){
@@ -72,6 +74,12 @@
 	$scope.clearModTypes=function(){
 		$scope.modTypes=[]
 		$http.post('/mod',$scope.modTypes)
+	}
+	
+	
+	$scope.refreshStats=function(){
+		//$scope.modTypes=[]
+		$http.get('/refreshStats')
 	}
 	
 	
@@ -205,7 +213,15 @@ appModule.controller("ApplicationController", ApplicationController);
 		</tr>
 	</table>
 	
+	<br><br>
+	
+	stats:
+	
 	<br>
+	<button ng-click="refreshStats()">refresh stats</button>
+	<br>
+	
+	<div ng-repeat="x in stats">{{x}}</div>
 	<!--Ready thinkers:
 	<div ng-repeat="x in waitingThinkers"> {{x}} </div>
 	

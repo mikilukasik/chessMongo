@@ -1678,7 +1678,7 @@ var captainPop=function(){
 		var res=captainPolls.pop()
 		
 		
-		clearDisconnectedLearners()
+		//clearDisconnectedLearners()
 	
 		var texttosnd=[]
 	
@@ -1699,7 +1699,9 @@ var captainPop=function(){
 		
 		"captainPollNum":captainPollNum,
 		
-		"taskQ":taskQ.length
+		"taskQ":taskQ.length,
+		
+		"stats":stats
 		
 		
 		})
@@ -1737,7 +1739,9 @@ app.get('/captainPoll', function(req, res) {
 		
 		"captainPollNum":captainPollNum,
 		
-		"taskQ":taskQ.length
+		"taskQ":taskQ.length,
+		
+		"stats":stats
 		
 		
 		})
@@ -2078,15 +2082,18 @@ app.get('/getLobby', function(req, res) {
 
 // function existsInArray()
 
+var stats=[]
 
-app.get('/stats.txt', function(req, res) {
+app.get('/refreshStats', function(req, res) {
 	////////// console.log(req)
-	res.writeHead(200, {
+// 	res.writeHead(200, {
   
-  'Content-Type': 'text/plain' 
+//   'Content-Type': 'text/plain' 
   
-  });
-  
+//   });
+res.send('started.')
+  	stats=[]
+	  
 	var resArray = []
 	resArray.push("wonScore", String.fromCharCode(9), "modVal", String.fromCharCode(9), "resText", String.fromCharCode(13))
 		//var resText=""
@@ -2194,7 +2201,9 @@ app.get('/stats.txt', function(req, res) {
 											
 											resArray.push(10*finalDataScore, String.fromCharCode(9),moveCountScore, String.fromCharCode(9),100*wonScore, String.fromCharCode(9), 1000*wonScore+10*finalDataScore+moveCountScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9), resText, String.fromCharCode(13)) //to be fixed
 											//////// console.log([wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9)])
-											res.write(resArray.join(''));
+											stats.push(resArray.join(''))
+											captainPop()
+											//res.write(resArray.join(''));
 											
 											// if(statIndex==statData.length()-1){
 											// 	res.end()
