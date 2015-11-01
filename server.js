@@ -1937,6 +1937,8 @@ app.get('/learnerPoll', function(req, res) {
 		message:'nincs'
 	})
 	
+	captainPop()
+	
 
 });
 
