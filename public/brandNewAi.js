@@ -1474,7 +1474,7 @@ function createAiTable(cfTable, cfColor, skipScnd, allPast, modType, modVal) {
 			if(counted >3){
 				//surely looped
 				
-				//console.log('counted >3')
+				console.log(counted >3,counted)
 				
 				looped=true
 				
