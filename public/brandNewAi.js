@@ -1212,9 +1212,9 @@ function getTableData(origTable, isWhite, oppKingPos) { //, rtnSimpleValue) {
 
                 rtnApproachTheKing += ((7 - Math.abs(oppKingPos[0] - lookI)) + (7 - Math.abs(oppKingPos[1] - lookJ))) * origTable[lookI][lookJ][1]
 
-                if ((!(origTable[lookI][lookJ][1] == 1)) && lookI > 1 && lookJ > 1 && lookI < 6 && lookJ < 6) { //ha nem paraszt es kozepen van a babu
-                    getToMiddle++
-                }
+                // if ((!(origTable[lookI][lookJ][1] == 1)) && lookI > 1 && lookJ > 1 && lookI < 6 && lookJ < 6) { //ha nem paraszt es kozepen van a babu
+                //     getToMiddle++
+                // }
 
                 canMove(lookI, lookJ, isWhite, origTable, true, true, rtnMyHitSum) //this can give back the moves, should use it
                 if (origTable[lookI][lookJ][2] > myMostMoved) myMostMoved = origTable[lookI][lookJ][2] //get the highest number any piece moved
@@ -1234,9 +1234,9 @@ function getTableData(origTable, isWhite, oppKingPos) { //, rtnSimpleValue) {
                 if (!(origTable[lookI][lookJ][0] == 0)) { //ha ellenfele
 
                     //rtnHisHitSum = [0]
-                    if ((!(origTable[lookI][lookJ][1] == 1)) && lookI > 1 && lookJ > 1 && lookI < 6 && lookJ < 6) { //ha nem paraszt es kozepen van a babu
-                        getToMiddle -= .1 //our pieces matter more, that is +1
-                    }
+                    // if ((!(origTable[lookI][lookJ][1] == 1)) && lookI > 1 && lookJ > 1 && lookI < 6 && lookJ < 6) { //ha nem paraszt es kozepen van a babu
+                    //     getToMiddle -= .1 //our pieces matter more, that is +1
+                    // }
                     //do i use this movecount anywhere?
                     rtnHisMoveCount += (canMove(lookI, lookJ, !isWhite, origTable, true, true, rtnHisHitSum).length - 2) //   was /2 but 0 is the point
                         //if(rtnHisHitSum[0] > rtnHisBestHit) rtnHisBestHit = rtnHisHitSum[0]
