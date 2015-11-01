@@ -147,7 +147,10 @@
 
 
                 }
-
+                
+                initedTable.learnerGame=true
+                initedTable.learnedOn=$rootScope.sendID
+                
                 console.log('finding _id for ' + initedTable.wName + " vs " + initedTable.bName)
 
                 $http.get('/startGame?w=' + initedTable.wName + "&b=" + initedTable.bName)
