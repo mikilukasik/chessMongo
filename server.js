@@ -2205,9 +2205,9 @@ res.send('started.')
 											}
 											
 											
-											resArray.push(10*finalDataScore, String.fromCharCode(9),moveCountScore, String.fromCharCode(9),100*wonScore, String.fromCharCode(9), 1000*wonScore+10*finalDataScore+moveCountScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9), resText, String.fromCharCode(13)) //to be fixed
+											resArray.push(10*finalDataScore,moveCountScore,100*wonScore, 1000*wonScore+10*finalDataScore+moveCountScore,bModGame.bName, resText) //to be fixed
 											//////// console.log([wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9)])
-											stats.push(resArray.join('&#9'))
+											stats.push(resArray.join(String.fromCharCode(9)))
 											captainPop()
 											//res.write(resArray.join(''));
 											
