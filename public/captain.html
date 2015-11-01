@@ -15,23 +15,45 @@
 		
 		$scope.modTypes=[]
 		
-		  $http.get('/getModTypes').then(function(response) {
+		 $http.get('/getModTypes').then(function(response) {
                             
-                          // var modType="" 
+                           //var modType="" 
                           
                            $scope.modTypes = response.data.modTypes
                         //    var len=modTypes.length
-                        // //   if(len>0) {
-                        // //        modType=modTypes[Math.floor(Math.random()*len)]
-                        // //   }
+                        //   if(len>0) {
+                        //        modType=modTypes[Math.floor(Math.random()*len)]
+                        //   }
                            
-                        //    // var modVal = Math.random()  *100 //!!!!!!! 100  
-                        //     $rootScope.mv = modVal
-                        //     $rootScope.mt = modType
+                           // var modVal = Math.random()  *(response.data.max-response.data.min)+response.data.min//*100 //!!!!!!! 100  
+                            $scope.min = response.data.min
+                            $scope.max = response.data.max
 
-                        //     $rootScope.sendMessage('start learning...')
-                        //     $rootScope.learnerPair(modType, modVal) //this will call another game with black when done
-                        })
+                            // $rootScope.sendMessage('start learning...')
+                            // $rootScope.learnerPair(modType, modVal) //this will call another game with black when done
+                        }, function(data) {
+                            // //error, retry
+                            // $rootScope.receivedMessage = 'error getting modTypes'
+                            // $rootScope.refreshWhenUp() //retry kene?
+                    })
+		
+		//   $http.get('/getModTypes').then(function(response) {
+                            
+        //                   // var modType="" 
+                          
+        //                    $scope.modTypes = response.data.modTypes
+        //                 //    var len=modTypes.length
+        //                 // //   if(len>0) {
+        //                 // //        modType=modTypes[Math.floor(Math.random()*len)]
+        //                 // //   }
+                           
+        //                 //    // var modVal = Math.random()  *100 //!!!!!!! 100  
+        //                 //     $rootScope.mv = modVal
+        //                 //     $rootScope.mt = modType
+
+        //                 //     $rootScope.sendMessage('start learning...')
+        //                 //     $rootScope.learnerPair(modType, modVal) //this will call another game with black when done
+        //                 })
 		
 		
 		$scope.pollNum=0

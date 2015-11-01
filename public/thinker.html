@@ -481,7 +481,11 @@
 
                             $rootScope.sendMessage('start learning...')
                             $rootScope.learnerPair(modType, modVal) //this will call another game with black when done
-                        })
+                        }, function(data) {
+                            //error, retry
+                            $rootScope.receivedMessage = 'error getting modTypes'
+                            $rootScope.refreshWhenUp() //retry kene?
+                    })
                         
                         
                         
