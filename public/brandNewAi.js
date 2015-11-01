@@ -1959,7 +1959,7 @@ var newAi = function(dbTable, modType, modConst, thinker) {
 
     solvedMoves.unshift([true, true, new Date().getTime() - started])
 
-    if (looped) allTempTables[0][6] = true //looped
+    if (looped) solvedMoves[0][6] = true //looped
 
     return solvedMoves
 
