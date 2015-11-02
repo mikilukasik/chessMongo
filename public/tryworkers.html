@@ -64,10 +64,14 @@
                                 
                                 switch(event.data.resCommand){
                                     
-                                    case 'showSpeedTest':
+                                    case 'speedTest':
                                     
                                         $scope.sendMessage('@'+new Date().getTime()+', Speed: '+ event.data.resData.speed + ', worker '+ event.data.resData.worker)
-                                    
+                                        $scope.pendingSpeedTest--
+                                        if($scope.pengingSpeedTest==0){
+                                            $scope.sendMessage('Speedtest done.')
+                                        }
+                                        
                                     break;
                               
                                 }
@@ -113,8 +117,9 @@
                         //     })
                         // }
                         
-                        
+                        $scope.pendingSpeedTest=0
                         for(var i=0;i<workersCountConst;i++){
+                            $scope.pendingSpeedTest++
                             subWorkers[i].postMessage({
                                 reqMessgage:'test that seed',
                                 reqCommand:'speedTest',

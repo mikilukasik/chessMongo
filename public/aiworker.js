@@ -46,7 +46,7 @@ onmessage = function (event) {
         speed: checkSpeed(),
         worker: reqData.worker
       }
-      resCommand='showSpeedTest'
+      resCommand='speedTest'
     
     
     break;
