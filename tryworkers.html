@@ -1,0 +1,42 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="chess.css">
+
+    <script src="jquery.js"></script>
+    <script src="angular.js"></script>
+    <script src="brandNewAi.js"></script>
+    <script src="engine.js"></script>
+
+    <script>
+        var appModule = angular.module("appModule", []);
+
+        function ApplicationController($scope, $http, $interval, $timeout) {
+            
+            if(typeof(Worker) !== "undefined") {
+                // Yes! Web worker support!
+                // Some code.....
+                $scope.workerSupported=true
+                
+            } else {
+                // Sorry! No Web Worker support..
+            }
+            
+            
+            
+			
+		};
+		
+	</script>
+</head>
+<body ng-app="appModule" ng-controller="ApplicationController">
+
+<div ng-if="workerSupported">Your browser supports HTML5 Web Workers.</div>
+   
+
+
+
+
+
+
+</body>
+
+	
