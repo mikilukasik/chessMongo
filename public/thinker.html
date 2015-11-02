@@ -161,6 +161,13 @@
                       
                     } else {
                          $rootScope.workersSupported='Your browser DOES NOT supports HTML5 Web mainWorker.'
+                         
+                          $http.get('/speedTestResult?thinker=' + $rootScope.sendID +
+                                                    '&wSpeed=' + 'not supported' +
+                                                    '&mtSpeed=' + 'not supported' +
+                                                    '&faster=' + 'not supported'
+                                                // +  '&r=' + Math.random()
+                                             )
                     }
                 }
                 
