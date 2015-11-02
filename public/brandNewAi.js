@@ -2077,25 +2077,27 @@ function processMove(move, modType, modConst2, looped) {
     
     var modConst=1
     
-    if(modType&& modType[0]=='w'){     //winning mod
-        if(origTableValue>0){       //and we are winning    //otherwise pow(0,0)error
+    if(modType){
+        if(modType[0]=='w'){     //winning mod
+            if(origTableValue>0){       //and we are winning    //otherwise pow(0,0)error
+                
+                // var c4=origTableValue/31
+                // var f2=modConst2
+                modConst=Math.pow(origTableValue/31,modConst2)
             
-            // var c4=origTableValue/31
-            // var f2=modConst2
-            modConst=Math.pow(origTableValue/31,modConst2)
+                // modConst=
+                
+            }else{
+                modConst=0
+            }
         
-             // modConst=
-              
+        
         }else{
-            modConst=0
+            modConst=modConst2
         }
-    
-      
-    }else{
-        modConst=modConst2
+        
+        modType=modType.substring(1,4)
     }
-    
-    modType=modType.substring(1,4)
 
     //var origDistanceFromKing=origData[10]
 
