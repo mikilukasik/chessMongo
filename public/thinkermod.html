@@ -10,34 +10,198 @@
         var appModule = angular.module("appModule", []);
 
         function ApplicationController($rootScope, $http, $interval, $timeout) {
+            ////////////////workers start
             
             
-              //var w;
-                startWorker()
-                function startWorker() {
+            function testWorkerSpeed() {
+            
+            var workersCountConst=15
+            
+            $rootScope.sendMessage=function(message){
+                $rootScope.messages.push('@'+ new Date().getTime() +': '+message)
+                $rootScope.$apply()
+            }
+            
+            var mtStartTime=new Date().getTime()
+            checkSpeed()
+            $rootScope.mainThreadSpeed=(new Date().getTime()-mtStartTime)*workersCountConst
+            
+            $rootScope.messages=[]
+            
+            
+            
+            var mainWorker;
+            var subWorkers=[] 
+            
+          
+            
+                
+                function startWorkers() {
                     if(typeof(Worker) !== "undefined") {
                         
-                         $rootScope.workersSupported='Your browser supports HTML5 Web Workers.'
+                         $rootScope.workersSupported='Your browser supports HTML5 Web mainWorker.'
                         
-                        if(typeof($rootScope.w) == "undefined") {
-                            $rootScope.w = new Worker("aiworker.js");
+                        if(typeof(mainWorker) == "undefined") {
+                            mainWorker = new Worker("aiworker.js");
                         }
-                        $rootScope.w.postMessage('worker is running.')
-                        $rootScope.w.onmessage = function(event) {
-                             $rootScope.sendMessage(event.data);
-                             $rootScope.$apply()
+                        
+                        mainWorker.onmessage = function(event) {
+                             $rootScope.sendMessage('')
+                             $rootScope.sendMessage('@'+new Date().getTime()+', main worker event:'+event.data);
+                             $rootScope.sendMessage(' ')
+                             
                         };
+                        //mainWorker should be running, let's start subWorkers
+                        
+                        var workerToStrart=0
+                        while(workerToStrart<workersCountConst){
+                            subWorkers[workerToStrart]= new Worker("aiworker.js");
+                           
+                            
+                            //put subworkers listeners here
+                            var subWorkerNo=workerToStrart
+                            subWorkers[subWorkerNo].onmessage = function(event) {
+                                $rootScope.sendMessage('@'+new Date().getTime()+', worker: '+event.data.resData.worker+', resData: '+event.data.resData);
+                                
+                                
+                                //check resCommand
+                                
+                                switch(event.data.resCommand){
+                                    
+                                    case 'speedTest':
+                                    
+                                        $rootScope.sendMessage('Speed: '+ event.data.resData.speed + ', worker '+ event.data.resData.worker)
+                                        $rootScope.pendingSpeedTest--
+                                        //console.log($rootScope.pendingSpeedTest)
+                                        if($rootScope.pendingSpeedTest==0){
+                                            $rootScope.sendMessage('Speedtest done.')
+                                            $rootScope.workersSpeed=(new Date().getTime()-wStartTime)
+                                            
+                                            
+                                            
+                                            $rootScope.$apply()
+                                            
+                                            stopWorkers()
+                                            
+                                        }
+                                        
+                                    break;
+                              
+                                }
+                                
+                                
+                                
+                                
+                                
+                            };
+                            
+                             workerToStrart++
+                            
+                            
+                        }
+                        console.log('subWorkers should be up and running')
+                        
+                        //here we have all workers running
                         
                         
                         
                         
                         
                         
-                        /////////////////////aaaaaaaaaaaaaaaaaaaaaaaa///////////////////
+                        
+                        //first try:
+                        // mainWorker.postMessage({
+                        //     reqMessgage:'hello',
+                        //     reqCommand:'echo',
+                        //     reqData:{worker:'main'}
+                        // })
+                        
+                        //  mainWorker.postMessage({
+                        //     reqMessgage:'bullShiting you',
+                        //     reqCommand:'bullShit',
+                        //     reqData:{worker:'main'}
+                        // })
+                        
+                        // for(var i=0;i<workersCountConst;i++){
+                        //     subWorkers[i].postMessage({
+                        //         reqMessgage:'hello',
+                        //         reqCommand:'echo',
+                        //         reqData:'no: '+i 
+                        //     })
+                        // }
+                        
+                        $rootScope.pendingSpeedTest=0
+                        
+                        var wStartTime=new Date().getTime()
+                        
+                        for(var i=0;i<workersCountConst;i++){
+                            $rootScope.pendingSpeedTest++
+                            subWorkers[i].postMessage({
+                                reqMessgage:'test that seed',
+                                reqCommand:'speedTest',
+                                reqData:{
+                                    worker:i
+                                }
+                            })
+                        }
                         
                         
-                        
-                          function learnerLooped(pastTables) {
+                      
+                    } else {
+                         $rootScope.workersSupported='Your browser DOES NOT supports HTML5 Web mainWorker.'
+                    }
+                }
+                
+                function stopWorkers() { 
+                    mainWorker.terminate();
+                    mainWorker = undefined;
+                    
+                    for(var i=0;i<workersCountConst;i++){
+                           //$rootScope.pendingSpeedTest++
+                            subWorkers[i].terminate();
+                            subWorkers[i] = undefined;
+                        //     .postMessage({
+                        //     reqMessgage:'test that seed',
+                        //     reqCommand:'speedTest',
+                        //     reqData:{
+                        //         worker:i
+                        //     }
+                        // })
+                    }
+                    
+                    
+                }
+                
+                startWorkers()
+        
+            
+            
+            
+			
+		};
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            ///////////////workers end
+            function learnerLooped(pastTables) {
                 var x = countInArray(pastTables[pastTables.length - 1], pastTables)
                 var y = countInArray(pastTables[pastTables.length - 2], pastTables)
 
@@ -522,6 +686,17 @@
                 //where the magic happens
 
                 switch (task.command) {
+                    
+                    case undefined:
+                    
+                    break;
+                    
+                    case "speedTest":
+                    
+                        testWorkerSpeed()
+                    
+                    break;
+                    
                     case "learnStart":
                         if(!$rootScope.learning){
                             
@@ -636,9 +811,9 @@
             /////////longpoll tasks stuff end
 
 
-            $rootScope.sendMessage = function(message) {
-                $rootScope.messages.unshift(message + ' @' + (new Date).getTime())
-            }
+            // $rootScope.sendMessage = function(message) {
+            //     $rootScope.messages.unshift(message + ' @' + (new Date).getTime())
+            // }
 
             // all the crap here......
 
@@ -706,28 +881,6 @@
             // 	longPollTasks()
             // } , 8000)//ping
 
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        /////////////////////aaaaaaaaaaaaaaaaaaaaaaaa///////////////////
-                        
-                        
-                    } else {
-                         $rootScope.workersSupported='Your browser DOES NOT supports HTML5 Web Workers.'
-                    }
-                }
-
-          
 
         }
         appModule.controller("ApplicationController", ApplicationController);
@@ -744,12 +897,20 @@
     <!--<p>Total moves: {{moveCount}}</p> 
 	<p>Learner average: {{totalTook}} / {{moveCount}} = {{avgTime}} </p>-->
 
-<div>{{workersSupported}}</div>
+
 
 
 
     <h3>{{receivedMessage}}
 	</h>
+    
+    <div>{{workersSupported}}</div>
+        <br>
+        
+        <div>Main thread speed: {{mainThreadSpeed}}</div>
+        <div>Workers speed: {{workersSpeed}}</div>
+        <div>Threaded calculating is {{mainThreadSpeed / workersSpeed}} faster.</div>
+
 
 	<p>
 		Totals:
