@@ -22,7 +22,7 @@
                         if(typeof(w) == "undefined") {
                             w = new Worker("aiworker.js");
                         }
-                        w.postmessage('a')
+                        //w.postmessage('a')
                         w.onmessage = function(event) {
                              $scope.workersSupported = event.data;
                              $scope.$apply()
