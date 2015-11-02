@@ -11,17 +11,19 @@
 
         function ApplicationController($scope, $http, $interval, $timeout) {
             
+            //var w
+            
             if(typeof(Worker) !== "undefined") {
                 // Yes! Web worker support!
                 // Some code.....
                 $scope.workersSupported='Your browser supports HTML5 Web Workers.'
                 
                 
-                if(typeof(w) == "undefined") {
-                    w = new Worker("aiworker.js");
+                if(typeof($scope.w) == "undefined") {
+                    $scope.w = new Worker("aiworker.js");
                 }
                 
-                w.onmessage = function(event){
+                $scope.w.onmessage = function(event){
                     $scope.tempMessage=event.data
                 };
             } else {
