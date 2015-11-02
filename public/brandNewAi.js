@@ -2012,8 +2012,17 @@ function processSplitMoves(data, thinker, mt, modConst, looped) {
 
     //var result=[]
     var newData = []
-
+  //  var modConst=1
+    
+    
     while (data.length > 0) {
+        
+        // if(mt[0]=='w'){     //winning mod
+        //     modConst=
+        // }else{
+        //     modConst=modConst2
+        // }
+    
 
         var toPush = processMove(data.pop(), mt, modConst, looped)
 
@@ -2030,11 +2039,13 @@ function processSplitMoves(data, thinker, mt, modConst, looped) {
 
 
 
-function processMove(move, modType, modConst, looped) {
+function processMove(move, modType, modConst2, looped) {
     //var looped=false
     //var result=[]
     //var modType=""
     //var modVal=1
+    
+    
 
 
     ///////////////////////////////////////
@@ -2063,6 +2074,28 @@ function processMove(move, modType, modConst, looped) {
     var origMostMoved = origData[7]
 
     var origApproachTheKing = origData[8]
+    
+    var modConst=1
+    
+    if(modType[0]=='w'){     //winning mod
+        if(origTableValue>0){       //and we are winning    //otherwise pow(0,0)error
+            
+            // var c4=origTableValue/31
+            // var f2=modConst2
+            modConst=Math.pow(origTableValue/31,modConst2)
+        
+             // modConst=
+              
+        }else{
+            modConst=0
+        }
+    
+      
+    }else{
+        modConst=modConst2
+    }
+    
+    modType=modType.substring(1,4)
 
     //var origDistanceFromKing=origData[10]
 
@@ -2461,83 +2494,83 @@ function processMove(move, modType, modConst, looped) {
             //console.log('modType == undefined')
             break;
 
-        case "nlpV":
+        case "lpV":
 
             loopValue *= modConst
                 //console.log('lpV modded: '+modConst)
             break;
 
-        case "ncpS":
+        case "cpS":
 
             captureScore *= modConst
                 //console.log('cpS modded: '+modConst)
             break;
 
-        case "ntt2":
+        case "tt2":
 
             tTable2Value *= modConst
                 //console.log('tt2 modded: '+modConst)
             break;
 
-        case "nsVS":
+        case "sVS":
 
             smallValScore *= modConst
                 //console.log('sVS modded: '+modConst)
             break;
 
 
-        case "ndGH":
+        case "dGH":
 
             dontGetHit *= modConst
                 //console.log('dGH modded: '+modConst)
             break;
 
 
-        case "nrPr":
+        case "rPr":
 
             retProtect *= modConst
                 //console.log('rPr modded: '+modConst)
             break;
 
 
-        case "nmHt":
+        case "mHt":
 
             mhit *= modConst
                 //console.log('mHt modded: '+modConst)
             break;
 
 
-        case "nhHt":
+        case "hHt":
 
             hhit *= modConst
                 //console.log('hHt modded: '+modConst)
             break;
 
-        case "nmMv":
+        case "mMv":
 
             mostMoved *= modConst
                 //console.log('mMv modded: '+modConst)
             break;
 
-        case "npHB":
+        case "pHB":
 
             pushHimBack *= modConst
                 //console.log('pHB modded: '+modConst)
             break;
 
-        case "ngTM":
+        case "gTM":
 
             getToMiddle *= modConst
                 //console.log('gTM modded: '+modConst)
             break;
 
-        case "nfwV":
+        case "fwV":
 
             fwdVal *= modConst
                 //console.log('fwV modded: '+modConst)
             break;
 
-        case "nscV":
+        case "scV":
 
             lsancValue *= modConst
             rsancValue *= modConst
@@ -2545,18 +2578,13 @@ function processMove(move, modType, modConst, looped) {
                 //console.log('scV modded: '+modConst)
             break;
 
-        case "naTK":
+        case "aTK":
 
             approachTheKing *= modConst
 
             break;
             
-        case "waTK":
-
-            approachTheKing *= winModConst
-
-        break;
-            
+         
             
            
 
