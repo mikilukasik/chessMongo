@@ -50,7 +50,7 @@
                             //put subworkers listeners here
                             var subWorkerNo=workerToStrart
                             subWorkers[subWorkerNo].onmessage = function(event) {
-                                $scope.messages.push(''+subWorkerNo+' '+new Date().getTime()+' '+Math.random()+': '+event.data);
+                                $scope.messages.push(''+subWorkerNo+' '+new Date().getTime()++event.data.worker);
                                 $scope.$apply()
                                 
                                 //check resCommand
