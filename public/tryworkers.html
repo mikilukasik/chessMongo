@@ -159,12 +159,14 @@
 </head>
 <body ng-app="appModule" ng-controller="ApplicationController">
     
+        <div>{{workersSupported}}</div>
+        <br>
+        
         <div>Main thread speed: {{mainThreadSpeed}}</div>
         <div>Workers speed: {{workersSpeed}}</div>
         <div>Threaded calculating is {{mainThreadSpeed / workersSpeed}} faster.</div>
 
-        <div>{{workersSupported}}</div>
-        <br>
+       
         <div ng-repeat="x in messages">{{x}}</div>
    
 
