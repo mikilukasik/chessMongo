@@ -2550,7 +2550,9 @@ function processMove(move, modType, modConst2, looped) {
 
 }
 
-
+var checkSpeed = function(){
+                return 20000 / newAi(new Dbtable(1, 'a', 'b'))[0][2]       //how many splitmoves / second
+            }
 
   ////////////////////worker func
         
@@ -2559,7 +2561,7 @@ function processMove(move, modType, modConst2, looped) {
 
 function timedCount() {
     workerI++// = workerI + 1;
-    postMessage(workerI);
+    postMessage(checkSpeed());
     setTimeout("timedCount()",500);
 }
 

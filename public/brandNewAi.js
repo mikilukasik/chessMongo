@@ -2546,3 +2546,9 @@ function processMove(move, modType, modConst2, looped) {
 
 
 }
+
+
+
+var checkSpeed = function(){
+                return 20000 / newAi(new Dbtable(1, 'a', 'b'))[0][2]       //how many splitmoves / second
+            }
