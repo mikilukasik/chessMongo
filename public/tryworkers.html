@@ -11,7 +11,7 @@
 
         function ApplicationController($scope, $http, $interval, $timeout) {
             
-            var workersCountConst=32
+            var workersCountConst=15
             
             $scope.sendMessage=function(message){
                 $scope.messages.push('@'+ new Date().getTime() +': '+message)
@@ -68,8 +68,8 @@
                                     
                                         $scope.sendMessage('Speed: '+ event.data.resData.speed + ', worker '+ event.data.resData.worker)
                                         $scope.pendingSpeedTest--
-                                        console.log($scope.pendingSpeedTest)
-                                        if($scope.pengingSpeedTest==0){
+                                        //console.log($scope.pendingSpeedTest)
+                                        if($scope.pendingSpeedTest==0){
                                             $scope.sendMessage('Speedtest done.')
                                         }
                                         
