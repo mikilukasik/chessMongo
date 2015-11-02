@@ -10,8 +10,34 @@
         var appModule = angular.module("appModule", []);
 
         function ApplicationController($rootScope, $http, $interval, $timeout, $rootScope) {
-
-            function learnerLooped(pastTables) {
+            
+            
+              var w;
+                
+                function startWorker() {
+                    if(typeof(Worker) !== "undefined") {
+                        
+                         $scope.workersSupported='Your browser supports HTML5 Web Workers.'
+                        
+                        if(typeof(w) == "undefined") {
+                            w = new Worker("aiworker.js");
+                        }
+                        w.postMessage('worker is running.')
+                        w.onmessage = function(event) {
+                             $scope.sendMessage(event.data);
+                             $scope.$apply()
+                        };
+                        
+                        
+                        
+                        
+                        
+                        
+                        /////////////////////aaaaaaaaaaaaaaaaaaaaaaaa///////////////////
+                        
+                        
+                        
+                          function learnerLooped(pastTables) {
                 var x = countInArray(pastTables[pastTables.length - 1], pastTables)
                 var y = countInArray(pastTables[pastTables.length - 2], pastTables)
 
@@ -28,9 +54,9 @@
                 // console.log(data)
                 var moves = data.moves
 
-                $http.get('aiOn?t=' + data.tableNum)
+                $http.get('aiOn?t=' + data._id)
 
-                var myGame = new Dbtable(data.tableNum, data.wName, data.bName)
+                var myGame = new Dbtable(data._id, data.wName, data.bName)
 
                 moves.forEach(function(moveFromDb) {
 
@@ -70,12 +96,12 @@
 
 
                 })
-                evalGame(myGame) 
+                evalGame(myGame,true) 
 
 
                 if (learnerLooped(myGame.allPastTables)) myGame.isDraw = true
 
-                $rootScope.sendMessage('table ' + myGame.tableNum + ' processed. (eval)')
+                $rootScope.sendMessage('table ' + myGame._id + ' processed. (eval)')
 
                 return myGame
 
@@ -83,21 +109,18 @@
 
 
 
-            //$rootScope.mySpeed = 60000 / (ai(new Dbtable(1, 'a', 'b').table, true, [])[0][2])       //speed testing, replace!!!!!!
+             //$rootScope.mySpeed = 60000 / (ai(new Dbtable(1, 'a', 'b').table, true, [])[0][2])       //speed testing, replace!!!!!!
             
-            $rootScope.checkSpeed = function(){
-                return 20000 / newAi(new Dbtable(1, 'a', 'b'))[0][2]       //how many splitmoves / second
-            }
             
-            $rootScope.mySpeed = $rootScope.checkSpeed()
-
+            
+            $rootScope.mySpeed = checkSpeed()
             ///////
             $rootScope.pollOn = true
             $rootScope.messages = ["Starting..."]
             $rootScope.succeeded = 0
             $rootScope.refreshWhenUp = function() {
 
-                $http.get('/forceStop?t=' + $rootScope.tableNum)
+                $http.get('/forceStop?t=' + $rootScope._id)
                     .then(function(response) {
                         $rootScope.setCookies()
                         $rootScope.succeeded++
@@ -126,7 +149,7 @@
 
             $rootScope.learnerPair = function(modType, modVal, scndGame) {
 
-                //var tableNum = 0
+                //var _id = 0
                 //console.log('start func called: /startGame?w=' + wName + "&b=" + bName)
 
 
@@ -140,22 +163,25 @@
 
 
                 if (wModded) { //this tells us if wmodded
-                    //firstFreeTable=$rootScope.start("mod lpV:" + modVal, "standard").tableNum
+                    //firstFreeTable=$rootScope.start("mod lpV:" + modVal, "standard")._id
                     initedTable = new Dbtable(1, modType + " mod: " + modVal, "standard")
                 } else {
-                    //firstFreeTable=$rootScope.start( "standard", "mod lpV:" + modVal).tableNum
+                    //firstFreeTable=$rootScope.start( "standard", "mod lpV:" + modVal)._id
                     initedTable = new Dbtable(1, "standard", modType + " mod: " + modVal)
 
 
                 }
-
-                console.log('finding tableNum for ' + initedTable.wName + " vs " + initedTable.bName)
+                
+                initedTable.learnerGame=true
+                initedTable.learnedOn=$rootScope.sendID
+                
+                console.log('finding _id for ' + initedTable.wName + " vs " + initedTable.bName)
 
                 $http.get('/startGame?w=' + initedTable.wName + "&b=" + initedTable.bName)
                     .then(function(response) {
 
-                        console.log('tableNum received: ' + response.data.tableNum)
-                        initedTable.tableNum = response.data.tableNum
+                        console.log('_id received: ' + response.data._id)
+                        initedTable._id = response.data._id
 
 
                         //var initedTable = []
@@ -173,15 +199,17 @@
 
                         //$rootScope.whatToDo = 'idle'
                         //console.log('Table should be in DB, start soon..')
-                        
+                         var modConst=getMcFromMv(modVal)
                         
                         $http.get('/learnerPoll?n=' + $rootScope.sendID +
-                            '&t=' + initedTable.tableNum +
+                            '&t=' + initedTable._id +
                             '&mt=' + modType +
-                            '&mv=' + modVal + '&p=0&a=' + $rootScope.mySpeed
+                            '&mv=' + modVal + '&p='+modConst+'&a=' + $rootScope.mySpeed
                           // +  '&r=' + Math.random()
                           )
-
+                          
+                         initedTable.modConst=modConst
+                         
                         $rootScope.playgame(initedTable, modType, modVal, true, wModded) //true stands for wNext
                     }, function(data) {
                         $rootScope.headMessage = 'Connection error, refreshing'
@@ -190,7 +218,7 @@
 
                     })
 
-                //if (tableNum>0)return tableNum
+                //if (_id>0)return _id
 
             }
 
@@ -208,7 +236,7 @@
                 var result = []
                 
               //  if($rootScope.learning){
-                var modConst=getMcFromMv(modVal)  
+                var modConst=getMcFromMv(modVal)    //we don't need this at every move!!!!!!
                   
               
                 
@@ -233,7 +261,14 @@
                 if (result[0][6]) {
                     //looped
                     myGame.gameIsOn = false //looped
-                    $http.get('/forceStop?t=' + $rootScope.tableNum)
+                     evalGame(myGame,true)
+                     myGame.looped=true
+                    // myGame.pollNum++
+                     
+                       $http.post('/moved',myGame,function(req,res){})
+                     
+                     
+                    $http.get('/forceStop?t=' + $rootScope._id)
                         .then(function(response) {
                             console.log('looped, forceStop sent')
                         }, function(data) {
@@ -266,6 +301,7 @@
                     console.log('will run into eval bit - someone won!')
 
                     myGame.gameIsOn = false
+                     evalGame(myGame,true)
 
 
                 }
@@ -309,17 +345,19 @@
 
                     //}
                 } else {
-                    console.log('Game finished on table '+myGame.tableNum+', evaluating..')
-                    evalGame(myGame)
+                    console.log('Game finished on table '+myGame._id+', evaluating..')
+                    evalGame(myGame,true)
                     
-                    myGame.learnerStats={
-                        modType: mt,
-                        modVal: modVal,
-                        modConst: modConst
+                    // myGame.learnerStats={
+                    //     modType: mt,
+                    //     modVal: modVal,
+                    //     modConst: modConst
                         
-                    }
+                    // }
                     
                     console.log(myGame)
+                    
+                    myGame.pollNum++
                     
                     //post it here
                     
@@ -330,9 +368,47 @@
                 }
                 // 	
  //if($rootScope.learning){
+ 
+ 
+      if(myGame.pollNum/15==Math.floor(myGame.pollNum/15)){
+                                 $http.post('/moved',myGame,function(req,res){})
+                                 
+                                 //temp:
+                                 
+                                 //myGame.gameIsOn=false
+                                 
+                            }
+                           
+                            if(myGame.pollNum/250==Math.floor(myGame.pollNum/250)){    // !!!!!!!!!
+                                 //$http.post('/moved',myGame,function(req,res){})
+                                 
+                                 //temp:
+                                 var tableTotal=getTableTotal(myGame.table)
+                                 
+                                 
+                                 
+                                 if($rootScope.lastTotal==tableTotal){
+                                    myGame.gameIsOn=false
+                                    evalGame(myGame,true)
+                                    myGame.gameIsOn=false
+                                 }else{
+                                     $rootScope.lastTotal=tableTotal
+                                 }
+                                 
+                            }
+                           
+                            
+    
+    
                 if (myGame.gameIsOn) {
-                    $http.get('/move?s=1&m=' + aiMoveString + '&t=' + myGame.tableNum)
-                        .then(function(response) {
+                    
+                    $timeout(function(){
+                         $rootScope.playgame(myGame, mt, modVal, !wNx, wMod)
+
+                    },200)
+                    
+                    // $http.get('/move?s=1&m=' + aiMoveString + '&t=' + myGame._id)
+                    //     .then(function(response) {
                             
                             
                             
@@ -341,13 +417,11 @@
              //               $http.post('/moved',myGame,function(req,res){})
                             //temp
                             
+                          
                             
                             
-                            
-                            
-                            
-                            // $http.get('/learnerPoll?n=' + $scope.cookieID +
-                            //     '&t=' + $rootScope.tableNum +
+                            // $http.get('/learnerPoll?n=' + $rootScope.cookieID +
+                            //     '&t=' + $rootScope._id +
                             //     '&mt=' + $rootScope.mt +
                             //     '&mv=' + $rootScope.mv + '&p=' + $rootScope.myGame.pollNum +
                             //     '&a=' + $rootScope.avgTime +
@@ -360,14 +434,16 @@
 
                             //     $rootScope.refreshWhenUp()
                             // })
-                               $rootScope.playgame(myGame, mt, modVal, !wNx, wMod)
+                               // $rootScope.playgame(myGame, mt, modVal, !wNx, wMod)
 
-                        }, function(data) {
-                            $rootScope.headMessage = 'Connection error, refreshing'
+                      //  }
+                        // , function(data) {
+                        //     $rootScope.headMessage = 'Connection error, refreshing'
 
-                            $rootScope.refreshWhenUp()
+                        //     $rootScope.refreshWhenUp()
 
-                        })
+                        // }
+                       // )
 
                 } else {
 
@@ -402,19 +478,40 @@
 
 
 
-          
+            function getTableTotal(table){
+                var tt=0
+                for(var i=0;i<8;i++){
+                    for(var j=0;j<8;j++){
+                        tt+=table[i][j][1]
+                    }
+                }
+                return tt
+            }
             
             $rootScope.startGamePair=function(){
                  if($rootScope.learning){
-                      $http.get('/getModType').then(function(response) {
-                            var modType = response.data.modType
-                            var modVal = Math.random() * 100
+                      $http.get('/getModTypes').then(function(response) {
+                            
+                           var modType="" 
+                          
+                           var modTypes = response.data.modTypes
+                           var len=modTypes.length
+                          if(len>0) {
+                               modType=modTypes[Math.floor(Math.random()*len)]
+                          }
+                           
+                            var modVal =  Number(response.data.min) + (Math.random() * (response.data.max-response.data.min))   
+                            
                             $rootScope.mv = modVal
                             $rootScope.mt = modType
 
                             $rootScope.sendMessage('start learning...')
                             $rootScope.learnerPair(modType, modVal) //this will call another game with black when done
-                        })
+                        }, function(data) {
+                            //error, retry
+                            $rootScope.receivedMessage = 'error getting modTypes'
+                            $rootScope.refreshWhenUp() //retry kene?
+                    })
                         
                         
                         
@@ -487,11 +584,11 @@
                         break;
 
                     case "evalGame":
-                        //console.log('t'+task.data.tableNum+' eval received')
+                        //console.log('t'+task.data._id+' eval received')
                         var postThis = evaledGame(task.data)
-                        console.log('tnum,pollnum,wwon,bwon,isdraw: ', postThis.tableNum, postThis.pollNum, postThis.whiteWon, postThis.blackWon, postThis.isDraw)
+                        console.log('tnum,pollnum,wwon,bwon,isdraw: ', postThis._id, postThis.pollNum, postThis.whiteWon, postThis.blackWon, postThis.isDraw)
                         $http.post('/evaledGame', postThis, function(req, res) {
-                                $rootScope.sendMessage('t' + postThis.tableNum + ' posted.')
+                                $rootScope.sendMessage('t' + postThis._id + ' posted.')
                             })
                             //should ping
                         break;
@@ -609,6 +706,28 @@
             // 	longPollTasks()
             // } , 8000)//ping
 
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        /////////////////////aaaaaaaaaaaaaaaaaaaaaaaa///////////////////
+                        
+                        
+                    } else {
+                         $scope.workersSupported='Your browser DOES NOT supports HTML5 Web Workers.'
+                    }
+                }
+
+          
 
         }
         appModule.controller("ApplicationController", ApplicationController);
