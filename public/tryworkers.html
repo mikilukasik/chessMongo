@@ -11,27 +11,52 @@
 
         function ApplicationController($scope, $http, $interval, $timeout) {
             
-            //var w
             
-            if(typeof(Worker) !== "undefined") {
-                // Yes! Web worker support!
-                // Some code.....
-                $scope.workersSupported='Your browser supports HTML5 Web Workers.'
+            var w;
                 
-                
-                if(typeof($scope.w) == "undefined") {
-                    $scope.w = new Worker("aiworker.js");
+                function startWorker() {
+                    if(typeof(Worker) !== "undefined") {
+                        
+                         $scope.workersSupported='Your browser supports HTML5 Web Workers.'
+                        
+                        if(typeof(w) == "undefined") {
+                            w = new Worker("aiworker.js");
+                        }
+                        w.onmessage = function(event) {
+                             $scope.workersSupported = event.data;
+                        };
+                    } else {
+                         $scope.workersSupported='Your browser DOES NOT supports HTML5 Web Workers.'
+                    }
                 }
                 
-                $scope.w.onmessage = function(event){
-                    $scope.tempMessage=event.data
-                };
-            } else {
-                // Sorry! No Web Worker support..
-                $scope.workersSupported='Your browser DOES NOT supports HTML5 Web Workers.'
+                function stopWorker() { 
+                    w.terminate();
+                    w = undefined;
+                }
+                
+                startWorker()
+            //var w
+            
+            // if(typeof(Worker) !== "undefined") {
+            //     // Yes! Web worker support!
+            //     // Some code.....
+            //     $scope.workersSupported='Your browser supports HTML5 Web Workers.'
                 
                 
-            }
+            //     if(typeof($scope.w) == "undefined") {
+            //         $scope.w = new Worker("aiworker.js");
+            //     }
+                
+            //     $scope.w.onmessage = function(event){
+            //         $scope.tempMessage=event.data
+            //     };
+            // } else {
+            //     // Sorry! No Web Worker support..
+            //     $scope.workersSupported='Your browser DOES NOT supports HTML5 Web Workers.'
+                
+                
+            // }
             
             
             
