@@ -15,10 +15,11 @@ importScripts('engine.js')
 
 
 onmessage = function (event) {
+ 
   postMessage({
-    command:event.command,
+    command:event.data.command,
     response:'i have no idea what this is...',
-    data:event.data
+    retData:event.data.sentData
   });
 };
 
