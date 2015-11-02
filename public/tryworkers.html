@@ -14,10 +14,13 @@
             if(typeof(Worker) !== "undefined") {
                 // Yes! Web worker support!
                 // Some code.....
-                $scope.workerSupported=true
+                $scope.workersSupported='Your browser supports HTML5 Web Workers.'
                 
             } else {
                 // Sorry! No Web Worker support..
+                $scope.workersSupported='Your browser DOES NOT supports HTML5 Web Workers.'
+                
+                
             }
             
             
@@ -29,7 +32,7 @@
 </head>
 <body ng-app="appModule" ng-controller="ApplicationController">
 
-<div ng-if="workerSupported">Your browser supports HTML5 Web Workers.</div>
+    <div>{{workersSupported}}</div>
    
 
 
