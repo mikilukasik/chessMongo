@@ -24,6 +24,7 @@
                         }
                         w.onmessage = function(event) {
                              $scope.workersSupported = event.data;
+                             $scope.$apply()
                         };
                     } else {
                          $scope.workersSupported='Your browser DOES NOT supports HTML5 Web Workers.'
