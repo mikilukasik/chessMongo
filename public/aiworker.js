@@ -15,34 +15,34 @@ importScripts('engine.js')
 
 onmessage = function (event) {
   
-  var sentCommand=event.data.sentCommand
-  var sentData=event.data.sentData;
-  var sentMessage=event.data.sentMessage;
+  var reqCommand=event.data.reqCommand
+  var reqData=event.data.reqData;
+  var reqMessage=event.data.reqMessage;
   
-  var retData;
-  var retCommand;
-  var retMessage;
+  var resData;
+  var resCommand;
+  var resMessage;
   
   
-  switch (sentCommand){
+  switch (reqCommand){
     case undefined:
     
     break;
     
     case 'echo':
     
-      retMessage='echoing'
-      retData=sentData
-      retCommand=undefined
+      resMessage='echoing'
+      resData=reqData
+      resCommand=undefined
     
     
     break;
     
     case 'bullShit':
     
-      retMessage='dont bullshit'
-      retData=undefined
-      retCommand='bullshit'
+      resMessage='dont bullshit'
+      resData=undefined
+      resCommand='bullshit'
     
     break;
     
@@ -51,9 +51,9 @@ onmessage = function (event) {
  
   postMessage({
          // command:undefined,
-          'retMessage':retMessage,
-          'retData':retData,
-          'retCommand':retCommand
+          'resMessage':resMessage,
+          'resData':resData,
+          'resCommand':resCommand
   });
       
  

@@ -29,7 +29,20 @@
                         if(typeof(mainWorker) == "undefined") {
                             mainWorker = new Worker("aiworker.js");
                         }
-                        //mainWorker should be running
+                        //mainWorker should be running, let's start subWorkers
+                        //var subWorkersSleeping=workersCountConst
+                        var workerToStrart=0
+                        while(workerToStrart<workersCountConst){
+                            subWorkers[workerToStrart]= new Worker("aiworker.js");
+                            workerToStrart++
+                            
+                            //put subworkers listeners here
+                            
+                            
+                        }
+                        console.log('subWorkers should be up and running')
+                        
+                        //here we have all workers running
                         
                         
                         
@@ -39,15 +52,15 @@
                         
                         //first try:
                         mainWorker.postMessage({
-                            sentMessgage:'hello',
-                            sentCommand:'echo',
-                            sentData:'a'
+                            reqMessgage:'hello',
+                            reqCommand:'echo',
+                            reqData:'a'
                         })
                         
                          mainWorker.postMessage({
-                            sentMessgage:'bullShiting you',
-                            sentCommand:'bullShit',
-                            sentData:'a'
+                            reqMessgage:'bullShiting you',
+                            reqCommand:'bullShit',
+                            reqData:'a'
                         })
                         
                         
