@@ -22,7 +22,7 @@
             
             
             var mainWorker;
-            var subWorkers=new Array(workersCountConst-1) 
+            var subWorkers=[] 
             
           
             
@@ -41,7 +41,7 @@
                              $scope.$apply()
                         };
                         //mainWorker should be running, let's start subWorkers
-                        //var subWorkersSleeping=workersCountConst
+                        
                         var workerToStrart=0
                         while(workerToStrart<workersCountConst){
                             subWorkers[workerToStrart]= new Worker("aiworker.js");
@@ -89,22 +89,22 @@
                         mainWorker.postMessage({
                             reqMessgage:'hello',
                             reqCommand:'echo',
-                            reqData:'a'
+                            reqData:{worker:'main'}
                         })
                         
                          mainWorker.postMessage({
                             reqMessgage:'bullShiting you',
                             reqCommand:'bullShit',
-                            reqData:'a'
+                            reqData:{worker:'main'}
                         })
                         
-                        for(var i=0;i<workersCountConst;i++){
-                            subWorkers[i].postMessage({
-                                reqMessgage:'hello',
-                                reqCommand:'echo',
-                                reqData:'no: '+i 
-                            })
-                        }
+                        // for(var i=0;i<workersCountConst;i++){
+                        //     subWorkers[i].postMessage({
+                        //         reqMessgage:'hello',
+                        //         reqCommand:'echo',
+                        //         reqData:'no: '+i 
+                        //     })
+                        // }
                         
                         
                         for(var i=0;i<workersCountConst;i++){
