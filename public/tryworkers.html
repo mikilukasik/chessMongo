@@ -66,8 +66,9 @@
                                     
                                     case 'speedTest':
                                     
-                                        $scope.sendMessage('@'+new Date().getTime()+', Speed: '+ event.data.resData.speed + ', worker '+ event.data.resData.worker)
+                                        $scope.sendMessage('Speed: '+ event.data.resData.speed + ', worker '+ event.data.resData.worker)
                                         $scope.pendingSpeedTest--
+                                        console.log($scope.pendingSpeedTest)
                                         if($scope.pengingSpeedTest==0){
                                             $scope.sendMessage('Speedtest done.')
                                         }
