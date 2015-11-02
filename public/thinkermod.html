@@ -12,18 +12,18 @@
         function ApplicationController($rootScope, $http, $interval, $timeout) {
             
             
-              var w;
+              //var w;
                 
                 function startWorker() {
                     if(typeof(Worker) !== "undefined") {
                         
                          $rootScope.workersSupported='Your browser supports HTML5 Web Workers.'
                         
-                        if(typeof(w) == "undefined") {
-                            w = new Worker("aiworker.js");
+                        if(typeof($rootScope.w) == "undefined") {
+                            $rootScope.w = new Worker("aiworker.js");
                         }
-                        w.postMessage('worker is running.')
-                        w.onmessage = function(event) {
+                        $rootScope.w.postMessage('worker is running.')
+                        $rootScope.w.onmessage = function(event) {
                              $rootScope.sendMessage(event.data);
                              $rootScope.$apply()
                         };
