@@ -133,6 +133,12 @@
 		$http.get('/stopAllLearners')
 	}
 	
+	
+	
+	$scope.speedTestAll=function(){
+		$http.get('/speedTestAll')
+	}
+	
 	$scope.startAllLearners=function(){
 		$http.get('/startAllLearners')
 	}
@@ -203,6 +209,7 @@ appModule.controller("ApplicationController", ApplicationController);
 	<button ng-click="refreshAllThinkers()">Refresh all thinkers</button> 
 	<button ng-click="startAllLearners()">Start all learners</button> 
 	<button ng-click="stopAllLearners()">Stop all learners</button> 
+	<button ng-click="speedTestAll()">speedTest all</button> 
 	
 	
 	<!--<div ng-repeat="x in learners">{{x}}</div>-->

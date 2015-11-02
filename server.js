@@ -273,6 +273,13 @@ app.get('/startAllLearners', function(req, res) {
 	res.end()
 
 });
+app.get('/speedTestAll', function(req, res) {
+	//////////// console.log(req)
+	//sendToAll('learnStart','learnStart all')
+	sendToAll(new Task('speedTest',0,'speedTest all'))
+	res.end()
+
+});
 
 app.get('/stopAllLearners', function(req, res) {
 	//////////// console.log(req)
