@@ -37,7 +37,9 @@
                         }
                         
                         mainWorker.onmessage = function(event) {
-                             $scope.messages.push(event.data);
+                             $scope.messages.push('')
+                             $scope.messages.push('main worker event:'+event.data);
+                             $scope.messages.push('')
                              $scope.$apply()
                         };
                         //mainWorker should be running, let's start subWorkers
@@ -50,7 +52,7 @@
                             //put subworkers listeners here
                             var subWorkerNo=workerToStrart
                             subWorkers[subWorkerNo].onmessage = function(event) {
-                                $scope.messages.push(''+subWorkerNo+' '+new Date().getTime()+', worker: '+event.data.worker);
+                                $scope.messages.push('@'+new Date().getTime()+', worker: '+event.data.resData.worker+', resData: '+event.data.resData);
                                 $scope.$apply()
                                 
                                 //check resCommand
@@ -92,11 +94,11 @@
                             reqData:{worker:'main'}
                         })
                         
-                         mainWorker.postMessage({
-                            reqMessgage:'bullShiting you',
-                            reqCommand:'bullShit',
-                            reqData:{worker:'main'}
-                        })
+                        //  mainWorker.postMessage({
+                        //     reqMessgage:'bullShiting you',
+                        //     reqCommand:'bullShit',
+                        //     reqData:{worker:'main'}
+                        // })
                         
                         // for(var i=0;i<workersCountConst;i++){
                         //     subWorkers[i].postMessage({
