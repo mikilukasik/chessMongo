@@ -29,6 +29,11 @@
                         if(typeof(mainWorker) == "undefined") {
                             mainWorker = new Worker("aiworker.js");
                         }
+                        
+                        mainWorker.onmessage = function(event) {
+                             $scope.messages.push(event.data);
+                             $scope.$apply()
+                        };
                         //mainWorker should be running, let's start subWorkers
                         //var subWorkersSleeping=workersCountConst
                         var workerToStrart=0
@@ -78,11 +83,16 @@
                             })
                         }
                         
+                        for(var i=0;i<workersCountConst;i++){
+                            subWorkers[i].postMessage({
+                                reqMessgage:'hello',
+                                reqCommand:'echo',
+                                reqData:'a'
+                            })
+                        }
                         
-                        mainWorker.onmessage = function(event) {
-                             $scope.messages.push(event.data);
-                             $scope.$apply()
-                        };
+                        
+                      
                     } else {
                          $scope.workersSupported='Your browser DOES NOT supports HTML5 Web mainWorker.'
                     }
