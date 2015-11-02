@@ -36,7 +36,10 @@
                         
                         
                         //first try:
-                        mainWorker.postMessage('a')
+                        mainWorker.postMessage({
+                            command:'echo',
+                            data:'a'
+                        })
                         mainWorker.onmessage = function(event) {
                              $scope.workersSupported = event.data;
                              $scope.$apply()
