@@ -7,7 +7,7 @@ var workerI = 0;
 
 function timedCount() {
     workerI++// = workerI + 1;
-    postMessage(checkSpeed());
+    postMessage('a'+checkSpeed());
     setTimeout("timedCount()",500);
 }
 
