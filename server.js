@@ -1921,7 +1921,7 @@ app.get('/longPollTasks', function(req, res) {
 
 	} else {
 		
-		var learnerIndex = speedTests[0].indexOf(req.query.n)
+		var learnerIndex = speedTests[0].indexOf(req.query.thinker)
 		
 		speedTests[1][learnerIndex] = (new Date())
 			.getTime()
