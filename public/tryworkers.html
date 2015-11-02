@@ -73,6 +73,8 @@
                                             $scope.sendMessage('Speedtest done.')
                                             $scope.workersSpeed=(new Date().getTime()-wStartTime)
                                             
+                                            $scope.$apply()
+                                            
                                         }
                                         
                                     break;
