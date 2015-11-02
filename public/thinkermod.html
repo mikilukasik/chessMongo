@@ -80,12 +80,20 @@
                                         if($rootScope.pendingSpeedTest==0){
                                             $rootScope.sendMessage('Speedtest done.')
                                             $rootScope.workersSpeed=(new Date().getTime()-wStartTime)
-                                            
+                                            $rootScope.faster=$rootScope.mainThreadSpeed / $rootScope.workersSpeed
                                             
                                             
                                             $rootScope.$apply()
                                             
                                             stopWorkers()
+                                            
+                                              $http.get('/speedTestResult?thinker=' + $rootScope.sendID +
+                                                    '&wSpeed=' + $rootScope.workersSpeed +
+                                                    '&mtSpeed=' + $rootScope.mainThreadSpeed +
+                                                    '&faster=' + $rootScope.faster
+                                                // +  '&r=' + Math.random()
+                                             )
+                                            
                                             
                                         }
                                         
@@ -913,7 +921,7 @@
         
         <div>Main thread speed: {{mainThreadSpeed}}</div>
         <div>Workers speed: {{workersSpeed}}</div>
-        <div>Threaded calculating is {{mainThreadSpeed / workersSpeed}} faster.</div>
+        <div>Threaded calculating is {{faster}} faster.</div>
 
 
 	<p>

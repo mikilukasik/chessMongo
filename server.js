@@ -35,6 +35,9 @@ var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
 
 var players = []
 var learners=[]
+var speedTests=[]
+
+
 learners[0]=[]  		//learner IDs
 learners[1]=[]		//learners last polled
 learners[2]=[]	//learner is on table
@@ -45,6 +48,18 @@ learners[6]=[]	//learner at pollnum
 learners[7]=[]	//learner at pollnum
 
 
+
+speedTests[0]=[]  		//learner IDs
+speedTests[1]=[]		//speedTests last polled
+speedTests[2]=[]	//learner mtspeed
+speedTests[3]=[]	//learner wspeed
+speedTests[4]=[]	//learner faster
+// speedTests[5]=[]	//learner modVal
+// speedTests[6]=[]	//learner at pollnum
+// speedTests[7]=[]	//learner at pollnum
+
+
+var oldSpeedTestConst=10000
 var playerDisconnectConst = 15000 //15sec
 var learnerDisconnectConst = 240000 //4min
 var gameInactiveConst = 100000 //100sec
@@ -1704,7 +1719,9 @@ var captainPop=function(){
 		
 		"taskQ":taskQ.length,
 		
-		"stats":stats
+		"stats":stats,
+		
+		"speedTests":speedTests
 		
 		
 		})
@@ -1744,7 +1761,9 @@ app.get('/captainPoll', function(req, res) {
 		
 		"taskQ":taskQ.length,
 		
-		"stats":stats
+		"stats":stats,
+		
+		"speedTests":speedTests
 		
 		
 		})
@@ -1884,6 +1903,57 @@ app.get('/longPollTasks', function(req, res) {
 });
 
 
+ app.get('/speedTestResult',function(req,res){
+	 
+	 if(speedTests[0].indexOf(req.query.thinker) == -1) {
+		speedTests[0].push(req.query.thinker)
+		speedTests[1].push((new Date())
+			.getTime())
+			
+			
+		speedTests[2].push(req.query.mtSpeed)
+		speedTests[3].push(req.query.wSpeed)
+		speedTests[4].push(req.query.faster)
+		// speedTests[5].push(req.query.mv)
+		// speedTests[6].push(req.query.p)
+		// speedTests[7].push(req.query.a)
+		
+
+	} else {
+		
+		var learnerIndex = speedTests[0].indexOf(req.query.n)
+		
+		speedTests[1][learnerIndex] = (new Date())
+			.getTime()
+			
+			
+		speedTests[2][learnerIndex] = req.query.mtSpeed
+		speedTests[3][learnerIndex] = req.query.wSpeed
+		speedTests[4][learnerIndex] = req.query.faster
+		// speedTests[5][learnerIndex] = req.query.mv
+		// speedTests[6][learnerIndex] = req.query.p
+		// speedTests[7][learnerIndex] = req.query.a
+		
+			
+	}
+
+	
+	res.json({
+		message:'nincs'
+	})
+	
+	captainPop()
+	
+
+	 
+ })
+//  ?thinker=' + $rootScope.sendID +
+//                                                     '&ws=' + $rootScope.workersSpeed +
+//                                                     '&mts=' + $rootScope.mainThreadSpeed +
+//                                                     '&f=' + $rootScope.faster
+//                                                 // +  '&r=' + Math.random()
+//                                              )
+
 app.get('/learnerPoll', function(req, res) {
 	//////////// console.log(req)
 	
@@ -1900,22 +1970,6 @@ app.get('/learnerPoll', function(req, res) {
 		learners[6].push(req.query.p)
 		learners[7].push(req.query.a)
 		
-		
-		//pendingThinkerPolls[req.query.n]=[]	!!!!!!!!!!!!!!!!!!
-			
-	// var players = []
-	// var learners=[]
-	// learners[0]=[]  		//learner IDs
-	// learners[1]=[]		//learners last polled
-	// learners[2]=[]	//learner is on table
-	// learners[3]=[]	//learner plays white
-	// learners[4]=[]	//learner modType
-	// learners[5]=[]	//learner modVal
-	// learners[6]=[]	//learner at pollnum
-
-
-		//players.sort(sortPlayers)
-		//lobbyPollNum++
 
 	} else {
 		
@@ -1981,6 +2035,29 @@ function clearDisconnectedPlayers() {
 // 	//clearInactiveGames()
 // }
 
+
+
+function clearOldSpeedTests() {
+	for(var i = speedTests.length - 1; i >= 0; i--) {
+
+		if(speedTests[1][i] + oldSpeedTestConst < (new Date())
+			.getTime()) {
+			speedTests[1].splice(i, 1)
+			speedTests[0].splice(i, 1)
+			speedTests[2].splice(i, 1)
+			speedTests[3].splice(i, 1)
+			speedTests[4].splice(i, 1)
+			// speedTests[5].splice(i, 1)
+			// speedTests[6].splice(i, 1)
+			// speedTests[7].splice(i, 1)
+			
+			//lobbyPollNum++
+
+		}
+
+	}
+	//clearInactiveGames()
+}
 
 
 function clearDisconnectedLearners() {

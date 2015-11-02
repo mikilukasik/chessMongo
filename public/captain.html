@@ -69,6 +69,8 @@
 				$scope.pollNum=response.data.captainPollNum
 				$scope.taskQ=response.data.taskQ
 				$scope.stats=response.data.stats
+				$scope.speedTests=response.data.speedTests
+				
 				
 				
 				$scope.learners.sort(function(a,b){
@@ -236,6 +238,12 @@ appModule.controller("ApplicationController", ApplicationController);
 			
 		</tr>
 		<tr ng-repeat="x in learners">
+	
+			<td ng-repeat="y in x">
+				{{y}}
+			</td>
+		</tr>
+		<tr ng-repeat="x in speedTests">
 	
 			<td ng-repeat="y in x">
 				{{y}}
