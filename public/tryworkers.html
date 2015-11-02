@@ -79,15 +79,17 @@
                             subWorkers[i].postMessage({
                                 reqMessgage:'hello',
                                 reqCommand:'echo',
-                                reqData:'a'
+                                reqData:'no: '+i 
                             })
                         }
                         
                         for(var i=0;i<workersCountConst;i++){
                             subWorkers[i].postMessage({
-                                reqMessgage:'hello',
-                                reqCommand:'echo',
-                                reqData:'a'
+                                reqMessgage:'test that seed',
+                                reqCommand:'speedTest',
+                                reqData:{
+                                    worker:i
+                                }
                             })
                         }
                         
