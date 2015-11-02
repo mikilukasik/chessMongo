@@ -42,7 +42,7 @@
                         
                         mainWorker.onmessage = function(event) {
                              $scope.sendMessage('')
-                             $scope.sendMessage('@'+new Date().getTime()+', main worker event:'+event.data);
+                             $scope.messages.push('@'+new Date().getTime()+', main worker event:'+event.data);
                              $scope.sendMessage(' ')
                              
                         };
