@@ -13,7 +13,7 @@
             
             var workersCountConst=32
             
-            $scope.sendMessage(message){
+            $scope.sendMessage=function(message){
                 $scope.messages.push('@'+ new Date().getTime() +': '+message)
             }
             
