@@ -18,9 +18,9 @@
                 $scope.$apply()
             }
             
-            var startTime=new Date().getTime()
+            var mtStartTime=new Date().getTime()
             checkSpeed()
-            $scope.mainThreadSpeed=(new Date().getTime()-startTime)*workersCountConst
+            $scope.mainThreadSpeed=(new Date().getTime()-mtStartTime)*workersCountConst
             
             $scope.messages=[]
             
@@ -71,6 +71,8 @@
                                         //console.log($scope.pendingSpeedTest)
                                         if($scope.pendingSpeedTest==0){
                                             $scope.sendMessage('Speedtest done.')
+                                            $scope.workersSpeed=(new Date().getTime()-wStartTime)
+                                            
                                         }
                                         
                                     break;
@@ -98,11 +100,11 @@
                         
                         
                         //first try:
-                        mainWorker.postMessage({
-                            reqMessgage:'hello',
-                            reqCommand:'echo',
-                            reqData:{worker:'main'}
-                        })
+                        // mainWorker.postMessage({
+                        //     reqMessgage:'hello',
+                        //     reqCommand:'echo',
+                        //     reqData:{worker:'main'}
+                        // })
                         
                         //  mainWorker.postMessage({
                         //     reqMessgage:'bullShiting you',
@@ -119,6 +121,9 @@
                         // }
                         
                         $scope.pendingSpeedTest=0
+                        
+                        var wStartTime=new Date().getTime()
+                        
                         for(var i=0;i<workersCountConst;i++){
                             $scope.pendingSpeedTest++
                             subWorkers[i].postMessage({
