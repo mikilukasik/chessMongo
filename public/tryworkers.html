@@ -20,7 +20,7 @@
                          $scope.workersSupported='Your browser supports HTML5 Web Workers.'
                         
                         if(typeof(w) == "undefined") {
-                            w = new Worker("aiworker.js");
+                            w = new Worker("worker.js");
                         }
                         w.onmessage = function(event) {
                              $scope.workersSupported = event.data;
