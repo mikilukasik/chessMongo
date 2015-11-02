@@ -38,8 +38,8 @@
                         
                         mainWorker.onmessage = function(event) {
                              $scope.messages.push('')
-                             $scope.messages.push('main worker event:'+event.data);
-                             $scope.messages.push('')
+                             $scope.messages.push('@'+new Date().getTime()+', main worker event:'+event.data);
+                             $scope.messages.push(' ')
                              $scope.$apply()
                         };
                         //mainWorker should be running, let's start subWorkers
@@ -61,7 +61,7 @@
                                     
                                     case 'showSpeedTest':
                                     
-                                        $scope.messages.push('Speed: '+ event.data.resData.speed + ', worker '+ event.data.resData.worker)
+                                        $scope.messages.push('@'+new Date().getTime()+', Speed: '+ event.data.resData.speed + ', worker '+ event.data.resData.worker)
                                     
                                     break;
                               
