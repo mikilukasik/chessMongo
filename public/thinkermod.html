@@ -9,7 +9,7 @@
     <script>
         var appModule = angular.module("appModule", []);
 
-        function ApplicationController($rootScope, $http, $interval, $timeout, $scope) {
+        function ApplicationController($rootScope, $http, $interval, $timeout) {
             
             
               var w;
@@ -17,15 +17,15 @@
                 function startWorker() {
                     if(typeof(Worker) !== "undefined") {
                         
-                         $scope.workersSupported='Your browser supports HTML5 Web Workers.'
+                         $rootScope.workersSupported='Your browser supports HTML5 Web Workers.'
                         
                         if(typeof(w) == "undefined") {
                             w = new Worker("aiworker.js");
                         }
                         w.postMessage('worker is running.')
                         w.onmessage = function(event) {
-                             $scope.sendMessage(event.data);
-                             $scope.$apply()
+                             $rootScope.sendMessage(event.data);
+                             $rootScope.$apply()
                         };
                         
                         
@@ -723,7 +723,7 @@
                         
                         
                     } else {
-                         $scope.workersSupported='Your browser DOES NOT supports HTML5 Web Workers.'
+                         $rootScope.workersSupported='Your browser DOES NOT supports HTML5 Web Workers.'
                     }
                 }
 
