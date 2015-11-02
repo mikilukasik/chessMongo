@@ -2542,9 +2542,20 @@ function processMove(move, modType, modConst2, looped) {
 
     ///////////////////////////////////////
 
-        ////////////////////worker func
+      
         
-        var workerI = 0;
+        
+        
+
+
+}
+
+
+
+  ////////////////////worker func
+        
+   
+    var workerI = 0;
 
 function timedCount() {
     workerI++// = workerI + 1;
@@ -2553,12 +2564,9 @@ function timedCount() {
 }
 
 timedCount();
-        
+
+
+ 
         
         ////////////////////worker func end
         
-        
-        
-
-
-}
