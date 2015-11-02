@@ -46,6 +46,23 @@
                             subWorkers[subWorkerNo].onmessage = function(event) {
                                 $scope.messages.push(''+subWorkerNo+' '+new Date().getTime()+' '+Math.random()+': '+event.data);
                                 $scope.$apply()
+                                
+                                //check resCommand
+                                
+                                switch(event.data.resCommand){
+                                    
+                                    case 'showSpeedTest':
+                                    
+                                        $scope.messages.push('Speed: '+ event.data.resData)
+                                    
+                                    break;
+                              
+                                }
+                                
+                                
+                                
+                                
+                                
                             };
                             
                              workerToStrart++

@@ -41,9 +41,9 @@ onmessage = function (event) {
     case 'speedTest':
     
       resMessage='echoing'
-      reqData=reqData
+      //reqData=reqData
       resData=checkSpeed()
-      resCommand=undefined
+      resCommand='showSpeedTest'
     
     
     break;
