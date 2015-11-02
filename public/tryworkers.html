@@ -13,6 +13,10 @@
             
             var workersCountConst=32
             
+            $scope.sendMessage(message){
+                $scope.messages.push('@'+ new Date().getTime() +': '+message)
+            }
+            
             var startTime=new Date().getTime()
             checkSpeed()
             $scope.mainThreadSpeed=(new Date().getTime()-startTime)*workersCountConst
@@ -37,10 +41,10 @@
                         }
                         
                         mainWorker.onmessage = function(event) {
-                             $scope.messages.push('')
-                             $scope.messages.push('@'+new Date().getTime()+', main worker event:'+event.data);
-                             $scope.messages.push(' ')
-                             $scope.$apply()
+                             $scope.sendMessage('')
+                             $scope.sendMessage('@'+new Date().getTime()+', main worker event:'+event.data);
+                             $scope.sendMessage(' ')
+                             
                         };
                         //mainWorker should be running, let's start subWorkers
                         
@@ -52,8 +56,8 @@
                             //put subworkers listeners here
                             var subWorkerNo=workerToStrart
                             subWorkers[subWorkerNo].onmessage = function(event) {
-                                $scope.messages.push('@'+new Date().getTime()+', worker: '+event.data.resData.worker+', resData: '+event.data.resData);
-                                $scope.$apply()
+                                $scope.sendMessage('@'+new Date().getTime()+', worker: '+event.data.resData.worker+', resData: '+event.data.resData);
+                                
                                 
                                 //check resCommand
                                 
@@ -61,7 +65,7 @@
                                     
                                     case 'showSpeedTest':
                                     
-                                        $scope.messages.push('@'+new Date().getTime()+', Speed: '+ event.data.resData.speed + ', worker '+ event.data.resData.worker)
+                                        $scope.sendMessage('@'+new Date().getTime()+', Speed: '+ event.data.resData.speed + ', worker '+ event.data.resData.worker)
                                     
                                     break;
                               
