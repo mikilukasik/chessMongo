@@ -13,15 +13,55 @@ importScripts('engine.js')
 
 // timedCount();
 
-
 onmessage = function (event) {
+  
+  var sentCommand=event.data.sentCommand
+  var sentData=event.data.sentData;
+  var sentMessage=event.data.sentMessage;
+  
+  var retData;
+  var retCommand;
+  var retMessage;
+  
+  
+  switch (sentCommand){
+    case undefined:
+    
+    break;
+    
+    case 'echo':
+    
+      retMessage='echoing'
+      retData=sentData
+      retCommand=undefined
+    
+    
+    break;
+    
+    case 'bullShit':
+    
+      retMessage='dont bullshit'
+      retData=undefined
+      retCommand='bullshit'
+    
+    break;
+    
+  }
+ 
  
   postMessage({
-    command:event.data.command,
-    response:'i have no idea what this is...',
-    retData:event.data.sentData
+         // command:undefined,
+          'retMessage':retMessage,
+          'retData':retData,
+          'retCommand':retCommand
   });
+      
+ 
 };
+
+
+ 
+
 
  
         

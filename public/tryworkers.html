@@ -37,9 +37,18 @@
                         
                         //first try:
                         mainWorker.postMessage({
-                            command:'echo',
+                            sentMessgage'hello',
+                            sentCommand:'echo',
                             sentData:'a'
                         })
+                        
+                         mainWorker.postMessage({
+                            sentMessgage'bullShiting you',
+                            sentCommand:'bullShit',
+                            sentData:'a'
+                        })
+                        
+                        
                         mainWorker.onmessage = function(event) {
                              $scope.workersSupported = event.data;
                              $scope.$apply()
