@@ -44,7 +44,7 @@
                             //put subworkers listeners here
                             
                             subWorkers[workerToStrart].onmessage = function(event) {
-                                $scope.messages.push(workerToStrart+' '+new Date().getTime()+': '+event.data);
+                                $scope.messages.push(workerToStrart+' '+new Date().getTime()+' '+Math.random()+': '+event.data);
                                 $scope.$apply()
                             };
                             
