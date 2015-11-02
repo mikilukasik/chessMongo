@@ -38,6 +38,11 @@
                             
                             //put subworkers listeners here
                             
+                            subWorkers[workerToStrart].onmessage = function(event) {
+                                $scope.messages.push(workerToStrart+': '+event.data);
+                                $scope.$apply()
+                            };
+                            
                             
                         }
                         console.log('subWorkers should be up and running')
@@ -62,6 +67,14 @@
                             reqCommand:'bullShit',
                             reqData:'a'
                         })
+                        
+                        for(var i=0;i<workersCountConst,i++){
+                            subWorkers[i].postMessage({
+                                reqMessgage:'hello',
+                                reqCommand:'echo',
+                                reqData:'a'
+                            })
+                        }
                         
                         
                         mainWorker.onmessage = function(event) {
