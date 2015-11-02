@@ -11,6 +11,8 @@
 
         function ApplicationController($scope, $http, $interval, $timeout) {
             
+            $scope.messages=[]
+            
             var workersCountConst=16
             
             var mainWorker;
@@ -50,7 +52,7 @@
                         
                         
                         mainWorker.onmessage = function(event) {
-                             $scope.workersSupported = event.data;
+                             $scope.messages.push(event.data);
                              $scope.$apply()
                         };
                     } else {
@@ -77,7 +79,7 @@
 
         <div>{{workersSupported}}</div>
         <br>
-        <div>{{tempMessage}}</div>
+        <div ng-repeat="x in messages">{{x}}</div>
    
 
 
