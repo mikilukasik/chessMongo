@@ -2077,7 +2077,7 @@ function processMove(move, modType, modConst2, looped) {
     
     var modConst=1
     
-    if(modType[0]=='w'){     //winning mod
+    if(modType&& modType[0]=='w'){     //winning mod
         if(origTableValue>0){       //and we are winning    //otherwise pow(0,0)error
             
             // var c4=origTableValue/31
