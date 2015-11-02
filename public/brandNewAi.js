@@ -2121,7 +2121,7 @@ function processMove(move, modType, modConst, looped) {
     var counted = countInArray(thisTState, allPast)
     if (counted > 1) {
         //3szorra lepnenk ugyanabba a statuszba
-        //ideiglenesen ne
+      
         ////console.log ('i could 3fold '+counted)
 
 
@@ -2563,7 +2563,7 @@ function processMove(move, modType, modConst, looped) {
 
         (mhit + loopValue) * 50 + //?
         captureScore * 3 + //13
-        smallValScore * 0.0017 + //8
+        smallValScore * 0.0003 + //15
         dontGetHit * 55 + //4
         retProtect * 0.001532064 + //from stats12
 

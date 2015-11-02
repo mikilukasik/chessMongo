@@ -238,7 +238,8 @@
                     //looped
                     myGame.gameIsOn = false //looped
                      evalGame(myGame,true)
-                     
+                     myGame.looped=true
+                    // myGame.pollNum++
                      
                        $http.post('/moved',myGame,function(req,res){})
                      
