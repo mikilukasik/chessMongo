@@ -42,7 +42,10 @@ onmessage = function (event) {
     
       resMessage='echoing'
       //reqData=reqData
-      resData=checkSpeed()
+      resData={ 
+        speed: checkSpeed(),
+        worker: reqData.worker
+      }
       resCommand='showSpeedTest'
     
     

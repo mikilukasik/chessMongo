@@ -11,9 +11,15 @@
 
         function ApplicationController($scope, $http, $interval, $timeout) {
             
+            var workersCountConst=32
+            
+            var startTime=new Date().getTime()
+            checkSpeed()
+            $scope.mainThreadSpeed=(new Date().getTime()-startTime)*workersCountConst
+            
             $scope.messages=[]
             
-            var workersCountConst=32
+            
             
             var mainWorker;
             var subWorkers=new Array(workersCountConst-1) 
@@ -53,7 +59,7 @@
                                     
                                     case 'showSpeedTest':
                                     
-                                        $scope.messages.push('Speed: '+ event.data.resData)
+                                        $scope.messages.push('Speed: '+ event.data.resData.speed + ', worker '+ event.data.resData.worker)
                                     
                                     break;
                               
@@ -100,6 +106,7 @@
                             })
                         }
                         
+                        
                         for(var i=0;i<workersCountConst;i++){
                             subWorkers[i].postMessage({
                                 reqMessgage:'test that seed',
@@ -133,6 +140,10 @@
 	</script>
 </head>
 <body ng-app="appModule" ng-controller="ApplicationController">
+    
+        <div>Main thread speed: {{mainThreadSpeed}}</div>
+        <div>Workers speed: {{workersSpeed}}</div>
+        
 
         <div>{{workersSupported}}</div>
         <br>
