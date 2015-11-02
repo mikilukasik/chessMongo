@@ -2461,83 +2461,83 @@ function processMove(move, modType, modConst, looped) {
             //console.log('modType == undefined')
             break;
 
-        case "lpV":
+        case "nlpV":
 
             loopValue *= modConst
                 //console.log('lpV modded: '+modConst)
             break;
 
-        case "cpS":
+        case "ncpS":
 
             captureScore *= modConst
                 //console.log('cpS modded: '+modConst)
             break;
 
-        case "tt2":
+        case "ntt2":
 
             tTable2Value *= modConst
                 //console.log('tt2 modded: '+modConst)
             break;
 
-        case "sVS":
+        case "nsVS":
 
             smallValScore *= modConst
                 //console.log('sVS modded: '+modConst)
             break;
 
 
-        case "dGH":
+        case "ndGH":
 
             dontGetHit *= modConst
                 //console.log('dGH modded: '+modConst)
             break;
 
 
-        case "rPr":
+        case "nrPr":
 
             retProtect *= modConst
                 //console.log('rPr modded: '+modConst)
             break;
 
 
-        case "mHt":
+        case "nmHt":
 
             mhit *= modConst
                 //console.log('mHt modded: '+modConst)
             break;
 
 
-        case "hHt":
+        case "nhHt":
 
             hhit *= modConst
                 //console.log('hHt modded: '+modConst)
             break;
 
-        case "mMv":
+        case "nmMv":
 
             mostMoved *= modConst
                 //console.log('mMv modded: '+modConst)
             break;
 
-        case "pHB":
+        case "npHB":
 
             pushHimBack *= modConst
                 //console.log('pHB modded: '+modConst)
             break;
 
-        case "gTM":
+        case "ngTM":
 
             getToMiddle *= modConst
                 //console.log('gTM modded: '+modConst)
             break;
 
-        case "fwV":
+        case "nfwV":
 
             fwdVal *= modConst
                 //console.log('fwV modded: '+modConst)
             break;
 
-        case "scV":
+        case "nscV":
 
             lsancValue *= modConst
             rsancValue *= modConst
@@ -2545,11 +2545,20 @@ function processMove(move, modType, modConst, looped) {
                 //console.log('scV modded: '+modConst)
             break;
 
-        case "aTK":
+        case "naTK":
 
             approachTheKing *= modConst
 
             break;
+            
+        case "waTK":
+
+            approachTheKing *= winModConst
+
+        break;
+            
+            
+           
 
 
 
@@ -2562,7 +2571,7 @@ function processMove(move, modType, modConst, looped) {
         tTable2Value +
 
         (mhit + loopValue) * 50 + //?
-        captureScore * 3 + //13
+        captureScore * 1.94164388 + //16
         smallValScore * 0.0003 + //15
         dontGetHit * 55 + //4
         retProtect * 0.001532064 + //from stats12
