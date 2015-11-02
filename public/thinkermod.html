@@ -13,8 +13,8 @@
             
              $rootScope.sendMessage=function(message){
                 $rootScope.messages.push('@'+ new Date().getTime() +': '+message)
-               if(!$scope.$$phase) {
-								$scope.$apply()
+               if(!$rootScope.$$phase) {
+								$rootScope.$apply()
 							}
             }
             ////////////////workers start
