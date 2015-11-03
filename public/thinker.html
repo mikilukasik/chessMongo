@@ -17,6 +17,12 @@
 								$rootScope.$apply()
 							}
             }
+             $rootScope.messageTheServer=function(message){
+                $http.post('/thinkerMessage',message,function(){})//+ new Date().getTime() +': '+message)
+               // if(!$rootScope.$$phase) {
+				// 				$rootScope.$apply()
+				// 			}
+            }
             
             subWorkerMsgInThinker=function(event) {
                                 $rootScope.sendMessage('@'+new Date().getTime()+', worker: '+event.data.resData.worker+', resData: '+event.data.resData);
@@ -159,23 +165,33 @@
                         //         }
                         //     })
                         // }
-                         $http.get('/speedTestResult?thinker=' + $rootScope.sendID +
-                                                    '&wSpeed=' + workersCountConst+' workers on' +
-                                                    '&mtSpeed=' + workersCountConst+' workers on' +
-                                                    '&faster=' + workersCountConst+' workers on' 
-                                                // +  '&r=' + Math.random()
-                                             )
+                        //  $http.get('/speedTestResult?thinker=' + $rootScope.sendID +
+                        //                             '&wSpeed=' + workersCountConst+' workers on' +
+                        //                             '&mtSpeed=' + workersCountConst+' workers on' +
+                        //                             '&faster=' + workersCountConst+' workers on' 
+                        //                         // +  '&r=' + Math.random()
+                        //                      )
+                        
+                        var message={
+                            command:'log',
+                            message:workersCountConst+' workers started.',
+                            thinker:$rootScope.sendID
+                        }
+                        
+                        $rootScope.messageTheServer(message)
+                        
                         
                       
                     } else {
                          $rootScope.workersSupported='Your browser DOES NOT supports HTML5 Web mainWorker.'
                          
-                          $http.get('/speedTestResult?thinker=' + $rootScope.sendID +
-                                                    '&wSpeed=' + 'not supported' +
-                                                    '&mtSpeed=' + 'not supported' +
-                                                    '&faster=' + 'not supported'
-                                                // +  '&r=' + Math.random()
-                                             )
+                         var message={
+                            command:'log',
+                            message:'Web Workers not supported.',
+                            thinker:$rootScope.sendID
+                        }
+                        
+                        $rootScope.messageTheServer(message)
                     }
                 }
             

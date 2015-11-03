@@ -88,7 +88,16 @@ function doIKnow(id){
 	for (var i=0; i<knownThinkers.length; i++){
 		if(knownThinkers[i].id==id)return i
 	}
-	return -1
+	
+	
+	//if(thinkerIndex==-1){
+					knownThinkers.push({
+						id:id						
+					})
+							//itt mar benne lesz a tombben
+					
+				//}
+	return knownThinkers.length-1
 }
 
 
@@ -169,13 +178,13 @@ function sendTask(task,thinkerId){
 				
 				var thinkerIndex=doIKnow(thinkerId)
 				
-				if(thinkerIndex==-1){
-					knownThinkers.push({
-						id:thinkerId						
-					})
-					thinkerIndex=doIKnow(thinkerId)		//itt mar benne lesz a tombben
+				// if(thinkerIndex==-1){
+				// 	knownThinkers.push({
+				// 		id:thinkerId						
+				// 	})
+				// 	thinkerIndex=doIKnow(thinkerId)		//itt mar benne lesz a tombben
 					
-				}
+				// }
 				
 				knownThinkers[thinkerIndex].busy=true
 				
@@ -665,6 +674,10 @@ function getTaskIndex(tNum){
 	}
 	
 }
+app.post('/thinkerMessage',function(req,res){
+	knownThinkers[doIKnow(req.body.thinker)].message=req.body.message
+	captainPop();
+})
 
 app.post('/myPartIsDone',function(req,res){
 	
