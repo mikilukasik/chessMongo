@@ -2037,57 +2037,7 @@ function processSplitMoves(data, thinker, mt, modConst, looped) {
 }
 
 
-subWorkerMsgInThinker=function(event) {
-                                $rootScope.sendMessage('@'+new Date().getTime()+', worker: '+event.data.resData.worker+', resData: '+event.data.resData);
-                                
-                                
-                                //check resCommand
-                                
-                                switch(event.data.resCommand){
-                                    
-                                    case 'speedTest':
-                                    
-                                        $rootScope.sendMessage('Speed: '+ event.data.resData.speed + ', worker '+ event.data.resData.worker)
-                                        $rootScope.pendingSpeedTest--
-                                        //console.log($rootScope.pendingSpeedTest)
-                                        if($rootScope.pendingSpeedTest==0){
-                                            $rootScope.sendMessage('Speedtest done.')
-                                            $rootScope.workersSpeed=(new Date().getTime()-wStartTime)
-                                            $rootScope.faster=$rootScope.mainThreadSpeed / $rootScope.workersSpeed
-                                            
-                                            
-                                            $rootScope.$apply()
-                                            
-                                            stopWorkers()
-                                            
-                                              $http.get('/speedTestResult?thinker=' + $rootScope.sendID +
-                                                    '&wSpeed=' + $rootScope.workersSpeed +
-                                                    '&mtSpeed=' + $rootScope.mainThreadSpeed +
-                                                    '&faster=' + $rootScope.faster
-                                                // +  '&r=' + Math.random()
-                                             ).then(
-                                                 function(result){
-                                                     $rootScope.speedTestOn=false 
-                                                 },function(data){
-                                                     $rootScope.refreshWhenUp()
-                                                     
-                                                     
-                                                 
-                                                 }
-                                             )
-                                            
-                                            
-                                        }
-                                        
-                                    break;
-                              
-                                }
-                                
-                                
-                                
-                                
-                                
-                            };
+
 
 function processMove(move, modType, modConst2, looped) {
     //var looped=false
