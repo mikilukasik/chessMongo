@@ -130,7 +130,20 @@
             }else{
                 $rootScope.workerSupportMessage='No Web Workers support.'
             }
-            
+            function sendEchoes(){
+                  for(var i=0;i<$rootScope.maxWorkerNum;i++){
+                            //$rootScope.pendingSpeedTest++
+                            subWorkers[i].postMessage({
+                                reqMessgage:'echo',
+                                reqCommand:'echo',
+                                reqData:{
+                                    worker:i
+                                }
+                            })
+                        }
+                        
+                        $rootScope.sendMessage($rootScope.maxWorkerNum+' echo reqests sent.')
+            }
             
             function startWorkers() {
                     //if(typeof(Worker) !== "undefined") {
@@ -146,6 +159,13 @@
                         }
                         
                         mainWorker.onmessage = function(event) {
+                            
+                            
+                            
+                            
+                            
+                            
+                            
                             //  $rootScope.sendMessage('')
                             //  $rootScope.sendMessage('main worker event:'+event.data);
                             //  $rootScope.sendMessage(' ')
@@ -178,18 +198,7 @@
                         //here we have all workers running
                         
                         
-                        for(var i=0;i<$rootScope.maxWorkerNum;i++){
-                            //$rootScope.pendingSpeedTest++
-                            subWorkers[i].postMessage({
-                                reqMessgage:'echo',
-                                reqCommand:'echo',
-                                reqData:{
-                                    worker:i
-                                }
-                            })
-                        }
-                        
-                        $rootScope.sendMessage($rootScope.maxWorkerNum+' echo reqests sent.')
+                      sendEchoes()
                         
                       
                         
