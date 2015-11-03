@@ -674,7 +674,7 @@ function makeAiMove(dbTable){
 	
 	
 }
-
+//
 function getTaskIndex(tNum){
 	
 	for (var i=0;i<splitTaskQ.length;i++){
@@ -685,9 +685,10 @@ function getTaskIndex(tNum){
 app.post('/thinkerMessage',function(req,res){
 	var thinker=knownThinkers[doIKnow(req.body.thinker)]
 	thinker.message=req.body.message
-	thinker.lastSeen=new Date().getTime
+	thinker.lastSeen=new Date().getTime()
 	
 	captainPop();
+	res.send('ok')
 })
 
 app.post('/myPartIsDone',function(req,res){

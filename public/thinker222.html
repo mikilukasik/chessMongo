@@ -11,81 +11,57 @@
 
         function ApplicationController($rootScope, $http, $interval, $timeout) {
             
-            $rootScope.messages=[]
-            
              $rootScope.sendMessage=function(message){
                 $rootScope.messages.push('@'+ new Date().getTime() +': '+message)
-                if(!$rootScope.$$phase) {
-                    $rootScope.$apply()
-                }
-            }
-            $rootScope.changeLastMessage=function(message){
-                $rootScope.messages.pop()
-                $rootScope.messages.push('@'+ new Date().getTime() +': '+message)
-                if(!$rootScope.$$phase) {
-                    $rootScope.$apply()
-                }
+               if(!$rootScope.$$phase) {
+								$rootScope.$apply()
+							}
             }
              $rootScope.messageTheServer=function(message){
                 $http.post('/thinkerMessage',message,function(){})//+ new Date().getTime() +': '+message)
-                .then(function(result){
-                    
-                },function(data){
-                    refreshWhenUp()
-                })
                // if(!$rootScope.$$phase) {
 				// 				$rootScope.$apply()
 				// 			}
             }
             
             subWorkerMsgInThinker=function(event) {
-                                $rootScope.sendMessage('@'+new Date().getTime()+', worker: '+event.data.resData.worker+', resData: '+event.data.resData);
+                                $rootScope.sendMessage('worker: '+event.data.resData.worker+', resData: '+event.data.resData);
                                 
                                 
                                 //check resCommand
                                 
                                 switch(event.data.resCommand){
                                     
-                                    case 'reEcho':
+                                    case 'speedTest':
                                     
-                                        //$rootScope.sendMessage('Speed: '+ event.data.resData.speed + ', worker '+ event.data.resData.worker)
-                                        $rootScope.pendingEchoes--
+                                        $rootScope.sendMessage('Speed: '+ event.data.resData.speed + ', worker '+ event.data.resData.worker)
+                                        $rootScope.pendingSpeedTest--
                                         //console.log($rootScope.pendingSpeedTest)
-                                        if($rootScope.pendingEchoes==0){
-                                            $rootScope.sendMessage('Echo test done.')
-                                            //$rootScope.workersSpeed=(new Date().getTime()-$rootScope.wStartTime)
-                                            //$rootScope.faster=$rootScope.mainThreadSpeed / $rootScope.workersSpeed
-                                            $rootScope.echoesOn=false
+                                        if($rootScope.pendingSpeedTest==0){
+                                            $rootScope.sendMessage('Speedtest done.')
+                                            $rootScope.workersSpeed=(new Date().getTime()-$rootScope.wStartTime)
+                                            $rootScope.faster=$rootScope.mainThreadSpeed / $rootScope.workersSpeed
                                             
-                                            var message={
-                                                command:'log',
-                                                message:'Echo test done.',
-                                                thinker:$rootScope.sendID
-                                            }
                                             
-                                            $rootScope.messageTheServer(message)
-                                                                
+                                            $rootScope.$apply()
                                             
-                                            //$rootScope.messageTheServer('Echo test done.')
-                                            //$rootScope.$apply()
+                                            stopWorkers()
                                             
-                                            //stopWorkers()
-                                            
-                                            //   $http.get('/speedTestResult?thinker=' + $rootScope.sendID +
-                                            //         '&wSpeed=' + $rootScope.workersSpeed +
-                                            //         '&mtSpeed=' + $rootScope.mainThreadSpeed +
-                                            //         '&faster=' + $rootScope.faster
-                                            //     // +  '&r=' + Math.random()
-                                            //  ).then(
-                                            //      function(result){
-                                            //          $rootScope.speedTestOn=false 
-                                            //      },function(data){
-                                            //          $rootScope.refreshWhenUp()
+                                              $http.get('/speedTestResult?thinker=' + $rootScope.sendID +
+                                                    '&wSpeed=' + $rootScope.workersSpeed +
+                                                    '&mtSpeed=' + $rootScope.mainThreadSpeed +
+                                                    '&faster=' + $rootScope.faster
+                                                // +  '&r=' + Math.random()
+                                             ).then(
+                                                 function(result){
+                                                     $rootScope.speedTestOn=false 
+                                                 },function(data){
+                                                     $rootScope.refreshWhenUp()
                                                      
                                                      
                                                  
-                                            //      }
-                                            //  )
+                                                 }
+                                             )
                                             
                                             
                                         }
@@ -100,14 +76,22 @@
                                 
                             };
             
-        
-            
-            $rootScope.maxWorkerNum=12
+            ////////////////workers start
             
             
-         
+          //  function testWorkerSpeed() {
             
+           // $rootScope.speedTestOn=false 
             
+            var workersCountConst=12
+            
+           
+            
+            //var mtStartTime=new Date().getTime()
+            //checkSpeed()
+            //$rootScope.mainThreadSpeed=(new Date().getTime()-mtStartTime)*workersCountConst
+            
+            $rootScope.messages=[]
             
             
             
@@ -129,97 +113,41 @@
 			
 		//};
         
-            function checkWorkerSupport(){
-                if(typeof(Worker) != 'undefined') {
-                    return true
-                }//else{
-                
-                return false
-                //}
-            }
-            
-            $rootScope.workerSupport=checkWorkerSupport()
-            if($rootScope.workerSupport){
-                $rootScope.workerSupportMessage='HTML5 Web Workers supported.'
-                startWorkers()
-            }else{
-                $rootScope.workerSupportMessage='No Web Workers support.'
-            }
-            
-            function sendEchoes(){
-                //if(!$rootScope.echoesOn){
-                    // $rootScope.echoesOn=true
-                    $rootScope.pendingEchoes=0
-                      for(var i=0;i<$rootScope.maxWorkerNum;i++){
-                            $rootScope.pendingEchoes++
-                            subWorkers[i].postMessage({
-                                reqMessgage:'echo',
-                                reqCommand:'echo',
-                                reqData:{
-                                    worker:i
-                                }
-                            })
-                        }
-                        
-                        $rootScope.sendMessage($rootScope.maxWorkerNum+' echo reqests sent.')
-                //
-                
-            }
-            
             function startWorkers() {
-                    //if(typeof(Worker) !== "undefined") {
+                    if(typeof(Worker) !== "undefined") {
                         
-                        // $rootScope.workersSupported='Your browser supports HTML5 Web mainWorker.'
+                         $rootScope.workersSupported='Your browser supports HTML5 Web mainWorker.'
                         
                         if(typeof(mainWorker) == "undefined") {
-                            $rootScope.sendMessage('starting mainWorker..') 
-                            //console.log('starting mainWorker..')
                             mainWorker = new Worker("aiworker.js");
                         }else{
-                            $rootScope.sendMessage('!!! tried to start already running main worker !!!') 
+                            //main worker already on
                         }
                         
                         mainWorker.onmessage = function(event) {
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            //  $rootScope.sendMessage('')
-                            //  $rootScope.sendMessage('main worker event:'+event.data);
-                            //  $rootScope.sendMessage(' ')
+                             $rootScope.sendMessage('')
+                             $rootScope.sendMessage('main worker event:'+event.data);
+                             $rootScope.sendMessage(' ')
                              
                         };
-                        $rootScope.sendMessage("mainWorker should be running, starting subWorkers..")
+                        //mainWorker should be running, let's start subWorkers
                         
                         var workerToStrart=0
-                        $rootScope.sendMessage("subWorkers started: 0")
-                        while(workerToStrart<$rootScope.maxWorkerNum){
-                            
+                        while(workerToStrart<workersCountConst){
                             subWorkers[workerToStrart]= new Worker("aiworker.js");
-                            
+                           
                             
                             //put subworkers listeners here
                             var subWorkerNo=workerToStrart
                             subWorkers[subWorkerNo].onmessage = subWorkerMsgInThinker
                             
                              workerToStrart++
-                             
-                             $rootScope.changeLastMessage("subWorkers started: "+workerToStrart)
                             
                             
                         }
-                        
-                        $rootScope.sendMessage('subWorkers should be up and running, echo..')
-                        
-                        
+                        console.log('subWorkers should be up and running')
                         
                         //here we have all workers running
-                        
-                        
-                      sendEchoes()
                         
                       
                         
@@ -227,7 +155,7 @@
                         
                         // $rootScope.wStartTime=new Date().getTime()
                         
-                        // for(var i=0;i<$rootScope.maxWorkerNum;i++){
+                        // for(var i=0;i<workersCountConst;i++){
                         //     $rootScope.pendingSpeedTest++
                         //     subWorkers[i].postMessage({
                         //         reqMessgage:'test that seed',
@@ -238,42 +166,40 @@
                         //     })
                         // }
                         //  $http.get('/speedTestResult?thinker=' + $rootScope.sendID +
-                        //                             '&wSpeed=' + $rootScope.maxWorkerNum+' workers on' +
-                        //                             '&mtSpeed=' + $rootScope.maxWorkerNum+' workers on' +
-                        //                             '&faster=' + $rootScope.maxWorkerNum+' workers on' 
+                        //                             '&wSpeed=' + workersCountConst+' workers on' +
+                        //                             '&mtSpeed=' + workersCountConst+' workers on' +
+                        //                             '&faster=' + workersCountConst+' workers on' 
                         //                         // +  '&r=' + Math.random()
                         //                      )
                         
-                        // var message={
-                        //     command:'log',
-                        //     message:$rootScope.maxWorkerNum+' workers started.',
-                        //     thinker:$rootScope.sendID
-                        // }
+                        var message={
+                            command:'log',
+                            message:workersCountConst+' workers started.',
+                            thinker:$rootScope.sendID
+                        }
                         
-                        // $rootScope.messageTheServer(message)
+                        $rootScope.messageTheServer(message)
                         
                         
                       
-                    // } else {
-                    //      $rootScope.workersSupported='Your browser DOES NOT supports HTML5 Web mainWorker.'
+                    } else {
+                         $rootScope.workersSupported='Your browser DOES NOT supports HTML5 Web mainWorker.'
                          
-                    //      var message={
-                    //         command:'log',
-                    //         message:'Web Workers not supported.',
-                    //         thinker:$rootScope.sendID
-                    //     }
+                         var message={
+                            command:'log',
+                            message:'Web Workers not supported.',
+                            thinker:$rootScope.sendID
+                        }
                         
-                    //     $rootScope.messageTheServer(message)
-                    // }
+                        $rootScope.messageTheServer(message)
+                    }
                 }
-                
-                
             
          function stopWorkers() { 
                     mainWorker.terminate();
                     mainWorker = undefined;
                     
-                    for(var i=0;i<$rootScope.maxWorkerNum;i++){
+                    for(var i=0;i<workersCountConst;i++){
                           
                             subWorkers[i].terminate();
                             subWorkers[i] = undefined;
@@ -392,7 +318,7 @@
             $rootScope.mainThreadSpeed=$rootScope.mySpeed
             ///////
             $rootScope.pollOn = true
-            //$rootScope.messages = []
+            $rootScope.messages = []
             $rootScope.succeeded = 0
             
             
@@ -805,14 +731,14 @@
                     
                     break;
                     
-                    case "echoTest":
+                    case "speedTest":
                     
-                        if(!$rootScope.echoesOn){
-                            $rootScope.echoesOn=true
-                            $rootScope.sendMessage('Echotest started...')
-                            sendEchoes()
+                        if(!$rootScope.speedTestOn){
+                            $rootScope.speedTestOn=true
+                            $rootScope.sendMessage('Speedtest started...')
+                            startWorkers()
                         }else{
-                            $rootScope.sendMessage('Echotest already on...')    
+                            $rootScope.sendMessage('Speedtest already on...')    
                         }
                     break;
                     
@@ -1022,23 +948,22 @@
     <p>{{receivedMessage}}
 	</p>
     <div ng-if="speedTestOn">Speedtest in progress..</div>
-    <div>{{workerSupportMessage}}</div> 
-    <div>{{pendingEchoes}}</div>
+    <div>{{workersSupported}}</div>
         <br>
         
         <div>Main thread speed: {{mainThreadSpeed}}</div>
-        <div ng-if="workerSupport">Workers speed (max {{maxWorkerNum}}): {{workersSpeed}}</div>
-        <div ng-if="workerSupport">Threaded calculating is {{faster}} faster.</div>
+        <div>Workers speed: {{workersSpeed}}</div>
+        <div>Threaded calculating is {{faster}} faster.</div>
 
 
 	<p>
-		<!--Totals:
+		Totals:
 		{{totalTaskCount}} tasks done in {{totalTasksTime}} milliseconds.
 		
 		{{readyToPlay}}
 		{{pleasePlay}}
 		{{myGame.pollNum}}
-		-->
+		
 	</p>
 
     <div style="font-size:10px" ng-repeat="x in messages track by $index">

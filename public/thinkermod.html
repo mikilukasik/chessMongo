@@ -28,6 +28,11 @@
             }
              $rootScope.messageTheServer=function(message){
                 $http.post('/thinkerMessage',message,function(){})//+ new Date().getTime() +': '+message)
+                .then(function(result){
+                    
+                },function(data){
+                    refreshWhenUp()
+                })
                // if(!$rootScope.$$phase) {
 				// 				$rootScope.$apply()
 				// 			}
