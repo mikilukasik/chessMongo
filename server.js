@@ -1,7 +1,7 @@
 //
 var express = require('express');
 var morgan = require('morgan');
-
+//
 
 var bodyParser     =         require("body-parser");
 
@@ -126,10 +126,18 @@ var fastestThinker = function(spdPct){
 		return mx
 	}else{	//parameter true
 		//hany szazalaka az osszes geperonek a fastest thinker
-		var totalPower=speedArray.reduce(function(a,b){return a+b})	//sum
-		var maxPower=speedArray[mx]
+		if(speedArray.length==0){
+			//no available thinkers!! server move?
+			return 0
+		}else{
+			var totalPower=speedArray.reduce(function(a,b){return a+b})	//sum
+			var maxPower=speedArray[mx]
+			return maxPower / totalPower
+		}
 		
-		return maxPower / totalPower
+		
+		
+		
 		
 		
 		
@@ -298,10 +306,10 @@ app.get('/startAllLearners', function(req, res) {
 	res.end()
 
 });
-app.get('/speedTestAll', function(req, res) {
+app.get('/echoTestAll', function(req, res) {
 	//////////// console.log(req)
 	//sendToAll('learnStart','learnStart all')
-	sendToAll(new Task('speedTest',0,'speedTest all'))
+	sendToAll(new Task('echoTest',0,'echoTest all'))
 	res.end()
 
 });
@@ -675,7 +683,10 @@ function getTaskIndex(tNum){
 	
 }
 app.post('/thinkerMessage',function(req,res){
-	knownThinkers[doIKnow(req.body.thinker)].message=req.body.message
+	var thinker=knownThinkers[doIKnow(req.body.thinker)]
+	thinker.message=req.body.message
+	thinker.lastSeen=new Date().getTime
+	
 	captainPop();
 })
 

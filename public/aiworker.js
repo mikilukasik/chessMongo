@@ -31,9 +31,9 @@ onmessage = function (event) {
     
     case 'echo':
     
-      resMessage='echoing'
+      resMessage='echo'
       resData=reqData
-      resCommand=undefined
+      resCommand='reEcho'
     
     
     break;
