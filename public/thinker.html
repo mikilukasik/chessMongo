@@ -25,7 +25,7 @@
             }
             
             subWorkerMsgInThinker=function(event) {
-                                $rootScope.sendMessage('@'+new Date().getTime()+', worker: '+event.data.resData.worker+', resData: '+event.data.resData);
+                                $rootScope.sendMessage('worker: '+event.data.resData.worker+', resData: '+event.data.resData);
                                 
                                 
                                 //check resCommand
