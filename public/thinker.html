@@ -77,8 +77,9 @@
                                                                 
                                             }else{
                                                 //one echotest done, recall
-                                                $rootScope.sendMessage('recall echotest in 100ms')
-                                                $timeout(sendEchoes(),100)  
+                                                $rootScope.sendMessage('recall echotest')
+                                                //$timeout(sendEchoes(),100)
+                                                sendEchoes()  
                                             }
                                             //$rootScope.messageTheServer('Echo test done.')
                                             //$rootScope.$apply()
