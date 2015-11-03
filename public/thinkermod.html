@@ -13,16 +13,16 @@
             
              $rootScope.sendMessage=function(message){
                 $rootScope.messages.push('@'+ new Date().getTime() +': '+message)
-               if(!$rootScope.$$phase) {
-								$rootScope.$apply()
-							}
+                if(!$rootScope.$$phase) {
+                    $rootScope.$apply()
+                }
             }
             $rootScope.changeLastMessage=function(message){
                 $rootScope.messages.pop()
                 $rootScope.messages.push('@'+ new Date().getTime() +': '+message)
-               if(!$rootScope.$$phase) {
-								$rootScope.$apply()
-							}
+                if(!$rootScope.$$phase) {
+                    $rootScope.$apply()
+                }
             }
              $rootScope.messageTheServer=function(message){
                 $http.post('/thinkerMessage',message,function(){})//+ new Date().getTime() +': '+message)
@@ -137,6 +137,7 @@
                         
                         if(typeof(mainWorker) == "undefined") {
                             $rootScope.sendMessage('starting mainWorker..') 
+                            console.log('starting mainWorker..')
                             mainWorker = new Worker("aiworker.js");
                         }else{
                             $rootScope.sendMessage('!!! tried to start already running main worker !!!') 
