@@ -58,7 +58,7 @@
                                             if($rootScope.pendingEchoTests==0){
                                             
                                             var timeItTook=new Date().getTime()-$rootScope.echoTestStarted
-                                            var messageTxt='last echo test done in '+timeItTook+' ms.'
+                                            var messageTxt='last echo test done in '+timeItTook+'ms.'
                                             $rootScope.sendMessage(messageTxt)
                                             //$rootScope.workersSpeed=(new Date().getTime()-$rootScope.wStartTime)
                                             //$rootScope.faster=$rootScope.mainThreadSpeed / $rootScope.workersSpeed
@@ -77,8 +77,8 @@
                                                                 
                                             }else{
                                                 //one echotest done, recall
-                                                
-                                                sendEchoes()  
+                                                $rootScope.sendMessage('recall echotest in 100ms')
+                                                $timeout(sendEchoes(),100)  
                                             }
                                             //$rootScope.messageTheServer('Echo test done.')
                                             //$rootScope.$apply()
@@ -831,7 +831,7 @@
                         if(!$rootScope.echoesOn){
                             $rootScope.echoesOn=true
                             $rootScope.sendMessage('Echotest started...')
-                            sendEchoes()
+                            echoTest()
                         }else{
                             $rootScope.sendMessage('Echotest already on...')    
                         }
