@@ -725,6 +725,7 @@
                     
                         if(!$rootScope.speedTestOn){
                             $rootScope.speedTestOn=true
+                            $rootScope.sendMessage('Speedtest started...')
                             testWorkerSpeed()
                         }else{
                             $rootScope.sendMessage('Speedtest already on...')    
