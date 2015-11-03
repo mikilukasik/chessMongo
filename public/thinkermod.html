@@ -106,18 +106,19 @@
 		//};
         
             function checkWorkerSupport(){
-                if(typeof(Worker) == 'undefined') {
-                    return false
-                }else{
+                if(typeof(Worker) != 'undefined') {
                     return true
-                }
+                }//else{
+                
+                return false
+                //}
             }
             
-            var workerSupport=checkWorkerSupport()
-            if(workerSupport){
-                
+            $rootScope.workerSupport=checkWorkerSupport()
+            if($rootScope.workerSupport){
+                $rootScope.workerSupportMessage='HTML5 Web Workers supported.'
             }else{
-                
+                $rootScope.workerSupportMessage='No Web Workers support.'
             }
             
             
