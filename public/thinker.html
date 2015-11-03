@@ -52,15 +52,21 @@
                                         $rootScope.pendingEchoes--
                                         //console.log($rootScope.pendingSpeedTest)
                                         if($rootScope.pendingEchoes==0){
-                                            $rootScope.sendMessage('Echo test done.')
+                                            
+                                            var timeItTook=new Date().getTime()-$rootScope.echoTestStarted
+                                            var message='Echo test done in '+timeItTook+' ms.'
+                                            $rootScope.sendMessage(message)
                                             //$rootScope.workersSpeed=(new Date().getTime()-$rootScope.wStartTime)
                                             //$rootScope.faster=$rootScope.mainThreadSpeed / $rootScope.workersSpeed
                                             $rootScope.echoesOn=false
                                             
                                             var message={
                                                 command:'log',
-                                                message:'Echo test done.',
-                                                thinker:$rootScope.sendID
+                                                message:message,
+                                                thinker:$rootScope.sendID,
+                                                data:{
+                                                    timeItTook:timeItTook
+                                                }
                                             }
                                             
                                             $rootScope.messageTheServer(message)
@@ -150,6 +156,7 @@
                 //if(!$rootScope.echoesOn){
                     // $rootScope.echoesOn=true
                     $rootScope.pendingEchoes=0
+                    $rootScope.echoTestStarted=new Date().getTime()
                       for(var i=0;i<$rootScope.maxWorkerNum;i++){
                             $rootScope.pendingEchoes++
                             subWorkers[i].postMessage({
