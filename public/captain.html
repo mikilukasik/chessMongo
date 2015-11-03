@@ -179,13 +179,13 @@ appModule.controller("ApplicationController", ApplicationController);
 	</form>
 	<button ng-click="clearModTypes()">Clear modTypes</button>
 	modTypes: 
-	<span ng-repeat="x in modTypes"> {{x}} </span>
+	<span ng-repeat="x in modTypes track by $index"> {{x}} </span>
 		Tasks in queue: {{taskQ}}
 		
 		<br>
 		
 		Known thinkers:
-	<table><tr ng-repeat="x in knownThinkers">
+	<table><tr ng-repeat="x in knownThinkers track by $index">
 		
 		 <td ng-class="{ makeGreen: !x.busy , makeRed: x.busy }">{{x.id}}</td>
 		 <td>{{x.lastSeen}} </td>
@@ -237,18 +237,18 @@ appModule.controller("ApplicationController", ApplicationController);
 			</td>
 			
 		</tr>
-		<tr ng-repeat="x in learners">
+		<tr ng-repeat="x in learners track by $index">
 	
-			<td ng-repeat="y in x">
+			<td ng-repeat="y in x track by $index">
 				{{y}}
 			</td>
 		</tr>
 		</table>
 		<table>
 		
-		<tr ng-repeat="x in speedTests">
+		<tr ng-repeat="x in speedTests track by $index">
 	
-			<td ng-repeat="y in x">
+			<td ng-repeat="y in x track by $index">
 				{{y}}
 			</td>
 		</tr>
@@ -262,7 +262,7 @@ appModule.controller("ApplicationController", ApplicationController);
 	<button ng-click="refreshStats()">refresh stats</button>
 	<br>
 	
-	<div ng-repeat="x in stats">{{x}}</div>
+	<div ng-repeat="x in stats track by $index">{{x}}</div>
 	<!--Ready thinkers:
 	<div ng-repeat="x in waitingThinkers"> {{x}} </div>
 	
