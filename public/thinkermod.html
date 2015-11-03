@@ -14,6 +14,7 @@
             $rootScope.messages=[]
             
              $rootScope.sendMessage=function(message){
+                if($rootScope.messages.length>20)$rootScope.messages.shift()
                 $rootScope.messages.push('@'+ new Date().getTime() +': '+message)
                 if(!$rootScope.$$phase) {
                     $rootScope.$apply()
@@ -39,7 +40,7 @@
             }
             
             subWorkerMsgInThinker=function(event) {
-                                $rootScope.sendMessage('@'+new Date().getTime()+', worker: '+event.data.resData.worker+', resData: '+event.data.resData);
+                                //$rootScope.sendMessage('@'+new Date().getTime()+', worker: '+event.data.resData.worker+', resData: '+event.data.resData);
                                 
                                 
                                 //check resCommand
