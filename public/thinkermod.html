@@ -17,6 +17,13 @@
 								$rootScope.$apply()
 							}
             }
+            $rootScope.changeLastMessage=function(message){
+                $rootScope.messages.pop()
+                $rootScope.messages.push('@'+ new Date().getTime() +': '+message)
+               if(!$rootScope.$$phase) {
+								$rootScope.$apply()
+							}
+            }
              $rootScope.messageTheServer=function(message){
                 $http.post('/thinkerMessage',message,function(){})//+ new Date().getTime() +': '+message)
                // if(!$rootScope.$$phase) {
@@ -123,38 +130,43 @@
             
             
             function startWorkers() {
-                    if(typeof(Worker) !== "undefined") {
+                    //if(typeof(Worker) !== "undefined") {
                         
-                         $rootScope.workersSupported='Your browser supports HTML5 Web mainWorker.'
+                        // $rootScope.workersSupported='Your browser supports HTML5 Web mainWorker.'
                         
                         if(typeof(mainWorker) == "undefined") {
                             mainWorker = new Worker("aiworker.js");
                         }else{
-                            //main worker already on
+                            $rootScope.sendMessage('!!! tried to start already running main worker !!!') 
                         }
                         
                         mainWorker.onmessage = function(event) {
-                             $rootScope.sendMessage('')
-                             $rootScope.sendMessage('main worker event:'+event.data);
-                             $rootScope.sendMessage(' ')
+                            //  $rootScope.sendMessage('')
+                            //  $rootScope.sendMessage('main worker event:'+event.data);
+                            //  $rootScope.sendMessage(' ')
                              
                         };
-                        //mainWorker should be running, let's start subWorkers
+                        $rootScope.sendMessage("mainWorker should be running, starting subWorkers")
                         
                         var workerToStrart=0
+                        $rootScope.sendMessage("subWorkers started: 0")
                         while(workerToStrart<$rootScope.maxWorkerNum){
+                            
                             subWorkers[workerToStrart]= new Worker("aiworker.js");
-                           
+                            
                             
                             //put subworkers listeners here
                             var subWorkerNo=workerToStrart
                             subWorkers[subWorkerNo].onmessage = subWorkerMsgInThinker
                             
                              workerToStrart++
+                             
+                             $rootScope.changeLastMessage("subWorkers started: "+workerToStrart)
                             
                             
                         }
-                        console.log('subWorkers should be up and running')
+                        
+                        $rootScope.sendMessage('subWorkers should be up and running')
                         
                         //here we have all workers running
                         
@@ -181,28 +193,30 @@
                         //                         // +  '&r=' + Math.random()
                         //                      )
                         
-                        var message={
-                            command:'log',
-                            message:$rootScope.maxWorkerNum+' workers started.',
-                            thinker:$rootScope.sendID
-                        }
+                        // var message={
+                        //     command:'log',
+                        //     message:$rootScope.maxWorkerNum+' workers started.',
+                        //     thinker:$rootScope.sendID
+                        // }
                         
-                        $rootScope.messageTheServer(message)
+                        // $rootScope.messageTheServer(message)
                         
                         
                       
-                    } else {
-                         $rootScope.workersSupported='Your browser DOES NOT supports HTML5 Web mainWorker.'
+                    // } else {
+                    //      $rootScope.workersSupported='Your browser DOES NOT supports HTML5 Web mainWorker.'
                          
-                         var message={
-                            command:'log',
-                            message:'Web Workers not supported.',
-                            thinker:$rootScope.sendID
-                        }
+                    //      var message={
+                    //         command:'log',
+                    //         message:'Web Workers not supported.',
+                    //         thinker:$rootScope.sendID
+                    //     }
                         
-                        $rootScope.messageTheServer(message)
-                    }
+                    //     $rootScope.messageTheServer(message)
+                    // }
                 }
+                
+                startWorkers()
             
          function stopWorkers() { 
                     mainWorker.terminate();
