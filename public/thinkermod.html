@@ -139,7 +139,7 @@
                         
                         if(typeof(mainWorker) == "undefined") {
                             $rootScope.sendMessage('starting mainWorker..') 
-                            console.log('starting mainWorker..')
+                            //console.log('starting mainWorker..')
                             mainWorker = new Worker("aiworker.js");
                         }else{
                             $rootScope.sendMessage('!!! tried to start already running main worker !!!') 
@@ -346,7 +346,7 @@
             $rootScope.mainThreadSpeed=$rootScope.mySpeed
             ///////
             $rootScope.pollOn = true
-            $rootScope.messages = []
+            //$rootScope.messages = []
             $rootScope.succeeded = 0
             
             
