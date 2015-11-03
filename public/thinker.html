@@ -33,7 +33,7 @@
                                         //console.log($rootScope.pendingSpeedTest)
                                         if($rootScope.pendingSpeedTest==0){
                                             $rootScope.sendMessage('Speedtest done.')
-                                            $rootScope.workersSpeed=(new Date().getTime()-wStartTime)
+                                            $rootScope.workersSpeed=(new Date().getTime()-$rootScope.wStartTime)
                                             $rootScope.faster=$rootScope.mainThreadSpeed / $rootScope.workersSpeed
                                             
                                             
@@ -158,7 +158,7 @@
                         
                         $rootScope.pendingSpeedTest=0
                         
-                        var wStartTime=new Date().getTime()
+                        $rootScope.$rootScope.wStartTime=new Date().getTime()
                         
                         for(var i=0;i<workersCountConst;i++){
                             $rootScope.pendingSpeedTest++
