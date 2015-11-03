@@ -76,19 +76,12 @@
                                 
                             };
             
-            ////////////////workers start
-            
-            
-          //  function testWorkerSpeed() {
-            
-           // $rootScope.speedTestOn=false 
+        
             
             $rootScope.maxWorkerNum=12
             
             
-            //var mtStartTime=new Date().getTime()
-            //checkSpeed()
-            //$rootScope.mainThreadSpeed=(new Date().getTime()-mtStartTime)*$rootScope.maxWorkerNum
+         
             
             $rootScope.messages=[]
             
@@ -113,7 +106,7 @@
 		//};
         
             function checkWorkerSupport(){
-                if(typeof(Worker) == undefined) {
+                if(typeof(Worker) == 'undefined') {
                     return false
                 }else{
                     return true
