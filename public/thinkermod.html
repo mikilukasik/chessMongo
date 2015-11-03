@@ -171,9 +171,25 @@
                             
                         }
                         
-                        $rootScope.sendMessage('subWorkers should be up and running')
+                        $rootScope.sendMessage('subWorkers should be up and running, echo..')
+                        
+                        
                         
                         //here we have all workers running
+                        
+                        
+                        for(var i=0;i<$rootScope.maxWorkerNum;i++){
+                            //$rootScope.pendingSpeedTest++
+                            subWorkers[i].postMessage({
+                                reqMessgage:'echo',
+                                reqCommand:'echo',
+                                reqData:{
+                                    worker:i
+                                }
+                            })
+                        }
+                        
+                        $rootScope.sendMessage($rootScope.maxWorkerNum+' echo reqests sent.')
                         
                       
                         
