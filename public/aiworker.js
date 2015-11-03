@@ -40,7 +40,7 @@ onmessage = function (event) {
     
     case 'speedTest':
     
-      resMessage='echoing'
+      resMessage='speedTest done'
       //reqData=reqData
       resData={ 
         speed: checkSpeed(),
