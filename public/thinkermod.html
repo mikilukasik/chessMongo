@@ -124,6 +124,7 @@
             $rootScope.workerSupport=checkWorkerSupport()
             if($rootScope.workerSupport){
                 $rootScope.workerSupportMessage='HTML5 Web Workers supported.'
+                startWorkers()
             }else{
                 $rootScope.workerSupportMessage='No Web Workers support.'
             }
@@ -135,6 +136,7 @@
                         // $rootScope.workersSupported='Your browser supports HTML5 Web mainWorker.'
                         
                         if(typeof(mainWorker) == "undefined") {
+                            $rootScope.sendMessage('starting mainWorker..') 
                             mainWorker = new Worker("aiworker.js");
                         }else{
                             $rootScope.sendMessage('!!! tried to start already running main worker !!!') 
@@ -146,7 +148,7 @@
                             //  $rootScope.sendMessage(' ')
                              
                         };
-                        $rootScope.sendMessage("mainWorker should be running, starting subWorkers")
+                        $rootScope.sendMessage("mainWorker should be running, starting subWorkers..")
                         
                         var workerToStrart=0
                         $rootScope.sendMessage("subWorkers started: 0")
@@ -216,7 +218,7 @@
                     // }
                 }
                 
-                startWorkers()
+                
             
          function stopWorkers() { 
                     mainWorker.terminate();
