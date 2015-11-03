@@ -49,30 +49,37 @@
                                     
                                     case 'reEcho':
                                     
-                                        //$rootScope.sendMessage('Speed: '+ event.data.resData.speed + ', worker '+ event.data.resData.worker)
+                                        
                                         $rootScope.pendingEchoes--
+                                        
                                         //console.log($rootScope.pendingSpeedTest)
                                         if($rootScope.pendingEchoes==0){
+                                            $rootScope.pendingEchoTests--
+                                            if($rootScope.pendingEchoTests==0){
                                             
                                             var timeItTook=new Date().getTime()-$rootScope.echoTestStarted
-                                            var message='Echo test done in '+timeItTook+' ms.'
-                                            $rootScope.sendMessage(message)
+                                            var messageTxt='last echo test done in '+timeItTook+' ms.'
+                                            $rootScope.sendMessage(messageTxt)
                                             //$rootScope.workersSpeed=(new Date().getTime()-$rootScope.wStartTime)
                                             //$rootScope.faster=$rootScope.mainThreadSpeed / $rootScope.workersSpeed
                                             $rootScope.echoesOn=false
                                             
-                                            var message={
-                                                command:'log',
-                                                message:message,
-                                                thinker:$rootScope.sendID,
-                                                data:{
-                                                    timeItTook:timeItTook
+                                                var toServer={
+                                                    command:'log',
+                                                    message:messageTxt,
+                                                    thinker:$rootScope.sendID,
+                                                    data:{
+                                                        timeItTook:timeItTook
+                                                    }
                                                 }
-                                            }
-                                            
-                                            $rootScope.messageTheServer(message)
+                                                
+                                                $rootScope.messageTheServer(toServer)
                                                                 
-                                            
+                                            }else{
+                                                //one echotest done, recall
+                                                
+                                                sendEchoes()  
+                                            }
                                             //$rootScope.messageTheServer('Echo test done.')
                                             //$rootScope.$apply()
                                             
@@ -153,13 +160,19 @@
                 $rootScope.workerSupportMessage='No Web Workers support.'
             }
             
-            function sendEchoes(){
+            function echoTest(){
+                
+                $rootScope.pendingEchoTests=2
+                sendEchoes()
+            }
+            
+            function sendEchoes(firstRun){
                 //if(!$rootScope.echoesOn){
                     // $rootScope.echoesOn=true
-                    $rootScope.pendingEchoes=0
+                    $rootScope.pendingEchoes=$rootScope.maxWorkerNum
                     $rootScope.echoTestStarted=new Date().getTime()
                       for(var i=0;i<$rootScope.maxWorkerNum;i++){
-                            $rootScope.pendingEchoes++
+                            //$rootScope.pendingEchoes++
                             subWorkers[i].postMessage({
                                 reqMessgage:'echo',
                                 reqCommand:'echo',
@@ -220,14 +233,14 @@
                             
                         }
                         
-                        $rootScope.sendMessage('subWorkers should be up and running, echo..')
+                        $rootScope.sendMessage('subWorkers should be up and running, sending 3 echoTests..')
                         
                         
                         
                         //here we have all workers running
                         
-                        
-                      sendEchoes()
+                      
+                      echoTest()
                         
                       
                         
