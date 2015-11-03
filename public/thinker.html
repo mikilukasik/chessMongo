@@ -73,7 +73,7 @@
             ////////////////workers start
             
             
-            function testWorkerSpeed() {
+          //  function testWorkerSpeed() {
             
            // $rootScope.speedTestOn=false 
             
@@ -81,9 +81,9 @@
             
            
             
-            var mtStartTime=new Date().getTime()
-            checkSpeed()
-            $rootScope.mainThreadSpeed=(new Date().getTime()-mtStartTime)*workersCountConst
+            //var mtStartTime=new Date().getTime()
+            //checkSpeed()
+            //$rootScope.mainThreadSpeed=(new Date().getTime()-mtStartTime)*workersCountConst
             
             $rootScope.messages=[]
             
@@ -95,18 +95,32 @@
           
             
                 
-                function startWorkers() {
+            
+                
+               
+                
+                //startWorkers()
+        
+            
+            
+            
+			
+		//};
+        
+            function startWorkers() {
                     if(typeof(Worker) !== "undefined") {
                         
                          $rootScope.workersSupported='Your browser supports HTML5 Web mainWorker.'
                         
                         if(typeof(mainWorker) == "undefined") {
                             mainWorker = new Worker("aiworker.js");
+                        }else{
+                            //main worker already on
                         }
                         
                         mainWorker.onmessage = function(event) {
                              $rootScope.sendMessage('')
-                             $rootScope.sendMessage('@'+new Date().getTime()+', main worker event:'+event.data);
+                             $rootScope.sendMessage('main worker event:'+event.data);
                              $rootScope.sendMessage(' ')
                              
                         };
@@ -129,48 +143,28 @@
                         
                         //here we have all workers running
                         
+                      
                         
+                        // $rootScope.pendingSpeedTest=0
                         
-                        
-                        
-                        
-                        
-                        //first try:
-                        // mainWorker.postMessage({
-                        //     reqMessgage:'hello',
-                        //     reqCommand:'echo',
-                        //     reqData:{worker:'main'}
-                        // })
-                        
-                        //  mainWorker.postMessage({
-                        //     reqMessgage:'bullShiting you',
-                        //     reqCommand:'bullShit',
-                        //     reqData:{worker:'main'}
-                        // })
+                        // $rootScope.wStartTime=new Date().getTime()
                         
                         // for(var i=0;i<workersCountConst;i++){
+                        //     $rootScope.pendingSpeedTest++
                         //     subWorkers[i].postMessage({
-                        //         reqMessgage:'hello',
-                        //         reqCommand:'echo',
-                        //         reqData:'no: '+i 
+                        //         reqMessgage:'test that seed',
+                        //         reqCommand:'speedTest',
+                        //         reqData:{
+                        //             worker:i
+                        //         }
                         //     })
                         // }
-                        
-                        $rootScope.pendingSpeedTest=0
-                        
-                        $rootScope.wStartTime=new Date().getTime()
-                        
-                        for(var i=0;i<workersCountConst;i++){
-                            $rootScope.pendingSpeedTest++
-                            subWorkers[i].postMessage({
-                                reqMessgage:'test that seed',
-                                reqCommand:'speedTest',
-                                reqData:{
-                                    worker:i
-                                }
-                            })
-                        }
-                        
+                         $http.get('/speedTestResult?thinker=' + $rootScope.sendID +
+                                                    '&wSpeed=' + workersCountConst+' workers on' +
+                                                    '&mtSpeed=' + workersCountConst+' workers on' +
+                                                    '&faster=' + workersCountConst+' workers on' 
+                                                // +  '&r=' + Math.random()
+                                             )
                         
                       
                     } else {
@@ -184,36 +178,30 @@
                                              )
                     }
                 }
-                
-                function stopWorkers() { 
+            
+         function stopWorkers() { 
                     mainWorker.terminate();
                     mainWorker = undefined;
                     
                     for(var i=0;i<workersCountConst;i++){
-                           //$rootScope.pendingSpeedTest++
+                          
                             subWorkers[i].terminate();
                             subWorkers[i] = undefined;
-                        //     .postMessage({
-                        //     reqMessgage:'test that seed',
-                        //     reqCommand:'speedTest',
-                        //     reqData:{
-                        //         worker:i
-                        //     }
-                        // })
+                       
                     }
                     
+                    $http.get('/speedTestResult?thinker=' + $rootScope.sendID +
+                                                    '&wSpeed=' + 'workers off' +
+                                                    '&mtSpeed=' + 'workers off' +
+                                                    '&faster=' + 'workers off'
+                                                // +  '&r=' + Math.random()
+                                             )
                     
                 }
                 
-                startWorkers()
-        
-            
-            
-            
-			
-		};
-            
-            
+                
+                
+                
             
             
             
@@ -729,7 +717,7 @@
                         if(!$rootScope.speedTestOn){
                             $rootScope.speedTestOn=true
                             $rootScope.sendMessage('Speedtest started...')
-                            testWorkerSpeed()
+                            startWorkers()
                         }else{
                             $rootScope.sendMessage('Speedtest already on...')    
                         }
