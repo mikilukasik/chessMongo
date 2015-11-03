@@ -11,6 +11,8 @@
 
         function ApplicationController($rootScope, $http, $interval, $timeout) {
             
+            $rootScope.messages=[]
+            
              $rootScope.sendMessage=function(message){
                 $rootScope.messages.push('@'+ new Date().getTime() +': '+message)
                 if(!$rootScope.$$phase) {
@@ -90,7 +92,7 @@
             
          
             
-            $rootScope.messages=[]
+            
             
             
             
