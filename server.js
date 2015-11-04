@@ -430,7 +430,7 @@ function ping(msecs){
 	for (var i=pendingThinkerPolls.length-1;i>-1;i--){
 		if(pendingThinkerPolls[i][2] < new Date().getTime()-msecs){
 			//polled more tham MSECS time ago, let's pop it
-			sendTask(new Task('areYouThere',0,'Are you there?'),pendingThinkerPolls[i][0].query.id)
+			sendTask(new Task('echoTest',0,'echoTest'),pendingThinkerPolls[i][0].query.id)
 			
 		}
 	}

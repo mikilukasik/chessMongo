@@ -77,7 +77,7 @@
                                                                 
                                             }else{
                                                 //one echotest done, recall
-                                                $rootScope.sendMessage('recall echotest')
+                                                //$rootScope.sendMessage('recall echotest')
                                                 //$timeout(sendEchoes(),100)
                                                 sendEchoes()  
                                             }
@@ -183,7 +183,7 @@
                             })
                         }
                         
-                        $rootScope.sendMessage($rootScope.maxWorkerNum+' echo reqests sent.')
+                        //$rootScope.sendMessage($rootScope.maxWorkerNum+' echo reqests sent.')
                 //
                 
             }
@@ -831,10 +831,10 @@
                     
                         if(!$rootScope.echoesOn){
                             $rootScope.echoesOn=true
-                            $rootScope.sendMessage('Echotest started...')
+                            //$rootScope.sendMessage('Echotest started...')
                             echoTest()
                         }else{
-                            $rootScope.sendMessage('Echotest already on...')    
+                            $rootScope.sendMessage('cannot start, echotest is already on...')    
                         }
                     break;
                     
