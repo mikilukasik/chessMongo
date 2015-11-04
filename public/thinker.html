@@ -43,11 +43,19 @@
             $rootScope.cookieID = getCookie("myID");
 
 
-            $rootScope.totalTook = getCookie("totalT2");
-            $rootScope.moveCount = getCookie("mCount2");
+            // $rootScope.totalTook = getCookie("totalT2");
+            // $rootScope.moveCount = getCookie("mCount2");
+            
+            $rootScope.mainThreadSpeed=getCookie("mainThreadSpeed");
 
             if ($rootScope.moveCount == "") $rootScope.moveCount = 0
-
+            
+            if ($rootScope.mainThreadSpeed == "") {
+                $rootScope.mainThreadSpeed=checkSpeed()
+            }else{
+                $rootScope.mainThreadSpeed=Number($rootScope.mainThreadSpeed)
+            }
+            if(isNaN($rootScope.mainThreadSpeed))$rootScope.mainThreadSpeed=checkSpeed()
             if ($rootScope.cookieID == "") {
 
                 $rootScope.sendID = Math.random * 100000000
@@ -63,8 +71,10 @@
 
 
             $rootScope.setCookies = function() {
-                setCookie("totalT2", $rootScope.totalTook, 365);
-                setCookie("mCount2", $rootScope.moveCount, 365);
+                // setCookie("totalT2", $rootScope.totalTook, 365);
+                // setCookie("mCount2", $rootScope.moveCount, 365);
+                setCookie("mainThreadSpeed", $rootScope.mainThreadSpeed, 365);
+                
             }
             
             $rootScope.messages=[]
@@ -83,11 +93,14 @@
                                           
                     
                 })
-                if($rootScope.messages.length>20)$rootScope.messages.shift()
+                
                 $rootScope.messages.push('@'+ new Date().getTime() +': '+message)
                 if(!$rootScope.$$phase) {
+                    
                     $rootScope.$apply()
+                    
                 }
+                if($rootScope.messages.length>20)$rootScope.messages.shift()
             }
             
               $rootScope.messageTheServer=function(message){
@@ -480,12 +493,12 @@
 
 
 
-             //$rootScope.mySpeed = 60000 / (ai(new Dbtable(1, 'a', 'b').table, true, [])[0][2])       //speed testing, replace!!!!!!
+             //$rootScope.mainThreadSpeed = 60000 / (ai(new Dbtable(1, 'a', 'b').table, true, [])[0][2])       //speed testing, replace!!!!!!
             
             
             
-            $rootScope.mySpeed = checkSpeed()
-            $rootScope.mainThreadSpeed=$rootScope.mySpeed
+            // $rootScope.mainThreadSpeed = checkSpeed()
+            // $rootScope.mainThreadSpeed=$rootScope.mainThreadSpeed
             ///////
             $rootScope.pollOn = true
             //$rootScope.messages = []
@@ -579,7 +592,7 @@
                         $http.get('/learnerPoll?n=' + $rootScope.sendID +
                             '&t=' + initedTable._id +
                             '&mt=' + modType +
-                            '&mv=' + modVal + '&p='+modConst+'&a=' + $rootScope.mySpeed
+                            '&mv=' + modVal + '&p='+modConst+'&a=' + $rootScope.mainThreadSpeed
                           // +  '&r=' + Math.random()
                           )
                           
@@ -961,17 +974,26 @@
                         break;
 
                     case "splitMove":
+                        //this is on the main thread
                         
                         $rootScope.solvingStarted=new Date().getTime()
+                        var splitMoveCount=task.data.length
                         
-                        var postThis = processSplitMoves(task.data, $rootScope.sendID)
+                        var postThis = processSplitMoves(task.data, $rootScope.sendID)      //blocks the UI
 
                         $http.post('/myPartIsDone', postThis, function(req, res) {
                             
-                            $rootScope.sendMessage('moves solved in '+(new Date().getTime()-$rootScope.solvingStarted)+'ms.')
+                            
 
                         })
-
+                        var timeItTook=(new Date().getTime()-$rootScope.solvingStarted)
+                        $rootScope.mainThreadSpeed=(Number($rootScope.mainThreadSpeed)+0.2*Number(splitMoveCount/(timeItTook/1000)))/1.2      //this should keep the last 6 average
+                        $rootScope.sendMessage(splitMoveCount+' moves solved in '+timeItTook+'ms on the main thread.')
+                       
+                        ///save it in cookie
+                        
+                        $rootScope.setCookies() //
+                        
                         break;
 
 
@@ -1011,7 +1033,7 @@
 
             var longPollTasks = function() {
 
-                $http.get('/longPollTasks?id=' + $rootScope.sendID + '&tn=' + $rootScope.taskNum + '&spd=' + $rootScope.mySpeed)
+                $http.get('/longPollTasks?id=' + $rootScope.sendID + '&tn=' + $rootScope.taskNum + '&spd=' + $rootScope.mainThreadSpeed)
                     .then(function(response) {
 
                         // 1 task received

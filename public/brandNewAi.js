@@ -204,7 +204,7 @@ function protectPieces(originalTable, whitePlayer) {
 
 }
 
-function addMovesToTable(originalTable, whiteNext, dontClearInvalid) {
+function addMovesToTable(originalTable, whiteNext, dontClearInvalid, returnMoveStrings) {
 
     //rewrite this to use getTableData to find my pieces, don't copy the array just change the original
 
@@ -222,7 +222,7 @@ function addMovesToTable(originalTable, whiteNext, dontClearInvalid) {
             // })
             if (originalTable[i][j][0] == myCol) {
                 var returnMoveCoords=[]
-                tableWithMoves[i][j][5] = canMove(i, j, whiteNext, originalTable, undefined, undefined, undefined, dontClearInvalid, returnMoveCoords)   //:  canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm, dontRemoveInvalid) { //, speedy) {
+                tableWithMoves[i][j][5] = canMove(i, j, whiteNext, originalTable, undefined, undefined, undefined, dontClearInvalid, returnMoveStrings)   //:  canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm, dontRemoveInvalid) { //, speedy) {
             } else {
                 tableWithMoves[i][j][5] == []
             }
@@ -319,7 +319,7 @@ function captured(table, color) {
     return false
 }
 
-function canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm, dontRemoveInvalid, returnMoveCoords) { //, speedy) {
+function canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm, dontRemoveInvalid, returnMoveStrings) { //, speedy) {
 
     if (typeof(hitSumm) == 'undefined') var hitSumm = [0]
     //var speedy = !speedy
@@ -361,9 +361,9 @@ function canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm, dontRemove
 
     }
     
-    if (returnMoveCoords==[]){      //and not undefined..
+    if (returnMoveStrings!=undefined){      //and not undefined..
         possibleMoves.forEach(function(move){
-                   returnMoveCoords.push([k,l,move[0],move[1]]) 
+                   returnMoveStrings.push(coordsToMoveString(k,l,move[0],move[1]))
         })
 
     }
@@ -2562,3 +2562,75 @@ function processMove(move, modType, modConst2, looped) {
 var checkSpeed = function(){
                 return 20000 / newAi(new Dbtable(1, 'a', 'b'))[0][2]       //how many splitmoves / second
             }
+            
+            
+            
+            
+            
+            
+var makeCleanDbObj=function(_id,table,wNext,allPastTables,origData,origProtect,oppKingPos){
+    return {
+        _id:_id,
+        table:table,
+        wNext:wNext,
+        allPastTables:allPastTables,
+        origData:origData,
+        origProtect:origProtect,
+        oppKingPos:oppKingPos
+        
+    }
+}
+            
+var smallMovePreparer=function(move,depth){
+    
+    move.inDepth=true   //this will tell movesolver what we have here
+    
+    var newSmallMoves=[]
+    
+    if(depth==undefined)depth==1
+    
+    var cfColor=move.cfColor
+    
+    var mainMoveStr=move.moveStr
+    
+    var startTable=moveIt(mainMoveStr,move.cfTable)
+    
+    
+    
+    var hisMoves=[]
+    
+    
+    addMovesToTable(startTable,!cfColor,true,hisMoves)  //true will leave illegal moves in, faster. this puts the moveStings in movesToMake
+    
+    //console.log(hisMoves)
+    
+    hisMoves.forEach(function(hisMove){
+        
+        var heMovedTable=moveIt(hisMove,startTable)
+        
+        var myNextMoves=[]
+        
+        addMovesToTable(heMovedTable,cfColor,true,myNextMoves)
+        
+        myNextMoves.forEach(function(myNextMove,mnmIndex){
+            
+            newSmallMoves.push(new SmallMoveTask(myNextMove,mnmIndex,makeCleanDbObj(move.dbTable._id,
+                                                                                    move.dbTable.table,
+                                                                                    move.dbTable.wNext,
+                                                                                    move.dbTable.allPastTables,
+                                                                                    move.dbTable.origData,
+                                                                                    move.dbTable.origProtect,
+                                                                                    move.dbTable.oppKingPos
+                                                                                    ),depth))
+            
+        })
+        
+        console.log(newSmallMoves.length+' tables to calculate')
+        
+        
+    })
+    
+    
+    
+    
+} 

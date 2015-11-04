@@ -15,10 +15,13 @@
 
 //
 
-var SmallMoveTask=function(moveCoord, index, dbTable){		//this is each move ai could do
+var SmallMoveTask=function(moveCoord, index, dbTable,depth){		//this is each move ai could do
 	
 	
 	//no need: this.dbTable=dbTable
+	if(depth==undefined)depth=1
+	
+	this.depth=depth
 	
 	this.oppKingPos=dbTable.oppKingPos		//aTK will need this, should be the moved kings pos is moved!!!!
 	
@@ -26,8 +29,12 @@ var SmallMoveTask=function(moveCoord, index, dbTable){		//this is each move ai c
 	
 	this.cfMoveCoords=moveCoord				//4 numbers
 	
-	this.stepMove=coordsToMoveString(moveCoord[0],moveCoord[1],moveCoord[2],moveCoord[3])		//4 char string
+	var stepMove=coordsToMoveString(moveCoord[0],moveCoord[1],moveCoord[2],moveCoord[3])
+	this.stepMove=stepMove		//4 char string
 	
+	this.moveStrings=[]
+	
+	this.moveStrings.push(stepMove)
 	
 	
 	this.retMoves=[]			//ai will fill
@@ -37,6 +44,7 @@ var SmallMoveTask=function(moveCoord, index, dbTable){		//this is each move ai c
 	//this.value=dbTable.value
 	
 	this.allPast=dbTable.allPastTables		//ai needs it to avoid loop
+	
 	this.cfTable=dbTable.table				//ai needs to know original table 
 	//this.cfMoveCoords=moveCoord
 	this.moveIndex=index					//who needs this??!!!!!!!
