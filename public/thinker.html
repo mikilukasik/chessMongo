@@ -58,7 +58,7 @@
                                             if($rootScope.pendingEchoTests==0){
                                             
                                             var timeItTook=new Date().getTime()-$rootScope.echoTestStarted
-                                            var messageTxt='last echo test done in '+timeItTook+'ms.'
+                                            var messageTxt='Echo test done: '+timeItTook+'ms.'
                                             $rootScope.sendMessage(messageTxt)
                                             //$rootScope.workersSpeed=(new Date().getTime()-$rootScope.wStartTime)
                                             //$rootScope.faster=$rootScope.mainThreadSpeed / $rootScope.workersSpeed

@@ -204,7 +204,7 @@ function protectPieces(originalTable, whitePlayer) {
 
 }
 
-function addMovesToTable(originalTable, whiteNext) {
+function addMovesToTable(originalTable, whiteNext, dontClearInvalid) {
 
     //rewrite this to use getTableData to find my pieces, don't copy the array just change the original
 
@@ -215,13 +215,14 @@ function addMovesToTable(originalTable, whiteNext) {
     for (var i = 0; i < 8; i++) {
         tableWithMoves[i] = new Array(8)
         for (var j = 0; j < 8; j++) {
-            tableWithMoves[i][j] = []
-            originalTable[i][j].forEach(function(value, feCount) {
-                tableWithMoves[i][j][feCount] = value
+            tableWithMoves[i][j] = originalTable[i][j].slice()//[]
+            // originalTable[i][j].forEach(function(value, feCount) {
+            //     tableWithMoves[i][j][feCount] = value
 
-            })
+            // })
             if (originalTable[i][j][0] == myCol) {
-                tableWithMoves[i][j][5] = canMove(i, j, whiteNext, originalTable)
+                var returnMoveCoords=[]
+                tableWithMoves[i][j][5] = canMove(i, j, whiteNext, originalTable, undefined, undefined, undefined, dontClearInvalid, returnMoveCoords)   //:  canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm, dontRemoveInvalid) { //, speedy) {
             } else {
                 tableWithMoves[i][j][5] == []
             }
@@ -318,13 +319,13 @@ function captured(table, color) {
     return false
 }
 
-function canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm) { //, try2steps) {
+function canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm, dontRemoveInvalid, returnMoveCoords) { //, speedy) {
 
     if (typeof(hitSumm) == 'undefined') var hitSumm = [0]
-    var try2steps = !speedy
+    //var speedy = !speedy
 
     //too slow
-    if (speedy) try2steps = true
+    //if (speedy) speedy = true
 
     var what = moveTable[k][l][1]
     var possibleMoves = []
@@ -359,70 +360,79 @@ function canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm) { //, try2
             break;
 
     }
-
-    if (try2steps) {
-
-        switch (what) {
-            // case 0:
-
-            case 1:
-
-                possibleMoves.forEach(function(stepPossibleMove) {
-
-                    pawnCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
-
-
-                })
-                break;
-            case 2:
-                possibleMoves.forEach(function(stepPossibleMove) {
-
-                    bishopCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
-
-
-                })
-                break;
-            case 3:
-                possibleMoves.forEach(function(stepPossibleMove) {
-
-                    horseCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
-
-
-                })
-                break;
-            case 4:
-                possibleMoves.forEach(function(stepPossibleMove) {
-
-                    rookCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
-
-
-                })
-                break;
-            case 5:
-                possibleMoves.forEach(function(stepPossibleMove) {
-
-                    queenCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
-
-
-                })
-                break;
-            case 9:
-                possibleMoves.forEach(function(stepPossibleMove) {
-
-                    kingCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
-
-
-                })
-                break;
-
-        }
-
+    
+    if (returnMoveCoords==[]){      //and not undefined..
+        possibleMoves.forEach(function(move){
+                   returnMoveCoords.push([k,l,move[0],move[1]]) 
+        })
 
     }
-    hitSumm[0] += scndHitSum[0] / 10000 //masodik lepes is szamit egy kicsit
+
+    // if (speedy) {
+
+    //     switch (what) {
+    //         // case 0:
+
+    //         case 1:
+
+    //             possibleMoves.forEach(function(stepPossibleMove) {
+
+    //                 pawnCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
+
+
+    //             })
+    //             break;
+    //         case 2:
+    //             possibleMoves.forEach(function(stepPossibleMove) {
+
+    //                 bishopCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
+
+
+    //             })
+    //             break;
+    //         case 3:
+    //             possibleMoves.forEach(function(stepPossibleMove) {
+
+    //                 horseCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
+
+
+    //             })
+    //             break;
+    //         case 4:
+    //             possibleMoves.forEach(function(stepPossibleMove) {
+
+    //                 rookCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
+
+
+    //             })
+    //             break;
+    //         case 5:
+    //             possibleMoves.forEach(function(stepPossibleMove) {
+
+    //                 queenCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
+
+
+    //             })
+    //             break;
+    //         case 9:
+    //             possibleMoves.forEach(function(stepPossibleMove) {
+
+    //                 kingCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
+
+
+    //             })
+    //             break;
+
+    //     }
+        
+    //     hitSumm[0] += scndHitSum[0] / 10000 //masodik lepes is szamit egy kicsit
+
+
+    // }
+    
         //hitSumm[0] -= moveTable[k][l][1] / 100 //amit ut-amivel uti
 
-    if (!speedy) {
+    if (!speedy) {                  //     lefut.
         for (var i = possibleMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
             if (captured(moveIt(coordsToMoveString(k, l, possibleMoves[i][0], possibleMoves[i][1]), moveTable, dontProt), isWhite)) { //sakkba lepnenk
                 possibleMoves.splice(i, 1)
