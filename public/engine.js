@@ -13,24 +13,22 @@
 	
 // }
 
+//
 
-
-var SmallMoveTask=function(moveCoord, index, dbTable){
+var SmallMoveTask=function(moveCoord, index, dbTable){		//this is each move ai could do
 	
-	//this.rnd=Math.random()
-	//this.created = new Date().getTime()
 	
-	//this.dbTable=dbTable
+	//no need: this.dbTable=dbTable
 	
-	this.oppKingPos=dbTable.oppKingPos
+	this.oppKingPos=dbTable.oppKingPos		//aTK will need this, should be the moved kings pos is moved!!!!
 	
-	this._id=dbTable._id		//server will need this when receiving solved moves
+	this._id=dbTable._id					//server will need this when receiving solved moves
 	
-	this.cfMoveCoords=moveCoord			//4 numbers
+	this.cfMoveCoords=moveCoord				//4 numbers
+	
 	this.stepMove=coordsToMoveString(moveCoord[0],moveCoord[1],moveCoord[2],moveCoord[3])		//4 char string
 	
-	//this.index=index
-	//this.value=0
+	
 	
 	this.retMoves=[]			//ai will fill
 	
@@ -50,6 +48,7 @@ var SmallMoveTask=function(moveCoord, index, dbTable){
 	//this.stepMove=0
 	
 	this.origData=dbTable.origData				// itt adom at ami kozos az osszes smalltaskban
+	
 	this.value=this.origData					//ez meg minek is
 	
 	
