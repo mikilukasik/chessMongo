@@ -497,6 +497,7 @@
                         $rootScope.receivedMessage = 'restart in 10s'
                         if ($rootScope.succeeded > 3) { //server must be running
                             $rootScope.succeeded = 0
+                            $rootScope.sendMessage('refreshing window..')
                             window.location.reload(true); //$rootScope.sendMessage('looped, forceStop sent')
                         } else {
 
@@ -922,7 +923,7 @@
                                                 
     
                         }else{
-                            console.log('already learning..')
+                            $rootScope.sendMessage('learnStart: already learning..')
                         }
                         //$rootScope.learnerPair()
 
@@ -930,10 +931,14 @@
                         
                         
                         case "learnStop":
-                        $rootScope.learning=false
+                            if($rootScope.learning){
+                            $rootScope.learning=false
                       //  $rootScope.startGamePair()
                                             
                              $rootScope.sendMessage('Learning stopped.')
+                            }else{
+                                $rootScope.sendMessage("learnStop: wasn't learning..")
+                            }
 
                         //$rootScope.learnerPair()
 
