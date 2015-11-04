@@ -89,6 +89,9 @@
                     $rootScope.$apply()
                 }
             }
+            
+            $rootScope.sendMessage('Starting..')
+            
             $rootScope.changeLastMessage=function(message){
                 $rootScope.messages.pop()
                 $rootScope.messages.push('@'+ new Date().getTime() +': '+message)
@@ -956,10 +959,14 @@
                         break;
 
                     case "splitMove":
-
+                        
+                        $rootScope.solvingStarted=new Date().getTime()
+                        
                         var postThis = processSplitMoves(task.data, $rootScope.sendID)
 
                         $http.post('/myPartIsDone', postThis, function(req, res) {
+                            
+                            $rootScope.sendMessage('moves solved in '+(new Date().getTime()-$rootScope.solvingStarted)+'ms.')
 
                         })
 
