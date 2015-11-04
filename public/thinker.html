@@ -90,16 +90,7 @@
                 }
             }
             
-            $rootScope.sendMessage('Starting..')
-            
-            $rootScope.changeLastMessage=function(message){
-                $rootScope.messages.pop()
-                $rootScope.messages.push('@'+ new Date().getTime() +': '+message)
-                if(!$rootScope.$$phase) {
-                    $rootScope.$apply()
-                }
-            }
-             $rootScope.messageTheServer=function(message){
+              $rootScope.messageTheServer=function(message){
                 $http.post('/thinkerMessage',message,function(){})//+ new Date().getTime() +': '+message)
                 .then(function(result){
                     
@@ -110,6 +101,17 @@
 				// 				$rootScope.$apply()
 				// 			}
             }
+            
+            $rootScope.sendMessage('Starting..')
+            
+            $rootScope.changeLastMessage=function(message){
+                $rootScope.messages.pop()
+                $rootScope.messages.push('@'+ new Date().getTime() +': '+message)
+                if(!$rootScope.$$phase) {
+                    $rootScope.$apply()
+                }
+            }
+           
             
             subWorkerMsgInThinker=function(event) {
                                 //$rootScope.sendMessage('@'+new Date().getTime()+', worker: '+event.data.resData.worker+', resData: '+event.data.resData);
