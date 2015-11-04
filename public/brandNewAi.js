@@ -2630,6 +2630,8 @@ var smallMovePreparer=function(move,depth){
         
     })
     
+    move.smallerMoveTasks=newSmallMoves
+    
     
     
     
