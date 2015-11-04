@@ -670,8 +670,19 @@
  //if($rootScope.learning){
  
  
-      if(myGame.pollNum/15==Math.floor(myGame.pollNum/15)){
+                            if(myGame.pollNum/15==Math.floor(myGame.pollNum/15)){
                                  $http.post('/moved',myGame,function(req,res){})
+                                 
+                                 var toServer={
+                                    command:'log',
+                                    message:'playing on t'+myGame._id+', p'+myGame.pollNum,
+                                    thinker:$rootScope.sendID,
+                                    // data:{
+                                    //     timeItTook:timeItTook
+                                    // }
+                                }
+                                
+                                $rootScope.messageTheServer(toServer)
                                  
                                  //temp:
                                  
