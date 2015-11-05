@@ -2064,7 +2064,7 @@ function processDeepSplitMoves(data, thinker, mt, modConst, looped) {
 		// }
 
 
-		var toPush = deepMove(data.pop(), 3, false)
+		var toPush = deepMove(data.pop(), 4, false)
 
 
 		toPush.thinker = thinker
