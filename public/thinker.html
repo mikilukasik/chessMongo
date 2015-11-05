@@ -161,10 +161,13 @@
 
 											//var initDeepSpeedTeststarted=new Date().getTime();
 
+											var level=3
+											
+											var resSpeedTest=speedTest(level, false) //depth, no workers      
+											//var speedTestTime = resSpeedTest.time 
+											
 
-											var speedTestTime = speedTest(2, false) //depth, no workers       
-
-											$rootScope.sendMessage('init mainThread deepSpeedTest (level 2) done: ' + speedTestTime + 'ms')
+											$rootScope.sendMessage('init mainThread deepSpeedTest (level '+level+') done: ' + resSpeedTest.solved +' tables in '+resSpeedTest.timeItTook + 'ms')
 
 
 										}

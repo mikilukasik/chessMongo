@@ -2622,6 +2622,9 @@ function speedTest(depth, passToWorkers) {
 
 	var started = new Date()
 		.getTime()
+		
+	var solvedTableCount=0
+	
 
 	var aiTable = new MoveTask(new Dbtable(1, 2, 3), depth); //level 3 deepening on new table
 
@@ -2634,11 +2637,14 @@ function speedTest(depth, passToWorkers) {
 		tds2.push(new DeepeningTask(a))
 	});
 	tds2.forEach(function(a) {
-		solveDeepeningTask(a)
+		var totals=solveDeepeningTask(a)
+		solvedTableCount+=totals.solved
 	});
 
-	return new Date()
-		.getTime() - started //timeItTook
+	return {
+		timeItTook:new Date().getTime() - started, //timeItTook
+		solved:solvedTableCount
+	}
 		////////////////////////////temp speedtest end///////////////////////
 }
 

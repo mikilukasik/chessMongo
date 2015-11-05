@@ -324,7 +324,7 @@ function solveDeepeningTask(deepeningTask) { //designed to solve the whole deepe
 	}
 	var timeItTook = new Date()
 		.getTime() - startedAt
-	return (solved + ' tables generated in ' + timeItTook + 'ms. Tables/second: ' + solved * 1000 / timeItTook)
+	return {solved:solved,timeItTook:timeItTook}//,(solved + ' tables generated in ' + timeItTook + 'ms. Tables/second: ' + solved * 1000 / timeItTook)]
 
 }
 
