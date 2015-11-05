@@ -32,6 +32,12 @@ function dbAi(dbTable) {
 
 }
 
+
+           
+                                 
+
+
+
 function moveInTable(moveStr, dbTable, isLearner) {
 
     var toPush = getPushString(dbTable.table, moveStr) //piece
@@ -2580,23 +2586,7 @@ var oneDeeper=function(smallDeepeningTask){
 }              
       
             
-                            ////////////////////////////temp speedtest///////////////////////
-                                           function speedTest(depth, passToWorkers){ 
-                                               
-                                              var started=new Date().getTime()
-                                                    
-                                                 var aiTable=new MoveTask(new Dbtable(1,2,3),depth);        //level 3 deepening on new table
-                                                 
-                                                 var tds=[];
-                                                 var tds2=[];
-                                                 aiTable.movesToSend.forEach(function(step){tds.push(step)});
-                                                 tds.forEach(function(a){tds2.push(new DeepeningTask(a))});
-                                                 tds2.forEach(function(a){solveDeepeningTask(a)});
-                                                 
-                                              return new Date().getTime()-started   //timeItTook
-                                                 ////////////////////////////temp speedtest end///////////////////////
-                                          }
-
+            
             
         
 function fastTableValue(table){
@@ -2608,14 +2598,21 @@ function fastTableValue(table){
     for(var i=0;i<8;i++){
         for(var j=0;j<8;j++){
             
-            if(table[i][j][1]==9) kingsOnTable+= table[i][j][0]     //total will be 0 for no king, 1 for black only, 2 for white only, 3 for both present
+            
+             if(table[i][j][1]<0){
+                  if(table[i][j][1]==9) kingsOnTable+= table[i][j][0]     //total will be 0 for no king, 1 for black only, 2 for white only, 3 for both present
+                  
+                  value+= table[i][j][1] * (table[i][j][0]-1.5)       //piecevalue*color-1.5  //color is 1 for black, 2 for white:)
+                 
+             }
+           
                    
         }
     }
     
     //if(kingsOnTable==3)
     
-    return [kingsOnTable,0]
+    return [kingsOnTable,value]
     
 } 
             

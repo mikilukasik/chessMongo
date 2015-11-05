@@ -30,7 +30,7 @@
 
 
               
-var createSmallDeepeningTask=function(table,wNext,depth,treeMoves,desiredDepth,thisValue,stopped){
+var createSmallDeepeningTask=function(table,wNext,depth,treeMoves,desiredDepth,stopped){
     
 	 //use it to create smallTasks
      //these small tasks will be multiplied as the deepening goes on
@@ -47,8 +47,6 @@ var createSmallDeepeningTask=function(table,wNext,depth,treeMoves,desiredDepth,t
 		
 		desiredDepth:desiredDepth,
 		
-		thisValue:thisValue,
-		
 		stopped:stopped
 		
 	} 
@@ -60,7 +58,7 @@ var createSmallDeepeningTask=function(table,wNext,depth,treeMoves,desiredDepth,t
 
 
 
-function solveSmallDeepeningTask(smallDeepeningTask,resCommand,thisSmallTaskValue){
+function solveSmallDeepeningTask(smallDeepeningTask,resCommand){
 	
 	var result=[]		//this will be the result
 	
@@ -86,10 +84,8 @@ function solveSmallDeepeningTask(smallDeepeningTask,resCommand,thisSmallTaskValu
 															smallDeepeningTask.wNext,			//remembering the winner in wnext
 															smallDeepeningTask.depth+1,			//this we increase until the end, deepener will make one copy in each round
 															newTreeMoves,						//move,move,move,wwon,wwon,wwon+
-															smallDeepeningTask.desiredDepth,
-															smallDeepeningTask.thisValue,
+															smallDeepeningTask.desiredDepth,	
 															smallDeepeningTask.stopped			//wwon or bwon
-															
 												)
 														
 		result.push(newSmallTask)		//1 returning task until reach desiredDepth
@@ -104,10 +100,7 @@ function solveSmallDeepeningTask(smallDeepeningTask,resCommand,thisSmallTaskValu
 																		//keep illegal			//we will remove them later when backward processing the tree
 		
 		//here we have possiblemoves filled in with good, bad and illegal moves
-		
-		var totalValue=0
-		var totalValueCount=0
-																		
+																			
 		possibleMoves.forEach(function(moveStr){												//create a new smalltask for each move
 																								//check first if there are 2 kings on the board!!!!!!!!!
 									
@@ -117,17 +110,7 @@ function solveSmallDeepeningTask(smallDeepeningTask,resCommand,thisSmallTaskValu
 									
 			var movedTable=moveIt(moveStr,smallDeepeningTask.table,true)
 			
-			var fastValue=fastTableValue(movedTable)		//this gets the value of the table (black winning < 0 < white winnning) and the total value of kings (1,2 or 3)
-			
-			var thisValue= fastValue.pop()
-			
-			totalValue+=thisValue
-			totalValueCount++
-			
-			var kingsCount = fastValue.pop()
-			
-			//!!!!!!!!!!!!!!!!!!!!temp
-			//totalValue+=kingsCount
+			var kingsCount=kingsAreOnTable(movedTable)
 			
 			var newSmallTask={}
 			
@@ -144,11 +127,8 @@ function solveSmallDeepeningTask(smallDeepeningTask,resCommand,thisSmallTaskValu
 															!smallDeepeningTask.wNext,
 															smallDeepeningTask.depth+1,
 															newTreeMoves,
-															smallDeepeningTask.desiredDepth,
-															thisValue
+															smallDeepeningTask.desiredDepth
 															//,stopped is missing, game goes on
-															
-															
 														)
 														
 				result.push(newSmallTask)
@@ -172,9 +152,7 @@ function solveSmallDeepeningTask(smallDeepeningTask,resCommand,thisSmallTaskValu
 															smallDeepeningTask.depth+1,			//this we increase until the end, deepener will make one copy in each round
 															newTreeMoves,						//last move added to it, illegal where king gets hit
 															smallDeepeningTask.desiredDepth,
-															smallDeepeningTask.thisValue+thisValue*(smallDeepeningTask.desiredDepth-smallDeepeningTask.depth), //value can stay the same
 															resCommand							//smallDeepeningTask.stopped:	wwon or bwon
-															
 													)
 														
 				result.push(newSmallTask)
@@ -189,8 +167,6 @@ function solveSmallDeepeningTask(smallDeepeningTask,resCommand,thisSmallTaskValu
 												
 		})				//end of for each move
 		
-		//console.log(totalValue,totalValueCount)
-		
 		
 	}
 		
@@ -199,14 +175,6 @@ function solveSmallDeepeningTask(smallDeepeningTask,resCommand,thisSmallTaskValu
 		/// move reached desiredDepth, shoudld return done command
 		
 		/// will return empty array
-		
-		///should return value
-		
-		//should clean invalids, solve moves by turns
-		
-		
-		
-		
 		
 		resCommand='depthReached'
 		
@@ -274,7 +242,7 @@ var DeepeningTask=function(smallMoveTask){      //keep this fast, designed for m
 		this.smallDeepeningTaskCounts=[0,1]				//this will be an array of the total created smalldeepeningtasks per depth, depth 0 has 0, depth 1 has one in this splitmove
 		
 		
-		var initialSmallDeepeningTask=createSmallDeepeningTask(this.thisTaskTable,this.initialWNext,this.actualDepth,this.initialTreeMoves,this.desiredDepth,0)
+		var initialSmallDeepeningTask=createSmallDeepeningTask(this.thisTaskTable,this.initialWNext,this.actualDepth,this.initialTreeMoves,this.desiredDepth)
 		
 		this.unsentSmallDeepeningTasks=[initialSmallDeepeningTask]				//to be sent out for multiplying when processing for level 2 (unless desireddepth is 1)
 		
@@ -303,7 +271,7 @@ var DeepeningTask=function(smallMoveTask){      //keep this fast, designed for m
 	function solveDeepeningTask(deepeningTask){		//designed to solve the whole deepening task on one thread
 													//will return number of smallTasks solved for testing??!!!!!!!!!!!!!!!
 													
-		var startedAt=new Date().getTime()
+		
 		
 		//for(var i=0;i<deepeningTask.unsentSmallDeepeningTasks;i++){
 		var solved=0
@@ -340,8 +308,8 @@ var DeepeningTask=function(smallMoveTask){      //keep this fast, designed for m
 			
 		//call it again if there are tasks
 		}
-		var timeItTook=new Date().getTime()-startedAt
-		return (solved + ' tables generated in ' + timeItTook + 'ms. Tables/second: '+ solved*1000/timeItTook)
+		
+		return solved
 		
 	}
 
@@ -530,93 +498,6 @@ var Dbuser = function(name,pwd){
 	this.games=[]		//his recent games 
 	
 }
-//
-var FakeDbTable = function(_id, wName, bName) { //class
-
-
-this.pendingMoveCount=0
-
-this.returnedMoves=[]
-	
-	this._id = _id,
-	this.wName = wName,
-	this.bName = bName,
-
-	
-	this.aiToMove=false		//unused
-	this.toBeChecked=true		//unused
-	this.gameIsOn=true
-	this.whiteWon=false
-	this.blackWon=false
-	this.isDraw=false
-	
-	this.askWhiteDraw=false
-	this.askBlackDraw=false
-	
-	this.whiteCanForceDraw=false
-	this.blackCanForceDraw=false
-	
-	
-	this.learner=false
-	this.learnerIsBusy=false
-	
-	
-	
-	this.wNext = true,
-	this.aiOn = false,
-	this.chat = [],
-	this.moves = [],
-	this.pollNum = 1,
-	this.allPastTables = []
-
-	this.created = new Date().getTime()
-	this.moved = this.created
-
-	this.table = new Array(8) //create 8x8 array
-	for(var i = 0; i < 8; i++) {
-		this.table[i] = new Array(8)
-	}
-
-	for(var j = 2; j < 6; j++) { //make the blanks blank
-		for(i = 0; i < 8; i++) {
-			this.table[i][j] = [0, 0, 0, false, false]
-		}
-	}
-
-	for(var i = 0; i < 8; i++) { //row of white pawns
-
-		this.table[i][1] = [0, 0, 0, false, false] //,pawnCanMove]
-	}
-	for(var i = 0; i < 8; i++) { //row of black pawns
-		this.table[i][6] = [1, 1, 0, false, false] //,pawnCanMove]
-	}
-
-	this.table[0][0] = [2, 4, 0, true, false] //,rookCanMove]				//rooks		//0 stands for times it moved
-	this.table[7][0] = [2, 4, 0, true, false] //,rookCanMove]
-	this.table[0][7] = [1, 4, 0, true, false] //,rookCanMove]
-	this.table[7][7] = [1, 4, 0, true, false] //,rookCanMove]
-
-	this.table[1][0] = [0, 0, 0, true, false] //,horseCanMove]					//knights
-	this.table[6][0] = [0, 0, 0, true, false] //,horseCanMove]
-	this.table[1][7] = [0, 0, 0, true, false] //,horseCanMove]
-	this.table[6][7] = [0, 0, 0, true, false] //,horseCanMove]
-
-	this.table[2][0] = [2, 2, 0, true, false] //,bishopCanMove]				//bishops
-	this.table[5][0] = [2, 2, 0, true, false] //,bishopCanMove]
-	this.table[2][7] = [1, 2, 0, true, false] //,bishopCanMove]
-	this.table[5][7] = [1, 2, 0, true, false] //,bishopCanMove]
-
-	this.table[3][0] = [2, 5, 0, true, false] //,queenCanMove]				//w queen
-	this.table[4][0] = [2, 9, 0, true, false] //,kingCanMove]				//w king
-
-	this.table[3][7] = [1, 5, 0, true, false] //,queenCanMove]				//b q
-	this.table[4][7] = [1, 9, 0, true, false] //,kingCanMove]				//b k
-
-	this.table = addMovesToTable(this.table, true)
-		//protectPieces(this.table,true)
-		//protectPieces(this.table,false)
-}
-
 var Dbtable = function(_id, wName, bName) { //class
 
 

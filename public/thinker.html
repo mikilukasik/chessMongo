@@ -144,9 +144,35 @@
                                             $rootScope.pendingEchoTests--
                                             if($rootScope.pendingEchoTests==0){
                                             
-                                            var timeItTook=new Date().getTime()-$rootScope.echoTestStarted
-                                            var messageTxt='Echo test done: '+timeItTook+'ms.'
-                                            $rootScope.sendMessage(messageTxt)
+                                            var timeNow=new Date().getTime()
+                                            var timeItTook=timeNow-$rootScope.echoTestStarted
+                                            
+                                            if($rootScope.initialEchoesOn){
+                                                
+                                                $rootScope.initialEchoesOn=false
+                                                
+                                                 var messageTxt='init echoTest done: '+timeItTook+'ms.'
+                                                 $rootScope.sendMessage(messageTxt)
+                                                 
+                                                 //var initDeepSpeedTeststarted=new Date().getTime();
+                                                 
+                                                 
+                                                var speedTestTime=speedTest(2,false) //depth, no workers       
+                                                 
+                                                    $rootScope.sendMessage('init mainThread deepSpeedTest (level 2) done: '+speedTestTime+'ms')
+                                                 
+                                                 
+                                            }else{
+                                                var messageTxt='echo test done: '+timeItTook+'ms.'
+                                                $rootScope.sendMessage(messageTxt)
+                                            }
+                                           
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
                                             //$rootScope.workersSpeed=(new Date().getTime()-$rootScope.wStartTime)
                                             //$rootScope.faster=$rootScope.mainThreadSpeed / $rootScope.workersSpeed
                                             $rootScope.echoesOn=false
@@ -321,15 +347,18 @@
                             
                         }
                         
-                        $rootScope.sendMessage('subWorkers should be up and running, sending 3 echoTests..')
+                        $rootScope.sendMessage('subWorkers should be up and running, running initial echoTests..')
                         
                         
                         
                         //here we have all workers running
                         
-                      
-                      echoTest()
+                      $rootScope.initialEchoesOn=true
+                      echoTest()    //true for initial
                         
+                      
+                      
+                      
                       
                         
                         // $rootScope.pendingSpeedTest=0
@@ -538,7 +567,7 @@
             $rootScope.learnerPair = function(modType, modVal, scndGame) {
 
                 //var _id = 0
-                //console.log('start func called: /startGame?w=' + wName + "&b=" + bName)
+                
 
 
 
@@ -571,7 +600,7 @@
                         console.log('_id received: ' + response.data._id)
                         initedTable._id = response.data._id
 
-
+                        $rootScope.sendMessage('learning '+ modType +' on t' + initedTable._id + ", wModded: " + wModded)
                         //var initedTable = []
 
 
@@ -846,11 +875,11 @@
                     console.log('eval2 bit')
 
                     if (wMod) {
-                        console.log('Starting rematch (play black)')
+                        //console.log('Starting rematch (play black)')
                         $rootScope.sendMessage('Starting rematch (play black)')
                         $timeout($rootScope.learnerPair(mt, modVal, true), 500)
                     } else {
-                        console.log('gamepair done, starting again with white')
+                        //console.log('gamepair done, starting again with white')
                          $rootScope.sendMessage('gamepair done, starting again with white')
                          $timeout($rootScope.startGamePair(), 500)
                         
