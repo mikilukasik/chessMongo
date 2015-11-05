@@ -2565,74 +2565,113 @@ var checkSpeed = function(){
             
             
             
+         
+            
+            
+     // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // 
+            
+            
+            ///////functions for deepening process
+            
+var oneDeeper=function(smallDeepeningTask){
+    
+    
+    
+}              
+      
             
             
             
-var makeCleanDbObj=function(_id,table,wNext,allPastTables,origData,origProtect,oppKingPos){
-    return {
-        _id:_id,
-        table:table,
-        wNext:wNext,
-        allPastTables:allPastTables,
-        origData:origData,
-        origProtect:origProtect,
-        oppKingPos:oppKingPos
         
+function fastTableValue(table){
+    
+    var kingsOnTable=0
+    var value=0
+    //var kingsOnTable=0
+    
+    for(var i=0;i<8;i++){
+        for(var j=0;j<8;j++){
+            
+            
+             if(table[i][j][1]<0){
+                  if(table[i][j][1]==9) kingsOnTable+= table[i][j][0]     //total will be 0 for no king, 1 for black only, 2 for white only, 3 for both present
+                  value+= [i][j][1] * ([i][j][0]-1.5)       //piecevalue*color-1.5  //color is 1 for black, 2 for white:)
+                 
+             }
+           
+                   
+        }
     }
-}
-            
-var smallMovePreparer=function(move,depth){
     
-    move.inDepth=true   //this will tell movesolver what we have here
+    //if(kingsOnTable==3)
     
-    var newSmallMoves=[]
-    
-    if(depth==undefined)depth==1
-    
-    var cfColor=move.cfColor
-    
-    var mainMoveStr=move.moveStr
-    
-    var startTable=moveIt(mainMoveStr,move.cfTable)
-    
-    
-    
-    var hisMoves=[]
-    
-    
-    addMovesToTable(startTable,!cfColor,true,hisMoves)  //true will leave illegal moves in, faster. this puts the moveStings in movesToMake
-    
-    //console.log(hisMoves)
-    
-    hisMoves.forEach(function(hisMove){
-        
-        var heMovedTable=moveIt(hisMove,startTable)
-        
-        var myNextMoves=[]
-        
-        addMovesToTable(heMovedTable,cfColor,true,myNextMoves)
-        
-        myNextMoves.forEach(function(myNextMove,mnmIndex){
-            
-            newSmallMoves.push(new SmallMoveTask(myNextMove,mnmIndex,makeCleanDbObj(move.dbTable._id,
-                                                                                    move.dbTable.table,
-                                                                                    move.dbTable.wNext,
-                                                                                    move.dbTable.allPastTables,
-                                                                                    move.dbTable.origData,
-                                                                                    move.dbTable.origProtect,
-                                                                                    move.dbTable.oppKingPos
-                                                                                    ),depth))
-            
-        })
-        
-        console.log(newSmallMoves.length+' tables to calculate')
-        
-        
-    })
-    
-    move.smallerMoveTasks=newSmallMoves
-    
-    
-    
+    return [kingsOnTable,value]
     
 } 
+            
+            
+            
+            
+            
+     // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // 
+     
+     
+             
+// var DeepeningTask=function(smallMoveTask){      //keep this fast, designed for main thread and mainWorker     //smallMoveTask is a smallMoveTask, to be deepend further
+
+// 	this.smallMoveTask=smallMoveTask		//kell ez????!!!!!			//we have the original object, there are approx.40 of these per moveTask, we probably received a few of these only ((should have _id or rndID!!!!!!!!!)	
+	
+	
+// 	this.moveStr=smallMoveTask.stepMove		//all resulting tables relate to this movestring: deppeningtask is made of smallmovetask..
+	
+// 	this.startingTable=smallMoveTask.cfTable		//this was calculated in advance when getting the first moves: that resulted in this.everything
+	
+// 	this.thisTaskTable=moveIt(this.moveStr,smallMoveTask.cfTable,true)		//this is the first and should be only time calculating this!!!!!
+// 	//takes time
+	
+	
+// 	this.desiredDepth=smallMoveTask.desiredDepth	//we will deepen until depth reaches this number
+	
+// 	this.actualDepth=1								//its 1 because we have 1st level resulting table fixed. 
+// 													//increase this when generating deeper tables, loop while this is smaller than desiredDepth
+	
+// 	this.depthsToClear=smallMoveTask.desiredDepth	//we will decrease this when throwing away resulting tables, until it is 1. the last set of tables gets thrown away on the server that finishes this task
+// 													//this task should be sent back to the server so lets ke
+	
+	
+// 	this.tableTree=[]								//fill multiDIM array with resulting tables during processing
+// 	this.moveStrTree=[]								//twin array with movesString
+	
+	
+// 	this.tableTree[0]=[this.startingTable]			// depth 0 table, startingTable: only one in an array
+	
+// 	this.tableTree[1]=[this.thisTaskTable]			// depth 1 tables, we only have one in this task but there are more in total
+	
+// 	this.tableTree[2]=[]							// depth 2 tables are empty at init, we will fill these in when processing this deepeningTask. after each depth we'll create the next empty array
+	
+// 	//there will be more levels here with a lot of tables
+	
+// 	//moveStings is one level deeper array, strings get longer each level to keep track of table!!!!!!
+	
+// 	this.moveStrTree[0]=[[]]	//???					// depth 0 movestrings, meaning 'how did we get here?'	these are always unknown
+	
+// 	this.moveStrTree[1]=[[this.moveStr]]				// depth 1 movestrings, meaning 'how did we get here?', we only have one in this task but there are more in total
+	
+// 	this.moveStrTree[2]=[[]]							// depth 2 movestrings, meaning 'how did we get here?', we will fill these together with the tableTree, all indexes will match as move=>resulting table
+	
+// 	//there will be more levels here with a lot of moveStrings
+	
+	
+	
+// 	this.smallDeepeningTaskCounts[0]				//this will be an array of the total created smalldeepeningtasks per depth, depth 0 has 0
+	
+// 	this.pendingSmallDeepeningTasks=[]				//here we will keep the pending smalltasks
+	
+// 	this.solvedSmallDeepeningTasks=[]				//here we will keep the results until stepping to next depth, ready for next level when this.length equals count
+	
+
+// } 
+
+
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // 
