@@ -1,267 +1,276 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="chess.css">
-	
+
 	<script src="jquery.js"></script>
 	<script src="angular.js"></script>
 	<script src="brandNewAi.js"></script>
 	<script src="engine.js"></script>
 
-<script>	
-	
-	var appModule = angular.module("appModule", []);
+	<script>
+		var appModule = angular.module("appModule", []);
 
-	
-	function ApplicationController( $http, $interval,  $scope) {	
-		
-		$scope.modTypes=[]
-		
-		 $http.get('/getModTypes').then(function(response) {
-                            
-                           //var modType="" 
-                          if( response.data.modTypes!=undefined) $scope.modTypes = response.data.modTypes
-                        //    var len=modTypes.length
-                        //   if(len>0) {
-                        //        modType=modTypes[Math.floor(Math.random()*len)]
-                        //   }
-                           
-                           // var modVal = Math.random()  *(response.data.max-response.data.min)+response.data.min//*100 //!!!!!!! 100  
-                            $scope.min = response.data.min
-                            $scope.max = response.data.max
 
-                            // $rootScope.sendMessage('start learning...')
-                            // $rootScope.learnerPair(modType, modVal) //this will call another game with black when done
-                        }, function(data) {
-                            // //error, retry
-                            // $rootScope.receivedMessage = 'error getting modTypes'
-                            // $rootScope.refreshWhenUp() //retry kene?
-                    })
-		
-		//   $http.get('/getModTypes').then(function(response) {
-                            
-        //                   // var modType="" 
-                          
-        //                    $scope.modTypes = response.data.modTypes
-        //                 //    var len=modTypes.length
-        //                 // //   if(len>0) {
-        //                 // //        modType=modTypes[Math.floor(Math.random()*len)]
-        //                 // //   }
-                           
-        //                 //    // var modVal = Math.random()  *100 //!!!!!!! 100  
-        //                 //     $rootScope.mv = modVal
-        //                 //     $rootScope.mt = modType
+		function ApplicationController($http, $interval, $scope) {
 
-        //                 //     $rootScope.sendMessage('start learning...')
-        //                 //     $rootScope.learnerPair(modType, modVal) //this will call another game with black when done
-        //                 })
-		
-		
-		$scope.pollNum=0
-		var captainPollConst=500
-		$scope.learners=[]
-		
-		var longPoll=function(){
-			$http.get('/captainPoll?pn='+$scope.pollNum+'&r='+Math.random())
-			
-			.then(function(response){
-				//$scope.waitingThinkers=response.data.thinkers
-				$scope.learners=response.data.learners
-				$scope.knownThinkers=response.data.knownThinkers
-				$scope.pollNum=response.data.captainPollNum
-				$scope.taskQ=response.data.taskQ
-				$scope.stats=response.data.stats
-				$scope.speedTests=response.data.speedTests
-				
-				
-				
-				$scope.learners.sort(function(a,b){
-					if(Number(a[5])>Number(b[5])){
-						return -1
-					}else{
-						if(Number(a[5])<Number(b[5])){
-							return 1
-						}else{
-							return 0
-						}
-							
-							
-						
-					}
+			$scope.modTypes = []
+
+			$http.get('/getModTypes')
+				.then(function(response) {
+
+					//var modType="" 
+					if (response.data.modTypes != undefined) $scope.modTypes = response.data.modTypes
+						//    var len=modTypes.length
+						//   if(len>0) {
+						//        modType=modTypes[Math.floor(Math.random()*len)]
+						//   }
+
+					// var modVal = Math.random()  *(response.data.max-response.data.min)+response.data.min//*100 //!!!!!!! 100  
+					$scope.min = response.data.min
+					$scope.max = response.data.max
+
+					// $rootScope.sendMessage('start learning...')
+					// $rootScope.learnerPair(modType, modVal) //this will call another game with black when done
+				}, function(data) {
+					// //error, retry
+					// $rootScope.receivedMessage = 'error getting modTypes'
+					// $rootScope.refreshWhenUp() //retry kene?
 				})
-				longPoll()
-			})
-			
-	}
-	
-	
-	longPoll()
-	$scope.clearModTypes=function(){
-		$scope.modTypes=[]
-		$http.post('/mod',$scope.modTypes)
-	}
-	
-	
-	$scope.refreshStats=function(){
-		//$scope.modTypes=[]
-		$http.get('/refreshStats')
-	}
-	
-	
-	$scope.setMod=function(modType,min,max){
-		
-		$scope.mType=''
-		if(modType!=undefined&&modType!=''){
-			$scope.modTypes.push(modType)
-			$scope.modTypes.sort()
-		
+
+			//   $http.get('/getModTypes').then(function(response) {
+
+			//                   // var modType="" 
+
+			//                    $scope.modTypes = response.data.modTypes
+			//                 //    var len=modTypes.length
+			//                 // //   if(len>0) {
+			//                 // //        modType=modTypes[Math.floor(Math.random()*len)]
+			//                 // //   }
+
+			//                 //    // var modVal = Math.random()  *100 //!!!!!!! 100  
+			//                 //     $rootScope.mv = modVal
+			//                 //     $rootScope.mt = modType
+
+			//                 //     $rootScope.sendMessage('start learning...')
+			//                 //     $rootScope.learnerPair(modType, modVal) //this will call another game with black when done
+			//                 })
+
+
+			$scope.pollNum = 0
+			var captainPollConst = 500
+			$scope.learners = []
+
+			var longPoll = function() {
+				$http.get('/captainPoll?pn=' + $scope.pollNum + '&r=' + Math.random())
+
+				.then(function(response) {
+					//$scope.waitingThinkers=response.data.thinkers
+					$scope.learners = response.data.learners
+					$scope.knownThinkers = response.data.knownThinkers
+					$scope.pollNum = response.data.captainPollNum
+					$scope.taskQ = response.data.taskQ
+					$scope.stats = response.data.stats
+					$scope.speedTests = response.data.speedTests
+
+
+
+					$scope.learners.sort(function(a, b) {
+						if (Number(a[5]) > Number(b[5])) {
+							return -1
+						}
+						else {
+							if (Number(a[5]) < Number(b[5])) {
+								return 1
+							}
+							else {
+								return 0
+							}
+
+
+
+						}
+					})
+					longPoll()
+				})
+
+			}
+
+
+			longPoll()
+			$scope.clearModTypes = function() {
+				$scope.modTypes = []
+				$http.post('/mod', $scope.modTypes)
+			}
+
+
+			$scope.refreshStats = function() {
+				//$scope.modTypes=[]
+				$http.get('/refreshStats')
+			}
+
+
+			$scope.setMod = function(modType, min, max) {
+
+				$scope.mType = ''
+				if (modType != undefined && modType != '') {
+					$scope.modTypes.push(modType)
+					$scope.modTypes.sort()
+
+				}
+
+				var modJson = {
+						'modTypes': $scope.modTypes,
+						'min': min,
+						'max': max
+					}
+					//mod
+					//$scope.mod.mods=$scope.mods//.push(mod.type)
+
+				$http.post('/mod', modJson)
+
+			}
+
+			$scope.refreshAllThinkers = function() {
+				$http.get('/refreshAllThinkers')
+			}
+
+			$scope.stopAllLearners = function() {
+				$http.get('/stopAllLearners')
+			}
+
+
+
+			$scope.echoTestAll = function() {
+				$http.get('/echoTestAll')
+			}
+
+			$scope.startAllLearners = function() {
+				$http.get('/startAllLearners')
+			}
+
 		}
-			
-		var modJson={
-			'modTypes':$scope.modTypes,
-			'min':min,
-			'max':max
+		appModule.controller("ApplicationController", ApplicationController);
+
+	</script>
+
+	<style>
+		.makeGreen {
+			color: green
 		}
-		//mod
-		//$scope.mod.mods=$scope.mods//.push(mod.type)
-	
-		$http.post('/mod',modJson)
 		
-	}
+		.makeRed {
+			color: red
+		}
+		
+		.makeGrey {
+			color: grey
+		}
 
-	$scope.refreshAllThinkers=function(){
-		$http.get('/refreshAllThinkers')
-	}
-	
-	$scope.stopAllLearners=function(){
-		$http.get('/stopAllLearners')
-	}
-	
-	
-	
-	$scope.echoTestAll=function(){
-		$http.get('/echoTestAll')
-	}
-	
-	$scope.startAllLearners=function(){
-		$http.get('/startAllLearners')
-	}
-	
-	}
-appModule.controller("ApplicationController", ApplicationController);
-
-</script>
-
-<style>
-	.makeGreen {
-		color: green
-	}
-	.makeRed {
-		color: red
-	}
-	.makeGrey {
-		color: grey
-	}
-	
-	
-</style>
+	</style>
 
 
 </head>
-<body ng-app="appModule"  ng-controller="ApplicationController">
-	
-	
+
+<body ng-app="appModule" ng-controller="ApplicationController">
+
+
 	<form ng-submit="setMod(mType,min,max)">
-		add modType:<input ng-model="mType"></input><button>Add</button><br>
-		min. modVal: (>0)<input ng-model="min"></input><button>Set</button><br>
-		max. modVal: (>0)<input ng-model="max"></input><button>Set</button><br>
-<!--		
+		add modType:
+		<input ng-model="mType"></input>
+		<button>Add</button>
+		<br> min. modVal: (>0)
+		<input ng-model="min"></input>
+		<button>Set</button>
+		<br> max. modVal: (>0)
+		<input ng-model="max"></input>
+		<button>Set</button>
+		<br>
+		<!--		
 		id="inputModType" 
 		-->
 	</form>
 	<button ng-click="clearModTypes()">Clear modTypes</button>
-	modTypes: 
-	<span ng-repeat="x in modTypes track by $index"> {{x}} </span>
-		Tasks in queue: {{taskQ}}
-		
-		<br>
-		
-		Known thinkers:
-	<table><tr ng-repeat="x in knownThinkers track by $index">
-		
-		 <td ng-class="{ makeGreen: !x.busy , makeRed: x.busy }">{{x.id}}</td>
-		 <td>{{x.lastSeen}} </td>
-		 <td ng-class="{ makeGrey: !x.busy }">#{{x.taskNum}}</td>
-		 
-		  <td ng-class="{ makeGrey: !x.busy }">{{x.task.command}}</td>
-		  <td ng-class="{ makeGrey: !x.busy }">{{x.message}}</td>
-		  
-		  <!--<td ng-if="!x.busy">{{x.task.command}}</td>
+	modTypes:
+	<span ng-repeat="x in modTypes track by $index"> {{x}} </span> Tasks in queue: {{taskQ}}
+
+	<br> Known thinkers:
+	<table>
+		<tr ng-repeat="x in knownThinkers track by $index">
+
+			<td ng-class="{ makeGreen: !x.busy , makeRed: x.busy }">{{x.id}}</td>
+			<td>{{x.lastSeen}} </td>
+			<td ng-class="{ makeGrey: !x.busy }">#{{x.taskNum}}</td>
+
+			<td ng-class="{ makeGrey: !x.busy }">{{x.task.command}}</td>
+			<td ng-class="{ makeGrey: !x.busy }">{{x.message}}</td>
+
+			<!--<td ng-if="!x.busy">{{x.task.command}}</td>
 		  <td ng-if="!x.busy" ng-class="{ mak}">{{x.message}}</td>-->
-		  
-	</tr></table>	 
-			
-		  
-		  <!--<td ng-repeat="y in x">
+
+		</tr>
+	</table>
+
+
+	<!--<td ng-repeat="y in x">
 			  {{y}}
 		  </td>
 		  -->
-		  
-	
+
+
 	<br>
-	
-	<button ng-click="refreshAllThinkers()">Refresh all thinkers</button> 
-	<button ng-click="startAllLearners()">Start all learners</button> 
-	<button ng-click="stopAllLearners()">Stop all learners</button> 
-	<button ng-click="echoTestAll()">Echo test all</button> 
-	
-	
+
+	<button ng-click="refreshAllThinkers()">Refresh all thinkers</button>
+	<button ng-click="startAllLearners()">Start all learners</button>
+	<button ng-click="stopAllLearners()">Stop all learners</button>
+	<button ng-click="echoTestAll()">Echo test all</button>
+
+
 	<!--<div ng-repeat="x in learners">{{x}}</div>-->
 	<table>
 		<tr>
 			<td>
-				name	
+				name
 			</td>
 			<td>
-				_id	
+				_id
 			</td>
 			<td>
-				modeType	
+				modeType
 			</td>
 			<td>
-				pollNum	
+				pollNum
 			</td>
 			<td>
-				modVal	
+				modVal
 			</td>
 			<td>
-				moves / minute	
+				moves / minute
 			</td>
-			
+
 		</tr>
 		<tr ng-repeat="x in learners track by $index">
-	
-			<td ng-repeat="y in x track by $index">
-				{{y}}
-			</td>
-		</tr>
-		</table>
-		<table>
-		
-		<tr ng-repeat="x in speedTests track by $index">
-	
+
 			<td ng-repeat="y in x track by $index">
 				{{y}}
 			</td>
 		</tr>
 	</table>
-	
-	<br><br>
-	
-	stats:
-	
+	<table>
+
+		<tr ng-repeat="x in speedTests track by $index">
+
+			<td ng-repeat="y in x track by $index">
+				{{y}}
+			</td>
+		</tr>
+	</table>
+
+	<br>
+	<br> stats:
+
 	<br>
 	<button ng-click="refreshStats()">refresh stats</button>
 	<br>
-	
+
 	<div ng-repeat="x in stats track by $index">{{x}}</div>
 	<!--Ready thinkers:
 	<div ng-repeat="x in waitingThinkers"> {{x}} </div>
@@ -269,5 +278,5 @@ appModule.controller("ApplicationController", ApplicationController);
 	
 	<br>-->
 
-	
+
 </body>
