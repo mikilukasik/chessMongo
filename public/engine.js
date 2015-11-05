@@ -49,11 +49,11 @@ var createSmallDeepeningTask = function(table, wNext, depth, treeMoves, desiredD
 
 
 
-function solveSmallDeepeningTask(smallDeepeningTask, resCommand, thisSmallTaskValue) {
+function solveSmallDeepeningTask(smallDeepeningTask, resCommand, grandTotalValue) {
 
 	var result = [] //this will be the result
 
-
+	//grandTotalValue=0
 
 	if (smallDeepeningTask.depth < smallDeepeningTask.desiredDepth) { /// move is still to be deepened
 		//console.log('meg melyebbre')																					// let's get all moves
@@ -103,17 +103,28 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand, thisSmallTaskVa
 
 
 
-
+					//below not needed at last move
 					var movedTable = moveIt(moveStr, smallDeepeningTask.table, true)
 
-					var fastValue = fastTableValue(movedTable) //this gets the value of the table (black winning < 0 < white winnning) and the total value of kings (1,2 or 3)
+					var fastValue = [0,0] //nem kell, a movestringbol vesszuk fastTableValue(movedTable) //this gets the value of the table (black winning < 0 < white winnning) and the total value of kings (1,2 or 3)
+					
+					//var thisMoveCoords=stringToMoveCoords(moveStr)
+					var whatGetsHit=smallDeepeningTask.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1]
+					
+					var thisValue = whatGetsHit[1] //piece value, should ++ when en-pass
+					var noKingHit=true
+					if (thisValue==9)noKingHit=false
+					
+					if(whatGetsHit[0]==1)thisValue*=-1		//hitting black has negative value
+					
+					grandTotalValue+=smallDeepeningTask.thisValue		//where?
+					
+					//var thisValue = smallDeepeningTask.table[moveStr[2]][moveStr[3]][1] //what we hit, ignores en-pass!!!!!!!//fastValue.pop()
 
-					var thisValue = fastValue.pop()
+					//totalValue += thisValue
+					//totalValueCount++
 
-					totalValue += thisValue
-					totalValueCount++
-
-					var kingsCount = fastValue.pop()
+					//var kingsCount = fastValue.pop()
 
 					//!!!!!!!!!!!!!!!!!!!!temp
 					//totalValue+=kingsCount
@@ -124,7 +135,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand, thisSmallTaskVa
 
 					newTreeMoves.push(moveStr) //so we keep track of how we got to this table
 
-					if (kingsCount == 3) { //both kings on table
+					if (noKingHit) { //not hitting king
 
 
 
@@ -146,9 +157,9 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand, thisSmallTaskVa
 
 					}
 					else {
-						//a king is missing (cannot be both??)
+						//a king got hit
 
-						if (kingsCount == 2) { //i could just get this from wnext!!!!!!!
+						if (smallDeepeningTask.wNext) { 
 							resCommand = 'wWon'
 						}
 						else {
@@ -196,7 +207,9 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand, thisSmallTaskVa
 
 
 		resCommand = 'depthReached'
-
+		
+		
+		grandTotalValue+=smallDeepeningTask.thisValue
 
 
 
@@ -289,7 +302,9 @@ function solveDeepeningTask(deepeningTask) { //designed to solve the whole deepe
 
 	//for(var i=0;i<deepeningTask.unsentSmallDeepeningTasks;i++){
 	var solved = 0
-
+	
+	var thisMoveValue=0
+	
 	while (deepeningTask.unsentSmallDeepeningTasks.length > 0) {
 
 		//length is 1 at first, then just grows until all has reached the level. evetually there will be nothing to do and this loop exists
@@ -300,7 +315,7 @@ function solveDeepeningTask(deepeningTask) { //designed to solve the whole deepe
 		var smallDeepeningTask = deepeningTask.unsentSmallDeepeningTasks.pop()
 
 		var resCommand = ''
-		var resultingSDTs = solveSmallDeepeningTask(smallDeepeningTask, resCommand)
+		var resultingSDTs = solveSmallDeepeningTask(smallDeepeningTask, resCommand, thisMoveValue)
 
 		if (resCommand != '') {
 			//solver messaged us
@@ -324,7 +339,7 @@ function solveDeepeningTask(deepeningTask) { //designed to solve the whole deepe
 	}
 	var timeItTook = new Date()
 		.getTime() - startedAt
-	return {solved:solved,timeItTook:timeItTook}//,(solved + ' tables generated in ' + timeItTook + 'ms. Tables/second: ' + solved * 1000 / timeItTook)]
+	return {solved:solved,timeItTook:timeItTook,value:thisMoveValue}//,(solved + ' tables generated in ' + timeItTook + 'ms. Tables/second: ' + solved * 1000 / timeItTook)]
 
 }
 
