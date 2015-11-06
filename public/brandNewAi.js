@@ -2616,11 +2616,12 @@ var oneDeeper = function(smallDeepeningTask) {
 
 }
 
-/////////////////////////////////d/eepening functions/////////////////////////////
+/////////////////////////////////deepening functions/////////////////////////////
 
 
 
-function solveSmallDeepeningTask(smallDeepeningTask, resCommand, grandTotalValue) {		//this is the function that runs a million times
+function solveSmallDeepeningTask(smallDeepeningTask, resCommand) {		
+																						//this is the function that runs a million times
 
 																						//gets one task, produces an array of more tasks
 																						//or empty array when done
@@ -2634,7 +2635,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand, grandTotalValue
 																						
 																						
 																						
-																						
+				var	grandTotalValue=0	//!!!!!!!!!!!!!!!!!!!!!!!!!																
 
 
 
@@ -2645,13 +2646,13 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand, grandTotalValue
 
 	if (smallDeepeningTask.depth == smallDeepeningTask.desiredDepth) { ///we reached desired level
 	
-																		//we should validate here and 
+																		//we should validate here and turn back? 
 																		
 																		
 					resCommand = 'depthReached'
 		
 		
-					grandTotalValue+=smallDeepeningTask.thisValue														
+					grandTotalValue=grandTotalValue+smallDeepeningTask.thisValue														
 																		
 																		
 																		
@@ -2704,29 +2705,41 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand, grandTotalValue
 
 			//here we have possiblemoves filled in with good, bad and illegal moves
 
-			var totalValue = 0
-			var totalValueCount = 0
-
-			possibleMoves.forEach(function(moveStr) { //create a new smalltask for each move
+			// var totalValue = 0
+			// var totalValueCount = 0
+			
+			
+			for (var i=0;i<possibleMoves.length;i++){
+			//possibleMoves.forEach(function(moveStr) { //create a new smalltask for each move
+			
+			
 					//check first if there are 2 kings on the board!!!!!!!!!
-
+					var moveStr=possibleMoves[i]
 
 
 					//below not needed at last move
 					var movedTable = moveIt(moveStr, smallDeepeningTask.table, true)
 
-					var fastValue = [0,0] //nem kell, a movestringbol vesszuk fastTableValue(movedTable) //this gets the value of the table (black winning < 0 < white winnning) and the total value of kings (1,2 or 3)
+					//var fastValue = [0,0] //nem kell, a movestringbol vesszuk fastTableValue(movedTable) //this gets the value of the table (black winning < 0 < white winnning) and the total value of kings (1,2 or 3)
 					
 					//var thisMoveCoords=stringToMoveCoords(moveStr)
 					var whatGetsHit=smallDeepeningTask.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1]
 					
 					var thisValue = whatGetsHit[1] //piece value, should ++ when en-pass
+					
 					var noKingHit=true
+					
 					if (thisValue==9)noKingHit=false
 					
-					if(whatGetsHit[0]==1)thisValue*=-1		//hitting black has negative value
+					if(smallDeepeningTask.depth/2!=Math.floor(smallDeepeningTask.depth))	thisValue*=-1
 					
-					grandTotalValue+=smallDeepeningTask.thisValue		//where?
+					
+					
+					//if(whatGetsHit[0]==1)thisValue*=-1		//hitting black has negative value
+					
+					grandTotalValue=grandTotalValue+thisValue		//where?
+					
+					//worked:  console.log('bnai 2738',grandTotalValue)
 					
 					//var thisValue = smallDeepeningTask.table[moveStr[2]][moveStr[3]][1] //what we hit, ignores en-pass!!!!!!!//fastValue.pop()
 
@@ -2753,7 +2766,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand, grandTotalValue
 							smallDeepeningTask.depth + 1,
 							newTreeMoves,
 							smallDeepeningTask.desiredDepth,
-							thisValue
+							smallDeepeningTask.thisValue+thisValue
 							//,stopped is missing, game goes on
 
 
@@ -2794,7 +2807,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand, grandTotalValue
 
 					}
 
-				}) //end of for each move
+				} //  )    //end of for each move
 
 			//console.log(totalValue,totalValueCount)
 
@@ -2824,40 +2837,49 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand, grandTotalValue
 
 	// }
 	//}
-
+	
+	result.push(grandTotalValue)//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	
 	return result
 
 
 }
 
 
-function solveDeepeningTask(deepeningTask) { //designed to solve the whole deepening task on one thread
+function solveDeepeningTask(deepeningTask,tempCommand,aaa) { //designed to solve the whole deepening task on one thread
 	//will return number of smallTasks solved for testing??!!!!!!!!!!!!!!!
-
+	var taskValue=0
+	
 	var startedAt = new Date()
 		.getTime()
 
-	//for(var i=0;i<deepeningTask.unsentSmallDeepeningTasks;i++){
+	//for(var i=0;i<deepeningTask.smallDeepeningTasks;i++){
 	var solved = 0
 	
 	
 	var averageVal=0		//will add then divide
 	
-	while (deepeningTask.unsentSmallDeepeningTasks.length > 0) {
+	//var totalVal=0
+	
+	while (deepeningTask.smallDeepeningTasks.length > 0) {
 
 		//length is 1 at first, then just grows until all has reached the level. evetually there will be nothing to do and this loop exists
 
 
 		//solved++
 
-		var smallDeepeningTask = deepeningTask.unsentSmallDeepeningTasks.pop()
+		var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
 
 		var resCommand = ''
 		var thisMoveValue=0
 		
-		var resultingSDTs = solveSmallDeepeningTask(smallDeepeningTask, resCommand, thisMoveValue)
+		var resultingSDTs = solveSmallDeepeningTask(smallDeepeningTask, resCommand)
 		
-		averageVal+=thisMoveValue
+		taskValue+=resultingSDTs.pop()//!!!!!!!!!!!!!!!!!!!!!!!!!
+		
+		console.log('bai 2879',taskValue)
+		
+		//averageVal+=thisMoveValue
 		
 		if (resCommand != '') {
 			//solver messaged us
@@ -2870,7 +2892,7 @@ function solveDeepeningTask(deepeningTask) { //designed to solve the whole deepe
 			solved += resultingSDTs.length
 
 			while (resultingSDTs.length > 0) {
-				deepeningTask.unsentSmallDeepeningTasks.push(resultingSDTs.pop()) //at the beginning the unsent array is just growing but then we run out
+				deepeningTask.smallDeepeningTasks.push(resultingSDTs.pop()) //at the beginning the unsent array is just growing but then we run out
 					//designed to run on single threaded full deepening
 			}
 
@@ -2881,7 +2903,7 @@ function solveDeepeningTask(deepeningTask) { //designed to solve the whole deepe
 	}
 	var timeItTook = new Date()
 		.getTime() - startedAt
-	return {solved:solved,timeItTook:timeItTook,value:averageVal}//,(solved + ' tables generated in ' + timeItTook + 'ms. Tables/second: ' + solved * 1000 / timeItTook)]
+	return {solved:solved,timeItTook:timeItTook,value:taskValue}//,(solved + ' tables generated in ' + timeItTook + 'ms. Tables/second: ' + solved * 1000 / timeItTook)]
 
 }
 
@@ -2910,7 +2932,7 @@ function speedTest(depth, passToWorkers) {
 	});
 	var tempCommand='a'
 	tds2.forEach(function(a) {
-		console.log(a)
+		//console.log(a)
 		var thisMoveValue=0
 		var totals=solveDeepeningTask(a,tempCommand,thisMoveValue)
 		solvedTableCount+=totals.solved
@@ -2958,7 +2980,7 @@ function processDeepSplitMoves(data, thinker, mt, modConst, looped) {
 		//var dTask=new DeepeningTask(data.pop())
 
 
-		var toPush = deepMove(data.pop(), 2, false)
+		var toPush = deepMove(data.pop())
 
 
 		toPush.thinker = thinker
@@ -2974,14 +2996,14 @@ function processDeepSplitMoves(data, thinker, mt, modConst, looped) {
 
 
 
-function deepMove(smallMoveTask, depth, passToWorkers) {		//for 1 thread
+function deepMove(smallMoveTask) {		//for 1 thread
 
 	var started = new Date()
 		.getTime()
 		
 	var solvedTableCount=0
 	
-	var value={}
+	var value=0
 
 	//var aiTable = new MoveTask(dbTable, depth); //level 3 deepening on new table
 
@@ -3003,7 +3025,7 @@ function deepMove(smallMoveTask, depth, passToWorkers) {		//for 1 thread
 	var tempCommand='a'
 	//tds2.forEach(function(a) {
 		var thisMoveValue=0
-		var totals=solveDeepeningTask(deepeningTask,tempCommand,thisMoveValue)
+		var totals=solveDeepeningTask(deepeningTask,tempCommand,value)
 		solvedTableCount+=totals.solved
 		
 		//value={

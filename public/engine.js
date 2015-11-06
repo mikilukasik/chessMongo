@@ -87,7 +87,7 @@ var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for mai
 
 	this.thisTaskTable = moveIt(this.moveStr, smallMoveTask.cfTable, true) //this is the first and should be only time calculating this!!!!!
 		//takes time
-
+	this.firstDepthValue=smallMoveTask.firstDepthValue
 
 	this.desiredDepth = smallMoveTask.desiredDepth //we will deepen until depth reaches this number
 
@@ -131,9 +131,9 @@ var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for mai
 	this.smallDeepeningTaskCounts = [0, 1] //this will be an array of the total created smalldeepeningtasks per depth, depth 0 has 0, depth 1 has one in this splitmove
 
 
-	var initialSmallDeepeningTask = new SmallDeepeningTask(this.thisTaskTable, this.initialWNext, this.actualDepth, this.initialTreeMoves, this.desiredDepth, 0)
+	var initialSmallDeepeningTask = new SmallDeepeningTask(this.thisTaskTable, this.initialWNext, this.actualDepth, this.initialTreeMoves, this.desiredDepth, this.firstDepthValue)
 
-	this.unsentSmallDeepeningTasks = [initialSmallDeepeningTask] //to be sent out for multiplying when processing for level 2 (unless desireddepth is 1)
+	this.smallDeepeningTasks = [initialSmallDeepeningTask] //to be sent out for multiplying when processing for level 2 (unless desireddepth is 1)
 
 	//this.pendingSmallDeepeningTasks=[]				//here we will keep the pending smalltasks: sent out 
 
@@ -153,6 +153,8 @@ var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for mai
 var SmallMoveTask = function(moveCoord, index, dbTable) { //deptObj has data to keep track of deepening
 
 	//this.desiredDepth=dbTable.desiredDepth
+	
+	this.firstDepthValue=dbTable.table[moveCoord[2]][moveCoord[3]][1]	//doesnt care about enPass!!
 	
 	if(dbTable.desiredDepth>0){
 		this.desiredDepth = dbTable.desiredDepth
