@@ -21,205 +21,56 @@
 //         oppKingPos:oppKingPos
 //     }
 // }
-var createSmallDeepeningTask = function(table, wNext, depth, treeMoves, desiredDepth, thisValue, stopped) {
 
-	//use it to create smallTasks
-	//these small tasks will be multiplied as the deepening goes on
+var SmallDeepeningTask=function(table, wNext, depth, treeMoves, desiredDepth, thisValue, stopped){
+	
+		this.table= table,
 
-	return {
+		this.wNext= wNext,
 
-		table: table,
+		this.depth= depth,
 
-		wNext: wNext,
+		this.treeMoves= treeMoves,
 
-		depth: depth,
+		this.desiredDepth= desiredDepth,
 
-		treeMoves: treeMoves,
+		this.thisValue= thisValue,
 
-		desiredDepth: desiredDepth,
-
-		thisValue: thisValue,
-
-		stopped: stopped
-
-	}
-
+		this.stopped= stopped
+		
 }
 
+// var SmallDeepeningTask = function(table, wNext, depth, treeMoves, desiredDepth, thisValue, stopped) {		//build this in
 
+// 	//use it to create smallTasks
+// 	//these small tasks will be multiplied as the deepening goes on
+	
+	
+// 	return new SmallDeepeningTask(table, wNext, depth, treeMoves, desiredDepth, thisValue, stopped)
+	
+	
 
+	// return {
 
-function solveSmallDeepeningTask(smallDeepeningTask, resCommand, grandTotalValue) {
+	// 	table: table,
 
-	var result = [] //this will be the result
+	// 	wNext: wNext,
 
-	//grandTotalValue=0
+	// 	depth: depth,
 
-	if (smallDeepeningTask.depth < smallDeepeningTask.desiredDepth) { /// move is still to be deepened
-		//console.log('meg melyebbre')																					// let's get all moves
+	// 	treeMoves: treeMoves,
 
+	// 	desiredDepth: desiredDepth,
 
+	// 	thisValue: thisValue,
 
-		if (smallDeepeningTask.stopped) { //stopped is either 'bWon' or 'wWon' or undefined
+	// 	stopped: stopped
 
-			//////////////////////////////// a king is missing	//////////////////////////
+	// }
 
+//}
 
-			var newTreeMoves = smallDeepeningTask.treeMoves //treemoves is an 1 dim array with the moves that lead here
 
-			newTreeMoves.push(smallDeepeningTask.stopped) //stopped is either 'bWon' or 'wWon' or undefined
-
-
-
-			var newSmallTask = createSmallDeepeningTask(smallDeepeningTask.table, //last known table has a king missing
-				smallDeepeningTask.wNext, //remembering the winner in wnext
-				smallDeepeningTask.depth + 1, //this we increase until the end, deepener will make one copy in each round
-				newTreeMoves, //move,move,move,wwon,wwon,wwon+
-				smallDeepeningTask.desiredDepth,
-				smallDeepeningTask.thisValue,
-				smallDeepeningTask.stopped //wwon or bwon
-
-			)
-
-			result.push(newSmallTask) //1 returning task until reach desiredDepth
-
-		}
-		else {
-
-
-			var possibleMoves = []
-				//below returns a copied table, should opt out for speed!!!!!!!
-			addMovesToTable(smallDeepeningTask.table, smallDeepeningTask.wNext, true, possibleMoves) //this puts moves in strings, should keep it fastest possible
-				//true to 				//it will not remove invalid moves to keep fast 
-				//keep illegal			//we will remove them later when backward processing the tree
-
-			//here we have possiblemoves filled in with good, bad and illegal moves
-
-			var totalValue = 0
-			var totalValueCount = 0
-
-			possibleMoves.forEach(function(moveStr) { //create a new smalltask for each move
-					//check first if there are 2 kings on the board!!!!!!!!!
-
-
-
-					//below not needed at last move
-					var movedTable = moveIt(moveStr, smallDeepeningTask.table, true)
-
-					var fastValue = [0,0] //nem kell, a movestringbol vesszuk fastTableValue(movedTable) //this gets the value of the table (black winning < 0 < white winnning) and the total value of kings (1,2 or 3)
-					
-					//var thisMoveCoords=stringToMoveCoords(moveStr)
-					var whatGetsHit=smallDeepeningTask.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1]
-					
-					var thisValue = whatGetsHit[1] //piece value, should ++ when en-pass
-					var noKingHit=true
-					if (thisValue==9)noKingHit=false
-					
-					if(whatGetsHit[0]==1)thisValue*=-1		//hitting black has negative value
-					
-					grandTotalValue+=smallDeepeningTask.thisValue		//where?
-					
-					//var thisValue = smallDeepeningTask.table[moveStr[2]][moveStr[3]][1] //what we hit, ignores en-pass!!!!!!!//fastValue.pop()
-
-					//totalValue += thisValue
-					//totalValueCount++
-
-					//var kingsCount = fastValue.pop()
-
-					//!!!!!!!!!!!!!!!!!!!!temp
-					//totalValue+=kingsCount
-
-					var newSmallTask = {}
-
-					var newTreeMoves = smallDeepeningTask.treeMoves //treemoves is an 1 dim array with the moves that lead here
-
-					newTreeMoves.push(moveStr) //so we keep track of how we got to this table
-
-					if (noKingHit) { //not hitting king
-
-
-
-
-						newSmallTask = createSmallDeepeningTask(movedTable, !smallDeepeningTask.wNext,
-							smallDeepeningTask.depth + 1,
-							newTreeMoves,
-							smallDeepeningTask.desiredDepth,
-							thisValue
-							//,stopped is missing, game goes on
-
-
-						)
-
-						result.push(newSmallTask)
-
-						resCommand = 'deepened'
-
-
-					}
-					else {
-						//a king got hit
-
-						if (smallDeepeningTask.wNext) { 
-							resCommand = 'wWon'
-						}
-						else {
-							resCommand = 'bWon'
-						}
-
-						newTreeMoves.push(resCommand)
-
-						newSmallTask = createSmallDeepeningTask(movedTable, //last known table has a king missing
-							smallDeepeningTask.wNext, //remembering the winner in wnext
-							smallDeepeningTask.depth + 1, //this we increase until the end, deepener will make one copy in each round
-							newTreeMoves, //last move added to it, illegal where king gets hit
-							smallDeepeningTask.desiredDepth,
-							smallDeepeningTask.thisValue + thisValue * (smallDeepeningTask.desiredDepth - smallDeepeningTask.depth), //value can stay the same
-							resCommand //smallDeepeningTask.stopped:	wwon or bwon
-
-						)
-
-						result.push(newSmallTask)
-
-
-
-
-					}
-
-				}) //end of for each move
-
-			//console.log(totalValue,totalValueCount)
-
-
-		}
-
-	}
-	else {
-
-		/// move reached desiredDepth, shoudld return done command
-
-		/// will return empty array
-
-		///should return value
-
-		//should clean invalids, solve moves by turns
-
-
-
-
-		resCommand = 'depthReached'
-		
-		
-		grandTotalValue+=smallDeepeningTask.thisValue
-
-
-
-	}
-	//}
-
-	return result
-
-
-}
 
 
 var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for main thread and mainWorker     //smallMoveTask is a smallMoveTask, to be deepend further
@@ -280,7 +131,7 @@ var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for mai
 	this.smallDeepeningTaskCounts = [0, 1] //this will be an array of the total created smalldeepeningtasks per depth, depth 0 has 0, depth 1 has one in this splitmove
 
 
-	var initialSmallDeepeningTask = createSmallDeepeningTask(this.thisTaskTable, this.initialWNext, this.actualDepth, this.initialTreeMoves, this.desiredDepth, 0)
+	var initialSmallDeepeningTask = new SmallDeepeningTask(this.thisTaskTable, this.initialWNext, this.actualDepth, this.initialTreeMoves, this.desiredDepth, 0)
 
 	this.unsentSmallDeepeningTasks = [initialSmallDeepeningTask] //to be sent out for multiplying when processing for level 2 (unless desireddepth is 1)
 
@@ -294,59 +145,7 @@ var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for mai
 
 
 
-function solveDeepeningTask(deepeningTask) { //designed to solve the whole deepening task on one thread
-	//will return number of smallTasks solved for testing??!!!!!!!!!!!!!!!
 
-	var startedAt = new Date()
-		.getTime()
-
-	//for(var i=0;i<deepeningTask.unsentSmallDeepeningTasks;i++){
-	var solved = 0
-	
-	
-	var averageVal=0		//will add then divide
-	
-	while (deepeningTask.unsentSmallDeepeningTasks.length > 0) {
-
-		//length is 1 at first, then just grows until all has reached the level. evetually there will be nothing to do and this loop exists
-
-
-		//solved++
-
-		var smallDeepeningTask = deepeningTask.unsentSmallDeepeningTasks.pop()
-
-		var resCommand = ''
-		var thisMoveValue=0
-		
-		var resultingSDTs = solveSmallDeepeningTask(smallDeepeningTask, resCommand, thisMoveValue)
-		
-		averageVal+=thisMoveValue
-		
-		if (resCommand != '') {
-			//solver messaged us
-
-		}
-
-		if (resultingSDTs != []) {
-			//new tables were generated. when we reach desiredDepth there will be no new tables here
-			//console.log(resultingSDTs)
-			solved += resultingSDTs.length
-
-			while (resultingSDTs.length > 0) {
-				deepeningTask.unsentSmallDeepeningTasks.push(resultingSDTs.pop()) //at the beginning the unsent array is just growing but then we run out
-					//designed to run on single threaded full deepening
-			}
-
-		}
-		//resultingstds is now an empty array, unsent is probably full of tasks again
-
-		//call it again if there are tasks
-	}
-	var timeItTook = new Date()
-		.getTime() - startedAt
-	return {solved:solved,timeItTook:timeItTook,value:averageVal}//,(solved + ' tables generated in ' + timeItTook + 'ms. Tables/second: ' + solved * 1000 / timeItTook)]
-
-}
 
 
 
