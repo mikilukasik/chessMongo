@@ -587,7 +587,7 @@ function makeSplitMove(dbTable) {
 
 
 
-	console.log('534', dbTable._id)
+	//console.log('534', dbTable._id)
 
 	// 		mongodb.connect(cn, function(err, db) {
 	// 		db.collection("tables")
@@ -613,8 +613,10 @@ function makeSplitMove(dbTable) {
 	splitTaskQ.push(dbTable) //use this when receiving
 
 	while (aiTable.movesToSend.length > 0) {
+		
+		console.log(617,'still need to send '+aiTable.movesToSend.length+' splitmoves')
 
-		var sendThese = getSplitMoveTask(aiTable, fastestThinker(true))
+		var sendThese = getSplitMoveTask(aiTable, 0.5)// fastestThinker(true))
 		sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTable._id + ' moves: ' + sendThese.length))
 
 
@@ -720,7 +722,7 @@ app.post('/myPartIsDone', function(req, res) {
 
 	var index = getTaskIndex(req.body[0]._id)
 
-	console.log(index)
+	//console.log(index)
 
 
 
@@ -747,19 +749,22 @@ app.post('/myPartIsDone', function(req, res) {
 
 		//console.log(dbTable.returnedMoves)
 
-		moveDbTable(splitTaskQ[index].returnedMoves[0].move, splitTaskQ[index])
+		moveInTable(splitTaskQ[index].returnedMoves[0].move, splitTaskQ[index])
 		splitTaskQ[index].chat = splitTaskQ[index].returnedMoves
 
 
-		popThem(splitTaskQ[index]._id, splitTaskQ[index], 'splitMove', 'splitMove')
+		
 
 		//save here
 		mongodb.connect(cn, function(err, db) {
 			db.collection("tables")
 				.save(splitTaskQ[index], function(err3, res) {
-
-					splitTaskQ.splice(index, 1)
+					popThem(splitTaskQ[index]._id, splitTaskQ[index], 'splitMove', 'splitMove')
+					
 					db.close()
+					
+					splitTaskQ.splice(index, 1)
+					
 				})
 		})
 	}

@@ -154,14 +154,15 @@
 
 			////console.log('polling table ' + $rootScope._id)
 
-			$http.get('/getMyRecentGames?n=' + $rootScope.loginName)
-				.success(function(response) {
-					$scope.myRecentGames = response.recentgames
-					//$scope.$apply()
+			// $http.get('/getMyRecentGames?n=' + $rootScope.loginName)
+			// 	.success(function(response) {
+			// 		$scope.myRecentGames = response.recentgames
+			// 		//$scope.$apply()
 
-					//$scope.showTable()
+			// 		//$scope.showTable()
 
-				})
+			// 	})				//gets no response
+			
 
 		}
 
@@ -454,8 +455,23 @@
 				}
 			}else{
 				if(viewName == 'login.html'){
+					
+					//forcepop
+					
+					$http.get('/forcePopTable?t='+$rootScope._id+'&p='+$rootScope.loginName+'&m=user logged out')
+					
+					
 					focusOnLogin()
+				}else{
+				
+				
+				if(viewName == 'lobby.html'){
+					$http.get('/forcePopTable?t='+$rootScope._id+'&p='+$rootScope.loginName+'&m=user went to lobby')
 				}
+				
+				
+				
+			}
 			}
 		}
 		
