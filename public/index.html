@@ -25,7 +25,10 @@
 		$rootScope.pollNum = -2		//just in case
 		//$rootScope.table = []
 		
-
+		
+		$rootScope.depth=3
+		//}
+		
 		$scope.login = function(user) {
 			
 
@@ -329,21 +332,28 @@
 			//})
 			evalGame(dbTable,true)	//true should tell it was learnergame, not yet
 			
+				
+			
 			
 				if($scope.opponentsName=='Fastest thinker'){
 					dbTable.command='makeAiMove'
-					dbTable.aiType='fastest thinker'		
+					dbTable.aiType='fastest thinker'
+					
+						
 				}
 				
 				if($scope.opponentsName=='Multiple thinkers'){
 					dbTable.command='makeAiMove'
-					dbTable.aiType='thinkers'	
+					dbTable.aiType='thinkers'
+					
+					
+						
 					// dbTable.aiTable=new MoveTask(dbTable)	
 				}
 			
 			
 			dbTable._id=$rootScope.tableId
-			
+			dbTable.desiredDepth=$scope.depth
 			
 			$http.post('/moved',dbTable,function(req,res){
 				$rootScope.table=dbTable.table

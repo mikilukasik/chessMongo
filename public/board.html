@@ -10,12 +10,16 @@
 </head>
 
 <body>
-	<!--  -->
+	  
 	<table width=100% class="frame-table lbborder" ng-controller="ApplicationController">
 		<tr>
-
+			
 			<td class="leftBar">
-				<button ng-click="takeItBack()">Oooops!!</button>
+		
+				Depth:<input ng-model="depth" ng-init="3" style="width:40px"><br>
+				<button ng-click="takeItBack()">Oooops!!</button><br>
+
+				
 					<table class="myGamesHere">
 						
 						<tr class="displayedGame">

@@ -303,7 +303,8 @@ function solveDeepeningTask(deepeningTask) { //designed to solve the whole deepe
 	//for(var i=0;i<deepeningTask.unsentSmallDeepeningTasks;i++){
 	var solved = 0
 	
-	var thisMoveValue=0
+	
+	var averageVal=0		//will add then divide
 	
 	while (deepeningTask.unsentSmallDeepeningTasks.length > 0) {
 
@@ -315,8 +316,12 @@ function solveDeepeningTask(deepeningTask) { //designed to solve the whole deepe
 		var smallDeepeningTask = deepeningTask.unsentSmallDeepeningTasks.pop()
 
 		var resCommand = ''
+		var thisMoveValue=0
+		
 		var resultingSDTs = solveSmallDeepeningTask(smallDeepeningTask, resCommand, thisMoveValue)
-
+		
+		averageVal+=thisMoveValue
+		
 		if (resCommand != '') {
 			//solver messaged us
 
@@ -339,18 +344,23 @@ function solveDeepeningTask(deepeningTask) { //designed to solve the whole deepe
 	}
 	var timeItTook = new Date()
 		.getTime() - startedAt
-	return {solved:solved,timeItTook:timeItTook,value:thisMoveValue}//,(solved + ' tables generated in ' + timeItTook + 'ms. Tables/second: ' + solved * 1000 / timeItTook)]
+	return {solved:solved,timeItTook:timeItTook,value:averageVal}//,(solved + ' tables generated in ' + timeItTook + 'ms. Tables/second: ' + solved * 1000 / timeItTook)]
 
 }
 
 
 
 
-var SmallMoveTask = function(moveCoord, index, dbTable, desiredDepth, depthObj) { //deptObj has data to keep track of deepening
+var SmallMoveTask = function(moveCoord, index, dbTable) { //deptObj has data to keep track of deepening
 
-
-
-	this.desiredDepth = desiredDepth
+	//this.desiredDepth=dbTable.desiredDepth
+	
+	if(dbTable.desiredDepth>0){
+		this.desiredDepth = dbTable.desiredDepth
+	}else{
+		this.desiredDepth=3 //should be good, on 4th we check what he could hit but not generate any tables and this should match the old styles performance
+	}
+	
 
 	this.oppKingPos = dbTable.oppKingPos //aTK will need this, should be the moved kings pos is moved!!!!
 
@@ -424,7 +434,7 @@ var SmallMoveTask = function(moveCoord, index, dbTable, desiredDepth, depthObj) 
 
 // this.deepMoves=deepMoves
 
-var MoveTask = function(dbTable, desiredDepth) {
+var MoveTask = function(dbTable) {
 
 	//this.rnd=Math.random()
 	this.created = new Date()
@@ -432,7 +442,7 @@ var MoveTask = function(dbTable, desiredDepth) {
 
 	this.allTempTables = []
 
-	this.desiredDepth = desiredDepth
+	this.desiredDepth = dbTable.desiredDepth
 
 	dbTable.oppKingPos = whereIsTheKing(dbTable.table, !dbTable.wNext)
 
@@ -456,7 +466,7 @@ var MoveTask = function(dbTable, desiredDepth) {
 	var moves = []
 
 	moveCoords.forEach(function(moveCoord, index) {
-		moves.push(new SmallMoveTask(moveCoord, index, dbTable, desiredDepth))
+		moves.push(new SmallMoveTask(moveCoord, index, dbTable))
 			//movesToSend.push(moves[moves.length-1])
 
 
@@ -618,7 +628,7 @@ var Dbtable = function(_id, wName, bName) { //class
 
 
 	this.pendingMoveCount = 0
-
+	this.desiredDepth=0	//will set after creating, at each move step
 	this.returnedMoves = []
 
 	this._id = _id,

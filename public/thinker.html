@@ -50,7 +50,7 @@
 
 			if ($rootScope.moveCount == "") $rootScope.moveCount = 0
 
-			if ($rootScope.mainThreadSpeed == "") {
+			if ($rootScope.mainThreadSpeed == "" || $rootScope.mainThreadSpeed == undefined) {
 				$rootScope.mainThreadSpeed = checkSpeed()
 			}
 			else {
@@ -168,7 +168,7 @@
 											
 
 											$rootScope.sendMessage('init mainThread deepSpeedTest (level '+level+') done: ' + resSpeedTest.solved +' tables in '+resSpeedTest.timeItTook + 'ms. aiMove: '+resSpeedTest.winningMove+', value: '+resSpeedTest.winningValue)
-
+											$rootScope.mainThreadSpeed=1000/resSpeedTest.timeItTook	
 
 										}
 										else {

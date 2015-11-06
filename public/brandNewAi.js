@@ -2048,33 +2048,6 @@ function helpMe(wp) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-function processDeepSplitMoves(data, thinker, mt, modConst, looped) {
-
-	//var result=[]
-	var newData = []
-		//  var modConst=1
-
-
-	while (data.length > 0) {
-
-		// if(mt[0]=='w'){     //winning mod
-		//     modConst=
-		// }else{
-		//     modConst=modConst2
-		// }
-
-
-		var toPush = deepMove(data.pop(), 4, false)
-
-
-		toPush.thinker = thinker
-
-		newData.push(toPush)
-	}
-
-
-	return newData
-}
 
 function processSplitMoves(data, thinker, mt, modConst, looped) {
 
@@ -2646,16 +2619,19 @@ var oneDeeper = function(smallDeepeningTask) {
 
 ////////////////////////////temp speedtest///////////////////////
 function speedTest(depth, passToWorkers) {
-
+	console.log(1,depth)
 	var started = new Date()
 		.getTime()
 		
 	var solvedTableCount=0
 	
 	var values=[]
-
-	var aiTable = new MoveTask(new Dbtable(1, 2, 3), depth); //level 3 deepening on new table
-
+	var dbTable=new Dbtable(1, 2, 3)
+	
+	dbTable.desiredDepth=depth
+	console.log(2,dbTable.desiredDepth)
+	var aiTable = new MoveTask(dbTable); //level 3 deepening on new table
+	console.log(3,aiTable.desiredDepth)
 	var tds = [];
 	var tds2 = [];
 	aiTable.movesToSend.forEach(function(step) {
@@ -2666,6 +2642,7 @@ function speedTest(depth, passToWorkers) {
 	});
 	var tempCommand='a'
 	tds2.forEach(function(a) {
+		console.log(a)
 		var thisMoveValue=0
 		var totals=solveDeepeningTask(a,tempCommand,thisMoveValue)
 		solvedTableCount+=totals.solved
@@ -2694,6 +2671,36 @@ function speedTest(depth, passToWorkers) {
 		////////////////////////////temp speedtest end///////////////////////
 }
 
+function processDeepSplitMoves(data, thinker, mt, modConst, looped) {
+
+	//var result=[]
+	var newData = []
+		//  var modConst=1
+
+
+	while (data.length > 0) {
+
+		// if(mt[0]=='w'){     //winning mod
+		//     modConst=
+		// }else{
+		//     modConst=modConst2
+		// }
+		
+		
+		//var dTask=new DeepeningTask(data.pop())
+
+
+		var toPush = deepMove(data.pop(), 2, false)
+
+
+		toPush.thinker = thinker
+
+		newData.push(toPush)
+	}
+
+
+	return newData
+}
 
 
 
@@ -2716,8 +2723,12 @@ function deepMove(smallMoveTask, depth, passToWorkers) {		//for 1 thread
 	// aiTable.movesToSend.forEach(function(step) {
 	// 	tds.push(step)
 	// });
+	//smallMoveTask.desiredDepth=4	//temp depth!!!!!!!!!!!!!!!!!!!!!!!
 	
 	var deepeningTask=new DeepeningTask(smallMoveTask)
+	
+			
+	
 	// tds.forEach(function(a) {
 	// 	tds2.push(new DeepeningTask(a))
 	// });
@@ -2741,10 +2752,12 @@ function deepMove(smallMoveTask, depth, passToWorkers) {		//for 1 thread
 	// 	}
 	// })
 	
-	return {
+	return {							//this goes to console chat window
 		move: deepeningTask.moveStr,
-		score: thisMoveValue,
+		score: totals.value,
 		_id: smallMoveTask._id,
+		depth: deepeningTask.desiredDepth
+		
 		// thinker: $rootScope.sendID
 	} //, hisBestRtnMove, loopValue, captureScore, smallValScore,
 	// dontGetHit,tTable2Value, retProtect, mhit, hhit, fwdVal,lsancValue,rsancValue,
@@ -2753,13 +2766,13 @@ function deepMove(smallMoveTask, depth, passToWorkers) {		//for 1 thread
 	//})		original foreach
 
 	
-	return {
-		timeItTook:new Date().getTime() - started, //timeItTook
-		solved:solvedTableCount,
-		values:values,
-		winningMove:values[0].move,
-		winningValue:values[0].loopValue
-	}
+	// return {
+	// 	timeItTook:new Date().getTime() - started, //timeItTook
+	// 	solved:solvedTableCount,
+	// 	values:values,
+	// 	winningMove:values[0].move,
+	// 	winningValue:totals.value
+	// }
 		
 }
 

@@ -587,7 +587,7 @@ function makeSplitMove(dbTable) {
 
 
 
-	//console.log('534', dbTable._id)
+	console.log('534', dbTable._id)
 
 	// 		mongodb.connect(cn, function(err, db) {
 	// 		db.collection("tables")
@@ -613,13 +613,6 @@ function makeSplitMove(dbTable) {
 	splitTaskQ.push(dbTable) //use this when receiving
 
 	while (aiTable.movesToSend.length > 0) {
-		
-		//console.log(617,'still need to send '+aiTable.movesToSend.length+' splitmoves')
-
-		// var sendThese = getSplitMoveTask(aiTable, fastestThinker(true))
-		// sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTable._id + ' moves: ' + sendThese.length))
-
-
 
 		var sendThese = getSplitMoveTask(aiTable, fastestThinker(true))
 		sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTable._id + ' moves: ' + sendThese.length))
@@ -675,7 +668,7 @@ function makeAiMove(dbTable) {
 
 		case 'server':
 
-			////////////////////////ez mikor kerul mar ide?????!!!!!!!!!!!!!!!!!!!!!!
+
 
 
 			break;
@@ -727,7 +720,7 @@ app.post('/myPartIsDone', function(req, res) {
 
 	var index = getTaskIndex(req.body[0]._id)
 
-	//console.log(index)
+	console.log(index)
 
 
 
@@ -754,22 +747,19 @@ app.post('/myPartIsDone', function(req, res) {
 
 		//console.log(dbTable.returnedMoves)
 
-		moveInTable(splitTaskQ[index].returnedMoves[0].move, splitTaskQ[index])
+		moveDbTable(splitTaskQ[index].returnedMoves[0].move, splitTaskQ[index])
 		splitTaskQ[index].chat = splitTaskQ[index].returnedMoves
 
 
-		
+		popThem(splitTaskQ[index]._id, splitTaskQ[index], 'splitMove', 'splitMove')
 
 		//save here
 		mongodb.connect(cn, function(err, db) {
 			db.collection("tables")
 				.save(splitTaskQ[index], function(err3, res) {
-					popThem(splitTaskQ[index]._id, splitTaskQ[index], 'splitMove', 'splitMove')
-					
-					db.close()
-					
+
 					splitTaskQ.splice(index, 1)
-					
+					db.close()
 				})
 		})
 	}
@@ -805,94 +795,55 @@ app.post('/moved', function(req, res) {
 
 	//var movedTable=req.body
 	//////////// console.log(req)
-	
 	res.send('received.')
-	
-	var onTable = req.body
-	
-	onTable.moved = new Date()
-						.getTime()
-						
-						
-	var command = onTable.command
-					onTable.command = ''
-					
-					
-	
-	
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
-			.save(onTable, function(err3, res) {
-				//table moved and saved, let's check what to do
-				db.close()
-				popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
-	
-				switch (command) {
-	
-					case 'makeAiMove':
-	
-						makeAiMove(onTable)
-	
-	
-						break;
-	
-	
+			.findOne({
+				_id: req.body._id
+			}, function(err2, onTable) {
+
+				if (onTable != null) {
+
+					//onTable.gameIsOn=false
+					var rememberId = onTable._id
+					onTable = req.body
+					onTable._id = rememberId
+
+
+					onTable.moved = new Date()
+						.getTime()
+					var command = onTable.command
+					onTable.command = ''
+
+					db.collection("tables")
+						.save(onTable, function(err3, res) {
+							//table moved and saved, let's check what to do
+							popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
+
+							switch (command) {
+
+								case 'makeAiMove':
+
+									makeAiMove(onTable)
+
+
+									break;
+
+
+							}
+
+
+						})
 				}
-	
-	
-			})
-	
-					
+				else {
+
+				}
+
+				db.close()
+			});
+
+
 	});
-	
-	// // mongodb.connect(cn, function(err, db) {
-	// 	db.collection("tables")
-	// 		.findOne({
-	// 			_id: req.body._id
-	// 		}, function(err2, onTable) {
-
-	// 			if (onTable != null) {
-
-	// 				//onTable.gameIsOn=false
-	// 				var rememberId = onTable._id
-	// 				onTable = req.body
-	// 				onTable._id = rememberId
-
-
-	// 				// onTable.moved = new Date()
-	// 				// 	.getTime()
-	// 				var command = onTable.command
-	// 				onTable.command = ''
-
-					// db.collection("tables")
-					// 	.save(onTable, function(err3, res) {
-					// 		//table moved and saved, let's check what to do
-					// 		popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
-
-					// 		switch (command) {
-
-					// 			case 'makeAiMove':
-
-					// 				makeAiMove(onTable)
-
-
-					// 				break;
-
-
-					// 		}
-
-
-					// 	})
-			// 	}
-			// 	else {
-
-			// 	}
-
-			// 	db.close()
-			// });
-
-
-	// });
 
 
 
