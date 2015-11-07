@@ -2705,8 +2705,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand) {
 
 			//here we have possiblemoves filled in with good, bad and illegal moves
 
-			// var totalValue = 0
-			// var totalValueCount = 0
+		
 			
 			
 			for (var i=0;i<possibleMoves.length;i++){
@@ -2726,6 +2725,8 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand) {
 					var whatGetsHit=smallDeepeningTask.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1]
 					
 					var thisValue = whatGetsHit[1] //piece value, should ++ when en-pass
+					
+					//if(thisValue>bestValue)thisValue=bestValue
 					
 					var noKingHit=true
 					
@@ -2808,6 +2809,24 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand) {
 					}
 
 				} //  )    //end of for each move
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 
 			//console.log(totalValue,totalValueCount)
 
@@ -2838,14 +2857,75 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand) {
 	// }
 	//}
 	
-	result.push(grandTotalValue)//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	result.push(grandTotalValue)//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!here i put some extra data i catch in caller
 	
 	return result
 
 
 }
 
+function getLoopValue(deepeningTask){
+	
+	var taskValue=0
+	
+	var startedAt = new Date()
+		.getTime()
 
+	
+	var solved = 0
+	
+	
+	//var averageVal=0		//will add then divide
+	
+	//var totalVal=0
+	
+	var smallDeepeningTasks=deepeningTask.smallDeepeningTasks
+	
+	while (smallDeepeningTasks.length > 0) {		//diff
+
+		//length is 1 at first, then just grows until all has reached the level. evetually there will be nothing to do and this loop exists
+
+
+		//solved++
+
+		var smallDeepeningTask = smallDeepeningTasks.pop()
+
+		var resCommand = ''
+		//var thisMoveValue=0
+		
+		var resultingSDTs = solveSmallDeepeningTask(smallDeepeningTask, resCommand)
+		
+		taskValue+=resultingSDTs.pop()//!!!!!!!!!!!!!!!!!!!!!!!!!diff type on the end 
+		
+		//console.log('bai 2879',taskValue)
+		
+		//averageVal+=thisMoveValue
+		
+		if (resCommand != '') {
+			//solver messaged us
+
+		}
+
+		if (resultingSDTs != []) {
+			//new tables were generated. when we reach desiredDepth there will be no new tables here
+			//console.log(resultingSDTs)
+			solved += resultingSDTs.length
+
+			while (resultingSDTs.length > 0) {
+				smallDeepeningTasks.push(resultingSDTs.pop()) //at the beginning the unsent array is just growing but then we run out
+					//designed to run on single threaded full deepening
+			}
+
+		}
+		//resultingstds is now an empty array, unsent is probably full of tasks again
+
+		//call it again if there are tasks
+	}
+	
+	var timeItTook = new Date()
+		.getTime() - startedAt
+	return {solved:solved,timeItTook:timeItTook,value:taskValue}
+}
 function solveDeepeningTask(deepeningTask,tempCommand,aaa) { //designed to solve the whole deepening task on one thread
 	//will return number of smallTasks solved for testing??!!!!!!!!!!!!!!!
 	var taskValue=0
@@ -2853,7 +2933,7 @@ function solveDeepeningTask(deepeningTask,tempCommand,aaa) { //designed to solve
 	var startedAt = new Date()
 		.getTime()
 
-	//for(var i=0;i<deepeningTask.smallDeepeningTasks;i++){
+	
 	var solved = 0
 	
 	
@@ -3005,42 +3085,14 @@ function deepMove(smallMoveTask) {		//for 1 thread, smallmovetask has one of my 
 	
 	var value=0
 
-	//var aiTable = new MoveTask(dbTable, depth); //level 3 deepening on new table
-
-	// var tds = [];
-	// var tds2 = [];
-	
-	// aiTable.movesToSend.forEach(function(step) {
-	// 	tds.push(step)
-	// });
-	//smallMoveTask.desiredDepth=4	//temp depth!!!!!!!!!!!!!!!!!!!!!!!
-	
 	var deepeningTask=new DeepeningTask(smallMoveTask)
 	
-			
+	var tempCommand=''
 	
-	// tds.forEach(function(a) {
-	// 	tds2.push(new DeepeningTask(a))
-	// });
-	var tempCommand='a'
-	//tds2.forEach(function(a) {
-		var thisMoveValue=0
+		//var thisMoveValue=0
 		var totals=solveDeepeningTask(deepeningTask,tempCommand,value)			//single thread calc
 		solvedTableCount+=totals.solved
 		
-		//value={
-		// 	move:a.moveStr,
-		// 	loopValue:thisMoveValue
-		// }
-	//});
-	
-	// values.sort(function(a,b){
-	// 	if(a.loopValue>b.loopValue){
-	// 		return 1
-	// 	}else{
-	// 		return -1
-	// 	}
-	// })
 	
 	return {							//this goes to console chat window
 		move: deepeningTask.moveStr,
@@ -3050,8 +3102,8 @@ function deepMove(smallMoveTask) {		//for 1 thread, smallmovetask has one of my 
 		_id: smallMoveTask._id,
 		depth: deepeningTask.desiredDepth
 		
-		// thinker: $rootScope.sendID
-	} //, hisBestRtnMove, loopValue, captureScore, smallValScore,
+		
+	} 
 	
 		
 }
