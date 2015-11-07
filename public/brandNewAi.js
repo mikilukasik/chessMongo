@@ -2877,7 +2877,7 @@ function solveDeepeningTask(deepeningTask,tempCommand,aaa) { //designed to solve
 		
 		taskValue+=resultingSDTs.pop()//!!!!!!!!!!!!!!!!!!!!!!!!!
 		
-		console.log('bai 2879',taskValue)
+		//console.log('bai 2879',taskValue)
 		
 		//averageVal+=thisMoveValue
 		
@@ -2996,7 +2996,7 @@ function processDeepSplitMoves(data, thinker, mt, modConst, looped) {
 
 
 
-function deepMove(smallMoveTask) {		//for 1 thread
+function deepMove(smallMoveTask) {		//for 1 thread, smallmovetask has one of my possible 1st moves
 
 	var started = new Date()
 		.getTime()
@@ -3025,7 +3025,7 @@ function deepMove(smallMoveTask) {		//for 1 thread
 	var tempCommand='a'
 	//tds2.forEach(function(a) {
 		var thisMoveValue=0
-		var totals=solveDeepeningTask(deepeningTask,tempCommand,value)
+		var totals=solveDeepeningTask(deepeningTask,tempCommand,value)			//single thread calc
 		solvedTableCount+=totals.solved
 		
 		//value={
@@ -3044,25 +3044,15 @@ function deepMove(smallMoveTask) {		//for 1 thread
 	
 	return {							//this goes to console chat window
 		move: deepeningTask.moveStr,
-		score: totals.value,
+		score: totals.value,//totals.solved,//	should give average score
+		// total:	totals.value,
+		solved: totals.solved,
 		_id: smallMoveTask._id,
 		depth: deepeningTask.desiredDepth
 		
 		// thinker: $rootScope.sendID
 	} //, hisBestRtnMove, loopValue, captureScore, smallValScore,
-	// dontGetHit,tTable2Value, retProtect, mhit, hhit, fwdVal,lsancValue,rsancValue,
-	//  sancValue,getToMiddle,pushHimBack,mostMoved])
-
-	//})		original foreach
-
 	
-	// return {
-	// 	timeItTook:new Date().getTime() - started, //timeItTook
-	// 	solved:solvedTableCount,
-	// 	values:values,
-	// 	winningMove:values[0].move,
-	// 	winningValue:totals.value
-	// }
 		
 }
 

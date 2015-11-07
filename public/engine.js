@@ -71,11 +71,19 @@ var SmallDeepeningTask=function(table, wNext, depth, treeMoves, desiredDepth, th
 //}
 
 
+var ResolverTask=function(depth,pendingCount){		//should go to the beginning of the task array, once all moves resolved it will deal with this task
+	
+	this.results=[]			//results will be validated tables on the next level
+	
+	this.depth=depth,
+	this.pendingCount=pendingCount	//this will be lowered to 0		//do i need this???!!!!!!!!!!!!!!!!!!
+}
 
+var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for main thread and mainWorker ???not sure..     //smallMoveTask is a smallMoveTask, to be deepend further
 
-var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for main thread and mainWorker     //smallMoveTask is a smallMoveTask, to be deepend further
+	this.resolverArray=[]//new Array(smallMoveTask.desiredDepth)			//is this accurate??!!!!!!!!!!!
 
-	this.smallMoveTask = smallMoveTask //kell ez????!!!!!			//we have the original object, there are approx.40 of these per moveTask, we probably received a few of these only ((should have _id or rndID!!!!!!!!!)	
+	this.smallMoveTask = smallMoveTask //kell ez????!!!!!			//we have the original object, there are approx. 30 of these per moveTask, we probably received a few of these only ((should have _id or rndID!!!!!!!!!)	
 
 	this.initialWNext = smallMoveTask.cfColor
 
