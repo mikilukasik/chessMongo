@@ -2608,17 +2608,11 @@ var checkSpeed = function() {
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // 
 
 
-///////functions for deepening process
-
-var oneDeeper = function(smallDeepeningTask) {
-
-
-
-}
 
 /////////////////////////////////deepening functions/////////////////////////////
 
 
+///////////////////////////// below the functions that run a million times ////////////////////////
 
 function solveSmallDeepeningTask(smallDeepeningTask, resCommand) {		
 																						//this is the function that runs a million times
@@ -2626,13 +2620,17 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand) {
 																						//gets one task, produces an array of more tasks
 																						//or empty array when done
 																						
-																						//these new task go to a fifo array, we solve the tree bit by bit
+			var result = [] //this will be the result																			//these new task go to a fifo array, we solve the tree bit by bit
 																						//keeping movestrings only, not eating memory with tables
 																						
 																						//get hitvalue for each move, keep bes ones only
 																						//end of tree check if we got it wrong and go back if treevalue gets less!!!!!!!!!!!!!!!!
 																						
-																						
+	if(TriggerItem.prototype.isPrototypeOf(smallDeepeningTask))		{
+		
+	}	else{
+		
+																			
 																						
 																						
 				var	grandTotalValue=0	//!!!!!!!!!!!!!!!!!!!!!!!!!																
@@ -2640,7 +2638,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand) {
 
 
 
-	var result = [] //this will be the result
+	
 
 	//grandTotalValue=0
 
@@ -2706,7 +2704,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand) {
 			//here we have possiblemoves filled in with good, bad and illegal moves
 
 		
-			
+						
 			
 			for (var i=0;i<possibleMoves.length;i++){
 			//possibleMoves.forEach(function(moveStr) { //create a new smalltask for each move
@@ -2732,7 +2730,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand) {
 					
 					if (thisValue==9)noKingHit=false
 					
-					if(smallDeepeningTask.depth/2!=Math.floor(smallDeepeningTask.depth))	thisValue*=-1
+					if(smallDeepeningTask.depth/2!=Math.floor(smallDeepeningTask.depth))thisValue*=-1		//every second level has negative values: opponent moved
 					
 					
 					
@@ -2740,18 +2738,6 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand) {
 					
 					grandTotalValue=grandTotalValue+thisValue		//where?
 					
-					//worked:  console.log('bnai 2738',grandTotalValue)
-					
-					//var thisValue = smallDeepeningTask.table[moveStr[2]][moveStr[3]][1] //what we hit, ignores en-pass!!!!!!!//fastValue.pop()
-
-					//totalValue += thisValue
-					//totalValueCount++
-
-					//var kingsCount = fastValue.pop()
-
-					//!!!!!!!!!!!!!!!!!!!!temp
-					//totalValue+=kingsCount
-
 					var newSmallTask = {}
 
 					var newTreeMoves = smallDeepeningTask.treeMoves //treemoves is an 1 dim array with the moves that lead here
@@ -2763,7 +2749,9 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand) {
 
 
 
-						newSmallTask = new SmallDeepeningTask(movedTable, !smallDeepeningTask.wNext,
+						newSmallTask = new SmallDeepeningTask(
+							movedTable, 
+							!smallDeepeningTask.wNext,
 							smallDeepeningTask.depth + 1,
 							newTreeMoves,
 							smallDeepeningTask.desiredDepth,
@@ -2810,122 +2798,84 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand) {
 
 				} //  )    //end of for each move
 				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-
-			//console.log(totalValue,totalValueCount)
-
-
+			
 		}
 
 	}
-	// else {
-
-	// 	/// move reached desiredDepth, shoudld return done command
-
-	// 	/// will return empty array
-
-	// 	///should return value
-
-	// 	//should clean invalids, solve moves by turns
-
-
-
-
-	// 	resCommand = 'depthReached'
-		
-		
-	// 	grandTotalValue+=smallDeepeningTask.thisValue
-
-
-
-	// }
-	//}
 	
-	result.push(grandTotalValue)//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!here i put some extra data i catch in caller
+	result.push(new TriggerItem(smallDeepeningTask.depth,smallDeepeningTask.parentMove))		//this will trigger move calc when processing array
+																								//there will be a trigger in the array after each move
+	}																						
+	
+	result.push(grandTotalValue)//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!here we put in some extra data to be caught by the caller
 	
 	return result
 
 
 }
 
-function getLoopValue(deepeningTask){
+// function getLoopValue(deepeningTask){
 	
-	var taskValue=0
+// 	var taskValue=0
 	
-	var startedAt = new Date()
-		.getTime()
+// 	var startedAt = new Date()
+// 		.getTime()
 
 	
-	var solved = 0
+// 	var solved = 0
 	
 	
-	//var averageVal=0		//will add then divide
+// 	//var averageVal=0		//will add then divide
 	
-	//var totalVal=0
+// 	//var totalVal=0
 	
-	var smallDeepeningTasks=deepeningTask.smallDeepeningTasks
+// 	var smallDeepeningTasks=deepeningTask.smallDeepeningTasks
 	
-	while (smallDeepeningTasks.length > 0) {		//diff
+// 	while (smallDeepeningTasks.length > 0) {		
 
-		//length is 1 at first, then just grows until all has reached the level. evetually there will be nothing to do and this loop exists
+// 		//length is 1 at first, then just grows until all has reached the level. evetually there will be nothing to do and this loop exists
 
 
-		//solved++
+// 		//solved++
 
-		var smallDeepeningTask = smallDeepeningTasks.pop()
+// 		var smallDeepeningTask = smallDeepeningTasks.pop()
 
-		var resCommand = ''
-		//var thisMoveValue=0
+// 		var resCommand = ''
+// 		//var thisMoveValue=0
 		
-		var resultingSDTs = solveSmallDeepeningTask(smallDeepeningTask, resCommand)
+// 		var resultingSDTs = solveSmallDeepeningTask(smallDeepeningTask, resCommand)
 		
-		taskValue+=resultingSDTs.pop()//!!!!!!!!!!!!!!!!!!!!!!!!!diff type on the end 
+// 		taskValue+=resultingSDTs.pop()//!!!!!!!!!!!!!!!!!!!!!!!!!diff type on the end 
 		
-		//console.log('bai 2879',taskValue)
+// 		//console.log('bai 2879',taskValue)
 		
-		//averageVal+=thisMoveValue
+// 		//averageVal+=thisMoveValue
 		
-		if (resCommand != '') {
-			//solver messaged us
+// 		if (resCommand != '') {
+// 			//solver messaged us
 
-		}
+// 		}
 
-		if (resultingSDTs != []) {
-			//new tables were generated. when we reach desiredDepth there will be no new tables here
-			//console.log(resultingSDTs)
-			solved += resultingSDTs.length
+// 		if (resultingSDTs != []) {
+// 			//new tables were generated. when we reach desiredDepth there will be no new tables here
+// 			//console.log(resultingSDTs)
+// 			solved += resultingSDTs.length
 
-			while (resultingSDTs.length > 0) {
-				smallDeepeningTasks.push(resultingSDTs.pop()) //at the beginning the unsent array is just growing but then we run out
-					//designed to run on single threaded full deepening
-			}
+// 			while (resultingSDTs.length > 0) {
+// 				smallDeepeningTasks.push(resultingSDTs.pop()) //at the beginning the unsent array is just growing but then we run out
+// 					//designed to run on single threaded full deepening
+// 			}
 
-		}
-		//resultingstds is now an empty array, unsent is probably full of tasks again
+// 		}
+// 		//resultingstds is now an empty array, unsent is probably full of tasks again
 
-		//call it again if there are tasks
-	}
+// 		//call it again if there are tasks
+// 	}
 	
-	var timeItTook = new Date()
-		.getTime() - startedAt
-	return {solved:solved,timeItTook:timeItTook,value:taskValue}
-}
+// 	var timeItTook = new Date()
+// 		.getTime() - startedAt
+// 	return {solved:solved,timeItTook:timeItTook,value:taskValue}
+// }
 function solveDeepeningTask(deepeningTask,tempCommand,aaa) { //designed to solve the whole deepening task on one thread
 	//will return number of smallTasks solved for testing??!!!!!!!!!!!!!!!
 	var taskValue=0
@@ -2949,13 +2899,33 @@ function solveDeepeningTask(deepeningTask,tempCommand,aaa) { //designed to solve
 		//solved++
 
 		var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
-
+		//////////////////////////////!!!!!!!!!!!!!!!!!!!!!!!111
+		// function popTillGood(){
+			
+		// 	if(TriggerItem.prototype.isPrototypeOf(smallDeepeningTask)) {
+		// 		if(deepeningTask.smallDeepeningTasks.length == 0){
+					
+		// 			break;
+					
+		// 		}else{
+		// 			smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()	///temp!!!!!!!!!
+		// 		}
+		// 		popTillGood();
+		// 	}
+		// }
+		// popTillGood();
+		
+		//////////////////////////////!!!!!!!!!!!!!!!!!!!!!!!111
+		
+		
 		var resCommand = ''
 		var thisMoveValue=0
 		
 		var resultingSDTs = solveSmallDeepeningTask(smallDeepeningTask, resCommand)
 		
 		taskValue+=resultingSDTs.pop()//!!!!!!!!!!!!!!!!!!!!!!!!!
+		
+		
 		
 		//console.log('bai 2879',taskValue)
 		
@@ -3091,6 +3061,7 @@ function deepMove(smallMoveTask) {		//for 1 thread, smallmovetask has one of my 
 	
 		//var thisMoveValue=0
 		var totals=solveDeepeningTask(deepeningTask,tempCommand,value)			//single thread calc
+		
 		solvedTableCount+=totals.solved
 		
 	

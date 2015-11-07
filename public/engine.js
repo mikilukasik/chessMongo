@@ -31,6 +31,8 @@ var SmallDeepeningTask=function(table, wNext, depth, treeMoves, desiredDepth, th
 		this.depth= depth,
 
 		this.treeMoves= treeMoves,
+		
+		this.parentMove=treeMoves[depth],			//is this accureate??  !!!!!!!!!!!!!!!!!!
 
 		this.desiredDepth= desiredDepth,
 
@@ -39,37 +41,6 @@ var SmallDeepeningTask=function(table, wNext, depth, treeMoves, desiredDepth, th
 		this.stopped= stopped
 		
 }
-
-// var SmallDeepeningTask = function(table, wNext, depth, treeMoves, desiredDepth, thisValue, stopped) {		//build this in
-
-// 	//use it to create smallTasks
-// 	//these small tasks will be multiplied as the deepening goes on
-	
-	
-// 	return new SmallDeepeningTask(table, wNext, depth, treeMoves, desiredDepth, thisValue, stopped)
-	
-	
-
-	// return {
-
-	// 	table: table,
-
-	// 	wNext: wNext,
-
-	// 	depth: depth,
-
-	// 	treeMoves: treeMoves,
-
-	// 	desiredDepth: desiredDepth,
-
-	// 	thisValue: thisValue,
-
-	// 	stopped: stopped
-
-	// }
-
-//}
-
 
 var ResolverTask=function(depth,pendingCount){		//should go to the beginning of the task array, once all moves resolved it will deal with this task
 	
@@ -242,6 +213,11 @@ var SmallMoveTask = function(moveCoord, index, dbTable) { //deptObj has data to 
 // this.depth=depth
 
 // this.deepMoves=deepMoves
+
+var TriggerItem=function(depth,parentMoveStr){		//these will be put in main deepeningTaskArray to trigger calculation of totals for each level
+	this.depth=depth
+	this.parentMoveStr=parentMoveStr
+}
 
 var MoveTask = function(dbTable) {
 
