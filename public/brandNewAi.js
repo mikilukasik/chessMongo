@@ -26,7 +26,7 @@ function dbAi(dbTable) {
 
 
 }
-
+//
 function moveInTable(moveStr, dbTable, isLearner) {
 
 	var toPush = getPushString(dbTable.table, moveStr) //piece
@@ -2710,6 +2710,9 @@ function solveSmallDeepeningTask(smallDeepeningTask,resolverArray) {
 		} else {
 
 		if (smallDeepeningTask.depth <= smallDeepeningTask.desiredDepth){
+			//depth not solved, lets solve it further
+			
+			
 			var possibleMoves = []
 				//below returns a copied table, should opt out for speed!!!!!!!
 			addMovesToTable(smallDeepeningTask.table, smallDeepeningTask.wNext, true, possibleMoves) //this puts moves in strings, should keep it fastest possible
@@ -2964,24 +2967,6 @@ function solveDeepeningTask(deepeningTask,tempCommand,aaa) { //designed to solve
 		//solved++
 
 		var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
-		//////////////////////////////!!!!!!!!!!!!!!!!!!!!!!!111
-		// function popTillGood(){
-			
-		// 	if(TriggerItem.prototype.isPrototypeOf(smallDeepeningTask)) {
-		// 		if(deepeningTask.smallDeepeningTasks.length == 0){
-					
-		// 			break;
-					
-		// 		}else{
-		// 			smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()	///temp!!!!!!!!!
-		// 		}
-		// 		popTillGood();
-		// 	}
-		// }
-		// popTillGood();
-		
-		//////////////////////////////!!!!!!!!!!!!!!!!!!!!!!!111
-		
 		
 		
 		var thisMoveValue=0

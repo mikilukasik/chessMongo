@@ -46,17 +46,17 @@
 			// $rootScope.totalTook = getCookie("totalT2");
 			// $rootScope.moveCount = getCookie("mCount2");
 
-			$rootScope.mainThreadSpeed = getCookie("mainThreadSpeed");
+			//$rootScope.mainThreadSpeed = getCookie("mainThreadSpeed");
 
-			if ($rootScope.moveCount == "") $rootScope.moveCount = 0
+			//if ($rootScope.moveCount == "") $rootScope.moveCount = 0
 
-			if ($rootScope.mainThreadSpeed == "" || $rootScope.mainThreadSpeed == undefined) {
-				$rootScope.mainThreadSpeed = checkSpeed()
-			}
-			else {
-				$rootScope.mainThreadSpeed = Number($rootScope.mainThreadSpeed)
-			}
-			if (isNaN($rootScope.mainThreadSpeed)) $rootScope.mainThreadSpeed = checkSpeed()
+			//if ($rootScope.mainThreadSpeed == "" || $rootScope.mainThreadSpeed == undefined) {
+				//$rootScope.mainThreadSpeed = checkSpeed()
+			//}
+			//else {
+			//	$rootScope.mainThreadSpeed = Number($rootScope.mainThreadSpeed)
+			//}
+			//if (isNaN($rootScope.mainThreadSpeed)) $rootScope.mainThreadSpeed = checkSpeed()
 			if ($rootScope.cookieID == "") {
 
 				$rootScope.sendID = Math.random * 100000000
