@@ -216,7 +216,7 @@ var SmallMoveTask = function(moveCoord, index, dbTable) { //deptObj has data to 
 
 var TriggerItem=function(depth,parentMoveStr){		//these will be put in main deepeningTaskArray to trigger calculation of totals for each level
 	this.depth=depth
-	this.parentMoveStr=parentMoveStr
+	this.parentMove=parentMoveStr			//4 char string
 }
 
 var MoveTask = function(dbTable) {

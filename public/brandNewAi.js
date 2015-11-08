@@ -2626,7 +2626,30 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand) {
 																						//get hitvalue for each move, keep bes ones only
 																						//end of tree check if we got it wrong and go back if treevalue gets less!!!!!!!!!!!!!!!!
 																						
-	if(TriggerItem.prototype.isPrototypeOf(smallDeepeningTask))		{
+	
+	if(TriggerItem.prototype.isPrototypeOf(smallDeepeningTask))		{	//we solved all moves for a table, time to go backwards
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 		
 	}	else{
 		
@@ -2802,6 +2825,11 @@ function solveSmallDeepeningTask(smallDeepeningTask, resCommand) {
 		}
 
 	}
+	
+
+	
+	//var TriggerItem=function(depth,parentMoveStr)		//these will be put in main deepeningTaskArray to trigger calculation of totals for each level
+
 	
 	result.push(new TriggerItem(smallDeepeningTask.depth,smallDeepeningTask.parentMove))		//this will trigger move calc when processing array
 																								//there will be a trigger in the array after each move
