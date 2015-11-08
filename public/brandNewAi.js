@@ -2609,6 +2609,47 @@ var checkSpeed = function() {
 
 ///////////////////////////// below the functions that run a million times ////////////////////////
 
+function resolveDepth(depth,resolverArray){
+	if(resolverArray[depth].length>0){
+		if(depth/2==Math.floor(depth/2)){
+			
+			resolverArray[depth-1].push(
+				resolverArray[depth].reduce(
+					function(previousValue, currentValue, index, array){
+						if(currentValue.value>previousValue.value){
+							return {value:currentValue.value,moveStr:currentValue.moveStr}//currentValue
+							
+						}else{
+							return {value:previousValue.value,moveStr:previousValue.moveStr}//previousValue
+						}
+						
+						
+					}
+				)
+			)
+			
+		}else{
+			resolverArray[depth-1].push(
+				resolverArray[depth].reduce(
+					function(previousValue, currentValue, index, array){
+						if(currentValue.value<previousValue.value){
+							return {value:currentValue.value,moveStr:currentValue.moveStr}
+						}else{
+							return {value:previousValue.value,moveStr:previousValue.moveStr}
+						}
+						
+						
+					}
+				)
+			)
+		}
+		
+		
+			
+	}
+	resolverArray[depth]=[]
+}
+
 function solveSmallDeepeningTask(smallDeepeningTask,resolverArray) {		
 																						//this is the function that runs a million times
 
@@ -2636,7 +2677,7 @@ function solveSmallDeepeningTask(smallDeepeningTask,resolverArray) {
 		
 		
 		//then clear that array
-		resolverArray[smallDeepeningTask.depth]=[]
+		resolveDepth(smallDeepeningTask.depth,resolverArray)
 		
 		
 		
