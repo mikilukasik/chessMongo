@@ -1,28 +1,6 @@
-// var LearningGame=function(_id, modType, modVal){
-// 	this.state='startWhie'
-// 	this.dbTable=new Dbtable(_id,)
-// 	if(wModded) {
-// 				$rootScope.start(modType + " mod: " + modVal, "standard", true, modType) //._id
-// 					//initedTable = new Dbtable(firstFreeTable, "mod lpV:" + modVal, "standard")
-// 			} else {
-// 				$rootScope.start("standard", modType + " mod: " + modVal, false, modType) //._id
-// 					//initedTable = new Dbtable(firstFreeTable, "standard", "mod lpV:" + modVal)
-// 			}
-// }
-//
-// var createDepthObj=function(_id,table,wNext,allPastTables,origData,origProtect,oppKingPos){
-//     return {
-//         _id:_id,
-//         table:table,
-//         wNext:wNext,
-//         allPastTables:allPastTables,
-//         origData:origData,
-//         origProtect:origProtect,
-//         oppKingPos:oppKingPos
-//     }
-// }
+/////////////////////////		Classes		/////////////////////////////////////////////////
 
-var SmallDeepeningTask=function(table, wNext, depth, treeMoves, desiredDepth, thisValue, stopped){
+var SmallDeepeningTask=function(table, wNext, depth, parentMove, desiredDepth, score, stopped){
 	
 		this.table= table,
 
@@ -30,25 +8,25 @@ var SmallDeepeningTask=function(table, wNext, depth, treeMoves, desiredDepth, th
 
 		this.depth= depth,
 
-		this.treeMoves= treeMoves,
+		//this.treeMoves= treeMoves,
 		
-		this.parentMove=treeMoves[depth],			//is this accureate??  !!!!!!!!!!!!!!!!!!
+		this.parentMove=parentMove//treeMoves[depth],			//is this accureate??  !!!!!!!!!!!!!!!!!!
 
 		this.desiredDepth= desiredDepth,
 
-		this.thisValue= thisValue,
+		this.score= score,
 
 		this.stopped= stopped
 		
 }
 
-var ResolverTask=function(depth,pendingCount){		//should go to the beginning of the task array, once all moves resolved it will deal with this task
+// var ResolverArray=function(depth){		
 	
-	this.results=[]			//results will be validated tables on the next level
+// 	this.=[]			//results will be validated tables on the next level
 	
-	this.depth=depth,
-	this.pendingCount=pendingCount	//this will be lowered to 0		//do i need this???!!!!!!!!!!!!!!!!!!
-}
+// 	this.depth=depth,
+// 	this.pendingCount=pendingCount	//this will be lowered to 0		//do i need this???!!!!!!!!!!!!!!!!!!
+// }
 
 var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for main thread and mainWorker ???not sure..     //smallMoveTask is a smallMoveTask, to be deepend further
 
