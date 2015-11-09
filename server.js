@@ -576,7 +576,8 @@ var getSplitMoveTask = function(aiTable, percent) {
 
 
 function makeSplitMove(dbTable) {
-
+	
+	console.log('creating movetask')
 	var aiTable = new MoveTask(dbTable)
 		//dbTable
 
@@ -609,19 +610,24 @@ function makeSplitMove(dbTable) {
 	dbTable.returnedMoves = []
 		// notReceivedSplitMoves: aiTable.totalMoveCount
 		//}
-
+		
 	splitTaskQ.push(dbTable) //use this when receiving
 
 	while (aiTable.movesToSend.length > 0) {
 		
+		
+		console.log(aiTable.movesToSend.length+' moves left to send')
 		////console.log(617,'still need to send '+aiTable.movesToSend.length+' splitmoves')
 
 		// var sendThese = getSplitMoveTask(aiTable, fastestThinker(true))
 		// sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTable._id + ' moves: ' + sendThese.length))
 
 
-
+		console.log('calling getSplitMoveTask')
 		var sendThese = getSplitMoveTask(aiTable, fastestThinker(true))
+		
+		console.log('calling sendTask')
+		
 		sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTable._id + ' moves: ' + sendThese.length))
 
 
@@ -668,6 +674,7 @@ function makeAiMove(dbTable) {
 		case 'thinkers':
 
 			//split between available thinkers to make it as fast as possible
+			console.log('calling makeSplitMove..')
 			makeSplitMove(dbTable) //starts processing table in multi-thinker mode
 
 
@@ -830,7 +837,8 @@ app.post('/moved', function(req, res) {
 				switch (command) {
 	
 					case 'makeAiMove':
-	
+						
+						console.log('calling makeaimove..')
 						makeAiMove(onTable)
 	
 	

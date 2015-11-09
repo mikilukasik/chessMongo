@@ -89,6 +89,8 @@ var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for mai
 
 
 	var initialSmallDeepeningTask = new SmallDeepeningTask(this.thisTaskTable, !this.initialWNext, this.actualDepth, this.initialTreeMoves, this.desiredDepth, this.firstDepthValue)
+	
+	this.value=initialSmallDeepeningTask.score
 
 	this.smallDeepeningTasks = [initialSmallDeepeningTask] //to be sent out for multiplying when processing for level 2 (unless desireddepth is 1)
 

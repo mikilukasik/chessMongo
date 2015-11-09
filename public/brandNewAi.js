@@ -2650,6 +2650,8 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 		
 		
 		resolveDepth(smallDeepeningTask.depth, resolverArray)
+		
+		
 
 	} else {
 
@@ -2708,6 +2710,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 					}
 					
 				var oldMoveTree=smallDeepeningTask.moveTree
+				//var oldScore=smallDeepeningTask.score
 
 				for (var i = 0; i < possibleMoves.length; i++) {
 					//was possibleMoves.forEach(function(moveStr) { //create a new smalltask for each move
