@@ -42,21 +42,66 @@
 
 			$rootScope.cookieID = getCookie("myID");
 
+			$rootScope.mainThreadSpeed = getCookie("mainThreadSpeed");
 
-			// $rootScope.totalTook = getCookie("totalT2");
-			// $rootScope.moveCount = getCookie("mCount2");
+			checkMTSpeed=function(){
+				
+				
+						var solvingStarted = new Date()
+							.getTime()
+							
+						var tempGame=new Dbtable(1,2,3)
+						
+						tempGame.desiredDepth=2
+						
+						var tempMoveTask=new MoveTask(tempGame)
+						
+						var tempTasks=tempMoveTask.movesToSend
+						
+						
+							
+							
+						var splitMoveCount = tempTasks.length
 
-			//$rootScope.mainThreadSpeed = getCookie("mainThreadSpeed");
+						var tempResults = processDeepSplitMoves(tempTasks, $rootScope.sendID) //blocks the UI
 
-			//if ($rootScope.moveCount == "") $rootScope.moveCount = 0
+						//$http.post('/myPartIsDone', postThis, function(req, res) {
 
-			//if ($rootScope.mainThreadSpeed == "" || $rootScope.mainThreadSpeed == undefined) {
-				//$rootScope.mainThreadSpeed = checkSpeed()
-			//}
-			//else {
-			//	$rootScope.mainThreadSpeed = Number($rootScope.mainThreadSpeed)
-			//}
-			//if (isNaN($rootScope.mainThreadSpeed)) $rootScope.mainThreadSpeed = checkSpeed()
+
+
+						//})
+						var timeItTook = (new Date()
+							.getTime() - solvingStarted)
+							
+						var mainThreadSpeed = (Number($rootScope.mainThreadSpeed) + 0.2 * Number(splitMoveCount / (timeItTook / 1000))) / 1.2 //this should keep the last 6 average
+						
+						console.log($rootScope.mainThreadSpeed)
+						
+						$rootScope.sendMessage('speedTest done in ' + timeItTook + 'ms')
+
+						///save it in cookie
+
+						$rootScope.setCookies() //
+
+						return mainThreadSpeed
+				
+				
+			}
+			
+			//$rootScope.mainThreadSpeed = checkSpeed()
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			if ($rootScope.cookieID == "") {
 
 				$rootScope.sendID = Math.random * 100000000
@@ -168,7 +213,20 @@
 											
 
 											$rootScope.sendMessage('init mainThread deepSpeedTest (level '+level+') done: ' + resSpeedTest.solved +' tables in '+resSpeedTest.timeItTook + 'ms. aiMove: '+resSpeedTest.winningMove+', value: '+resSpeedTest.winningValue)
-											$rootScope.mainThreadSpeed=1000/resSpeedTest.timeItTook	
+											$rootScope.mainThreadSpeed=1000/resSpeedTest.timeItTook			//we should use this!!!!!!!!!
+											
+											//var mainThreadSpeed = (Number($rootScope.mainThreadSpeed) + 0.2 * Number(splitMoveCount / (timeItTook / 1000))) / 1.2 //this should keep the last 6 average
+						
+											console.log($rootScope.mainThreadSpeed)
+											
+											///save it in cookie
+											$rootScope.setCookies() //
+						
+											$rootScope.sendMessage('Up and running!')
+
+						
+
+						
 
 										}
 										else {
@@ -954,12 +1012,17 @@
 						})
 						var timeItTook = (new Date()
 							.getTime() - $rootScope.solvingStarted)
-						$rootScope.mainThreadSpeed = (Number($rootScope.mainThreadSpeed) + 0.2 * Number(splitMoveCount / (timeItTook / 1000))) / 1.2 //this should keep the last 6 average
+						
+						
+						
+						//should use all speedtests!!!!!!!!
+						//$rootScope.mainThreadSpeed = (Number($rootScope.mainThreadSpeed) + 0.2 * Number(splitMoveCount / (timeItTook / 1000))) / 1.2 //this should keep the last 6 average
+						
 						$rootScope.sendMessage(splitMoveCount + ' moves solved in ' + timeItTook + 'ms on the main thread.')
 
 						///save it in cookie
 
-						$rootScope.setCookies() //
+						//$rootScope.setCookies() //
 
 						break;
 
