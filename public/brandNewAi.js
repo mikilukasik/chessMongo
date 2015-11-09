@@ -2579,7 +2579,7 @@ var checkSpeed = function() {
 
 function resolveDepth(depth, resolverArray) {
 	if (resolverArray[depth].length > 0) {
-		if (depth / 2 == Math.floor(depth / 2)) {
+		if (depth / 2 != Math.floor(depth / 2)) {
 
 			resolverArray[depth - 1].push(
 				resolverArray[depth].reduce(
@@ -2724,7 +2724,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 						
 					var newMoveTree=oldMoveTree.slice()
 					
-					newMoveTree.push(moveStr)
+					
 
 					if(makeMove)	movedTable = moveIt(moveStr, smallDeepeningTask.table, true)
 
@@ -2737,17 +2737,19 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 
 					var thisValue = whatGetsHit[1] //piece value, should ++ when en-pass
 
-					//if(thisValue>bestValue)thisValue=bestValue
-
 					var noKingHit = true
 
 					if (thisValue == 9) noKingHit = false
 
 
 
-					if (smallDeepeningTask.depth / 2 != Math.floor(smallDeepeningTask.depth)) thisValue *= -1 //every second level has negative values: opponent moved
+					if (smallDeepeningTask.depth / 2 != Math.floor(smallDeepeningTask.depth)){		//does this work???!!!!!!!!!!!
 
+						 thisValue=thisValue*-1 //every second level has negative values: opponent moved
+						//console.log('negative: '+thisValue)					 
+					}
 
+					newMoveTree.push(moveStr+': '+thisValue)
 
 					var newSmallTask = {}
 
@@ -2827,9 +2829,9 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 
 	}
 
-	var resultValue = 0
+	// var resultValue = 0
 
-	result.push(resultValue) //!!!!!!!!!!!!!!!!!!!!!!here we put in some extra data to be caught by the caller
+	// result.push(resultValue) //!!!!!!!!!!!!!!!!!!!!!!here we put in some extra data to be caught by the caller
 
 	return result
 
@@ -2869,11 +2871,11 @@ function solveDeepeningTask(deepeningTask, tempCommand, aaa) { //designed to sol
 		var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
 
 
-		var thisMoveValue = 0
+		//var thisMoveValue = 0
 
 		var resultingSDTs = solveSmallDeepeningTask(smallDeepeningTask, resolverArray)
 
-		taskValue += resultingSDTs.pop() //!!!!!!!!!!!!!!!!!!!!!!!!!
+		// resultingSDTs.pop() //!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 
@@ -2906,9 +2908,10 @@ function solveDeepeningTask(deepeningTask, tempCommand, aaa) { //designed to sol
 	return {
 		solved: solved,
 		timeItTook: timeItTook,
-		value: resolverArray[1].value
-	} //,(solved + ' tables generated in ' + timeItTook + 'ms. Tables/second: ' + solved * 1000 / timeItTook)]
-
+		score: resolverArray[1][0].value,
+		moveTree: resolverArray[1][0].moveTree.join(',') //
+		//5//			//!!!!!!!!!!!!!!!!!!!!!!!!!
+	} 
 }
 
 ////////////////////////////temp speedtest///////////////////////
@@ -2943,7 +2946,7 @@ function speedTest(depth, passToWorkers) {
 
 		values.push({
 			move: a.moveStr,
-			loopValue: thisMoveValue
+			//loopValue: totals.value
 		})
 	});
 
@@ -3020,13 +3023,11 @@ function deepMove(smallMoveTask) { //for 1 thread, smallmovetask has one of my p
 
 	return { //this goes to console chat window
 		move: deepeningTask.moveStr,
-		score: totals.value, //totals.solved,//	should give average score
-		// total:	totals.value,
+		score: totals.score,
+		moveTree: totals.moveTree,
 		solved: totals.solved,
 		_id: smallMoveTask._id,
 		depth: deepeningTask.desiredDepth
-
-
 	}
 
 
