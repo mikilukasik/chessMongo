@@ -1006,6 +1006,124 @@ function moveIt(moveString, intable, dontProtect, hitValue) {
 	return thistable
 }
 
+
+function fastMove(moveString, intable, dontProtect, hitValue) {
+	//if (hitValue == undefined) var hitValue = [0]
+	var thistable = []
+
+	for (var i = 0; i < 8; i++) {
+		thistable[i] = new Array(8)
+		for (var j = 0; j < 8; j++) {
+
+			thistable[i][j] = intable[i][j].slice(0, 2)
+
+		}
+	}
+
+	//itt indil sanc bastyatolas
+	
+	
+	
+	
+	//should not check this every time, only if there is a chance to sanc
+	
+	if (thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][1] == 9 && thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][3]) {
+
+		switch (moveString.substring(2)) {
+			case "c1":
+				thistable = fastMove("a1d1", thistable)
+				break;
+
+			case "g1":
+				thistable = fastMove("h1f1", thistable)
+				break;
+
+			case "c8":
+				thistable = fastMove("a8d8", thistable)
+				break;
+
+			case "g8":
+				thistable = fastMove("h8f8", thistable)
+				break;
+
+		}
+	}
+	
+	
+	
+	
+	
+	
+	//es itt a vege
+
+	//itt indul en passant mark the pawn to be hit
+
+	//unmark all first
+
+	// for (ij = 0; ij < 8; ij++) {
+
+	// 	thistable[ij][3][3] = false //can only be in row 3 or 4
+
+	// 	thistable[ij][4][3] = false
+
+	// }
+
+	// if (thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][1] == 1 && ((moveString[1] == 2 && moveString[3] == 4) || (moveString[1] == 7 && moveString[3] == 5))) { //ha paraszt kettot lep
+
+	// 	thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][3] = true //[3]true for enpass
+
+	// }
+	//es itt a vege
+	//indul en passt lepett
+	// var enPass = false
+	// if (thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][1] == 1 && //paraszt
+	// 	thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][0] == 0 && //uresre
+	// 	!(moveString[0] == moveString[2])) { //keresztbe
+	// 	enPass = true
+	// 	thistable[dletters.indexOf(moveString[2])][moveString[3] - 1] = thistable[dletters.indexOf(moveString[2])][moveString[1] - 1]
+
+	// 	thistable[dletters.indexOf(moveString[2])][moveString[1] - 1] = [0, 0, false, false, false] //ures
+
+	// }
+
+	if (thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][1] == 1 && ( //ha paraszt es
+
+			(thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][0] == 2 && //es feher
+				moveString[3] == 8) || //es 8asra lep vagy
+			(thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][0] == 1 && //vagy fekete
+				moveString[3] == 1)) //1re
+	) {
+		//AKKOR
+		thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][1] = 5 //kiralyno lett
+
+	}
+
+	// if(enPass) {
+	// 	hitValue = 0.99
+	// } else {
+	//hitValue[0] = thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][1] //normal hivalue
+		//- thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][1] / 100 //whathits
+		//}
+	//thistable[dletters.indexOf(moveString[0])][moveString[1] - 1][2]++ //times moved
+
+		thistable[dletters.indexOf(moveString[2])][moveString[3] - 1] =
+		thistable[dletters.indexOf(moveString[0])][moveString[1] - 1]
+	thistable[dletters.indexOf(moveString[0])][moveString[1] - 1] = [0, 0, 0] //, false, false, false]
+	
+	
+	//en passhoz
+	// if (!(thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][1] == 1)) {
+	// 	thistable[dletters.indexOf(moveString[2])][moveString[3] - 1][3] = false
+	// }
+
+	return thistable
+}
+
+
+
+
+
+
 function protectTable(table, myCol) {
 	return protectPieces(table, myCol) - protectPieces(table, !myCol)
 
@@ -2726,7 +2844,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 					
 					
 
-					if(makeMove)	movedTable = moveIt(moveStr, smallDeepeningTask.table, true)
+					if(makeMove)	movedTable = fastMove(moveStr, smallDeepeningTask.table, true)
 
 					//
 
