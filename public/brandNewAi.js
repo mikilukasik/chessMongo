@@ -2743,7 +2743,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 
 
 
-					if (smallDeepeningTask.depth / 2 != Math.floor(smallDeepeningTask.depth)){		//does this work???!!!!!!!!!!!
+					if (smallDeepeningTask.depth / 2 != Math.floor(smallDeepeningTask.depth/2)){		//does this work???!!!!!!!!!!!
 
 						 thisValue=thisValue*-1 //every second level has negative values: opponent moved
 						//console.log('negative: '+thisValue)					 
