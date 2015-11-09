@@ -1,6 +1,6 @@
 /////////////////////////		Classes		/////////////////////////////////////////////////
 
-var SmallDeepeningTask=function(table, wNext, depth, parentMove, desiredDepth, score, stopped){
+var SmallDeepeningTask=function(table, wNext, depth, moveTree, desiredDepth, score, stopped){
 	
 		this.table= table,
 
@@ -10,7 +10,7 @@ var SmallDeepeningTask=function(table, wNext, depth, parentMove, desiredDepth, s
 
 		//this.treeMoves= treeMoves,
 		
-		this.parentMove=parentMove//treeMoves[depth],			//is this accureate??  !!!!!!!!!!!!!!!!!!
+		this.moveTree=moveTree//treeMoves[depth],			//is this accureate??  !!!!!!!!!!!!!!!!!!
 
 		this.desiredDepth= desiredDepth,
 
@@ -192,9 +192,16 @@ var SmallMoveTask = function(moveCoord, index, dbTable) { //deptObj has data to 
 
 // this.deepMoves=deepMoves
 
-var TriggerItem=function(depth,parentMoveStr,moveTree){		//these will be put in main deepeningTaskArray to trigger calculation of totals for each level
+var ResolverItem=function(inscore,inmoveTree){
+
+	this.value= inscore,
+	this.moveTree= inmoveTree
+
+}
+
+var TriggerItem=function(depth,moveTree){		//these will be put in main deepeningTaskArray to trigger calculation of totals for each level
 	this.depth=depth
-	this.parentMove=parentMoveStr			//4 char string
+	//this.parentMove=parentMoveStr			//4 char string
 	this.moveTree=moveTree
 }
 

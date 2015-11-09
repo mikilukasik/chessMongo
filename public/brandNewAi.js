@@ -2587,13 +2587,13 @@ function resolveDepth(depth, resolverArray) {
 						if (currentValue.value > previousValue.value) {
 							return {
 								value: currentValue.value,
-								moveStr: currentValue.moveStr
+								moveTree: currentValue.moveTree
 							} //currentValue
 
 						} else {
 							return {
 								value: previousValue.value,
-								moveStr: previousValue.moveStr
+								moveTree: previousValue.moveTree
 							} //previousValue
 						}
 
@@ -2609,12 +2609,12 @@ function resolveDepth(depth, resolverArray) {
 						if (currentValue.value < previousValue.value) {
 							return {
 								value: currentValue.value,
-								moveStr: currentValue.moveStr
+								moveTree: currentValue.moveTree
 							}
 						} else {
 							return {
 								value: previousValue.value,
-								moveStr: previousValue.moveStr
+								moveTree: previousValue.moveTree
 							}
 						}
 
@@ -2636,7 +2636,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 	//gets one task, produces an array of more tasks
 	//or empty array when done
 
-	var result = [] //this will be the result																			//these new task go to a fifo array, we solve the tree bit by bit
+	var result = [] 																		//these new tasks go to a fifo array, we solve the tree bit by bit
 		//keeping movestrings only, not eating memory with tables
 
 	//get hitvalue for each move, keep bes ones only
@@ -2699,11 +2699,15 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 				
 				var makeMove=false
 				
+				
+				
 				if (smallDeepeningTask.depth < smallDeepeningTask.desiredDepth) {
 
 						makeMove=true
 
 					}
+					
+				var oldMoveTree=smallDeepeningTask.moveTree
 
 				for (var i = 0; i < possibleMoves.length; i++) {
 					//was possibleMoves.forEach(function(moveStr) { //create a new smalltask for each move
@@ -2714,6 +2718,10 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 					var movedTable = []
 
 					//if (smallDeepeningTask.depth < smallDeepeningTask.desiredDepth) {
+						
+					var newMoveTree=oldMoveTree.slice()
+					
+					newMoveTree.push(moveStr)
 
 					if(makeMove)	movedTable = moveIt(moveStr, smallDeepeningTask.table, true)
 
@@ -2755,9 +2763,10 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 							movedTable,
 							newWNext,
 							smallDeepeningTask.depth + 1,
-							moveStr,
+							newMoveTree,
 							smallDeepeningTask.desiredDepth,
 							smallDeepeningTask.score + thisValue
+							
 							//,stopped is missing, game goes on
 
 
@@ -2798,19 +2807,14 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 
 				} //  )    //end of for each move
 
-				result.push(new TriggerItem(smallDeepeningTask.depth + 1, smallDeepeningTask.parentMove, smallDeepeningTask.moveTree))
+				result.push(new TriggerItem(smallDeepeningTask.depth + 1, smallDeepeningTask.moveTree))
 					//this will trigger move calc when processing array (will be placed before each set of smalltasks)
 
 			}
 
 			} else { //depth +1
 
-				resolverArray[smallDeepeningTask.depth].push({
-
-						value: smallDeepeningTask.score,
-						moveStr: smallDeepeningTask.parentMove
-
-					}) //this will fill in and then gets reduced to best movevalue only
+				resolverArray[smallDeepeningTask.depth].push(new ResolverItem(smallDeepeningTask.score,smallDeepeningTask.moveTree)) //this will fill in and then gets reduced to best movevalue only
 
 
 
