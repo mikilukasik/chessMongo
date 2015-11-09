@@ -192,9 +192,10 @@ var SmallMoveTask = function(moveCoord, index, dbTable) { //deptObj has data to 
 
 // this.deepMoves=deepMoves
 
-var TriggerItem=function(depth,parentMoveStr){		//these will be put in main deepeningTaskArray to trigger calculation of totals for each level
+var TriggerItem=function(depth,parentMoveStr,moveTree){		//these will be put in main deepeningTaskArray to trigger calculation of totals for each level
 	this.depth=depth
 	this.parentMove=parentMoveStr			//4 char string
+	this.moveTree=moveTree
 }
 
 var MoveTask = function(dbTable) {

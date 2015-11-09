@@ -175,57 +175,20 @@
 											var messageTxt = 'echoTest done: ' + timeItTook + 'ms.'
 											$rootScope.sendMessage(messageTxt)
 										}
-
-
-
-
-										//$rootScope.workersSpeed=(new Date().getTime()-$rootScope.wStartTime)
-										//$rootScope.faster=$rootScope.mainThreadSpeed / $rootScope.workersSpeed
+										
 										$rootScope.echoesOn = false
-
-										// var toServer={
-										//     command:'log',
-										//     message:messageTxt,
-										//     thinker:$rootScope.sendID,
-										//     data:{
-										//         timeItTook:timeItTook
-										//     }
-										// }
-
-										// $rootScope.messageTheServer(toServer)
 
 									}
 									else {
-										//one echotest done, recall
-										//$rootScope.sendMessage('recall echotest')
-										//$timeout(sendEchoes(),100)
+										//one echotest done, recall (always do 2 and use only 2nd for results)
+										
 										sendEchoes()
 									}
-									//$rootScope.messageTheServer('Echo test done.')
-									//$rootScope.$apply()
-
-									//stopWorkers()
-
-									//   $http.get('/speedTestResult?thinker=' + $rootScope.sendID +
-									//         '&wSpeed=' + $rootScope.workersSpeed +
-									//         '&mtSpeed=' + $rootScope.mainThreadSpeed +
-									//         '&faster=' + $rootScope.faster
-									//     // +  '&r=' + Math.random()
-									//  ).then(
-									//      function(result){
-									//          $rootScope.speedTestOn=false 
-									//      },function(data){
-									//          $rootScope.refreshWhenUp()
-
-
-
-									//      }
-									//  )
-
-
+									
 							}
+						
 
-						break;
+						break;		//end of 'reEcho'
 
 				}
 
@@ -266,16 +229,39 @@
 			$rootScope.workerSupport = checkWorkerSupport()
 			if ($rootScope.workerSupport) {
 				$rootScope.workerSupportMessage = 'HTML5 Web Workers supported.'
+				
 				startWorkers()
 			}
 			else {
 				$rootScope.workerSupportMessage = 'No Web Workers support.'
 			}
-
+			
+			
+			function ifWorkers(cb){
+				
+				if($rootScope.workerSupport){
+					
+					cb()
+				
+				}else{
+					
+					$rootScope.sendMessage($rootScope.workerSupportMessage)
+				
+				}
+			}
+			
+			
+			//$rootScope.pendingEchoTests = 0
+			
 			function echoTest() {
-
-				$rootScope.pendingEchoTests = 2
-				sendEchoes()
+				
+				ifWorkers(function(){
+					//console.log('callback lefut')
+					$rootScope.pendingEchoTests =2
+					sendEchoes()
+					
+				})
+		
 			}
 
 			function sendEchoes(firstRun) {
@@ -294,9 +280,6 @@
 						}
 					})
 				}
-
-				//$rootScope.sendMessage($rootScope.maxWorkerNum+' echo reqests sent.')
-				//
 
 			}
 
