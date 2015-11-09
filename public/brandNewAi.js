@@ -2837,7 +2837,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 
 function solveDeepeningTask(deepeningTask, tempCommand, aaa) { //designed to solve the whole deepening task on one thread
 	//will return number of smallTasks solved for testing??!!!!!!!!!!!!!!!
-	var taskValue = 0
+	//var taskValue = deepeningTask.
 
 	var startedAt = new Date()
 		.getTime()
@@ -2906,7 +2906,7 @@ function solveDeepeningTask(deepeningTask, tempCommand, aaa) { //designed to sol
 	return {
 		solved: solved,
 		timeItTook: timeItTook,
-		value: taskValue
+		value: resolverArray[1].value
 	} //,(solved + ' tables generated in ' + timeItTook + 'ms. Tables/second: ' + solved * 1000 / timeItTook)]
 
 }
