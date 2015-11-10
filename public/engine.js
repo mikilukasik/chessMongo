@@ -118,7 +118,7 @@ var SmallMoveTask = function(moveCoord, index, dbTable) { //deptObj has data to 
 	if(dbTable.desiredDepth>0){
 		this.desiredDepth = dbTable.desiredDepth
 	}else{
-		this.desiredDepth=3 //should be good, on 4th we check what he could hit but not generate any tables and this should match the old styles performance
+		this.desiredDepth=2 //should be good, on 4th we check what he could hit but not generate any tables and this should match the old styles performance
 	}
 	
 
@@ -250,22 +250,7 @@ var MoveTask = function(dbTable) {
 
 	this.moves = moves
 
-	// this.movesLeftToSend=function(){
-
-	// 	if(this.movesToSend.length=0){
-	// 		return false
-	// 	}else{
-	// 		return true
-	// 	}
-
-	// }
-
-
-
-	//this.totalMoveCount=this.moves.length
-	//var unsentMoveCount=totalMoveCount
-
-	//this.pendingMoveCount=this.totalMoveCount
+	
 
 
 
