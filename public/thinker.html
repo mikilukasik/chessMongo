@@ -857,7 +857,7 @@
 						.getTime()
 					var splitMoveCount = task.data.length
 
-					var postThis = processDeepSplitMoves(task.data, $scope.sendID) //blocks the UI
+					var postThis = mtProcessDeepSplitMoves(task.data, $scope.sendID) //blocks the UI
 
 					$http.post('/myPartIsDone', postThis, function(req, res) {
 

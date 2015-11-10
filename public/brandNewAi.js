@@ -2078,7 +2078,7 @@ var newAi = function(dbTable, modType, modConst, thinker) {
 		.getTime()
 
 	var aiTable = new MoveTask(dbTable)
-	var solvedMoves = processDeepSplitMoves(aiTable.movesToSend, thinker, modType, modConst, looped) //processSplitMoves(aiTable.movesToSend, thinker, modType, modConst, looped)
+	var solvedMoves = mtProcessDeepSplitMoves(aiTable.movesToSend, thinker, modType, modConst, looped) //processSplitMoves(aiTable.movesToSend, thinker, modType, modConst, looped)
 
 	//////console.log(solvedMoves)
 
@@ -3086,7 +3086,7 @@ function speedTest(depth, passToWorkers) {
 	////////////////////////////temp speedtest end///////////////////////
 }
 
-function processDeepSplitMoves(data, thinker, mt, modConst, looped) {
+function mtProcessDeepSplitMoves(data, thinker, mt, modConst, looped) {
 
 	//var result=[]
 	var newData = []
