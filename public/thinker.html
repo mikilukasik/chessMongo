@@ -109,8 +109,7 @@
 
 
 		$scope.setCookies = function() {
-			// setCookie("totalT2", $scope.totalTook, 365);
-			// setCookie("mCount2", $scope.moveCount, 365);
+			
 			setCookie("mainThreadSpeed", $scope.mainThreadSpeed, 365);
 
 		}
@@ -140,15 +139,13 @@
 		}
 
 		$scope.messageTheServer = function(message) {
-			$http.post('/thinkerMessage', message, function() {}) //+ new Date().getTime() +': '+message)
+			$http.post('/thinkerMessage', message, function() {}) 
 				.then(function(result) {
 
 				}, function(data) {
 					refreshWhenUp()
 				})
-				// if(!$scope.$$phase) {
-				// 				$scope.$apply()
-				// 			}
+				
 		}
 
 		$scope.sendMessage('Starting..')
@@ -166,9 +163,6 @@
 
 
 		subWorkerMsgInThinker = function(event) {
-			//$scope.sendMessage('@'+new Date().getTime()+', worker: '+event.data.resData.worker+', resData: '+event.data.resData);
-
-
 			//check resCommand
 
 			switch (event.data.resCommand) {
