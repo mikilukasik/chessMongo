@@ -161,7 +161,16 @@
 			}
 		}
 
-
+		$scope.toPostSplitMoves=[]
+		
+		$scope.resolveWorkedSplitMove=function(depth,tempResolveArray){
+			console.log('resolving: ',tempResolveArray)
+			resolveDepth(depth,tempResolveArray)
+			console.log('resolved: ',tempResolveArray)
+			
+			
+		}
+		
 		subWorkerMsgInThinker = function(event) {
 			//check resCommand
 
@@ -169,13 +178,24 @@
 
 				case 'sdtSolved':
 				
+					var toPush=event.data.resData
 					
-					$scope.waitingSdts.push(event.data.resData)
+					toPush.value=toPush.score
+					
+					$scope.waitingSdts.push(toPush)
 					
 					if($scope.waitingSdts.length==$scope.sentSdtCount){
+						//resolve one splitmove now:
 						
-						console.log('resolve now: ')
-						console.log($scope.waitingSdts)
+						console.log('resolve now: '+$scope.waitingSdts[0].moveTree)
+						
+						var tempResolveArray=[]
+						tempResolveArray[1]=[]
+						tempResolveArray[2]=$scope.waitingSdts
+						
+						$scope.resolveWorkedSplitMove(2,tempResolveArray)
+						//use tempResolveArray[1][0].value
+						$scope.toPostSplitMoves.push(tempResolveArray[1][0])
 					}
 					
 					
@@ -935,16 +955,16 @@
 		function mwProcessDeepSplitMoves(data, thinker, mt, modConst, looped) {
 			
 			var newData = data.slice()
-			var rtnData = []
+			//var rtnData = []
 			
-			while (data.length > 0) {
+			if (data.length > 0) {
 		
 				var toPush = workerMove(newData.pop())
 				toPush.thinker = thinker
 				rtnData.push(toPush)
 			
 			}
-			return rtnData
+			//return rtnData
 		}
 		
 		function sendStdToWorker(smallDeepeningTask){
