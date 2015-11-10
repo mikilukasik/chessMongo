@@ -9,15 +9,15 @@
 	<script>
 	var appModule = angular.module("appModule", []);
 
-	function ApplicationController($rootScope, $http, $interval, $timeout) {
+	function ApplicationController($scope, $http, $interval, $timeout) {
 
-		$rootScope.heartBeat = 300
-		$rootScope.mv = 0
-		$rootScope.pw = false
-		$rootScope.pollsPending = 0
+		$scope.heartBeat = 300
+		$scope.mv = 0
+		$scope.pw = false
+		$scope.pollsPending = 0
 		
 		
-		$rootScope.maxWorkerNum = 12
+		$scope.maxWorkerNum = 12
 		var nextWorkerNum=0
 		
 		var mainWorker;
@@ -29,32 +29,32 @@
 			return false
 		}
 
-		$rootScope.workerSupport = checkWorkerSupport()
+		$scope.workerSupport = checkWorkerSupport()
 		
-		if ($rootScope.workerSupport) {
-			$rootScope.workerSupportMessage = 'HTML5 Web Workers supported.'
+		if ($scope.workerSupport) {
+			$scope.workerSupportMessage = 'HTML5 Web Workers supported.'
 			
 		} else {
-			$rootScope.workerSupportMessage = 'No Web Workers support.'
+			$scope.workerSupportMessage = 'No Web Workers support.'
 		}
 
 
 		function ifWorkers(cb) {
 
-			if ($rootScope.workerSupport) {
+			if ($scope.workerSupport) {
 
 				cb()
 
 			} else {
 
-				$rootScope.sendMessage($rootScope.workerSupportMessage)
+				$scope.sendMessage($scope.workerSupportMessage)
 
 			}
 		}
 		
 			
 		var nextSubWorker=function(subWorkers){
-			if(nextWorkerNum<$rootScope.maxWorkerNum){
+			if(nextWorkerNum<$scope.maxWorkerNum){
 				nextWorkerNum++
 			}else{
 				nextWorkerNum=0
@@ -81,92 +81,92 @@
 			return "";
 		}
 
-		$rootScope.cookieID = ""
-		$rootScope.mainThreadSpeed = ""
-		$rootScope.mainThreadSpeed = ""
-		$rootScope.mainThreadSpeed = ""
+		$scope.cookieID = ""
+		$scope.mainThreadSpeed = ""
+		$scope.mainThreadSpeed = ""
+		$scope.mainThreadSpeed = ""
 
-		$rootScope.cookieID = getCookie("myID");
-		$rootScope.mainThreadSpeed = getCookie("mainThreadSpeed");
-		$rootScope.mainThreadSpeed = getCookie("singleWorkerSpeed");
-		$rootScope.mainThreadSpeed = getCookie("multiWorkerSpeed");
-
-
+		$scope.cookieID = getCookie("myID");
+		$scope.mainThreadSpeed = getCookie("mainThreadSpeed");
+		$scope.mainThreadSpeed = getCookie("singleWorkerSpeed");
+		$scope.mainThreadSpeed = getCookie("multiWorkerSpeed");
 
 
-		if ($rootScope.cookieID == "") {
 
-			$rootScope.sendID = Math.random() * 100000000
+
+		if ($scope.cookieID == "") {
+
+			$scope.sendID = Math.random() * 100000000
 		} else {
-			$rootScope.sendID = $rootScope.cookieID
+			$scope.sendID = $scope.cookieID
 		}
 
-		$rootScope.setID = function(id) {
+		$scope.setID = function(id) {
 			setCookie("myID", id, 365)
-			$rootScope.cookieID = id //$rootScope.gotID=true
-			$rootScope.sendID = id
+			$scope.cookieID = id //$scope.gotID=true
+			$scope.sendID = id
 		}
 
 
-		$rootScope.setCookies = function() {
-			// setCookie("totalT2", $rootScope.totalTook, 365);
-			// setCookie("mCount2", $rootScope.moveCount, 365);
-			setCookie("mainThreadSpeed", $rootScope.mainThreadSpeed, 365);
+		$scope.setCookies = function() {
+			// setCookie("totalT2", $scope.totalTook, 365);
+			// setCookie("mCount2", $scope.moveCount, 365);
+			setCookie("mainThreadSpeed", $scope.mainThreadSpeed, 365);
 
 		}
 
-		$rootScope.messages = []
+		$scope.messages = []
 
-		$rootScope.sendMessage = function(message) {
+		$scope.sendMessage = function(message) {
 			
 			//console.log(message)
 			
-			$rootScope.messageTheServer({
+			$scope.messageTheServer({
 
 				'command': 'log',
 				'message': message,
-				'thinker': $rootScope.sendID
+				'thinker': $scope.sendID
 
 			})
 
-			$rootScope.messages.push('@' + new Date()
+			$scope.messages.push('@' + new Date()
 				.getTime() + ': ' + message)
-			if (!$rootScope.$$phase) {
+			if (!$scope.$$phase) {
 
-				$rootScope.$apply()
+				$scope.$apply()
 
 			}
-			if ($rootScope.messages.length > 20) $rootScope.messages.shift()
+			if ($scope.messages.length > 20) $scope.messages.shift()
 		}
 
-		$rootScope.messageTheServer = function(message) {
+		$scope.messageTheServer = function(message) {
 			$http.post('/thinkerMessage', message, function() {}) //+ new Date().getTime() +': '+message)
 				.then(function(result) {
 
 				}, function(data) {
 					refreshWhenUp()
 				})
-				// if(!$rootScope.$$phase) {
-				// 				$rootScope.$apply()
+				// if(!$scope.$$phase) {
+				// 				$scope.$apply()
 				// 			}
 		}
 
-		$rootScope.sendMessage('Starting..')
+		$scope.sendMessage('Starting..')
 		
 		
 
-		$rootScope.changeLastMessage = function(message) {
-			$rootScope.messages.pop()
-			$rootScope.messages.push('@' + new Date()
+		$scope.changeLastMessage = function(message) {
+			$scope.messages.pop()
+			$scope.messages.push('@' + new Date()
 				.getTime() + ': ' + message)
-			if (!$rootScope.$$phase) {
-				$rootScope.$apply()
+			if (!$scope.$$phase) {
+				$scope.$apply()
 			}
 		}
 
 
 		subWorkerMsgInThinker = function(event) {
-			//$rootScope.sendMessage('@'+new Date().getTime()+', worker: '+event.data.resData.worker+', resData: '+event.data.resData);
+			//$scope.sendMessage('@'+new Date().getTime()+', worker: '+event.data.resData.worker+', resData: '+event.data.resData);
 
 
 			//check resCommand
@@ -176,23 +176,23 @@
 				case 'reEcho':
 
 
-					$rootScope.pendingEchoes--
+					$scope.pendingEchoes--
 
-						////console.log($rootScope.pendingSpeedTest)
-						if ($rootScope.pendingEchoes == 0) {
-							$rootScope.pendingEchoTests--
-								if ($rootScope.pendingEchoTests == 0) {
+						////console.log($scope.pendingSpeedTest)
+						if ($scope.pendingEchoes == 0) {
+							$scope.pendingEchoTests--
+								if ($scope.pendingEchoTests == 0) {
 
 									var timeNow = new Date()
 										.getTime()
-									var timeItTook = timeNow - $rootScope.echoTestStarted
+									var timeItTook = timeNow - $scope.echoTestStarted
 
-									if ($rootScope.initialEchoesOn) {
+									if ($scope.initialEchoesOn) {
 
-										$rootScope.initialEchoesOn = false
+										$scope.initialEchoesOn = false
 
 										var messageTxt = 'init echoTest done: ' + timeItTook + 'ms.'
-										$rootScope.sendMessage(messageTxt)
+										$scope.sendMessage(messageTxt)
 
 										//var initDeepSpeedTeststarted=new Date().getTime();
 
@@ -202,27 +202,27 @@
 											//var speedTestTime = resSpeedTest.time 
 
 
-										$rootScope.sendMessage('init mainThread deepSpeedTest (level ' + level + ') done: ' + resSpeedTest.solved + ' tables in ' + resSpeedTest.timeItTook + 'ms. aiMove: ' + resSpeedTest.winningMove + ', value: ' + resSpeedTest.winningValue)
-										$rootScope.mainThreadSpeed = 1000 / resSpeedTest.timeItTook //we should use this!!!!!!!!!
+										$scope.sendMessage('init mainThread deepSpeedTest (level ' + level + ') done: ' + resSpeedTest.solved + ' tables in ' + resSpeedTest.timeItTook + 'ms. aiMove: ' + resSpeedTest.winningMove + ', value: ' + resSpeedTest.winningValue)
+										$scope.mainThreadSpeed = 1000 / resSpeedTest.timeItTook //we should use this!!!!!!!!!
 
-										//var mainThreadSpeed = (Number($rootScope.mainThreadSpeed) + 0.2 * Number(splitMoveCount / (timeItTook / 1000))) / 1.2 //this should keep the last 6 average
+										//var mainThreadSpeed = (Number($scope.mainThreadSpeed) + 0.2 * Number(splitMoveCount / (timeItTook / 1000))) / 1.2 //this should keep the last 6 average
 
-										//console.log($rootScope.mainThreadSpeed)
+										//console.log($scope.mainThreadSpeed)
 
 										///save it in cookie
-										$rootScope.setCookies() //
+										$scope.setCookies() //
 
-										$rootScope.sendMessage('Up and running!')
+										$scope.sendMessage('Up and running!')
 
 
 
 
 									} else {
 										var messageTxt = 'echoTest done: ' + timeItTook + 'ms.'
-										$rootScope.sendMessage(messageTxt)
+										$scope.sendMessage(messageTxt)
 									}
 
-									$rootScope.echoesOn = false
+									$scope.echoesOn = false
 
 								} else {
 									//one echotest done, recall (always do 2 and use only 2nd for results)
@@ -250,13 +250,13 @@
 		
 
 
-		//$rootScope.pendingEchoTests = 0
+		//$scope.pendingEchoTests = 0
 
 		function echoTest() {
 
 			ifWorkers(function() {
 				////console.log('callback lefut')
-				$rootScope.pendingEchoTests = 2
+				$scope.pendingEchoTests = 2
 				sendEchoes()
 
 			})
@@ -264,13 +264,13 @@
 		}
 
 		function sendEchoes(firstRun) {
-			//if(!$rootScope.echoesOn){
-			// $rootScope.echoesOn=true
-			$rootScope.pendingEchoes = $rootScope.maxWorkerNum
-			$rootScope.echoTestStarted = new Date()
+			//if(!$scope.echoesOn){
+			// $scope.echoesOn=true
+			$scope.pendingEchoes = $scope.maxWorkerNum
+			$scope.echoTestStarted = new Date()
 				.getTime()
-			for (var i = 0; i < $rootScope.maxWorkerNum; i++) {
-				//$rootScope.pendingEchoes++
+			for (var i = 0; i < $scope.maxWorkerNum; i++) {
+				//$scope.pendingEchoes++
 				subWorkers[i].postMessage({				
 					reqMessgage: 'echo',
 					reqCommand: 'echo',
@@ -285,14 +285,14 @@
 		function startWorkers() {
 			//if(typeof(Worker) !== "undefined") {
 
-			// $rootScope.workersSupported='Your browser supports HTML5 Web mainWorker.'
+			// $scope.workersSupported='Your browser supports HTML5 Web mainWorker.'
 
 			if (typeof(mainWorker) == "undefined") {
-				$rootScope.sendMessage('starting mainWorker..')
+				$scope.sendMessage('starting mainWorker..')
 					////console.log('starting mainWorker..')
 				mainWorker = new Worker("aiworker.js");
 			} else {
-				$rootScope.sendMessage('!!! tried to start already running main worker !!!')
+				$scope.sendMessage('!!! tried to start already running main worker !!!')
 			}
 
 			//temp   mainWorker.onmessage = mainWorkerMsgInThinker
@@ -300,11 +300,11 @@
 			//subworker listener:
 			//subWorkers[subWorkerNo].onmessage = subWorkerMsgInThinker
 
-			$rootScope.sendMessage("mainWorker should be running, starting subWorkers..")
+			$scope.sendMessage("mainWorker should be running, starting subWorkers..")
 
 			var workerToStrart = 0
-			$rootScope.sendMessage("subWorkers started: 0")
-			while (workerToStrart < $rootScope.maxWorkerNum) {
+			$scope.sendMessage("subWorkers started: 0")
+			while (workerToStrart < $scope.maxWorkerNum) {
 
 				subWorkers[workerToStrart] = new Worker("aiworker.js");
 
@@ -315,18 +315,18 @@
 
 				workerToStrart++
 
-				//$rootScope.changeLastMessage("subWorkers started: " + workerToStrart)
+				//$scope.changeLastMessage("subWorkers started: " + workerToStrart)
 
 
 			}
 
-			$rootScope.sendMessage('subWorkers should be up and running, running initial echoTests..')
+			$scope.sendMessage('subWorkers should be up and running, running initial echoTests..')
 
 
 
 			//here we have all workers running
 
-			$rootScope.initialEchoesOn = true
+			$scope.initialEchoesOn = true
 			echoTest() //true for initial
 
 
@@ -338,7 +338,7 @@
 			mainWorker.terminate();
 			mainWorker = undefined;
 
-			for (var i = 0; i < $rootScope.maxWorkerNum; i++) {
+			for (var i = 0; i < $scope.maxWorkerNum; i++) {
 
 				subWorkers[i].terminate();
 				subWorkers[i] = undefined;
@@ -389,7 +389,7 @@
 
 				myGame.table = moveIt(moveStr, myGame.table) //	<----moves it
 
-				//$rootScope.showTable(myGame.table)
+				//$scope.showTable(myGame.table)
 
 				myGame.wNext = !myGame.wNext
 
@@ -405,9 +405,9 @@
 
 				myGame.allPastTables.push(sendThis)
 
-				//$rootScope.whatToDo = 'idle'
+				//$scope.whatToDo = 'idle'
 
-				//$rootScope.sendMessage('move '+moveStr+' processed.')
+				//$scope.sendMessage('move '+moveStr+' processed.')
 
 				/////////////////////////
 
@@ -418,40 +418,40 @@
 
 			if (learnerLooped(myGame.allPastTables)) myGame.isDraw = true
 
-			$rootScope.sendMessage('table ' + myGame._id + ' processed. (eval)')
+			$scope.sendMessage('table ' + myGame._id + ' processed. (eval)')
 
 			return myGame
 
 		}
 
 		///////
-		$rootScope.pollOn = true
-			//$rootScope.messages = []
-		$rootScope.succeeded = 0
+		$scope.pollOn = true
+			//$scope.messages = []
+		$scope.succeeded = 0
 
 
-		$rootScope.refreshWhenUp = function() {
+		$scope.refreshWhenUp = function() {
 
-			$http.get('/forceStop?t=' + $rootScope._id)
+			$http.get('/forceStop?t=' + $scope._id)
 				.then(function(response) {
-					$rootScope.setCookies()
-					$rootScope.succeeded++
-						//$rootScope.sendMessage('connection came back, will restart soon..')
-						$rootScope.receivedMessage = 'restart in 10s'
-					if ($rootScope.succeeded > 3) { //server must be running
-						$rootScope.succeeded = 0
-						$rootScope.sendMessage('refreshing window..')
-						window.location.reload(true); //$rootScope.sendMessage('looped, forceStop sent')
+					$scope.setCookies()
+					$scope.succeeded++
+						//$scope.sendMessage('connection came back, will restart soon..')
+						$scope.receivedMessage = 'restart in 10s'
+					if ($scope.succeeded > 3) { //server must be running
+						$scope.succeeded = 0
+						$scope.sendMessage('refreshing window..')
+						window.location.reload(true); //$scope.sendMessage('looped, forceStop sent')
 					} else {
 
-						$timeout($rootScope.refreshWhenUp(), 3000)
+						$timeout($scope.refreshWhenUp(), 3000)
 					}
 
 
 				}, function(data) {
-					$rootScope.receivedMessage = 'connection error, 3s retry'
-					$rootScope.succeeded = 0
-					$timeout($rootScope.refreshWhenUp(), 3000)
+					$scope.receivedMessage = 'connection error, 3s retry'
+					$scope.succeeded = 0
+					$timeout($scope.refreshWhenUp(), 3000)
 				})
 		}
 
@@ -460,7 +460,7 @@
 		////////////some learning
 
 
-		$rootScope.learnerPair = function(modType, modVal, scndGame) {
+		$scope.learnerPair = function(modType, modVal, scndGame) {
 
 			//var _id = 0
 
@@ -475,17 +475,17 @@
 
 
 			if (wModded) { //this tells us if wmodded
-				//firstFreeTable=$rootScope.start("mod lpV:" + modVal, "standard")._id
+				//firstFreeTable=$scope.start("mod lpV:" + modVal, "standard")._id
 				initedTable = new Dbtable(1, modType + " mod: " + modVal, "standard")
 			} else {
-				//firstFreeTable=$rootScope.start( "standard", "mod lpV:" + modVal)._id
+				//firstFreeTable=$scope.start( "standard", "mod lpV:" + modVal)._id
 				initedTable = new Dbtable(1, "standard", modType + " mod: " + modVal)
 
 
 			}
 
 			initedTable.learnerGame = true
-			initedTable.learnedOn = $rootScope.sendID
+			initedTable.learnedOn = $scope.sendID
 
 			//console.log('finding _id for ' + initedTable.wName + " vs " + initedTable.bName)
 
@@ -495,38 +495,38 @@
 					//console.log('_id received: ' + response.data._id)
 					initedTable._id = response.data._id
 
-					$rootScope.sendMessage('learning ' + modType + ' on t' + initedTable._id + ", wModded: " + wModded)
+					$scope.sendMessage('learning ' + modType + ' on t' + initedTable._id + ", wModded: " + wModded)
 						//var initedTable = []
 
 
 
-					//$rootScope.myGame = initedTable			//kell ez????
+					//$scope.myGame = initedTable			//kell ez????
 
 
 
 
-					//$rootScope.showTable($rootScope.myGame.table)
+					//$scope.showTable($scope.myGame.table)
 
 					////console.log("started, let's move")
 
-					//$rootScope.whatToDo = 'idle'
+					//$scope.whatToDo = 'idle'
 					////console.log('Table should be in DB, start soon..')
 					var modConst = getMcFromMv(modVal)
 
-					$http.get('/learnerPoll?n=' + $rootScope.sendID +
+					$http.get('/learnerPoll?n=' + $scope.sendID +
 						'&t=' + initedTable._id +
 						'&mt=' + modType +
-						'&mv=' + modVal + '&p=' + modConst + '&a=' + $rootScope.mainThreadSpeed
+						'&mv=' + modVal + '&p=' + modConst + '&a=' + $scope.mainThreadSpeed
 						// +  '&r=' + Math.random()
 					)
 
 					initedTable.modConst = modConst
 
-					$rootScope.playgame(initedTable, modType, modVal, true, wModded) //true stands for wNext
+					$scope.playgame(initedTable, modType, modVal, true, wModded) //true stands for wNext
 				}, function(data) {
-					$rootScope.headMessage = 'Connection error, refreshing'
+					$scope.headMessage = 'Connection error, refreshing'
 
-					$rootScope.refreshWhenUp()
+					$scope.refreshWhenUp()
 
 				})
 
@@ -536,18 +536,18 @@
 
 
 		///////more
-		$rootScope.playgame = function(myGame, mt, mv, wNx, wMod) {
+		$scope.playgame = function(myGame, mt, mv, wNx, wMod) {
 
-			if ($rootScope.learning) {
-				$rootScope.playgame2(myGame, mt, mv, wNx, wMod)
+			if ($scope.learning) {
+				$scope.playgame2(myGame, mt, mv, wNx, wMod)
 			}
 		}
-		$rootScope.playgame2 = function(myGame, mt, modVal, wNx, wMod) {
-			//$rootScope.whatToDo = 'busy'
+		$scope.playgame2 = function(myGame, mt, modVal, wNx, wMod) {
+			//$scope.whatToDo = 'busy'
 			//console.log('thinking of some move..')
 			var result = []
 
-			//  if($rootScope.learning){
+			//  if($scope.learning){
 			var modConst = getMcFromMv(modVal) //we don't need this at every move!!!!!!
 
 
@@ -555,7 +555,7 @@
 			//console.log('modVal: ' + modVal + ', modConst: ' + modConst)
 
 			if (wNx == wMod) {
-				result = newAi(myGame, mt, modConst, $rootScope.sendID) //get modded result   //dont need $rootScope.sendID!!!!
+				result = newAi(myGame, mt, modConst, $scope.sendID) //get modded result   //dont need $scope.sendID!!!!
 			} else {
 				result = newAi(myGame)
 			}
@@ -565,10 +565,10 @@
 			//kikapcs
 
 			//  }
-			//$rootScope.moveTook = result[0][2] //timeItTook
-			// $rootScope.totalTook= Number($rootScope.totalTook) + Number(result[0][2])
-			// $rootScope.moveCount++
-			// $rootScope.avgTime=60000/($rootScope.totalTook/$rootScope.moveCount) //avg moves per minute
+			//$scope.moveTook = result[0][2] //timeItTook
+			// $scope.totalTook= Number($scope.totalTook) + Number(result[0][2])
+			// $scope.moveCount++
+			// $scope.avgTime=60000/($scope.totalTook/$scope.moveCount) //avg moves per minute
 
 			if (result[0][6]) {
 				//looped
@@ -580,13 +580,13 @@
 				$http.post('/moved', myGame, function(req, res) {})
 
 
-				$http.get('/forceStop?t=' + $rootScope._id)
+				$http.get('/forceStop?t=' + $scope._id)
 					.then(function(response) {
 						//console.log('looped, forceStop sent')
 					}, function(data) {
-						$rootScope.headMessage = 'Connection error, refreshing'
+						$scope.headMessage = 'Connection error, refreshing'
 
-						$rootScope.refreshWhenUp()
+						$scope.refreshWhenUp()
 
 					})
 			}
@@ -606,7 +606,7 @@
 				// }
 
 
-				$rootScope.whatToDo = 'idle'
+				$scope.whatToDo = 'idle'
 			} else { //can't move
 
 				//eval
@@ -639,7 +639,7 @@
 				// myGame.moves.push(toPush)
 
 				// myGame.table = moveIt(aiMoveString, myGame.table)
-				// $rootScope.showTable(myGame.table)
+				// $scope.showTable(myGame.table)
 
 				// myGame.wNext = !myGame.wNext
 
@@ -653,7 +653,7 @@
 
 				// myGame.allPastTables.push(createState(myGame.table))
 
-				// $rootScope.whatToDo = 'idle'
+				// $scope.whatToDo = 'idle'
 
 				//}
 			} else {
@@ -679,7 +679,7 @@
 
 			}
 			// 	
-			//if($rootScope.learning){
+			//if($scope.learning){
 
 
 			if (myGame.pollNum / 15 == Math.floor(myGame.pollNum / 15)) {
@@ -690,7 +690,7 @@
 
 
 
-				$rootScope.sendMessage('playing on t' + myGame._id + ', p' + myGame.pollNum)
+				$scope.sendMessage('playing on t' + myGame._id + ', p' + myGame.pollNum)
 
 				//temp:
 
@@ -706,12 +706,12 @@
 
 
 
-				if ($rootScope.lastTotal == tableTotal) {
+				if ($scope.lastTotal == tableTotal) {
 					myGame.gameIsOn = false
 					evalGame(myGame, true)
 					myGame.gameIsOn = false
 				} else {
-					$rootScope.lastTotal = tableTotal
+					$scope.lastTotal = tableTotal
 				}
 
 			}
@@ -722,7 +722,7 @@
 			if (myGame.gameIsOn) {
 
 				$timeout(function() {
-					$rootScope.playgame(myGame, mt, modVal, !wNx, wMod)
+					$scope.playgame(myGame, mt, modVal, !wNx, wMod)
 
 				}, 100)
 
@@ -735,12 +735,12 @@
 
 				if (wMod) {
 					////console.log('Starting rematch (play black)')
-					$rootScope.sendMessage('Starting rematch (play black)')
-					$timeout($rootScope.learnerPair(mt, modVal, true), 500)
+					$scope.sendMessage('Starting rematch (play black)')
+					$timeout($scope.learnerPair(mt, modVal, true), 500)
 				} else {
 					////console.log('gamepair done, starting again with white')
-					$rootScope.sendMessage('gamepair done, starting again with white')
-					$timeout($rootScope.startGamePair(), 500)
+					$scope.sendMessage('gamepair done, starting again with white')
+					$timeout($scope.startGamePair(), 500)
 
 
 
@@ -767,8 +767,8 @@
 			return tt
 		}
 
-		$rootScope.startGamePair = function() {
-			if ($rootScope.learning) {
+		$scope.startGamePair = function() {
+			if ($scope.learning) {
 				$http.get('/getModTypes')
 					.then(function(response) {
 
@@ -782,21 +782,21 @@
 
 						var modVal = Number(response.data.min) + (Math.random() * (response.data.max - response.data.min))
 
-						$rootScope.mv = modVal
-						$rootScope.mt = modType
+						$scope.mv = modVal
+						$scope.mt = modType
 
-						$rootScope.sendMessage('start learning...')
-						$rootScope.learnerPair(modType, modVal) //this will call another game with black when done
+						$scope.sendMessage('start learning...')
+						$scope.learnerPair(modType, modVal) //this will call another game with black when done
 					}, function(data) {
 						//error, retry
-						$rootScope.receivedMessage = 'error getting modTypes'
-						$rootScope.refreshWhenUp() //retry kene?
+						$scope.receivedMessage = 'error getting modTypes'
+						$scope.refreshWhenUp() //retry kene?
 					})
 
 			}
 		}
 
-		$rootScope.doTask = function(task) {
+		$scope.doTask = function(task) {
 			//where the magic happens
 
 			switch (task.command) {
@@ -807,41 +807,41 @@
 
 				case "echoTest":
 
-					if (!$rootScope.echoesOn) {
-						$rootScope.echoesOn = true
-							//$rootScope.sendMessage('Echotest started...')
+					if (!$scope.echoesOn) {
+						$scope.echoesOn = true
+							//$scope.sendMessage('Echotest started...')
 						echoTest()
 					} else {
-						$rootScope.sendMessage('cannot start, echotest is already on...')
+						$scope.sendMessage('cannot start, echotest is already on...')
 					}
 					break;
 
 				case "learnStart":
-					if (!$rootScope.learning) {
+					if (!$scope.learning) {
 
-						$rootScope.learning = true
-						$rootScope.startGamePair()
+						$scope.learning = true
+						$scope.startGamePair()
 
 
 					} else {
-						$rootScope.sendMessage('learnStart: already learning..')
+						$scope.sendMessage('learnStart: already learning..')
 					}
-					//$rootScope.learnerPair()
+					//$scope.learnerPair()
 
 					break;
 
 
 				case "learnStop":
-					if ($rootScope.learning) {
-						$rootScope.learning = false
-							//  $rootScope.startGamePair()
+					if ($scope.learning) {
+						$scope.learning = false
+							//  $scope.startGamePair()
 
-						$rootScope.sendMessage('Learning stopped.')
+						$scope.sendMessage('Learning stopped.')
 					} else {
-						$rootScope.sendMessage("learnStop: wasn't learning..")
+						$scope.sendMessage("learnStop: wasn't learning..")
 					}
 
-					//$rootScope.learnerPair()
+					//$scope.learnerPair()
 
 					break;
 
@@ -850,8 +850,8 @@
 				case "refresh":
 
 					//console.log(task.message)
-					$rootScope.refreshWhenUp()
-					$rootScope.pollOn = false
+					$scope.refreshWhenUp()
+					$scope.pollOn = false
 
 
 					break;
@@ -859,11 +859,11 @@
 				case "splitMove":
 					//this is on the main thread
 
-					$rootScope.solvingStarted = new Date()
+					$scope.solvingStarted = new Date()
 						.getTime()
 					var splitMoveCount = task.data.length
 
-					var postThis = processDeepSplitMoves(task.data, $rootScope.sendID) //blocks the UI
+					var postThis = processDeepSplitMoves(task.data, $scope.sendID) //blocks the UI
 
 					$http.post('/myPartIsDone', postThis, function(req, res) {
 
@@ -871,18 +871,18 @@
 
 					})
 					var timeItTook = (new Date()
-						.getTime() - $rootScope.solvingStarted)
+						.getTime() - $scope.solvingStarted)
 
 
 
 					//should use all speedtests!!!!!!!!
-					//$rootScope.mainThreadSpeed = (Number($rootScope.mainThreadSpeed) + 0.2 * Number(splitMoveCount / (timeItTook / 1000))) / 1.2 //this should keep the last 6 average
+					//$scope.mainThreadSpeed = (Number($scope.mainThreadSpeed) + 0.2 * Number(splitMoveCount / (timeItTook / 1000))) / 1.2 //this should keep the last 6 average
 
-					$rootScope.sendMessage(splitMoveCount + ' moves solved in ' + timeItTook + 'ms on the main thread.')
+					$scope.sendMessage(splitMoveCount + ' moves solved in ' + timeItTook + 'ms on the main thread.')
 
 					///save it in cookie
 
-					//$rootScope.setCookies() //
+					//$scope.setCookies() //
 
 					break;
 
@@ -896,7 +896,7 @@
 
 					})
 
-					// $rootScope.pleasePlay=false
+					// $scope.pleasePlay=false
 
 
 					break;
@@ -906,7 +906,7 @@
 					var postThis = evaledGame(task.data)
 					//console.log('tnum,pollnum,wwon,bwon,isdraw: ', postThis._id, postThis.pollNum, postThis.whiteWon, postThis.blackWon, postThis.isDraw)
 					$http.post('/evaledGame', postThis, function(req, res) {
-							$rootScope.sendMessage('t' + postThis._id + ' posted.')
+							$scope.sendMessage('t' + postThis._id + ' posted.')
 						})
 						//should ping
 					break;
@@ -919,57 +919,46 @@
 		//
 		/////////longpoll tasks stuff
 
-		$rootScope.taskNum = 0
+		$scope.taskNum = 0
 
 		var longPollTasks = function() {
 
-			$http.get('/longPollTasks?id=' + $rootScope.sendID + '&tn=' + $rootScope.taskNum + '&spd=' + $rootScope.mainThreadSpeed)
+			$http.get('/longPollTasks?id=' + $scope.sendID + '&tn=' + $scope.taskNum + '&spd=' + $scope.mainThreadSpeed)
 				.then(function(response) {
 
 					// 1 task received
 
-					$rootScope.taskNum = response.data.taskNum
+					$scope.taskNum = response.data.taskNum
 
-					$rootScope.receivedMessage = response.data.message //display Heading
+					$scope.receivedMessage = response.data.message //display Heading
 
-					$rootScope.sendMessage('task #' + response.data.taskNum + ' received, ' + response.data.command + ': ' + response.data.message)
+					$scope.sendMessage('task #' + response.data.taskNum + ' received, ' + response.data.command + ': ' + response.data.message)
 
-					$rootScope.doTask(response.data)
+					$scope.doTask(response.data)
 
 
-					//  if($rootScope.idle){
-					if ($rootScope.pollOn) longPollTasks() //recall for new task, server might hold any new task until this one finishes
+					//  if($scope.idle){
+					if ($scope.pollOn) longPollTasks() //recall for new task, server might hold any new task until this one finishes
 						//}
 				}, function(data) {
 					//error, retry
-					$rootScope.receivedMessage = 'error'
-					$rootScope.refreshWhenUp() //retry kene?
+					$scope.receivedMessage = 'error'
+					$scope.refreshWhenUp() //retry kene?
 				})
 
 		}
 
 
+		longPollTasks() //start initial longpoll
+		
+		
+		
 
 		/////////longpoll tasks stuff end
 
 
-		// $rootScope.sendMessage = function(message) {
-		//     $rootScope.messages.unshift(message + ' @' + (new Date).getTime())
-		// }
 
-		// all the crap here......
-
-
-
-
-		longPollTasks() //start initial longpoll
-
-		// $interval( function(){			//vmiert nem jo
-		// 	//console.log('holazaping')
-		// 	longPollTasks()
-		// } , 8000)//ping
-
-
+		
 	}
 	appModule.controller("ApplicationController", ApplicationController);
 	</script>
@@ -980,14 +969,6 @@
 	<form ng-if="cookieID==''" ng-submit="setID(thisID)">
 		<input id="inputID" ng-model="thisID"></input>
 	</form>
-
-
-	<!--<p>Total moves: {{moveCount}}</p> 
-	<p>Learner average: {{totalTook}} / {{moveCount}} = {{avgTime}} </p>-->
-
-
-
-
 
 	<p>{{receivedMessage}}
 	</p>
