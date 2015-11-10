@@ -28,7 +28,7 @@ var SmallDeepeningTask=function(table, wNext, depth, moveTree, desiredDepth, sco
 // 	this.pendingCount=pendingCount	//this will be lowered to 0		//do i need this???!!!!!!!!!!!!!!!!!!
 // }
 
-var DeepeningTask = function(smallMoveTask,doFirstLevel) { //keep this fast, designed for main thread and mainWorker ???not sure..     //smallMoveTask is a smallMoveTask, to be deepend further
+var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for main thread and mainWorker ???not sure..     //smallMoveTask is a smallMoveTask, to be deepend further
 
 	this.resolverArray=[]
 

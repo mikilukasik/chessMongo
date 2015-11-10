@@ -2748,6 +2748,21 @@ function resolveDepth(depth, resolverArray) {
 	resolverArray[depth] = []
 }
 
+function oneDeeper(deepeningTask){		//only takes original first level deepeningtasks??
+	
+	var newTasks=[]
+	
+	var resolverArray = []//deepeningTask.resolverArray //multidim, for each depth the results, will be updated a million times
+	
+	var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
+
+
+	deepeningTask.smallDeepeningTasks = solveSmallDeepeningTask(smallDeepeningTask, resolverArray)
+	
+	deepeningTask.resolverArray=resolverArray
+
+}
+
 function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 	//this is the function that runs a million times
 
