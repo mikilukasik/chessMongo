@@ -172,9 +172,9 @@
 		
 		$scope.resolveWorkedSplitMove=function(depth,tempResolveArray){
 			
-			////console.log('resolving: ',tempResolveArray)
+			//console.log('resolving: ',tempResolveArray)
 			resolveDepth(depth,tempResolveArray)
-			////console.log('resolved: ',tempResolveArray)
+			//console.log('resolved: ',tempResolveArray)
 			
 			
 			
@@ -228,6 +228,7 @@
 						var tempResolveArray=[]
 						tempResolveArray[1]=[]
 						tempResolveArray[2]=$scope.waitingSdts
+						tempResolveArray[3]=[]
 						
 						$scope.resolveWorkedSplitMove(2,tempResolveArray)			//some hack to do 2nd level resolved deepmovetask
 						//use tempResolveArray[1][0].value
@@ -276,12 +277,14 @@
 								
 							}else{
 								
-								var timeItTook = (new Date()
+								var timeItTook3 = (new Date()
 									.getTime() - $scope.solvingStarted)
 							
 								//console.log  ($scope.totalSolved+' moves solved in ' + timeItTook + 'ms on workers.')
 								//console.log('posting',postThis)
 								$http.post('/myPartIsDone', postThis, function(req, res) {})
+								
+								 $scope.sendMessage($scope.totalSolved + ' moves solved in ' + timeItTook3 + 'ms on workers.')
 							
 							}
 							
@@ -463,7 +466,7 @@
 			$scope.sendMessage("mainWorker should be running, starting subWorkers..")
 
 			var workerToStrart = 0
-			$scope.sendMessage("subWorkers started: 0")
+			//$scope.sendMessage("subWorkers started: 0")
 			while (workerToStrart < $scope.maxWorkerNum) {
 
 				subWorkers[workerToStrart] = new Worker("aiworker.js");
@@ -1030,6 +1033,7 @@
 					if(task.data[0]!=undefined){
 						$scope.workingOnTableNum=task.data[0]._id
 					}
+					
 					$scope.totalSolved=0
 					
 					var splitMoveCount = task.data.length
@@ -1154,7 +1158,7 @@
 			// 		if($scope.waitingSdts.length==$scope.sentSdtCount){
 						
 									
-			while(deepeningTask.smallDeepeningTasks.length>0){	
+			while(deepeningTask.smallDeepeningTasks.length>1){	
 						//get all the smalltasks out, keep triggeritem
 				//$scope.sentSdtCount++
 				

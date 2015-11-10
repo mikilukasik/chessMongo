@@ -2757,7 +2757,7 @@ function oneDeeper(deepeningTask){		//only takes original first level deepeningt
 	var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
 
 	
-	var tempTasks = solveSmallDeepeningTask(smallDeepeningTask, resolverArray)
+	var tempTasks = solveSmallDeepeningTask(smallDeepeningTask, smallDeepeningTask.resolverArray)
 	
 	while (tempTasks.length>0) deepeningTask.smallDeepeningTasks.push(tempTasks.pop())
 	
@@ -2960,7 +2960,12 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 			}
 
 			} else { //depth +1
-
+				//console.log(smallDeepeningTask.depth)
+				// if(resolverArray[smallDeepeningTask.depth]==undefined){
+				// 	console.log('smalldeepeningtask  depth problem:',smallDeepeningTask)
+				// }  else {
+				// 	//console.log('smalldeepeningtask  depth ok:',smallDeepeningTask)
+				// }
 				resolverArray[smallDeepeningTask.depth].push(new ResolverItem(smallDeepeningTask.score,smallDeepeningTask.moveTree)) //this will fill in and then gets reduced to best movevalue only
 
 
