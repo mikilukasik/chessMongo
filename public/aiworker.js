@@ -30,7 +30,7 @@ onmessage = function(event) {
 			break;
 
 		case 'echo':
-
+//
 			resMessage = 'echo'
 			resData = reqData
 			resCommand = 'reEcho'
