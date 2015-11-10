@@ -2756,21 +2756,26 @@ function oneDeeper(deepeningTask){		//only takes original first level deepeningt
 	
 	var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
 
-
-	deepeningTask.smallDeepeningTasks = solveSmallDeepeningTask(smallDeepeningTask, resolverArray)
+	
+	var tempTasks = solveSmallDeepeningTask(smallDeepeningTask, resolverArray)
+	
+	while (tempTasks.length>0) deepeningTask.smallDeepeningTasks.push(tempTasks.pop())
 	
 	deepeningTask.resolverArray=resolverArray
 
 }
 
 function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
+	
 	//this is the function that runs a million times
 
 	//gets one task, produces an array of more tasks
 	//or empty array when done
 
-	var result = [] 																		//these new tasks go to a fifo array, we solve the tree bit by bit
-		//keeping movestrings only, not eating memory with tables
+	var result = [] 																		
+	
+	//these new tasks go to a fifo array, we solve the tree bit by bit
+	//keeping movestrings only, not eating memory with tables
 
 	//get hitvalue for each move, keep bes ones only
 	//end of tree check if we got it wrong and go back if treevalue gets less!!!!!!!!!!!!!!!!
