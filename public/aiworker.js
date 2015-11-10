@@ -37,6 +37,20 @@ onmessage = function(event) {
 
 
 			break;
+			
+			case 'solveSdt':
+			
+			
+			console.log('solveSdt in worker')
+			
+			resMessage = 'sdtSolved'
+			resData = solveDeepeningTask(reqData,'sdt')
+			resCommand = 'sdtSolved'
+
+			console.log('solveSdt goes back to main thread')
+			
+
+			break;
 
 		case 'speedTest':
 

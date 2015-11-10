@@ -51,7 +51,7 @@ var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for mai
 	this.actualDepth = 1 //its 1 because we have 1st level resulting table fixed. 
 		//increase this when generating deeper tables, loop while this is smaller than desiredDepth
 
-	this.depthsToClear = smallMoveTask.desiredDepth //we will decrease this when throwing away resulting tables, until it is 1. the last set of tables gets thrown away on the server that finishes this task
+	//this.depthsToClear = smallMoveTask.desiredDepth //we will decrease this when throwing away resulting tables, until it is 1. the last set of tables gets thrown away on the server that finishes this task
 		//this task should be sent back to the server so lets ke
 
 

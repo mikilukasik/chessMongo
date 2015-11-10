@@ -624,7 +624,12 @@ function makeSplitMove(dbTable) {
 
 
 		console.log('calling getSplitMoveTask')
-		var sendThese = getSplitMoveTask(aiTable, fastestThinker(true))
+		
+		var aa=fastestThinker(true)
+		
+		if(aa==0)aa++			//quickfix!!!!!!!!!!!!!!!!!!!!!!
+		
+		var sendThese = getSplitMoveTask(aiTable, aa)
 		
 		console.log('calling sendTask')
 		

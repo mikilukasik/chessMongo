@@ -2975,13 +2975,23 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 
 }
 
-function solveDeepeningTask(deepeningTask, tempCommand, aaa) { //designed to solve the whole deepening task on one thread
+function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve the whole deepening task on one thread
 	//will return number of smallTasks solved for testing??!!!!!!!!!!!!!!!
 	//var taskValue = deepeningTask.
+
+
+
 
 	var startedAt = new Date()
 		.getTime()
 
+	if(someCommand=='sdt'){
+		var tempDeepeningTask={
+			desiredDepth:deepeningTask.desiredDepth,
+			smallDeepeningTasks:[deepeningTask]
+		}
+		deepeningTask=tempDeepeningTask
+	}
 
 	var solved = 0
 
@@ -3041,15 +3051,28 @@ function solveDeepeningTask(deepeningTask, tempCommand, aaa) { //designed to sol
 
 		//call it again if there are tasks
 	}
+	
+	console.log(resolverArray)
+	
 	var timeItTook = new Date()
 		.getTime() - startedAt
-	return {
+		
+	
+		
+	var ret={
 		solved: solved,
 		timeItTook: timeItTook,
-		score: resolverArray[1][0].value,
-		moveTree: resolverArray[1][0].moveTree.join(',') //
+		score: resolverArray[2][0].value,
+		moveTree: resolverArray[2][0].moveTree.join(',') //
 		//5//			//!!!!!!!!!!!!!!!!!!!!!!!!!
 	} 
+	
+	if(someCommand!='sdt'){
+		ret.score=resolverArray[1][0].value
+		moveTree: resolverArray[1][0].moveTree.join(',')
+	}
+		
+	return ret
 }
 
 ////////////////////////////temp speedtest///////////////////////

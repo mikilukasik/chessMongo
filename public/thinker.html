@@ -18,7 +18,7 @@
 		
 		
 		$scope.maxWorkerNum = 12
-		var nextWorkerNum=0
+		$scope.nextWorkerNum=0
 		
 		var mainWorker;
 		var subWorkers = []
@@ -54,12 +54,12 @@
 		
 			
 		var nextSubWorker=function(subWorkers){
-			if(nextWorkerNum<$scope.maxWorkerNum){
-				nextWorkerNum++
+			if($scope.nextWorkerNum<$scope.maxWorkerNum-1){			//kell a -1???!!!!!!!!!!!!
+				$scope.nextWorkerNum++
 			}else{
-				nextWorkerNum=0
+				$scope.nextWorkerNum=0
 			}
-			return subWorkers[nextWorkerNum]
+			return subWorkers[$scope.nextWorkerNum]
 		}
 
 	
@@ -167,6 +167,22 @@
 
 			switch (event.data.resCommand) {
 
+				case 'sdtSolved':
+				
+					
+					$scope.waitingSdts.push(event.data.resData)
+					
+					if($scope.waitingSdts.length==$scope.sentSdtCount){
+						
+						console.log('resolve now: ')
+						console.log($scope.waitingSdts)
+					}
+					
+					
+					//console.log(event.data.resData)
+				
+				break;
+				
 				case 'reEcho':
 
 
@@ -857,7 +873,7 @@
 						.getTime()
 					var splitMoveCount = task.data.length
 
-					var postThis = mtProcessDeepSplitMoves(task.data, $scope.sendID) //blocks the UI
+					var postThis = mwProcessDeepSplitMoves(task.data, $scope.sendID) //blocks the UI
 
 					$http.post('/myPartIsDone', postThis, function(req, res) {
 
@@ -916,6 +932,32 @@
 		
 		//////////////////////////////////////////////worker move////////////////////////////////////////////////
 		
+		function mwProcessDeepSplitMoves(data, thinker, mt, modConst, looped) {
+			
+			var newData = data.slice()
+			var rtnData = []
+			
+			while (data.length > 0) {
+		
+				var toPush = workerMove(newData.pop())
+				toPush.thinker = thinker
+				rtnData.push(toPush)
+			
+			}
+			return rtnData
+		}
+		
+		function sendStdToWorker(smallDeepeningTask){
+			
+			nextSubWorker(subWorkers).postMessage({				
+					reqMessgage: 'solveSdt',
+					reqCommand: 'solveSdt',
+					reqData: smallDeepeningTask
+				})
+			
+			
+		}
+		
 				
 		function workerMove(smallMoveTask) { //for 1 thread, smallmovetask has one of my possible 1st moves
 		
@@ -925,25 +967,63 @@
 			var solvedTableCount = 0
 		
 			var value = 0
+			
+			//var tempDepth=smallMoveTask.desiredDepth
+			
+			var deepeningTask = new DeepeningTask(smallMoveTask)
 		
-			var deepeningTask = new DeepeningTask(smallMoveTask,true)		//deepeningtask will create 2nd level tables
+			
 		
-			var tempCommand = ''
-		
-			//var thisMoveValue=0
-			var totals = solveDeepeningTask(deepeningTask, tempCommand, value) //single thread calc
-		
-			solvedTableCount += totals.solved
-		
-		
-			return { //this goes to console chat window
-				move: deepeningTask.moveStr,
-				score: totals.score,
-				moveTree: totals.moveTree,
-				solved: totals.solved,
-				_id: smallMoveTask._id,
-				depth: deepeningTask.desiredDepth
+			oneDeeper(deepeningTask)	//this will make about 30 smalldeepeningtasks and create the resolverarray in the deepeningtask
+										//first iitem in deepeningtask.smalldeepeningtasks is trigger
+			
+			//var tempResolver=deepeningTask.resolverArray
+			
+			//console.log(deepeningTask)
+			
+			
+			
+			$scope.waitingSdts=[]
+			$scope.sentSdtCount=deepeningTask.smallDeepeningTasks.length-1
+					
+			// 		if($scope.waitingSdts.length==$scope.sentSdtCount){
+						
+									
+			while(deepeningTask.smallDeepeningTasks.length>0){	
+						//get all the smalltasks out, keep triggeritem
+				//$scope.sentSdtCount++
+				
+				var smallDeepeningTask=deepeningTask.smallDeepeningTasks.pop()
+				
+				console.log(smallDeepeningTask)
+				
+				sendStdToWorker(smallDeepeningTask)
+				
+				console.log(smallDeepeningTask.moveTree+' sent out')
+				
+			
+			
 			}
+			
+			
+		
+		
+			// var tempCommand = ''
+		
+			
+			// var totals = solveDeepeningTask(deepeningTask, tempCommand, value) //single thread calc
+		
+			// solvedTableCount += totals.solved
+		
+		
+			// return { //this goes to console chat window
+			// 	move: deepeningTask.moveStr,
+			// 	score: totals.score,
+			// 	moveTree: totals.moveTree,
+			// 	solved: totals.solved,
+			// 	_id: smallMoveTask._id,
+			// 	depth: deepeningTask.desiredDepth
+			// }
 		
 		
 		}
