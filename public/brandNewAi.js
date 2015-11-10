@@ -3087,33 +3087,15 @@ function speedTest(depth, passToWorkers) {
 }
 
 function mtProcessDeepSplitMoves(data, thinker, mt, modConst, looped) {
-
-	//var result=[]
 	var newData = []
-		//  var modConst=1
-
-
+	
 	while (data.length > 0) {
 
-		// if(mt[0]=='w'){     //winning mod
-		//     modConst=
-		// }else{
-		//     modConst=modConst2
-		// }
-
-
-		//var dTask=new DeepeningTask(data.pop())
-
-
 		var toPush = deepMove(data.pop())
-
-
 		toPush.thinker = thinker
-
 		newData.push(toPush)
+	
 	}
-
-
 	return newData
 }
 
@@ -3129,7 +3111,7 @@ function deepMove(smallMoveTask) { //for 1 thread, smallmovetask has one of my p
 
 	var value = 0
 
-	var deepeningTask = new DeepeningTask(smallMoveTask)
+	var deepeningTask = new DeepeningTask(smallMoveTask)		//deepeningtask to be able to create 2nd level set for workers
 
 	var tempCommand = ''
 
@@ -3150,6 +3132,8 @@ function deepMove(smallMoveTask) { //for 1 thread, smallmovetask has one of my p
 
 
 }
+
+
 
 
 

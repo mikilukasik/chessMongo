@@ -909,6 +909,67 @@
 
 
 		}
+		
+		
+		
+		
+		
+		//////////////////////////////////////////////worker move////////////////////////////////////////////////
+		
+				
+		function workerMove(smallMoveTask) { //for 1 thread, smallmovetask has one of my possible 1st moves
+		
+			var started = new Date()
+				.getTime()
+		
+			var solvedTableCount = 0
+		
+			var value = 0
+		
+			var deepeningTask = new DeepeningTask(smallMoveTask,true)		//deepeningtask will create 2nd level tables
+		
+			var tempCommand = ''
+		
+			//var thisMoveValue=0
+			var totals = solveDeepeningTask(deepeningTask, tempCommand, value) //single thread calc
+		
+			solvedTableCount += totals.solved
+		
+		
+			return { //this goes to console chat window
+				move: deepeningTask.moveStr,
+				score: totals.score,
+				moveTree: totals.moveTree,
+				solved: totals.solved,
+				_id: smallMoveTask._id,
+				depth: deepeningTask.desiredDepth
+			}
+		
+		
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//////////end//////////////////////////////////////////////worker move////////////////////////////////////////////////
+		
 
 		//
 		/////////longpoll tasks stuff
