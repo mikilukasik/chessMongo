@@ -7,1112 +7,971 @@
 	<script src="engine.js"></script>
 
 	<script>
-		var appModule = angular.module("appModule", []);
+	var appModule = angular.module("appModule", []);
 
-		function ApplicationController($rootScope, $http, $interval, $timeout) {
+	function ApplicationController($rootScope, $http, $interval, $timeout) {
 
-			$rootScope.heartBeat = 300
-			$rootScope.mv = 0
-			$rootScope.pw = false
-			$rootScope.pollsPending = 0
-
-
-
-
-			$rootScope.cookieID = ""
-				//$rootScope.gotID=false
-
-			function setCookie(cname, cvalue, exdays) {
-				var d = new Date();
-				d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-				var expires = "expires=" + d.toUTCString();
-				document.cookie = cname + "=" + cvalue + "; " + expires;
-			}
-
-			function getCookie(cname) {
-				var name = cname + "=";
-				var ca = document.cookie.split(';');
-				for (var i = 0; i < ca.length; i++) {
-					var c = ca[i];
-					while (c.charAt(0) == ' ') c = c.substring(1);
-					if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
-				}
-				return "";
-			}
-
-			$rootScope.cookieID = getCookie("myID");
-
-			$rootScope.mainThreadSpeed = getCookie("mainThreadSpeed");
-
-			checkMTSpeed=function(){
-				
-				
-						var solvingStarted = new Date()
-							.getTime()
-							
-						var tempGame=new Dbtable(1,2,3)
-						
-						tempGame.desiredDepth=2
-						
-						var tempMoveTask=new MoveTask(tempGame)
-						
-						var tempTasks=tempMoveTask.movesToSend
-						
-						
-							
-							
-						var splitMoveCount = tempTasks.length
-
-						var tempResults = processDeepSplitMoves(tempTasks, $rootScope.sendID) //blocks the UI
-
-						//$http.post('/myPartIsDone', postThis, function(req, res) {
-
-
-
-						//})
-						var timeItTook = (new Date()
-							.getTime() - solvingStarted)
-							
-						var mainThreadSpeed = (Number($rootScope.mainThreadSpeed) + 0.2 * Number(splitMoveCount / (timeItTook / 1000))) / 1.2 //this should keep the last 6 average
-						
-						console.log($rootScope.mainThreadSpeed)
-						
-						$rootScope.sendMessage('speedTest done in ' + timeItTook + 'ms')
-
-						///save it in cookie
-
-						$rootScope.setCookies() //
-
-						return mainThreadSpeed
-				
-				
-			}
-			
-			//$rootScope.mainThreadSpeed = checkSpeed()
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			if ($rootScope.cookieID == "") {
-
-				$rootScope.sendID = Math.random * 100000000
-			}
-			else {
-				$rootScope.sendID = $rootScope.cookieID
-			}
-
-			$rootScope.setID = function(id) {
-				setCookie("myID", id, 365)
-				$rootScope.cookieID = id //$rootScope.gotID=true
-				$rootScope.sendID = id
-			}
-
-
-			$rootScope.setCookies = function() {
-				// setCookie("totalT2", $rootScope.totalTook, 365);
-				// setCookie("mCount2", $rootScope.moveCount, 365);
-				setCookie("mainThreadSpeed", $rootScope.mainThreadSpeed, 365);
-
-			}
-
-			$rootScope.messages = []
-
-			$rootScope.sendMessage = function(message) {
-				$rootScope.messageTheServer({
-
-
-					'command': 'log',
-					'message': message,
-					'thinker': $rootScope.sendID
-
-					// data:{
-					//     timeItTook:timeItTook
-					// }
-
-
-				})
-
-				$rootScope.messages.push('@' + new Date()
-					.getTime() + ': ' + message)
-				if (!$rootScope.$$phase) {
-
-					$rootScope.$apply()
-
-				}
-				if ($rootScope.messages.length > 20) $rootScope.messages.shift()
-			}
-
-			$rootScope.messageTheServer = function(message) {
-				$http.post('/thinkerMessage', message, function() {}) //+ new Date().getTime() +': '+message)
-					.then(function(result) {
-
-					}, function(data) {
-						refreshWhenUp()
-					})
-					// if(!$rootScope.$$phase) {
-					// 				$rootScope.$apply()
-					// 			}
-			}
-
-			$rootScope.sendMessage('Starting..')
-
-			$rootScope.changeLastMessage = function(message) {
-				$rootScope.messages.pop()
-				$rootScope.messages.push('@' + new Date()
-					.getTime() + ': ' + message)
-				if (!$rootScope.$$phase) {
-					$rootScope.$apply()
-				}
-			}
-
-
-			subWorkerMsgInThinker = function(event) {
-				//$rootScope.sendMessage('@'+new Date().getTime()+', worker: '+event.data.resData.worker+', resData: '+event.data.resData);
-
-
-				//check resCommand
-
-				switch (event.data.resCommand) {
-
-					case 'reEcho':
-
-
-						$rootScope.pendingEchoes--
-
-							//console.log($rootScope.pendingSpeedTest)
-							if ($rootScope.pendingEchoes == 0) {
-								$rootScope.pendingEchoTests--
-									if ($rootScope.pendingEchoTests == 0) {
-
-										var timeNow = new Date()
-											.getTime()
-										var timeItTook = timeNow - $rootScope.echoTestStarted
-
-										if ($rootScope.initialEchoesOn) {
-
-											$rootScope.initialEchoesOn = false
-
-											var messageTxt = 'init echoTest done: ' + timeItTook + 'ms.'
-											$rootScope.sendMessage(messageTxt)
-
-											//var initDeepSpeedTeststarted=new Date().getTime();
-
-											var level=2
-											
-											var resSpeedTest=speedTest(level, false) //depth, no workers      
-											//var speedTestTime = resSpeedTest.time 
-											
-
-											$rootScope.sendMessage('init mainThread deepSpeedTest (level '+level+') done: ' + resSpeedTest.solved +' tables in '+resSpeedTest.timeItTook + 'ms. aiMove: '+resSpeedTest.winningMove+', value: '+resSpeedTest.winningValue)
-											$rootScope.mainThreadSpeed=1000/resSpeedTest.timeItTook			//we should use this!!!!!!!!!
-											
-											//var mainThreadSpeed = (Number($rootScope.mainThreadSpeed) + 0.2 * Number(splitMoveCount / (timeItTook / 1000))) / 1.2 //this should keep the last 6 average
-						
-											console.log($rootScope.mainThreadSpeed)
-											
-											///save it in cookie
-											$rootScope.setCookies() //
-						
-											$rootScope.sendMessage('Up and running!')
-
-						
-
-						
-
-										}
-										else {
-											var messageTxt = 'echoTest done: ' + timeItTook + 'ms.'
-											$rootScope.sendMessage(messageTxt)
-										}
-										
-										$rootScope.echoesOn = false
-
-									}
-									else {
-										//one echotest done, recall (always do 2 and use only 2nd for results)
-										
-										sendEchoes()
-									}
-									
-							}
-						
-
-						break;		//end of 'reEcho'
-
-				}
-
-
-
-
-			};
-
-
-
-			$rootScope.maxWorkerNum = 12
-
-
-
-
-			var mainWorker;
-			var subWorkers = []
-
-
-
-
-			//startWorkers()
-
-
-
-
-			//};
-
-			function checkWorkerSupport() {
-				if (typeof(Worker) != 'undefined') {
-					return true
-				} //else{
-
-				return false
-					//}
-			}
-
-			$rootScope.workerSupport = checkWorkerSupport()
-			if ($rootScope.workerSupport) {
-				$rootScope.workerSupportMessage = 'HTML5 Web Workers supported.'
-				
-				startWorkers()
-			}
-			else {
-				$rootScope.workerSupportMessage = 'No Web Workers support.'
-			}
-			
-			
-			function ifWorkers(cb){
-				
-				if($rootScope.workerSupport){
-					
-					cb()
-				
-				}else{
-					
-					$rootScope.sendMessage($rootScope.workerSupportMessage)
-				
-				}
-			}
-			
-			
-			//$rootScope.pendingEchoTests = 0
-			
-			function echoTest() {
-				
-				ifWorkers(function(){
-					//console.log('callback lefut')
-					$rootScope.pendingEchoTests =2
-					sendEchoes()
-					
-				})
+		$rootScope.heartBeat = 300
+		$rootScope.mv = 0
+		$rootScope.pw = false
+		$rootScope.pollsPending = 0
 		
-			}
+		
+		$rootScope.maxWorkerNum = 12
+		var nextWorkerNum=0
+		
+		var mainWorker;
+		var subWorkers = []
+		
+		
+		function checkWorkerSupport() {
+			if (typeof(Worker) != 'undefined') return true
+			return false
+		}
 
-			function sendEchoes(firstRun) {
-				//if(!$rootScope.echoesOn){
-				// $rootScope.echoesOn=true
-				$rootScope.pendingEchoes = $rootScope.maxWorkerNum
-				$rootScope.echoTestStarted = new Date()
-					.getTime()
-				for (var i = 0; i < $rootScope.maxWorkerNum; i++) {
-					//$rootScope.pendingEchoes++
-					subWorkers[i].postMessage({
-						reqMessgage: 'echo',
-						reqCommand: 'echo',
-						reqData: {
-							worker: i
+		$rootScope.workerSupport = checkWorkerSupport()
+		
+		if ($rootScope.workerSupport) {
+			$rootScope.workerSupportMessage = 'HTML5 Web Workers supported.'
+			
+		} else {
+			$rootScope.workerSupportMessage = 'No Web Workers support.'
+		}
+
+
+		function ifWorkers(cb) {
+
+			if ($rootScope.workerSupport) {
+
+				cb()
+
+			} else {
+
+				$rootScope.sendMessage($rootScope.workerSupportMessage)
+
+			}
+		}
+		
+			
+		var nextSubWorker=function(subWorkers){
+			if(nextWorkerNum<$rootScope.maxWorkerNum){
+				nextWorkerNum++
+			}else{
+				nextWorkerNum=0
+			}
+			return subWorkers[nextWorkerNum]
+		}
+
+	
+		function setCookie(cname, cvalue, exdays) {
+			var d = new Date();
+			d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+			var expires = "expires=" + d.toUTCString();
+			document.cookie = cname + "=" + cvalue + "; " + expires;
+		}
+
+		function getCookie(cname) {
+			var name = cname + "=";
+			var ca = document.cookie.split(';');
+			for (var i = 0; i < ca.length; i++) {
+				var c = ca[i];
+				while (c.charAt(0) == ' ') c = c.substring(1);
+				if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+			}
+			return "";
+		}
+
+		$rootScope.cookieID = ""
+		$rootScope.mainThreadSpeed = ""
+		$rootScope.mainThreadSpeed = ""
+		$rootScope.mainThreadSpeed = ""
+
+		$rootScope.cookieID = getCookie("myID");
+		$rootScope.mainThreadSpeed = getCookie("mainThreadSpeed");
+		$rootScope.mainThreadSpeed = getCookie("singleWorkerSpeed");
+		$rootScope.mainThreadSpeed = getCookie("multiWorkerSpeed");
+
+
+
+
+		if ($rootScope.cookieID == "") {
+
+			$rootScope.sendID = Math.random() * 100000000
+		} else {
+			$rootScope.sendID = $rootScope.cookieID
+		}
+
+		$rootScope.setID = function(id) {
+			setCookie("myID", id, 365)
+			$rootScope.cookieID = id //$rootScope.gotID=true
+			$rootScope.sendID = id
+		}
+
+
+		$rootScope.setCookies = function() {
+			// setCookie("totalT2", $rootScope.totalTook, 365);
+			// setCookie("mCount2", $rootScope.moveCount, 365);
+			setCookie("mainThreadSpeed", $rootScope.mainThreadSpeed, 365);
+
+		}
+
+		$rootScope.messages = []
+
+		$rootScope.sendMessage = function(message) {
+			
+			//console.log(message)
+			
+			$rootScope.messageTheServer({
+
+				'command': 'log',
+				'message': message,
+				'thinker': $rootScope.sendID
+
+			})
+
+			$rootScope.messages.push('@' + new Date()
+				.getTime() + ': ' + message)
+			if (!$rootScope.$$phase) {
+
+				$rootScope.$apply()
+
+			}
+			if ($rootScope.messages.length > 20) $rootScope.messages.shift()
+		}
+
+		$rootScope.messageTheServer = function(message) {
+			$http.post('/thinkerMessage', message, function() {}) //+ new Date().getTime() +': '+message)
+				.then(function(result) {
+
+				}, function(data) {
+					refreshWhenUp()
+				})
+				// if(!$rootScope.$$phase) {
+				// 				$rootScope.$apply()
+				// 			}
+		}
+
+		$rootScope.sendMessage('Starting..')
+		
+		
+
+		$rootScope.changeLastMessage = function(message) {
+			$rootScope.messages.pop()
+			$rootScope.messages.push('@' + new Date()
+				.getTime() + ': ' + message)
+			if (!$rootScope.$$phase) {
+				$rootScope.$apply()
+			}
+		}
+
+
+		subWorkerMsgInThinker = function(event) {
+			//$rootScope.sendMessage('@'+new Date().getTime()+', worker: '+event.data.resData.worker+', resData: '+event.data.resData);
+
+
+			//check resCommand
+
+			switch (event.data.resCommand) {
+
+				case 'reEcho':
+
+
+					$rootScope.pendingEchoes--
+
+						////console.log($rootScope.pendingSpeedTest)
+						if ($rootScope.pendingEchoes == 0) {
+							$rootScope.pendingEchoTests--
+								if ($rootScope.pendingEchoTests == 0) {
+
+									var timeNow = new Date()
+										.getTime()
+									var timeItTook = timeNow - $rootScope.echoTestStarted
+
+									if ($rootScope.initialEchoesOn) {
+
+										$rootScope.initialEchoesOn = false
+
+										var messageTxt = 'init echoTest done: ' + timeItTook + 'ms.'
+										$rootScope.sendMessage(messageTxt)
+
+										//var initDeepSpeedTeststarted=new Date().getTime();
+
+										var level = 2
+
+										var resSpeedTest = speedTest(level, false) //depth, no workers      
+											//var speedTestTime = resSpeedTest.time 
+
+
+										$rootScope.sendMessage('init mainThread deepSpeedTest (level ' + level + ') done: ' + resSpeedTest.solved + ' tables in ' + resSpeedTest.timeItTook + 'ms. aiMove: ' + resSpeedTest.winningMove + ', value: ' + resSpeedTest.winningValue)
+										$rootScope.mainThreadSpeed = 1000 / resSpeedTest.timeItTook //we should use this!!!!!!!!!
+
+										//var mainThreadSpeed = (Number($rootScope.mainThreadSpeed) + 0.2 * Number(splitMoveCount / (timeItTook / 1000))) / 1.2 //this should keep the last 6 average
+
+										//console.log($rootScope.mainThreadSpeed)
+
+										///save it in cookie
+										$rootScope.setCookies() //
+
+										$rootScope.sendMessage('Up and running!')
+
+
+
+
+									} else {
+										var messageTxt = 'echoTest done: ' + timeItTook + 'ms.'
+										$rootScope.sendMessage(messageTxt)
+									}
+
+									$rootScope.echoesOn = false
+
+								} else {
+									//one echotest done, recall (always do 2 and use only 2nd for results)
+
+									sendEchoes()
+								}
+
 						}
-					})
-				}
-
-			}
-
-			function startWorkers() {
-				//if(typeof(Worker) !== "undefined") {
-
-				// $rootScope.workersSupported='Your browser supports HTML5 Web mainWorker.'
-
-				if (typeof(mainWorker) == "undefined") {
-					$rootScope.sendMessage('starting mainWorker..')
-						//console.log('starting mainWorker..')
-					mainWorker = new Worker("aiworker.js");
-				}
-				else {
-					$rootScope.sendMessage('!!! tried to start already running main worker !!!')
-				}
-
-				mainWorker.onmessage = function(event) {
 
 
-
-
-					//  $rootScope.sendMessage('')
-					//  $rootScope.sendMessage('main worker event:'+event.data);
-					//  $rootScope.sendMessage(' ')
-
-				};
-				$rootScope.sendMessage("mainWorker should be running, starting subWorkers..")
-
-				var workerToStrart = 0
-				$rootScope.sendMessage("subWorkers started: 0")
-				while (workerToStrart < $rootScope.maxWorkerNum) {
-
-					subWorkers[workerToStrart] = new Worker("aiworker.js");
-
-
-					//put subworkers listeners here
-					var subWorkerNo = workerToStrart
-					subWorkers[subWorkerNo].onmessage = subWorkerMsgInThinker
-
-					workerToStrart++
-
-					$rootScope.changeLastMessage("subWorkers started: " + workerToStrart)
-
-
-				}
-
-				$rootScope.sendMessage('subWorkers should be up and running, running initial echoTests..')
-
-
-
-				//here we have all workers running
-
-				$rootScope.initialEchoesOn = true
-				echoTest() //true for initial
-
-
-
-
-				// $rootScope.pendingSpeedTest=0
-
-				// $rootScope.wStartTime=new Date().getTime()
-
-				// for(var i=0;i<$rootScope.maxWorkerNum;i++){
-				//     $rootScope.pendingSpeedTest++
-				//     subWorkers[i].postMessage({
-				//         reqMessgage:'test that seed',
-				//         reqCommand:'speedTest',
-				//         reqData:{
-				//             worker:i
-				//         }
-				//     })
-				// }
-				//  $http.get('/speedTestResult?thinker=' + $rootScope.sendID +
-				//                             '&wSpeed=' + $rootScope.maxWorkerNum+' workers on' +
-				//                             '&mtSpeed=' + $rootScope.maxWorkerNum+' workers on' +
-				//                             '&faster=' + $rootScope.maxWorkerNum+' workers on' 
-				//                         // +  '&r=' + Math.random()
-				//                      )
-
-				// var message={
-				//     command:'log',
-				//     message:$rootScope.maxWorkerNum+' workers started.',
-				//     thinker:$rootScope.sendID
-				// }
-
-				// $rootScope.messageTheServer(message)
-
-
-
-				// } else {
-				//      $rootScope.workersSupported='Your browser DOES NOT supports HTML5 Web mainWorker.'
-
-				//      var message={
-				//         command:'log',
-				//         message:'Web Workers not supported.',
-				//         thinker:$rootScope.sendID
-				//     }
-
-				//     $rootScope.messageTheServer(message)
-				// }
-			}
-
-
-
-			function stopWorkers() {
-				mainWorker.terminate();
-				mainWorker = undefined;
-
-				for (var i = 0; i < $rootScope.maxWorkerNum; i++) {
-
-					subWorkers[i].terminate();
-					subWorkers[i] = undefined;
-
-				}
-
-				$http.get('/speedTestResult?thinker=' + $rootScope.sendID +
-					'&wSpeed=' + 'workers off' +
-					'&mtSpeed=' + 'workers off' +
-					'&faster=' + 'workers off'
-					// +  '&r=' + Math.random()
-				)
+					break; //end of 'reEcho'
 
 			}
 
 
 
 
-			///////////////workers end
-			function learnerLooped(pastTables) {
-				var x = countInArray(pastTables[pastTables.length - 1], pastTables)
-				var y = countInArray(pastTables[pastTables.length - 2], pastTables)
+		};
 
-				if (x == 3 || y == 3) {
-					return true
-				}
-				else {
-					return false
-				}
-				//	
+
+
+		
+		//startWorkers()
+
+		
+
+
+		//$rootScope.pendingEchoTests = 0
+
+		function echoTest() {
+
+			ifWorkers(function() {
+				////console.log('callback lefut')
+				$rootScope.pendingEchoTests = 2
+				sendEchoes()
+
+			})
+
+		}
+
+		function sendEchoes(firstRun) {
+			//if(!$rootScope.echoesOn){
+			// $rootScope.echoesOn=true
+			$rootScope.pendingEchoes = $rootScope.maxWorkerNum
+			$rootScope.echoTestStarted = new Date()
+				.getTime()
+			for (var i = 0; i < $rootScope.maxWorkerNum; i++) {
+				//$rootScope.pendingEchoes++
+				subWorkers[i].postMessage({				
+					reqMessgage: 'echo',
+					reqCommand: 'echo',
+					reqData: {
+						worker: i
+					}
+				})
 			}
 
-			var evaledGame = function(data) {
+		}
 
-				// console.log(data)
-				var moves = data.moves
+		function startWorkers() {
+			//if(typeof(Worker) !== "undefined") {
 
-				$http.get('aiOn?t=' + data._id)
+			// $rootScope.workersSupported='Your browser supports HTML5 Web mainWorker.'
 
-				var myGame = new Dbtable(data._id, data.wName, data.bName)
+			if (typeof(mainWorker) == "undefined") {
+				$rootScope.sendMessage('starting mainWorker..')
+					////console.log('starting mainWorker..')
+				mainWorker = new Worker("aiworker.js");
+			} else {
+				$rootScope.sendMessage('!!! tried to start already running main worker !!!')
+			}
 
-				moves.forEach(function(moveFromDb) {
+			//temp   mainWorker.onmessage = mainWorkerMsgInThinker
 
-					var moveStr = moveFromDb.slice(2, 6) //levagni a kepeket...	(mi ut mit)
-						//////////////////////
-						///replace this!!!
-					var toPush = getPushString(myGame.table, moveStr) //piece
+			//subworker listener:
+			//subWorkers[subWorkerNo].onmessage = subWorkerMsgInThinker
 
-					+new String(new Date()
-						.getTime())
+			$rootScope.sendMessage("mainWorker should be running, starting subWorkers..")
 
-					// if(!(toPush==myGame.moves[myGame.moves.length-1])){
-					myGame.moves.push(toPush)
+			var workerToStrart = 0
+			$rootScope.sendMessage("subWorkers started: 0")
+			while (workerToStrart < $rootScope.maxWorkerNum) {
 
-					myGame.table = moveIt(moveStr, myGame.table) //	<----moves it
-
-					//$rootScope.showTable(myGame.table)
-
-					myGame.wNext = !myGame.wNext
-
-					myGame.pollNum++
-
-						//myGame.moved = new Date().getTime()
-
-						myGame.table = addMovesToTable(myGame.table, myGame.wNext, true) //true stands for pawn and king only: allpasttables only
-
-					//remember this state for 3fold rule
-					var sendThis = createState(myGame.table)
+				subWorkers[workerToStrart] = new Worker("aiworker.js");
 
 
-					myGame.allPastTables.push(sendThis)
+				//put subworkers listeners here
+				var subWorkerNo = workerToStrart
+				subWorkers[subWorkerNo].onmessage = subWorkerMsgInThinker
+
+				workerToStrart++
+
+				//$rootScope.changeLastMessage("subWorkers started: " + workerToStrart)
+
+
+			}
+
+			$rootScope.sendMessage('subWorkers should be up and running, running initial echoTests..')
+
+
+
+			//here we have all workers running
+
+			$rootScope.initialEchoesOn = true
+			echoTest() //true for initial
+
+
+		}
+
+
+
+		function stopWorkers() {
+			mainWorker.terminate();
+			mainWorker = undefined;
+
+			for (var i = 0; i < $rootScope.maxWorkerNum; i++) {
+
+				subWorkers[i].terminate();
+				subWorkers[i] = undefined;
+
+			}
+
+		}
+
+		
+		
+		ifWorkers(startWorkers)
+
+
+		///////////////workers end
+		function learnerLooped(pastTables) {
+			var x = countInArray(pastTables[pastTables.length - 1], pastTables)
+			var y = countInArray(pastTables[pastTables.length - 2], pastTables)
+
+			if (x == 3 || y == 3) {
+				return true
+			} else {
+				return false
+			}
+			//	
+		}
+
+		var evaledGame = function(data) {
+
+			// //console.log(data)
+			var moves = data.moves
+
+			$http.get('aiOn?t=' + data._id)
+
+			var myGame = new Dbtable(data._id, data.wName, data.bName)
+
+			moves.forEach(function(moveFromDb) {
+
+				var moveStr = moveFromDb.slice(2, 6) //levagni a kepeket...	(mi ut mit)
+					//////////////////////
+					///replace this!!!
+				var toPush = getPushString(myGame.table, moveStr) //piece
+
+				+new String(new Date()
+					.getTime())
+
+				// if(!(toPush==myGame.moves[myGame.moves.length-1])){
+				myGame.moves.push(toPush)
+
+				myGame.table = moveIt(moveStr, myGame.table) //	<----moves it
+
+				//$rootScope.showTable(myGame.table)
+
+				myGame.wNext = !myGame.wNext
+
+				myGame.pollNum++
+
+					//myGame.moved = new Date().getTime()
+
+					myGame.table = addMovesToTable(myGame.table, myGame.wNext, true) //true stands for pawn and king only: allpasttables only
+
+				//remember this state for 3fold rule
+				var sendThis = createState(myGame.table)
+
+
+				myGame.allPastTables.push(sendThis)
+
+				//$rootScope.whatToDo = 'idle'
+
+				//$rootScope.sendMessage('move '+moveStr+' processed.')
+
+				/////////////////////////
+
+
+			})
+			evalGame(myGame, true)
+
+
+			if (learnerLooped(myGame.allPastTables)) myGame.isDraw = true
+
+			$rootScope.sendMessage('table ' + myGame._id + ' processed. (eval)')
+
+			return myGame
+
+		}
+
+		///////
+		$rootScope.pollOn = true
+			//$rootScope.messages = []
+		$rootScope.succeeded = 0
+
+
+		$rootScope.refreshWhenUp = function() {
+
+			$http.get('/forceStop?t=' + $rootScope._id)
+				.then(function(response) {
+					$rootScope.setCookies()
+					$rootScope.succeeded++
+						//$rootScope.sendMessage('connection came back, will restart soon..')
+						$rootScope.receivedMessage = 'restart in 10s'
+					if ($rootScope.succeeded > 3) { //server must be running
+						$rootScope.succeeded = 0
+						$rootScope.sendMessage('refreshing window..')
+						window.location.reload(true); //$rootScope.sendMessage('looped, forceStop sent')
+					} else {
+
+						$timeout($rootScope.refreshWhenUp(), 3000)
+					}
+
+
+				}, function(data) {
+					$rootScope.receivedMessage = 'connection error, 3s retry'
+					$rootScope.succeeded = 0
+					$timeout($rootScope.refreshWhenUp(), 3000)
+				})
+		}
+
+
+
+		////////////some learning
+
+
+		$rootScope.learnerPair = function(modType, modVal, scndGame) {
+
+			//var _id = 0
+
+
+
+
+			var initedTable = {}
+
+			var wModded = true
+			if (scndGame) wModded = false
+
+
+
+			if (wModded) { //this tells us if wmodded
+				//firstFreeTable=$rootScope.start("mod lpV:" + modVal, "standard")._id
+				initedTable = new Dbtable(1, modType + " mod: " + modVal, "standard")
+			} else {
+				//firstFreeTable=$rootScope.start( "standard", "mod lpV:" + modVal)._id
+				initedTable = new Dbtable(1, "standard", modType + " mod: " + modVal)
+
+
+			}
+
+			initedTable.learnerGame = true
+			initedTable.learnedOn = $rootScope.sendID
+
+			//console.log('finding _id for ' + initedTable.wName + " vs " + initedTable.bName)
+
+			$http.get('/startGame?w=' + initedTable.wName + "&b=" + initedTable.bName)
+				.then(function(response) {
+
+					//console.log('_id received: ' + response.data._id)
+					initedTable._id = response.data._id
+
+					$rootScope.sendMessage('learning ' + modType + ' on t' + initedTable._id + ", wModded: " + wModded)
+						//var initedTable = []
+
+
+
+					//$rootScope.myGame = initedTable			//kell ez????
+
+
+
+
+					//$rootScope.showTable($rootScope.myGame.table)
+
+					////console.log("started, let's move")
 
 					//$rootScope.whatToDo = 'idle'
+					////console.log('Table should be in DB, start soon..')
+					var modConst = getMcFromMv(modVal)
 
-					//$rootScope.sendMessage('move '+moveStr+' processed.')
+					$http.get('/learnerPoll?n=' + $rootScope.sendID +
+						'&t=' + initedTable._id +
+						'&mt=' + modType +
+						'&mv=' + modVal + '&p=' + modConst + '&a=' + $rootScope.mainThreadSpeed
+						// +  '&r=' + Math.random()
+					)
 
-					/////////////////////////
+					initedTable.modConst = modConst
 
+					$rootScope.playgame(initedTable, modType, modVal, true, wModded) //true stands for wNext
+				}, function(data) {
+					$rootScope.headMessage = 'Connection error, refreshing'
+
+					$rootScope.refreshWhenUp()
 
 				})
-				evalGame(myGame, true)
+
+			//if (_id>0)return _id
+
+		}
 
 
-				if (learnerLooped(myGame.allPastTables)) myGame.isDraw = true
+		///////more
+		$rootScope.playgame = function(myGame, mt, mv, wNx, wMod) {
 
-				$rootScope.sendMessage('table ' + myGame._id + ' processed. (eval)')
+			if ($rootScope.learning) {
+				$rootScope.playgame2(myGame, mt, mv, wNx, wMod)
+			}
+		}
+		$rootScope.playgame2 = function(myGame, mt, modVal, wNx, wMod) {
+			//$rootScope.whatToDo = 'busy'
+			//console.log('thinking of some move..')
+			var result = []
 
-				return myGame
+			//  if($rootScope.learning){
+			var modConst = getMcFromMv(modVal) //we don't need this at every move!!!!!!
 
+
+
+			//console.log('modVal: ' + modVal + ', modConst: ' + modConst)
+
+			if (wNx == wMod) {
+				result = newAi(myGame, mt, modConst, $rootScope.sendID) //get modded result   //dont need $rootScope.sendID!!!!
+			} else {
+				result = newAi(myGame)
 			}
 
 
+			//   }else{
+			//kikapcs
 
-			//$rootScope.mainThreadSpeed = 60000 / (ai(new Dbtable(1, 'a', 'b').table, true, [])[0][2])       //speed testing, replace!!!!!!
+			//  }
+			//$rootScope.moveTook = result[0][2] //timeItTook
+			// $rootScope.totalTook= Number($rootScope.totalTook) + Number(result[0][2])
+			// $rootScope.moveCount++
+			// $rootScope.avgTime=60000/($rootScope.totalTook/$rootScope.moveCount) //avg moves per minute
 
+			if (result[0][6]) {
+				//looped
+				myGame.gameIsOn = false //looped
+				evalGame(myGame, true)
+				myGame.looped = true
+					// myGame.pollNum++
 
+				$http.post('/moved', myGame, function(req, res) {})
 
-			// $rootScope.mainThreadSpeed = checkSpeed()
-			// $rootScope.mainThreadSpeed=$rootScope.mainThreadSpeed
-			///////
-			$rootScope.pollOn = true
-				//$rootScope.messages = []
-			$rootScope.succeeded = 0
-
-
-			$rootScope.refreshWhenUp = function() {
 
 				$http.get('/forceStop?t=' + $rootScope._id)
 					.then(function(response) {
-						$rootScope.setCookies()
-						$rootScope.succeeded++
-							//$rootScope.sendMessage('connection came back, will restart soon..')
-							$rootScope.receivedMessage = 'restart in 10s'
-						if ($rootScope.succeeded > 3) { //server must be running
-							$rootScope.succeeded = 0
-							$rootScope.sendMessage('refreshing window..')
-							window.location.reload(true); //$rootScope.sendMessage('looped, forceStop sent')
-						}
-						else {
-
-							$timeout($rootScope.refreshWhenUp(), 3000)
-						}
-
-
-					}, function(data) {
-						$rootScope.receivedMessage = 'connection error, 3s retry'
-						$rootScope.succeeded = 0
-						$timeout($rootScope.refreshWhenUp(), 3000)
-					})
-			}
-
-
-
-			////////////some learning
-
-
-			$rootScope.learnerPair = function(modType, modVal, scndGame) {
-
-				//var _id = 0
-
-
-
-
-				var initedTable = {}
-
-				var wModded = true
-				if (scndGame) wModded = false
-
-
-
-				if (wModded) { //this tells us if wmodded
-					//firstFreeTable=$rootScope.start("mod lpV:" + modVal, "standard")._id
-					initedTable = new Dbtable(1, modType + " mod: " + modVal, "standard")
-				}
-				else {
-					//firstFreeTable=$rootScope.start( "standard", "mod lpV:" + modVal)._id
-					initedTable = new Dbtable(1, "standard", modType + " mod: " + modVal)
-
-
-				}
-
-				initedTable.learnerGame = true
-				initedTable.learnedOn = $rootScope.sendID
-
-				console.log('finding _id for ' + initedTable.wName + " vs " + initedTable.bName)
-
-				$http.get('/startGame?w=' + initedTable.wName + "&b=" + initedTable.bName)
-					.then(function(response) {
-
-						console.log('_id received: ' + response.data._id)
-						initedTable._id = response.data._id
-
-						$rootScope.sendMessage('learning ' + modType + ' on t' + initedTable._id + ", wModded: " + wModded)
-							//var initedTable = []
-
-
-
-						//$rootScope.myGame = initedTable			//kell ez????
-
-
-
-
-						//$rootScope.showTable($rootScope.myGame.table)
-
-						//console.log("started, let's move")
-
-						//$rootScope.whatToDo = 'idle'
-						//console.log('Table should be in DB, start soon..')
-						var modConst = getMcFromMv(modVal)
-
-						$http.get('/learnerPoll?n=' + $rootScope.sendID +
-							'&t=' + initedTable._id +
-							'&mt=' + modType +
-							'&mv=' + modVal + '&p=' + modConst + '&a=' + $rootScope.mainThreadSpeed
-							// +  '&r=' + Math.random()
-						)
-
-						initedTable.modConst = modConst
-
-						$rootScope.playgame(initedTable, modType, modVal, true, wModded) //true stands for wNext
+						//console.log('looped, forceStop sent')
 					}, function(data) {
 						$rootScope.headMessage = 'Connection error, refreshing'
 
 						$rootScope.refreshWhenUp()
 
 					})
+			}
+			//		ai	<------------
 
-				//if (_id>0)return _id
+			if (result.length > 1) { //if there are any moves
+
+				var aiMoveString = result[1].move // the winning movestring
+
+				var toConsole = [] //to chat?
+
+
+				// for (var i = 1; i < result.length; i++) {
+
+				//     toConsole[i] = 'found move:' + result[i][0] + ' RMv:' + result[i][2] + ',' + 'Val:' + result[i][1] + 'a' //+
+
+				// }
+
+
+				$rootScope.whatToDo = 'idle'
+			} else { //can't move
+
+				//eval
+				//console.log('will run into eval bit - someone won!')
+
+				myGame.gameIsOn = false
+				evalGame(myGame, true)
+
 
 			}
 
+			//console.log(' DONE. ')
 
-			///////more
-			$rootScope.playgame = function(myGame, mt, mv, wNx, wMod) {
+			if (myGame.gameIsOn) {
+				//console.log('Will move ' + aiMoveString)
 
-				if ($rootScope.learning) {
-					$rootScope.playgame2(myGame, mt, mv, wNx, wMod)
-				}
-			}
-			$rootScope.playgame2 = function(myGame, mt, modVal, wNx, wMod) {
-				//$rootScope.whatToDo = 'busy'
-				console.log('thinking of some move..')
-				var result = []
-
-				//  if($rootScope.learning){
-				var modConst = getMcFromMv(modVal) //we don't need this at every move!!!!!!
+				moveInTable(aiMoveString, myGame, true) //true means learnerGame,no need to eval within moveintable
 
 
+				///replace this!!!
+				// var toPush = String(myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][0]) + //color of whats moving
+				// 	myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][1] + //piece
+				// 	aiMoveString + //the string
+				// 	myGame.table[dletters.indexOf(aiMoveString[2])][aiMoveString[3] - 1][0] + //color of whats hit
+				// 	myGame.table[dletters.indexOf(aiMoveString[2])][aiMoveString[3] - 1][1] //piece
 
-				console.log('modVal: ' + modVal + ', modConst: ' + modConst)
+				// +new String(new Date().getTime())
 
-				if (wNx == wMod) {
-					result = newAi(myGame, mt, modConst, $rootScope.sendID) //get modded result   //dont need $rootScope.sendID!!!!
-				}
-				else {
-					result = newAi(myGame)
-				}
+				// // if(!(toPush==myGame.moves[myGame.moves.length-1])){
+				// myGame.moves.push(toPush)
 
+				// myGame.table = moveIt(aiMoveString, myGame.table)
+				// $rootScope.showTable(myGame.table)
 
-				//   }else{
-				//kikapcs
+				// myGame.wNext = !myGame.wNext
 
-				//  }
-				//$rootScope.moveTook = result[0][2] //timeItTook
-				// $rootScope.totalTook= Number($rootScope.totalTook) + Number(result[0][2])
-				// $rootScope.moveCount++
-				// $rootScope.avgTime=60000/($rootScope.totalTook/$rootScope.moveCount) //avg moves per minute
+				// myGame.pollNum++
 
-				if (result[0][6]) {
-					//looped
-					myGame.gameIsOn = false //looped
-					evalGame(myGame, true)
-					myGame.looped = true
-						// myGame.pollNum++
+				// myGame.moved = new Date().getTime()
+
+				// myGame.table = addMovesToTable(myGame.table, myGame.wNext)
+
+				// //remember this state for 3fold rule
+
+				// myGame.allPastTables.push(createState(myGame.table))
+
+				// $rootScope.whatToDo = 'idle'
+
+				//}
+			} else {
+				//console.log('Game finished on table ' + myGame._id + ', evaluating..')
+				evalGame(myGame, true)
+
+				// myGame.learnerStats={
+				//     modType: mt,
+				//     modVal: modVal,
+				//     modConst: modConst
+
+				// }
+
+				//console.log(myGame)
+
+				myGame.pollNum++
+
+					//post it here
 
 					$http.post('/moved', myGame, function(req, res) {})
 
 
-					$http.get('/forceStop?t=' + $rootScope._id)
-						.then(function(response) {
-							console.log('looped, forceStop sent')
-						}, function(data) {
-							$rootScope.headMessage = 'Connection error, refreshing'
 
-							$rootScope.refreshWhenUp()
-
-						})
-				}
-				//		ai	<------------
-
-				if (result.length > 1) { //if there are any moves
-
-					var aiMoveString = result[1].move // the winning movestring
-
-					var toConsole = [] //to chat?
+			}
+			// 	
+			//if($rootScope.learning){
 
 
-					// for (var i = 1; i < result.length; i++) {
+			if (myGame.pollNum / 15 == Math.floor(myGame.pollNum / 15)) {
+				$http.post('/moved', myGame, function(req, res) {})
 
-					//     toConsole[i] = 'found move:' + result[i][0] + ' RMv:' + result[i][2] + ',' + 'Val:' + result[i][1] + 'a' //+
+				//  var myColTxt='white'
+				//  if(myGame.cfColor)
 
-					// }
 
 
-					$rootScope.whatToDo = 'idle'
-				}
-				else { //can't move
+				$rootScope.sendMessage('playing on t' + myGame._id + ', p' + myGame.pollNum)
 
-					//eval
-					console.log('will run into eval bit - someone won!')
+				//temp:
 
+				//myGame.gameIsOn=false
+
+			}
+
+			if (myGame.pollNum / 250 == Math.floor(myGame.pollNum / 250)) { // !!!!!!!!!
+				//$http.post('/moved',myGame,function(req,res){})
+
+				//temp:
+				var tableTotal = getTableTotal(myGame.table)
+
+
+
+				if ($rootScope.lastTotal == tableTotal) {
 					myGame.gameIsOn = false
 					evalGame(myGame, true)
-
-
+					myGame.gameIsOn = false
+				} else {
+					$rootScope.lastTotal = tableTotal
 				}
-
-				console.log(' DONE. ')
-
-				if (myGame.gameIsOn) {
-					console.log('Will move ' + aiMoveString)
-
-					moveInTable(aiMoveString, myGame, true) //true means learnerGame,no need to eval within moveintable
-
-
-					///replace this!!!
-					// var toPush = String(myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][0]) + //color of whats moving
-					// 	myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][1] + //piece
-					// 	aiMoveString + //the string
-					// 	myGame.table[dletters.indexOf(aiMoveString[2])][aiMoveString[3] - 1][0] + //color of whats hit
-					// 	myGame.table[dletters.indexOf(aiMoveString[2])][aiMoveString[3] - 1][1] //piece
-
-					// +new String(new Date().getTime())
-
-					// // if(!(toPush==myGame.moves[myGame.moves.length-1])){
-					// myGame.moves.push(toPush)
-
-					// myGame.table = moveIt(aiMoveString, myGame.table)
-					// $rootScope.showTable(myGame.table)
-
-					// myGame.wNext = !myGame.wNext
-
-					// myGame.pollNum++
-
-					// myGame.moved = new Date().getTime()
-
-					// myGame.table = addMovesToTable(myGame.table, myGame.wNext)
-
-					// //remember this state for 3fold rule
-
-					// myGame.allPastTables.push(createState(myGame.table))
-
-					// $rootScope.whatToDo = 'idle'
-
-					//}
-				}
-				else {
-					console.log('Game finished on table ' + myGame._id + ', evaluating..')
-					evalGame(myGame, true)
-
-					// myGame.learnerStats={
-					//     modType: mt,
-					//     modVal: modVal,
-					//     modConst: modConst
-
-					// }
-
-					console.log(myGame)
-
-					myGame.pollNum++
-
-						//post it here
-
-						$http.post('/moved', myGame, function(req, res) {})
-
-
-
-				}
-				// 	
-				//if($rootScope.learning){
-
-
-				if (myGame.pollNum / 15 == Math.floor(myGame.pollNum / 15)) {
-					$http.post('/moved', myGame, function(req, res) {})
-
-					//  var myColTxt='white'
-					//  if(myGame.cfColor)
-
-
-
-					$rootScope.sendMessage('playing on t' + myGame._id + ', p' + myGame.pollNum)
-
-					//temp:
-
-					//myGame.gameIsOn=false
-
-				}
-
-				if (myGame.pollNum / 250 == Math.floor(myGame.pollNum / 250)) { // !!!!!!!!!
-					//$http.post('/moved',myGame,function(req,res){})
-
-					//temp:
-					var tableTotal = getTableTotal(myGame.table)
-
-
-
-					if ($rootScope.lastTotal == tableTotal) {
-						myGame.gameIsOn = false
-						evalGame(myGame, true)
-						myGame.gameIsOn = false
-					}
-					else {
-						$rootScope.lastTotal = tableTotal
-					}
-
-				}
-
-
-
-
-				if (myGame.gameIsOn) {
-
-					$timeout(function() {
-						$rootScope.playgame(myGame, mt, modVal, !wNx, wMod)
-
-					}, 100)
-
-
-
-				}
-				else {
-
-					//not calling this function anymore, should recall with opposit color just once
-					console.log('eval2 bit')
-
-					if (wMod) {
-						//console.log('Starting rematch (play black)')
-						$rootScope.sendMessage('Starting rematch (play black)')
-						$timeout($rootScope.learnerPair(mt, modVal, true), 500)
-					}
-					else {
-						//console.log('gamepair done, starting again with white')
-						$rootScope.sendMessage('gamepair done, starting again with white')
-						$timeout($rootScope.startGamePair(), 500)
-
-
-
-
-					}
-
-				}
-
-
 
 			}
 
 
 
 
-			////////////some learning
+			if (myGame.gameIsOn) {
+
+				$timeout(function() {
+					$rootScope.playgame(myGame, mt, modVal, !wNx, wMod)
+
+				}, 100)
 
 
 
+			} else {
 
-			function getTableTotal(table) {
-				var tt = 0
-				for (var i = 0; i < 8; i++) {
-					for (var j = 0; j < 8; j++) {
-						tt += table[i][j][1]
-					}
-				}
-				return tt
-			}
+				//not calling this function anymore, should recall with opposit color just once
+				//console.log('eval2 bit')
 
-			$rootScope.startGamePair = function() {
-				if ($rootScope.learning) {
-					$http.get('/getModTypes')
-						.then(function(response) {
+				if (wMod) {
+					////console.log('Starting rematch (play black)')
+					$rootScope.sendMessage('Starting rematch (play black)')
+					$timeout($rootScope.learnerPair(mt, modVal, true), 500)
+				} else {
+					////console.log('gamepair done, starting again with white')
+					$rootScope.sendMessage('gamepair done, starting again with white')
+					$timeout($rootScope.startGamePair(), 500)
 
-							var modType = ""
-
-							var modTypes = response.data.modTypes
-							var len = modTypes.length
-							if (len > 0) {
-								modType = modTypes[Math.floor(Math.random() * len)]
-							}
-
-							var modVal = Number(response.data.min) + (Math.random() * (response.data.max - response.data.min))
-
-							$rootScope.mv = modVal
-							$rootScope.mt = modType
-
-							$rootScope.sendMessage('start learning...')
-							$rootScope.learnerPair(modType, modVal) //this will call another game with black when done
-						}, function(data) {
-							//error, retry
-							$rootScope.receivedMessage = 'error getting modTypes'
-							$rootScope.refreshWhenUp() //retry kene?
-						})
 
 
 
 				}
+
 			}
 
-			$rootScope.doTask = function(task) {
-				//where the magic happens
-
-				switch (task.command) {
-
-					case undefined:
-
-						break;
-
-					case "echoTest":
-
-						if (!$rootScope.echoesOn) {
-							$rootScope.echoesOn = true
-								//$rootScope.sendMessage('Echotest started...')
-							echoTest()
-						}
-						else {
-							$rootScope.sendMessage('cannot start, echotest is already on...')
-						}
-						break;
-
-					case "learnStart":
-						if (!$rootScope.learning) {
-
-							$rootScope.learning = true
-							$rootScope.startGamePair()
-
-
-						}
-						else {
-							$rootScope.sendMessage('learnStart: already learning..')
-						}
-						//$rootScope.learnerPair()
-
-						break;
-
-
-					case "learnStop":
-						if ($rootScope.learning) {
-							$rootScope.learning = false
-								//  $rootScope.startGamePair()
-
-							$rootScope.sendMessage('Learning stopped.')
-						}
-						else {
-							$rootScope.sendMessage("learnStop: wasn't learning..")
-						}
-
-						//$rootScope.learnerPair()
-
-						break;
+		}
 
 
 
-					case "refresh":
 
-						console.log(task.message)
-						$rootScope.refreshWhenUp()
-						$rootScope.pollOn = false
+		////////////some learning
 
 
-						break;
-
-					case "splitMove":
-						//this is on the main thread
-
-						$rootScope.solvingStarted = new Date()
-							.getTime()
-						var splitMoveCount = task.data.length
-
-						var postThis = processDeepSplitMoves(task.data, $rootScope.sendID) //blocks the UI
-
-						$http.post('/myPartIsDone', postThis, function(req, res) {
-
-
-
-						})
-						var timeItTook = (new Date()
-							.getTime() - $rootScope.solvingStarted)
-						
-						
-						
-						//should use all speedtests!!!!!!!!
-						//$rootScope.mainThreadSpeed = (Number($rootScope.mainThreadSpeed) + 0.2 * Number(splitMoveCount / (timeItTook / 1000))) / 1.2 //this should keep the last 6 average
-						
-						$rootScope.sendMessage(splitMoveCount + ' moves solved in ' + timeItTook + 'ms on the main thread.')
-
-						///save it in cookie
-
-						//$rootScope.setCookies() //
-
-						break;
-
-
-					case "move":
-
-
-						var postThis = dbAi(task.data) ///!!!! egesz dbtable lesz postolva
-
-						$http.post('/moved', postThis, function(req, res) {
-
-						})
-
-						// $rootScope.pleasePlay=false
-
-
-						break;
-
-					case "evalGame":
-						//console.log('t'+task.data._id+' eval received')
-						var postThis = evaledGame(task.data)
-						console.log('tnum,pollnum,wwon,bwon,isdraw: ', postThis._id, postThis.pollNum, postThis.whiteWon, postThis.blackWon, postThis.isDraw)
-						$http.post('/evaledGame', postThis, function(req, res) {
-								$rootScope.sendMessage('t' + postThis._id + ' posted.')
-							})
-							//should ping
-						break;
-
+		function getTableTotal(table) {
+			var tt = 0
+			for (var i = 0; i < 8; i++) {
+				for (var j = 0; j < 8; j++) {
+					tt += table[i][j][1]
 				}
-
-
 			}
+			return tt
+		}
 
-//
-			/////////longpoll tasks stuff
-
-			$rootScope.taskNum = 0
-
-			var longPollTasks = function() {
-
-				$http.get('/longPollTasks?id=' + $rootScope.sendID + '&tn=' + $rootScope.taskNum + '&spd=' + $rootScope.mainThreadSpeed)
+		$rootScope.startGamePair = function() {
+			if ($rootScope.learning) {
+				$http.get('/getModTypes')
 					.then(function(response) {
 
-						// 1 task received
+						var modType = ""
 
-						$rootScope.taskNum = response.data.taskNum
+						var modTypes = response.data.modTypes
+						var len = modTypes.length
+						if (len > 0) {
+							modType = modTypes[Math.floor(Math.random() * len)]
+						}
 
-						$rootScope.receivedMessage = response.data.message //display Heading
+						var modVal = Number(response.data.min) + (Math.random() * (response.data.max - response.data.min))
 
-						$rootScope.sendMessage('task #' + response.data.taskNum + ' received, ' + response.data.command + ': ' + response.data.message)
+						$rootScope.mv = modVal
+						$rootScope.mt = modType
 
-						$rootScope.doTask(response.data)
-
-
-						//  if($rootScope.idle){
-						if ($rootScope.pollOn) longPollTasks() //recall for new task, server might hold any new task until this one finishes
-							//}
+						$rootScope.sendMessage('start learning...')
+						$rootScope.learnerPair(modType, modVal) //this will call another game with black when done
 					}, function(data) {
 						//error, retry
-						$rootScope.receivedMessage = 'error'
+						$rootScope.receivedMessage = 'error getting modTypes'
 						$rootScope.refreshWhenUp() //retry kene?
 					})
 
 			}
+		}
+
+		$rootScope.doTask = function(task) {
+			//where the magic happens
+
+			switch (task.command) {
+
+				case undefined:
+
+					break;
+
+				case "echoTest":
+
+					if (!$rootScope.echoesOn) {
+						$rootScope.echoesOn = true
+							//$rootScope.sendMessage('Echotest started...')
+						echoTest()
+					} else {
+						$rootScope.sendMessage('cannot start, echotest is already on...')
+					}
+					break;
+
+				case "learnStart":
+					if (!$rootScope.learning) {
+
+						$rootScope.learning = true
+						$rootScope.startGamePair()
+
+
+					} else {
+						$rootScope.sendMessage('learnStart: already learning..')
+					}
+					//$rootScope.learnerPair()
+
+					break;
+
+
+				case "learnStop":
+					if ($rootScope.learning) {
+						$rootScope.learning = false
+							//  $rootScope.startGamePair()
+
+						$rootScope.sendMessage('Learning stopped.')
+					} else {
+						$rootScope.sendMessage("learnStop: wasn't learning..")
+					}
+
+					//$rootScope.learnerPair()
+
+					break;
 
 
 
-			/////////longpoll tasks stuff end
+				case "refresh":
+
+					//console.log(task.message)
+					$rootScope.refreshWhenUp()
+					$rootScope.pollOn = false
 
 
-			// $rootScope.sendMessage = function(message) {
-			//     $rootScope.messages.unshift(message + ' @' + (new Date).getTime())
-			// }
+					break;
 
-			// all the crap here......
+				case "splitMove":
+					//this is on the main thread
+
+					$rootScope.solvingStarted = new Date()
+						.getTime()
+					var splitMoveCount = task.data.length
+
+					var postThis = processDeepSplitMoves(task.data, $rootScope.sendID) //blocks the UI
+
+					$http.post('/myPartIsDone', postThis, function(req, res) {
 
 
 
+					})
+					var timeItTook = (new Date()
+						.getTime() - $rootScope.solvingStarted)
 
-			longPollTasks() //start initial longpoll
 
-			// $interval( function(){			//vmiert nem jo
-			// 	console.log('holazaping')
-			// 	longPollTasks()
-			// } , 8000)//ping
+
+					//should use all speedtests!!!!!!!!
+					//$rootScope.mainThreadSpeed = (Number($rootScope.mainThreadSpeed) + 0.2 * Number(splitMoveCount / (timeItTook / 1000))) / 1.2 //this should keep the last 6 average
+
+					$rootScope.sendMessage(splitMoveCount + ' moves solved in ' + timeItTook + 'ms on the main thread.')
+
+					///save it in cookie
+
+					//$rootScope.setCookies() //
+
+					break;
+
+
+				case "move":
+
+
+					var postThis = dbAi(task.data) ///!!!! egesz dbtable lesz postolva
+
+					$http.post('/moved', postThis, function(req, res) {
+
+					})
+
+					// $rootScope.pleasePlay=false
+
+
+					break;
+
+				case "evalGame":
+					////console.log('t'+task.data._id+' eval received')
+					var postThis = evaledGame(task.data)
+					//console.log('tnum,pollnum,wwon,bwon,isdraw: ', postThis._id, postThis.pollNum, postThis.whiteWon, postThis.blackWon, postThis.isDraw)
+					$http.post('/evaledGame', postThis, function(req, res) {
+							$rootScope.sendMessage('t' + postThis._id + ' posted.')
+						})
+						//should ping
+					break;
+
+			}
 
 
 		}
-		appModule.controller("ApplicationController", ApplicationController);
 
+		//
+		/////////longpoll tasks stuff
+
+		$rootScope.taskNum = 0
+
+		var longPollTasks = function() {
+
+			$http.get('/longPollTasks?id=' + $rootScope.sendID + '&tn=' + $rootScope.taskNum + '&spd=' + $rootScope.mainThreadSpeed)
+				.then(function(response) {
+
+					// 1 task received
+
+					$rootScope.taskNum = response.data.taskNum
+
+					$rootScope.receivedMessage = response.data.message //display Heading
+
+					$rootScope.sendMessage('task #' + response.data.taskNum + ' received, ' + response.data.command + ': ' + response.data.message)
+
+					$rootScope.doTask(response.data)
+
+
+					//  if($rootScope.idle){
+					if ($rootScope.pollOn) longPollTasks() //recall for new task, server might hold any new task until this one finishes
+						//}
+				}, function(data) {
+					//error, retry
+					$rootScope.receivedMessage = 'error'
+					$rootScope.refreshWhenUp() //retry kene?
+				})
+
+		}
+
+
+
+		/////////longpoll tasks stuff end
+
+
+		// $rootScope.sendMessage = function(message) {
+		//     $rootScope.messages.unshift(message + ' @' + (new Date).getTime())
+		// }
+
+		// all the crap here......
+
+
+
+
+		longPollTasks() //start initial longpoll
+
+		// $interval( function(){			//vmiert nem jo
+		// 	//console.log('holazaping')
+		// 	longPollTasks()
+		// } , 8000)//ping
+
+
+	}
+	appModule.controller("ApplicationController", ApplicationController);
 	</script>
 </head>
 
