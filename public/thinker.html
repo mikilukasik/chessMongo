@@ -285,6 +285,8 @@
 								$http.post('/myPartIsDone', postThis, function(req, res) {})
 								
 								 $scope.sendMessage($scope.totalSolved + ' moves solved in ' + timeItTook3 + 'ms on workers.')
+								 
+								 $scope.setMwSpeed($scope.totalSolved,timeItTook3)
 							
 							}
 							
