@@ -164,9 +164,12 @@
 		$scope.toPostSplitMoves=[]
 		
 		$scope.resolveWorkedSplitMove=function(depth,tempResolveArray){
-			console.log('resolving: ',tempResolveArray)
+			
+			//console.log('resolving: ',tempResolveArray)
 			resolveDepth(depth,tempResolveArray)
-			console.log('resolved: ',tempResolveArray)
+			//console.log('resolved: ',tempResolveArray)
+			
+			
 			
 			
 		}
@@ -177,25 +180,85 @@
 			switch (event.data.resCommand) {
 
 				case 'sdtSolved':
-				
-					var toPush=event.data.resData
-					
-					toPush.value=toPush.score
+					var resData=event.data.resData
+					var toPush= { //this goes to console chat window
+						move: resData.moveTree.slice(0,4),
+						value: resData.score,
+						score: resData.score,
+						moveTree: resData.moveTree,
+						solved: resData.solved,
+						_id: $scope.workingOnTableNum,// resData._id,
+						depth: resData.desiredDepth,
+						thinker: $scope.sendID
+	}
 					
 					$scope.waitingSdts.push(toPush)
 					
 					if($scope.waitingSdts.length==$scope.sentSdtCount){
-						//resolve one splitmove now:
+						///////////////////////////////////////////////
+								//resolve one splitmove now://
+						//////////////////////////////////////////////////
 						
-						console.log('resolve now: '+$scope.waitingSdts[0].moveTree)
+						//console.log('resolve now: '+$scope.waitingSdts[0].moveTree)
 						
 						var tempResolveArray=[]
 						tempResolveArray[1]=[]
 						tempResolveArray[2]=$scope.waitingSdts
 						
-						$scope.resolveWorkedSplitMove(2,tempResolveArray)
+						$scope.resolveWorkedSplitMove(2,tempResolveArray)			//some hack to do 2nd level resolved deepmovetask
 						//use tempResolveArray[1][0].value
-						$scope.toPostSplitMoves.push(tempResolveArray[1][0])
+						
+						var pushAgain=tempResolveArray[1][0]
+						console.log('ran again')
+						
+						pushAgain._id=$scope.workingOnTableNum
+						pushAgain.score=pushAgain.value
+						pushAgain.thinker=$scope.sendID
+						pushAgain.move=pushAgain.moveTree.slice(0,4)
+						
+						
+						$scope.toPostSplitMoves.push(pushAgain)
+						
+						var timeItTook = (new Date()
+								.getTime() - $scope.solvingStarted)
+						
+						console.log  ('????how many moves solved in ' + timeItTook + 'ms on by a worker.')
+
+						
+						if($scope.totalSplitMovesReceived-$scope.toPostSplitMoves.length==0){
+							//we worked out all the splitmoves
+							
+							var postThis=$scope.toPostSplitMoves
+							
+							postThis[0]._id=$scope.workingOnTableNum
+							$scope.toPostSplitMoves=[]
+							$scope.waitingSdts=[]
+							
+							console.log('posting',postThis)
+							
+							$http.post('/myPartIsDone', postThis, function(req, res) {
+
+
+		
+							})
+							
+							
+									
+							
+							
+						}else{
+							//still moves to work on
+							console.log('remaining',$scope.totalSplitMovesReceived-$scope.toPostSplitMoves.length)
+							
+							mwProcessDeepSplitMoves($scope.splitMovesToProcess, $scope.sendID)
+							
+							
+							
+							
+							
+							
+							
+						}
 					}
 					
 					
@@ -891,25 +954,36 @@
 
 					$scope.solvingStarted = new Date()
 						.getTime()
+					
+					
+					//if(task.data[0]!=undefined)
+					if(task.data[0]!=undefined)console.log('$scope.workingOnTableNum='+' ',task.data[0]._id)
+					//console.log('$scope.workingOnTableNum='+' '+task.data[1])
+					
+					if(task.data[0]!=undefined)$scope.workingOnTableNum=task.data[0]._id
+					
 					var splitMoveCount = task.data.length
+					$scope.totalSplitMovesReceived= splitMoveCount		//we need this to know when we worked them all out
+					
+					$scope.splitMovesToProcess=task.data
+					//var postThis = 
+					
+					mwProcessDeepSplitMoves($scope.splitMovesToProcess, $scope.sendID) //this will run on the workers
 
-					var postThis = mwProcessDeepSplitMoves(task.data, $scope.sendID) //blocks the UI
-
-					$http.post('/myPartIsDone', postThis, function(req, res) {
+					// $http.post('/myPartIsDone', postThis, function(req, res) {
 
 
 
-					})
-					var timeItTook = (new Date()
-						.getTime() - $scope.solvingStarted)
+					// })
+					// var timeItTook = (new Date()
+					// 	.getTime() - $scope.solvingStarted)
 
 
 
 					//should use all speedtests!!!!!!!!
 					//$scope.mainThreadSpeed = (Number($scope.mainThreadSpeed) + 0.2 * Number(splitMoveCount / (timeItTook / 1000))) / 1.2 //this should keep the last 6 average
 
-					$scope.sendMessage(splitMoveCount + ' moves solved in ' + timeItTook + 'ms on the main thread.')
-
+					
 					///save it in cookie
 
 					//$scope.setCookies() //
@@ -954,14 +1028,15 @@
 		
 		function mwProcessDeepSplitMoves(data, thinker, mt, modConst, looped) {
 			
-			var newData = data.slice()
+			
 			//var rtnData = []
 			
 			if (data.length > 0) {
+				
+				var newData = data.pop()
 		
-				var toPush = workerMove(newData.pop())
-				toPush.thinker = thinker
-				rtnData.push(toPush)
+				workerMove(newData,thinker)
+				
 			
 			}
 			//return rtnData
@@ -979,7 +1054,7 @@
 		}
 		
 				
-		function workerMove(smallMoveTask) { //for 1 thread, smallmovetask has one of my possible 1st moves
+		function workerMove(smallMoveTask,thinker) { //for 1 thread, smallmovetask has one of my possible 1st moves
 		
 			var started = new Date()
 				.getTime()
@@ -996,7 +1071,7 @@
 		
 			oneDeeper(deepeningTask)	//this will make about 30 smalldeepeningtasks and create the resolverarray in the deepeningtask
 										//first iitem in deepeningtask.smalldeepeningtasks is trigger
-			
+			console.log('deepeningTask l2: ',deepeningTask)
 			//var tempResolver=deepeningTask.resolverArray
 			
 			//console.log(deepeningTask)
@@ -1015,11 +1090,11 @@
 				
 				var smallDeepeningTask=deepeningTask.smallDeepeningTasks.pop()
 				
-				console.log(smallDeepeningTask)
+				//console.log(smallDeepeningTask)
 				
 				sendStdToWorker(smallDeepeningTask)
 				
-				console.log(smallDeepeningTask.moveTree+' sent out')
+				//console.log(smallDeepeningTask.moveTree+' sent out')
 				
 			
 			

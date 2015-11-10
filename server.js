@@ -736,7 +736,7 @@ app.post('/myPartIsDone', function(req, res) {
 
 	// 				//onTable.gameIsOn=false
 
-
+	console.log('received:',req.body)
 	var index = getTaskIndex(req.body[0]._id)
 
 	////console.log(index)
@@ -746,6 +746,11 @@ app.post('/myPartIsDone', function(req, res) {
 	req.body.forEach(function(move) {
 		splitTaskQ[index].returnedMoves.push(move)
 		splitTaskQ[index].pendingSolvedMoves--
+		
+		
+		console.log(splitTaskQ[index].pendingSolvedMoves)
+		
+		
 			////console.log(splitTaskQ[index].pendingSolvedMoves)
 
 	})

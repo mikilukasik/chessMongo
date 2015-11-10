@@ -885,7 +885,7 @@ function sortAiArray(a, b) {
 }
 
 function getPushString(table, moveStr) {
-	//////console.log('789 bai ',table,moveStr)
+	////////////console.log('789 bai ',table,moveStr)
 	var cWhatMoves = String(table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) //color of whats moving
 	var pWhatMoves = String(table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1]) //piece
 
@@ -1382,7 +1382,7 @@ function getTableData(origTable, isWhite, oppKingPos) { //, rtnSimpleValue) {
 	}
 
 
-	////console.log(rtnApproachTheKing)
+	//////////console.log(rtnApproachTheKing)
 
 
 	return [tableValue, rtnMyHitSum[0], rtnHisHitSum[0], // rtnHisMoveCount, 
@@ -1537,7 +1537,7 @@ function countInArray(inValue, inArray) {
 
 //     if (origData[0] > 1) {
 //         dontLoop = true
-//             ////console.log('nem loopolhatok')
+//             //////////console.log('nem loopolhatok')
 //     }
 
 //     var origTableValue = origData[0]
@@ -1590,19 +1590,19 @@ function countInArray(inValue, inArray) {
 
 //         var thisTState = createState(tempTable)
 //         var counted = countInArray(thisTState, allPast)
-//         //console.log(counted)
+//         ////////console.log(counted)
 //         if (counted > 1) {
 //             //3szorra lepnenk ugyanabba a statuszba
 //             //ideiglenesen ne
-//             ////// ////console.log ('i could 3fold '+counted)
+//             ////// //////////console.log ('i could 3fold '+counted)
 
-//             ////console.log('counted >1')
+//             //////////console.log('counted >1')
 
 //             if (dontLoop) {
 
 //                 loopedValue -= 2000
 
-//                 ////console.log('dontloop: -2000')
+//                 //////////console.log('dontloop: -2000')
 
 //             }
 
@@ -1611,15 +1611,15 @@ function countInArray(inValue, inArray) {
 //             if (counted > 3) {
 //                 //surely looped
 
-//                 //console.log(counted > 3, counted)
+//                 ////////console.log(counted > 3, counted)
 
 //                 looped = true
 
 //             }
 
 //         } else {
-//             // //// ////console.log (counted)
-//             // //// ////console.log(thisTState)
+//             // //// //////////console.log (counted)
+//             // //// //////////console.log(thisTState)
 //         }
 
 
@@ -1726,15 +1726,15 @@ function countInArray(inValue, inArray) {
 
 //                     if (dontLoop) {
 //                         loopedValue -= 11000
-//                             ////console.log('temprettable:   loopedValue-=11000')
+//                             //////////console.log('temprettable:   loopedValue-=11000')
 //                     } else {
 //                         forceLoopValue += 0.5
 
-//                         ////console.log('temprettable:   forceLoopValue+=0.5')	
+//                         //////////console.log('temprettable:   forceLoopValue+=0.5')	
 //                     }
 
 //                     looped = true
-//                         ////// ////console.log('he could 3fold')
+//                         ////// //////////console.log('he could 3fold')
 //                 }
 
 
@@ -1905,7 +1905,7 @@ function countInArray(inValue, inArray) {
 //                 if (ret2potMoves.length == 0) {
 //                     //mattot tudok adni a legjobbnak tuno lepesere
 //                     //process.stdout.write("!");
-//                     ////// ////console.log('2 lepesbol mattolhatok')
+//                     ////// //////////console.log('2 lepesbol mattolhatok')
 //                     if (tTable2Value < 5) tTable2Value += 5
 
 //                     //meg kene nezni ki tud-e lepni belole
@@ -1927,7 +1927,7 @@ function countInArray(inValue, inArray) {
 
 //         //if(modType=="lpV")loopValue*= modConst
 
-//         ////// ////console.log(modType)
+//         ////// //////////console.log(modType)
 //         switch (modType) {
 //             case undefined:
 
@@ -2059,7 +2059,7 @@ function countInArray(inValue, inArray) {
 // }
 
 // function ai(tablE, wn, allPast, modType, modVal) {
-//     ////console.log('old ai func called!!!!!')
+//     //////////console.log('old ai func called!!!!!')
 //     return createAiTable(tablE, wn, false, allPast, modType, modVal)
 
 // }
@@ -2080,7 +2080,7 @@ var newAi = function(dbTable, modType, modConst, thinker) {
 	var aiTable = new MoveTask(dbTable)
 	var solvedMoves = mtProcessDeepSplitMoves(aiTable.movesToSend, thinker, modType, modConst, looped) //processSplitMoves(aiTable.movesToSend, thinker, modType, modConst, looped)
 
-	//////console.log(solvedMoves)
+	////////////console.log(solvedMoves)
 
 	solvedMoves.sort(moveSorter)
 
@@ -2124,10 +2124,10 @@ function moveSorter(a, b) {
 }
 
 function helpMe(wp) {
-	//// ////console.log('MOVE SCORE    first    second')
+	//// //////////console.log('MOVE SCORE    first    second')
 	ai(table, wp)
 		.forEach(function(thisline) {
-			//// ////console.log(thisline[0] + ' ' + thisline[1] + '  =  ' + thisline[2] + '  +  ' + thisline[3])
+			//// //////////console.log(thisline[0] + ' ' + thisline[1] + '  =  ' + thisline[2] + '  +  ' + thisline[3])
 		})
 }
 
@@ -2239,7 +2239,7 @@ function processMove(move, modType, modConst2, looped) {
 
 	if (origData[0] > 0) {
 		dontLoop = true
-			////console.log('nem loopolhatok')
+			//////////console.log('nem loopolhatok')
 	}
 
 
@@ -2247,7 +2247,7 @@ function processMove(move, modType, modConst2, looped) {
 	//var d
 
 
-	//////console.log(cfMoveCoords,cfTable)
+	////////////console.log(cfMoveCoords,cfTable)
 
 
 	//cfMoves.forEach(function(stepMove, moveIndex) {
@@ -2289,14 +2289,14 @@ function processMove(move, modType, modConst2, looped) {
 	if (counted > 1) {
 		//3szorra lepnenk ugyanabba a statuszba
 
-		//////console.log ('i could 3fold '+counted)
+		////////////console.log ('i could 3fold '+counted)
 
 
 
 		if (dontLoop) {
 			loopedValue -= 1000
 
-			////console.log(' loopedValue-=1000')
+			//////////console.log(' loopedValue-=1000')
 		}
 
 
@@ -2308,8 +2308,8 @@ function processMove(move, modType, modConst2, looped) {
 		}
 
 	} else {
-		// ////console.log (counted)
-		// ////console.log(thisTState)
+		// //////////console.log (counted)
+		// //////////console.log(thisTState)
 	}
 
 
@@ -2428,7 +2428,7 @@ function processMove(move, modType, modConst2, looped) {
 				}
 
 				looped = true
-					//////console.log('he could 3fold')
+					////////////console.log('he could 3fold')
 			}
 
 
@@ -2532,83 +2532,83 @@ function processMove(move, modType, modConst2, looped) {
 	switch (modType) {
 
 		case undefined:
-			////console.log('modType == undefined')
+			//////////console.log('modType == undefined')
 			break;
 
 		case "lpV":
 
 			loopValue *= modConst
-				////console.log('lpV modded: '+modConst)
+				//////////console.log('lpV modded: '+modConst)
 			break;
 
 		case "cpS":
 
 			captureScore *= modConst
-				////console.log('cpS modded: '+modConst)
+				//////////console.log('cpS modded: '+modConst)
 			break;
 
 		case "tt2":
 
 			tTable2Value *= modConst
-				////console.log('tt2 modded: '+modConst)
+				//////////console.log('tt2 modded: '+modConst)
 			break;
 
 		case "sVS":
 
 			smallValScore *= modConst
-				////console.log('sVS modded: '+modConst)
+				//////////console.log('sVS modded: '+modConst)
 			break;
 
 
 		case "dGH":
 
 			dontGetHit *= modConst
-				////console.log('dGH modded: '+modConst)
+				//////////console.log('dGH modded: '+modConst)
 			break;
 
 
 		case "rPr":
 
 			retProtect *= modConst
-				////console.log('rPr modded: '+modConst)
+				//////////console.log('rPr modded: '+modConst)
 			break;
 
 
 		case "mHt":
 
 			mhit *= modConst
-				////console.log('mHt modded: '+modConst)
+				//////////console.log('mHt modded: '+modConst)
 			break;
 
 
 		case "hHt":
 
 			hhit *= modConst
-				////console.log('hHt modded: '+modConst)
+				//////////console.log('hHt modded: '+modConst)
 			break;
 
 		case "mMv":
 
 			mostMoved *= modConst
-				////console.log('mMv modded: '+modConst)
+				//////////console.log('mMv modded: '+modConst)
 			break;
 
 		case "pHB":
 
 			pushHimBack *= modConst
-				////console.log('pHB modded: '+modConst)
+				//////////console.log('pHB modded: '+modConst)
 			break;
 
 		case "gTM":
 
 			getToMiddle *= modConst
-				////console.log('gTM modded: '+modConst)
+				//////////console.log('gTM modded: '+modConst)
 			break;
 
 		case "fwV":
 
 			fwdVal *= modConst
-				////console.log('fwV modded: '+modConst)
+				//////////console.log('fwV modded: '+modConst)
 			break;
 
 		case "scV":
@@ -2616,7 +2616,7 @@ function processMove(move, modType, modConst2, looped) {
 			lsancValue *= modConst
 			rsancValue *= modConst
 			sancValue *= modConst
-				////console.log('scV modded: '+modConst)
+				//////////console.log('scV modded: '+modConst)
 			break;
 
 		case "aTK":
@@ -2761,6 +2761,10 @@ function oneDeeper(deepeningTask){		//only takes original first level deepeningt
 	
 	while (tempTasks.length>0) deepeningTask.smallDeepeningTasks.push(tempTasks.pop())
 	
+	deepeningTask.smallDeepeningTasksCopy=deepeningTask.smallDeepeningTasks.slice()
+	
+	console.log(deepeningTask.smallDeepeningTasks.length)
+	
 	deepeningTask.resolverArray=resolverArray
 
 }
@@ -2884,7 +2888,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 					if (smallDeepeningTask.depth / 2 != Math.floor(smallDeepeningTask.depth/2)){		//does this work???!!!!!!!!!!!
 
 						 thisValue=thisValue*-1 //every second level has negative values: opponent moved
-						//console.log('negative: '+thisValue)					 
+						////////console.log('negative: '+thisValue)					 
 					}
 
 					newMoveTree.push(moveStr+': '+thisValue)
@@ -3027,7 +3031,7 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 
 
 
-		////console.log('bai 2879',taskValue)
+		//////////console.log('bai 2879',taskValue)
 
 		//averageVal+=thisMoveValue
 
@@ -3038,7 +3042,7 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 
 		if (resultingSDTs != []) {
 			//new tables were generated. when we reach desiredDepth there will be no new tables here
-			////console.log(resultingSDTs)
+			//////////console.log(resultingSDTs)
 			solved += resultingSDTs.length
 
 			while (resultingSDTs.length > 0) {
@@ -3052,7 +3056,7 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 		//call it again if there are tasks
 	}
 	
-	console.log(resolverArray)
+	//////console.log(resolverArray)
 	
 	var timeItTook = new Date()
 		.getTime() - startedAt
@@ -3077,7 +3081,7 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 
 ////////////////////////////temp speedtest///////////////////////
 function speedTest(depth, passToWorkers) {
-	//console.log(1,depth)
+	////////console.log(1,depth)
 	var started = new Date()
 		.getTime()
 
@@ -3087,9 +3091,9 @@ function speedTest(depth, passToWorkers) {
 	var dbTable = new Dbtable(1, 2, 3)
 
 	dbTable.desiredDepth = depth
-		//console.log(2,dbTable.desiredDepth)
+		////////console.log(2,dbTable.desiredDepth)
 	var aiTable = new MoveTask(dbTable); //level 3 deepening on new table
-	//console.log(3,aiTable.desiredDepth)
+	////////console.log(3,aiTable.desiredDepth)
 	var tds = [];
 	var tds2 = [];
 	aiTable.movesToSend.forEach(function(step) {
@@ -3100,7 +3104,7 @@ function speedTest(depth, passToWorkers) {
 	});
 	var tempCommand = 'a'
 	tds2.forEach(function(a) {
-		////console.log(a)
+		//////////console.log(a)
 		var thisMoveValue = 0
 		var totals = solveDeepeningTask(a, tempCommand, thisMoveValue)
 		solvedTableCount += totals.solved
