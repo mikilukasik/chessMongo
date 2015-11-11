@@ -30,42 +30,58 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 
 	} else {
 
-			if (smallDeepeningTask.depth <= smallDeepeningTask.desiredDepth) {
+			if (smallDeepeningTask.depth > smallDeepeningTask.desiredDepth){ //depth +1
+				////console.log(smallDeepeningTask.depth)
+				// if(resolverArray[smallDeepeningTask.depth]==undefined){
+				// 	//console.log('smalldeepeningtask  depth problem:',smallDeepeningTask)
+				// }  else {
+				// 	////console.log('smalldeepeningtask  depth ok:',smallDeepeningTask)
+				// }
+				resolverArray[smallDeepeningTask.depth].push(new ResolverItem(smallDeepeningTask.score,smallDeepeningTask.moveTree)) //this will fill in and then gets reduced to best movevalue only
+
+
+
+
+			}else{
 				//depth not solved, lets solve it further
 				
 				
 				
-		if (smallDeepeningTask.stopped) { //stopped is either 'bWon' or 'wWon' or undefined
+		// if (smallDeepeningTask.stopped) { 
+			
+		// 	//stopped is either 'bWon' or 'wWon' or undefined
 
-			//////////////////////////////// a king is missing	//////////////////////////
-
-
-			var newTreeMoves = smallDeepeningTask.treeMoves //treemoves is an 1 dim array with the moves that lead here
-
-			//newTreeMoves.push(smallDeepeningTask.stopped) //stopped is either 'bWon' or 'wWon' or undefined
+		// 	//////////////////////////////// a king is missing	//////////////////////////
 
 
+		// 	var newTreeMoves = smallDeepeningTask.treeMoves //treemoves is an 1 dim array with the moves that lead here
 
-			var newSmallTask = new SmallDeepeningTask(smallDeepeningTask.table, //last known table has a king missing
-				smallDeepeningTask.wNext, //remembering the winner in wnext
-				smallDeepeningTask.depth + 1, //this we increase until the end, deepener will make one copy in each round
-				newTreeMoves, //move,move,move,wwon,wwon,wwon+
-				smallDeepeningTask.desiredDepth,
-				smallDeepeningTask.score,
-				//true//
-				smallDeepeningTask.stopped //wwon or bwon
+		// 	//newTreeMoves.push(smallDeepeningTask.stopped) //stopped is either 'bWon' or 'wWon' or undefined
 
-			)
 
-			result.push(newSmallTask) //1 returning task until reach desiredDepth
+
+		// 	var newSmallTask = new SmallDeepeningTask(smallDeepeningTask.table, //last known table has a king missing
+		// 		smallDeepeningTask.wNext, //remembering the winner in wnext
+		// 		smallDeepeningTask.depth + 1, //this we increase until the end, deepener will make one copy in each round
+		// 		newTreeMoves, //move,move,move,wwon,wwon,wwon+
+		// 		smallDeepeningTask.desiredDepth,
+		// 		smallDeepeningTask.score,
+		// 		//true//
+		// 		smallDeepeningTask.stopped //wwon or bwon
+
+		// 	)
+
+		// 	result.push(newSmallTask) //1 returning task until reach desiredDepth
 				
-		}else{	
+		//{	
 				
 
 				var possibleMoves = []
 				
 					//below returns a copied table, should opt out for speed!!!!!!!
+					
 				addMovesToTable(smallDeepeningTask.table, smallDeepeningTask.wNext, true, possibleMoves) //this puts moves in strings, should keep it fastest possible
+				
 					//true to 				//it will not remove invalid moves to keep fast 
 					//keep illegal			//we will remove them later when backward processing the tree
 
@@ -86,6 +102,8 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 					
 				var oldMoveTree=smallDeepeningTask.moveTree
 				//var oldScore=smallDeepeningTask.score
+				
+				var makeNegative=(smallDeepeningTask.depth / 2 != Math.floor(smallDeepeningTask.depth/2))
 
 				for (var i = 0; i < possibleMoves.length; i++) {
 					//was possibleMoves.forEach(function(moveStr) { //create a new smalltask for each move
@@ -101,30 +119,34 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 					
 					
 
-					if(makeMove)	movedTable = fastMove(moveStr, smallDeepeningTask.table, true)
+					if(makeMove)	movedTable = fastMove(moveStr, smallDeepeningTask.table, true)			//speed! put this if out of here, makeamove only false at the last run
 
-					//
-
-					//var fastValue = [0,0] //nem kell, a movestringbol vesszuk fastTableValue(movedTable) //this gets the value of the table (black winning < 0 < white winnning) and the total value of kings (1,2 or 3)
-
-					//var thisMoveCoords=stringToMoveCoords(moveStr)
+					
 					var whatGetsHit = smallDeepeningTask.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1]
 
 					var thisValue = whatGetsHit[1] //piece value, should ++ when en-pass
 
-					var noKingHit = true
+					//var noKingHit = true
 
-					if (thisValue == 9) noKingHit = false
+					//if (thisValue == 9) noKingHit = false
 
+					var valueToSave
 
+					if (makeNegative){		//does this work???!!!!!!!!!!!
 
-					if (smallDeepeningTask.depth / 2 != Math.floor(smallDeepeningTask.depth/2)){		//does this work???!!!!!!!!!!!
-
-						 thisValue=thisValue*-1 //every second level has negative values: opponent moved
+						 valueToSave=smallDeepeningTask.score - thisValue //every second level has negative values: opponent moved
+						 
+						 newMoveTree.push(moveStr+': '+(0-thisValue))
 						////////////console.log('negative: '+thisValue)					 
+					}else{
+						
+						valueToSave=smallDeepeningTask.score + thisValue //every second level has negative values: opponent moved
+						 
+						 newMoveTree.push(moveStr+': '+thisValue)
+						
 					}
 
-					newMoveTree.push(moveStr+': '+thisValue)
+					
 
 					var newSmallTask = {}
 
@@ -134,7 +156,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 
 
 
-					if (noKingHit) { //not hitting king
+					if (true) { //not hitting king			//temp!!!!!!!!!!!!!!!
 
 
 
@@ -145,7 +167,8 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 							smallDeepeningTask.depth + 1,
 							newMoveTree,
 							smallDeepeningTask.desiredDepth,
-							smallDeepeningTask.score + thisValue
+							
+							valueToSave	//smallDeepeningTask.score + thisValue
 							
 							//,stopped is missing, game goes on
 
@@ -190,21 +213,14 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 				result.push(new TriggerItem(smallDeepeningTask.depth + 1, smallDeepeningTask.moveTree))
 					//this will trigger move calc when processing array (will be placed before each set of smalltasks)
 
-			}
-
-			} else { //depth +1
-				////console.log(smallDeepeningTask.depth)
-				// if(resolverArray[smallDeepeningTask.depth]==undefined){
-				// 	//console.log('smalldeepeningtask  depth problem:',smallDeepeningTask)
-				// }  else {
-				// 	////console.log('smalldeepeningtask  depth ok:',smallDeepeningTask)
-				// }
-				resolverArray[smallDeepeningTask.depth].push(new ResolverItem(smallDeepeningTask.score,smallDeepeningTask.moveTree)) //this will fill in and then gets reduced to best movevalue only
-
-
-
+			//}
 
 			}
+			
+			
+			
+			
+			
 		//}
 
 	}
@@ -234,6 +250,26 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 		.getTime()
 
 	if(someCommand=='sdt'){
+		
+		//we are in worker, received a table processed with oneDeeper()
+		//this table is after his first return move
+		//not filtered move, could be that we can hit the king now
+		//if we can, then this is a wrong move, need to throw away
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		var tempDeepeningTask={
 			desiredDepth:deepeningTask.desiredDepth,
 			smallDeepeningTasks:[deepeningTask]
@@ -284,7 +320,7 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 
 		}
 
-		if (resultingSDTs != []) {
+		//if (resultingSDTs != []) {
 			//new tables were generated. when we reach desiredDepth there will be no new tables here
 			//////////////console.log(resultingSDTs)
 			//solved += resultingSDTs.length
@@ -295,7 +331,7 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 					//designed to run on single threaded full deepening
 			}
 
-		}
+		//}
 		//resultingstds is now an empty array, unsent is probably full of tasks again
 
 		//call it again if there are tasks
@@ -404,7 +440,21 @@ function oneDeeper(deepeningTask){		//only takes original first level deepeningt
 	
 	var tempTasks = solveSmallDeepeningTask(smallDeepeningTask, smallDeepeningTask.resolverArray)
 	
-	while (tempTasks.length>0) deepeningTask.smallDeepeningTasks.push(tempTasks.pop())
+	while (tempTasks.length>0) {
+		
+		var tempTask=tempTasks.pop()
+		
+		//console.log(tempTask)
+		
+		// if(tempTask.tabl!=undefined && captured(tempTask.table,!tempTask.wNext)){
+		// 	//rossz lepes
+		// }else{
+			deepeningTask.smallDeepeningTasks.push(tempTask)
+		//}
+		
+		
+		
+	}
 	
 	deepeningTask.smallDeepeningTasksCopy=deepeningTask.smallDeepeningTasks.slice()
 	
