@@ -359,7 +359,7 @@ function kingCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 
 	}
 
-	return canMoveTo
+	//return canMoveTo
 }
 
 function horseCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
@@ -398,14 +398,18 @@ function whatsThereN(i, j, table) {
 		return table[i][j] //.slice(0,4)
 	}
 
-	return []
+	return false
 }
 
 function pushAidN(k,l,x,y,c,table,ihitmoves,protectScore) {
-
+	
+	
+	
 	var isThere=whatsThereN(x, y, table)
+	
+	console.log('runs',isThere)
 
-	if (isThere[0] != 0) {		//van ott vmi
+	if (isThere&&isThere[0] != 0) {		//van ott vmi
 
 		if(isThere[0]==c){
 			//my piece is there
@@ -434,7 +438,7 @@ function pushAidN(k,l,x,y,c,table,ihitmoves,protectScore) {
 }
 
 
-function newCanMove(k,l, c,nc,moveTable,ihitmoves,protectScore){
+function newCanMove(k,l, c,moveTable,ihitmoves,protectScore){
 
 	//[who k,l where to x,y who, hits]
 
@@ -449,27 +453,27 @@ function newCanMove(k,l, c,nc,moveTable,ihitmoves,protectScore){
 
 		case 1:
 
-			iHitCoords.push( pawnCanMoveN(k, l,  moveTable , c,ihitmoves,protectScore))
+			pawnCanMoveN(k, l,  moveTable , c,ihitmoves,protectScore)
 
 			break;
 		case 2:
-			iHitCoords.push(  bishopCanMoveN(k, l,   moveTable, c,ihitmoves,protectScore ))
+			 bishopCanMoveN(k, l,   moveTable, c,ihitmoves,protectScore )
 
 			break;
 		case 3:
-			iHitCoords.push(  horseCanMoveN(k, l,   moveTable, c,ihitmoves,protectScore ))
+			 horseCanMoveN(k, l,   moveTable, c,ihitmoves,protectScore )
 
 			break;
 		case 4:
-			iHitCoords.push(  rookCanMoveN(k, l,   moveTable, c,ihitmoves,protectScore ))
+			 rookCanMoveN(k, l,   moveTable, c,ihitmoves,protectScore )
 
 			break;
 		case 5:
-			iHitCoords.push(  queenCanMoveN(k, l,   moveTable, c,ihitmoves,protectScore ))
+			 queenCanMoveN(k, l,   moveTable, c,ihitmoves,protectScore )
 
 			break;
 		case 9:
-			iHitCoords.push(  kingCanMoveN(k, l,   moveTable, c,ihitmoves,protectScore ))
+			 kingCanMoveN(k, l,   moveTable, c,ihitmoves,protectScore )
 
 			break;
 
@@ -478,11 +482,14 @@ function newCanMove(k,l, c,nc,moveTable,ihitmoves,protectScore){
 	
 }
 
-function findAllHits(origTable, isWhite) {
+function getHitScores(origTable, isWhite) {
 
 	
 	var iHitCoords = []		//[who k,l where to x,y who, hits]
 	var heHitsCoords = []
+	
+	var myprotectScore=0
+	var hisprotectScore=0
 	
 	//var protectedCoords =[]
 
@@ -500,7 +507,7 @@ function findAllHits(origTable, isWhite) {
 				////////found my piece/////////
 				////////get all my moves and places i protect
 				
-					newCanMove(lookI,lookJ, c,origTable,iHitCoords)		//canMove will protect the table
+					newCanMove(lookI,lookJ, c,origTable,iHitCoords,myprotectScore)		//canMove will protect the table
 																		//and append all my hits
 				
 				
@@ -519,7 +526,7 @@ function findAllHits(origTable, isWhite) {
 				if(origTable[lookI][lookJ][0] != 0){
 					////////found opponent's piece/////////
 					
-					newCanMove(lookI,lookJ, c,origTable,heHitsCoords)		//canMove will protect the table
+					newCanMove(lookI,lookJ, c,origTable,heHitsCoords,hisprotectScore)		//canMove will protect the table
 																		//and give back all his hits
 				
 					
@@ -541,80 +548,80 @@ function findAllHits(origTable, isWhite) {
 		}
 	}
 
-	return [0, myTempPieces] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
+	return [iHitCoords,myprotectScore,heHitsCoords,hisprotectScore] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
 
 }
 
-function halfProcessTable(tableToMoveOn, whiteNext){			//	from getallmoves	, hitItsOwn, allHitSum, removeCaptured) { //shouldn't always check hitsum
-	//var speedy = true
-	//if (removeCaptured) speedy = false
+// function halfProcessTable(tableToMoveOn, whiteNext){			//	from getallmoves	, hitItsOwn, allHitSum, removeCaptured) { //shouldn't always check hitsum
+// 	//var speedy = true
+// 	//if (removeCaptured) speedy = false
 
-	var tableData = findAllPieces(tableToMoveOn, whiteNext)[1]
-	var thisArray = []
-		//thisStrArray = []
+// 	var tableData = findAllPieces(tableToMoveOn, whiteNext)[1]
+// 	var thisArray = []
+// 		//thisStrArray = []
 
-	if (hitItsOwn) {
-		whiteNext = !whiteNext
-	}
-	//var allHitSum=0
-	var hitSumPart = []
-	hitSumPart[0] = 0
+// 	if (hitItsOwn) {
+// 		whiteNext = !whiteNext
+// 	}
+// 	//var allHitSum=0
+// 	var hitSumPart = []
+// 	hitSumPart[0] = 0
 
-	for (var pieceNo = 0; pieceNo < tableData.length; pieceNo++) {
+// 	for (var pieceNo = 0; pieceNo < tableData.length; pieceNo++) {
 
-		canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn, true, true, hitSumPart) //true,true for speedy(sakkba is lep),dontProtect
-			.forEach(function(stepItem) {
-				thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
-			})
-		allHitSum += hitSumPart[0]
-	}
+// 		canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn, true, true, hitSumPart) //true,true for speedy(sakkba is lep),dontProtect
+// 			.forEach(function(stepItem) {
+// 				thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
+// 			})
+// 		allHitSum += hitSumPart[0]
+// 	}
 
 	
 
-	return thisArray
+// 	return thisArray
 
-}
-
-
+// }
 
 
 
 
-function addFastMoves(originalTable, whiteNext, quickMoves, returnMoveStrings) {		//if quickMoves==false then protects and gets both protected moves (last round)
 
-	if(quickMoves){
-	//rewrite this to use getTableData to find my pieces, don't copy the array just change the original
 
-	var myCol = 1;
-	if (whiteNext) myCol++ //myCol is 2 when white
+// function addFastMoves(originalTable, whiteNext, quickMoves, returnMoveStrings) {		//if quickMoves==false then protects and gets both protected moves (last round)
 
-		var tableWithMoves = new Array(8)
-	for (var i = 0; i < 8; i++) {
-		tableWithMoves[i] = new Array(8)
-		for (var j = 0; j < 8; j++) {
-			tableWithMoves[i][j] = originalTable[i][j].slice() //[]
-				// originalTable[i][j].forEach(function(value, feCount) {
-				//     tableWithMoves[i][j][feCount] = value
+// 	if(quickMoves){
+// 	//rewrite this to use getTableData to find my pieces, don't copy the array just change the original
 
-			// })
-			if (originalTable[i][j][0] == myCol) {
-				var returnMoveCoords = []
-				tableWithMoves[i][j][5] = canMove(i, j, whiteNext, originalTable, undefined, undefined, undefined, dontClearInvalid, returnMoveStrings) //:  canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm, dontRemoveInvalid) { //, speedy) {
-			} else {
-				tableWithMoves[i][j][5] == []
-			}
-		}
-	}
+// 	var myCol = 1;
+// 	if (whiteNext) myCol++ //myCol is 2 when white
 
-	return tableWithMoves
+// 		var tableWithMoves = new Array(8)
+// 	for (var i = 0; i < 8; i++) {
+// 		tableWithMoves[i] = new Array(8)
+// 		for (var j = 0; j < 8; j++) {
+// 			tableWithMoves[i][j] = originalTable[i][j].slice() //[]
+// 				// originalTable[i][j].forEach(function(value, feCount) {
+// 				//     tableWithMoves[i][j][feCount] = value
+
+// 			// })
+// 			if (originalTable[i][j][0] == myCol) {
+// 				var returnMoveCoords = []
+// 				tableWithMoves[i][j][5] = canMove(i, j, whiteNext, originalTable, undefined, undefined, undefined, dontClearInvalid, returnMoveStrings) //:  canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm, dontRemoveInvalid) { //, speedy) {
+// 			} else {
+// 				tableWithMoves[i][j][5] == []
+// 			}
+// 		}
+// 	}
+
+// 	return tableWithMoves
 	
-	}else{
+// 	}else{
 		
-		//protects and gets both protected moves (last round)
+// 		//protects and gets both protected moves (last round)
 		
-		halfProcessTable(originalTable,whiteNext) //protects both sides and gets boths best hit
+// 		halfProcessTable(originalTable,whiteNext) //protects both sides and gets boths best hit
 		
 		
-	}
+// 	}
 
-}
+// }
