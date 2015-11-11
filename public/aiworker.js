@@ -1,6 +1,7 @@
 importScripts('brandNewAi.js')
 importScripts('engine.js')
 importScripts('js/deepening.js')
+importScripts('js/classes.js')
 
 	
 
