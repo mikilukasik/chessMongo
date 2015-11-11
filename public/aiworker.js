@@ -1,5 +1,8 @@
 importScripts('brandNewAi.js')
 importScripts('engine.js')
+importScripts('js/deepening.js')
+
+	
 
 ////////////////////worker func
 

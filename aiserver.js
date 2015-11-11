@@ -12,6 +12,7 @@ app.use(morgan("combined"))
 var cn = 'mongodb://localhost:17890/chessdb'
 
 eval(fs.readFileSync('public/brandNewAi.js') + '');
+eval(fs.readFileSync('public/js/deepening.js') + '');
 eval(fs.readFileSync('public/engine.js')+'');
 
 app.get('/aiChoice', function(req, res) {
