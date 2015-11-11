@@ -121,7 +121,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 					if (smallDeepeningTask.depth / 2 != Math.floor(smallDeepeningTask.depth/2)){		//does this work???!!!!!!!!!!!
 
 						 thisValue=thisValue*-1 //every second level has negative values: opponent moved
-						//////////console.log('negative: '+thisValue)					 
+						////////////console.log('negative: '+thisValue)					 
 					}
 
 					newMoveTree.push(moveStr+': '+thisValue)
@@ -193,11 +193,11 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 			}
 
 			} else { //depth +1
-				//console.log(smallDeepeningTask.depth)
+				////console.log(smallDeepeningTask.depth)
 				// if(resolverArray[smallDeepeningTask.depth]==undefined){
-				// 	console.log('smalldeepeningtask  depth problem:',smallDeepeningTask)
+				// 	//console.log('smalldeepeningtask  depth problem:',smallDeepeningTask)
 				// }  else {
-				// 	//console.log('smalldeepeningtask  depth ok:',smallDeepeningTask)
+				// 	////console.log('smalldeepeningtask  depth ok:',smallDeepeningTask)
 				// }
 				resolverArray[smallDeepeningTask.depth].push(new ResolverItem(smallDeepeningTask.score,smallDeepeningTask.moveTree)) //this will fill in and then gets reduced to best movevalue only
 
@@ -228,7 +228,7 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 	//var taskValue = deepeningTask.
 
 
-
+	var ranCount=0
 
 	var startedAt = new Date()
 		.getTime()
@@ -241,7 +241,7 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 		deepeningTask=tempDeepeningTask
 	}
 
-	var solved = 0
+	//var solved = 
 
 
 	var averageVal = 0 //will add then divide
@@ -261,7 +261,7 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 
 		//length is 1 at first, then just grows until all has reached the level. evetually there will be nothing to do and this loop exists
 
-
+		
 		//solved++
 
 		var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
@@ -273,9 +273,9 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 
 		// resultingSDTs.pop() //!!!!!!!!!!!!!!!!!!!!!!!!!
 
+		//ranCount+=resultingSDTs.length
 
-
-		////////////console.log('bai 2879',taskValue)
+		//////////////console.log('bai 2879',taskValue)
 
 		//averageVal+=thisMoveValue
 
@@ -286,10 +286,11 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 
 		if (resultingSDTs != []) {
 			//new tables were generated. when we reach desiredDepth there will be no new tables here
-			////////////console.log(resultingSDTs)
-			solved += resultingSDTs.length
+			//////////////console.log(resultingSDTs)
+			//solved += resultingSDTs.length
 
 			while (resultingSDTs.length > 0) {
+				ranCount++
 				deepeningTask.smallDeepeningTasks.push(resultingSDTs.pop()) //at the beginning the unsent array is just growing but then we run out
 					//designed to run on single threaded full deepening
 			}
@@ -300,7 +301,9 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 		//call it again if there are tasks
 	}
 	
-	////////console.log(resolverArray)
+	////console.log(ranCount)
+	
+	//////////console.log(resolverArray)
 	
 	var timeItTook = new Date()
 		.getTime() - startedAt
@@ -308,16 +311,18 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 	
 		
 	var ret={
-		solved: solved,
+		//solved: 20,		//temp hack!!!!!!!!!!!!!!!!!!!!!!
 		timeItTook: timeItTook,
 		score: resolverArray[2][0].value,
-		moveTree: resolverArray[2][0].moveTree.join(',') //
+		moveTree: resolverArray[2][0].moveTree.join(','), //
+		ranCount:ranCount
 		//5//			//!!!!!!!!!!!!!!!!!!!!!!!!!
 	} 
 	
 	if(someCommand!='sdt'){
 		ret.score=resolverArray[1][0].value
-		moveTree: resolverArray[1][0].moveTree.join(',')
+		//moveTree= resolverArray[1][0].moveTree.join(',')
+		
 	}
 		
 	return ret
@@ -328,7 +333,7 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 
 
 
-function deepMove(smallMoveTask) { //for 1 thread, smallmovetask has one of my possible 1st moves
+function deepMove(smallMoveTask,ranCount) { //for 1 thread, smallmovetask has one of my possible 1st moves
 
 	var started = new Date()
 		.getTime()
@@ -342,7 +347,9 @@ function deepMove(smallMoveTask) { //for 1 thread, smallmovetask has one of my p
 	var tempCommand = ''
 
 	//var thisMoveValue=0
-	var totals = solveDeepeningTask(deepeningTask, tempCommand, value) //single thread calc
+	
+	//var ranCount=
+	var totals = solveDeepeningTask(deepeningTask, tempCommand, ranCount) //single thread calc
 
 	solvedTableCount += totals.solved
 
@@ -369,14 +376,15 @@ function deepMove(smallMoveTask) { //for 1 thread, smallmovetask has one of my p
 
 function mtProcessDeepSplitMoves(data, thinker, mt, modConst, looped) {
 	var newData = []
-	
+	var ranCount=0
 	while (data.length > 0) {
 
-		var toPush = deepMove(data.pop())
+		var toPush = deepMove(data.pop(),ranCount)
 		toPush.thinker = thinker
 		newData.push(toPush)
 	
 	}
+	newData.solved=ranCount
 	return newData
 }
 
@@ -400,7 +408,7 @@ function oneDeeper(deepeningTask){		//only takes original first level deepeningt
 	
 	deepeningTask.smallDeepeningTasksCopy=deepeningTask.smallDeepeningTasks.slice()
 	
-	//console.log(deepeningTask.smallDeepeningTasks.length)
+	////console.log(deepeningTask.smallDeepeningTasks.length)
 	
 	deepeningTask.resolverArray=resolverArray
 

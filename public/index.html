@@ -83,13 +83,13 @@
 		
 		$rootScope.longPollTable = function() {
 
-			//console.log('polling table ' + $rootScope._id)
+			////console.log('polling table ' + $rootScope._id)
 
 			$http.get('/longPollTable?t=' + $rootScope._id + '&pn=' + $rootScope.pollNum + '&r=' + Math.random())
 				.then(function(responseData) {
 					var response=responseData.data
 					
-					console.log('Data received: '+response.command+' - '+response.message)
+					//console.log('Data received: '+response.command+' - '+response.message)
 					
 					if(response._id==$rootScope._id){		//break poll on changed _id
 						//$rootScope.table = response.table
@@ -126,14 +126,14 @@
 						$scope.showTable()
 						
 						if($scope.viewName == "board.html") {			
-							console.log('Repeating longpoll on t'+ response._id)			
+							//console.log('Repeating longpoll on t'+ response._id)			
 							$rootScope.longPollTable()	//loop till change view	(or table)
 						}else{
-							console.log('board not displayed (viewName: '+ $scope.viewName+'), discontinuing longpoll for table ' + response._id)
+							//console.log('board not displayed (viewName: '+ $scope.viewName+'), discontinuing longpoll for table ' + response._id)
 							
 						}
 					}else{
-						console.log('_id changed, discontinuing longpoll for table ' + response._id)
+						//console.log('_id changed, discontinuing longpoll for table ' + response._id)
 					}
 				},function(data){
 					$interval($rootScope.longPollTable(),2000)	//retry
@@ -148,7 +148,7 @@
 			
 			
 			
-			console.log('_id changed, calling new longpoll on t'+ num + ', forcePop on t'+oldNum)
+			//console.log('_id changed, calling new longpoll on t'+ num + ', forcePop on t'+oldNum)
 			
 			$http.get('/forcePopTable?t='+oldNum+'&p='+$rootScope.loginName+'&m=Went to t'+num)
 			$rootScope.longPollTable()
@@ -157,7 +157,7 @@
 		}
 		$scope.refreshRecentGames = function() {
 
-			////console.log('polling table ' + $rootScope._id)
+			//////console.log('polling table ' + $rootScope._id)
 
 			// $http.get('/getMyRecentGames?n=' + $rootScope.loginName)
 			// 	.success(function(response) {
@@ -179,9 +179,9 @@
 
 					$http.get('/getLobby?p=' + $rootScope.loginName)
 						.success(function(response) {
-							//console.log('polling lobby')
+							////console.log('polling lobby')
 							if(response.asktoopen) {
-								//console.log('opening')
+								////console.log('opening')
 
 								$rootScope._id = response.opentablenum
 								$scope.wPlayer = response.opentablecolor
@@ -194,7 +194,7 @@
 
 							if(!($scope.lobbyPollNum == response.lobbypollnum)) {
 
-								////console.log('polling lobby')
+								//////console.log('polling lobby')
 
 								$scope.lobbyChatLines = response.lobbychat
 								$scope.players = response.players
@@ -231,10 +231,10 @@
 						}) //lobbypoll callback ends here
 				} else {
 					//itt lehetne mast pollozni
-					//console.log($rootScope.tempMoveString)
+					////console.log($rootScope.tempMoveString)
 
 					// if($scope.viewName == 'board.html'&& $rootScope.tempMoveString=="") {
-					// 	//console.log('refreshtable called from interval '+ $rootScope.tempMoveString)
+					// 	////console.log('refreshtable called from interval '+ $rootScope.tempMoveString)
 					// 	$scope.refreshTable()
 						
 					// }
@@ -248,7 +248,7 @@
 
 		$scope.clickedItTrans = function(i, j) {
 			//alert("called")
-			//console.log([i,j,$rootScope.tempMoveString])
+			////console.log([i,j,$rootScope.tempMoveString])
 			
 			var clickedField = [j, 8 - i]
 			var clickedString = dletters[j] + (9 - i)
@@ -256,7 +256,7 @@
 			if(!($scope.opponentsName == "Spectator")) {
 				$scope.clickedIt(clickedField, clickedString)
 			}
-			//	//console.log(clickedField,clickedString)
+			//	////console.log(clickedField,clickedString)
 
 		}
 		
@@ -397,10 +397,10 @@
 
 			$http.get('/getTPollNum?t=' + $rootScope._id)
 				.success(function(response) {
-					//console.log('getting board pollnum: '+response.tablepollnum+" vs "+$rootScope.pollNum)
+					////console.log('getting board pollnum: '+response.tablepollnum+" vs "+$rootScope.pollNum)
 					if(!(response.tablepollnum == $rootScope.pollNum)) {
 						$rootScope.pollNum = response.tablepollnum
-						//console.log('calling getandshow')
+						////console.log('calling getandshow')
 						$rootScope.longPollTable()
 						if(!$scope.$$phase) {
 								$scope.$apply()
@@ -458,7 +458,7 @@
 		$scope.newView = function(viewName) {
 			if(viewName == 'board.html') {
 				$scope.refreshRecentGames()
-				console.log('View changed to board, calling longpoll on t'+$rootScope._id)
+				//console.log('View changed to board, calling longpoll on t'+$rootScope._id)
 				$rootScope.longPollTable()		//start longpoll
 				if($scope.wPlayer){
 						$scope.drTable("wtable.html")
@@ -516,7 +516,7 @@
 			var y = clickedField[1]
 			var clickedColor = false
 			
-		console.log('testing',$rootScope.table[x][y][5] , $rootScope.tempMoveString.length ,$rootScope.wNext , $scope.wPlayer)	
+		//console.log('testing',$rootScope.table[x][y][5] , $rootScope.tempMoveString.length ,$rootScope.wNext , $scope.wPlayer)	
 			if((!($rootScope.table[x][y][5] == []) || $rootScope.tempMoveString.length > 0) && $rootScope.wNext == $scope.wPlayer) {
 
 				if(clickedString == $rootScope.tempMoveString) {

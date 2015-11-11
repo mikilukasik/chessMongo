@@ -5,9 +5,9 @@
 	<script src="angular.js"></script>
 	<script src="brandNewAi.js"></script>
 	<script src="js/deepening.js"></script>
-	
-	
-	
+
+
+
 	<script src="engine.js"></script>
 
 	<script>
@@ -18,43 +18,46 @@
 
 
 		///////////////////////////	global var defs	/////////////////////////////////
-			
+
 		$scope.heartBeat = 300
 		$scope.mv = 0
 		$scope.pw = false
 		$scope.pollsPending = 0
-		
-		
+
+
 		$scope.maxWorkerNum = 12
-		$scope.nextWorkerNum=0
+		$scope.nextWorkerNum = 0
+
+
+		$scope.workingOnTableNum = 0
 		
 		
-		$scope.workingOnTableNum=0
-		
-		
-		
+		$scope.toPostSplitMoves = []
+
+
+
 		////////////////////////	some worker stuff	//////////////////////////////
-		
+
 		var mainWorker;
 		var subWorkers = []
-		
-		
+
+
 		function checkWorkerSupport() {
 			if (typeof(Worker) != 'undefined') return true
 			return false
 		}
 
 		$scope.workerSupport = checkWorkerSupport()
-		
+
 		if ($scope.workerSupport) {
 			$scope.workerSupportMessage = 'HTML5 Web Workers supported.'
-			
+
 		} else {
 			$scope.workerSupportMessage = 'No Web Workers support.'
 		}
 
 
-		function ifWorkers(cb,nocb) {
+		function ifWorkers(cb, nocb) {
 			if ($scope.workerSupport) {
 				cb()
 			} else {
@@ -62,21 +65,21 @@
 				nocb()
 			}
 		}
-		
-			
-		var nextSubWorker=function(subWorkers){
-			if($scope.nextWorkerNum<$scope.maxWorkerNum-1){			
+
+
+		var nextSubWorker = function(subWorkers) {
+			if ($scope.nextWorkerNum < $scope.maxWorkerNum - 1) {
 				$scope.nextWorkerNum++
-			}else{
-				$scope.nextWorkerNum=0
+			} else {
+				$scope.nextWorkerNum = 0
 			}
 			return subWorkers[$scope.nextWorkerNum]
 		}
-		
-		
+
+
 
 		//////////////////////////	cookie stuff	////////////////////////////////////////////////
-	
+
 		function setCookie(cname, cvalue, exdays) {
 			var d = new Date();
 			d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -94,32 +97,32 @@
 			}
 			return "";
 		}
-		
+
 
 		//init cookie vars
-		
+
 		$scope.cookieID = ""
-		$scope.mwSpeed = ""
+		$scope.workerSpeed = ""
 		$scope.mainThreadSpeed = ""
-		
-		
+
+
 		//load cookies
-		
+
 		$scope.cookieID = getCookie("myID");
-		$scope.mainThreadSpeed = getCookie("mainThreadSpeed");
-		$scope.mwSpeed = getCookie("mwSpeed");
+		$scope.mainThreadSpeed = Number(getCookie("mainThreadSpeed"));
 		
+		$scope.workerSpeed = Number(getCookie("workerSpeed"));
 
 
 
 
-		if ($scope.mwSpeed == "") {
+		if ($scope.workerSpeed == "" || isNaN($scope.workerSpeed)) {
 
-			$scope.mwSpeed = 1		//temp val before first test
+			$scope.workerSpeed = 1 //temp val before first test		//should this be 0????
 		} else {
-			//$scope.mwSpeed = $scope.cookieID
+			//$scope.workerSpeed = $scope.cookieID
 		}
-		
+
 		if ($scope.cookieID == "") {
 
 			$scope.sendID = Math.floor(Math.random() * 1000000000000000)
@@ -129,31 +132,52 @@
 
 		$scope.setID = function(id) {
 			setCookie("myID", id, 365)
-			$scope.cookieID = id 
+			$scope.cookieID = id
 			$scope.sendID = id
-			
+
 			//should send some rename info to server!!!!!!!!!!!!!!!!!!!!!
+
+
+		}
+		
+		$scope.setWorkerSpeed = function(count, time) {
 			
+			var tempSpeed=Number(count) / Number(time)
 			
+			var percDiff=Math.floor(tempSpeed/Number($scope.workerSpeed)*100)
+			
+			tempSpeed=($scope.workerSpeed+2*tempSpeed)/3		//average of last few
+			
+			$scope.workerSpeed = tempSpeed
+	
+			setCookie("workerSpeed", $scope.workerSpeed, 365)
+			
+			return percDiff
+				
 		}
 
 
 		$scope.setSpeedCookies = function() {
+
+			//setCookie("mainThreadSpeed", $scope.mainThreadSpeed, 365);
+			$scope.setWorkerSpeed($scope.workerSpeed,1)
 			
-			setCookie("mainThreadSpeed", $scope.mainThreadSpeed, 365);
+			
 
 		}
-		
-		
-		
+
+
+
+
+
 		///////////////////////////////////////// sendMessage stuff	///////////////////////////////////////////////////
 
 		$scope.messages = []
 
 		$scope.sendMessage = function(message) {
-			
-			////console.log(message)
-			
+
+			//////console.log(message)
+
 			$scope.messageTheServer({
 
 				'command': 'log',
@@ -173,185 +197,203 @@
 		}
 
 		$scope.messageTheServer = function(message) {
-			$http.post('/thinkerMessage', message, function() {}) 
+			$http.post('/thinkerMessage', message, function() {})
 				.then(function(result) {
 
 				}, function(data) {
 					refreshWhenUp()
 				})
-				
+
 		}
+		
+		
+		///////////////////////////////////////////////////////// starting //////////////////////////////////////////////
 
 		$scope.sendMessage('Starting..')
-		
+
+
+
+		// $scope.changeLastMessage = function(message) {
+		// 	$scope.messages.pop()
+		// 	$scope.messages.push('@' + new Date()
+		// 		.getTime() + ': ' + message)
+		// 	if (!$scope.$$phase) {
+		// 		$scope.$apply()
+		// 	}
+		// }
+
 		
 
-		$scope.changeLastMessage = function(message) {
-			$scope.messages.pop()
-			$scope.messages.push('@' + new Date()
-				.getTime() + ': ' + message)
-			if (!$scope.$$phase) {
-				$scope.$apply()
-			}
+		$scope.resolveWorkedSplitMove = function(depth, tempResolveArray) {
+
+			////console.log('resolving: ',tempResolveArray)
+			resolveDepth(depth, tempResolveArray)
+				////console.log('resolved: ',tempResolveArray)
+
+
+
+
 		}
 
-		$scope.toPostSplitMoves=[]
 		
-		$scope.resolveWorkedSplitMove=function(depth,tempResolveArray){
-			
-			//console.log('resolving: ',tempResolveArray)
-			resolveDepth(depth,tempResolveArray)
-			//console.log('resolved: ',tempResolveArray)
-			
-			
-			
-			
-		}
-		
-		$scope.setMwSpeed=function(count,time){
-			$scope.mwSpeed=count/time
-			
-			//console.log('count',count)
-			//console.log('time',time)
-			
-			
-			//console.log('speed',$scope.mwSpeed)
-			setCookie("mwSpeed", $scope.mwSpeed, 365)
-			//$scope.setSpeedCookies()
-	}
-		
+
 		subWorkerMsgInThinker = function(event) {
 			//check resCommand
 
 			switch (event.data.resCommand) {
 
 				case 'sdtSolved':
-					var resData=event.data.resData
-					var toPush= { //this goes to console chat window
-						move: resData.moveTree.slice(0,4),
+					var resData = event.data.resData
+					
+					//console.log(resData.ranCount)
+					$scope.totalSolved+=resData.ranCount
+					
+					var toPush = { 
+						move: resData.moveTree.slice(0, 4),
 						value: resData.score,
 						score: resData.score,
 						moveTree: resData.moveTree,
 						solved: resData.solved,
-						_id: $scope.workingOnTableNum,// resData._id,
+						_id: $scope.workingOnTableNum, // resData._id,
 						depth: resData.desiredDepth,
-						thinker: $scope.sendID
-	}
-					
-					$scope.waitingSdts.push(toPush)
-					//console.log('totalSolved: ',Number($scope.totalSolved))
-					//console.log('resData.solved: ',Number(resData.solved))
-					
-					
-					$scope.totalSolved=Number(resData.solved)+Number($scope.totalSolved)
-					
-					if($scope.waitingSdts.length==$scope.sentSdtCount){
-						///////////////////////////////////////////////
-								//resolve one splitmove now://
-						//////////////////////////////////////////////////
-						
-						////console.log('resolve now: '+$scope.waitingSdts[0].moveTree)
-						 
-						var tempResolveArray=[]
-						tempResolveArray[1]=[]
-						tempResolveArray[2]=$scope.waitingSdts
-						tempResolveArray[3]=[]
-						
-						$scope.resolveWorkedSplitMove(2,tempResolveArray)			//some hack to do 2nd level resolved deepmovetask
-						//use tempResolveArray[1][0].value
-						
-						var pushAgain=tempResolveArray[1][0]
-						//console.log('ran again')
-						
-						pushAgain._id=$scope.workingOnTableNum
-						pushAgain.score=pushAgain.value
-						pushAgain.thinker=$scope.sendID
-						pushAgain.move=pushAgain.moveTree.slice(0,4)
-						
-						
-						$scope.toPostSplitMoves.push(pushAgain)
-						
-						
+						thinker: $scope.sendID,
+						ranCont: resData.ranCount
+					}
 
-						
-						if($scope.totalSplitMovesReceived-$scope.toPostSplitMoves.length==0){
+					$scope.waitingSdts.push(toPush)
+						////console.log('totalSolved: ',Number($scope.totalSolved))
+						////console.log('resData.solved: ',Number(resData.solved))
+
+
+					//$scope.totalSolved = Number(resData.solved) + Number($scope.totalSolved)
+
+					if ($scope.waitingSdts.length == $scope.sentSdtCount) {
+						///////////////////////////////////////////////
+						//resolve one splitmove now://
+						//////////////////////////////////////////////////
+
+						//////console.log('resolve now: '+$scope.waitingSdts[0].moveTree)
+
+						var tempResolveArray = []
+						tempResolveArray[1] = []
+						tempResolveArray[2] = $scope.waitingSdts
+						tempResolveArray[3] = []
+
+						resolveDepth(2, tempResolveArray) //some hack to do 2nd level resolved deepmovetask
+							//use tempResolveArray[1][0].value
+
+						var pushAgain = tempResolveArray[1][0]
+							////console.log('ran again')
+
+						pushAgain._id = $scope.workingOnTableNum
+						pushAgain.score = pushAgain.value
+						pushAgain.thinker = $scope.sendID
+						pushAgain.move = pushAgain.moveTree.slice(0, 4)
+
+
+						$scope.toPostSplitMoves.push(pushAgain)
+
+
+
+
+						if ($scope.totalSplitMovesReceived - $scope.toPostSplitMoves.length == 0) {
 							//we worked out all the splitmoves
-							
-							var postThis=$scope.toPostSplitMoves
-							
-							postThis[0]._id=$scope.workingOnTableNum
-							$scope.toPostSplitMoves=[]
-							$scope.waitingSdts=[]
+
+							var postThis = $scope.toPostSplitMoves
+
+							postThis[0]._id = $scope.workingOnTableNum
 							
 							
+							$scope.workingOnTableNum = 0 //available again
+							$scope.toPostSplitMoves = []
+							$scope.waitingSdts = []
+
+
+
+							var timeItTook2 = new Date().getTime() - $scope.initialWorkerSpeedTestStarted
+
+							//var tempSpd
+							var percDiff
 							
-							var timeItTook2 = new Date().getTime()-$scope.initialWorkerSpeedTestStarted
-							
-							
-							
-							if($scope.initialSpeedTestOn){
-								$scope.initialSpeedTestOn=false
-								$scope.sendMessage('mw speed: '+ Math.floor(($scope.totalSolved/timeItTook2)*100)/100 +'t/ms ('+$scope.totalSolved+' tables)')
-								//console.log('Initial speedTast done in '+ timeItTook2 +'ms. Tables: '+$scope.totalSolved)
-							
-								$scope.setMwSpeed($scope.totalSolved,timeItTook2)
-							
+
+							if ($scope.initialSpeedTestOn) {
+								$scope.initialSpeedTestOn = false
+								
+								/////////////////speedTest finished
+								
+								
+								//tempSpd=$scope.totalSolved/ timeItTook2
+								
+								//$scope.totalSolved=14000		//hack!!!!!!!!!!!!!!!!
+								
+								
+								percDiff = $scope.setWorkerSpeed($scope.totalSolved, timeItTook2)
+								
+								$scope.sendMessage('workers t/ms: ' + Math.floor(($scope.totalSolved/ timeItTook2) * 100) / 100 + ' (' +$scope.totalSolved + ' / '+timeItTook2+', ' + percDiff + '%)')
+									////console.log('Initial speedTast done in '+ timeItTook2 +'ms. Tables: '+$scope.totalSolved)
+
+								
+
 								longPollTasks() //start initial longpoll
-		
-		
-		
+
+
+
+
+							} else {
 								
+								/////////////////splitMove finished
 								
-							}else{
-								
+
 								var timeItTook3 = (new Date()
 									.getTime() - $scope.solvingStarted)
-							
-								//console.log  ($scope.totalSolved+' moves solved in ' + timeItTook + 'ms on workers.')
-								//console.log('posting',postThis)
+
+								////console.log  ($scope.totalSolved+' moves solved in ' + timeItTook + 'ms on workers.')
+								////console.log('posting',postThis)
 								$http.post('/myPartIsDone', postThis, function(req, res) {
+
 									
-									$scope.workingOnTableNum==0						//available again
-									
+
 								})
+
+								//$scope.sendMessage($scope.totalSolved + ' moves solved in ' + timeItTook3 + 'ms on workers.')
+
+								//$scope.setWorkerSpeed($scope.totalSolved, timeItTook3)
 								
-								 $scope.sendMessage($scope.totalSolved + ' moves solved in ' + timeItTook3 + 'ms on workers.')
-								 
-								 $scope.setMwSpeed($scope.totalSolved,timeItTook3)
-							
+								percDiff = $scope.setWorkerSpeed($scope.totalSolved, timeItTook3)
+								
+								//tempSpd=$scope.totalSolved/ timeItTook2
+								
+								$scope.sendMessage('workers t/ms: ' + Math.floor(($scope.totalSolved/ timeItTook3) * 100) / 100 + ' (' +$scope.totalSolved + ' / '+timeItTook3+', ' + percDiff + '%)')
+								
+
 							}
-							
-							
-							
-									
-							
-							
-						}else{
+
+
+
+
+						} else {
 							//still moves to work on
-							//console.log('remaining',$scope.totalSplitMovesReceived-$scope.toPostSplitMoves.length)
-							
-							mwProcessDeepSplitMoves($scope.splitMovesToProcess, $scope.sendID)
-							
-							
-							
-							
-							
-							
-							
+							////console.log('remaining',$scope.totalSplitMovesReceived-$scope.toPostSplitMoves.length)
+
+							mwProcessDeepSplitMoves($scope.splitMovesToProcess, $scope.sendID, $scope.ranCount)
+
+
+
+
 						}
 					}
-					
-					
-					////console.log(event.data.resData)
-				
-				break;
-				
+
+
+					//////console.log(event.data.resData)
+
+					break;
+
 				case 'reEcho':
 
 
 					$scope.pendingEchoes--
 
-						//////console.log($scope.pendingSpeedTest)
+						////////console.log($scope.pendingSpeedTest)
 						if ($scope.pendingEchoes == 0) {
 							$scope.pendingEchoTests--
 								if ($scope.pendingEchoTests == 0) {
@@ -369,33 +411,33 @@
 
 										//var initDeepSpeedTeststarted=new Date().getTime();
 
-										$scope.initialWorkerSpeedTestStarted=new Date().getTime()
-										
-										$scope.totalSolved=0
-										
+										$scope.initialWorkerSpeedTestStarted = new Date().getTime()
+
+										$scope.totalSolved = 0
+
 										var level = 2
-										
+
 										$scope.initialSpeedTestOn = true
-										
-										var tempDbTable=new Dbtable(1,2,3)
-										
-										var tempMoveTask=new MoveTask(tempDbTable)
-										
-										var tempMoveTasks= tempMoveTask.movesToSend
-										
-										//console.log('init movesToSend',tempMoveTasks)
-										
-										
-										
+
+										var tempDbTable = new Dbtable(1, 2, 3)
+
+										var tempMoveTask = new MoveTask(tempDbTable)
+
+										var tempMoveTasks = tempMoveTask.movesToSend
+
+										////console.log('init movesToSend',tempMoveTasks)
+
+
+
 										var splitMoveCount = tempMoveTasks.length
-										$scope.totalSplitMovesReceived= splitMoveCount		//we need this to know when we worked them all out
-										
-										$scope.splitMovesToProcess=tempMoveTasks
-										
-										mwProcessDeepSplitMoves($scope.splitMovesToProcess, $scope.sendID)
+										$scope.totalSplitMovesReceived = splitMoveCount //we need this to know when we worked them all out
+
+										$scope.splitMovesToProcess = tempMoveTasks
+
+										mwProcessDeepSplitMoves($scope.splitMovesToProcess, $scope.sendID, $scope.ranCount)
 
 										//var resSpeedTest = speedTest(level, false) //depth, no workers      
-											//var speedTestTime = resSpeedTest.time 
+										//var speedTestTime = resSpeedTest.time 
 
 
 										//$scope.sendMessage('init mainThread deepSpeedTest (level ' + level + ') done: ' + resSpeedTest.solved + ' tables in ' + resSpeedTest.timeItTook + 'ms. aiMove: ' + resSpeedTest.winningMove + ', value: ' + resSpeedTest.winningValue)
@@ -403,7 +445,7 @@
 
 										//var mainThreadSpeed = (Number($scope.mainThreadSpeed) + 0.2 * Number(splitMoveCount / (timeItTook / 1000))) / 1.2 //this should keep the last 6 average
 
-										////console.log($scope.mainThreadSpeed)
+										//////console.log($scope.mainThreadSpeed)
 
 										///save it in cookie
 										//$scope.setSpeedCookies() //
@@ -440,10 +482,10 @@
 
 
 
-		
+
 		//startWorkers()
 
-		
+
 
 
 		//$scope.pendingEchoTests = 0
@@ -451,7 +493,7 @@
 		function echoTest() {
 
 			ifWorkers(function() {
-				//////console.log('callback lefut')
+				////////console.log('callback lefut')
 				$scope.pendingEchoTests = 2
 				sendEchoes()
 
@@ -467,7 +509,7 @@
 				.getTime()
 			for (var i = 0; i < $scope.maxWorkerNum; i++) {
 				//$scope.pendingEchoes++
-				subWorkers[i].postMessage({				
+				subWorkers[i].postMessage({
 					reqMessgage: 'echo',
 					reqCommand: 'echo',
 					reqData: {
@@ -485,7 +527,7 @@
 
 			if (typeof(mainWorker) == "undefined") {
 				$scope.sendMessage('starting mainWorker..')
-					//////console.log('starting mainWorker..')
+					////////console.log('starting mainWorker..')
 				mainWorker = new Worker("aiworker.js");
 			} else {
 				$scope.sendMessage('!!! tried to start already running main worker !!!')
@@ -499,7 +541,7 @@
 			$scope.sendMessage("mainWorker should be running, starting subWorkers..")
 
 			var workerToStrart = 0
-			//$scope.sendMessage("subWorkers started: 0")
+				//$scope.sendMessage("subWorkers started: 0")
 			while (workerToStrart < $scope.maxWorkerNum) {
 
 				subWorkers[workerToStrart] = new Worker("aiworker.js");
@@ -543,8 +585,8 @@
 
 		}
 
-		
-		
+
+
 		ifWorkers(startWorkers)
 
 
@@ -563,7 +605,7 @@
 
 		var evaledGame = function(data) {
 
-			// ////console.log(data)
+			// //////console.log(data)
 			var moves = data.moves
 
 			$http.get('aiOn?t=' + data._id)
@@ -683,12 +725,12 @@
 			initedTable.learnerGame = true
 			initedTable.learnedOn = $scope.sendID
 
-			////console.log('finding _id for ' + initedTable.wName + " vs " + initedTable.bName)
+			//////console.log('finding _id for ' + initedTable.wName + " vs " + initedTable.bName)
 
 			$http.get('/startGame?w=' + initedTable.wName + "&b=" + initedTable.bName)
 				.then(function(response) {
 
-					////console.log('_id received: ' + response.data._id)
+					//////console.log('_id received: ' + response.data._id)
 					initedTable._id = response.data._id
 
 					$scope.sendMessage('learning ' + modType + ' on t' + initedTable._id + ", wModded: " + wModded)
@@ -703,10 +745,10 @@
 
 					//$scope.showTable($scope.myGame.table)
 
-					//////console.log("started, let's move")
+					////////console.log("started, let's move")
 
 					//$scope.whatToDo = 'idle'
-					//////console.log('Table should be in DB, start soon..')
+					////////console.log('Table should be in DB, start soon..')
 					var modConst = getMcFromMv(modVal)
 
 					$http.get('/learnerPoll?n=' + $scope.sendID +
@@ -740,7 +782,7 @@
 		}
 		$scope.playgame2 = function(myGame, mt, modVal, wNx, wMod) {
 			//$scope.whatToDo = 'busy'
-			////console.log('thinking of some move..')
+			//////console.log('thinking of some move..')
 			var result = []
 
 			//  if($scope.learning){
@@ -748,7 +790,7 @@
 
 
 
-			////console.log('modVal: ' + modVal + ', modConst: ' + modConst)
+			//////console.log('modVal: ' + modVal + ', modConst: ' + modConst)
 
 			if (wNx == wMod) {
 				result = newAi(myGame, mt, modConst, $scope.sendID) //get modded result   //dont need $scope.sendID!!!!
@@ -778,7 +820,7 @@
 
 				$http.get('/forceStop?t=' + $scope._id)
 					.then(function(response) {
-						////console.log('looped, forceStop sent')
+						//////console.log('looped, forceStop sent')
 					}, function(data) {
 						$scope.headMessage = 'Connection error, refreshing'
 
@@ -806,7 +848,7 @@
 			} else { //can't move
 
 				//eval
-				////console.log('will run into eval bit - someone won!')
+				//////console.log('will run into eval bit - someone won!')
 
 				myGame.gameIsOn = false
 				evalGame(myGame, true)
@@ -814,10 +856,10 @@
 
 			}
 
-			////console.log(' DONE. ')
+			//////console.log(' DONE. ')
 
 			if (myGame.gameIsOn) {
-				////console.log('Will move ' + aiMoveString)
+				//////console.log('Will move ' + aiMoveString)
 
 				moveInTable(aiMoveString, myGame, true) //true means learnerGame,no need to eval within moveintable
 
@@ -853,7 +895,7 @@
 
 				//}
 			} else {
-				////console.log('Game finished on table ' + myGame._id + ', evaluating..')
+				//////console.log('Game finished on table ' + myGame._id + ', evaluating..')
 				evalGame(myGame, true)
 
 				// myGame.learnerStats={
@@ -863,7 +905,7 @@
 
 				// }
 
-				////console.log(myGame)
+				//////console.log(myGame)
 
 				myGame.pollNum++
 
@@ -927,14 +969,14 @@
 			} else {
 
 				//not calling this function anymore, should recall with opposit color just once
-				////console.log('eval2 bit')
+				//////console.log('eval2 bit')
 
 				if (wMod) {
-					//////console.log('Starting rematch (play black)')
+					////////console.log('Starting rematch (play black)')
 					$scope.sendMessage('Starting rematch (play black)')
 					$timeout($scope.learnerPair(mt, modVal, true), 500)
 				} else {
-					//////console.log('gamepair done, starting again with white')
+					////////console.log('gamepair done, starting again with white')
 					$scope.sendMessage('gamepair done, starting again with white')
 					$timeout($scope.startGamePair(), 500)
 
@@ -1045,7 +1087,7 @@
 
 				case "refresh":
 
-					////console.log(task.message)
+					//////console.log(task.message)
 					$scope.refreshWhenUp()
 					$scope.pollOn = false
 
@@ -1053,39 +1095,80 @@
 					break;
 
 				case "splitMove":
-				
+
 					//for speed testing:
-					
-					$scope.solvingStarted = new Date()							
+
+					$scope.solvingStarted = new Date()
 						.getTime()
-					
-					$scope.totalSolved=0
-					
-					
-					
-					
-					
-					
-					//do one move at a time!!!!!!!!!!!!!!!!!!!!!!!!!
-					
-					if(task.data[0]!=undefined && $scope.workingOnTableNum==0){
-						$scope.workingOnTableNum=task.data[0]._id
+
+					$scope.totalSolved = 0
+
+
+
+
+					if (task.data[0] != undefined) {
+						//we received some moves
+
+
+						if ($scope.workingOnTableNum == 0) {
+							//thinker is idle
+							//mark it busy
+							
+							$scope.workingOnTableNum = task.data[0]._id
+
+
+							ifWorkers(function() {
+								//workers supported, let's calc 
+
+
+
+
+								//var splitMoveCount = task.data.length	//kell ez???
+								
+								$scope.totalSplitMovesReceived = task.data.length //we need this to know when we worked them all out
+
+								$scope.splitMovesToProcess = task.data
+
+
+								mwProcessDeepSplitMoves($scope.splitMovesToProcess, $scope.sendID, $scope.ranCount) //this will run on the workers, callback is where??? 
+
+								
+
+							}, function() {
+								//no workerSupport
+								//do main thread calc
+
+
+								var splitMoveCount = task.data.length
+								$scope.totalSplitMovesReceived = splitMoveCount //we need this to know when we worked them all out		//do we???!!!!!!!!!!!!!!!!!!!!
+
+								$scope.splitMovesToProcess = task.data
+
+
+								var postThis = mtProcessDeepSplitMoves($scope.splitMovesToProcess, $scope.sendID) //this will run on the workers
+
+								$http.post('/myPartIsDone', postThis, function(req, res) {
+
+
+
+								})
+
+							})
+						} else {
+							//thinker is already calculating something
+							
+							$scope.sendMessage('thinker is busy')
+
+
+
+						}
+
+					} else {
+						//error in receiving task
+
+
+
 					}
-					
-					
-					
-					var splitMoveCount = task.data.length
-					$scope.totalSplitMovesReceived= splitMoveCount		//we need this to know when we worked them all out
-					
-					$scope.splitMovesToProcess=task.data
-					//var postThis = 
-					
-					mwProcessDeepSplitMoves($scope.splitMovesToProcess, $scope.sendID) //this will run on the workers
-
-					// $http.post('/myPartIsDone', postThis, function(req, res) {
-
-
-
 					// })
 					// var timeItTook = (new Date()
 					// 	.getTime() - $scope.solvingStarted)
@@ -1095,7 +1178,7 @@
 					//should use all speedtests!!!!!!!!
 					//$scope.mainThreadSpeed = (Number($scope.mainThreadSpeed) + 0.2 * Number(splitMoveCount / (timeItTook / 1000))) / 1.2 //this should keep the last 6 average
 
-					
+
 					///save it in cookie
 
 					//$scope.setSpeedCookies() //
@@ -1118,9 +1201,9 @@
 					break;
 
 				case "evalGame":
-					//////console.log('t'+task.data._id+' eval received')
+					////////console.log('t'+task.data._id+' eval received')
 					var postThis = evaledGame(task.data)
-					////console.log('tnum,pollnum,wwon,bwon,isdraw: ', postThis._id, postThis.pollNum, postThis.whiteWon, postThis.blackWon, postThis.isDraw)
+						//////console.log('tnum,pollnum,wwon,bwon,isdraw: ', postThis._id, postThis.pollNum, postThis.whiteWon, postThis.blackWon, postThis.isDraw)
 					$http.post('/evaledGame', postThis, function(req, res) {
 							$scope.sendMessage('t' + postThis._id + ' posted.')
 						})
@@ -1131,98 +1214,99 @@
 
 
 		}
-		
-		
-		
-		
-		
+
+
+
+
 		//////////////////////////////////////////////worker move////////////////////////////////////////////////
-		
-		function mwProcessDeepSplitMoves(data, thinker, mt, modConst, looped) {
-			
-			
+
+		function mwProcessDeepSplitMoves(data, thinker){//mt, modConst, looped) {
+
+
 			//var rtnData = []
-			
+
 			if (data.length > 0) {
-				
+
 				var newData = data.pop()
-		
-				workerMove(newData,thinker)
-				
-			
+
+				workerMove(newData, thinker)
+
+
 			}
 			//return rtnData
 		}
-		
-		function sendStdToWorker(smallDeepeningTask){
-			
-			nextSubWorker(subWorkers).postMessage({				
-					reqMessgage: 'solveSdt',
-					reqCommand: 'solveSdt',
-					reqData: smallDeepeningTask
-				})
-			
-			
+
+		function sendStdToWorker(smallDeepeningTask) {
+
+			nextSubWorker(subWorkers).postMessage({
+				reqMessgage: 'solveSdt',
+				reqCommand: 'solveSdt',
+				reqData: smallDeepeningTask
+			})
+
+
 		}
-		
-				
-		function workerMove(smallMoveTask,thinker) { //for 1 thread, smallmovetask has one of my possible 1st moves
-		
+
+
+		function workerMove(smallMoveTask, thinker) { //for 1 thread, smallmovetask has one of my possible 1st moves
+
 			$scope.workDeepSplitMovesStarted = new Date()
 				.getTime()
-		
+
 			var solvedTableCount = 0
-		
+
 			var value = 0
-			
+
 			//var tempDepth=smallMoveTask.desiredDepth
-			
+
 			var deepeningTask = new DeepeningTask(smallMoveTask)
-		
-			
-		
-			oneDeeper(deepeningTask)	//this will make about 30 smalldeepeningtasks and create the resolverarray in the deepeningtask
-										//first iitem in deepeningtask.smalldeepeningtasks is trigger
-			//console.log('deepeningTask l2: ',deepeningTask)
-			//var tempResolver=deepeningTask.resolverArray
-			
-			////console.log(deepeningTask)
-			
-			
-			
-			$scope.waitingSdts=[]
-			$scope.sentSdtCount=deepeningTask.smallDeepeningTasks.length-1
-					
+
+
+
+			oneDeeper(deepeningTask) //this will make about 30 smalldeepeningtasks and create the resolverarray in the deepeningtask
+				//first iitem in deepeningtask.smalldeepeningtasks is trigger
+				////console.log('deepeningTask l2: ',deepeningTask)
+				//var tempResolver=deepeningTask.resolverArray
+
+			//////console.log(deepeningTask)
+
+
+
+			$scope.waitingSdts = []
+			$scope.sentSdtCount = deepeningTask.smallDeepeningTasks.length - 1
+
 			// 		if($scope.waitingSdts.length==$scope.sentSdtCount){
-						
-									
-			while(deepeningTask.smallDeepeningTasks.length>1){	
-						//get all the smalltasks out, keep triggeritem
+
+
+			while (deepeningTask.smallDeepeningTasks.length > 1) {
+				//get all the smalltasks out, keep triggeritem
 				//$scope.sentSdtCount++
+
+				var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
+
+				//////console.log(smallDeepeningTask)
 				
-				var smallDeepeningTask=deepeningTask.smallDeepeningTasks.pop()
-				
-				////console.log(smallDeepeningTask)
-				
+				//smallDeepeningTask.ranCount=ranCount
+
 				sendStdToWorker(smallDeepeningTask)
-				
-				////console.log(smallDeepeningTask.moveTree+' sent out')
-				
-			
-			
+
+				//////console.log(smallDeepeningTask.moveTree+' sent out')
+
+
+
 			}
-			
-			
-		
-		
+
+
+
+
 			// var tempCommand = ''
-		
-			
+
+
 			// var totals = solveDeepeningTask(deepeningTask, tempCommand, value) //single thread calc
-		
+
 			// solvedTableCount += totals.solved
-		
-		
+
+
 			// return { //this goes to console chat window
 			// 	move: deepeningTask.moveStr,
 			// 	score: totals.score,
@@ -1231,32 +1315,19 @@
 			// 	_id: smallMoveTask._id,
 			// 	depth: deepeningTask.desiredDepth
 			// }
-		
-		
+
+
 		}
-		
-		
-		
-	//	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
+
+
+		//	
+
+
+
+
 		//////////end//////////////////////////////////////////////worker move////////////////////////////////////////////////
-		
+
 
 		//
 		/////////longpoll tasks stuff
@@ -1264,9 +1335,9 @@
 		$scope.taskNum = 0
 
 		var longPollTasks = function() {
-			//console.log($scope.mwSpeed)
-			
-			$http.get('/longPollTasks?id=' + $scope.sendID + '&tn=' + $scope.taskNum + '&spd=' + $scope.mwSpeed)
+			////console.log($scope.workerSpeed)
+
+			$http.get('/longPollTasks?id=' + $scope.sendID + '&tn=' + $scope.taskNum + '&spd=' + $scope.workerSpeed)
 				.then(function(response) {
 
 					// 1 task received
@@ -1293,15 +1364,15 @@
 
 
 		// longPollTasks() //start initial longpoll
-		
-		
-		
+
+
+
 
 		/////////longpoll tasks stuff end
 
 
 
-		
+
 	}
 	appModule.controller("ApplicationController", ApplicationController);
 	</script>

@@ -124,7 +124,7 @@ var fastestThinker = function(spdPct) {
 	}
 
 	var mx = speedArray.indexOf(Math.max.apply(Math, speedArray));
-	////////// ////console.log('highest: '+Math.max.apply( Math, speedArray ))
+	////////// //////console.log('highest: '+Math.max.apply( Math, speedArray ))
 	if (!spdPct) {
 		return mx
 	}
@@ -171,7 +171,7 @@ function sendTask(task, thinkerId) {
 		thinkerPollIndex = fastestThinker()
 	}
 
-	////////// ////console.log(thinkerId+' '+thinkerPollIndex)
+	////////// //////console.log(thinkerId+' '+thinkerPollIndex)
 
 	var thisRes = null
 
@@ -180,7 +180,7 @@ function sendTask(task, thinkerId) {
 		thinkerId = pendingThinkerPolls[thinkerPollIndex][0].query.id
 
 		thisRes = pendingThinkerPolls.splice(thinkerPollIndex, 1)[0]
-			////////// ////console.log(thisRes,thinkerPollIndex)
+			////////// //////console.log(thisRes,thinkerPollIndex)
 			//var newTaskNum=Number(thisRes[0].query.tn)+1	//!!!!!!!!!!!!!!!!!!! get real tasknum
 		task.taskNum = Number(thisRes[0].query.tn) + 1
 		task.sentRnd = Math.random()
@@ -300,21 +300,21 @@ function sendToAll(task) {
 }
 
 app.get('/refreshAllThinkers', function(req, res) {
-	//////////// ////console.log(req)
+	//////////// //////console.log(req)
 	sendToAll(new Task('refresh', 0, 'refresh all'))
 	res.end()
 
 });
 
 app.get('/startAllLearners', function(req, res) {
-	//////////// ////console.log(req)
+	//////////// //////console.log(req)
 	//sendToAll('learnStart','learnStart all')
 	sendToAll(new Task('learnStart', 0, 'learnStart all'))
 	res.end()
 
 });
 app.get('/echoTestAll', function(req, res) {
-	//////////// ////console.log(req)
+	//////////// //////console.log(req)
 	//sendToAll('learnStart','learnStart all')
 	sendToAll(new Task('echoTest', 0, 'echoTest all'))
 	res.end()
@@ -322,7 +322,7 @@ app.get('/echoTestAll', function(req, res) {
 });
 
 app.get('/stopAllLearners', function(req, res) {
-	//////////// ////console.log(req)
+	//////////// //////console.log(req)
 	//sendToAll('learnStop','learnStop all')
 	sendToAll(new Task('learnStop', 0, 'learnStop all'))
 	res.end()
@@ -333,7 +333,7 @@ app.get('/stopAllLearners', function(req, res) {
 
 
 function createXData() {
-	////////// ////console.log("can't find xData in db, creating..") //header in db
+	////////// //////console.log("can't find xData in db, creating..") //header in db
 
 	mongodb.connect(cn, function(err, db) {
 
@@ -417,7 +417,7 @@ setInterval(function() {
 								.save(xData, function(err3, res) {
 									db2.close()
 								})
-								//////////// ////console.log('Games checked.')
+								//////////// //////console.log('Games checked.')
 
 						});
 
@@ -578,18 +578,18 @@ var getSplitMoveTask = function(aiTable, percent) {
 
 function makeSplitMove(dbTable) {
 	
-	//console.log('creating movetask')
+	////console.log('creating movetask')
 	var aiTable = new MoveTask(dbTable)
 		//dbTable
 
 	aiTable.startedOnServer = new Date()
 		.getTime()
-		//// ////console.log(aiTable)
+		//// //////console.log(aiTable)
 
 
 
 
-	//////console.log('534', dbTable._id)
+	////////console.log('534', dbTable._id)
 
 	// 		mongodb.connect(cn, function(err, db) {
 	// 		db.collection("tables")
@@ -598,7 +598,7 @@ function makeSplitMove(dbTable) {
 	// 			}, function(err2, onTable) {
 
 	// 				if(onTable!=null){
-	//////console.log('547',onTable._id)
+	////////console.log('547',onTable._id)
 
 	// 				//onTable.gameIsOn=false
 
@@ -617,27 +617,27 @@ function makeSplitMove(dbTable) {
 	while (aiTable.movesToSend.length > 0) {
 		
 		
-		//console.log(aiTable.movesToSend.length+' moves left to send')
-		//////console.log(617,'still need to send '+aiTable.movesToSend.length+' splitmoves')
+		////console.log(aiTable.movesToSend.length+' moves left to send')
+		////////console.log(617,'still need to send '+aiTable.movesToSend.length+' splitmoves')
 
 		// var sendThese = getSplitMoveTask(aiTable, fastestThinker(true))
 		// sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTable._id + ' moves: ' + sendThese.length))
 
 
-		//console.log('calling getSplitMoveTask')
+		////console.log('calling getSplitMoveTask')
 		
 		var aa=fastestThinker(true)
 
-		//console.log('aa',aa)
+		////console.log('aa',aa)
 		
 		if(isNaN(aa)){
-			//console.log('hacking',aa)
+			////console.log('hacking',aa)
 			aa=1		//quickfix!!!!!!!!!!!!!!!!!!!!!!
 		}
 		
 		var sendThese = getSplitMoveTask(aiTable, aa)
 		
-		//console.log('calling sendTask')
+		////console.log('calling sendTask')
 		
 		sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTable._id + ' moves: ' + sendThese.length))
 
@@ -685,7 +685,7 @@ function makeAiMove(dbTable) {
 		case 'thinkers':
 
 			//split between available thinkers to make it as fast as possible
-			//console.log('calling makeSplitMove..')
+			////console.log('calling makeSplitMove..')
 			makeSplitMove(dbTable) //starts processing table in multi-thinker mode
 
 
@@ -727,7 +727,7 @@ app.post('/thinkerMessage', function(req, res) {
 app.post('/myPartIsDone', function(req, res) {
 
 	//var movedTable=req.body
-	//////////// ////console.log(req)
+	//////////// //////console.log(req)
 	res.send('received.')
 
 
@@ -742,10 +742,10 @@ app.post('/myPartIsDone', function(req, res) {
 
 	// 				//onTable.gameIsOn=false
 
-	//console.log('received:',req.body)
+	////console.log('received:',req.body)
 	var index = getTaskIndex(req.body[0]._id)
 
-	//////console.log(index)
+	////////console.log(index)
 
 
 
@@ -754,14 +754,14 @@ app.post('/myPartIsDone', function(req, res) {
 		splitTaskQ[index].pendingSolvedMoves--
 		
 		
-		//console.log(splitTaskQ[index].pendingSolvedMoves)
+		////console.log(splitTaskQ[index].pendingSolvedMoves)
 		
 		
-			//////console.log(splitTaskQ[index].pendingSolvedMoves)
+			////////console.log(splitTaskQ[index].pendingSolvedMoves)
 
 	})
 
-	// 				////console.log('657',onTable.aiTable.moves.length)
+	// 				//////console.log('657',onTable.aiTable.moves.length)
 
 	if (splitTaskQ[index].pendingSolvedMoves == 0) {
 		//all moves solved, check best and make a move
@@ -771,11 +771,11 @@ app.post('/myPartIsDone', function(req, res) {
 
 
 		/////
-		////console.log(splitTaskQ[index].returnedMoves)
+		//////console.log(splitTaskQ[index].returnedMoves)
 
 		//var dbTable=splitTaskQ.splice(index,1)
 
-		//////console.log(dbTable.returnedMoves)
+		////////console.log(dbTable.returnedMoves)
 
 		moveInTable(splitTaskQ[index].returnedMoves[0].move, splitTaskQ[index])
 		splitTaskQ[index].chat = splitTaskQ[index].returnedMoves
@@ -827,7 +827,7 @@ app.post('/myPartIsDone', function(req, res) {
 app.post('/moved', function(req, res) {
 
 	//var movedTable=req.body
-	//////////// ////console.log(req)
+	//////////// //////console.log(req)
 	
 	res.send('received.')
 	
@@ -854,7 +854,7 @@ app.post('/moved', function(req, res) {
 	
 					case 'makeAiMove':
 						
-						//console.log('calling makeaimove..')
+						////console.log('calling makeaimove..')
 						makeAiMove(onTable)
 	
 	
@@ -998,75 +998,75 @@ app.get('/move', function(req, res) {
 
 
 
-					if (tableInDb.gameIsOn &&
-						((tableInDb.wNext && tableInDb.wName == "Server") ||
-							(!tableInDb.wNext && tableInDb.bName == "Server"))) { //if Server's next
-						//need to make aiMove
-						var options = {
-							host: 'localhost',
-							port: 16789,
-							path: '/aichoice?t=' + tableInDb._id
-						};
+					// if (tableInDb.gameIsOn &&
+					// 	((tableInDb.wNext && tableInDb.wName == "Server") ||
+					// 		(!tableInDb.wNext && tableInDb.bName == "Server"))) { //if Server's next
+					// 	//need to make aiMove
+					// 	var options = {
+					// 		host: 'localhost',
+					// 		port: 16789,
+					// 		path: '/aichoice?t=' + tableInDb._id
+					// 	};
 
-						http.request(options, function(response) {
-								var resJsn = {};
+					// 	http.request(options, function(response) {
+					// 			var resJsn = {};
 
-								//another chunk of data has been recieved, so append it to `resJsn`
-								response.on('data', function(chunk) {
-									resJsn = JSON.parse(chunk);
-								});
+					// 			//another chunk of data has been recieved, so append it to `resJsn`
+					// 			response.on('data', function(chunk) {
+					// 				resJsn = JSON.parse(chunk);
+					// 			});
 
-								response.on('end', function() {
+					// 			response.on('end', function() {
 
-									if (!(resJsn == null)) {
-										var moveStr = String(resJsn.aimove)
-										if (!(moveStr == "")) { //there's at least 1 move
-											var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
-												tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
-												moveStr + //the string
-												tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][0] + //color of whats hit
-												tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][1] //piece
-												//en passnal nem latszik a leveett paraszt
+					// 				// if (!(resJsn == null)) {
+					// 				// 	var moveStr = String(resJsn.aimove)
+					// 				// 	if (!(moveStr == "")) { //there's at least 1 move
+					// 				// 		var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
+					// 				// 			tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
+					// 				// 			moveStr + //the string
+					// 				// 			tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][0] + //color of whats hit
+					// 				// 			tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][1] //piece
+					// 				// 			//en passnal nem latszik a leveett paraszt
 
-											tableInDb.moves.push(toPush)
-												//tableInDb.toBeChecked = true
-											tableInDb.table = moveIt(moveStr, tableInDb.table)
+					// 				// 		tableInDb.moves.push(toPush)
+					// 				// 			//tableInDb.toBeChecked = true
+					// 				// 		tableInDb.table = moveIt(moveStr, tableInDb.table)
 
-											tableInDb.wNext = !tableInDb.wNext
+					// 				// 		tableInDb.wNext = !tableInDb.wNext
 
-											evalGame(tableInDb)
+					// 				// 		evalGame(tableInDb)
 
-											tableInDb.learnerIsBusy = false
+					// 				// 		tableInDb.learnerIsBusy = false
 
-											tableInDb.pollNum++
+					// 				// 		tableInDb.pollNum++
 
-												tableInDb.moved = new Date()
-												.getTime()
-											tableInDb.chat = resJsn.toconsole
+					// 				// 			tableInDb.moved = new Date()
+					// 				// 			.getTime()
+					// 				// 		tableInDb.chat = resJsn.toconsole
 
-											//tableInDb.toBeChecked = false //checked for now. this should be done later, there are other stuff to be checked
+					// 				// 		//tableInDb.toBeChecked = false //checked for now. this should be done later, there are other stuff to be checked
 
-											tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
+					// 				// 		tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
 
-											//remember this state for 3fold rule
+					// 				// 		//remember this state for 3fold rule
 
-											tableInDb.allPastTables.push(createState(tableInDb.table))
+					// 				// 		tableInDb.allPastTables.push(createState(tableInDb.table))
 
-											popThem(Number(tableInDb._id), tableInDb, 'moved', 'Ai moved: ' + moveStr) //respond to pending longpolls
+					// 				// 		popThem(Number(tableInDb._id), tableInDb, 'moved', 'Ai moved: ' + moveStr) //respond to pending longpolls
 
-											db.collection("tables")
-												.save(tableInDb, function(err3, res) {})
+					// 				// 		db.collection("tables")
+					// 				// 			.save(tableInDb, function(err3, res) {})
 
-										}
-									}
+					// 				// 	}
+					// 				// }
 
-									db.close()
-								});
-							})
-							.end();
+					// 				db.close()
+					// 			});
+					// 		})
+					// 		.end();
 
-					}
-					else {
+					// }
+					// else {
 						//not computer is next
 
 						//fastest client, etc handled with post
@@ -1075,7 +1075,7 @@ app.get('/move', function(req, res) {
 
 
 						db.close()
-					}
+					// }
 
 
 
@@ -1115,8 +1115,8 @@ app.get('/aiMove', function(req, res) {
 						.findOne({
 							_id: Number(req.query.t)
 						}, function(err2, tableInDb) {
-							// ////////// ////console.log(resJsn)
-							// ////////// ////console.log('dssdfsdgs')
+							// ////////// //////console.log(resJsn)
+							// ////////// //////console.log('dssdfsdgs')
 							if (!(resJsn == null || tableInDb == null)) {
 								var moveStr = String(resJsn.aimove)
 								if (!(moveStr == "")) { //there's at least 1 move
@@ -1357,7 +1357,7 @@ app.get('/longPollTable', function(req, res) {
 
 });
 app.get('/forceStop', function(req, res) {
-	//////////// ////console.log(req)
+	//////////// //////console.log(req)
 	res.send('sg')
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
@@ -1388,7 +1388,7 @@ app.get('/forceStop', function(req, res) {
 });
 ////////////////////////////post
 app.post('/evaledGame', function(req, res) {
-	//////////// ////console.log(req)
+	//////////// //////console.log(req)
 	res.send('started, check DB for t' + req.body._id)
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
@@ -1432,7 +1432,7 @@ app.post('/evaledGame', function(req, res) {
 }); /////////////////////////////
 
 app.get('/aiOn', function(req, res) {
-	//////////// ////console.log(req)
+	//////////// //////console.log(req)
 	res.send('sg')
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
@@ -1742,7 +1742,7 @@ app.get('/watchGame', function(req, res) {
 });
 
 app.get('/lobbyChat', function(req, res) {
-	//////////// ////console.log(req)
+	//////////// //////console.log(req)
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
@@ -1767,7 +1767,7 @@ app.get('/lobbyChat', function(req, res) {
 
 
 app.get('/getModTypes', function(req, res) {
-	//////////// ////console.log(req)
+	//////////// //////console.log(req)
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
@@ -1789,7 +1789,7 @@ app.get('/getModTypes', function(req, res) {
 });
 
 app.get('/getMyRecentGames', function(req, res) {
-	//////////// ////console.log(req)
+	//////////// //////console.log(req)
 	mongodb.connect(cn, function(err, db) {
 		db.collection("users")
 			.findOne({
@@ -1923,7 +1923,7 @@ function gotTask(taskForMe, id) {
 	//var forMe=false
 	var forAny = -1
 	for (var i = 0; i < taskQ.length; i++) {
-		//////// ////console.log(taskQ[i][1])
+		//////// //////console.log(taskQ[i][1])
 		if (taskQ[i][1] == id) {
 			//task for me
 			taskForMe.push(taskQ.splice(i, 1))
@@ -1948,7 +1948,7 @@ function gotTask(taskForMe, id) {
 }
 
 app.get('/longPollTasks', function(req, res) {
-	//////////// ////console.log(req)
+	//////////// //////console.log(req)
 	var pollerIndex = doIKnow(req.query.id)
 	if (-1 == pollerIndex) {
 		knownThinkers.push({
@@ -2006,7 +2006,7 @@ app.get('/longPollTasks', function(req, res) {
 
 	if (gotTask(taskForMe, req.query.id)) { //ez beleirja a taskformebe
 
-		//////// ////console.log('for me: '+taskForMe)
+		//////// //////console.log('for me: '+taskForMe)
 		sendTask(taskForMe[0][0][0], taskForMe[0][0][1]) //why? !!!!!!!
 
 
@@ -2079,7 +2079,7 @@ app.get('/speedTestResult', function(req, res) {
 	//                                              )
 
 app.get('/learnerPoll', function(req, res) {
-	//////////// ////console.log(req)
+	//////////// //////console.log(req)
 
 	if (learners[0].indexOf(req.query.n) == -1) {
 		learners[0].push(req.query.n)
@@ -2208,7 +2208,7 @@ function clearDisconnectedLearners() {
 }
 
 app.get('/getLobby', function(req, res) {
-	//////////// ////console.log(req)
+	//////////// //////console.log(req)
 	clearDisconnectedPlayers()
 	if (players[0].indexOf(req.query.p) == -1) {
 		players[0].push(req.query.p)
@@ -2295,7 +2295,7 @@ var clear = ['']
 var stats = clear
 
 app.get('/refreshStats', function(req, res) {
-	////////// ////console.log(req)
+	////////// //////console.log(req)
 	// 	res.writeHead(200, {
 
 	//   'Content-Type': 'text/plain' 
@@ -2360,14 +2360,14 @@ app.get('/refreshStats', function(req, res) {
 							}, function(errs, bModGame) {
 								if (bModGame) {
 									//van matching pair game
-									////////// ////console.log('van')
+									////////// //////console.log('van')
 									var wonScore = 0
 									var moveCountScore = 0
 									var finalDataScore = 0
 
 
 									var resText = ''
-									////console.log(wModGame.finalData, bModGame.finalData)
+									//////console.log(wModGame.finalData, bModGame.finalData)
 									if (wModGame.finalData != undefined && bModGame.finalData != undefined) {
 										if (bModGame.finalData.black != undefined) resText = resText.concat(wModGame.finalData.white[0] + ' ' + bModGame.finalData.black[0])
 									}
@@ -2418,7 +2418,7 @@ app.get('/refreshStats', function(req, res) {
 
 
 									resArray.push(10 * finalDataScore, moveCountScore, 100 * wonScore, 1000 * wonScore + 10 * finalDataScore + moveCountScore, bModGame.bName, resText) //to be fixed
-										//////// ////console.log([wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9)])
+										//////// //////console.log([wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9)])
 									stats.push(resArray.join(String.fromCharCode(9)))
 									captainPop()
 										//res.write(resArray.join(''));
@@ -2441,7 +2441,7 @@ app.get('/refreshStats', function(req, res) {
 
 
 
-									////////// ////console.log('nincs')
+									////////// //////console.log('nincs')
 								}
 								// if(statIndex==statData.length-1){
 								// 		res.write('end')
@@ -2486,7 +2486,7 @@ app.get('/refreshStats', function(req, res) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // io.on('connection', function(socket){
-//   ////////// ////console.log('IO: a user connected');
+//   ////////// //////console.log('IO: a user connected');
 // });
 
 var server = app.listen(80, function() {
@@ -2496,7 +2496,7 @@ var server = app.listen(80, function() {
 	var port = server.address()
 		.port;
 
-	////////// ////console.log('app listening at http://%s:%s', host, port);
+	////////// //////console.log('app listening at http://%s:%s', host, port);
 
 });
 
@@ -2507,6 +2507,6 @@ var server = app.listen(80, function() {
 // 	var port = server.address()
 // 		.port;
 
-// 	////////// ////console.log('app listening at http://%s:%s', host, port);
+// 	////////// //////console.log('app listening at http://%s:%s', host, port);
 
 // });
