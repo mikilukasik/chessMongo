@@ -366,69 +366,7 @@ function canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm, dontRemove
 
 	}
 
-	// if (speedy) {
 
-	//     switch (what) {
-	//         // case 0:
-
-	//         case 1:
-
-	//             possibleMoves.forEach(function(stepPossibleMove) {
-
-	//                 pawnCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
-
-
-	//             })
-	//             break;
-	//         case 2:
-	//             possibleMoves.forEach(function(stepPossibleMove) {
-
-	//                 bishopCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
-
-
-	//             })
-	//             break;
-	//         case 3:
-	//             possibleMoves.forEach(function(stepPossibleMove) {
-
-	//                 horseCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
-
-
-	//             })
-	//             break;
-	//         case 4:
-	//             possibleMoves.forEach(function(stepPossibleMove) {
-
-	//                 rookCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
-
-
-	//             })
-	//             break;
-	//         case 5:
-	//             possibleMoves.forEach(function(stepPossibleMove) {
-
-	//                 queenCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
-
-
-	//             })
-	//             break;
-	//         case 9:
-	//             possibleMoves.forEach(function(stepPossibleMove) {
-
-	//                 kingCanMove(stepPossibleMove[0], stepPossibleMove[1], isWhite, moveTable, scndHitSum)
-
-
-	//             })
-	//             break;
-
-	//     }
-
-	//     hitSumm[0] += scndHitSum[0] / 10000 //masodik lepes is szamit egy kicsit
-
-
-	// }
-
-	//hitSumm[0] -= moveTable[k][l][1] / 100 //amit ut-amivel uti
 
 	if (!speedy) { //     lefut.
 		for (var i = possibleMoves.length - 1; i >= 0; i--) { //sakkba nem lephetunk
@@ -851,6 +789,38 @@ function sortAiArray(a, b) {
 
 	return 0
 }
+
+
+function getAllMoves(tableToMoveOn, whiteNext, hitItsOwn, allHitSum, removeCaptured) { //shouldn't always check hitsum
+	var speedy = true
+	if (removeCaptured) speedy = false
+
+	var tableData = findMyPieces(tableToMoveOn, whiteNext)[1]
+	var thisArray = []
+		//thisStrArray = []
+
+	if (hitItsOwn) {
+		whiteNext = !whiteNext
+	}
+	//var allHitSum=0
+	var hitSumPart = []
+	hitSumPart[0] = 0
+
+	for (var pieceNo = 0; pieceNo < tableData.length; pieceNo++) {
+
+		canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn, speedy, true, hitSumPart) //true,true for speedy(sakkba is lep),dontProtect
+			.forEach(function(stepItem) {
+				thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
+			})
+		allHitSum += hitSumPart[0]
+	}
+
+	
+
+	return thisArray
+
+}
+
 
 function getPushString(table, moveStr) {
 	////////////////console.log('789 bai ',table,moveStr)
