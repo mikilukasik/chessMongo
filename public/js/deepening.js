@@ -18,7 +18,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 	//end of tree check if we got it wrong and go back if treevalue gets less!!!!!!!!!!!!!!!!
 
 
-	if (TriggerItem.prototype.isPrototypeOf(smallDeepeningTask)) { //we solved all moves for a table, time to go backwards
+	if (smallDeepeningTask.trItm) { //we solved all moves for a table, time to go backwards
 
 		//do some work in resolverArray		
 		//then clear that array

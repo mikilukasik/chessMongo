@@ -2,6 +2,8 @@
 
 var SmallDeepeningTask=function(table, wNext, depth, moveTree, desiredDepth, score, stopped){
 	
+		//this.sdt=true
+	
 		this.table= table,
 
 		this.wNext= wNext,
@@ -14,12 +16,12 @@ var SmallDeepeningTask=function(table, wNext, depth, moveTree, desiredDepth, sco
 
 		this.desiredDepth= desiredDepth,
 
-		this.score= score,
+		this.score= score
 
-		this.stopped= stopped
+		//this.stopped= stopped
 		
 }
-
+//
 // var ResolverArray=function(depth){		
 	
 // 	this.=[]			//results will be validated tables on the next level
@@ -202,6 +204,9 @@ var ResolverItem=function(inscore,inmoveTree){
 }
 
 var TriggerItem=function(depth,moveTree){		//these will be put in main deepeningTaskArray to trigger calculation of totals for each level
+	this.trItm=true
+	
+	
 	this.depth=depth
 	//this.parentMove=parentMoveStr			//4 char string
 	this.moveTree=moveTree
