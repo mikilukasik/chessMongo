@@ -120,7 +120,7 @@ var SmallMoveTask = function(moveCoord, index, dbTable) { //deptObj has data to 
 	if(dbTable.desiredDepth>0){
 		this.desiredDepth = dbTable.desiredDepth
 	}else{
-		this.desiredDepth=2 //should be good, on 4th we check what he could hit but not generate any tables and this should match the old styles performance
+		this.desiredDepth=3 //should be good, on 4th we check what he could hit but not generate any tables and this should match the old styles performance
 	}
 	
 
