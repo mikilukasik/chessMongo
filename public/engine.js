@@ -1,70 +1,26 @@
 
 
-function pawnCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
+function pawnCanMoveN(k, l, moveTable, c,iHitMoves,protectScore) {
 
-		
-	
 
 	if (c == 2) {			//white pawn
 		
-		//pushAidN( k,l, k + 1, l + 2,c, moveTable, ihitmoves, protectScore)
 		
-		pushAidN(k,l,k+1,l+1,c,moveTable, ihitmoves, protectScore)
-		pushAidN(k,l,k-1,l+1,c,moveTable, ihitmoves, protectScore)
-
-
-
-		// if (pushAidN( canMoveTo, k, l + 1, 0, 0, moveTable) && l == 1) {
-		// 	pushAidN( canMoveTo, k, l + 2, 0, 0, moveTable)
-		// }
-		// pushAidN( canMoveTo, k - 1, l + 1, 0, nc, moveTable, isWhite, 1)
-		// pushAidN( canMoveTo, k + 1, l + 1, 0, nc, moveTable, isWhite, 1)
-
-		// //en pass
-		// if (whatsThere(k - 1, l, moveTable)[3]) {
-
-		// 	pushAidN( canMoveTo, k - 1, l + 1, 0, 0, moveTable, isWhite)
-
-		// }
-		// if (whatsThere(k + 1, l, moveTable)[3]) {
-
-		// 	pushAidN( canMoveTo, k + 1, l + 1, 0, 0, moveTable, isWhite)
-
-		// }
+		pushAidN(k,l,k+1,l+1,c,moveTable, iHitMoves, protectScore)
+		pushAidN(k,l,k-1,l+1,c,moveTable, iHitMoves, protectScore)
 
 	} else {			//black pawn
 	
 	
-		pushAidN(k,l,k+1,l-1,c,moveTable, ihitmoves, protectScore)
-		pushAidN(k,l,k-1,l-1,c,moveTable, ihitmoves, protectScore)
-
-
-		// if (pushAidN( canMoveTo, k, l - 1, 0, 0, moveTable) && l == 6) {
-		// 	pushAidN( canMoveTo, k, l - 2, 0, 0, moveTable)
-		// }
-		// pushAidN( canMoveTo, k - 1, l - 1, 0, c, moveTable, !isWhite, 1)
-		// pushAidN( canMoveTo, k + 1, l - 1, 0, c, moveTable, !isWhite, 1)
-
-		// //en pass
-		// if (whatsThere(k - 1, l, moveTable)[3]) {
-
-		// 	pushAidN( canMoveTo, k - 1, l - 1, 0, 0, moveTable, !isWhite)
-
-		// }
-		// if (whatsThere(k + 1, l, moveTable)[3]) {
-
-		// 	pushAidN( canMoveTo, k + 1, l - 1, 0, 0, moveTable, !isWhite)
-
-		// }
+		pushAidN(k,l,k+1,l-1,c,moveTable, iHitMoves, protectScore)
+		pushAidN(k,l,k-1,l-1,c,moveTable, iHitMoves, protectScore)
 
 	}
 
-	//return canMoveTo
-
 }
 
-function rookCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
-	//horseCanMoveN(k, l, moveTable, c,ihitmoves,protectScore)
+function rookCanMoveN(k, l, moveTable, c,iHitMoves,protectScore) {
+	//horseCanMoveN(k, l, moveTable, c,iHitMoves,protectScore)
 		//var canMoveTo = []
 		// if(aiCalled){
 
@@ -82,7 +38,7 @@ function rookCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 		if (goFurther[0]) {
 			
 			
-			if(pushAidN( k,l, k + moveCount, l,c, moveTable, ihitmoves, protectScore))goFurther[0] = false
+			if(pushAidN( k,l, k + moveCount, l,c, moveTable, iHitMoves, protectScore))goFurther[0] = false
 		
 		
 			
@@ -93,7 +49,7 @@ function rookCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 		}
 		if (goFurther[1]) {
 			
-			if(pushAidN( k,l, k - moveCount, l,c, moveTable, ihitmoves, protectScore))goFurther[1] = false
+			if(pushAidN( k,l, k - moveCount, l,c, moveTable, iHitMoves, protectScore))goFurther[1] = false
 			
 			
 			// pushAidN( canMoveTo, k - moveCount, l, 0, 0, moveTable)
@@ -103,7 +59,7 @@ function rookCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 		}
 		if (goFurther[2]) {
 			
-			if(pushAidN( k,l, k, l + moveCount,c, moveTable, ihitmoves, protectScore))goFurther[2] = false
+			if(pushAidN( k,l, k, l + moveCount,c, moveTable, iHitMoves, protectScore))goFurther[2] = false
 			
 			
 			// pushAidN( canMoveTo, k, l + moveCount, 0, 0, moveTable)
@@ -113,7 +69,7 @@ function rookCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 		}
 		if (goFurther[3]) {
 			
-			if(pushAidN( k,l, k, l - moveCount,c, moveTable, ihitmoves, protectScore))goFurther[3] = false
+			if(pushAidN( k,l, k, l - moveCount,c, moveTable, iHitMoves, protectScore))goFurther[3] = false
 			
 			
 			// pushAidN( canMoveTo, k, l - moveCount, 0, 0, moveTable)
@@ -125,8 +81,8 @@ function rookCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 	//return canMoveTo
 }
 
-function bishopCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
-	//horseCanMoveN(k, l, moveTable, c,ihitmoves,protectScore)
+function bishopCanMoveN(k, l, moveTable, c,iHitMoves,protectScore) {
+	//horseCanMoveN(k, l, moveTable, c,iHitMoves,protectScore)
 		//var canMoveTo = []
 		// if(aiCalled){
 
@@ -144,7 +100,7 @@ function bishopCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 		if (goFurther[0]) {
 			
 			
-			if(pushAidN( k,l, k + moveCount, l+ moveCount,c, moveTable, ihitmoves, protectScore))goFurther[0] = false
+			if(pushAidN( k,l, k + moveCount, l+ moveCount,c, moveTable, iHitMoves, protectScore))goFurther[0] = false
 		
 		
 			
@@ -155,7 +111,7 @@ function bishopCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 		}
 		if (goFurther[1]) {
 			
-			if(pushAidN( k,l, k - moveCount, l- moveCount,c, moveTable, ihitmoves, protectScore))goFurther[1] = false
+			if(pushAidN( k,l, k - moveCount, l- moveCount,c, moveTable, iHitMoves, protectScore))goFurther[1] = false
 			
 			
 			// pushAidN( canMoveTo, k - moveCount, l, 0, 0, moveTable)
@@ -165,7 +121,7 @@ function bishopCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 		}
 		if (goFurther[2]) {
 			
-			if(pushAidN( k,l, k- moveCount, l + moveCount,c, moveTable, ihitmoves, protectScore))goFurther[2] = false
+			if(pushAidN( k,l, k- moveCount, l + moveCount,c, moveTable, iHitMoves, protectScore))goFurther[2] = false
 			
 			
 			// pushAidN( canMoveTo, k, l + moveCount, 0, 0, moveTable)
@@ -175,7 +131,7 @@ function bishopCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 		}
 		if (goFurther[3]) {
 			
-			if(pushAidN( k,l, k+ moveCount, l - moveCount,c, moveTable, ihitmoves, protectScore))goFurther[3] = false
+			if(pushAidN( k,l, k+ moveCount, l - moveCount,c, moveTable, iHitMoves, protectScore))goFurther[3] = false
 			
 			
 			// pushAidN( canMoveTo, k, l - moveCount, 0, 0, moveTable)
@@ -188,8 +144,8 @@ function bishopCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 }
 
 
-function queenCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
-	//horseCanMoveN(k, l, moveTable, c,ihitmoves,protectScore)
+function queenCanMoveN(k, l, moveTable, c,iHitMoves,protectScore) {
+	//horseCanMoveN(k, l, moveTable, c,iHitMoves,protectScore)
 		//var canMoveTo = []
 		// if(aiCalled){
 
@@ -208,7 +164,7 @@ function queenCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 		if (goFurther[0]) {
 			
 			
-			if(pushAidN( k,l, k + moveCount, l,c, moveTable, ihitmoves, protectScore))goFurther[0] = false
+			if(pushAidN( k,l, k + moveCount, l,c, moveTable, iHitMoves, protectScore))goFurther[0] = false
 		
 		
 			
@@ -219,7 +175,7 @@ function queenCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 		}
 		if (goFurther[1]) {
 			
-			if(pushAidN( k,l, k - moveCount, l,c, moveTable, ihitmoves, protectScore))goFurther[1] = false
+			if(pushAidN( k,l, k - moveCount, l,c, moveTable, iHitMoves, protectScore))goFurther[1] = false
 			
 			
 			// pushAidN( canMoveTo, k - moveCount, l, 0, 0, moveTable)
@@ -229,7 +185,7 @@ function queenCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 		}
 		if (goFurther[2]) {
 			
-			if(pushAidN( k,l, k, l + moveCount,c, moveTable, ihitmoves, protectScore))goFurther[2] = false
+			if(pushAidN( k,l, k, l + moveCount,c, moveTable, iHitMoves, protectScore))goFurther[2] = false
 			
 			
 			// pushAidN( canMoveTo, k, l + moveCount, 0, 0, moveTable)
@@ -239,7 +195,7 @@ function queenCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 		}
 		if (goFurther[3]) {
 			
-			if(pushAidN( k,l, k, l - moveCount,c, moveTable, ihitmoves, protectScore))goFurther[3] = false
+			if(pushAidN( k,l, k, l - moveCount,c, moveTable, iHitMoves, protectScore))goFurther[3] = false
 			
 			
 			// pushAidN( canMoveTo, k, l - moveCount, 0, 0, moveTable)
@@ -253,7 +209,7 @@ function queenCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 		if (goFurther[4]) {
 			
 			
-			if(pushAidN( k,l, k + moveCount, l+ moveCount,c, moveTable, ihitmoves, protectScore))goFurther[4] = false
+			if(pushAidN( k,l, k + moveCount, l+ moveCount,c, moveTable, iHitMoves, protectScore))goFurther[4] = false
 		
 		
 			
@@ -264,7 +220,7 @@ function queenCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 		}
 		if (goFurther[5]) {
 			
-			if(pushAidN( k,l, k - moveCount, l- moveCount,c, moveTable, ihitmoves, protectScore))goFurther[5] = false
+			if(pushAidN( k,l, k - moveCount, l- moveCount,c, moveTable, iHitMoves, protectScore))goFurther[5] = false
 			
 			
 			// pushAidN( canMoveTo, k - moveCount, l, 0, 0, moveTable)
@@ -274,7 +230,7 @@ function queenCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 		}
 		if (goFurther[6]) {
 			
-			if(pushAidN( k,l, k- moveCount, l + moveCount,c, moveTable, ihitmoves, protectScore))goFurther[6] = false
+			if(pushAidN( k,l, k- moveCount, l + moveCount,c, moveTable, iHitMoves, protectScore))goFurther[6] = false
 			
 			
 			// pushAidN( canMoveTo, k, l + moveCount, 0, 0, moveTable)
@@ -284,7 +240,7 @@ function queenCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 		}
 		if (goFurther[7]) {
 			
-			if(pushAidN( k,l, k+ moveCount, l - moveCount,c, moveTable, ihitmoves, protectScore))goFurther[7] = false
+			if(pushAidN( k,l, k+ moveCount, l - moveCount,c, moveTable, iHitMoves, protectScore))goFurther[7] = false
 			
 			
 			// pushAidN( canMoveTo, k, l - moveCount, 0, 0, moveTable)
@@ -295,9 +251,9 @@ function queenCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 	}
 	//return canMoveTo
 }
-function kingCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
-		//horseCanMoveN(k, l, moveTable, c,ihitmoves,protectScore)
-		//pushAidN( k,l, k + 1, l + 2,c, moveTable, ihitmoves, protectScore)
+function kingCanMoveN(k, l, moveTable, c,iHitMoves,protectScore) {
+		//horseCanMoveN(k, l, moveTable, c,iHitMoves,protectScore)
+		//pushAidN( k,l, k + 1, l + 2,c, moveTable, iHitMoves, protectScore)
 		
 		
 	// var canMoveTo = []
@@ -313,14 +269,14 @@ function kingCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 	//moveCount = 1
 	
 	
-	pushAidN( k,l, k + 1, l,c, moveTable, ihitmoves, protectScore)
-	pushAidN( k,l, k - 1, l,c, moveTable, ihitmoves, protectScore)
-	pushAidN( k,l, k + 1, l+1,c, moveTable, ihitmoves, protectScore)
-	pushAidN( k,l, k - 1, l+1,c, moveTable, ihitmoves, protectScore)
-	pushAidN( k,l, k+1, l-1,c, moveTable, ihitmoves, protectScore)
-	pushAidN( k,l, k-1, l-1,c, moveTable, ihitmoves, protectScore)
-	pushAidN( k,l, k, l+1,c, moveTable, ihitmoves, protectScore)
-	pushAidN( k,l, k, l-1,c, moveTable, ihitmoves, protectScore)
+	pushAidN( k,l, k + 1, l,c, moveTable, iHitMoves, protectScore)
+	pushAidN( k,l, k - 1, l,c, moveTable, iHitMoves, protectScore)
+	pushAidN( k,l, k + 1, l+1,c, moveTable, iHitMoves, protectScore)
+	pushAidN( k,l, k - 1, l+1,c, moveTable, iHitMoves, protectScore)
+	pushAidN( k,l, k+1, l-1,c, moveTable, iHitMoves, protectScore)
+	pushAidN( k,l, k-1, l-1,c, moveTable, iHitMoves, protectScore)
+	pushAidN( k,l, k, l+1,c, moveTable, iHitMoves, protectScore)
+	pushAidN( k,l, k, l-1,c, moveTable, iHitMoves, protectScore)
 	
 	
 	// pushAidN( canMoveTo, k + moveCount, l + moveCount, 0, 0, moveTable)
@@ -362,7 +318,7 @@ function kingCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 	//return canMoveTo
 }
 
-function horseCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
+function horseCanMoveN(k, l, moveTable, c,iHitMoves,protectScore) {
 
 	// pushAidN( canMoveTo, k + 1, l + 2, 0, 0, moveTable)
 	// pushAidN( canMoveTo, k + 1, l - 2, 0, 0, moveTable)
@@ -376,15 +332,15 @@ function horseCanMoveN(k, l, moveTable, c,ihitmoves,protectScore) {
 
 	
 
-	pushAidN( k,l, k + 1, l + 2,c, moveTable, ihitmoves, protectScore)
-	pushAidN( k,l, k + 1, l - 2,c, moveTable, ihitmoves, protectScore)
-	pushAidN( k,l, k - 1, l + 2,c, moveTable, ihitmoves, protectScore)
-	pushAidN( k,l, k - 1, l - 2,c, moveTable, ihitmoves, protectScore)
+	pushAidN( k,l, k + 1, l + 2,c, moveTable, iHitMoves, protectScore)
+	pushAidN( k,l, k + 1, l - 2,c, moveTable, iHitMoves, protectScore)
+	pushAidN( k,l, k - 1, l + 2,c, moveTable, iHitMoves, protectScore)
+	pushAidN( k,l, k - 1, l - 2,c, moveTable, iHitMoves, protectScore)
 
-	pushAidN( k,l, k + 2, l + 1,c, moveTable, ihitmoves, protectScore)
-	pushAidN( k,l, k + 2, l - 1,c, moveTable, ihitmoves, protectScore)
-	pushAidN( k,l, k - 2, l + 1,c, moveTable, ihitmoves, protectScore)
-	pushAidN( k,l, k - 2, l - 1,c, moveTable, ihitmoves, protectScore)
+	pushAidN( k,l, k + 2, l + 1,c, moveTable, iHitMoves, protectScore)
+	pushAidN( k,l, k + 2, l - 1,c, moveTable, iHitMoves, protectScore)
+	pushAidN( k,l, k - 2, l + 1,c, moveTable, iHitMoves, protectScore)
+	pushAidN( k,l, k - 2, l - 1,c, moveTable, iHitMoves, protectScore)
 
 	//return canMoveTo
 
@@ -401,20 +357,20 @@ function whatsThereN(i, j, table) {
 	return false
 }
 
-function pushAidN(k,l,x,y,c,table,ihitmoves,protectScore) {
+function pushAidN(k,l,x,y,c,table,iHitMoves,protectScore) {
 	
 	
 	
 	var isThere=whatsThereN(x, y, table)
 	
-	console.log('runs',isThere)
+	//console.log('runs',isThere)
 
 	if (isThere&&isThere[0] != 0) {		//van ott vmi
 
 		if(isThere[0]==c){
 			//my piece is there
 			
-			protectScore++
+			protectScore[0]++
 			
 			table[x][y][6]=true	//protected		//moveit will clear, fastmove not???!!!
 			
@@ -425,7 +381,7 @@ function pushAidN(k,l,x,y,c,table,ihitmoves,protectScore) {
 		}else{
 			//opps piece is there
 			
-			ihitmoves.push([k,l,x,y,table[k][l][1],table[x][y][1]])		//[who k,l where to x,y who, hits]
+			iHitMoves.push([k,l,x,y,table[k][l][1],table[x][y][1]])		//[who k,l where to x,y who, hits]
 			
 			
 			
@@ -438,7 +394,7 @@ function pushAidN(k,l,x,y,c,table,ihitmoves,protectScore) {
 }
 
 
-function newCanMove(k,l, c,moveTable,ihitmoves,protectScore){
+function newCanMove(k,l, c,moveTable,iHitMoves,protectScore){
 
 	//[who k,l where to x,y who, hits]
 
@@ -449,31 +405,31 @@ function newCanMove(k,l, c,moveTable,ihitmoves,protectScore){
 	switch (what) {
 		
 		
-							//horseCanMoveN(k, l, moveTable, c,ihitmoves,protectScore)
+							//horseCanMoveN(k, l, moveTable, c,iHitMoves,protectScore)
 
 		case 1:
 
-			pawnCanMoveN(k, l,  moveTable , c,ihitmoves,protectScore)
+			pawnCanMoveN(k, l,  moveTable , c,iHitMoves,protectScore)
 
 			break;
 		case 2:
-			 bishopCanMoveN(k, l,   moveTable, c,ihitmoves,protectScore )
+			 bishopCanMoveN(k, l,   moveTable, c,iHitMoves,protectScore )
 
 			break;
 		case 3:
-			 horseCanMoveN(k, l,   moveTable, c,ihitmoves,protectScore )
+			 horseCanMoveN(k, l,   moveTable, c,iHitMoves,protectScore )
 
 			break;
 		case 4:
-			 rookCanMoveN(k, l,   moveTable, c,ihitmoves,protectScore )
+			 rookCanMoveN(k, l,   moveTable, c,iHitMoves,protectScore )
 
 			break;
 		case 5:
-			 queenCanMoveN(k, l,   moveTable, c,ihitmoves,protectScore )
+			 queenCanMoveN(k, l,   moveTable, c,iHitMoves,protectScore )
 
 			break;
 		case 9:
-			 kingCanMoveN(k, l,   moveTable, c,ihitmoves,protectScore )
+			 kingCanMoveN(k, l,   moveTable, c,iHitMoves,protectScore )
 
 			break;
 
@@ -488,16 +444,27 @@ function getHitScores(origTable, isWhite) {
 	var iHitCoords = []		//[who k,l where to x,y who, hits]
 	var heHitsCoords = []
 	
-	var myprotectScore=0
-	var hisprotectScore=0
+	var myprotectScore=[0]
+	var hisprotectScore=[0]
+	
+	var myAllHit=0
+	var hisAllHit=0
+	
+	var myBestHit=0
+	var hisBestHit=0
+	
+	var myBestHitCoords=[]
+	//var hisBestHitCoords=[]
+
+	
 	
 	//var protectedCoords =[]
 
 	var c = 1
-	//var nc = 2
+	var nc = 2
 	if (isWhite) {
 		c = 2
-		//nc=1
+		nc=1
 	}
 
 	for (var lookI = 0; lookI < 8; lookI++) { //
@@ -511,13 +478,6 @@ function getHitScores(origTable, isWhite) {
 																		//and append all my hits
 				
 				
-				
-				
-				
-
-
-
-
 
 
 				//myTempPieces.push([lookI, lookJ, origTable[lookI][lookJ][1]]) //itt kene szamitott erteket is adni a babuknak 
@@ -526,20 +486,10 @@ function getHitScores(origTable, isWhite) {
 				if(origTable[lookI][lookJ][0] != 0){
 					////////found opponent's piece/////////
 					
-					newCanMove(lookI,lookJ, c,origTable,heHitsCoords,hisprotectScore)		//canMove will protect the table
+					newCanMove(lookI,lookJ, nc,origTable,heHitsCoords,hisprotectScore)		//canMove will protect the table
 																		//and give back all his hits
 				
-					
-					
-					
-					
-					
-		
-		
-		
-		
-		
-		
+				
 				
 				
 				}
@@ -547,8 +497,75 @@ function getHitScores(origTable, isWhite) {
 
 		}
 	}
+	
+	// if(iHitCoords==[]){
+	// 	//i can't hit
+	// 	myBestHit=0
+	// }else{
+	
+	
+		iHitCoords.forEach(function(hitCoords){
+			
+			var thisValue=0
+			
+			if(origTable[hitCoords[2]][hitCoords[3]][6]){		//if field is protected
+				
+				thisValue=hitCoords[5]-hitCoords[4]				//kivonja amivel lep
+				
+			}else{
+				
+				thisValue=hitCoords[5]							//normal hitvalue
+				
+			}
+			
+			if(thisValue>myBestHit){		//remember best
+				
+				myBestHit=thisValue
+			
+				myBestHitCoords=hitCoords
+			}
+			
+			myAllHit+=thisValue
+			
+			
+		})
+		
+	// }
+	
+	// if(heHitsCoords==[]){
+	// 	//i can't hit
+	// 	hisBestHit=0
+	// }else{
+		
+		heHitsCoords.forEach(function(hitCoords){
+			
+			var thisValue=0
+			
+			if(origTable[hitCoords[2]][hitCoords[3]][6]){		//if field is protected
+				
+				thisValue=hitCoords[5]-hitCoords[4]				//kivonja amivel lep
+				
+			}else{
+				
+				thisValue=hitCoords[5]							//normal hitvalue
+				
+			}
+			
+			if(thisValue>hisBestHit){		//remember best
+				
+				hisBestHit=thisValue
+			
+				//hisBestHitCoords=hitCoords
+			}
+			
+			hisAllHit+=thisValue
+			
+			
+		})
+		
+	//}
 
-	return [iHitCoords,myprotectScore,heHitsCoords,hisprotectScore] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
+	return myBestHit-(hisBestHit/16)+(myprotectScore[0]-(hisprotectScore[0]+hisAllHit)/16+myAllHit)/256//,myBestHitCoords] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
 
 }
 
