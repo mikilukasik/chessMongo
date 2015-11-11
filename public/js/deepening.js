@@ -90,22 +90,22 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 
 				var newWNext = !smallDeepeningTask.wNext
 				
-				var makeMove=false
 				
 				
 				
-				if (smallDeepeningTask.depth < smallDeepeningTask.desiredDepth) {
+				
+				var	makeMove=(smallDeepeningTask.depth < smallDeepeningTask.desiredDepth)
+					
+				var noNegative=(smallDeepeningTask.depth / 2 == Math.floor(smallDeepeningTask.depth/2))
 
-						makeMove=true
 
-					}
+
 					
 				var oldMoveTree=smallDeepeningTask.moveTree
 				//var oldScore=smallDeepeningTask.score
 				
-				var makeNegative=(smallDeepeningTask.depth / 2 != Math.floor(smallDeepeningTask.depth/2))
-
-				for (var i = 0; i < possibleMoves.length; i++) {
+				
+				for (var i = possibleMoves.length-1; i > -1; i--) {
 					//was possibleMoves.forEach(function(moveStr) { //create a new smalltask for each move
 
 					var moveStr = possibleMoves[i]
@@ -132,20 +132,21 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 
 					var valueToSave
 
-					if (makeNegative){		//does this work???!!!!!!!!!!!
+					if (noNegative){		//does this work???!!!!!!!!!!!
 
-						 valueToSave=smallDeepeningTask.score - thisValue //every second level has negative values: opponent moved
+						 valueToSave=smallDeepeningTask.score + thisValue //every second level has negative values: opponent moved
 						 
-						 newMoveTree.push(moveStr+': '+(0-thisValue))
+						// newMoveTree.push(moveStr)//+': '+(0-thisValue))
 						////////////console.log('negative: '+thisValue)					 
 					}else{
 						
-						valueToSave=smallDeepeningTask.score + thisValue //every second level has negative values: opponent moved
+						valueToSave=smallDeepeningTask.score - thisValue //every second level has negative values: opponent moved
 						 
-						 newMoveTree.push(moveStr+': '+thisValue)
+						
 						
 					}
 
+					 newMoveTree.push(moveStr)//+': '+thisValue)
 					
 
 					var newSmallTask = {}
@@ -156,7 +157,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 
 
 
-					if (true) { //not hitting king			//temp!!!!!!!!!!!!!!!
+					//if (true) { //not hitting king			//temp!!!!!!!!!!!!!!!
 
 
 
@@ -177,36 +178,36 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 
 						result.push(newSmallTask)
 
-						resCommand = 'deepened'
+						//resCommand = 'deepened'
 
 
-					} else {
-						//a king got hit
+// 					} else {
+// 						//a king got hit
 
-						if (smallDeepeningTask.wNext) {
-							resCommand = 'wWon'
-						} else {
-							resCommand = 'bWon'
-						}
+// 						if (smallDeepeningTask.wNext) {
+// 							resCommand = 'wWon'
+// 						} else {
+// 							resCommand = 'bWon'
+// 						}
 
-						//newTreeMoves.push(resCommand)
+// 						//newTreeMoves.push(resCommand)
 
-						newSmallTask = new SmallDeepeningTask(movedTable, //last known table has a king missing
-							smallDeepeningTask.wNext, //remembering the winner in wnext
-							smallDeepeningTask.depth + 1, //this we increase until the end, deepener will make one copy in each round
-							resCommand, //last move added to it, illegal where king gets hit
-							smallDeepeningTask.desiredDepth,
-							smallDeepeningTask.score + thisValue * (smallDeepeningTask.desiredDepth - smallDeepeningTask.depth), //value can stay the same
-							true //resCommand //smallDeepeningTask.stopped:	wwon or bwon
+// 						newSmallTask = new SmallDeepeningTask(movedTable, //last known table has a king missing
+// 							smallDeepeningTask.wNext, //remembering the winner in wnext
+// 							smallDeepeningTask.depth + 1, //this we increase until the end, deepener will make one copy in each round
+// 							resCommand, //last move added to it, illegal where king gets hit
+// 							smallDeepeningTask.desiredDepth,
+// 							smallDeepeningTask.score + thisValue * (smallDeepeningTask.desiredDepth - smallDeepeningTask.depth), //value can stay the same
+// 							true //resCommand //smallDeepeningTask.stopped:	wwon or bwon
 
-						)
+// 						)
 
-						result.push(newSmallTask)
-//
+// 						result.push(newSmallTask)
+// //
 
 
 
-					}
+// 					}
 
 				} //  )    //end of for each move
 
@@ -315,10 +316,10 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 
 		//averageVal+=thisMoveValue
 
-		if (resCommand != '') {
+		//if (resCommand != '') {
 			//solver messaged us
 
-		}
+		//}
 
 		//if (resultingSDTs != []) {
 			//new tables were generated. when we reach desiredDepth there will be no new tables here
