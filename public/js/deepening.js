@@ -61,10 +61,94 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 
 			var noNegative = (smallDeepeningTask.depth / 2 == Math.floor(smallDeepeningTask.depth / 2))
 
+			var thisValue2=0
 
+			if(!makeMove){
+				//last round, check opponents moves too
+				
+				var pMoves2=[]
+				
+				addMovesToTable(smallDeepeningTask.table, !smallDeepeningTask.wNext, true, pMoves2) //this puts moves in strings, should keep it fastest possible
+
+				for (var i = pMoves2.length - 1; i > -1; i--) {
+				
+					var moveStr2 = pMoves2[i]
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					var whatGetsHit2 = smallDeepeningTask.table[dletters.indexOf(moveStr2[2])][moveStr2[3] - 1]
+
+					//thisValue2 = whatGetsHit2[1]/10 //piece value, should ++ when en-pass
+	
+					if(whatGetsHit2[1]>thisValue2) thisValue2=whatGetsHit2[1]
+	
+					//var noKingHit = true
+	
+					//if (thisValue == 9) noKingHit = false
+	
+					//var valueToSave2
+	
+					// if (noNegative) { //does this work???!!!!!!!!!!!
+	
+					// 	//valueToSave2 = thisValue2 //every second level has negative values: opponent moved
+	
+					// 	// newMoveTree.push(moveStr)//+': '+(0-thisValue))
+					// 	////////////console.log('negative: '+thisValue)	
+						
+					// 	thisValue2 = 0- thisValue2
+										 
+					// }
+					
+					
+					//  else {
+	
+					// 	 //every second level has negative values: opponent moved
+	
+	
+	
+					// }
+	
+						
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+				
+				
+				
+				}
+				
+				
+				
+				
+			}
 
 
 			//var oldMoveTree=smallDeepeningTask.moveTree
+
+			thisValue2/=10
 
 
 			for (var i = possibleMoves.length - 1; i > -1; i--) {
@@ -96,17 +180,20 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 
 				if (noNegative) { //does this work???!!!!!!!!!!!
 
-					valueToSave = smallDeepeningTask.score + thisValue //every second level has negative values: opponent moved
+					valueToSave = smallDeepeningTask.score + thisValue - thisValue2 //every second level has negative values: opponent moved
 
 					// newMoveTree.push(moveStr)//+': '+(0-thisValue))
 					////////////console.log('negative: '+thisValue)					 
 				} else {
 
-					valueToSave = smallDeepeningTask.score - thisValue //every second level has negative values: opponent moved
+					valueToSave = smallDeepeningTask.score - thisValue + thisValue2//every second level has negative values: opponent moved
 
 
 
 				}
+
+
+				//valueToSave+=thisValue2
 
 				//newMoveTree.push(moveStr)//+': '+thisValue)
 				var newMoveTree = smallDeepeningTask.moveTree.concat(moveStr)
@@ -305,21 +392,21 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 
 function deepMove(smallMoveTask, ranCount) { //for 1 thread, smallmovetask has one of my possible 1st moves
 
-	var started = new Date()
-		.getTime()
+	// var started = new Date()
+	// 	.getTime()
 
 	var solvedTableCount = 0
 
-	var value = 0
+	// var value = 0
 
 	var deepeningTask = new DeepeningTask(smallMoveTask) //deepeningtask to be able to create 2nd level set for workers
 
-	var tempCommand = ''
+	//var tempCommand = ''
 
 	//var thisMoveValue=0
 
 	//var ranCount=
-	var totals = solveDeepeningTask(deepeningTask, tempCommand, ranCount) //single thread calc
+	var totals = solveDeepeningTask(deepeningTask, '', ranCount) //single thread calc
 
 	solvedTableCount += totals.solved
 
