@@ -398,7 +398,13 @@
 
 										$scope.splitMovesToProcess = tempMoveTasks
 
-										mwProcessDeepSplitMoves($scope.splitMovesToProcess, $scope.sendID, $scope.ranCount)
+										mwProcessDeepSplitMoves($scope.splitMovesToProcess, $scope.sendID, $scope.ranCount)		//initial speedtest call!!!
+										
+													//this will take the 1st move from the array, split it and send it to workes
+													//receiving all the results will trigger the same func to run again until $scope.splitMovesToProcess is empty
+																
+																
+																
 
 										//var resSpeedTest = speedTest(level, false) //depth, no workers      
 										//var speedTestTime = resSpeedTest.time 
@@ -1094,7 +1100,16 @@
 								$scope.splitMovesToProcess = task.data
 
 
-								mwProcessDeepSplitMoves($scope.splitMovesToProcess, $scope.sendID)//, $scope.ranCount) //this will run on the workers, callback is where??? 
+								mwProcessDeepSplitMoves($scope.splitMovesToProcess, $scope.sendID)			//starting to process splitmove from server
+								
+									
+													//this will take the 1st move from the $scope.splitMovesToProcess array, split it further and send it out to workes
+													//receiving all the results will trigger the same func to run again until $scope.splitMovesToProcess is empty
+																
+																
+																
+								
+								
 
 								
 
@@ -1226,19 +1241,19 @@
 
 				var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
 
-				sendStdToWorker(smallDeepeningTask)
+				sendToWorker('solveSdt',smallDeepeningTask)
 
 			}
 
 		}
 		
 
-		function sendStdToWorker(smallDeepeningTask) {
+		function sendToWorker(command,data) {
 
 			nextSubWorker(subWorkers).postMessage({
-				reqMessgage: 'solveSdt',
-				reqCommand: 'solveSdt',
-				reqData: smallDeepeningTask
+				//reqMessgage: message,
+				reqCommand: command,			//string
+				reqData: data
 			})
 
 

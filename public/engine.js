@@ -447,8 +447,8 @@ function getHitScores(origTable, isWhite) {
 	var myprotectScore=[0]
 	var hisprotectScore=[0]
 	
-	var myAllHit=0
-	var hisAllHit=0
+	// var myAllHit=0
+	// var hisAllHit=0
 	
 	var myBestHit=0
 	var hisBestHit=0
@@ -461,10 +461,11 @@ function getHitScores(origTable, isWhite) {
 	//var protectedCoords =[]
 
 	var c = 1
-	var nc = 2
+	var nc = 1
 	if (isWhite) {
-		c = 2
-		nc=1
+		c++
+	}else{
+		nc++
 	}
 
 	for (var lookI = 0; lookI < 8; lookI++) { //
@@ -525,7 +526,7 @@ function getHitScores(origTable, isWhite) {
 				myBestHitCoords=hitCoords
 			}
 			
-			myAllHit+=thisValue
+			//myAllHit+=thisValue
 			
 			
 		})
@@ -558,7 +559,7 @@ function getHitScores(origTable, isWhite) {
 				//hisBestHitCoords=hitCoords
 			}
 			
-			hisAllHit+=thisValue
+			//hisAllHit+=thisValue
 			
 			
 		})
@@ -572,7 +573,7 @@ function getHitScores(origTable, isWhite) {
 	// // 	if(hisBestHit==9)hisBestHit=50
 	// // }
 
-	return myBestHit//+(myAllHit-hisAllHit-hisBestHit*128+myprotectScore-hisprotectScore)/8192//-(hisBestHit/16)+(myprotectScore[0]-(hisprotectScore[0]+hisAllHit)/16+myAllHit)/256//,myBestHitCoords] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
+	return myBestHit-hisBestHit/16//+(myAllHit-hisAllHit-hisBestHit*128+myprotectScore-hisprotectScore)/8192//-(hisBestHit/16)+(myprotectScore[0]-(hisprotectScore[0]+hisAllHit)/16+myAllHit)/256//,myBestHitCoords] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
 
 }
 
