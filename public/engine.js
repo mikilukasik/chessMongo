@@ -572,7 +572,7 @@ function getHitScores(origTable, isWhite) {
 	// // 	if(hisBestHit==9)hisBestHit=50
 	// // }
 
-	return myBestHit+(myAllHit-hisAllHit-hisBestHit*128+myprotectScore-hisprotectScore)/8192//-(hisBestHit/16)+(myprotectScore[0]-(hisprotectScore[0]+hisAllHit)/16+myAllHit)/256//,myBestHitCoords] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
+	return myBestHit//+(myAllHit-hisAllHit-hisBestHit*128+myprotectScore-hisprotectScore)/8192//-(hisBestHit/16)+(myprotectScore[0]-(hisprotectScore[0]+hisAllHit)/16+myAllHit)/256//,myBestHitCoords] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
 
 }
 
