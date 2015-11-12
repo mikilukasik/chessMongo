@@ -10,12 +10,39 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 	
 	var sdtScore=smallDeepeningTask.score
 
+	
 	//gets one task, produces an array of more tasks
 	//or empty array when done
 
 	var result = []
 	
 	var newWNext = !smallDeepeningTask.wNext
+	
+	
+	if(sdtDepth==2){								//on 2nd level remove invalids
+		if(captured(sdtTable,newWNext)){
+			//invalid move, sakkban maradt
+			
+			result=[new SmallDeepeningTask(sdtTable,newWNext,sdtDepth+1,smallDeepeningTask.moveTree,smallDeepeningTask.desiredDepth,100)]
+			
+			
+			
+		}
+		// else{
+			
+			
+		// 	if(captured(sdtTable,smallDeepeningTask.wNext)){
+		// 	//sakkot kaptam
+			
+		// 	result=[new SmallDeepeningTask(sdtTable,newWNext,sdtDepth+1,smallDeepeningTask.moveTree,smallDeepeningTask.desiredDepth,-100)]
+		// 	}
+			
+			
+			
+			
+		// }
+	}
+	
 
 	//these new tasks go to a fifo array, we solve the tree bit by bit
 	//keeping movestrings only, not eating memory with tables
@@ -165,12 +192,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 
 			} //  )    //end of for each move
 
-			
-
-				
-				
-				
-				
+	
 			}
 			
 			result.push(new TriggerItem(sdtDepth + 1, smallDeepeningTask.moveTree))
@@ -179,16 +201,9 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 	
 		}
 
-
-
-
-		//}
-
 	}
 
-	// var resultValue = 0
-
-	// result.push(resultValue) //!!!!!!!!!!!!!!!!!!!!!!here we put in some extra data to be caught by the caller
+	
 
 	return result
 
