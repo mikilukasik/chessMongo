@@ -565,7 +565,7 @@ function getHitScores(origTable, isWhite) {
 		
 	//}
 
-	return myBestHit+(myAllHit-hisAllHit-hisBestHit+myprotectScore-hisprotectScore)/64//-(hisBestHit/16)+(myprotectScore[0]-(hisprotectScore[0]+hisAllHit)/16+myAllHit)/256//,myBestHitCoords] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
+	return myBestHit+(myAllHit-hisAllHit-hisBestHit+myprotectScore-hisprotectScore)/1024//-(hisBestHit/16)+(myprotectScore[0]-(hisprotectScore[0]+hisAllHit)/16+myAllHit)/256//,myBestHitCoords] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
 
 }
 
