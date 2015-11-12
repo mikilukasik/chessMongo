@@ -1,14 +1,11 @@
 function pawnCanMoveN(k, l, moveTable, c, iHitMoves, protectScore) {
 
-
 	if (c == 2) { //white pawn
-
 
 		pushAidN(k, l, k + 1, l + 1, c, moveTable, iHitMoves, protectScore)
 		pushAidN(k, l, k - 1, l + 1, c, moveTable, iHitMoves, protectScore)
 
 	} else { //black pawn
-
 
 		pushAidN(k, l, k + 1, l - 1, c, moveTable, iHitMoves, protectScore)
 		pushAidN(k, l, k - 1, l - 1, c, moveTable, iHitMoves, protectScore)
@@ -35,10 +32,7 @@ function rookCanMoveN(k, l, moveTable, c, iHitMoves, protectScore) {
 	for (var moveCount = 1; moveCount < 8; moveCount++) {
 		if (goFurther[0]) {
 
-
 			if (pushAidN(k, l, k + moveCount, l, c, moveTable, iHitMoves, protectScore)) goFurther[0] = false
-
-
 
 			//pushAidN( canMoveTo, k + moveCount, l, 0, 0, moveTable)
 			// if (pushAidN( canMoveTo, k + moveCount, l, 0, c, moveTable, true, 4) || whatsThere(k + moveCount, l, moveTable)[0] == nc) {
@@ -49,7 +43,6 @@ function rookCanMoveN(k, l, moveTable, c, iHitMoves, protectScore) {
 
 			if (pushAidN(k, l, k - moveCount, l, c, moveTable, iHitMoves, protectScore)) goFurther[1] = false
 
-
 			// pushAidN( canMoveTo, k - moveCount, l, 0, 0, moveTable)
 			// if (pushAidN( canMoveTo, k - moveCount, l, 0, c, moveTable, true, 4) || whatsThere(k - moveCount, l, moveTable)[0] == nc) {
 			// 	goFurther[1] = false
@@ -59,7 +52,6 @@ function rookCanMoveN(k, l, moveTable, c, iHitMoves, protectScore) {
 
 			if (pushAidN(k, l, k, l + moveCount, c, moveTable, iHitMoves, protectScore)) goFurther[2] = false
 
-
 			// pushAidN( canMoveTo, k, l + moveCount, 0, 0, moveTable)
 			// if (pushAidN( canMoveTo, k, l + moveCount, 0, c, moveTable, true, 4) || whatsThere(k, l + moveCount, moveTable)[0] == nc) {
 			// 	goFurther[2] = false
@@ -68,7 +60,6 @@ function rookCanMoveN(k, l, moveTable, c, iHitMoves, protectScore) {
 		if (goFurther[3]) {
 
 			if (pushAidN(k, l, k, l - moveCount, c, moveTable, iHitMoves, protectScore)) goFurther[3] = false
-
 
 			// pushAidN( canMoveTo, k, l - moveCount, 0, 0, moveTable)
 			// if (pushAidN( canMoveTo, k, l - moveCount, 0, c, moveTable, true, 4) || whatsThere(k, l - moveCount, moveTable)[0] == nc) {
@@ -97,10 +88,7 @@ function bishopCanMoveN(k, l, moveTable, c, iHitMoves, protectScore) {
 	for (var moveCount = 1; moveCount < 8; moveCount++) {
 		if (goFurther[0]) {
 
-
 			if (pushAidN(k, l, k + moveCount, l + moveCount, c, moveTable, iHitMoves, protectScore)) goFurther[0] = false
-
-
 
 			//pushAidN( canMoveTo, k + moveCount, l, 0, 0, moveTable)
 			// if (pushAidN( canMoveTo, k + moveCount, l, 0, c, moveTable, true, 4) || whatsThere(k + moveCount, l, moveTable)[0] == nc) {
@@ -111,7 +99,6 @@ function bishopCanMoveN(k, l, moveTable, c, iHitMoves, protectScore) {
 
 			if (pushAidN(k, l, k - moveCount, l - moveCount, c, moveTable, iHitMoves, protectScore)) goFurther[1] = false
 
-
 			// pushAidN( canMoveTo, k - moveCount, l, 0, 0, moveTable)
 			// if (pushAidN( canMoveTo, k - moveCount, l, 0, c, moveTable, true, 4) || whatsThere(k - moveCount, l, moveTable)[0] == nc) {
 			// 	goFurther[1] = false
@@ -120,7 +107,6 @@ function bishopCanMoveN(k, l, moveTable, c, iHitMoves, protectScore) {
 		if (goFurther[2]) {
 
 			if (pushAidN(k, l, k - moveCount, l + moveCount, c, moveTable, iHitMoves, protectScore)) goFurther[2] = false
-
 
 			// pushAidN( canMoveTo, k, l + moveCount, 0, 0, moveTable)
 			// if (pushAidN( canMoveTo, k, l + moveCount, 0, c, moveTable, true, 4) || whatsThere(k, l + moveCount, moveTable)[0] == nc) {
@@ -131,7 +117,6 @@ function bishopCanMoveN(k, l, moveTable, c, iHitMoves, protectScore) {
 
 			if (pushAidN(k, l, k + moveCount, l - moveCount, c, moveTable, iHitMoves, protectScore)) goFurther[3] = false
 
-
 			// pushAidN( canMoveTo, k, l - moveCount, 0, 0, moveTable)
 			// if (pushAidN( canMoveTo, k, l - moveCount, 0, c, moveTable, true, 4) || whatsThere(k, l - moveCount, moveTable)[0] == nc) {
 			// 	goFurther[3] = false
@@ -140,7 +125,6 @@ function bishopCanMoveN(k, l, moveTable, c, iHitMoves, protectScore) {
 	}
 	//return canMoveTo
 }
-
 
 function queenCanMoveN(k, l, moveTable, c, iHitMoves, protectScore) {
 	//horseCanMoveN(k, l, moveTable, c,iHitMoves,protectScore)
@@ -161,10 +145,7 @@ function queenCanMoveN(k, l, moveTable, c, iHitMoves, protectScore) {
 
 		if (goFurther[0]) {
 
-
 			if (pushAidN(k, l, k + moveCount, l, c, moveTable, iHitMoves, protectScore)) goFurther[0] = false
-
-
 
 			//pushAidN( canMoveTo, k + moveCount, l, 0, 0, moveTable)
 			// if (pushAidN( canMoveTo, k + moveCount, l, 0, c, moveTable, true, 4) || whatsThere(k + moveCount, l, moveTable)[0] == nc) {
@@ -175,7 +156,6 @@ function queenCanMoveN(k, l, moveTable, c, iHitMoves, protectScore) {
 
 			if (pushAidN(k, l, k - moveCount, l, c, moveTable, iHitMoves, protectScore)) goFurther[1] = false
 
-
 			// pushAidN( canMoveTo, k - moveCount, l, 0, 0, moveTable)
 			// if (pushAidN( canMoveTo, k - moveCount, l, 0, c, moveTable, true, 4) || whatsThere(k - moveCount, l, moveTable)[0] == nc) {
 			// 	goFurther[1] = false
@@ -184,7 +164,6 @@ function queenCanMoveN(k, l, moveTable, c, iHitMoves, protectScore) {
 		if (goFurther[2]) {
 
 			if (pushAidN(k, l, k, l + moveCount, c, moveTable, iHitMoves, protectScore)) goFurther[2] = false
-
 
 			// pushAidN( canMoveTo, k, l + moveCount, 0, 0, moveTable)
 			// if (pushAidN( canMoveTo, k, l + moveCount, 0, c, moveTable, true, 4) || whatsThere(k, l + moveCount, moveTable)[0] == nc) {
@@ -195,21 +174,15 @@ function queenCanMoveN(k, l, moveTable, c, iHitMoves, protectScore) {
 
 			if (pushAidN(k, l, k, l - moveCount, c, moveTable, iHitMoves, protectScore)) goFurther[3] = false
 
-
 			// pushAidN( canMoveTo, k, l - moveCount, 0, 0, moveTable)
 			// if (pushAidN( canMoveTo, k, l - moveCount, 0, c, moveTable, true, 4) || whatsThere(k, l - moveCount, moveTable)[0] == nc) {
 			// 	goFurther[3] = false
 			// }
 		}
 
-
-
 		if (goFurther[4]) {
 
-
 			if (pushAidN(k, l, k + moveCount, l + moveCount, c, moveTable, iHitMoves, protectScore)) goFurther[4] = false
-
-
 
 			//pushAidN( canMoveTo, k + moveCount, l, 0, 0, moveTable)
 			// if (pushAidN( canMoveTo, k + moveCount, l, 0, c, moveTable, true, 4) || whatsThere(k + moveCount, l, moveTable)[0] == nc) {
@@ -220,7 +193,6 @@ function queenCanMoveN(k, l, moveTable, c, iHitMoves, protectScore) {
 
 			if (pushAidN(k, l, k - moveCount, l - moveCount, c, moveTable, iHitMoves, protectScore)) goFurther[5] = false
 
-
 			// pushAidN( canMoveTo, k - moveCount, l, 0, 0, moveTable)
 			// if (pushAidN( canMoveTo, k - moveCount, l, 0, c, moveTable, true, 4) || whatsThere(k - moveCount, l, moveTable)[0] == nc) {
 			// 	goFurther[1] = false
@@ -230,7 +202,6 @@ function queenCanMoveN(k, l, moveTable, c, iHitMoves, protectScore) {
 
 			if (pushAidN(k, l, k - moveCount, l + moveCount, c, moveTable, iHitMoves, protectScore)) goFurther[6] = false
 
-
 			// pushAidN( canMoveTo, k, l + moveCount, 0, 0, moveTable)
 			// if (pushAidN( canMoveTo, k, l + moveCount, 0, c, moveTable, true, 4) || whatsThere(k, l + moveCount, moveTable)[0] == nc) {
 			// 	goFurther[2] = false
@@ -239,7 +210,6 @@ function queenCanMoveN(k, l, moveTable, c, iHitMoves, protectScore) {
 		if (goFurther[7]) {
 
 			if (pushAidN(k, l, k + moveCount, l - moveCount, c, moveTable, iHitMoves, protectScore)) goFurther[7] = false
-
 
 			// pushAidN( canMoveTo, k, l - moveCount, 0, 0, moveTable)
 			// if (pushAidN( canMoveTo, k, l - moveCount, 0, c, moveTable, true, 4) || whatsThere(k, l - moveCount, moveTable)[0] == nc) {
@@ -254,7 +224,6 @@ function kingCanMoveN(k, l, moveTable, c, iHitMoves, protectScore) {
 	//horseCanMoveN(k, l, moveTable, c,iHitMoves,protectScore)
 	//pushAidN( k,l, k + 1, l + 2,c, moveTable, iHitMoves, protectScore)
 
-
 	// var canMoveTo = []
 
 	// if (isWhite) {
@@ -267,7 +236,6 @@ function kingCanMoveN(k, l, moveTable, c, iHitMoves, protectScore) {
 
 	//moveCount = 1
 
-
 	pushAidN(k, l, k + 1, l, c, moveTable, iHitMoves, protectScore)
 	pushAidN(k, l, k - 1, l, c, moveTable, iHitMoves, protectScore)
 	pushAidN(k, l, k + 1, l + 1, c, moveTable, iHitMoves, protectScore)
@@ -276,7 +244,6 @@ function kingCanMoveN(k, l, moveTable, c, iHitMoves, protectScore) {
 	pushAidN(k, l, k - 1, l - 1, c, moveTable, iHitMoves, protectScore)
 	pushAidN(k, l, k, l + 1, c, moveTable, iHitMoves, protectScore)
 	pushAidN(k, l, k, l - 1, c, moveTable, iHitMoves, protectScore)
-
 
 	// pushAidN( canMoveTo, k + moveCount, l + moveCount, 0, 0, moveTable)
 	// pushAidN( canMoveTo, k - moveCount, l + moveCount, 0, 0, moveTable)
@@ -329,8 +296,6 @@ function horseCanMoveN(k, l, moveTable, c, iHitMoves, protectScore) {
 	// pushAidN( canMoveTo, k - 2, l + 1, 0, 0, moveTable)
 	// pushAidN( canMoveTo, k - 2, l - 1, 0, 0, moveTable)
 
-
-
 	pushAidN(k, l, k + 1, l + 2, c, moveTable, iHitMoves, protectScore)
 	pushAidN(k, l, k + 1, l - 2, c, moveTable, iHitMoves, protectScore)
 	pushAidN(k, l, k - 1, l + 2, c, moveTable, iHitMoves, protectScore)
@@ -358,8 +323,6 @@ function whatsThereN(i, j, table) {
 
 function pushAidN(k, l, x, y, c, table, iHitMoves, protectScore) {
 
-
-
 	var isThere = whatsThereN(x, y, table)
 
 	//console.log('runs',isThere)
@@ -373,15 +336,10 @@ function pushAidN(k, l, x, y, c, table, iHitMoves, protectScore) {
 
 				table[x][y][6] = true //protected		//moveit will clear, fastmove not???!!!
 
-
-
-
 		} else {
 			//opps piece is there
 
 			iHitMoves.push([k, l, x, y, table[k][l][1], table[x][y][1]]) //[who k,l where to x,y who, hits]
-
-
 
 		}
 
@@ -391,17 +349,13 @@ function pushAidN(k, l, x, y, c, table, iHitMoves, protectScore) {
 
 }
 
-
 function newCanMove(k, l, c, moveTable, iHitMoves, protectScore) {
 
 	//[who k,l where to x,y who, hits]
 
 	var what = moveTable[k][l][1]
 
-
-
 	switch (what) {
-
 
 		//horseCanMoveN(k, l, moveTable, c,iHitMoves,protectScore)
 
@@ -433,11 +387,9 @@ function newCanMove(k, l, c, moveTable, iHitMoves, protectScore) {
 
 	}
 
-
 }
 
 function getHitScores(origTable, isWhite) {
-
 
 	var iHitCoords = [] //[who k,l where to x,y, who, hits]
 	var heHitsCoords = []
@@ -504,7 +456,6 @@ function getHitScores(origTable, isWhite) {
 
 		//myAllHit+=thisValue
 
-
 	})
 
 	// }
@@ -532,95 +483,9 @@ function getHitScores(origTable, isWhite) {
 
 			hisBestHit = thisValue
 
-			//hisBestHitCoords=hitCoords
 		}
-
-		//hisAllHit+=thisValue
-
-
 	})
 
-	//}
-
-	// if(myBestHit==9){
-	// 	myBestHit=50
-	// }
-	// // else{
-	// // 	if(hisBestHit==9)hisBestHit=50
-	// // }
-
-	return myBestHit - hisBestHit / 16 //+(myAllHit-hisAllHit-hisBestHit*128+myprotectScore-hisprotectScore)/8192//-(hisBestHit/16)+(myprotectScore[0]-(hisprotectScore[0]+hisAllHit)/16+myAllHit)/256//,myBestHitCoords] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
+	return myBestHit - hisBestHit / 16 //+(myAllHit-hisAllHit-hisBestHit*128+myprotectScore-hisprotectScore)/8192//-(hisBestHit/16)+(myprotectScore[0]-(hisprotectScore[0]+hisAllHit)/16+myAllHit)/256//,myBestHitCoords] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] 
 
 }
-
-// function halfProcessTable(tableToMoveOn, whiteNext){			//	from getallmoves	, hitItsOwn, allHitSum, removeCaptured) { //shouldn't always check hitsum
-// 	//var speedy = true
-// 	//if (removeCaptured) speedy = false
-
-// 	var tableData = findAllPieces(tableToMoveOn, whiteNext)[1]
-// 	var thisArray = []
-// 		//thisStrArray = []
-
-// 	if (hitItsOwn) {
-// 		whiteNext = !whiteNext
-// 	}
-// 	//var allHitSum=0
-// 	var hitSumPart = []
-// 	hitSumPart[0] = 0
-
-// 	for (var pieceNo = 0; pieceNo < tableData.length; pieceNo++) {
-
-// 		canMove(tableData[pieceNo][0], tableData[pieceNo][1], whiteNext, tableToMoveOn, true, true, hitSumPart) //true,true for speedy(sakkba is lep),dontProtect
-// 			.forEach(function(stepItem) {
-// 				thisArray.push([tableData[pieceNo][0], tableData[pieceNo][1], stepItem[0], stepItem[1]])
-// 			})
-// 		allHitSum += hitSumPart[0]
-// 	}
-
-
-
-// 	return thisArray
-
-// }
-
-
-
-
-// function addFastMoves(originalTable, whiteNext, quickMoves, returnMoveStrings) {		//if quickMoves==false then protects and gets both protected moves (last round)
-
-// 	if(quickMoves){
-// 	//rewrite this to use getTableData to find my pieces, don't copy the array just change the original
-
-// 	var myCol = 1;
-// 	if (whiteNext) myCol++ //myCol is 2 when white
-
-// 		var tableWithMoves = new Array(8)
-// 	for (var i = 0; i < 8; i++) {
-// 		tableWithMoves[i] = new Array(8)
-// 		for (var j = 0; j < 8; j++) {
-// 			tableWithMoves[i][j] = originalTable[i][j].slice() //[]
-// 				// originalTable[i][j].forEach(function(value, feCount) {
-// 				//     tableWithMoves[i][j][feCount] = value
-
-// 			// })
-// 			if (originalTable[i][j][0] == myCol) {
-// 				var returnMoveCoords = []
-// 				tableWithMoves[i][j][5] = canMove(i, j, whiteNext, originalTable, undefined, undefined, undefined, dontClearInvalid, returnMoveStrings) //:  canMove(k, l, isWhite, moveTable, speedy, dontProt, hitSumm, dontRemoveInvalid) { //, speedy) {
-// 			} else {
-// 				tableWithMoves[i][j][5] == []
-// 			}
-// 		}
-// 	}
-
-// 	return tableWithMoves
-
-// 	}else{
-
-// 		//protects and gets both protected moves (last round)
-
-// 		halfProcessTable(originalTable,whiteNext) //protects both sides and gets boths best hit
-
-
-// 	}
-
-// }
