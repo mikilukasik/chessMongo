@@ -541,7 +541,7 @@ function getHitScores(origTable, isWhite) {
 			
 			var thisValue=0
 			
-			if(origTable[hitCoords[2]][hitCoords[3]][6]){		//if field is protected
+			if(origTable[hitCoords[2]][hitCoords[3]][6]){		//if cell is protected
 				
 				thisValue=hitCoords[5]-hitCoords[4]				//kivonja amivel lep
 				
@@ -551,12 +551,12 @@ function getHitScores(origTable, isWhite) {
 				
 			}
 			
-			if(thisValue>hisBestHit){		//remember best
+			// if(thisValue>hisBestHit){		//remember best
 				
-				hisBestHit=thisValue
+			// 	hisBestHit=thisValue
 			
-				//hisBestHitCoords=hitCoords
-			}
+			// 	//hisBestHitCoords=hitCoords
+			// }
 			
 			hisAllHit+=thisValue
 			
@@ -565,7 +565,7 @@ function getHitScores(origTable, isWhite) {
 		
 	//}
 
-	return myBestHit-(hisBestHit/16)//-(hisBestHit/16)+(myprotectScore[0]-(hisprotectScore[0]+hisAllHit)/16+myAllHit)/256//,myBestHitCoords] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
+	return myBestHit+(myAllHit-hisAllHit-hisBestHit+myprotectScore-hisprotectScore)/64//-(hisBestHit/16)+(myprotectScore[0]-(hisprotectScore[0]+hisAllHit)/16+myAllHit)/256//,myBestHitCoords] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] //returnArray // elso elem az osszes babu ertekenek osszge, aztan babkuk
 
 }
 
