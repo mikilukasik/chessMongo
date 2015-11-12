@@ -87,9 +87,9 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 				//////depth reached, eval table
 				var newScore
 				if(noNegative){
-					newScore=sdtScore + getHitScores(sdtTable,smallDeepeningTask.wNext)
+					newScore=sdtScore + getHitScores(sdtTable,smallDeepeningTask.wNext,true)
 				}else{
-					newScore=sdtScore - getHitScores(sdtTable,smallDeepeningTask.wNext)
+					newScore=sdtScore - getHitScores(sdtTable,smallDeepeningTask.wNext,false)
 				}
 				
 				

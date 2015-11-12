@@ -389,7 +389,7 @@ function newCanMove(k, l, c, moveTable, iHitMoves, protectScore) {
 
 }
 
-function getHitScores(origTable, isWhite) {
+function getHitScores(origTable, wNext, flipIt) {
 
 	var iHitCoords = [] //[who k,l where to x,y, who, hits]
 	var heHitsCoords = []
@@ -397,8 +397,8 @@ function getHitScores(origTable, isWhite) {
 	var myprotectScore = [0]
 	var hisprotectScore = [0]
 
-	// var myAllHit=0
-	// var hisAllHit=0
+	var myAllHit=0
+	var hisAllHit=0
 
 	var myBestHit = 0
 	var hisBestHit = 0
@@ -408,7 +408,7 @@ function getHitScores(origTable, isWhite) {
 
 	var c = 1
 	var nc = 1
-	if (isWhite) {
+	if (wNext) {
 		c++
 	} else {
 		nc++
@@ -454,7 +454,7 @@ function getHitScores(origTable, isWhite) {
 			myBestHitCoords = hitCoords
 		}
 
-		//myAllHit+=thisValue
+		myAllHit+=thisValue
 
 	})
 
@@ -485,7 +485,17 @@ function getHitScores(origTable, isWhite) {
 
 		}
 	})
-
-	return myBestHit - hisBestHit / 16 //+(myAllHit-hisAllHit-hisBestHit*128+myprotectScore-hisprotectScore)/8192//-(hisBestHit/16)+(myprotectScore[0]-(hisprotectScore[0]+hisAllHit)/16+myAllHit)/256//,myBestHitCoords] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] 
+	
+	var protecScore=myprotectScore[0]-hisprotectScore[0]
+	var allhitScore=myAllHit-hisAllHit
+	//var bHitScore=myBestHit-hisBestHit
+	
+	var scndScore=(protecScore+allhitScore/16)/256
+	if(flipIt){
+		return myBestHit - scndScore - hisBestHit / 16	
+	}else{
+		return myBestHit + scndScore - hisBestHit / 16
+	}
+	//return myBestHit - hisBestHit / 16 //+(myAllHit-hisAllHit-hisBestHit*128+myprotectScore-hisprotectScore)/8192//-(hisBestHit/16)+(myprotectScore[0]-(hisprotectScore[0]+hisAllHit)/16+myAllHit)/256//,myBestHitCoords] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] 
 
 }
