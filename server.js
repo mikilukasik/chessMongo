@@ -579,29 +579,11 @@ var getSplitMoveTask = function(aiTable, percent) {
 
 function makeSplitMove(dbTable) {
 	
-	////console.log('creating movetask')
+	
+	
+	dbTable.splitMoveStarted = new Date()
+	
 	var aiTable = new MoveTask(dbTable)
-		//dbTable
-
-	aiTable.startedOnServer = new Date()
-		.getTime()
-		//// //////console.log(aiTable)
-
-
-
-
-	////////console.log('534', dbTable._id)
-
-	// 		mongodb.connect(cn, function(err, db) {
-	// 		db.collection("tables")
-	// 			.findOne({
-	// 				_id:dbTable._id		//no header in post req
-	// 			}, function(err2, onTable) {
-
-	// 				if(onTable!=null){
-	////////console.log('547',onTable._id)
-
-	// 				//onTable.gameIsOn=false
 
 	dbTable.aiTable = aiTable
 
@@ -765,7 +747,8 @@ app.post('/myPartIsDone', function(req, res) {
 	// 				//////console.log('657',onTable.aiTable.moves.length)
 
 	if (splitTaskQ[index].pendingSolvedMoves == 0) {
-		//all moves solved, check best and make a move
+		////////////////////////////////////////////////////////////all moves solved, check best and make a move
+		
 		splitTaskQ[index].returnedMoves.sort(
 			moveSorter
 		)
@@ -779,7 +762,11 @@ app.post('/myPartIsDone', function(req, res) {
 		////////console.log(dbTable.returnedMoves)
 
 		moveInTable(splitTaskQ[index].returnedMoves[0].move, splitTaskQ[index])
-		splitTaskQ[index].chat = splitTaskQ[index].returnedMoves
+		
+		splitTaskQ[index].chat = [Math.floor((new Date()-splitTaskQ[index].splitMoveStarted)/10)/100+'sec']	//1st line in chat is timeItTook
+		
+		
+		splitTaskQ[index].chat=splitTaskQ[index].chat.concat(splitTaskQ[index].returnedMoves)
 
 
 		
