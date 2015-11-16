@@ -4,19 +4,6 @@ importScripts('js/deepening.js')
 importScripts('js/classes.js')
 
 	
-
-////////////////////worker func
-
-// var workerI = 0;
-
-// function timedCount() {
-//     workerI++// = workerI + 1;
-//     postMessage('a'+checkSpeed());
-//     setTimeout("timedCount()",500);
-// }
-
-// timedCount();
-
 onmessage = function(event) {
 
 	var reqCommand = event.data.reqCommand

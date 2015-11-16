@@ -753,14 +753,6 @@ app.post('/myPartIsDone', function(req, res) {
 			moveSorter
 		)
 
-
-		/////
-		//////console.log(splitTaskQ[index].returnedMoves)
-
-		//var dbTable=splitTaskQ.splice(index,1)
-
-		////////console.log(dbTable.returnedMoves)
-
 		moveInTable(splitTaskQ[index].returnedMoves[0].move, splitTaskQ[index])
 		
 		splitTaskQ[index].chat = [Math.floor((new Date()-splitTaskQ[index].splitMoveStarted)/10)/100+'sec']	//1st line in chat is timeItTook
