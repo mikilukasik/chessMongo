@@ -12,7 +12,7 @@
 	<script src="engine.js"></script>
 
 	<script>
-	var appModule = angular.module("appModule", []);
+		var appModule = angular.module("appModule", []);
 
 	function ApplicationController($scope, $http, $interval, $timeout) {
 
@@ -111,11 +111,7 @@
 
 		$scope.cookieID = getCookie("myID");
 		$scope.mainThreadSpeed = Number(getCookie("mainThreadSpeed"));
-		
 		$scope.workerSpeed = Number(getCookie("workerSpeed"));
-
-
-
 
 		if ($scope.workerSpeed == "" || isNaN($scope.workerSpeed)) {
 
@@ -212,19 +208,6 @@
 
 		$scope.sendMessage('Starting..')
 
-
-
-		// $scope.changeLastMessage = function(message) {
-		// 	$scope.messages.pop()
-		// 	$scope.messages.push('@' + new Date()
-		// 		.getTime() + ': ' + message)
-		// 	if (!$scope.$$phase) {
-		// 		$scope.$apply()
-		// 	}
-		// }
-
-		
-
 		$scope.resolveWorkedSplitMove = function(depth, tempResolveArray) {
 
 			////console.log('resolving: ',tempResolveArray)
@@ -244,6 +227,9 @@
 			switch (event.data.resCommand) {
 
 				case 'sdtSolved':
+				
+					/// solved  smalldeepeningtask returned from worker
+					
 					var resData = event.data.resData
 					
 					$scope.totalSolved+=resData.ranCount
@@ -264,7 +250,8 @@
 						
 					if ($scope.waitingSdts.length == $scope.sentSdtCount) {
 						///////////////////////////////////////////////
-						//resolve one splitmove now://
+						//all SDTs returned,
+						//resolve one splitmove now:
 						//////////////////////////////////////////////////
 
 						//////console.log('resolve now: '+$scope.waitingSdts[0].moveTree)
@@ -318,11 +305,15 @@
 								
 								$scope.sendMessage('workers t/ms: ' + Math.floor(($scope.totalSolved/ timeItTook2) * 100) / 100 + ' (' +percDiff + '%, '+ $scope.totalSolved + ' / '+timeItTook2+')')
 									
+									
+									//should do the rest of the speedTests here!!!!!!!
+									
+									
 								longPollTasks() //start initial longpoll
 
 							} else {
 								
-								/////////////////splitMove finished
+								/////////////////splitMove(s) finished
 							
 								$http.post('/myPartIsDone', postThis, function(req, res) {
 								
