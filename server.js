@@ -761,7 +761,7 @@ app.post('/myPartIsDone', function(req, res) {
 		splitTaskQ[index].chat=splitTaskQ[index].chat.concat(splitTaskQ[index].returnedMoves)
 
 
-		
+		//
 
 		//save here
 		mongodb.connect(cn, function(err, db) {
