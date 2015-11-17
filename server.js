@@ -733,20 +733,14 @@ app.post('/myPartIsDone', function(req, res) {
 
 
 	req.body.forEach(function(move) {
+		
 		splitTaskQ[index].returnedMoves.push(move)
 		splitTaskQ[index].pendingSolvedMoves--
-		
-		
-		////console.log(splitTaskQ[index].pendingSolvedMoves)
-		
-		
-			////////console.log(splitTaskQ[index].pendingSolvedMoves)
-
+	
 	})
 
-	// 				//////console.log('657',onTable.aiTable.moves.length)
-
 	if (splitTaskQ[index].pendingSolvedMoves == 0) {
+		
 		////////////////////////////////////////////////////////////all moves solved, check best and make a move
 		
 		splitTaskQ[index].returnedMoves.sort(
@@ -777,37 +771,10 @@ app.post('/myPartIsDone', function(req, res) {
 		})
 	}
 
-	// 				db.collection("tables")
-	// 					.save(onTable, function(err3, res) {
-	// 							//table moved and saved, let's check what to do
-
-	// 					//check if still waiting and eval if not
-
-
-
-	// 					//popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
-
-
-	// 					db.close()
-
-	// 					})
-	// 				}else{
-	// 					//hiba
-	// 				}
-
-
-	// 			});
-
-
-	// });
-
 });
 
 
 app.post('/moved', function(req, res) {
-
-	//var movedTable=req.body
-	//////////// //////console.log(req)
 	
 	res.send('received.')
 	
@@ -818,11 +785,9 @@ app.post('/moved', function(req, res) {
 						
 						
 	var command = onTable.command
+	
 					onTable.command = ''
-					
-					
-	
-	
+		
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.save(onTable, function(err3, res) {
@@ -848,57 +813,6 @@ app.post('/moved', function(req, res) {
 	
 					
 	});
-	
-	// // mongodb.connect(cn, function(err, db) {
-	// 	db.collection("tables")
-	// 		.findOne({
-	// 			_id: req.body._id
-	// 		}, function(err2, onTable) {
-
-	// 			if (onTable != null) {
-
-	// 				//onTable.gameIsOn=false
-	// 				var rememberId = onTable._id
-	// 				onTable = req.body
-	// 				onTable._id = rememberId
-
-
-	// 				// onTable.moved = new Date()
-	// 				// 	.getTime()
-	// 				var command = onTable.command
-	// 				onTable.command = ''
-
-					// db.collection("tables")
-					// 	.save(onTable, function(err3, res) {
-					// 		//table moved and saved, let's check what to do
-					// 		popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
-
-					// 		switch (command) {
-
-					// 			case 'makeAiMove':
-
-					// 				makeAiMove(onTable)
-
-
-					// 				break;
-
-
-					// 		}
-
-
-					// 	})
-			// 	}
-			// 	else {
-
-			// 	}
-
-			// 	db.close()
-			// });
-
-
-	// });
-
-
 
 
 })
@@ -921,15 +835,8 @@ app.get('/move', function(req, res) {
 					db.close()
 				}
 				else {
-					//var toPush = 
-
-					// if(!(toPush==tableInDb.moves[tableInDb.moves.length-1])){
-
+				
 					tableInDb.wNext = !tableInDb.wNext
-
-					//tableInDb.pollNum++ //<---- majd increment a checkTableStatus ha kiertekelte	//nemis
-
-					//if(proper)evalGame(tableInDb)
 
 					tableInDb.pollNum++
 
