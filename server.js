@@ -709,8 +709,8 @@ function getTaskIndex(tNum) {
 }
 function postThinkerMessage(thinker, message){
 	if(thinker.messages==undefined)thinker.messages=[]
-	thinker.messages.unshift(message)//) = req.body.message
-	if(thinker.messages.length>12)thinker.messages.pop()
+	thinker.messages.push(message)//) = req.body.message
+	if(thinker.messages.length>12)thinker.messages.shift()
 	thinker.lastSeen = new Date()
 		.getTime()
 
