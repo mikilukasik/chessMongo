@@ -203,7 +203,11 @@ function sendTask(task, thinkerId) {
 		knownThinkers[thinkerIndex].busy = true
 
 		//knownThinkers[thinkerIndex].taskNum=newTaskNum		//we need to remember the tasknum we sent
-		knownThinkers[thinkerIndex].message = task.message //do we we need to remember the message we sent?
+		
+		
+		postThinkerMessage(knownThinkers[thinkerIndex],task.message)
+		
+		//knownThinkers[thinkerIndex].message = task.message //do we we need to remember the message we sent?
 		knownThinkers[thinkerIndex].command = task.command //we need to remember the task we sent
 		knownThinkers[thinkerIndex].sent = new Date()
 			.getTime()
@@ -283,7 +287,11 @@ function sendToAll(task) {
 		knownThinkers[thinkerIndex].busy = true
 
 		knownThinkers[thinkerIndex].taskNum = task.taskNum //we need to remember the tasknum we sent
-		knownThinkers[thinkerIndex].message = task.message //do we we need to remember the message we sent?
+		
+		postThinkerMessage(knownThinkers[thinkerIndex],task.message)
+		
+		
+		//knownThinkers[thinkerIndex].message = task.message //do we we need to remember the message we sent?
 		knownThinkers[thinkerIndex].command = task.command //we need to remember the task we sent
 		knownThinkers[thinkerIndex].sent = new Date()
 			.getTime()
@@ -699,15 +707,19 @@ function getTaskIndex(tNum) {
 	}
 
 }
-app.post('/thinkerMessage', function(req, res) {
-	var thinker = knownThinkers[doIKnow(req.body.thinker)]
+function postThinkerMessage(thinker, message){
 	if(thinker.messages==undefined)thinker.messages=[]
-	thinker.messages.unshift(req.body.message)//) = req.body.message
+	thinker.messages.unshift(message)//) = req.body.message
 	if(thinker.messages.length>5)thinker.messages.pop()
 	thinker.lastSeen = new Date()
 		.getTime()
 
 	captainPop();
+	
+}
+app.post('/thinkerMessage', function(req, res) {
+	var thinker = knownThinkers[doIKnow(req.body.thinker)]
+	postThinkerMessage(thinker,req.body.message)
 	res.send('ok')
 })
 
