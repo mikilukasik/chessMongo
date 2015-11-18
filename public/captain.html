@@ -213,41 +213,41 @@ table tr:nth-child(even) {
 		<tr>
 		<td ng-repeat="x in knownThinkers track by $index">
 
-			<div ng-class="{ makeGreen: !x.busy , makeRed: x.busy }">{{x.id}}</div>
+			<div ng-class="{ makeGreen: x.polling , makeRed: !x.polling }">{{x.id}}</div>
 			<!--<div>{{x.lastSeen}} </div>
-			<div ng-class="{ makeGrey: !x.busy }">#{{x.taskNum}}</div>
+			<div ng-class="{ makeGrey: x.polling }">#{{x.taskNum}}</div>
 
-			<div ng-class="{ makeGrey: !x.busy }">{{x.task.command}}</div>
-			<div ng-class="{ makeGrey: !x.busy }">{{x.message}}</div>-->
+			<div ng-class="{ makeGrey: x.polling }">{{x.task.command}}</div>
+			<div ng-class="{ makeGrey: x.polling }">{{x.message}}</div>-->
 
-			<!--<td ng-if="!x.busy">{{x.task.command}}</td>
-		  <td ng-if="!x.busy" ng-class="{ mak}">{{x.message}}</td>-->
+			<!--<td ng-if="x.polling">{{x.task.command}}</td>
+		  <td ng-if="x.polling" ng-class="{ mak}">{{x.message}}</td>-->
 		</td>
 		</tr>
 		
 		<tr>
 		<td ng-repeat="x in knownThinkers track by $index">
 
-			<!--<div ng-class="{ makeGreen: !x.busy , makeRed: x.busy }">{{x.id}}</div>-->
-			<div>{{x.lastSeen}} </div>
-			<!--<div ng-class="{ makeGrey: !x.busy }">#{{x.taskNum}}</div>
-			<div ng-class="{ makeGrey: !x.busy }">{{x.task.command}}</div>
-			<div ng-class="{ makeGrey: !x.busy }">{{x.message}}</div>
-			<td ng-if="!x.busy">{{x.task.command}}</td>
-		  	<td ng-if="!x.busy" ng-class="{ mak}">{{x.message}}</td>-->
+			<!--<div ng-class="{ makeGreen: x.polling , makeRed: !x.polling }">{{x.id}}</div>-->
+			<div>t/ms: {{x.spd}} ({{x.pct}}%)</div>
+			<!--<div ng-class="{ makeGrey: x.polling }">#{{x.taskNum}}</div>
+			<div ng-class="{ makeGrey: x.polling }">{{x.task.command}}</div>
+			<div ng-class="{ makeGrey: x.polling }">{{x.message}}</div>
+			<td ng-if="x.polling">{{x.task.command}}</td>
+		  	<td ng-if="x.polling" ng-class="{ mak}">{{x.message}}</td>-->
 		</td>
 		</tr>
 		
 		<tr>
 		<td ng-repeat="x in knownThinkers track by $index">
 
-			<!--<div ng-class="{ makeGreen: !x.busy , makeRed: x.busy }">{{x.id}}</div>-->
+			<!--<div ng-class="{ makeGreen: x.polling , makeRed: !x.polling }">{{x.id}}</div>-->
 			<!--<div>{{x.lastSeen}} </div>-->
-			<div ng-class="{ makeGrey: !x.busy }">#{{x.taskNum}}</div>
-			<!--<div ng-class="{ makeGrey: !x.busy }">{{x.task.command}}</div>
-			<div ng-class="{ makeGrey: !x.busy }">{{x.message}}</div>
-			<td ng-if="!x.busy">{{x.task.command}}</td>
-		  	<td ng-if="!x.busy" ng-class="{ mak}">{{x.message}}</td>-->
+			<div ng-class="{ makeGrey: x.polling }">#{{x.taskNum}}</div>
+			<!--<div ng-class="{ makeGrey: x.polling }">{{x.task.command}}</div>
+			<div ng-class="{ makeGrey: x.polling }">{{x.message}}</div>
+			<td ng-if="x.polling">{{x.task.command}}</td>
+		  	<td ng-if="x.polling" ng-class="{ mak}">{{x.message}}</td>-->
 		</td>
 		</tr>
 		
@@ -256,13 +256,13 @@ table tr:nth-child(even) {
 		<tr>
 		<td ng-repeat="x in knownThinkers track by $index">
 
-			<!--<div ng-class="{ makeGreen: !x.busy , makeRed: x.busy }">{{x.id}}</div>-->
+			<!--<div ng-class="{ makeGreen: x.polling , makeRed: !x.polling }">{{x.id}}</div>-->
 			<!--<div>{{x.lastSeen}} </div>
-			<div ng-class="{ makeGrey: !x.busy }">#{{x.taskNum}}</div>
-			<div ng-class="{ makeGrey: !x.busy }">{{x.task.command}}</div>-->
-			<div ng-repeat="y in x.messages" ng-class="{ makeGrey: !x.busy }">{{y}}</div>
-			<!--<td ng-if="!x.busy">{{x.task.command}}</td>
-		  	<td ng-if="!x.busy" ng-class="{ mak}">{{x.message}}</td>-->
+			<div ng-class="{ makeGrey: x.polling }">#{{x.taskNum}}</div>
+			<div ng-class="{ makeGrey: x.polling }">{{x.task.command}}</div>-->
+			<div ng-repeat="y in x.messages" ng-class="{ makeGrey: x.polling }">{{y}}</div>
+			<!--<td ng-if="x.polling">{{x.task.command}}</td>
+		  	<td ng-if="x.polling" ng-class="{ mak}">{{x.message}}</td>-->
 		</td>
 		</tr>
 		

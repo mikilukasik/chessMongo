@@ -208,7 +208,8 @@ function sendTask(task, thinkerId) {
 		knownThinkers[thinkerIndex].sent = new Date()
 			.getTime()
 		knownThinkers[thinkerIndex].lastSeen = knownThinkers[thinkerIndex].sent
-
+		knownThinkers[thinkerIndex].polling=false
+		
 
 
 		/////
@@ -287,6 +288,7 @@ function sendToAll(task) {
 		knownThinkers[thinkerIndex].sent = new Date()
 			.getTime()
 		knownThinkers[thinkerIndex].lastSeen = knownThinkers[thinkerIndex].sent
+		knownThinkers[thinkerIndex].polling=false
 
 
 
@@ -1844,7 +1846,9 @@ app.get('/longPollTasks', function(req, res) {
 			id: req.query.id,
 			lastSeen: new Date()
 				.getTime(),
-			busy: false
+			busy: false,
+			polling:true,
+			spd:Math.floor(req.query.spd*100)/100
 		})
 
 
@@ -1852,10 +1856,24 @@ app.get('/longPollTasks', function(req, res) {
 	else {
 
 		// first poll
+		
+		var oldSpeed=knownThinkers[pollerIndex].spd
+		var newSpeed=Math.floor(req.query.spd*100)/100
 
 		knownThinkers[pollerIndex].lastSeen = new Date()
 			.getTime()
 		knownThinkers[pollerIndex].busy = false
+		knownThinkers[pollerIndex].polling=true
+		knownThinkers[pollerIndex].spd=newSpeed
+		
+		if(knownThinkers[pollerIndex].stn!=req.query.stn) {							//new speedtest data, check pct
+		
+			knownThinkers[pollerIndex].pct=Math.floor(newSpeed/oldSpeed*1000)/10
+			
+			knownThinkers[pollerIndex].stn=req.query.stn
+			
+		}
+		
 
 	}
 

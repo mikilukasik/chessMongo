@@ -24,6 +24,8 @@
 		$scope.mv = 0
 		$scope.pw = false
 		$scope.pollsPending = 0
+		
+		$scope.speedTestNum=0
 
 
 		$scope.maxWorkerNum = 8
@@ -105,11 +107,13 @@
 		$scope.cookieID = ""
 		$scope.workerSpeed = ""
 		$scope.mainThreadSpeed = ""
+		$scope.rndID=""
 
 
 		//load cookies
 
 		$scope.cookieID = getCookie("myID");
+		$scope.rndID = getCookie("rndID");
 		$scope.mainThreadSpeed = Number(getCookie("mainThreadSpeed"));
 		$scope.workerSpeed = Number(getCookie("workerSpeed"));
 
@@ -121,8 +125,15 @@
 		}
 
 		if ($scope.cookieID == "") {
+			
+			if($scope.rndID == ""){
+				$scope.rndID = Math.floor(Math.random() * 1000000000000000)
+				setCookie("rndID", $scope.rndID, 365)
+			}
+			
+			$scope.sendID=$scope.rndID
 
-			$scope.sendID = Math.floor(Math.random() * 1000000000000000)
+			
 		} else {
 			$scope.sendID = $scope.cookieID
 		}
@@ -300,6 +311,8 @@
 								$scope.initialSpeedTestOn = false
 								
 								/////////////////initial speedTest finished
+								$scope.speedTestNum=Math.random()
+								
 								percDiff = $scope.setWorkerSpeed($scope.totalSolved, timeItTook2)
 							
 								
@@ -1270,7 +1283,7 @@
 		var longPollTasks = function() {
 			////console.log($scope.workerSpeed)
 
-			$http.get('/longPollTasks?id=' + $scope.sendID + '&tn=' + $scope.taskNum + '&spd=' + $scope.workerSpeed)
+			$http.get('/longPollTasks?id=' + $scope.sendID + '&tn=' + $scope.taskNum + '&spd=' + $scope.workerSpeed + '&stn=' + $scope.speedTestNum)
 				.then(function(response) {
 
 					// 1 task received
