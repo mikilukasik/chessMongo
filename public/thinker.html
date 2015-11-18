@@ -327,6 +327,8 @@
 							} else {
 								
 								/////////////////splitMove(s) finished
+								
+								
 							
 								$http.post('/myPartIsDone', postThis, function(req, res) {
 								
@@ -336,7 +338,7 @@
 								
 								percDiff = $scope.setWorkerSpeed($scope.totalSolved, timeItTook3)
 							
-								$scope.sendMessage('workers t/ms: ' + Math.floor(($scope.totalSolved/ timeItTook3) * 100) / 100 + ' (' +percDiff + '%, '+ $scope.totalSolved + ' / '+timeItTook3+')')
+								$scope.sendMessage('solved, t/ms: ' + Math.floor(($scope.totalSolved/ timeItTook3) * 100) / 100 + ' (' +percDiff + '%, '+ $scope.totalSolved + ' / '+timeItTook3+')')
 								
 							}
 
@@ -1292,7 +1294,7 @@
 
 					$scope.receivedMessage = response.data.message //display Heading
 
-					$scope.sendMessage('task #' + response.data.taskNum + ' received, ' + response.data.command + ': ' + response.data.message)
+					//$scope.sendMessage('task #' + response.data.taskNum + ' received, ' + response.data.command + ': ' + response.data.message)
 
 					$scope.doTask(response.data)
 

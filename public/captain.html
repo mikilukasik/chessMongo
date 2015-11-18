@@ -254,13 +254,13 @@ table tr:nth-child(even) {
 		
 		
 		<tr>
-		<td ng-repeat="x in knownThinkers track by $index">
+		<td ng-repeat="x in knownThinkers track by $index" style="vertical-align:top">
 
 			<!--<div ng-class="{ makeGreen: x.polling , makeRed: !x.polling }">{{x.id}}</div>-->
 			<!--<div>{{x.lastSeen}} </div>
 			<div ng-class="{ makeGrey: x.polling }">#{{x.taskNum}}</div>
 			<div ng-class="{ makeGrey: x.polling }">{{x.task.command}}</div>-->
-			<div ng-repeat="y in x.messages" ng-class="{ makeGrey: x.polling }">{{y}}</div>
+			<div ng-repeat="y in x.messages" ng-class="{ makeGrey: !$first }">{{y}}<br>---<br></div>
 			<!--<td ng-if="x.polling">{{x.task.command}}</td>
 		  	<td ng-if="x.polling" ng-class="{ mak}">{{x.message}}</td>-->
 		</td>
