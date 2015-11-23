@@ -32,44 +32,13 @@ table tr:nth-child(even) {
 
 			$http.get('/getModTypes')
 				.then(function(response) {
-
-					//var modType="" 
 					if (response.data.modTypes != undefined) $scope.modTypes = response.data.modTypes
-						//    var len=modTypes.length
-						//   if(len>0) {
-						//        modType=modTypes[Math.floor(Math.random()*len)]
-						//   }
 
-					// var modVal = Math.random()  *(response.data.max-response.data.min)+response.data.min//*100 //!!!!!!! 100  
 					$scope.min = response.data.min
 					$scope.max = response.data.max
 
-					// $rootScope.sendMessage('start learning...')
-					// $rootScope.learnerPair(modType, modVal) //this will call another game with black when done
 				}, function(data) {
-					// //error, retry
-					// $rootScope.receivedMessage = 'error getting modTypes'
-					// $rootScope.refreshWhenUp() //retry kene?
 				})
-
-			//   $http.get('/getModTypes').then(function(response) {
-
-			//                   // var modType="" 
-
-			//                    $scope.modTypes = response.data.modTypes
-			//                 //    var len=modTypes.length
-			//                 // //   if(len>0) {
-			//                 // //        modType=modTypes[Math.floor(Math.random()*len)]
-			//                 // //   }
-
-			//                 //    // var modVal = Math.random()  *100 //!!!!!!! 100  
-			//                 //     $rootScope.mv = modVal
-			//                 //     $rootScope.mt = modType
-
-			//                 //     $rootScope.sendMessage('start learning...')
-			//                 //     $rootScope.learnerPair(modType, modVal) //this will call another game with black when done
-			//                 })
-
 
 			$scope.pollNum = 0
 			var captainPollConst = 500
@@ -138,8 +107,7 @@ table tr:nth-child(even) {
 						'min': min,
 						'max': max
 					}
-					//mod
-					//$scope.mod.mods=$scope.mods//.push(mod.type)
+					
 
 				$http.post('/mod', modJson)
 
@@ -200,9 +168,7 @@ table tr:nth-child(even) {
 		<input ng-model="max"></input>
 		<button>Set</button>
 		<br>
-		<!--		
-		id="inputModType" 
-		-->
+		
 	</form>
 	<button ng-click="clearModTypes()">Clear modTypes</button>
 	modTypes:
@@ -214,55 +180,34 @@ table tr:nth-child(even) {
 		<td ng-repeat="x in knownThinkers track by $index">
 
 			<div ng-class="{ makeGreen: x.polling , makeRed: !x.polling }">{{x.id}}</div>
-			<!--<div>{{x.lastSeen}} </div>
-			<div ng-class="{ makeGrey: x.polling }">#{{x.taskNum}}</div>
-
-			<div ng-class="{ makeGrey: x.polling }">{{x.task.command}}</div>
-			<div ng-class="{ makeGrey: x.polling }">{{x.message}}</div>-->
-
-			<!--<td ng-if="x.polling">{{x.task.command}}</td>
-		  <td ng-if="x.polling" ng-class="{ mak}">{{x.message}}</td>-->
+			
 		</td>
 		</tr>
 		
 		<tr>
 		<td ng-repeat="x in knownThinkers track by $index">
 
-			<!--<div ng-class="{ makeGreen: x.polling , makeRed: !x.polling }">{{x.id}}</div>-->
 			<div>t/ms: {{x.spd}} ({{x.pct}}%)</div>
-			<!--<div ng-class="{ makeGrey: x.polling }">#{{x.taskNum}}</div>
-			<div ng-class="{ makeGrey: x.polling }">{{x.task.command}}</div>
-			<div ng-class="{ makeGrey: x.polling }">{{x.message}}</div>
-			<td ng-if="x.polling">{{x.task.command}}</td>
-		  	<td ng-if="x.polling" ng-class="{ mak}">{{x.message}}</td>-->
+			
 		</td>
 		</tr>
 		
 		<tr>
 		<td ng-repeat="x in knownThinkers track by $index">
 
-			<!--<div ng-class="{ makeGreen: x.polling , makeRed: !x.polling }">{{x.id}}</div>-->
-			<!--<div>{{x.lastSeen}} </div>-->
 			<div ng-class="{ makeGrey: x.polling }">#{{x.taskNum}}</div>
-			<!--<div ng-class="{ makeGrey: x.polling }">{{x.task.command}}</div>
-			<div ng-class="{ makeGrey: x.polling }">{{x.message}}</div>
-			<td ng-if="x.polling">{{x.task.command}}</td>
-		  	<td ng-if="x.polling" ng-class="{ mak}">{{x.message}}</td>-->
+			
 		</td>
 		</tr>
 		
-		
+	
 		
 		<tr>
-		<td ng-repeat="x in knownThinkers track by $index" style="vertical-align:top">
+		<td ng-repeat="x in knownThinkers track by $index" style="vertical-align:bottom">
 
-			<!--<div ng-class="{ makeGreen: x.polling , makeRed: !x.polling }">{{x.id}}</div>-->
-			<!--<div>{{x.lastSeen}} </div>
-			<div ng-class="{ makeGrey: x.polling }">#{{x.taskNum}}</div>
-			<div ng-class="{ makeGrey: x.polling }">{{x.task.command}}</div>-->
-			<div ng-repeat="y in x.messages track by $index" ng-class="{ makeGrey: !$first }">{{y}}</div>
-			<!--<td ng-if="x.polling">{{x.task.command}}</td>
-		  	<td ng-if="x.polling" ng-class="{ mak}">{{x.message}}</td>-->
+			
+			<div ng-repeat="y in x.messages track by $index">{{y}}</div>
+			
 		</td>
 		</tr>
 		
@@ -273,14 +218,6 @@ table tr:nth-child(even) {
 		
 		
 	</table>
-
-
-	<!--<td ng-repeat="y in x">
-			  {{y}}
-		  </td>
-		  -->
-
-
 	<br>
 
 	<button ng-click="refreshAllThinkers()">Refresh all thinkers</button>
@@ -288,8 +225,6 @@ table tr:nth-child(even) {
 	<button ng-click="stopAllLearners()">Stop all learners</button>
 	<button ng-click="echoTestAll()">Echo test all</button>
 
-
-	<!--<div ng-repeat="x in learners">{{x}}</div>-->
 	<table>
 		<tr>
 			<td>
@@ -337,11 +272,5 @@ table tr:nth-child(even) {
 	<br>
 
 	<div ng-repeat="x in stats track by $index">{{x}}</div>
-	<!--Ready thinkers:
-	<div ng-repeat="x in waitingThinkers"> {{x}} </div>
 	
-	
-	<br>-->
-
-
 </body>
