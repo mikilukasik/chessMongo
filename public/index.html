@@ -15,6 +15,16 @@
 	appModule.controller("ApplicationController", ApplicationController);
 
 	function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
+		
+		window.onresize=function(){
+			var cw = $('.main-table').height();
+			$('.main-table').css({'width':cw+'px'});
+			//alert('resized')
+			
+			//check available space from iderakd's widt/height, and set main-table width and height
+			
+			
+		}
 
 		var dletters = ["a","b","c","d","e","f","g","h"]
 		var dfigures = ["","King","Queen","Rook","Bishop","Knight","Pawn"]
@@ -129,6 +139,13 @@
 						if($scope.viewName == "board.html") {			
 							//console.log('Repeating longpoll on t'+ response._id)			
 							$rootScope.longPollTable()	//loop till change view	(or table)
+							
+							
+							var cw = $('.main-table').height();
+							$('.main-table').css({'width':cw+'px'});
+							
+							
+							
 						}else{
 							//console.log('board not displayed (viewName: '+ $scope.viewName+'), discontinuing longpoll for table ' + response._id)
 							
