@@ -76,6 +76,7 @@
 	
 	.chatCell {
 	    display: block;
+		height:100%;
 	    text-align-content: stretch;
 	    /*height: 600px;*/
 	  
@@ -87,7 +88,9 @@
 	}
 	
 	.chatInput {
-	    width: 100%
+	    width: 100%;
+		/*height: 100%;*/
+		vertical-align: bottom;
 	}
 	
 	.ideRakd{
@@ -153,7 +156,7 @@
 
 			<td class="ideRakd" ng-include="'/wtable.html'"></td>
 
-<!--			
+			
 			<td class="chatTd">
 				
 				<div class="chatCell">
@@ -167,7 +170,7 @@
 					<button class="chatButton">Send</button>
 				</form>
 				
-			</td>-->
+			</td>
 
 
 		</tr>
