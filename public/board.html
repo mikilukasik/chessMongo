@@ -4,6 +4,93 @@
 <head>
 	<title>Chess</title>
 	
+	
+	<style>
+		
+		.frame-table {
+	   
+		/*display: -webkit-flex; 
+  		display: flex;
+		*/
+		
+		width: 100%;
+		height: 100%;
+		
+	}
+	.lbborder {
+	    border: 1px solid lightblue;
+	}
+	.wBorder {
+		border:none;
+	    border-bottom: 2px solid white;
+	}
+		
+		
+	.leftBar {
+	  
+	    
+	    background-color: lightblue;
+		vertical-align: top;
+		
+		
+		
+		
+	}
+	
+	.collapsed{
+		border-collapse: collapse;
+		width: 100%
+	}
+		
+		
+		.myGamesHere {
+	 
+	    height: 100%;
+	    margin: 0;
+	    padding: 0;
+	    overflow-y: scroll;
+	}
+		
+		.scrollThis {
+	   
+	    height: 500px;
+	    margin: 0;
+	    padding: 0;
+	    overflow-y: scroll;
+	}
+	
+	.recentGames {
+	  
+	    height: 500px;
+	   
+	}
+	
+	
+	/*.ideRakd {
+	   
+	}*/
+	
+	.chatCell {
+	    display: block;
+	    text-align-content: stretch;
+	    height: 600px;
+	  
+	   width: 400px;
+  		
+	    
+	    overflow-y: scroll;
+		overflow-x: scroll;
+	}
+	/*.chatTd {
+	 
+	}*/
+	.chatInput {
+	    width: 100%
+	}
+		
+	</style>
+	
+	
 	<script src="engine.js"></script>
 
 	
@@ -11,24 +98,34 @@
 
 <body>
 	  
-	<table width=100% class="frame-table lbborder" ng-controller="ApplicationController">
+	<table class="frame-table lbborder" ng-controller="ApplicationController">
 		<tr>
 			
 			<td class="leftBar">
-		
-				Depth:<input ng-model="depth" ng-init="3" style="width:40px"><br>
-				<button ng-click="takeItBack()">Oooops!!</button><br>
-
+			
 				
-					<table class="myGamesHere">
-						
-						<tr class="displayedGame">
-							
+				
+					<table class="collapsed">
+					
+						<tr >
+							<td class="wBorder">
+								
+							Depth:<input ng-model="depth" ng-init="3" style="width:40px"><br>
+							<button ng-click="takeItBack()">Oooops!!</button><br>
+
 							Pollnum: {{pollNum}}
-							<br> on table {{_id}}
+							<br> 
+							on table {{_id}}
+							
+							
+								<br> 
+							
+							<span ng-if="wNext==wPlayer">Your turn.</span>
+							</td>
 						</tr>
+						
 						<tr>
-							<td>
+							<td class="wBorder">
 								<div class="scrollThis lbborder">
 									<table>
 										<tr class="recentGames pointed" ng-repeat="x in myRecentGames">
@@ -44,34 +141,13 @@
 						</tr></td>-->
 
 					</table>
-					<span ng-if="dbTable.wNext==wPlayer">Your turn.</span>
+					
 				<!--</div>-->
 			</td>
 
 			<td class="ideRakd" ng-include="'/wtable.html'"></td>
 
-			<!--<td class="hatszaz">
-				<table class="leftTable">
-					<tr class="yourTurnTr">
-						<td class="blink">
-
-
-						</td>
-					</tr>
-					<tr class="yourTurnTr">
-						<td class="isItYourTurn">
-
-
-						</td>
-
-					</tr>
-					<tr class="statusTr">
-
-						<td class="statusCell"></td>
-					</tr>
-				</table>
-			</td>-->
-
+			
 			<td class="chatTd">
 				<div class="chatCell">
 					<table>

@@ -58,15 +58,7 @@
 	    /*height: 98%;*/
 	    /*overflow-x: scroll;*/
 	}
-	.ideRakd {
-	    /*height: 600px;
-		width: 600px;*/
-	    /*http://blog.brianjohnsondesign.com/maintain-aspect-ratio-for-html-element-using-only-css-in-a-responsive-design/
-		*/
-	    /*width: 60%;
-		height: 0;
-		padding-bottom: 60%;*/
-	}
+	
 	.main-table {
 	    /*height: 600px;
 		width: 600px;*/
@@ -128,19 +120,7 @@
 	    width: 24px;
 	    background-color: grey;
 	}
-	.myGamesHere {
-	    /*height: 100%;
-		width: 120px;
-		border-top: 2px solid white;
-		border-bottom: 2px solid white;
-		overflow: auto;
-		padding: 5px;*/
-	    
-	    height: 100%;
-	    margin: 0;
-	    padding: 0;
-	    overflow-y: scroll;
-	}
+	
 	.statusCell {
 	    display: block;
 	    text-align-content: stretch;
@@ -149,66 +129,16 @@
 	    width: 100px;
 	    overflow-y: scroll;
 	}
-	.leftBar {
-	    /*width: 120px;
-		height: 100%;
-		margin: 0;
-		padding: 0;
-		*/
-	    /*height: 600px;
-		margin: 0;
-		padding: 0;
-		*/
-	    
-	    background-color: lightblue;
-	}
-	.scrollThis {
-	    /*width: 114px;*/
-	    
-	    height: 500px;
-	    margin: 0;
-	    padding: 0;
-	    overflow-y: scroll;
-	}
-	.chatTextTr {
-	    /*height: 100%;*/
-	}
-	.chatCell {
-	    display: block;
-	    text-align-content: stretch;
-	    height: 600px;
-	    /*width: 220px;*/
-	   width: 400px;
-  		
-	    
-	    overflow-y: scroll;
-		overflow-x: scroll;
-	}
-	.chatTd {
-	    /*display: block;
-	    text-align-content: stretch;
-	    /*height: 600px;*/
-	    /*width: 220px;*/
-	    /*width: 25%;*/
-  		
-	    
-	    /*overflow-y: scroll;*/
-	}
+	
+	
+	/*.chatTextTr {
+	    height: 100%;
+	}*/
+	
 	body {
 	    height: 90%
 	}
-	.frame-table {
-	    /*border: 1px solid lightblue;*/
-	    /*background-color: lightblue;*/
-	    /*height:606px;*/
-		display: -webkit-flex; /* Safari */
-  		display: flex;
-		
-		
-	}
-	.lbborder {
-	    border: 1px solid lightblue;
-	}
+	
 	.wborder {
 	    border: 1px solid white;
 	}
@@ -227,15 +157,8 @@
 	.pointed {
 	    cursor: pointer;
 	}
-	.recentGames {
-	    /*text-align-content: stretch;*/
-	    
-	    height: 500px;
-	    /*width: 100px;*/
-	}
-	.chatInput {
-	    width: 100%
-	}
+	
+	
 	/*.selected {
 		background-color: yellow;
 		
