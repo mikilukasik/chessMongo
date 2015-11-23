@@ -16,15 +16,38 @@
 
 	function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
 		
-		window.onresize=function(){
-			var cw = $('.main-table').height();
-			$('.main-table').css({'width':cw+'px'});
+		var updateSizes=function(){
+			// for(var i=0;i<8;i++){
+			// 	$scope.table[i]=$scope.sTable[i].slice()
+			// }
+			
+			// $scope.sTable=[]
+			
+			// $scope.$apply()
+			
+			
+			var c = window.innerWidth/1.3
+			
+			//$('.ideRakd').height();
+			
+			if(c>window.innerHeight-50){
+				c = window.innerHeight-50
+			}
+			
+			
+			
+			$('.main-table').css({'width': c+'px'});
+			$('.main-table').css({'height': c+'px'});
+			
+			//$scope.showTable()
 			//alert('resized')
-			
+			//alert()
 			//check available space from iderakd's widt/height, and set main-table width and height
-			
-			
 		}
+		
+		window.onresize=updateSizes
+		
+		
 
 		var dletters = ["a","b","c","d","e","f","g","h"]
 		var dfigures = ["","King","Queen","Rook","Bishop","Knight","Pawn"]
@@ -141,9 +164,7 @@
 							$rootScope.longPollTable()	//loop till change view	(or table)
 							
 							
-							var cw = $('.main-table').height();
-							$('.main-table').css({'width':cw+'px'});
-							
+							updateSizes()
 							
 							
 						}else{
@@ -444,6 +465,8 @@
 			}
 			
 			$rootScope.sTable=tt
+			
+			//$scope.$apply()
 	
 		}
 

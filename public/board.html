@@ -48,20 +48,20 @@
 	    height: 100%;
 	    margin: 0;
 	    padding: 0;
-	    overflow-y: scroll;
+	    /*overflow-y: scroll;*/
 	}
 		
 		.scrollThis {
 	   
-	    height: 500px;
+	    /*height: 500px;*/
 	    margin: 0;
 	    padding: 0;
-	    overflow-y: scroll;
+	    /*overflow-y: scroll;*/
 	}
 	
 	.recentGames {
 	  
-	    height: 500px;
+	    /*height: 500px;*/
 	   
 	}
 	
@@ -70,20 +70,22 @@
 	   
 	}*/
 	
+	.chatTd {
+		/*overflow-y: scroll;*/
+	}
+	
 	.chatCell {
 	    display: block;
 	    text-align-content: stretch;
-	    height: 600px;
+	    /*height: 600px;*/
 	  
-	   width: 400px;
+	   /*width: 400px;*/
   		
 	    
-	    overflow-y: scroll;
-		overflow-x: scroll;
+	    /*overflow: scroll;*/
+		/*overflow-x: scroll;*/
 	}
-	/*.chatTd {
-	 
-	}*/
+	
 	.chatInput {
 	    width: 100%
 	}
@@ -151,29 +153,21 @@
 
 			<td class="ideRakd" ng-include="'/wtable.html'"></td>
 
-			
+<!--			
 			<td class="chatTd">
+				
 				<div class="chatCell">
-					<table>
-						<tr ng-repeat="x in chatLines">
-							<td>{{x}}</td>
-						</tr>
-						<tr class="chatInputRow">
-							<td>
-
-								<!--fix this to form-->
-
-
-							</td>
-						</tr>
-
-					</table>
+					
+					<div ng-repeat="x in chatLines">{{x}}</div>
+					
 				</div>
+				
 				<form class="chatInput" ng-submit="sendChat()">
 					<input type="text" ng-model="sendThis"></input>
 					<button class="chatButton">Send</button>
 				</form>
-			</td>
+				
+			</td>-->
 
 
 		</tr>
