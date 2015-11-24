@@ -3,179 +3,343 @@
 
 <head>
 	<title>Chess</title>
-	
-	
 	<style>
 		
-		.frame-table {
-	   
+	.square img {
+	    width: 100%;
+	    border: 10px;
+	    /*height: 80%
+		height: auto;*/
+	}
+	.darker img {
+	    width: 100%;
+	    border: 10px;
+	    /*height: 80%
+		height: auto;*/
+	}
+	.divAroundIt {
+	    padding: 10%;
+	}
+	.square {
+	    width: auto;
+	    height: 0;
+		background-color: white;
+	    /*padding-bottom: 12.2%;*/
+	    /*padding: 2% 1%;*/
+	}
+	.darker {
+	    width: auto;
+	    height: 0;
+	    /*padding-bottom: 12.2%;*/
+	    /*padding: 2% 1%;*/
+	    
+	    background-color: silver;
+	}
+	.innerdiv {
+	    width: 100%;
+	    padding-bottom: 100%;
+	}
+	.heading {
+	    height: 24px;
+	    background-color: grey;
+	}
+	.left-column {
+	    width: 24px;
+	    background-color: grey;
+	}
+	.main-table {
+	    /*height: 600px;
+		width: 600px;*/
+	    
+	    text-align: center;
+	    border: 1px solid black;
+	    height: 100%;
+	    /*width: 70%;
+		height: 0;
+		padding-bottom: 70%;
+	*/
+	}
+	.frame-table {
 		/*display: -webkit-flex; 
   		display: flex;
 		*/
-		
 		width: 100%;
 		height: 100%;
-		
-	}
-	.lbborder {
-	    border: 1px solid lightblue;
-	}
-	.wBorder {
-		border:none;
-	    border-bottom: 2px solid white;
-	}
-		
-		
-	.leftBar {
-	  
-	    
-	    background-color: lightblue;
-		vertical-align: top;
-		
-		
-		
-		
+		align-items: left;
 	}
 	
-	.collapsed{
+	.lbborder {
+		border: 1px solid lightblue;
+	}
+	
+	.wBorder {
+		border: none;
+		border-bottom: 2px solid white;
+	}
+	
+	.leftBar {
+		background-color: lightblue;
+		vertical-align: top;
+		width: 100px;
+	}
+	
+	.collapsed {
 		border-collapse: collapse;
 		width: 100%
 	}
-		
-		
-		.myGamesHere {
-	 
-	    height: 100%;
-	    margin: 0;
-	    padding: 0;
-	    /*overflow-y: scroll;*/
+	
+	.myGamesHere {
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		/*overflow-y: scroll;*/
 	}
-		
-		.scrollThis {
-	   
-	    /*height: 500px;*/
-	    margin: 0;
-	    padding: 0;
-	    /*overflow-y: scroll;*/
+	
+	.scrollThis {
+		/*height: 500px;*/
+		margin: 0;
+		padding: 0;
+		/*overflow-y: scroll;*/
 	}
 	
 	.recentGames {
-	  
-	    /*height: 500px;*/
-	   
+		/*height: 500px;*/
 	}
-	
-	
 	/*.ideRakd {
 	   
 	}*/
 	
 	.chatTd {
-		/*overflow-y: scroll;*/
+		overflow-x: scroll;
 	}
 	
 	.chatCell {
-	    display: block;
-		height:100%;
-	    text-align-content: stretch;
-	    /*height: 600px;*/
-	  
-	   /*width: 400px;*/
-  		
-	    
-	    /*overflow: scroll;*/
+		/*display: block;*/
+		height: 100%;
+		/*width:100%;*/
+		/*text-align-content: stretch;
+		*/
+		/*height: 600px;*/
+		/*width: 400px;*/
+		overflow: scroll;
 		/*overflow-x: scroll;*/
 	}
 	
 	.chatInput {
-	    width: 100%;
+		width: 100%;
 		/*height: 100%;*/
 		vertical-align: bottom;
 	}
 	
-	.ideRakd{
-		height: 100%;
+	.ideRakd {
+		width: 1px;
 	}
-		
 	</style>
-	
-	
 	<script src="engine.js"></script>
-
-	
 </head>
 
 <body>
-	  
-	<table class="frame-table lbborder" ng-controller="ApplicationController">
+	<table ng-if="screenRatio==0" class="frame-table lbborder" ng-controller="ApplicationController">
 		<tr>
-			
-			<td class="leftBar">
-			
-				
-				
-					<table class="collapsed">
-					
-						<tr >
-							<td class="wBorder">
-								
-							Depth:<input ng-model="depth" ng-init="3" style="width:40px"><br>
-							<button ng-click="takeItBack()">Oooops!!</button><br>
-
-							Pollnum: {{pollNum}}
-							<br> 
-							on table {{_id}}
-							
-							
-								<br> 
-							
-							<span ng-if="wNext==wPlayer">Your turn.</span>
-							</td>
-						</tr>
-						
-						<tr>
-							<td class="wBorder">
-								<div class="scrollThis lbborder">
-									<table>
-										<tr class="recentGames pointed" ng-repeat="x in myRecentGames">
-											<td ng-click="setTableNum(x)" ng-class="{ selected: x==_id}">{{x}}<span ng-if="x==_id">&lArr;</span>
-											</td>
-										</tr>
-									</table>
-								</div>
-							</td>
-						</tr>
-						<!--<tr><td>
-							
-						</tr></td>-->
-
-					</table>
-					
-				<!--</div>-->
-			</td>
-
 			<td class="ideRakd" ng-include="'/wtable.html'"></td>
-
-			
+			<td class="leftBar">
+				<table class="collapsed">
+					<tr>
+						<td class="wBorder"> Depth:
+							<input ng-model="depth" ng-init="3" style="width:40px">
+							<br>
+							<button ng-click="takeItBack()">Oooops!!</button>
+							<br> Pollnum: {{pollNum}}
+							<br> on table {{_id}}
+							<br> <span ng-if="wNext==wPlayer">Your turn.</span> 
+						</td>
+					</tr>
+					<tr>
+						<td class="wBorder">
+							<div class="scrollThis lbborder">
+								<table>
+									<tr class="recentGames pointed" ng-repeat="x in myRecentGames">
+										<td ng-click="setTableNum(x)" ng-class="{ selected: x==_id}">{{x}}<span ng-if="x==_id">&lArr;</span> </td>
+									</tr>
+								</table>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</td>
 			<td class="chatTd">
-				
 				<div class="chatCell">
-					
 					<div ng-repeat="x in chatLines">{{x}}</div>
-					
 				</div>
-				
 				<form class="chatInput" ng-submit="sendChat()">
 					<input type="text" ng-model="sendThis"></input>
 					<button class="chatButton">Send</button>
 				</form>
-				
 			</td>
-
-
 		</tr>
 	</table>
-
+	
+	
+	<table ng-if="screenRatio==1" class="frame-table lbborder" ng-controller="ApplicationController">
+		<tr>
+			<td class="ideRakd" ng-include="'/wtable.html'"></td>
+			<td class="leftBar">
+				<table class="collapsed">
+					<tr>
+						<td class="wBorder"> Depth:
+							<input ng-model="depth" ng-init="3" style="width:40px">
+							<br>
+							<button ng-click="takeItBack()">Oooops!!</button>
+							<br> Pollnum: {{pollNum}}
+							<br> on table {{_id}}
+							<br> <span ng-if="wNext==wPlayer">Your turn.</span> 
+						</td>
+					</tr>
+					<tr>
+						<td class="wBorder">
+							<div class="scrollThis lbborder">
+								<table>
+									<tr class="recentGames pointed" ng-repeat="x in myRecentGames">
+										<td ng-click="setTableNum(x)" ng-class="{ selected: x==_id}">{{x}}<span ng-if="x==_id">&lArr;</span> </td>
+									</tr>
+								</table>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						
+						<td class="chatTd">
+				<div class="chatCell">
+					<div ng-repeat="x in chatLines">{{x}}</div>
+				</div>
+				<form class="chatInput" ng-submit="sendChat()">
+					<input type="text" ng-model="sendThis"></input>
+					<button class="chatButton">Send</button>
+				</form>
+			</td>
+						
+						
+						</tr>
+				</table>
+			</td>
+			
+		</tr>
+	</table>
+	
+	
+	<table ng-if="screenRatio==2" class="frame-table lbborder" ng-controller="ApplicationController">
+		<tr>
+			<td>
+				<table>
+					<tr>
+						<td class="ideRakd" ng-include="'/wtable.html'"></td>
+					</tr>
+					<tr>
+						<td class="chatTd">
+				<div class="chatCell">
+					<div ng-repeat="x in chatLines">{{x}}</div>
+				</div>
+				<form class="chatInput" ng-submit="sendChat()">
+					<input type="text" ng-model="sendThis"></input>
+					<button class="chatButton">Send</button>
+				</form>
+			</td>
+						
+						
+						
+					</tr>
+					
+				</table>
+			</td>
+			
+			
+			<td class="leftBar">
+				<table class="collapsed">
+					<tr>
+						<td class="wBorder"> Depth:
+							<input ng-model="depth" ng-init="3" style="width:40px">
+							<br>
+							<button ng-click="takeItBack()">Oooops!!</button>
+							<br> Pollnum: {{pollNum}}
+							<br> on table {{_id}}
+							<br> <span ng-if="wNext==wPlayer">Your turn.</span> 
+						</td>
+					</tr>
+					<tr>
+						<td class="wBorder">
+							<div class="scrollThis lbborder">
+								<table>
+									<tr class="recentGames pointed" ng-repeat="x in myRecentGames">
+										<td ng-click="setTableNum(x)" ng-class="{ selected: x==_id}">{{x}}<span ng-if="x==_id">&lArr;</span> </td>
+									</tr>
+								</table>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</td>
+			
+		</tr>
+	</table>
+	
+	
+	<table ng-if="screenRatio==3" class="frame-table lbborder" ng-controller="ApplicationController">
+		<tr>
+			
+					
+						<td colspan="10" style="width: 100%" class="ideRakd" ng-include="'/wtable.html'"></td>
+					
+		</tr>
+		<tr>		
+							
+			<td class="leftBar">
+				<table class="collapsed">
+					<tr>
+						<td class="wBorder"> Depth:
+							<input ng-model="depth" ng-init="3" style="width:40px">
+							<br>
+							<button ng-click="takeItBack()">Oooops!!</button>
+							<br> Pollnum: {{pollNum}}
+							<br> on table {{_id}}
+							<br> <span ng-if="wNext==wPlayer">Your turn.</span> 
+						</td>
+					</tr>
+					<tr>
+						<td class="wBorder">
+							<div class="scrollThis lbborder">
+								<table>
+									<tr class="recentGames pointed" ng-repeat="x in myRecentGames">
+										<td ng-click="setTableNum(x)" ng-class="{ selected: x==_id}">{{x}}<span ng-if="x==_id">&lArr;</span> </td>
+									</tr>
+								</table>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</td>
+						
+						
+						
+						
+						
+			<td class="chatTd">
+				<div class="chatCell">
+					<div ng-repeat="x in chatLines">{{x}}</div>
+				</div>
+				<form class="chatInput" ng-submit="sendChat()">
+					<input type="text" ng-model="sendThis"></input>
+					<button class="chatButton">Send</button>
+				</form>
+			</td>
+						
+						
+						
+		</tr>
+		
+	</table>
+	
+	
+	
 </body>
 
 </html>

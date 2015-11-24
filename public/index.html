@@ -17,32 +17,98 @@
 	function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
 		
 		var updateSizes=function(){
-			// for(var i=0;i<8;i++){
-			// 	$scope.table[i]=$scope.sTable[i].slice()
-			// }
-			
-			// $scope.sTable=[]
-			
-			// $scope.$apply()
 			
 			
-			var c = window.innerWidth/1.5
+			var sr=window.innerHeight/window.innerWidth
 			
-			//$('.ideRakd').height();
+			if(sr<0.7){
+				$rootScope.screenRatio=0
+			}else{
+				
+				if(sr<0.8){
+					$rootScope.screenRatio=1
+				}else{
+					
+					if(sr<1.2){
+						$rootScope.screenRatio=2
+					}else{
+						$rootScope.screenRatio=3
+					}
+					
+					
+				}
+				
+			}
 			
-			if(c>window.innerHeight-50){
-				c = window.innerHeight-50
+			
+			switch ($rootScope.screenRatio) {
+				
+				case 0:
+				
+				
+				break;
+				
+				case 1:
+				
+				
+				break;
+				
+				case 2:
+				
+				
+				break;
+				
+				case 3:
+				
+					$('.leftBar').css({'width':200+'px'});
+				
+					
+					$('.iderakd').css({'height':$('.iderakd').width()+'px'});
+					
+					// $('.main-table').css({'height':$('.iderakd').width()+'px'});
+					
+					if($('.iderakd').width()>$('.main-table').width()  && !( $('.iderakd').width()  >  $('.navvvv').width()  )  ){
+						$('.main-table').css({'width':$('.iderakd').width()-2+'px'});
+					}
+					 
+					$('.leftBar').css({'width':'200px'});
+				
+				break;
+				
+				
+				
+				
 			}
 			
 			
 			
-			$('.main-table').css({'width': c+'px'});
-			$('.main-table').css({'height': c+'px'});
 			
-			//$scope.showTable()
-			//alert('resized')
-			//alert()
-			//check available space from iderakd's widt/height, and set main-table width and height
+			
+			
+			
+			
+			
+			
+			// var ih = $('.iderakd').height();
+			// $('.iderakd').css({'width':ih+'px'});
+			
+			// var c = window.innerWidth/1.5
+			
+			
+			
+			// if(c>window.innerHeight-70){
+			// 	c = window.innerHeight-70
+			// }
+			
+			// //set main table size (board.html)
+			
+			// $('.frame-table').css({'height': window.innerHeight-50+'px'});
+			// $('.frame-table').css({'width': window.innerWidth-50+'px'});
+			
+			// $('.main-table').css({'width': c+'px'});
+			// $('.main-table').css({'height': c+'px'});
+			
+			
 		}
 		
 		window.onresize=updateSizes
@@ -501,6 +567,9 @@
 				$scope.refreshRecentGames()
 				//console.log('View changed to board, calling longpoll on t'+$rootScope._id)
 				$rootScope.longPollTable()		//start longpoll
+				
+				updateSizes()
+				
 				if($scope.wPlayer){
 						$scope.drTable("wtable.html")
 				}else{
@@ -650,7 +719,7 @@
 
 
 	
-	<nav width=100%>
+	<nav width=100% class="navvv">
 		<table>
 			<tr>
 				<td nowrap align="left">
@@ -660,7 +729,9 @@
 		<!--<a href="#" ng-click="showView('captain.html')" ng-class="{ selected: viewName == 'captain.html' }">Thinkers</a>-->
 		</td>
 		
-		<td nowrap width=100% align="right">{{greetUser}}</td>
+		
+		
+		<td nowrap width=100% align="right">{{greetUser}} - {{screenRatio}}</td>
 		</tr>
 		</table>
 	</nav>

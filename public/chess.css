@@ -53,24 +53,13 @@
 	nav {
 	    background-color: lightblue;
 	}
-	html,
+	/*html,
 	body {
-	    /*height: 98%;*/
-	    /*overflow-x: scroll;*/
+	    height: 98%;
+	    overflow-x: scroll;
 	}
-	
-	.main-table {
-	    /*height: 600px;
-		width: 600px;*/
-	    
-	    text-align: center;
-	    border: 1px solid black;
-	    height: 100%;
-	    /*width: 70%;
-		height: 0;
-		padding-bottom: 70%;
 	*/
-	}
+	
 	.rotate90 {
 	    -webkit-transform: rotate(90deg);
 	    -moz-transform: rotate(90deg);
@@ -78,53 +67,12 @@
 	    -ms-transform: rotate(90deg);
 	    transform: rotate(90deg);
 	}
-	.square img {
-	    width: 100%;
-	    border: 10px;
-	    /*height: 80%
-		height: auto;*/
-	}
-	.darker img {
-	    width: 100%;
-	    border: 10px;
-	    /*height: 80%
-		height: auto;*/
-	}
-	.divAroundIt {
-	    padding: 10%;
-	}
-	.square {
-	    width: auto;
-	    height: 0;
-		background-color: white;
-	    /*padding-bottom: 12.2%;*/
-	    /*padding: 2% 1%;*/
-	}
-	.darker {
-	    width: auto;
-	    height: 0;
-	    /*padding-bottom: 12.2%;*/
-	    /*padding: 2% 1%;*/
-	    
-	    background-color: silver;
-	}
-	.innerdiv {
-	    width: 100%;
-	    padding-bottom: 100%;
-	}
-	.heading {
-	    height: 24px;
-	    background-color: grey;
-	}
-	.left-column {
-	    width: 24px;
-	    background-color: grey;
-	}
 	
-	.statusCell {
+	
+	/*.statusCell {
 	    display: block;
 	    text-align-content: stretch;
-	    /*height: 100%;*/
+	 
 	    
 	    width: 100px;
 	    overflow-y: scroll;
@@ -135,28 +83,28 @@
 	    height: 100%;
 	}*/
 	
-	body {
+	/*body {
 	    height: 90%
 	}
-	
+	*/
 	.wborder {
 	    border: 1px solid white;
 	}
-	.hatszaz {
+	/*.hatszaz {
 	    /*height: 600px;*/
-	}
-	.statusTr {
+	/*}*/
+	/*.statusTr {
 	    /*height: 100%;*/
-	}
-	.leftTable {
+	
+	/*.leftTable {
 	    background-color: lightblue;
 	    /*height:500px;*/
 	    
 	    /*overflow: scroll;*/
-	}
+	/*}
 	.pointed {
 	    cursor: pointer;
-	}
+	}*/
 	
 	
 	/*.selected {
