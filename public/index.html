@@ -68,16 +68,17 @@
 				break;
 				
 				case 3:
+				
 					
-					//
-					$('.leftBar').css({'height':(sh-nw-70)+'px'});
 					
+								
+					$('.leftBar').css({'height':(sh-nw-68)+'px'});
 					
 					$('.chatCell').css({'width':(nw-104)+'px'});
-					$('.chatCell').css({'height':(sh-nw    -170)+'px'});
+					$('.chatInpt').css({'width':(nw-158)+'px'});
 					
-				
-				
+					
+					$('.chatCell').css({'height':(sh-nw    -90)+'px'});
 					
 					$('.iderakd').css({'height':(nw-4)+'px'});
 					$('.iderakd').css({'width':(nw-4)+'px'});
@@ -85,77 +86,29 @@
 					$('.main-table').css({'height':(nw-8)+'px'});
 					$('.main-table').css({'width':(nw-8)+'px'});
 					
+					//$('.chatInpt').css({'width':($('.chatInput').width()-41)+'px'});
 					
-					
-					// $('.main-table').css({'height':$('.iderakd').width()+'px'});
-					
-					// if($('.iderakd').width()>$('.main-table').width()  && !( $('.iderakd').width()  >  $('.navvvv').width()  )  ){
-					// 	$('.main-table').css({'width':$('.iderakd').width()-2+'px'});
-					// }
-					 
-					//$('.leftBar').css({'width': 20+'%'});
-					
-				
 				break;
 				
-				
-				
-				
 			}
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			// var ih = $('.iderakd').height();
-			// $('.iderakd').css({'width':ih+'px'});
-			
-			// var c = window.innerWidth/1.5
-			
-			
-			
-			// if(c>window.innerHeight-70){
-			// 	c = window.innerHeight-70
-			// }
-			
-			// //set main table size (board.html)
-			
-			// $('.frame-table').css({'height': window.innerHeight-50+'px'});
-			// $('.frame-table').css({'width': window.innerWidth-50+'px'});
-			
-			// $('.main-table').css({'width': c+'px'});
-			// $('.main-table').css({'height': c+'px'});
-			
 			
 		}
 		
 		window.onresize=function(){
 			$timeout($rootScope.updateSizes(),800)
 		}
-		//$rootScope.updateSizes
 		
-		
-
 		var dletters = ["a","b","c","d","e","f","g","h"]
-		var dfigures = ["","King","Queen","Rook","Bishop","Knight","Pawn"]
-		var dcolors = ["","Black","White"]
+		// var dfigures = ["","King","Queen","Rook","Bishop","Knight","Pawn"]
+		// var dcolors = ["","Black","White"]
 
 		$scope.inOrOut = 'Login' //displayed on nav when not logged in
 		$scope.loggedIn = false
 		$scope.lobbyPollNum = 0
 
-		//$rootScope.tempMoveString = ""
 		$rootScope.pollNum = -2		//just in case
-		//$rootScope.table = []
-		
 		
 		$rootScope.depth=3
-		//}
 		
 		$scope.login = function(user) {
 			

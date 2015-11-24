@@ -109,9 +109,11 @@
 	   
 	}*/
 	
-	/*.chatTd {
-		overflow-x: scroll;
-	}*/
+	.chatTd {
+		vertical-align: bottom;
+		padding-bottom: 4px;
+		/*overflow-x: scroll;*/
+	}
 	
 	.chatCell {
 		/*display: block;*/
@@ -121,14 +123,25 @@
 		*/
 		/*height: 600px;*/
 		/*width: 80%;*/
+		/*-webkit-text-size-adjust: 50%*/
 		overflow-x: scroll;
 		/*overflow-x: scroll;*/
 	}
 	
 	.chatInput {
 		width: 100%;
-		/*height: 100%;*/
+		height: 1px;
+		align-items: stretch;
 		/*vertical-align: bottom;*/
+	}
+	.chatInpt {
+		width: 500px;
+		/*height: 1px;*/
+		/*vertical-align: bottom;*/
+	}
+	
+	.chatButton{
+		width: 50px;
 	}
 	
 	.ideRakd {
@@ -322,12 +335,12 @@
 						
 						
 						
-			<td class="chatTd">
+			<td class="chatTd" nowrap>
 				<div class="chatCell">
 					<div ng-repeat="x in chatLines">{{x}}</div>
 				</div>
 				<form class="chatInput" ng-submit="sendChat()">
-					<input type="text" ng-model="sendThis"></input>
+					<input class="chatInpt" type="text" ng-model="sendThis"></input>
 					<button class="chatButton">Send</button>
 				</form>
 			</td>
