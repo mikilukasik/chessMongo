@@ -44,9 +44,10 @@
 			
 			
 			
+			var nw=$('.navvv').width()
 			
-			$('.frame-table').css({'width':$('.navvv').width()+'px'});
-					$('.frame-table').css({'height':(sh-40)+'px'});
+			$('.frame-table').css({'width':nw+'px'});
+			$('.frame-table').css({'height':(sh-60)+'px'});
 			
 			switch ($rootScope.screenRatio) {
 				
@@ -69,18 +70,20 @@
 				case 3:
 					
 					
+					$('.leftBar').css({'height':(sh-nw-72)+'px'});
 					
 					
-					$('.chatCell').css({'width': (sw-160)+'px'});
+					$('.chatCell').css({'width':(nw-104)+'px'});
+					$('.chatCell').css({'height':(sh-nw    -170)+'px'});
 					
 				
 				
 					
-					$('.iderakd').css({'height':(sw-20)+'px'});
-					$('.iderakd').css({'width':(sw-20)+'px'});
+					$('.iderakd').css({'height':(nw-4)+'px'});
+					$('.iderakd').css({'width':(nw-4)+'px'});
 					
-					$('.main-table').css({'height':(sw-24)+'px'});
-					$('.main-table').css({'width':(sw-24)+'px'});
+					$('.main-table').css({'height':(nw-8)+'px'});
+					$('.main-table').css({'width':(nw-8)+'px'});
 					
 					
 					
