@@ -1,0 +1,23 @@
+<table class="collapsed">
+					<tr>
+						<td class="wBorder"> Depth:
+							<input ng-model="depth" ng-init="3" style="width:40px">
+							<br>
+							<button ng-click="takeItBack()">Oooops!!</button>
+							<br> Pollnum: {{pollNum}}
+							<br> on table {{_id}}
+							<br> <span ng-if="wNext==wPlayer">Your turn.</span> 
+						</td>
+					</tr>
+					<tr>
+						<td class="wBorder">
+							<div class="scrollThis lbborder">
+								<table>
+									<tr class="recentGames pointed" ng-repeat="x in myRecentGames">
+										<td ng-click="setTableNum(x)" ng-class="{ selected: x==_id}">{{x}}<span ng-if="x==_id">&lArr;</span> </td>
+									</tr>
+								</table>
+							</div>
+						</td>
+					</tr>
+				</table>

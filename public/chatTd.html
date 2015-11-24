@@ -1,0 +1,7 @@
+<div class="chatCell">
+					<div ng-repeat="x in chatLines">{{x}}</div>
+				</div>
+				<form class="chatInput" ng-submit="sendChat()">
+					<input class="chatInpt" type="text" ng-model="sendThis"></input>
+					<button class="chatButton">Send</button>
+				</form>
