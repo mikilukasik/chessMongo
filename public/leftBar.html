@@ -1,4 +1,6 @@
 <table class="collapsed">
+				
+					
 					<tr>
 						<td nowrap class="wBorder"> Depth:
 							<input ng-model="depth" ng-init="3" style="width:40px">
@@ -6,17 +8,24 @@
 							<button ng-click="takeItBack()">Oooops!!</button>
 							<br> Pollnum: {{pollNum}}
 							<br> on table {{_id}}
-							<br> <span ng-if="wNext==wPlayer">Your turn.</span> 
+							<br> 
+							<span ng-if="wNext==wPlayer">Your turn.</span> 
+							<span ng-if="wNext!=wPlayer">Please wait..</span> 
 						</td>
 					</tr>
 					<tr>
 						<td class="wBorder">
 							<div class="scrollThis lbborder">
-								<table>
+								<div ng-repeat="x in moves">
+									<img ng-src="{{'cPiecesPng/'+x[0]+x[1]+'.png'}}" style="width: 15%">
+									{{x[2]+x[3]+x[4]+x[5]}}
+									<img ng-src="{{'cPiecesPng/'+x[6]+x[7]+'.png'}}" style="width: 15%" class="rotate90">
+									</div>
+								<!--<table>
 									<tr class="recentGames pointed" ng-repeat="x in myRecentGames">
 										<td ng-click="setTableNum(x)" ng-class="{ selected: x==_id}">{{x}}<span ng-if="x==_id">&lArr;</span> </td>
 									</tr>
-								</table>
+								</table>-->
 							</div>
 						</td>
 					</tr>
