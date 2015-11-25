@@ -49,7 +49,7 @@ function moveInTable(moveStr, dbTable, isLearner) {
 
 		//$rootScope.moved = new Date().getTime()
 
-		dbTable.table = addMovesToTable(dbTable.table, dbTable.wNext) //true stands for pawn and king only: allpasttables only
+	dbTable.table = addMovesToTable(dbTable.table, dbTable.wNext) //true stands for pawn and king only: allpasttables only
 
 	//remember this state for 3fold rule
 	var sendThis = createState(dbTable.table)

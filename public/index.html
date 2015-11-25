@@ -51,6 +51,11 @@
 			
 			$('.leftBar').css({'width':130+'px'});
 			
+		
+			
+			
+			
+			
 			
 			switch ($rootScope.screenRatio) {
 				
@@ -137,7 +142,7 @@
 					$('.main-table').css({'height':(nw-8)+'px'});
 					$('.main-table').css({'width':(nw-8)+'px'});
 					
-					//$('.chatInpt').css({'width':($('.chatInput').width()-41)+'px'});
+					
 					
 				break;
 				
@@ -149,7 +154,8 @@
 			
 			
 			//http://stackoverflow.com/questions/14902321/how-to-determine-if-a-resize-event-was-triggered-by-soft-keyboard-in-mobile-brow
-			if($(document.activeElement).prop('type') === 'text') {
+			var t=$(document.activeElement).prop('type')
+			if(t === 'text' || t === 'password') {
 				// Logic for while keyboard is shown
 			} else {
 				// Logic for while keyboard is hidden
@@ -410,76 +416,75 @@
 		$scope.makeAMove = function(whatMove) {
 
 		if(!($scope.opponentsName=='Server')){			// temp hack!!!!!
-			//
-			//$http
-			
-			
-			
-			
-			
-			
-			
-			
 			
 			var moveStr=whatMove	//levagni a kepeket...	(mi ut mit)
 			//////////////////////
 							///replace this!!!
 							
-				var dbTable=new Dbtable($rootScope._id, $rootScope.wName, $rootScope.bName)
+				var dbTable={}//new Dbtable($rootScope._id, $rootScope.wName, $rootScope.bName)
+				
+				//hello Marzenka
+				
+				dbTable._id=$rootScope._id
+				dbTable.wName=$rootScope.wName
+				dbTable.bName=$rootScope.bName
 				
 				
-				
-				dbTable.table=$rootScope.table																		//refaktor!!!!!!
+				dbTable.table=$rootScope.table
+				dbTable.wNext=$rootScope.wNext
+																						//refaktor!!!!!!
 				dbTable.moves= $rootScope.moves
 				dbTable.pollNum= $rootScope.pollNum
 				dbTable.allPastTables= $rootScope.allPastTables
-				dbTable.wName= $rootScope.wName
-				dbTable.bName= $rootScope.bName
+				// dbTable.wName= $rootScope.wName
+				// dbTable.bName= $rootScope.bName
 				
-				$rootScope.lastState= $.extend(true, {}, dbTable)
+				$rootScope.lastState= $.extend(true, {}, dbTable)		//remember so we can Oooops!!
+				
+				
 				
 				$scope.clearHighlights($rootScope.lastState.table)
 				
+				dbTable=moveInTable(moveStr,dbTable,false)
 				
-				
-				var toPush =  getPushString(dbTable.table,moveStr)//piece
+			// 	var toPush =  getPushString(dbTable.table,moveStr)//piece
 
-				+new String(new Date().getTime())
+			// 	+new String(new Date().getTime())
 
-				// if(!(toPush==$rootScope.moves[$rootScope.moves.length-1])){
+			// 	// if(!(toPush==$rootScope.moves[$rootScope.moves.length-1])){
 				
 				
-				dbTable.moves.push(toPush)
+			// 	dbTable.moves.push(toPush)
 
-				dbTable.table = moveIt(moveStr, dbTable.table)			//	<----moves it
+			// 	dbTable.table = moveIt(moveStr, dbTable.table)			//	<----moves it
 				
-				//$rootScope.showTable($rootScope.table)
+			// 	//$rootScope.showTable($rootScope.table)
 
-				dbTable.wNext = !dbTable.wNext
+			// 	dbTable.wNext = !dbTable.wNext
 
-				dbTable.pollNum++
+			// 	dbTable.pollNum++
 
-				//$rootScope.moved = new Date().getTime()
+			// 	//$rootScope.moved = new Date().getTime()
 				
-				dbTable.table = addMovesToTable(dbTable.table, dbTable.wNext)	//true stands for pawn and king only: allpasttables only
+			// 	dbTable.table = addMovesToTable(dbTable.table, dbTable.wNext)	//true stands for pawn and king only: allpasttables only
 
-				//remember this state for 3fold rule
-				var sendThis=createState(dbTable.table)
+			// 	//remember this state for 3fold rule
+			// 	var sendThis=createState(dbTable.table)
 				
 				
-				dbTable.allPastTables.push(sendThis)
+			// 	dbTable.allPastTables.push(sendThis)
 				
 				
 
-				//$rootScope.whatToDo = 'idle'
+			// 	//$rootScope.whatToDo = 'idle'
 			
-				//$rootScope.sendMessage('move '+moveStr+' processed.')
+			// 	//$rootScope.sendMessage('move '+moveStr+' processed.')
 			
-			/////////////////////////
+			// /////////////////////////
 			
 			
 			//})
-			evalGame(dbTable,true)	//true should tell it was learnergame, not yet
+			//evalGame(dbTable,true)	//true should tell it was learnergame, not yet
 			
 				
 			
