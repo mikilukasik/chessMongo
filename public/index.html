@@ -180,7 +180,7 @@
 
 							$scope.inOrOut = 'Logoff' //displayed on nav when logged in
 							$rootScope.loginName = user.name
-							$scope.showView('lobby.html')
+							$rootScope.showView('lobby.html')
 
 							if(!$scope.$$phase) {
 								$scope.$apply()
@@ -254,9 +254,9 @@
 	
 						// $scope.refreshRecentGames()
 						$scope.showTable()
-						
-						if($scope.viewName == "board.html") {			
-							//console.log('Repeating longpoll on t'+ response._id)			
+						console.log('showing table, viewName is '+$rootScope.viewName)
+						if($rootScope.viewName == "board.html") {			
+							console.log('Repeating longpoll on t'+ response._id)			
 							$rootScope.longPollTable()	//loop till change view	(or table)
 							
 							
@@ -264,7 +264,7 @@
 							
 							
 						}else{
-							//console.log('board not displayed (viewName: '+ $scope.viewName+'), discontinuing longpoll for table ' + response._id)
+							//console.log('board not displayed (viewName: '+ $rootScope.viewName+'), discontinuing longpoll for table ' + response._id)
 							
 						}
 					}else{
@@ -310,7 +310,7 @@
 			$scope.lobbyPromise = $interval(function() {
 
 				//refreshLobby()
-				if($scope.viewName == 'lobby.html') {
+				if($rootScope.viewName == 'lobby.html') {
 
 					$http.get('/getLobby?p=' + $rootScope.loginName)
 						.success(function(response) {
@@ -351,7 +351,7 @@
 							}
 							if($scope.openNow) {
 								$rootScope.tempMoveString=""
-								$scope.viewName = "board.html"
+								$rootScope.viewName = "board.html"
 								
 								$scope.openNow = false
 
@@ -368,7 +368,7 @@
 					//itt lehetne mast pollozni
 					////console.log($rootScope.tempMoveString)
 
-					// if($scope.viewName == 'board.html'&& $rootScope.tempMoveString=="") {
+					// if($rootScope.viewName == 'board.html'&& $rootScope.tempMoveString=="") {
 					// 	////console.log('refreshtable called from interval '+ $rootScope.tempMoveString)
 					// 	$scope.refreshTable()
 						
@@ -590,7 +590,7 @@
 			}
 		}
 
-		//$scope.viewName = "login.html";
+		//$rootScope.viewName = "login.html";
 
 		$scope.newView = function(viewName) {
 			if(viewName == 'board.html') {
@@ -614,6 +614,7 @@
 					
 					
 					focusOnLogin()
+					 
 				}else{
 				
 				
@@ -630,8 +631,8 @@
 		$scope.drTable = function(viewName) {
 			$scope.draTable = viewName;
 		}
-		$scope.showView = function(viewName) {
-			$scope.viewName = viewName;
+		$rootScope.showView = function(viewName) {
+			$rootScope.viewName = viewName;
 
 			if(viewName == 'lobby.html'||viewName == 'board.html') {
 				$scope.openNow = false
@@ -730,22 +731,49 @@
 			$scope.sendThis=""
 			
 		}
+		
+		
+		
+		$rootScope.updateSizes()
+		console.log('appcontr ran')
+		
+		if(!$rootScope.ran) {
+		
+			$rootScope.ran=true
+			$rootScope.showView('login.html')
+		
+		}
+		
+		
+		
+		
 	}
 	
+	
+	
 	function focusOnLogin() {
-    document.getElementById("inputLoginUser").focus();
+	
+	window.setTimeout(function(){
+		 document.getElementById("inputLoginUser").focus();
+	},500)	
+    // document.getElementById("inputLoginUser").focus();
+	
+	
+	
 }
 	
 	// $scope.firstView=function(){
 	// 	showView('login.html')
 	// }
 	
+	
+	
 	</script>
 	
 	
 </head>
 
-<body ng-app="appModule" ng-controller="ApplicationController"  onload="showView('login.html')">
+<body ng-app="appModule" ng-controller="ApplicationController">
 
 
 	

@@ -87,9 +87,16 @@
 	    height: 90%
 	}
 	*/
-	.wborder {
-	    border: 1px solid white;
+	
+	.lbborder {
+		border: 1px solid lightblue;
 	}
+	
+	.wBorder {
+		border: none;
+		border-bottom: 2px solid white;
+	}
+	
 	/*.hatszaz {
 	    /*height: 600px;*/
 	/*}*/
