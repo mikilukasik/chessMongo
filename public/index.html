@@ -23,12 +23,12 @@
 			
 			var sr=sh/sw
 			
-			// if(sr<0.7){
-			// 	$rootScope.screenRatio=0
-			// }else{
+			if(sr<0.7){
+				$rootScope.screenRatio=0
+			}else{
 				
 				if(sr<1.2){
-					$rootScope.screenRatio=0
+					$rootScope.screenRatio=1
 				}else{
 					
 					if(sr<1.5){
@@ -40,7 +40,7 @@
 					
 				}
 				
-			//}
+			}
 			
 			
 			
@@ -49,32 +49,53 @@
 			$('.frame-table').css({'width':nw+'px'});
 			$('.frame-table').css({'height':(sh-60)+'px'});
 			
+			$('.leftBar').css({'width':130+'px'});
+			
+			
 			switch ($rootScope.screenRatio) {
 				
 				case 0:
 				
-					$('.leftBar').css({'width':100+'px'});
+					// $('.leftBar').css({'width':100+'px'});
+					
+					$('.iderakd').css({'height':(sh-60)+'px'});
+					$('.iderakd').css({'width':(sh-60)+'px'});
+					
+					$('.main-table').css({'height':(sh-64)+'px'});
+					$('.main-table').css({'width':(sh-64)+'px'});
+					
+						
+					$('.chatCell').css({'width':(sw-sh-80)+'px'});
+					$('.chatCell').css({'height':(sh-86)+'px'});
+					
+					$('.chatInpt').css({'width':(sw-sh-134)+'px'});
 				
 				break;
 				
-				// case 1:
+				case 1:
 				
 				
-				// break;
+				break;
 				
 				case 2:
 				
-					$('.leftBar').css({'width':100+'px'});
-					
-					$('.tableAndChat').css({'width':(sw-110)+'px'});
 					
 					
+					$('.tableAndChat').css({'width':(sw-157)+'px'});
 					
-					$('.iderakd').css({'height':(sw-114)+'px'});
-					$('.iderakd').css({'width':(sw-114)+'px'});
 					
-					$('.main-table').css({'height':(sw-118)+'px'});
-					$('.main-table').css({'width':(sw-118)+'px'});
+					$('.chatCell').css({'width':(sw-130)+'px'});
+					$('.chatCell').css({'height':(sh-sw+42)+'px'});
+					
+					$('.chatInpt').css({'width':(sw-184)+'px'});
+					
+					
+					
+					$('.iderakd').css({'height':(sw-120)+'px'});
+					$('.iderakd').css({'width':(sw-120)+'px'});
+					
+					$('.main-table').css({'height':(sw-130)+'px'});
+					$('.main-table').css({'width':(sw-130)+'px'});
 					
 					
 				
@@ -87,8 +108,8 @@
 								
 					$('.leftBar').css({'height':(sh-nw-68)+'px'});
 					
-					$('.chatCell').css({'width':(nw-104)+'px'});
-					$('.chatInpt').css({'width':(nw-158)+'px'});
+					$('.chatCell').css({'width':(nw-108)+'px'});
+					$('.chatInpt').css({'width':(nw-162)+'px'});
 					
 					
 					$('.chatCell').css({'height':(sh-nw    -90)+'px'});

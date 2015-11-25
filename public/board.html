@@ -131,6 +131,8 @@
 		/*width: 80%;*/
 		/*-webkit-text-size-adjust: 50%*/
 		overflow-x: scroll;
+		overflow-y: scroll;
+		
 		/*overflow-x: scroll;*/
 	}
 	.tableAndChat{
@@ -163,41 +165,18 @@
 <body>
 	<table ng-if="screenRatio==0" class="frame-table lbborder" ng-controller="ApplicationController">
 		<tr>
-			<td class="ideRakd" ng-include="'/wtable.html'"></td>
+			
 			<td class="leftBar">
-				<table class="collapsed">
-					<tr>
-						<td class="wBorder"> Depth:
-							<input ng-model="depth" ng-init="3" style="width:40px">
-							<br>
-							<button ng-click="takeItBack()">Oooops!!</button>
-							<br> Pollnum: {{pollNum}}
-							<br> on table {{_id}}
-							<br> <span ng-if="wNext==wPlayer">Your turn.</span>
-						</td>
-					</tr>
-					<tr>
-						<td class="wBorder">
-							<div class="scrollThis lbborder">
-								<table>
-									<tr class="recentGames pointed" ng-repeat="x in myRecentGames">
-										<td ng-click="setTableNum(x)" ng-class="{ selected: x==_id}">{{x}}<span ng-if="x==_id">&lArr;</span> </td>
-									</tr>
-								</table>
-							</div>
-						</td>
-					</tr>
-				</table>
+				<div ng-include="'/leftBar.html'" onload="updateSizes()"></div>
 			</td>
+			
+			<td class="ideRakd" ng-include="'/wtable.html'"></td>
+			
+			
 			<td class="chatTd">
-				<div class="chatCell">
-					<div ng-repeat="x in chatLines">{{x}}</div>
-				</div>
-				<form class="chatInput" ng-submit="sendChat()">
-					<input type="text" ng-model="sendThis"></input>
-					<button class="chatButton">Send</button>
-				</form>
-			</td>
+							<div ng-include="'/chatTd.html'" nowrap onload="updateSizes()"></div>
+						</td>
+
 		</tr>
 	</table>
 
@@ -248,6 +227,10 @@
 
 	<table ng-if="screenRatio==2" class="frame-table lbborder" ng-controller="ApplicationController">
 		<tr>
+			<td class="leftBar">
+				<div ng-include="'/leftBar.html'" onload="updateSizes()"></div>
+			</td>
+			
 			<td class="tableAndChat">
 				<table>
 					<tr>
@@ -263,9 +246,7 @@
 				</table>
 			</td>
 
-			<td class="leftBar">
-				<div ng-include="'/leftBar.html'" onload="updateSizes()"></div>
-			</td>
+			
 
 		</tr>
 	</table>
