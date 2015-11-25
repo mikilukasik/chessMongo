@@ -1,27 +1,27 @@
 
 <div>
-	<table class="lobbyFramTable lbborder" style="width: 100%">
+	<table class="collapsed lobbyFramTable lbborder" style="width: 100%">
 		<tr>
-			<td>
-			Below you can see the active users. <br>Click on someone to start a game against.<br>
-			<br>
-			<!--<p class="putPlayersHere"></p>-->
-			<div ng-repeat="x in players" ng-click="askToStart(x)" ng-class="{ greyed: x == loginName, pointed: x != loginName }">{{x}}</div>
-			
-			
+			<td class="lbborder">
+				Below you can see the active users. <br>Click on someone to start a game against.<br>
+				<br>
+				<!--<p class="putPlayersHere"></p>-->
+				<div ng-repeat="x in players" ng-click="askToStart(x)" ng-class="{ greyed: x == loginName, pointed: x != loginName }">{{x}}</div>
+				
+				
 				
 			</td>
 			
 			
-			<td>
-			Below you can see the active tables. <br>Click on a game to watch it.<br>
-			<br>
-			<!--<p class="putGamesHere"></p>-->
+			<td class="lbborder">
+				Below you can see the active tables. <br>Click on a game to watch it.<br>
+				<br>
+				<!--<p class="putGamesHere"></p>-->
 				<li ng-repeat="x in games" ng-class="pointed" ng-click="askToWatch(x._id)">Table {{x._id}} {{x.wName}} vs {{x.bName}}</li>
 			</td>
 			
 			
-			<td>
+			<td class="lbborder">
 				<table>
 				<tr class="chatTextTr">
 					<!--<td class="chatCell"></td>-->
