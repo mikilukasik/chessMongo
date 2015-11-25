@@ -23,11 +23,11 @@
 			
 			var sr=sh/sw
 			
-			if(sr<0.7){
+			if(sr<0.8){
 				$rootScope.screenRatio=0
 			}else{
 				
-				if(sr<1.2){
+				if(sr<1.1){
 					$rootScope.screenRatio=1
 				}else{
 					
@@ -73,6 +73,23 @@
 				break;
 				
 				case 1:
+				
+					
+					$('.tableAndChat').css({'width':(sw-157)+'px'});
+					
+					
+					$('.chatCell').css({'width':(sw-130)+'px'});
+					$('.chatCell').css({'height':(sh-sw+342)+'px'});
+					
+					$('.chatInpt').css({'width':(sw-184)+'px'});
+					
+					
+					
+					$('.iderakd').css({'height':(sw-120)+'px'});
+					$('.iderakd').css({'width':(sw-120)+'px'});
+					
+					$('.main-table').css({'height':(sw-130)+'px'});
+					$('.main-table').css({'width':(sw-130)+'px'});
 				
 				
 				break;
