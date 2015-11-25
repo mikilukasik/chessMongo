@@ -2,10 +2,10 @@
 	  .vform
     {
         background-color: #f3f3f3;
-        border: solid 1px #a1a1a1;
-        padding: 10px;
-        width: 300px;
-		
+        /*border: solid 1px #a1a1a1;*/
+        /*padding: 10px;*/
+        /*width: 100%;
+		*/
 		align-content: center;
 		
     }
@@ -39,61 +39,65 @@
 
 
 <div class="centered lbborder" ng-if="screenRatio<3">
-	<table width=80%>
+	<table style="width:100%">
 		<tr>
-			<td width=10%> <br> </td>
+			
 
-			<td width=35% nowrap>
+			<td width=100% nowrap class="centered">
 				<br>
 
 				<form ng-submit="login(user)">
 
-					<div align="center">
-						<h1>Login</h1></div>
+					<div class="centered" align="center">
+						<h1>Login</h1>
 					<br>
-					<div align="right">Username:
-						<input id="inputLoginUser" ng-model="user.name"></input>
+					<div class="centered" align="center"><label>Username:</label>
+					<input id="inputLoginUser" ng-model="user.name"></input>
 					</div>
+					<br>
 
-					<div align="right">Password:
-						<input type="password" ng-model="user.pwd"></input>
+					<div class="centered" align="center"><label>Password:</label>
+					<input type="password" ng-model="user.pwd"></input>
 					</div>
 					<br>
 					<br>
-					<div align="center">
+					<br>
+					
 						<button>Login</button>
 					</div>
 
 				</form>
 
 			</td>
-			<td width=10%> <br> </td>
-			<td width=35% nowrap>
+		
+			<td width=100% nowrap class="centered">
 
 				<br>
 				<form ng-submit="register(user)">
 					<div align="center">
-						<h1>Register</h1></div>
+						<h1>Register</h1>
 					<br>
-					<div align="right">Username:
+					<div class="centered" align="center"><label>Username:</label>
 						<input ng-model="user.rName"></input>
-					</div>
+						</div>
+						<br>
 
-					<div align="right">Password:
+					<div class="centered" align="center"><label>Password:</label>
 						<input type="password" ng-model="user.pwd1"></input>
-					</div>
-					<div align="right">Re-type password:
+						</div>
+					<br>
+					<div class="centered"	 align="center"><label>Re-type password:</label>
 						<input type="password" ng-model="user.pwd2"></input>
 					</div>
-
+<br>
 					<br>
-					<div align="center">
+					
 						<button>Register</button>
 					</div>
 				</form>
 
 			</td>
-			<td width=30%></td>
+			
 		</tr>
 
 	</table>
@@ -104,7 +108,7 @@
 
 
 
-<div class="centered lbborder vform" ng-if="screenRatio==3" style="width:100%">
+<div class="centered lbborder vform" ng-if="screenRatio==3">
 	<table style="width:100%">
 		<tr>
 			
