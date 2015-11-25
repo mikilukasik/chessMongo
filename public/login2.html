@@ -1,0 +1,61 @@
+<div class="centered">
+	<table width=80%>
+		<tr>
+			<td width=10%> <br> </td>
+
+			<td width=35%>
+				<br>
+
+				<form ng-submit="login(user)">
+
+					<div align="center">
+						<h1>Login</h1></div>
+					<br>
+					<div align="right">Username:
+						<input id="inputLoginUser" ng-model="user.name"></input>
+					</div>
+
+					<div align="right">Password:
+						<input type="password" ng-model="user.pwd"></input>
+					</div>
+					<br>
+					<br>
+					<div align="center">
+						<button>Login</button>
+					</div>
+
+				</form>
+
+			</td>
+			<td width=10%> <br> </td>
+			<td width=35%>
+
+				<br>
+				<form ng-submit="register(user)">
+					<div align="center">
+						<h1>Register</h1></div>
+					<br>
+					<div align="right">Username:
+						<input ng-model="user.rName"></input>
+					</div>
+
+					<div align="right">Password:
+						<input type="password" ng-model="user.pwd1"></input>
+					</div>
+					<div align="right">Re-type password:
+						<input type="password" ng-model="user.pwd2"></input>
+					</div>
+
+					<br>
+					<div align="center">
+						<button>Register</button>
+					</div>
+				</form>
+
+			</td>
+			<td width=30%></td>
+		</tr>
+
+	</table>
+
+</div>
