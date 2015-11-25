@@ -331,7 +331,7 @@
 								////console.log('opening')
 
 								$rootScope._id = response.opentablenum
-								$scope.wPlayer = response.opentablecolor
+								$rootScope.wPlayer = response.opentablecolor
 								$scope.opponentsName = response.opponentsname
 								$rootScope.pollNum = 0
 
@@ -564,13 +564,36 @@
 		
 			var tt=[]
 			
-			for(var i=0; i<8; i++) {
-				tt[i]=[]
-				for(var j=0; j<8; j++) {
-					tt[i][j]=$rootScope.table[j][7-i]
-					if((i+j)&1)tt[i][j][7]=true
+			
+			if($rootScope.wPlayer){				
+				
+				for(var i=0; i<8; i++) {
+					tt[i]=[]
+					for(var j=0; j<8; j++) {
+						tt[i][j]=$rootScope.table[j][7-i]
+						if((i+j)&1)tt[i][j][7]=true
+					}
 				}
+				
+			}else{
+				
+				for(var i=0; i<8; i++) {
+					tt[i]=[]
+					for(var j=0; j<8; j++) {
+						tt[i][j]=$rootScope.table[7-j][i]
+						if((i+j)&1)tt[i][j][7]=true
+					}
+				}
+				
+				
+				
+				
+				
+				
 			}
+				
+			
+			
 			
 			$rootScope.sTable=tt
 			
@@ -612,10 +635,10 @@
 				
 				$rootScope.updateSizes()
 				
-				if($scope.wPlayer){
-						$scope.drTable("wtable.html")
+				if($rootScope.wPlayer){
+						$scope.drTable("/wtable.html")
 				}else{
-					$scope.drTable("btable.html")
+					$scope.drTable("/btable.html")
 				}
 			}else{
 				if(viewName == 'login.html'){
@@ -641,7 +664,7 @@
 		}
 		
 		$scope.drTable = function(viewName) {
-			$scope.draTable = viewName;
+			$rootScope.draTable = viewName;
 		}
 		$rootScope.showView = function(viewName) {
 			$rootScope.viewName = viewName;
@@ -669,8 +692,8 @@
 			var y = clickedField[1]
 			var clickedColor = false
 			
-		//console.log('testing',$rootScope.table[x][y][5] , $rootScope.tempMoveString.length ,$rootScope.wNext , $scope.wPlayer)	
-			if((!($rootScope.table[x][y][5] == []) || $rootScope.tempMoveString.length > 0) && $rootScope.wNext == $scope.wPlayer) {
+		//console.log('testing',$rootScope.table[x][y][5] , $rootScope.tempMoveString.length ,$rootScope.wNext , $rootScope.wPlayer)	
+			if((!($rootScope.table[x][y][5] == []) || $rootScope.tempMoveString.length > 0) && $rootScope.wNext == $rootScope.wPlayer) {
 
 				if(clickedString == $rootScope.tempMoveString) {
 					$rootScope.table[x][y][8] = false
