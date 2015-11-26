@@ -7,8 +7,69 @@ importScripts('js/httpreq.js')
 //test
 simpleGet('/forceStop?t=99',function(res){
 	console.log('returned: ',res)
-	alert('returned')
+	//alert('returned')
 })
+
+var taskNum=1
+var sendID='temp '+Math.random()
+var mySpeed=1			//temp
+var speedTestNum=1		//temp
+var pollOn=true
+
+var longPollTasks = function() {
+	////console.log($scope.workerSpeed)
+
+	simpleGet('/longPollTasks?id=' + sendID + '&tn=' + taskNum + '&spd=' + mySpeed + '&stn=' + speedTestNum,function(res) {
+
+			// 1 task received
+
+			console.log('mw: task received: ',res.response)
+
+			taskNum = res.response.taskNum
+
+			
+			
+			//$scope.sendMessage('task #' + response.data.taskNum + ' received, ' + response.data.command + ': ' + response.data.message)
+
+			//$scope.doTask(response.data)
+
+
+			//  if($scope.idle){
+			if (pollOn) longPollTasks() //recall for new task, server might hold any new task until this one finishes
+				//}
+		})//, function(data) {
+			//error, retry
+		// 	$scope.receivedMessage = 'error'
+		// 	$scope.refreshWhenUp() //retry kene?
+		// })
+
+}
+
+longPollTasks()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

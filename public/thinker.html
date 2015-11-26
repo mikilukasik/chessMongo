@@ -504,7 +504,7 @@
 			if (typeof(mainWorker) == "undefined") {
 				$scope.sendMessage('starting mainWorker..')
 					////////console.log('starting mainWorker..')
-				mainWorker = new Worker("mainaiworker.js");
+				mainWorker = new Worker("mainworker.js");
 			} else {
 				$scope.sendMessage('!!! tried to start already running main worker !!!')
 			}
@@ -520,7 +520,7 @@
 				//$scope.sendMessage("subWorkers started: 0")
 			while (workerToStrart < $scope.maxWorkerNum) {
 
-				subWorkers[workerToStrart] = new Worker("aiworker.js");
+				subWorkers[workerToStrart] = new Worker("subworker.js");
 
 
 				//put subworkers listeners here
