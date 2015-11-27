@@ -18,55 +18,34 @@
 
 
 
-		///////////////////////////	global var defs	/////////////////////////////////
-
-		//$scope.heartBeat = 300
-		//$scope.mv = 0
-		//$scope.pw = false
-		//$scope.pollsPending = 0
-		
-		//$scope.speedTestNum=0
-
 
 		var maxWorkerNum = 8
 		var nextWorkerNum = 0
 
-
-		$scope.workingOnTableNum = 0
-		
-		
-		$scope.toPostSplitMoves = []
-
-
-
-		////////////////////////	some worker stuff	//////////////////////////////
 
 		var mainWorker;
 		var subWorkers = []
 
 
 		function checkWorkerSupport() {
+			
 			if (typeof(Worker) != 'undefined') return true
+			
 			return false
 		}
 
-		$scope.workerSupport = checkWorkerSupport()
-
-		if ($scope.workerSupport) {
-			$scope.workerSupportMessage = 'HTML5 Web Workers supported.'
-
-		} else {
-			$scope.workerSupportMessage = 'No Web Workers support.'
-		}
-
+		var workerSupport = checkWorkerSupport()
 
 		function ifWorkers(cb, nocb) {
-			if ($scope.workerSupport) {
+			if (workerSupport) {
+				
 				cb()
+				
 			} else {
-				//$scope.sendMessage($scope.workerSupportMessage)
+				
 				nocb()
 			}
+			
 		}
 
 
@@ -104,71 +83,76 @@
 
 		//init cookie vars
 
-		$scope.cookieID = ""
-		$scope.workerSpeed = ""
-		$scope.mainThreadSpeed = ""
-		$scope.rndID=""
+		var cookieID = ""
+		var workerSpeed = ""
+		var mainThreadSpeed = ""
+		var rndID=""
 
 
 		//load cookies
 
-		$scope.cookieID = getCookie("myID");
-		$scope.rndID = getCookie("rndID");
-		$scope.mainThreadSpeed = Number(getCookie("mainThreadSpeed"));
-		$scope.workerSpeed = Number(getCookie("workerSpeed"));
+		cookieID = getCookie("myID");
+		rndID = getCookie("rndID");
+		mainThreadSpeed = Number(getCookie("mainThreadSpeed"));
+		workerSpeed = Number(getCookie("workerSpeed"));
+		
 
-		if ($scope.workerSpeed == "" || isNaN($scope.workerSpeed)) {
+		if (workerSpeed == "" || isNaN(workerSpeed)) {
 
-			$scope.workerSpeed = 1 //temp val before first test		//should this be 0????
-		} else {
-			//$scope.workerSpeed = $scope.cookieID
-		}
-
-		if ($scope.cookieID == "") {
+			workerSpeed = 1 //temp val before first test		//should this be 0????
 			
-			if($scope.rndID == ""){
-				$scope.rndID = Math.floor(Math.random() * 1000000000000000)
-				setCookie("rndID", $scope.rndID, 365)
+		}
+		
+		var sendID;
+
+		if (cookieID == "") {
+			
+			if(rndID == ""){
+				rndID = Math.floor(Math.random() * 1000000000000000)
+				setCookie("rndID", rndID, 365)
 			}
 			
-			$scope.sendID=$scope.rndID
+			sendID=rndID
 
 			
 		} else {
-			$scope.sendID = $scope.cookieID
+			
+			sendID = cookieID
+			
 		}
 
-		$scope.setID = function(id) {
+		var setID = function(id) {
+			
 			setCookie("myID", id, 365)
-			$scope.cookieID = id
-			$scope.sendID = id
+			cookieID = id
+			sendID = id
 
-			//should send some rename info to server!!!!!!!!!!!!!!!!!!!!!
+			//should send some rename info to server to rename me!!!!!!!!!!!!!!!!!!!!!
 
 
 		}
 		
-		$scope.setWorkerSpeed = function(count, time) {
+		var setWorkerSpeed = function(count, time) {
 			
 			var tempSpeed=Number(count) / Number(time)
 			
-			var percDiff=Math.floor(tempSpeed/Number($scope.workerSpeed)*100)
+			var percDiff=Math.floor(tempSpeed/Number(workerSpeed)*100)
 			
-			tempSpeed=($scope.workerSpeed+2*tempSpeed)/3		//average of last few
+			tempSpeed=(workerSpeed+2*tempSpeed)/3		//average of last few
 			
-			$scope.workerSpeed = tempSpeed
+			workerSpeed = tempSpeed
 	
-			setCookie("workerSpeed", $scope.workerSpeed, 365)
+			setCookie("workerSpeed", workerSpeed, 365)
 			
 			return percDiff
 				
 		}
 
 
-		$scope.setSpeedCookies = function() {
+		var setSpeedCookies = function() {
 
-			//setCookie("mainThreadSpeed", $scope.mainThreadSpeed, 365);
-			$scope.setWorkerSpeed($scope.workerSpeed,1)
+			//setCookie("mainThreadSpeed", mainThreadSpeed, 365);
+			setWorkerSpeed(workerSpeed,1)
 			
 			
 
@@ -262,8 +246,8 @@
 				reqCommand:'start',
 				reqMessage:'start',
 				reqData:{
-					sendID: $scope.sendID,
-					mySpeed: $scope.workerSpeed,
+					sendID: sendID,
+					mySpeed: workerSpeed,
 					maxWorkerNum: maxWorkerNum
 				}
 			})
@@ -320,30 +304,30 @@
 
 
 
-		$scope.refreshWhenUp = function() {
+		// $scope.refreshWhenUp = function() {
 
-			$http.get('/forceStop?t=' + $scope._id)
-				.then(function(response) {
-					$scope.setSpeedCookies()
-					$scope.succeeded++
-						////$scope.sendMessage('connection came back, will restart soon..')
-						$scope.receivedMessage = 'restart in 10s'
-					if ($scope.succeeded > 3) { //server must be running
-						$scope.succeeded = 0
-						//$scope.sendMessage('refreshing window..')
-						window.location.reload(true); ////$scope.sendMessage('looped, forceStop sent')
-					} else {
+		// 	$http.get('/forceStop?t=' + $scope._id)
+		// 		.then(function(response) {
+		// 			$scope.setSpeedCookies()
+		// 			$scope.succeeded++
+		// 				////$scope.sendMessage('connection came back, will restart soon..')
+		// 				$scope.receivedMessage = 'restart in 10s'
+		// 			if ($scope.succeeded > 3) { //server must be running
+		// 				$scope.succeeded = 0
+		// 				//$scope.sendMessage('refreshing window..')
+		// 				window.location.reload(true); ////$scope.sendMessage('looped, forceStop sent')
+		// 			} else {
 
-						$timeout($scope.refreshWhenUp(), 3000)
-					}
+		// 				$timeout($scope.refreshWhenUp(), 3000)
+		// 			}
 
 
-				}, function(data) {
-					$scope.receivedMessage = 'connection error, 3s retry'
-					$scope.succeeded = 0
-					$timeout($scope.refreshWhenUp(), 3000)
-				})
-		}
+		// 		}, function(data) {
+		// 			$scope.receivedMessage = 'connection error, 3s retry'
+		// 			$scope.succeeded = 0
+		// 			$timeout($scope.refreshWhenUp(), 3000)
+		// 		})
+		// }
 
 
 		function sendToWorker(command,data) {
