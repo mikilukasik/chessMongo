@@ -7,16 +7,27 @@
 	<script src="engine.js"></script>
 
 <style>
+
+.thinkerTable {
+	height:60%;
+}
+	
 table, td  {
   border: 1px solid grey;
   border-collapse: collapse;
   padding: 5px;
+  
 }
 table tr:nth-child(odd)	{
   background-color: #f1f1f1;
 }
 table tr:nth-child(even) {
   background-color: #ffffff;
+}
+
+.msgs{
+	vertical-align:bottom;
+	height:80%
 }
 </style>
 
@@ -175,7 +186,7 @@ table tr:nth-child(even) {
 	<span ng-repeat="x in modTypes track by $index"> {{x}} </span> Tasks in queue: {{taskQ}}
 
 	<br> Known thinkers:
-	<table style="table-layout: fixed">
+	<table style="table-layout: fixed" class="thinkerTable">
 		<tr>
 		<td ng-repeat="x in knownThinkers track by $index">
 
@@ -203,7 +214,7 @@ table tr:nth-child(even) {
 	
 		
 		<tr>
-		<td ng-repeat="x in knownThinkers track by $index" style="vertical-align:bottom">
+		<td ng-repeat="x in knownThinkers track by $index" class="msgs">
 
 			
 			<div ng-repeat="y in x.messages track by $index">{{y}}</div>

@@ -719,8 +719,10 @@ function postThinkerMessage(thinker, message){
 }
 app.post('/thinkerMessage', function(req, res) {
 	var thinker = knownThinkers[doIKnow(req.body.thinker)]
+	//console.log(req)
 	postThinkerMessage(thinker,req.body.message)
 	res.send('ok')
+	//fdz
 })
 
 app.post('/myPartIsDone', function(req, res) {

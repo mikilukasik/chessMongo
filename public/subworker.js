@@ -41,20 +41,34 @@ onmessage = function(event) {
 
 			break;
 			
-			case 'solveSdt':
+			case 'solveSDT':
 			
 			
-			////console.log('solveSdt in worker')
-			
-			resMessage = 'sdtSolved'
-			//var ranCount=0
-			resData = solveDeepeningTask(reqData,'sdt')//,ranCount)
-			resData._id=reqData._id
-			//resData.ranCount=ranCount
-			////console.log(ranCount)
-			resCommand = 'sdtSolved'
-
-			////console.log('solveSdt goes back to main thread')
+				////console.log('solveSdt in worker')
+				
+				resCommand = 'toMain'
+				resMessage = 'toMain solveSDT'
+				
+				var result=solveDeepeningTask(reqData,'sdt')
+				result._id=reqData._id
+				
+				
+				resData = {
+					command: 'sdtSolved',
+					data: result,
+					
+				}
+				
+				
+				// resMessage = 'sdtSolved'
+				// //var ranCount=0
+				// resData = solveDeepeningTask(reqData,'sdt')//,ranCount)
+				// resData._id=reqData._id
+				// //resData.ranCount=ranCount
+				// ////console.log(ranCount)
+				// resCommand = 'sdtSolved'
+	
+				////console.log('solveSdt goes back to main thread')
 			
 
 			break;
@@ -96,4 +110,4 @@ onmessage = function(event) {
 
 
 
-////////////////////worker func end
+/////////////////////worker func end

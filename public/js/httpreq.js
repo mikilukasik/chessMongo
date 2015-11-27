@@ -4,6 +4,8 @@
 
 //simple XHR request in pure JavaScript
 
+
+
 var getXhr = function(){
 	
 	var xhr;
@@ -32,23 +34,6 @@ function simpleGet(url, callback, ecb) {
 	
 	var xhr=getXhr();
 
-	// if(typeof XMLHttpRequest !== 'undefined') xhr = new XMLHttpRequest();
-	// else {
-	// 	var versions = ["MSXML2.XmlHttp.5.0", 
-	// 		 	"MSXML2.XmlHttp.4.0",
-	// 		 	"MSXML2.XmlHttp.3.0", 
-	// 		 	"MSXML2.XmlHttp.2.0",
-	// 		 	"Microsoft.XmlHttp"]
-
-	// 	for(var i = 0, len = versions.length; i < len; i++) {
-	// 	try {
-	// 		xhr = new ActiveXObject(versions[i]);
-	// 		break;
-	// 	}
-	// 		catch(e){}
-	// 	} // end for
-	// }
-		
 	xhr.onreadystatechange = ensureReadiness;
 		
 	function ensureReadiness() {
@@ -85,23 +70,6 @@ function simplePost(url, postThis, callback, ecb) {
 	
 	var xhr=getXhr();
 
-	// if(typeof XMLHttpRequest !== 'undefined') xhr = new XMLHttpRequest();
-	// else {
-	// 	var versions = ["MSXML2.XmlHttp.5.0", 
-	// 		 	"MSXML2.XmlHttp.4.0",
-	// 		 	"MSXML2.XmlHttp.3.0", 
-	// 		 	"MSXML2.XmlHttp.2.0",
-	// 		 	"Microsoft.XmlHttp"]
-
-	// 	for(var i = 0, len = versions.length; i < len; i++) {
-	// 	try {
-	// 		xhr = new ActiveXObject(versions[i]);
-	// 		break;
-	// 	}
-	// 		catch(e){}
-	// 	} // end for
-	// }
-		
 	xhr.onreadystatechange = ensureReadiness;
 		
 	function ensureReadiness() {
@@ -128,6 +96,7 @@ function simplePost(url, postThis, callback, ecb) {
 	}
 		
 	xhr.open('POST', url, true);
-	xhr.send(postThis);
+	xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+	xhr.send(JSON.stringify(postThis));
 }
 	
