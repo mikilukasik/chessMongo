@@ -5,90 +5,106 @@ importScripts('js/classes.js')
 importScripts('js/httpreq.js')
 
 //test
-simpleGet('/forceStop?t=99',function(res){
-	console.log('returned: ',res)
-	//alert('returned')
+simpleGet('/forceStop?t=99', function(res) {
+	console.log('returned: ', res)
+		//alert('returned')
 })
 
-var taskNum=1
-var sendID='temp '+Math.random()
-var mySpeed=1			//temp
-var speedTestNum=1		//temp
-var pollOn=true
+var sendID
+var mySpeed
+var maxWorkerNum
 
-var longPollTasks = function() {
-	////console.log($scope.workerSpeed)
 
-	simpleGet('/longPollTasks?id=' + sendID + '&tn=' + taskNum + '&spd=' + mySpeed + '&stn=' + speedTestNum,function(res) {
+var pendingLongEchoes
 
-			// 1 task received
+var longPollOnHold
 
-			console.log('mw: task received: ',res.response)
 
-			taskNum = res.response.taskNum
 
+
+var pollOn = true		//we only make this false before restart
+
+var longPollTasks = function(taskNum,sendID,mySpeed) {	
+	
+	
+	var speedTestNum = 1 //temp
+	
+
+	simpleGet('/longPollTasks?id=' + sendID + '&tn=' + taskNum + '&spd=' + mySpeed + '&stn=' + speedTestNum, 
+		
+		function(res) {
+		// 1 task received
+			var task=eval("(" + res.response + ')')		//http://stackoverflow.com/questions/45015/safely-turning-a-json-string-into-an-object
+			
+			console.log('mw: task received: ', task)
+			
+			switch(task.command){
+				
+				case 'longEcho':
+					//
+					
+					pendingLongEchoes=maxWorkerNum
+					
+					pollOn=false
+					
+					longPollOnHold=function(){
+						longPollTasks(taskNum+1,sendID,mySpeed)
+					}
+					
+					
+					for(var i=maxWorkerNum-1;i>=0;i--){
+						
+						toSub('longEcho',{})
+						
+						
+					}
+		
+			break;
+			
+				
+				
+				
+			}
+
+			//taskNum = res.response.taskNum
+
+			if (pollOn){
+				
+				console.log('mw: pollOn true, recalling longPollTasks (task '+(taskNum+1)+')')
+				longPollTasks(taskNum+1,sendID,mySpeed) //recall for new task, server might hold any new task until this one finishes
+			
+			} 	
+		},function(err){
+					
+			if (pollOn) {
+					
+				console.log('mw: longPollTasks returned error, waiting 2 secs')
+		
+				setTimeout(function(){
+					
+					console.log('mw: retrying longPollTasks (task '+(taskNum)+')')
+					
+					longPollTasks(taskNum,sendID,mySpeed) 
+				},2000)
+			}
 			
 			
-			//$scope.sendMessage('task #' + response.data.taskNum + ' received, ' + response.data.command + ': ' + response.data.message)
-
-			//$scope.doTask(response.data)
-
-
-			//  if($scope.idle){
-			if (pollOn) longPollTasks() //recall for new task, server might hold any new task until this one finishes
-				//}
-		})//, function(data) {
-			//error, retry
-		// 	$scope.receivedMessage = 'error'
-		// 	$scope.refreshWhenUp() //retry kene?
-		// })
-
+			
+		}) 
+		
 }
 
-longPollTasks()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
 onmessage = function(event) {
 
 	var reqCommand = event.data.reqCommand
 	var reqData = event.data.reqData;
-	var reqMessage = event.data.reqMessage;
+	// var reqMessage = event.data.reqMessage;
 
-	var resData;
-	var resCommand;
-	var resMessage;
-
+	// var resData;
+	// var resCommand;
+	// var resMessage;
+	
+	console.log('mainWorker onmessage event.data: ',event.data)
 
 	switch (reqCommand) {
 		case undefined:
@@ -96,66 +112,68 @@ onmessage = function(event) {
 			break;
 
 		case 'echo':
-//
-			resMessage = 'echo'
-			resData = reqData
-			resCommand = 'reEcho'
-
+			
+			// resMessage = 'echo: '+reqMessage
+			// resData = reqData
+			// resCommand = 'reEcho'
 
 			break;
 			
-			case 'solveSdt':
+		case 'retLongEcho':
 			
+			pendingLongEchoes--
 			
-			////console.log('solveSdt in worker')
-			
-			resMessage = 'sdtSolved'
-			//var ranCount=0
-			resData = solveDeepeningTask(reqData,'sdt')//,ranCount)
-			resData._id=reqData._id
-			//resData.ranCount=ranCount
-			////console.log(ranCount)
-			resCommand = 'sdtSolved'
-
-			////console.log('solveSdt goes back to main thread')
-			
-
-			break;
-
-		case 'speedTest':
-
-			resMessage = 'speedTest done'
-				//reqData=reqData
-			resData = {
-				speed: checkSpeed(),
-				worker: reqData.worker
+			if(pendingLongEchoes==0){
+				console.log('hurray')
+				pollOn=true
+				longPollOnHold()
 			}
-			resCommand = 'speedTest'
-
 
 			break;
-
-		case 'bullShit':
-
-			resMessage = 'dont bullshit'
-			resData = undefined
-			resCommand = 'bullshit'
-
+			
+			
+			
+		case 'start':
+			
+			//setting main vars
+			sendID=reqData.sendID
+			mySpeed=reqData.mySpeed
+			maxWorkerNum=reqData.maxWorkerNum
+			
+			
+			longPollTasks(1,sendID,mySpeed)		//initial longpoll
+			
+		
 			break;
+	
 
 	}
 
-
-	postMessage({
-		// command:undefined,
-		'resMessage': resMessage,
-		'resData': resData,
-		'resCommand': resCommand
-	});
-
+	// postMessage({
+	// 	// command:undefined,
+	// 	'resMessage': resMessage,
+	// 	'resData': resData,
+	// 	'resCommand': resCommand
+	// });
 
 };
 
+function toSub(command,data){
+	
+	
+	
+	postMessage({
+		'resCommand': 'toSub',
+		'resMessage': 'toSub',
+		'resData':	{
+						command:command,
+						data:data
+					}
+		
+	})
+	
+	
+}
 
 
 

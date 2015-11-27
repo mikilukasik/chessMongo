@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({
 	extended: false
 }));
 
-//var io = require('socket.io')(httpServ);
+///var io = require('socket.io')(httpServ);
 
 app.use(express.static('public'))
 app.use(morgan("combined"))
@@ -327,7 +327,7 @@ app.get('/startAllLearners', function(req, res) {
 app.get('/echoTestAll', function(req, res) {
 	//////////// //////console.log(req)
 	//sendToAll('learnStart','learnStart all')
-	sendToAll(new Task('echoTest', 0, 'echoTest all'))
+	sendToAll(new Task('longEcho', 0, 'echoTest all'))
 	res.end()
 
 });

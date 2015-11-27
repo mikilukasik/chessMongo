@@ -236,6 +236,24 @@
 			//check resCommand
 
 			switch (event.data.resCommand) {
+				
+				
+				//case ''
+				
+				case 'toMain':
+				
+					mainWorker.postMessage	
+					
+						({
+																
+							reqCommand: event.data.resData.command,			//string
+							reqData: event.data.resData.data
+							
+						})
+				
+					
+				
+				break;
 
 				case 'sdtSolved':
 				
@@ -322,7 +340,7 @@
 									//should do the rest of the speedTests here!!!!!!!
 									
 									
-								longPollTasks() //start initial longpoll
+								//!!!!!!!!!!!!!!temp longPollTasks() //start initial longpoll
 
 							} else {
 								
@@ -495,6 +513,32 @@
 			}
 
 		}
+		
+		
+		mainWorkerMsgInThinker = function(event) {
+			
+
+			switch (event.data.resCommand) {
+				
+				case 'toSub':
+				
+					nextSubWorker(subWorkers).postMessage	
+					
+						({
+																
+							reqCommand: event.data.resData.command,			//string
+							reqData: event.data.resData.data
+							
+						})
+				
+					
+				
+				break;
+				
+			}
+		}
+				
+				
 
 		function startWorkers() {
 			//if(typeof(Worker) !== "undefined") {
@@ -505,16 +549,33 @@
 				$scope.sendMessage('starting mainWorker..')
 					////////console.log('starting mainWorker..')
 				mainWorker = new Worker("mainworker.js");
+				mainWorker.onmessage = mainWorkerMsgInThinker
+				
+				$scope.sendMessage('mainWorker started.')
+				
+				
 			} else {
 				$scope.sendMessage('!!! tried to start already running main worker !!!')
 			}
 
-			//temp   mainWorker.onmessage = mainWorkerMsgInThinker
+			
 
 			//subworker listener:
 			//subWorkers[subWorkerNo].onmessage = subWorkerMsgInThinker
 
-			$scope.sendMessage("mainWorker should be running, starting subWorkers..")
+			$scope.sendMessage("mainWorker should be running, starting longPollTasks..")
+			
+			mainWorker.postMessage({
+				reqCommand:'start',
+				reqMessage:'start',
+				reqData:{
+					sendID: $scope.sendID,
+					mySpeed: $scope.workerSpeed,
+					maxWorkerNum: $scope.maxWorkerNum
+				}
+			})
+			
+			$scope.sendMessage("starting subWorkers..")
 
 			var workerToStrart = 0
 				//$scope.sendMessage("subWorkers started: 0")
@@ -840,48 +901,9 @@
 				moveInTable(aiMoveString, myGame, true) //true means learnerGame,no need to eval within moveintable
 
 
-				///replace this!!!
-				// var toPush = String(myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][0]) + //color of whats moving
-				// 	myGame.table[dletters.indexOf(aiMoveString[0])][aiMoveString[1] - 1][1] + //piece
-				// 	aiMoveString + //the string
-				// 	myGame.table[dletters.indexOf(aiMoveString[2])][aiMoveString[3] - 1][0] + //color of whats hit
-				// 	myGame.table[dletters.indexOf(aiMoveString[2])][aiMoveString[3] - 1][1] //piece
-
-				// +new String(new Date().getTime())
-
-				// // if(!(toPush==myGame.moves[myGame.moves.length-1])){
-				// myGame.moves.push(toPush)
-
-				// myGame.table = moveIt(aiMoveString, myGame.table)
-				// $scope.showTable(myGame.table)
-
-				// myGame.wNext = !myGame.wNext
-
-				// myGame.pollNum++
-
-				// myGame.moved = new Date().getTime()
-
-				// myGame.table = addMovesToTable(myGame.table, myGame.wNext)
-
-				// //remember this state for 3fold rule
-
-				// myGame.allPastTables.push(createState(myGame.table))
-
-				// $scope.whatToDo = 'idle'
-
-				//}
 			} else {
 				//////console.log('Game finished on table ' + myGame._id + ', evaluating..')
 				evalGame(myGame, true)
-
-				// myGame.learnerStats={
-				//     modType: mt,
-				//     modVal: modVal,
-				//     modConst: modConst
-
-				// }
-
-				//////console.log(myGame)
 
 				myGame.pollNum++
 
@@ -892,9 +914,7 @@
 
 
 			}
-			// 	
-			//if($scope.learning){
-
+			
 
 			if (myGame.pollNum / 15 == Math.floor(myGame.pollNum / 15)) {
 				$http.post('/moved', myGame, function(req, res) {})

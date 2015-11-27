@@ -29,6 +29,18 @@ onmessage = function(event) {
 
 			break;
 			
+			
+			case 'longEcho':
+//
+			resMessage = 'toMain longEcho'
+			resData = {
+				command: 'retLongEcho'
+			}
+			resCommand = 'toMain'
+
+
+			break;
+			
 			case 'solveSdt':
 			
 			
