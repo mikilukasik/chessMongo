@@ -2,8 +2,12 @@
 				
 					
 					<tr>
-						<td nowrap class="wBorder"> Depth:
-							<input ng-model="depth" ng-init="3" style="width:40px">
+						<td nowrap class="wBorder"> 
+							<form ng-submit="setDepth(depth)">
+								Depth:
+								<input ng-model="depth" style="width:40px">
+								<button>Set</button>
+							</form>
 							<br>
 							<button ng-click="takeItBack()">Oooops!!</button>
 							<br> Pollnum: {{pollNum}}
@@ -14,8 +18,8 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="wBorder">
-							<div class="scrollThis lbborder">
+						<td class="wBorder scrollThis">
+							<div class="lbborder">
 								<div ng-repeat="x in moves">
 									<img ng-src="{{'cPiecesPng/'+x[0]+x[1]+'.png'}}" style="width: 15%">
 									{{x[2]+x[3]+x[4]+x[5]}}

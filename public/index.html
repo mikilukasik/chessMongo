@@ -16,6 +16,10 @@
 
 	function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
 		
+		$scope.setDepth=function(depth){
+			$rootScope.depth=depth
+		}
+		
 		$rootScope.updateSizes=function(){
 			
 			var sw=window.innerWidth
@@ -514,7 +518,7 @@
 			
 			
 			dbTable._id=$rootScope.tableId
-			dbTable.desiredDepth=$scope.depth
+			dbTable.desiredDepth=$rootScope.depth
 			
 			$http.post('/moved',dbTable,function(req,res){
 				$rootScope.table=dbTable.table

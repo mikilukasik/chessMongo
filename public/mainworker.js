@@ -117,28 +117,7 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 			
 			switch(task.command){
 				
-				case 'longEcho':
-					//
-					longEchoStarted=new Date().getTime()
-					
-					pendingLongEchoes=maxWorkerNum
-					
-					pollOn=false
-					
-					longPollOnHold=function(){
-						longPollTasks(taskNum+1,sendID,mySpeed)
-					}
-					
-					
-					for(var i=maxWorkerNum-1;i>=0;i--){
-						
-						toSub('longEcho',{})
-						
-						
-					}
-		
-			break;
-			
+				
 				case "splitMove":
 
 					
@@ -161,13 +140,6 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 							
 							workingOnTableNum = task.data[0]._id
 
-
-							//ifWorkers(function() {
-								//workers supported, let's calc 
-
-								
-
-								//var splitMoveCount = task.data.length	//kell ez???
 								
 								totalSplitMovesReceived = task.data.length //we need this to know when we worked them all out
 
@@ -197,7 +169,45 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 					break;
 
 			
-				
+				case 'longEcho':
+					//
+					longEchoStarted=new Date().getTime()
+					
+					pendingLongEchoes=maxWorkerNum
+					
+					pollOn=false
+					
+					longPollOnHold=function(){
+						longPollTasks(taskNum+1,sendID,mySpeed)
+					}
+					
+					
+					for(var i=maxWorkerNum-1;i>=0;i--){
+						
+						toSub('longEcho',{})
+						
+						
+					}
+		
+			break;
+			case 'refresh':
+			
+					//asking main thread to refresh all web workers
+					
+					
+					pollOn=false
+					
+						
+						postMessage({
+										'resCommand': 'refreshUs',
+										'resMessage': 'refreshUs',
+										'resData':	{}
+		
+									})
+					
+		
+			break;
+			
 				
 				
 			}
