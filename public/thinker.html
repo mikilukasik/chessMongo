@@ -20,16 +20,16 @@
 
 		///////////////////////////	global var defs	/////////////////////////////////
 
-		$scope.heartBeat = 300
-		$scope.mv = 0
-		$scope.pw = false
-		$scope.pollsPending = 0
+		//$scope.heartBeat = 300
+		//$scope.mv = 0
+		//$scope.pw = false
+		//$scope.pollsPending = 0
 		
-		$scope.speedTestNum=0
+		//$scope.speedTestNum=0
 
 
-		$scope.maxWorkerNum = 8
-		$scope.nextWorkerNum = 0
+		var maxWorkerNum = 8
+		var nextWorkerNum = 0
 
 
 		$scope.workingOnTableNum = 0
@@ -71,12 +71,12 @@
 
 
 		var nextSubWorker = function(subWorkers) {
-			if ($scope.nextWorkerNum < $scope.maxWorkerNum - 1) {
-				$scope.nextWorkerNum++
+			if (nextWorkerNum < maxWorkerNum - 1) {
+				nextWorkerNum++
 			} else {
-				$scope.nextWorkerNum = 0
+				nextWorkerNum = 0
 			}
-			return subWorkers[$scope.nextWorkerNum]
+			return subWorkers[nextWorkerNum]
 		}
 
 
@@ -264,7 +264,7 @@
 				reqData:{
 					sendID: $scope.sendID,
 					mySpeed: $scope.workerSpeed,
-					maxWorkerNum: $scope.maxWorkerNum
+					maxWorkerNum: maxWorkerNum
 				}
 			})
 			
@@ -272,7 +272,7 @@
 
 			var workerToStrart = 0
 				
-			while (workerToStrart < $scope.maxWorkerNum) {
+			while (workerToStrart < maxWorkerNum) {
 
 				subWorkers[workerToStrart] = new Worker("subworker.js");
 
@@ -296,7 +296,7 @@
 			mainWorker.terminate();
 			mainWorker = undefined;
 
-			for (var i = 0; i < $scope.maxWorkerNum; i++) {
+			for (var i = 0; i < maxWorkerNum; i++) {
 
 				subWorkers[i].terminate();
 				subWorkers[i] = undefined;
