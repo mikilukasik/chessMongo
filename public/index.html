@@ -10,6 +10,320 @@
 	<script src="js/classes.js"></script>
 
 	<script>
+		
+	//thinker stuff
+	
+	
+		// $scope.refreshWhenUp = function() {
+
+		// 	$http.get('/forceStop?t=' + $scope._id)
+		// 		.then(function(response) {
+		// 			$scope.setSpeedCookies()
+		// 			$scope.succeeded++
+		// 				////$scope.sendMessage('connection came back, will restart soon..')
+		// 				$scope.receivedMessage = 'restart in 10s'
+		// 			if ($scope.succeeded > 3) { //server must be running
+		// 				$scope.succeeded = 0
+		// 				//$scope.sendMessage('refreshing window..')
+		// 				window.location.reload(true); ////$scope.sendMessage('looped, forceStop sent')
+		// 			} else {
+
+		// 				$timeout($scope.refreshWhenUp(), 3000)
+		// 			}
+
+
+		// 		}, function(data) {
+		// 			$scope.receivedMessage = 'connection error, 3s retry'
+		// 			$scope.succeeded = 0
+		// 			$timeout($scope.refreshWhenUp(), 3000)
+		// 		})
+		// }
+
+		
+		var maxWorkerNum = 8
+		var nextWorkerNum = 0
+
+
+		var mainWorker;
+		var subWorkers = []
+
+
+		function checkWorkerSupport() {
+			
+			if (typeof(Worker) != 'undefined') return true
+			
+			return false
+		}
+
+		var workerSupport = checkWorkerSupport()
+
+		function ifWorkers(cb, nocb) {
+			if (workerSupport) {
+				
+				cb()
+				
+			} else {
+				
+				nocb()
+			}
+			
+		}
+
+
+		var nextSubWorker = function(subWorkers) {
+			if (nextWorkerNum < maxWorkerNum - 1) {
+				nextWorkerNum++
+			} else {
+				nextWorkerNum = 0
+			}
+			return subWorkers[nextWorkerNum]
+		}
+
+
+
+		//////////////////////////	cookie stuff	////////////////////////////////////////////////
+
+		function setCookie(cname, cvalue, exdays) {
+			var d = new Date();
+			d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+			var expires = "expires=" + d.toUTCString();
+			document.cookie = cname + "=" + cvalue + "; " + expires;
+		}
+
+		function getCookie(cname) {
+			var name = cname + "=";
+			var ca = document.cookie.split(';');
+			for (var i = 0; i < ca.length; i++) {
+				var c = ca[i];
+				while (c.charAt(0) == ' ') c = c.substring(1);
+				if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+			}
+			return "";
+		}
+
+
+		//init cookie vars
+
+		var cookieID = ""
+		var workerSpeed = ""
+		var mainThreadSpeed = ""
+		var rndID=""
+
+
+		//load cookies
+
+		cookieID = getCookie("myID");
+		rndID = getCookie("rndID");
+		mainThreadSpeed = Number(getCookie("mainThreadSpeed"));
+		workerSpeed = Number(getCookie("workerSpeed"));
+		
+
+		if (workerSpeed == "" || isNaN(workerSpeed)) {
+
+			workerSpeed = 1 //temp val before first test		//should this be 0????
+			
+		}
+		
+		var sendID;
+
+		if (cookieID == "") {
+			
+			if(rndID == ""){
+				rndID = Math.floor(Math.random() * 1000000000000000)
+				setCookie("rndID", rndID, 365)
+			}
+			
+			sendID=rndID
+
+			
+		} else {
+			
+			sendID = cookieID
+			
+		}
+
+		var setID = function(id) {
+			
+			setCookie("myID", id, 365)
+			cookieID = id
+			sendID = id
+
+			//should send some rename info to server to rename me!!!!!!!!!!!!!!!!!!!!!
+
+
+		}
+		
+		var setWorkerSpeed = function(count, time) {
+			
+			var tempSpeed=Number(count) / Number(time)
+			
+			var percDiff=Math.floor(tempSpeed/Number(workerSpeed)*100)
+			
+			tempSpeed=(workerSpeed+2*tempSpeed)/3		//average of last few
+			
+			workerSpeed = tempSpeed
+	
+			setCookie("workerSpeed", workerSpeed, 365)
+			
+			return percDiff
+				
+		}
+
+		var setSpeedCookies = function() {
+
+			setWorkerSpeed(workerSpeed,1)
+		
+		}
+
+		subWorkerMsgInThinker = function(event) {
+			//check resCommand
+
+			switch (event.data.resCommand) {
+				
+				case 'toMain':
+				
+					mainWorker.postMessage	
+					
+						({
+																
+							reqCommand: event.data.resData.command,			//string
+							reqData: event.data.resData.data
+							
+						})
+				
+					
+				
+				break;
+
+				
+
+			}
+
+
+
+
+		};
+
+
+
+		
+		mainWorkerMsgInThinker = function(event) {
+			
+
+			switch (event.data.resCommand) {
+				
+				case 'toSub':
+				
+					nextSubWorker(subWorkers).postMessage	
+					
+						({
+																
+							reqCommand: event.data.resData.command,			//string
+							reqData: event.data.resData.data
+							
+						})
+				
+					
+				
+				break;
+				
+				case 'refreshUs':
+				
+					refreshWorkers()
+				
+				break;
+				
+			}
+		}
+				
+				
+
+		function startWorkers() {
+			
+
+			if (typeof(mainWorker) == "undefined") {
+			
+				mainWorker = new Worker("mainworker.js");
+				mainWorker.onmessage = mainWorkerMsgInThinker
+			
+			}			
+			mainWorker.postMessage({
+				reqCommand:'start',
+				reqMessage:'start',
+				reqData:{
+					sendID: sendID,
+					mySpeed: workerSpeed,
+					maxWorkerNum: maxWorkerNum
+				}
+			})
+			
+	
+
+			var workerToStrart = 0
+				
+			while (workerToStrart < maxWorkerNum) {
+
+				subWorkers[workerToStrart] = new Worker("subworker.js");
+
+				var subWorkerNo = workerToStrart
+				
+				subWorkers[subWorkerNo].onmessage = subWorkerMsgInThinker
+
+				workerToStrart++
+
+				
+			}
+
+
+			//here we have all workers running
+
+		}
+
+
+
+		function stopWorkers() {
+			mainWorker.terminate();
+			mainWorker = undefined;
+
+			for (var i = 0; i < maxWorkerNum; i++) {
+
+				subWorkers[i].terminate();
+				subWorkers[i] = undefined;
+
+			}
+			
+			return
+
+		}
+
+
+
+		ifWorkers(startWorkers)
+		
+		var refreshWorkers=function(){
+			stopWorkers()
+			startWorkers()
+			
+		}
+
+		function sendToWorker(command,data) {
+
+			nextSubWorker(subWorkers).postMessage({
+				
+				reqCommand: command,			//string
+				reqData: data
+			})
+
+
+		}
+
+		// thinker stuff end		
+		
+		
+		
+		
+		
+		
 	var appModule = angular.module("appModule", []);
 
 	appModule.controller("ApplicationController", ApplicationController);
