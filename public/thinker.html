@@ -2,6 +2,35 @@
 	
 	<script>
 		
+		
+		
+
+		// $scope.refreshWhenUp = function() {
+
+		// 	$http.get('/forceStop?t=' + $scope._id)
+		// 		.then(function(response) {
+		// 			$scope.setSpeedCookies()
+		// 			$scope.succeeded++
+		// 				////$scope.sendMessage('connection came back, will restart soon..')
+		// 				$scope.receivedMessage = 'restart in 10s'
+		// 			if ($scope.succeeded > 3) { //server must be running
+		// 				$scope.succeeded = 0
+		// 				//$scope.sendMessage('refreshing window..')
+		// 				window.location.reload(true); ////$scope.sendMessage('looped, forceStop sent')
+		// 			} else {
+
+		// 				$timeout($scope.refreshWhenUp(), 3000)
+		// 			}
+
+
+		// 		}, function(data) {
+		// 			$scope.receivedMessage = 'connection error, 3s retry'
+		// 			$scope.succeeded = 0
+		// 			$timeout($scope.refreshWhenUp(), 3000)
+		// 		})
+		// }
+
+		
 		var maxWorkerNum = 8
 		var nextWorkerNum = 0
 
