@@ -100,6 +100,48 @@ function mwProcessDeepSplitMoves(data, thinker){//mt, modConst, looped) {
 			}
 			//return rtnData
 		}
+		
+var speedTestOn=false
+var speedTestStarted
+		
+function speedTest(){
+	
+	if (workingOnTableNum == 0) {
+		workingOnTableNum = -1				//speedTest tableNum
+		
+		
+		speedTestStarted = new Date()
+						.getTime()
+
+		totalSolved = 0
+
+		
+		var stTable= new FakeDbTable(-1)
+		
+		var aiTable = new MoveTask(stTable)
+		
+		splitMovesToProcess = aiTable.movesToSend
+		
+		totalSplitMovesReceived = splitMovesToProcess.length //we need this to know when we worked them all out
+
+		
+
+
+		
+		mwProcessDeepSplitMoves(splitMovesToProcess, sendID)
+		
+		
+		
+		
+		
+		
+	}else{
+		sendMessage("can't start speedTest, thinker is busy")
+	}
+	
+	
+	
+}
 
 var longPollTasks = function(taskNum,sendID,mySpeed) {	
 	
@@ -211,8 +253,17 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 			
 			case 'speedTest':
 					
-					if(mySpeed==1)mySpeed=0.99		//otherwise server would keep trying to test us
+					if(mySpeed==1)mySpeed=0.99		//at initial, temp, !!!!!!!!otherwise server would keep trying to test us
 					
+					//call speedtest
+					
+					pollOn=false
+					
+					longPollOnHold=function(speed){
+						longPollTasks(taskNum+1,sendID,speed)
+					}
+					
+					speedTest()
 					
 		
 			break;
@@ -352,47 +403,17 @@ onmessage = function(event) {
 
 						if (totalSplitMovesReceived - toPostSplitMoves.length == 0) {
 							//we worked out all the splitmoves
-
-							var postThis = toPostSplitMoves
-
-							postThis[0]._id = workingOnTableNum
 							
+							if(workingOnTableNum>0){
+								
 							
-							workingOnTableNum = 0 //available again
-							toPostSplitMoves = []
-							waitingSdts = []
-							
-							//var timeNow=new Date().getTime()
-							//var timeItTook2 = timeNow - initialWorkerSpeedTestStarted
-							//var timeItTook3 = timeNow - splitMoveStarted
-							
-
-							//var tempSpd
-							//var percDiff// = $scope.setWorkerSpeed($scope.totalSolved, timeItTook2)
-							
-
-							// if ($scope.initialSpeedTestOn) {
-							// 	$scope.initialSpeedTestOn = false
+								/////////////////real splitMove(s) from server finished
 								
-							// 	/////////////////initial speedTest finished
-							// 	$scope.speedTestNum=Math.random()
+								var postThis = toPostSplitMoves
+	
+								postThis[0]._id = workingOnTableNum
 								
-							// 	percDiff = $scope.setWorkerSpeed($scope.totalSolved, timeItTook2)
-							
-								
-							// 	$scope.sendMessage('workers t/ms: ' + Math.floor(($scope.totalSolved/ timeItTook2) * 100) / 100 + ' (' +percDiff + '%, '+ $scope.totalSolved + ' / '+timeItTook2+')')
-									
-									
-							// 		//should do the rest of the speedTests here!!!!!!!
-									
-									
-							// 	//!!!!!!!!!!!!!!temp longPollTasks() //start initial longpoll
-
-							//} else {
-								
-								/////////////////splitMove(s) finished
-								
-								
+										
 							
 								simplePost('/myPartIsDone', postThis, function(req, res) {
 								
@@ -400,11 +421,39 @@ onmessage = function(event) {
 								
 								})
 								
-								//temp!!!!!!!!percDiff = setWorkerSpeed(totalSolved, timeItTook3)
-							
-								//sendMessage('solved, t/ms: ' + Math.floor((totalSolved/ timeItTook3) * 100) / 100 + ' (' +percDiff + '%, '+ $scope.totalSolved + ' / '+timeItTook3+')')
 								
-							//}
+							}else{
+								if(workingOnTableNum==-1){
+									//speedTest finished
+									
+									var speedTestTook= new Date().getTime()-speedTestStarted
+									
+									mySpeed=1/speedTestTook
+									
+									// simplePost('/speedTest', {
+										
+									// 	speed:mySpeed
+										
+									// })
+									
+									pollOn=true
+									longPollOnHold(mySpeed)
+									
+									
+					
+									
+									
+								}else{
+									sendMessage(' this should never happen ')
+									
+								}
+							}
+							
+								workingOnTableNum = 0 //available again
+								toPostSplitMoves = []
+								waitingSdts = []
+									
+									
 
 							totalSolved=0
 
