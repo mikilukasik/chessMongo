@@ -1872,7 +1872,7 @@ app.get('/longPollTasks', function(req, res) {
 		// first poll
 		
 		var oldSpeed=knownThinkers[pollerIndex].spd
-		var newSpeed=Math.floor(req.query.spd*100)/100
+		var newSpeed=Math.floor(req.query.spd*100000)/100000
 
 		knownThinkers[pollerIndex].lastSeen = new Date()
 			.getTime()
@@ -1898,18 +1898,12 @@ app.get('/longPollTasks', function(req, res) {
 
 		clearPending(req.query.id)
 
-		// if(req.query.type='ping'){
-		// 	res.json({
-		// 		// should give update on not urgent stuff
-		// 		pacsi:'megvolt'
+		
 
 
-		// })
 	}
 
-	// else{ could do callHome here
-	// 	clearPending(req.query.id)}	//remove clients old pending polls so we always have the latest only
-	// }
+	
 
 
 	knownThinkers[pollerIndex].lastSeen = new Date()
@@ -1923,9 +1917,21 @@ app.get('/longPollTasks', function(req, res) {
 	])
 
 	var taskForMe = []
-
-
-	if (gotTask(taskForMe, req.query.id)) { //ez beleirja a taskformebe
+	
+	if(req.query.spd==1){
+		
+		//thinker doesn'tknow it's speed
+		//test it
+		
+		sendTask(new Task('speedTest',{},'speedTest'),req.query.id)
+		
+		
+		
+		
+		
+	}else{
+		
+		if (gotTask(taskForMe, req.query.id)) { //ez beleirja a taskformebe
 
 		//////// //////console.log('for me: '+taskForMe)
 		sendTask(taskForMe[0][0][0], taskForMe[0][0][1]) //why? !!!!!!!
@@ -1938,6 +1944,10 @@ app.get('/longPollTasks', function(req, res) {
 
 
 	}
+		
+	}
+
+	
 
 	captainPop()
 

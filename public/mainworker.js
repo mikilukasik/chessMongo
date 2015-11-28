@@ -113,7 +113,7 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 		// 1 task received
 			var task=eval("(" + res.response + ')')		//http://stackoverflow.com/questions/45015/safely-turning-a-json-string-into-an-object
 			
-			sendMessage('mw: command received: '+ task.command)
+			//sendMessage('mw: command received: '+ task.command)
 			
 			switch(task.command){
 				
@@ -208,6 +208,15 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 		
 			break;
 			
+			
+			case 'speedTest':
+					
+					if(mySpeed==1)mySpeed=0.99		//otherwise server would keep trying to test us
+					
+					
+		
+			break;
+			
 				
 				
 			}
@@ -272,7 +281,7 @@ onmessage = function(event) {
 				pollOn=true
 				longPollOnHold()
 				var longEchoTook=new Date().getTime()-longEchoStarted
-				sendMessage('longEcho done in '+longEchoTook+' ms.')
+				//sendMessage('longEcho done in '+longEchoTook+' ms.')
 			}
 
 			break;
