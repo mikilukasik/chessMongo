@@ -346,8 +346,12 @@ onmessage = function(event) {
 			mySpeed=reqData.mySpeed
 			maxWorkerNum=reqData.maxWorkerNum
 			
+			longPollOnHold=function(speed){
+						longPollTasks(1,sendID,speed)
+					}
 			
-			longPollTasks(1,sendID,mySpeed)		//initial longpoll
+			speedTest()
+			//longPollTasks(1,sendID,mySpeed)		//initial longpoll
 			
 		
 			break;
@@ -428,7 +432,7 @@ onmessage = function(event) {
 									
 									var speedTestTook= new Date().getTime()-speedTestStarted
 									
-									mySpeed=1/speedTestTook
+									mySpeed=1000/speedTestTook
 									
 									// simplePost('/speedTest', {
 										

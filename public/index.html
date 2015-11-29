@@ -243,7 +243,7 @@
 
 			if (typeof(mainWorker) == "undefined") {
 			
-				mainWorker = new Worker("mainworker.js");
+				mainWorker = new Worker("js/mainworker.js");
 				mainWorker.onmessage = mainWorkerMsgInThinker
 			
 			}			
@@ -263,7 +263,7 @@
 				
 			while (workerToStrart < maxWorkerNum) {
 
-				subWorkers[workerToStrart] = new Worker("subworker.js");
+				subWorkers[workerToStrart] = new Worker("js/subworker.js");
 
 				var subWorkerNo = workerToStrart
 				
