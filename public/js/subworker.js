@@ -1,7 +1,7 @@
 importScripts('brandNewAi.js')
 importScripts('engine.js')
-importScripts('js/deepening.js')
-importScripts('js/classes.js')
+importScripts('deepening.js')
+importScripts('classes.js')
 
 	
 onmessage = function(event) {

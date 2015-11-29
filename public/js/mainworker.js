@@ -1,8 +1,8 @@
 importScripts('brandNewAi.js')
 importScripts('engine.js')
-importScripts('js/deepening.js')
-importScripts('js/classes.js')
-importScripts('js/httpreq.js')
+importScripts('deepening.js')
+importScripts('classes.js')
+importScripts('httpreq.js')
 
 // //test
 // simpleGet('/forceStop?t=99', function(res) {

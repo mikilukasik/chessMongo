@@ -28,10 +28,10 @@ app.use(morgan("combined"))
 
 var cn = 'mongodb://localhost:17890/chessdb'
 
-eval(fs.readFileSync('public/brandNewAi.js') + '');
+eval(fs.readFileSync('public/js/brandNewAi.js') + '');
 eval(fs.readFileSync('public/js/deepening.js') + '');
 eval(fs.readFileSync('public/js/classes.js') + '');
-eval(fs.readFileSync('public/engine.js') + '');
+eval(fs.readFileSync('public/js/engine.js') + '');
 //eval(fs.readFileSync('public/tableClass.js') + '');
 //http://stackoverflow.com/questions/5797852/in-node-js-how-do-i-include-functions-from-my-other-files
 
