@@ -247,15 +247,7 @@
 				mainWorker.onmessage = mainWorkerMsgInThinker
 			
 			}			
-			mainWorker.postMessage({
-				reqCommand:'start',
-				reqMessage:'start',
-				reqData:{
-					sendID: sendID,
-					mySpeed: workerSpeed,
-					maxWorkerNum: maxWorkerNum
-				}
-			})
+			
 			
 	
 
@@ -268,14 +260,28 @@
 				var subWorkerNo = workerToStrart
 				
 				subWorkers[subWorkerNo].onmessage = subWorkerMsgInThinker
-
+				
+				//init it here!!!!!!!!!!!!!
+				
 				workerToStrart++
 
 				
 			}
+			
+			
 
 
 			//here we have all workers running
+			
+			mainWorker.postMessage({
+				reqCommand:'start',
+				reqMessage:'start',
+				reqData:{
+					sendID: sendID,
+					mySpeed: workerSpeed,
+					maxWorkerNum: maxWorkerNum
+				}
+			})
 
 		}
 
