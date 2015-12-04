@@ -129,6 +129,8 @@
 
 		}
 		
+		
+		
 		var setWorkerSpeed = function(count, time) {
 			
 			var tempSpeed=Number(count) / Number(time)
@@ -311,6 +313,19 @@
 	appModule.controller("ApplicationController", ApplicationController);
 
 	function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
+		
+		$rootScope.cookieID=cookieID
+		
+		$rootScope.setID=function(id){
+			
+			setID(id)
+			
+			$rootScope.cookieID=id
+			
+			
+		}
+		
+		
 		
 		$scope.setDepth=function(depth){
 			$rootScope.depth=depth
