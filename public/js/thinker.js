@@ -16,6 +16,7 @@
 		var workerSupport = checkWorkerSupport()
 
 		function ifWorkers(cb, nocb) {
+			
 			if (workerSupport) {
 				
 				cb()
