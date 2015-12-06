@@ -14,30 +14,6 @@
 	//thinker stuff
 	
 	
-		// $scope.refreshWhenUp = function() {
-
-		// 	$http.get('/forceStop?t=' + $scope._id)
-		// 		.then(function(response) {
-		// 			$scope.setSpeedCookies()
-		// 			$scope.succeeded++
-		// 				////$scope.sendMessage('connection came back, will restart soon..')
-		// 				$scope.receivedMessage = 'restart in 10s'
-		// 			if ($scope.succeeded > 3) { //server must be running
-		// 				$scope.succeeded = 0
-		// 				//$scope.sendMessage('refreshing window..')
-		// 				window.location.reload(true); ////$scope.sendMessage('looped, forceStop sent')
-		// 			} else {
-
-		// 				$timeout($scope.refreshWhenUp(), 3000)
-		// 			}
-
-
-		// 		}, function(data) {
-		// 			$scope.receivedMessage = 'connection error, 3s retry'
-		// 			$scope.succeeded = 0
-		// 			$timeout($scope.refreshWhenUp(), 3000)
-		// 		})
-		// }
 
 		
 		var maxWorkerNum = 8
@@ -152,6 +128,8 @@
 
 
 		}
+		
+		
 		
 		var setWorkerSpeed = function(count, time) {
 			
@@ -335,6 +313,19 @@
 	appModule.controller("ApplicationController", ApplicationController);
 
 	function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
+		
+		$rootScope.cookieID=cookieID
+		
+		$rootScope.setID=function(id){
+			
+			setID(id)
+			
+			$rootScope.cookieID=id
+			
+			
+		}
+		
+		
 		
 		$scope.setDepth=function(depth){
 			$rootScope.depth=depth
@@ -1157,7 +1148,14 @@
 		<!--<a href="#" ng-click="showView('captain.html')" ng-class="{ selected: viewName == 'captain.html' }">Thinkers</a>-->
 		</td>
 		
-		
+		<td>
+			
+			<form ng-if="cookieID==''" ng-submit="setID(thisID)">
+				<input id="inputID" ng-model="thisID"></input>
+			</form>
+			
+			
+		</td>
 		
 		<td nowrap width=100% align="right">{{greetUser}} - {{screenRatio}}</td>
 		</tr>
