@@ -4,12 +4,6 @@ importScripts('deepening.js')
 importScripts('classes.js')
 importScripts('httpreq.js')
 
-// //test
-// simpleGet('/forceStop?t=99', function(res) {
-// 	sendMessage('returned: ', res)
-// 		//alert('returned')
-// })
-
 var sendID
 var mySpeed
 var maxWorkerNum
@@ -56,7 +50,7 @@ var workDeepSplitMovesStarted
 var waitingSdts
 var sentSdtCount
 
-var pollOn = true		//we only make this false before restart
+var pollOn = true		//we only make this false before restart			//not true
 
 function workerMove(smallMoveTask, thinker) { //for 1 thread, smallmovetask has one of my possible 1st moves
 
@@ -69,10 +63,15 @@ function workerMove(smallMoveTask, thinker) { //for 1 thread, smallmovetask has 
 
 			var deepeningTask = new DeepeningTask(smallMoveTask)
 
-			oneDeeper(deepeningTask) //this will make about 30 smalldeepeningtasks and create the resolverarray in the deepeningtask
-				//first iitem in deepeningtask.smalldeepeningtasks is trigger
+			oneDeeper(deepeningTask) 	//this will make about 30 smalldeepeningtasks from the initial 1 and create deepeningtask.resolverarray
+										//first item in deepeningtask.smalldeepeningtasks is trigger
+										
+										//!!!!!!!!!!!implement !!!!!!!!!!typedarray
+										
+										
 
 			waitingSdts = []
+			
 			sentSdtCount = deepeningTask.smallDeepeningTasks.length - 1
 
 			while (deepeningTask.smallDeepeningTasks.length > 1) {

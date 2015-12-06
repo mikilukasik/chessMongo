@@ -1,0 +1,127 @@
+
+<head>
+
+	<script src="../jquery.js"></script>
+	<script src="../angular.js"></script>
+	
+	<script>
+		
+	//test in pure js 
+	
+	var array=new Array(100000000)
+	
+	var tarray=new Int16Array(100000000);
+		
+		
+	var awstarted=new Date().getTime()
+	
+	for (var i=0;i<100000000;i++){
+	
+		var rnd=300//Math.random()
+		
+		array[i]=rnd
+		
+	
+		
+	}
+	
+	var twstarted=new Date().getTime()
+	
+	for (var i=0;i<100000000;i++){
+	
+		var rnd=300//Math.random()
+		
+		tarray[i]=rnd
+		
+	
+		
+	}
+	
+	
+	var arstarted=new Date().getTime()
+	
+	for (var i=0;i<100000000;i++){
+	
+		//var rnd=Math.random()
+		
+		var t=array[i]
+		
+	
+		
+	}
+	
+	
+	var trstarted=new Date().getTime()
+	
+	for (var i=0;i<100000000;i++){
+	
+		//var rnd=Math.random()
+		
+		var t=tarray[i]
+		
+	
+		
+	}
+	
+	var finished=new Date().getTime()
+	
+	
+	
+
+			
+		
+		
+		
+		
+		
+		
+	
+	var appModule = angular.module("appModule", []);
+
+	appModule.controller("ApplicationController", ApplicationController);
+
+	function ApplicationController($scope) {			//$rootScope, , $timeout, $http, $interval, $compile
+	
+		$scope.awstarted=awstarted
+		
+		$scope.twstarted=twstarted
+		
+		$scope.arstarted=arstarted
+		
+		$scope.trstarted=trstarted
+		
+		
+		$scope.finished=finished
+		
+		
+		$scope.a1=array[1]
+		$scope.t1=tarray[1]
+		
+	
+	
+	
+	
+	
+	}
+	
+	
+	</script>
+	
+</head>
+
+<body ng-app="appModule" ng-controller="ApplicationController">
+	
+	array write: {{twstarted-awstarted}}<br>
+	tarray write: {{arstarted-twstarted}}<br><br>
+	array read: {{trstarted-arstarted}}<br>
+	tarray read: {{finished-trstarted}}<br><br>
+	
+	array[1]: {{a1}}<br>
+	tarray[1]: {{t1}}
+	
+	
+	<h1 ng-if="a1!=t1" style="color: red">ooops</h1>
+	
+	
+	
+</body>
