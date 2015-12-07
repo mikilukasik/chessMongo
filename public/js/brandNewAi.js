@@ -947,7 +947,7 @@ function moveIt(moveString, intable, dontProtect, hitValue) {
 
 function fastMove(moveString, intable, dontProtect, hitValue) {
 	//if (hitValue == undefined) var hitValue = [0]
-	var thistable = []
+	var thistable = new Array(8)
 
 	for (var i = 0; i < 8; i++) {
 		thistable[i] = new Array(8)

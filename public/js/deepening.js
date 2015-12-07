@@ -1,3 +1,29 @@
+function toTypedTable(table){
+	
+	var result=new Array(8)
+	if(table!=undefined){
+		for(var i=0;i<8;i++){
+			
+			result[i]=new Array(8)
+			if(table[i]!=undefined){
+				for(var j=0;j<8;j++){
+				
+					result[i][j]=new Int8Array(table[i][j])
+					
+					
+				}
+			}
+			
+			
+			
+		}
+	
+	}
+
+	return result
+}
+
+
 ///////////////////////////// below the functions that run a million times ////////////////////////
 
 function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
@@ -250,28 +276,12 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 
 		var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
 
-
+		smallDeepeningTask.table= toTypedTable(smallDeepeningTask.table)
 		//var thisMoveValue = 0
 
 		var resultingSDTs = solveSmallDeepeningTask(smallDeepeningTask, resolverArray)
 
-		// resultingSDTs.pop() //!!!!!!!!!!!!!!!!!!!!!!!!!
-
-		//ranCount+=resultingSDTs.length
-
-		//////////////console.log('bai 2879',taskValue)
-
-		//averageVal+=thisMoveValue
-
-		//if (resCommand != '') {
-		//solver messaged us
-
-		//}
-
-		//if (resultingSDTs != []) {
-		//new tables were generated. when we reach desiredDepth there will be no new tables here
-		//////////////console.log(resultingSDTs)
-		//solved += resultingSDTs.length
+		
 
 		while (resultingSDTs.length > 0) {
 			ranCount++
