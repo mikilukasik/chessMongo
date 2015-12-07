@@ -3,6 +3,7 @@
 <head>
 	
 	<link rel="stylesheet" type="text/css" href="chess.css">
+	
 	<script src="jquery.js"></script>
 	<script src="angular.js"></script>
 	<script src="js/engine.js"></script>
@@ -370,7 +371,62 @@
 		
 		$scope.quickGame=function(){
 			
-			alert()
+			
+			// if(!($scope.lobbyPollNum == response.lobbypollnum)) {
+
+								//////console.log('polling lobby')
+
+							// 	$scope.lobbyChatLines = response.lobbychat
+							// 	$scope.players = response.players
+							// 	$scope.players.unshift("Fastest thinker")
+							// 	$scope.players.unshift("Multiple thinkers")
+							// 	$scope.players.unshift("Server")
+								
+								
+							// 	$scope.games = response.games
+							// 	$scope.players.sort(function(a, b) {
+							// 		return a.toLowerCase().localeCompare(b.toLowerCase());
+							// 	});
+							// 	$scope.lobbyPollNum = response.lobbyPollNum
+							// 		//showLobby(lobbyChatLines, players, games, $scope.lobbyPollNum)
+							// 	if(!$scope.$$phase) {
+							// 	$scope.$apply()
+							// }
+
+					//		}
+							// if($scope.openNow) {
+								
+								$http.get('/startGame?w=' + $rootScope.loginName + "&b=" + 'Multiple thinkers')
+								
+								
+								$rootScope.showView('lobby.html')
+								
+								// $rootScope._id = response.opentablenum
+								// $rootScope.wPlayer = response.opentablecolor
+								// $scope.opponentsName = response.opponentsname
+								// $rootScope.pollNum = 0
+
+								// $scope.openNow = true;
+								
+								
+								
+								// $rootScope.tempMoveString=""
+								// $rootScope.viewName = "board.html"
+								
+							// 	$scope.openNow = false
+
+							// 	// 		window.setTimeout(function() {
+							// 	//  $scope.drawTable(true)
+
+							// 	//     $scope.$apply();
+							// 	// }, 3000);
+
+							// }
+							
+							
+							
+			
+			//alert()
 			
 		}
 		
@@ -935,6 +991,12 @@
 		<!--<a href="#" ng-click="showView('captain.html')" ng-class="{ selected: viewName == 'captain.html' }">Thinkers</a>-->
 		</td>
 		
+		<td nowrap>
+			
+			<button  style="font-size:12px" ng-click="quickGame()">Instant Game</button>
+			
+		</td>
+		
 		<td>
 			
 			<form ng-if="cookieID==''" ng-submit="setID(thisID)">
@@ -943,6 +1005,8 @@
 			
 			
 		</td>
+		
+		
 		
 		<td nowrap width=100% align="right">{{greetUser}} - {{screenRatio}}</td>
 		</tr>
