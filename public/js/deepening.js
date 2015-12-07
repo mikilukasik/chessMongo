@@ -28,19 +28,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 			
 			
 		}
-		// else{
-			
-			
-		// 	if(captured(sdtTable,smallDeepeningTask.wNext)){
-		// 	//sakkot kaptam
-			
-		// 	result=[new SmallDeepeningTask(sdtTable,newWNext,sdtDepth+1,smallDeepeningTask.moveTree,smallDeepeningTask.desiredDepth,-100)]
-		// 	}
-			
-			
-			
-			
-		// }
+		
 	}
 	
 
@@ -66,12 +54,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 		
 
 		if (sdtDepth > smallDeepeningTask.desiredDepth) { //depth +1
-			////console.log(sdtDepth)
-			// if(resolverArray[sdtDepth]==undefined){
-			// 	//console.log('smalldeepeningtask  depth problem:',smallDeepeningTask)
-			// }  else {
-			// 	////console.log('smalldeepeningtask  depth ok:',smallDeepeningTask)
-			// }
+			
 			resolverArray[sdtDepth].push(new ResolverItem(sdtScore, smallDeepeningTask.moveTree)) //this will fill in and then gets reduced to best movevalue only
 
 
@@ -223,10 +206,10 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 
 	if (someCommand == 'sdt') {
 
-		//we are in worker, received a table processed with oneDeeper()
+		//we are in worker, received 2nd depth table already processed with oneDeeper()
 		//this table is after his first return move
 		//not filtered move, could be that we can hit the king now
-		//if we can, then this is a wrong move, need to throw away
+		//if we can, then this is a wrong move, need to throw away the whole lot!!!!!!!!!!!!!!!!!
 
 
 
@@ -254,7 +237,11 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 
 
 
-	while (deepeningTask.smallDeepeningTasks.length > 0) {
+	while (deepeningTask.smallDeepeningTasks.length != 0) {
+
+
+		//if (deepeningTask.smallDeepeningTasks.length <= 0)console.log(deepeningTask.smallDeepeningTasks,[],[]==deepeningTask.smallDeepeningTasks,typeof(deepeningTask.smallDeepeningTasks),typeof([]))
+
 
 		//length is 1 at first, then just grows until all has reached the level. evetually there will be nothing to do and this loop exists
 

@@ -60,16 +60,7 @@ onmessage = function(event) {
 				}
 				
 				
-				// resMessage = 'sdtSolved'
-				// //var ranCount=0
-				// resData = solveDeepeningTask(reqData,'sdt')//,ranCount)
-				// resData._id=reqData._id
-				// //resData.ranCount=ranCount
-				// ////console.log(ranCount)
-				// resCommand = 'sdtSolved'
-	
-				////console.log('solveSdt goes back to main thread')
-			
+					
 
 			break;
 
