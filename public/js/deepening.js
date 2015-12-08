@@ -180,7 +180,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 
 				}
 
-				var newMoveTree = smallDeepeningTask.moveTree.concat(moveStr)
+				var newMoveTree = smallDeepeningTask.moveTree.concat(moveStr,valueToSave)
 
 
 				result.push(new SmallDeepeningTask(
