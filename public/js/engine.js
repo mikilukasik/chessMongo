@@ -394,8 +394,8 @@ function getHitScores(origTable, wNext, flipIt) {
 	var iHitCoords = [] //[who k,l where to x,y, who, hits]
 	var heHitsCoords = []
 
-	var myprotectScore = [0]
-	var hisprotectScore = [0]
+	var myprotectScore = new Uint8Array(1)//[0]
+	var hisprotectScore = new Uint8Array(1)//[0]
 
 	var myAllHit=0
 	var hisAllHit=0
