@@ -2,6 +2,8 @@ function toTypedTable(table){
 	
 	var result=new Array(8)
 	if(table!=undefined){
+		//console.log(table[1][1].length)
+		
 		for(var i=0;i<8;i++){
 			
 			result[i]=new Array(8)
@@ -275,7 +277,7 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 		//solved++
 
 		var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
-
+		
 		smallDeepeningTask.table= toTypedTable(smallDeepeningTask.table)
 		//var thisMoveValue = 0
 
