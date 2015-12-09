@@ -92,15 +92,19 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 			
 			
 			
-			var noNegative = (sdtDepth / 2 == Math.floor(sdtDepth / 2))
+			//var noNegative = (sdtDepth / 2 == Math.floor(sdtDepth / 2))
+			var isNegative = (sdtDepth & 1)
 			
 			if(sdtDepth == smallDeepeningTask.desiredDepth){
 				//////depth reached, eval table
 				var newScore
-				if(noNegative){
-					newScore=sdtScore*65536 + getHitScores(sdtTable,smallDeepeningTask.wNext,true)
+				if(isNegative){
+					
+					newScore=(sdtScore << 16) - getHitScores(sdtTable,smallDeepeningTask.wNext,false)
+					
 				}else{
-					newScore=sdtScore*65536 - getHitScores(sdtTable,smallDeepeningTask.wNext,false)
+				
+					newScore=(sdtScore << 16) + getHitScores(sdtTable,smallDeepeningTask.wNext,true)
 				}
 				
 				
@@ -172,13 +176,16 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 
 				var valueToSave
 
-				if (noNegative) { //does this work???!!!!!!!!!!!
-
-					valueToSave = sdtScore + thisValue// - thisValue2 //every second level has negative values: opponent moved
+				if (isNegative) { //does this work???!!!!!!!!!!!
+				
+							valueToSave = sdtScore - thisValue// + thisValue2//every second level has negative values: opponent moved
+				
 					 
 				} else {
 
-					valueToSave = sdtScore - thisValue// + thisValue2//every second level has negative values: opponent moved
+			
+					
+						valueToSave = sdtScore + thisValue// - thisValue2 //every second level has negative values: opponent moved
 
 				}
 
