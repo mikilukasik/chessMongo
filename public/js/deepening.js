@@ -36,7 +36,8 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 
 	var sdtTable=smallDeepeningTask.table
 	
-	var sdtScore=smallDeepeningTask.score
+	var sdtScore=new Int32Array(1)
+	sdtScore[0]=smallDeepeningTask.score
 
 	
 	//gets one task, produces an array of more tasks
@@ -83,7 +84,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 
 		if (sdtDepth > smallDeepeningTask.desiredDepth) { //depth +1
 			
-			resolverArray[sdtDepth].push(new ResolverItem(sdtScore, smallDeepeningTask.moveTree)) //this will fill in and then gets reduced to best movevalue only
+			resolverArray[sdtDepth].push(new ResolverItem(sdtScore[0], smallDeepeningTask.moveTree)) //this will fill in and then gets reduced to best movevalue only
 
 
 
@@ -97,14 +98,18 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 			
 			if(sdtDepth == smallDeepeningTask.desiredDepth){
 				//////depth reached, eval table
-				var newScore
+				
+				
+				
+				var newScore=new Int32Array(1)
+				
 				if(isNegative){
 					
-					newScore=(sdtScore << 16) - getHitScores(sdtTable,smallDeepeningTask.wNext,false)
+					newScore[0]=(sdtScore[0] << 16) - getHitScores(sdtTable,smallDeepeningTask.wNext,false)[0]
 					
 				}else{
 				
-					newScore=(sdtScore << 16) + getHitScores(sdtTable,smallDeepeningTask.wNext,true)
+					newScore[0]=(sdtScore[0] << 16) + getHitScores(sdtTable,smallDeepeningTask.wNext,true)[0]
 				}
 				
 				
@@ -115,7 +120,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 						smallDeepeningTask.moveTree,
 						smallDeepeningTask.desiredDepth,
 
-						newScore) //sdtScore + thisValue
+						newScore[0]) //sdtScore + thisValue
 
 						//,stopped is missing, game goes on
 
@@ -178,14 +183,14 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray) {
 
 				if (isNegative) { //does this work???!!!!!!!!!!!
 				
-							valueToSave = sdtScore - thisValue// + thisValue2//every second level has negative values: opponent moved
+							valueToSave = sdtScore[0] - thisValue// + thisValue2//every second level has negative values: opponent moved
 				
 					 
 				} else {
 
 			
 					
-						valueToSave = sdtScore + thisValue// - thisValue2 //every second level has negative values: opponent moved
+						valueToSave = sdtScore[0] + thisValue// - thisValue2 //every second level has negative values: opponent moved
 
 				}
 

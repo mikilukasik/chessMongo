@@ -273,7 +273,7 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 
 			if (pollOn){
 				
-				sendMessage('mw: pollOn true, recalling longPollTasks (task '+(taskNum+1)+')')
+				//sendMessage('mw: pollOn true, recalling longPollTasks (task '+(taskNum+1)+')')
 				longPollTasks(taskNum+1,sendID,mySpeed) //recall for new task, server might hold any new task until this one finishes
 			
 			} 	
