@@ -513,9 +513,9 @@ function getHitScores(origTable, wNext, flipIt) {
 	
 	
 	if(flipIt){
-		result= myBestHit*65536 - protecScore * 256 - allhitScore* 16 - hisBestHit	* 4096
+		result= (myBestHit << 16) - (hisBestHit << 12) - (protecScore << 8) - (allhitScore << 4)
 	}else{
-		result= myBestHit*65536 + protecScore * 256 + allhitScore* 16 - hisBestHit	* 4096
+		result= (myBestHit << 16) - (hisBestHit << 12) + (protecScore << 8) + (allhitScore << 4)
 	}
 	//return myBestHit - hisBestHit / 16 //+(myAllHit-hisAllHit-hisBestHit*128+myprotectScore-hisprotectScore)/8192//-(hisBestHit/16)+(myprotectScore[0]-(hisprotectScore[0]+hisAllHit)/16+myAllHit)/256//,myBestHitCoords] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] 
 
