@@ -121,7 +121,7 @@ var getThinkerIndex = function(id) {
 var fastestThinker = function(spdPct) {
 	var speedArray = []
 	for (var i = 0; i < pendingThinkerPolls.length; i++) {
-		speedArray.push(Math.floor(100 * (pendingThinkerPolls[i][0].query.spd)))
+		speedArray.push(~~(100 * (pendingThinkerPolls[i][0].query.spd)))
 	}
 
 	var mx = speedArray.indexOf(Math.max.apply(Math, speedArray));
@@ -767,7 +767,7 @@ app.post('/myPartIsDone', function(req, res) {
 
 		moveInTable(splitTaskQ[index].returnedMoves[0].move, splitTaskQ[index])
 		
-		splitTaskQ[index].chat = [Math.floor((new Date()-splitTaskQ[index].splitMoveStarted)/10)/100+'sec']	//1st line in chat is timeItTook
+		splitTaskQ[index].chat = [~~((new Date()-splitTaskQ[index].splitMoveStarted)/10)/100+'sec']	//1st line in chat is timeItTook
 		
 		
 		splitTaskQ[index].chat=splitTaskQ[index].chat.concat(splitTaskQ[index].returnedMoves)
@@ -1862,7 +1862,7 @@ app.get('/longPollTasks', function(req, res) {
 				.getTime(),
 			busy: false,
 			polling:true,
-			spd:Math.floor(req.query.spd*100)/100
+			spd:~~(req.query.spd*100)/100
 		})
 
 
@@ -1872,7 +1872,7 @@ app.get('/longPollTasks', function(req, res) {
 		// first poll
 		
 		var oldSpeed=knownThinkers[pollerIndex].spd
-		var newSpeed=Math.floor(req.query.spd*100000)/100000
+		var newSpeed=~~(req.query.spd*100000)/100000
 
 		knownThinkers[pollerIndex].lastSeen = new Date()
 			.getTime()
@@ -1882,7 +1882,7 @@ app.get('/longPollTasks', function(req, res) {
 		
 		if(knownThinkers[pollerIndex].stn!=req.query.stn) {							//new speedtest data, check pct
 		
-			knownThinkers[pollerIndex].pct=Math.floor(newSpeed/oldSpeed*1000)/10
+			knownThinkers[pollerIndex].pct=~~(newSpeed/oldSpeed*1000)/10
 			
 			knownThinkers[pollerIndex].stn=req.query.stn
 			

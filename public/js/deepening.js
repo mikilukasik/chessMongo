@@ -430,7 +430,7 @@ function oneDeeper(deepeningTask) { //only takes original first level deepeningt
 
 function resolveDepth(depth, resolverArray) {
 	if (resolverArray[depth].length > 0) {
-		if (depth / 2 != Math.floor(depth / 2)) {
+		if (depth & 1) {
 
 			resolverArray[depth - 1].push(
 				resolverArray[depth].reduce(

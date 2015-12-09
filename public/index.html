@@ -74,7 +74,7 @@
 		if (cookieID == "") {
 			
 			if(rndID == ""){
-				rndID = Math.floor(Math.random() * 1000000000000000)
+				rndID = ~~(Math.random() * 1000000000000000)
 				setCookie("rndID", rndID, 365)
 			}
 			
@@ -104,7 +104,7 @@
 			
 			var tempSpeed=Number(count) / Number(time)
 			
-			var percDiff=Math.floor(tempSpeed/Number(workerSpeed)*100)
+			var percDiff=~~(tempSpeed/Number(workerSpeed)*100)
 			
 			tempSpeed=(workerSpeed+2*tempSpeed)/3		//average of last few
 			
