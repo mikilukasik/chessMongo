@@ -507,12 +507,18 @@ function getHitScores(origTable, wNext, flipIt) {
 	var allhitScore=myAllHit-hisAllHit
 	//var bHitScore=myBestHit-hisBestHit
 	
-	var scndScore=(protecScore+allhitScore/16)/256
+	var result
+	
+	//var scndScore=protecScore*16+allhitScore
+	
+	
 	if(flipIt){
-		return myBestHit - scndScore - hisBestHit / 16	
+		result= myBestHit*65536 - protecScore * 256 - allhitScore* 16 - hisBestHit	* 4096
 	}else{
-		return myBestHit + scndScore - hisBestHit / 16
+		result= myBestHit*65536 + protecScore * 256 + allhitScore* 16 - hisBestHit	* 4096
 	}
 	//return myBestHit - hisBestHit / 16 //+(myAllHit-hisAllHit-hisBestHit*128+myprotectScore-hisprotectScore)/8192//-(hisBestHit/16)+(myprotectScore[0]-(hisprotectScore[0]+hisAllHit)/16+myAllHit)/256//,myBestHitCoords] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] 
+
+	return result // 65536
 
 }
