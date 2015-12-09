@@ -486,7 +486,7 @@ function getHitScores(origTable, wNext, flipIt) {
 
 		var thisValue = 0
 
-		if (origTable[hitCoords[2]][hitCoords[3]][6]) { //if cell is protected
+		if (protectedArray[hitCoords[2]][hitCoords[3]]) { //if cell is protected
 
 			thisValue = hitCoords[5] - hitCoords[4] //kivonja amivel lep
 
