@@ -58,6 +58,17 @@
 					
 				
 				break;
+				
+				case 'imUp':
+				
+					workerToStart--
+					
+					if(workerToStart==0){
+						startTaskPoll()
+					}
+				
+				
+				break;
 
 				
 
@@ -100,7 +111,7 @@
 			}
 		}
 				
-				
+		var workerToStart
 
 		function startWorkers() {
 			
@@ -115,19 +126,19 @@
 			
 	
 
-			var workerToStrart = 0
+			workerToStart = 0
 				
-			while (workerToStrart < maxWorkerNum) {
+			while (workerToStart < maxWorkerNum) {
 
-				subWorkers[workerToStrart] = new Worker("js/subworker.js");
+				subWorkers[workerToStart] = new Worker("js/subworker.js");
 
-				var subWorkerNo = workerToStrart
+				var subWorkerNo = workerToStart
 				
 				subWorkers[subWorkerNo].onmessage = subWorkerMsgInThinker
 				
 				//init it here!!!!!!!!!!!!!
 				
-				workerToStrart++
+				workerToStart++
 
 				
 			}
@@ -135,7 +146,13 @@
 			
 
 
-			//here we have all workers running
+			//here we started all workers, they'll message us when up. When all are up, we ask mw to start, that will do a speedtest and start longpolltasks
+			
+			
+
+		}
+		
+		function startTaskPoll(){
 			
 			mainWorker.postMessage({
 				reqCommand:'start',
@@ -146,7 +163,8 @@
 					maxWorkerNum: maxWorkerNum
 				}
 			})
-
+			
+			
 		}
 
 

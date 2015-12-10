@@ -98,7 +98,12 @@ onmessage = function(event) {
 
 };
 
-
+postMessage({
+		// command:undefined,
+		'resMessage': 'imUp',
+		'resData': 'imUp',
+		'resCommand': 'imUp'
+	});
 
 
 /////////////////////worker func end
