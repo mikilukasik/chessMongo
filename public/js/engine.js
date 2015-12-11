@@ -334,36 +334,12 @@ function pushAidN(k, l, x, y, c, table, protectedArray, iHitMoves, protectScore)
 
 			protectScore[0]++
 
-				protectedArray[(8*x)+y] = true //protected		//moveit will clear, fastmove not???!!!
+				protectedArray[x][y] = true //protected		//moveit will clear, fastmove not???!!!
 
 		} else {
 			//opps piece is there
-			
-			iHitMoves[0]++
-			
-			//iHitMoves[iHitMoves[0]]=(k<<24)+(l<<20)+(x<<16)+(y<<12)+(table[k][l][1]<<8)+(table[x][y][1]<<4)
-			
-			iHitMoves[iHitMoves[0]]=k//([k, l, x, y, table[k][l][1], table[x][y][1]]) //[who k,l where to x,y who, hits]
-			
-			iHitMoves[0]++
-			iHitMoves[iHitMoves[0]]=l
-			
-			iHitMoves[0]++
-			iHitMoves[iHitMoves[0]]=x
-			
-			iHitMoves[0]++
-			iHitMoves[iHitMoves[0]]=y
-			
-			iHitMoves[0]++
-			iHitMoves[iHitMoves[0]]=table[k][l][1]
-			
-			iHitMoves[0]++
-			iHitMoves[iHitMoves[0]]=table[x][y][1]
-			
 
-			// iHitMoves.push(
-			// 	new Uint8Array([k, l, x, y, table[k][l][1], table[x][y][1]])
-			// ) //[who k,l where to x,y who, hits]
+			iHitMoves.push([k, l, x, y, table[k][l][1], table[x][y][1]]) //[who k,l where to x,y who, hits]
 
 		}
 
@@ -415,32 +391,40 @@ function newCanMove(k, l, c, moveTable, protectedArray, iHitMoves, protectScore)
 
 function getHitScores(origTable, wNext, flipIt) {
 
-	var iHitCoords = new Int8Array(128)  //[] //[who k,l where to x,y, who, hits]
-	var heHitsCoords = new Int8Array(128)//[]
-	
-	// iHitCoords[0]=1
-	// heHitsCoords[0]=1
+	var iHitCoords = [] //[who k,l where to x,y, who, hits]
+	var heHitsCoords = []
 
 	var myprotectScore = new Uint8Array(1)//[0]
 	var hisprotectScore = new Uint8Array(1)//[0]
 
-	var myAllHit=new Uint8Array(1)
-	var hisAllHit=new Uint8Array(1)
+	var myAllHit=0
+	var hisAllHit=0
 
-	var myBestHit = new Uint8Array(1)
-	var hisBestHit = new Uint8Array(1)
+	var myBestHit = 0
+	var hisBestHit = 0
 
 	var myBestHitCoords = []
-		//var hisBestHit[0]Coords=[]
+		//var hisBestHitCoords=[]
 
-	var protectedArray=	new Uint8Array(64)
+	var protectedArray=[//new Array(8)
+	
+		new Uint8Array(8),
+		new Uint8Array(8),
+		new Uint8Array(8),
+		new Uint8Array(8),
 		
+		new Uint8Array(8),
+		new Uint8Array(8),
+		new Uint8Array(8),
+		new Uint8Array(8)
+		
+	]
+	
 	
 	
 
 	var c = 1
 	var nc = 1
-	
 	if (wNext) {
 		c++
 	} else {
@@ -456,7 +440,7 @@ function getHitScores(origTable, wNext, flipIt) {
 
 					newCanMove(lookI, lookJ, c, origTable, protectedArray, iHitCoords, myprotectScore) //newCanMove will protect the table
 					//and append all my hits to iHitCoords
-					//will increase myprotectscore, inaccurately!!!!!!!				
+					//will increase myprotectscore, inaccurate!!!!!!!				
 			} else {
 
 				if (origTable[lookI][lookJ][0] != 0) { ////////found opponent's piece/////////												
@@ -466,130 +450,65 @@ function getHitScores(origTable, wNext, flipIt) {
 
 		}
 	}
-	
-	for(var i=  ( iHitCoords[0]+1)/6   ;i>0;i--)
-	
-	
-	
-	//iHitCoords.forEach(function(hitCoords) 
-	{
-		
-		var thisArray=new Int8Array(6)
-		
-		
-		thisArray[5]=iHitCoords[iHitCoords[0]]
-		//iHitCoords[0]--
-		
-		thisArray[4]=iHitCoords[iHitCoords[0]-1]
-		//iHitCoords[0]--
-		
-		thisArray[3]=iHitCoords[iHitCoords[0]-2]
-		//iHitCoords[0]--
-		
-		thisArray[2]=iHitCoords[iHitCoords[0]-3]
-		//iHitCoords[0]--
-		
-		thisArray[1]=iHitCoords[iHitCoords[0]-4]
-		//iHitCoords[0]--
-		
-		thisArray[0]=iHitCoords[iHitCoords[0]-5]
-		iHitCoords[0]-=6
-		
-		
-		
-		
+
+	iHitCoords.forEach(function(hitCoords) {
 		var thisValue = 0
 
-		if (protectedArray[(8*thisArray[2])+thisArray[3]]) { //if field is protected
+		if (protectedArray[hitCoords[2]][hitCoords[3]]) { //if field is protected
 
-			thisValue = thisArray[5] - thisArray[4] //kivonja amivel lep
+			thisValue = hitCoords[5] - hitCoords[4] //kivonja amivel lep
 
 		} else {
 
-			thisValue = thisArray[5] //else normal hitvalue
+			thisValue = hitCoords[5] //else normal hitvalue
 
 		}
 
-		if (thisValue > myBestHit[0]) { //remember best
+		if (thisValue > myBestHit) { //remember best
 
-			myBestHit[0] = thisValue
+			myBestHit = thisValue
 
-			myBestHitCoords = thisArray
+			myBestHitCoords = hitCoords
 		}
 
-		myAllHit[0]+=thisValue
+		myAllHit+=thisValue
 
-	}
+	})
 
 	// }
 
 	// if(heHitsCoords==[]){
 	// 	//i can't hit
-	// 	hisBestHit[0]=0
+	// 	hisBestHit=0
 	// }else{
-	
-	//for(var i=heHitsCoords[0];i>0;i--)
-	for(var i=  ( heHitsCoords[0]+1)/6   ;i>0;i--)
-	
-	
-	//heHitsCoords.forEach(function(iHitCoords[i]) 
-	
-	{
-		
-		
-		var thisArray=new Int8Array(6)
-		
-		
-		thisArray[5]=heHitsCoords[heHitsCoords[0]]
-		//heHitsCoords[0]--
-		
-		thisArray[4]=heHitsCoords[heHitsCoords[0]-1]
-		//heHitsCoords[0]--
-		
-		thisArray[3]=heHitsCoords[heHitsCoords[0]-2]
-		//heHitsCoords[0]--
-		
-		thisArray[2]=heHitsCoords[heHitsCoords[0]-3]
-		//heHitsCoords[0]--
-		
-		thisArray[1]=heHitsCoords[heHitsCoords[0]-4]
-		//heHitsCoords[0]--
-		
-		thisArray[0]=heHitsCoords[heHitsCoords[0]-5]
-		heHitsCoords[0]-=6
-		
-	
-	
-	
-	
-	
+
+	heHitsCoords.forEach(function(hitCoords) {
 
 		var thisValue = 0
 
-		if (protectedArray[(8*thisArray[2])+thisArray[3]]) { //if cell is protected
+		if (protectedArray[hitCoords[2]][hitCoords[3]]) { //if cell is protected
 
-			thisValue = thisArray[5] - thisArray[4] //kivonja amivel lep
+			thisValue = hitCoords[5] - hitCoords[4] //kivonja amivel lep
 
 		} else {
 
-			thisValue = thisArray[5] //normal hitvalue
+			thisValue = hitCoords[5] //normal hitvalue
 
 		}
 
-		if (thisValue > hisBestHit[0]) { //remember best
+		if (thisValue > hisBestHit) { //remember best
 
-			hisBestHit[0] = thisValue
+			hisBestHit = thisValue
 
 		}
-	}
+	})
 	
 	var protecScore=myprotectScore[0]-hisprotectScore[0]
-	var allhitScore=myAllHit[0]-hisAllHit[0]
-	//var bHitScore=myBestHit[0]-hisBestHit[0]
+	var allhitScore=myAllHit-hisAllHit
+	//var bHitScore=myBestHit-hisBestHit
 	
 	var result = new Int32Array(1)
-	
-	result[0] = (myBestHit[0] * 65536) - (hisBestHit[0] * 4096)
+	result[0] = (myBestHit * 65536) - (hisBestHit * 4096)
 	
 	//var scndScore=protecScore*16+allhitScore
 	
@@ -599,7 +518,7 @@ function getHitScores(origTable, wNext, flipIt) {
 	}else{
 		result[0]+=   (protecScore << 8) + (allhitScore << 4)
 	}
-	//return myBestHit[0] - hisBestHit[0] / 16 //+(myAllHit[0]-hisAllHit[0]-hisBestHit[0]*128+myprotectScore-hisprotectScore)/8192//-(hisBestHit[0]/16)+(myprotectScore[0]-(hisprotectScore[0]+hisAllHit[0])/16+myAllHit[0])/256//,myBestHitCoords] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] 
+	//return myBestHit - hisBestHit / 16 //+(myAllHit-hisAllHit-hisBestHit*128+myprotectScore-hisprotectScore)/8192//-(hisBestHit/16)+(myprotectScore[0]-(hisprotectScore[0]+hisAllHit)/16+myAllHit)/256//,myBestHitCoords] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] 
 
 	return result // 65536
 
