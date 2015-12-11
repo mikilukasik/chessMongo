@@ -427,6 +427,20 @@ function oneDeeper(deepeningTask) { //only takes original first level deepeningt
 
 }
 
+function tArrayPush(tArray,index,toPush){
+	
+	index++
+	tArray[index]=toPush
+	
+}
+
+function tArrayPop(tArray,index){
+	
+	index--
+	return tArray[index+1]
+	
+}
+
 
 function resolveDepth(depth, resolverArray) {
 	if (resolverArray[depth].length > 0) {
