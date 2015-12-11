@@ -769,8 +769,18 @@ app.post('/myPartIsDone', function(req, res) {
 		
 		splitTaskQ[index].chat = [~~((new Date()-splitTaskQ[index].splitMoveStarted)/10)/100+'sec']	//1st line in chat is timeItTook
 		
+		splitTaskQ[index].returnedMoves.forEach(function(returnedMove){
+			splitTaskQ[index].chat=splitTaskQ[index].chat.concat({
+				//move: returnedMove.moveStr,
+				score: returnedMove.score,
+				hex: returnedMove.score.toString(16),
+				moves: returnedMove.moveTree
+				
+			})
+
+		})
 		
-		splitTaskQ[index].chat=splitTaskQ[index].chat.concat(splitTaskQ[index].returnedMoves)
+		//splitTaskQ[index].chat=splitTaskQ[index].chat.concat(splitTaskQ[index].returnedMoves)
 
 
 		//

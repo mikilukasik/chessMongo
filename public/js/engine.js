@@ -271,11 +271,21 @@ function kingCanMoveN(k, l, moveTable, protectedArray, c, iHitMoves, protectScor
 		if (moveTable[0][l][3] && // unmoved rook on [0][l]
 			whatsThere(1, l, moveTable)[0] == 0 && whatsThere(2, l, moveTable)[0] == 0 && whatsThere(3, l, moveTable)[0] == 0) { //empty between
 
-			pushAidN(canMoveTo, 2, l, 0, 0, moveTable) //mark that cell if empty
+			//pushAidN(canMoveTo, 2, l, 0, 0, moveTable) //mark that cell if empty
+			
+			pushAidN(k, l, 2, l, c, moveTable, protectedArray, iHitMoves, protectScore)
+
+			
+			
+			
 
 		}
 		if (moveTable[7][l][3] && whatsThere(5, l, moveTable)[0] == 0 && whatsThere(6, l, moveTable)[0] == 0) { // unmoved rook on [7][l] && empty between
-			pushAidN(canMoveTo, 6, l, 0, 0, moveTable) //mark that cell if empty
+			//pushAidN(canMoveTo, 6, l, 0, 0, moveTable) //mark that cell if empty
+			
+			pushAidN(k, l, 6, l, c, moveTable, protectedArray, iHitMoves, protectScore)
+
+			
 
 		}
 
@@ -501,6 +511,8 @@ function getHitScores(origTable, wNext, flipIt) {
 			hisBestHit = thisValue
 
 		}
+		
+		hisAllHit+=thisValue
 	})
 	
 	var protecScore=myprotectScore[0]-hisprotectScore[0]

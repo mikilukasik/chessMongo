@@ -231,6 +231,16 @@ var MoveTask = function(dbTable) {
 
 	dbTable.origProtect = protectTable(dbTable.table, dbTable.wNext)
 	dbTable.origData = getTableData(dbTable.table, dbTable.wNext)
+	
+	dbTable.origDeepDatatt=getHitScores(dbTable.table,true,true)
+	
+	dbTable.origDeepDatatf=getHitScores(dbTable.table,true,false)
+	
+	dbTable.origDeepDataft=getHitScores(dbTable.table,false,true)
+	
+	dbTable.origDeepDataff=getHitScores(dbTable.table,false,false)
+	
+
 
 	this.dontLoop = false
 
