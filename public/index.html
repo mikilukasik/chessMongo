@@ -126,40 +126,9 @@
 
 		
 
-		var pollerMessage= function(event){
-			
-			switch (event.data.resCommand){
-				
-				case undefined:
-				
-				break;
-				
-				case 'updateBusyThinkers':
-				
-					console.log(event.data.resData)
-				
-				break;
-				
-				
-			}
-			
-			
-		}
 		
-		var poller
 		
-		ifWorkers(function(){
-			
-			poller=new Worker('js/poller.js')
-			poller.onMessage = pollerMessage
-			
-			
-		},function(){
-			//no worker support
-			
-			
-			
-		})
+		
 		
 		ifWorkers(startWorkers)
 		
@@ -172,6 +141,51 @@
 	appModule.controller("ApplicationController", ApplicationController);
 
 	function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
+		
+		
+		var pollerMessage= function(event){
+			
+			//console.log('something')
+			
+			switch (event.data.resCommand){
+				
+				case undefined:
+				
+				break;
+				
+				case 'updateBusyThinkers':
+				
+					console.log(event.data.resData.busyThinkers)
+					
+					$rootScope.busyThinkers=event.data.resData.busyThinkers
+					$scope.$apply()
+				
+				break;
+				
+				
+			}
+			
+			
+		}
+		
+		var poller={}
+		
+		ifWorkers(function(){
+			
+			poller=new Worker('js/poller.js')
+			poller.onmessage = pollerMessage
+			
+			
+			
+		},function(){
+			//no worker support
+			
+			
+			
+		})
+		
+		
+		
 		
 		$rootScope.cookieID=cookieID
 		

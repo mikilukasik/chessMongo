@@ -15,6 +15,12 @@
 							<br> 
 							<span ng-if="wNext==wPlayer">Your turn.</span> 
 							<span ng-if="wNext!=wPlayer">Please wait..</span> 
+							<br>
+							<br>
+							<div ng-repeat="x in busyThinkers">
+								<div ng-class="{ makeGreen: x.done , makeRed: !x.done }">{{x.thinker}}: {{x.sentCount}} moves </div>
+								</div>
+							
 						</td>
 					</tr>
 					<tr>

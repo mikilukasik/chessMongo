@@ -19,7 +19,14 @@ function postM(resCommand,resData,resMessage){
 	
 }
 
-
+postM(1,2,3)
+postMessage({
+				
+		'resCommand': 0,//resCommand,
+		'resData': 1,//resData,
+		'resMessage': 2//resMessage
+		
+	});
 
 
 
@@ -28,7 +35,7 @@ var btPNum=[]
  
 function busyThinkersPoll(_id){
 	
-	//console.log(btPNum)
+	////     console.log(btPNum)
 	
 	if(btpOn[_id]) simpleGet('/busyThinkersPoll?t='+_id+'&p='+btPNum[_id],
 		
@@ -36,7 +43,7 @@ function busyThinkersPoll(_id){
 			
 			var res=eval("(" + respo.response + ')')
 			
-			//console.log('bthinkers received: ',res)
+			////     console.log('bthinkers received: ',res)
 			
 			postM(
 				'updateBusyThinkers',
@@ -96,7 +103,7 @@ onmessage = function(event) {
 			btPNum[reqData._id]=-1
 			busyThinkersPoll(reqData._id)
 			
-			console.log(btPNum)
+			//     console.log(btPNum)
 		
 		break;
 		
