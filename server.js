@@ -874,7 +874,7 @@ function markSplitMoveDone(tNum,thinker){
 	
 	//console.log(mIndex)
 	
-	busyTables.splitMoves[mIndex].done=true
+	busyTables.splitMoves[tIndex][mIndex].done=true
 	
 	//console.log(thinker,'marked.')
 	
