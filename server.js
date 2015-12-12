@@ -652,7 +652,9 @@ function makeSplitMove(dbTable) {
 		
 		var sentTo = sendTask(new Task('splitMove', sendThese, 'splitMove t' + sentTNum + ' sentCount: ' + sentCount))			//string
 
-		registerSentMoves(sentTNum,sentTo,sentCount)
+		var index=registerSentMoves(sentTNum,sentTo,sentCount)
+		
+		busyTablesPop(index)
 
 	}
 
@@ -752,7 +754,9 @@ var registerSentMoves=function(sentTNum,sentTo,sentCount){
 	
 	//    console.log('registeredtindex',index)
 	
-	busyTablesPop(index)
+	// busyTablesPop(index)
+	
+	return index
 	
 	
 }
