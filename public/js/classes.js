@@ -310,7 +310,7 @@ var Dbuser = function(name, pwd) {
 
 	}
 	//
-var FakeDbTable = function(_id, wName, bName) { //class
+var FakeDbTable = function(_id, wName, bName) { //used for speed testing only
 
 
 	this.pendingMoveCount = 0
@@ -371,20 +371,20 @@ var FakeDbTable = function(_id, wName, bName) { //class
 		this.table[i][6] = [1, 1, 0, false, false] //,pawnCanMove]
 	}
 
-	this.table[0][0] = [2, 4, 0, true, false] //,rookCanMove]				//rooks		//0 stands for times it moved
-	this.table[7][0] = [2, 4, 0, true, false] //,rookCanMove]
-	this.table[0][7] = [1, 4, 0, true, false] //,rookCanMove]
-	this.table[7][7] = [1, 4, 0, true, false] //,rookCanMove]
+	this.table[0][0] = [0, 0, 0, true, false] //,rookCanMove]				//rooks		//0 stands for times it moved
+	this.table[7][0] = [0, 0, 0, true, false] //,rookCanMove]
+	this.table[0][7] = [0, 0, 0, true, false] //,rookCanMove]
+	this.table[7][7] = [0, 0, 0, true, false] //,rookCanMove]
 
-	this.table[1][0] = [0, 0, 0, true, false] //,horseCanMove]					//knights
-	this.table[6][0] = [0, 0, 0, true, false] //,horseCanMove]
-	this.table[1][7] = [0, 0, 0, true, false] //,horseCanMove]
-	this.table[6][7] = [0, 0, 0, true, false] //,horseCanMove]
+	this.table[1][0] = [2, 3, 0, true, false] //,horseCanMove]					//knights
+	this.table[6][0] = [2, 3, 0, true, false] //,horseCanMove]
+	this.table[1][7] = [1, 3, 0, true, false] //,horseCanMove]
+	this.table[6][7] = [1, 3, 0, true, false] //,horseCanMove]
 
-	this.table[2][0] = [2, 2, 0, true, false] //,bishopCanMove]				//bishops
-	this.table[5][0] = [2, 2, 0, true, false] //,bishopCanMove]
-	this.table[2][7] = [1, 2, 0, true, false] //,bishopCanMove]
-	this.table[5][7] = [1, 2, 0, true, false] //,bishopCanMove]
+	this.table[2][0] = [0, 0, 0, true, false] //,bishopCanMove]				//bishops
+	this.table[5][0] = [0, 0, 0, true, false] //,bishopCanMove]
+	this.table[2][7] = [0, 0, 0, true, false] //,bishopCanMove]
+	this.table[5][7] = [0, 0, 0, true, false] //,bishopCanMove]
 
 	this.table[3][0] = [2, 5, 0, true, false] //,queenCanMove]				//w queen
 	this.table[4][0] = [2, 9, 0, true, false] //,kingCanMove]				//w king
