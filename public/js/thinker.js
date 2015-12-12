@@ -82,7 +82,7 @@
 
 
 		
-		mainWorkerMsgInThinker = function(event) {
+		var mainWorkerMsgInThinker = function(event) {
 			
 
 			switch (event.data.resCommand) {

@@ -174,7 +174,7 @@ function sendTask(task, thinkerId) {
 		thinkerPollIndex = fastestThinker()
 	}
 
-	////////// //////console.log(thinkerId+' '+thinkerPollIndex)
+	////////// ////////    console.log(thinkerId+' '+thinkerPollIndex)
 
 	var thisRes = null
 
@@ -188,7 +188,7 @@ function sendTask(task, thinkerId) {
 		sentTo= thisRes[0].query.id//.IncomingMessage)//.IncomingMessage.query)
 		
 		
-			////////// //////console.log(thisRes,thinkerPollIndex)
+			////////// ////////    console.log(thisRes,thinkerPollIndex)
 			//var newTaskNum=Number(thisRes[0].query.tn)+1	//!!!!!!!!!!!!!!!!!!! get real tasknum
 		task.taskNum = Number(thisRes[0].query.tn) + 1
 		//task.sentRnd = Math.random()
@@ -319,21 +319,21 @@ function sendToAll(task) {
 }
 
 app.get('/refreshAllThinkers', function(req, res) {
-	//////////// //////console.log(req)
+	//////////// ////////    console.log(req)
 	sendToAll(new Task('refresh', 0, 'refresh all'))
 	res.end()
 
 });
 
 app.get('/startAllLearners', function(req, res) {
-	//////////// //////console.log(req)
+	//////////// ////////    console.log(req)
 	//sendToAll('learnStart','learnStart all')
 	sendToAll(new Task('learnStart', 0, 'learnStart all'))
 	res.end()
 
 });
 app.get('/echoTestAll', function(req, res) {
-	//////////// //////console.log(req)
+	//////////// ////////    console.log(req)
 	//sendToAll('learnStart','learnStart all')
 	sendToAll(new Task('longEcho', 0, 'echoTest all'))
 	res.end()
@@ -341,7 +341,7 @@ app.get('/echoTestAll', function(req, res) {
 });
 
 app.get('/stopAllLearners', function(req, res) {
-	//////////// //////console.log(req)
+	//////////// ////////    console.log(req)
 	//sendToAll('learnStop','learnStop all')
 	sendToAll(new Task('learnStop', 0, 'learnStop all'))
 	res.end()
@@ -352,7 +352,7 @@ app.get('/stopAllLearners', function(req, res) {
 
 
 function createXData() {
-	////////// //////console.log("can't find xData in db, creating..") //header in db
+	////////// ////////    console.log("can't find xData in db, creating..") //header in db
 
 	mongodb.connect(cn, function(err, db) {
 
@@ -436,7 +436,7 @@ setInterval(function() {
 								.save(xData, function(err3, res) {
 									db2.close()
 								})
-								//////////// //////console.log('Games checked.')
+								//////////// ////////    console.log('Games checked.')
 
 						});
 
@@ -626,7 +626,7 @@ function makeSplitMove(dbTable) {
 		var aa=fastestThinker(true)
 		
 		// if(aiTable.movesToSend.length===tempLength){
-		// 	console.log('itt a bug!!!!!!!!!!!')
+		// 	//    console.log('itt a bug!!!!!!!!!!!')
 		// 	aiTable.movesToSend.length=[]		//no thinker available, should hold it!!!!!!!!!!!!!!!!!
 		// 	break;
 		// }
@@ -635,13 +635,13 @@ function makeSplitMove(dbTable) {
 
 	
 		if(isNaN(aa)){
-			////console.log('hacking',aa)
+			//////    console.log('hacking',aa)
 			aa=1		//quickfix!!!!!!!!!!!!!!!!!!!!!!
 		}
 		
 		var sendThese = getSplitMoveTask(aiTable, aa)
 		
-		////console.log('calling sendTask')
+		//////    console.log('calling sendTask')
 		
 		var sentCount= sendThese.length
 		
@@ -683,10 +683,18 @@ var getBusyTableIndex = function(tNum){
 		busyTables.pollNums.push(0)
 		busyTables.pendingPolls.push([])
 		
+		//    console.log('fstrtn', busyTables.tables.length-1)
+		
 		return busyTables.tables.length-1
 		
 		
 	}else{
+		
+		
+		//    console.log('indexrtn', index)
+		
+		//    console.log('btb',busyTables.pendingPolls)
+		
 		
 		return index
 		
@@ -708,7 +716,9 @@ var registerSentMoves=function(sentTNum,sentTo,sentCount){
 	
 	})
 	
-	busyTables.pollNums[index]++
+	//busyTables.pollNums[index]++
+	
+	//    console.log('registeredtindex',index)
 	
 	busyTablesPop(index)
 	
@@ -734,7 +744,7 @@ function makeAiMove(dbTable) {
 		case 'thinkers':
 
 			//split between available thinkers to make it as fast as possible
-			////console.log('calling makeSplitMove..')
+			//////    console.log('calling makeSplitMove..')
 			makeSplitMove(dbTable) //starts processing table in multi-thinker mode
 
 
@@ -775,7 +785,7 @@ function postThinkerMessage(thinker, message){
 }
 app.post('/thinkerMessage', function(req, res) {
 	var thinker = knownThinkers[doIKnow(req.body.thinker)]
-	//console.log(req)
+	////    console.log(req)
 	postThinkerMessage(thinker,req.body.message)
 	res.send('ok')
 	//fdz
@@ -784,7 +794,7 @@ app.post('/thinkerMessage', function(req, res) {
 app.post('/myPartIsDone', function(req, res) {
 
 	//var movedTable=req.body
-	//////////// //////console.log(req)
+	//////////// ////////    console.log(req)
 	res.send('received.')
 
 
@@ -799,10 +809,10 @@ app.post('/myPartIsDone', function(req, res) {
 
 	// 				//onTable.gameIsOn=false
 
-	////console.log('received:',req.body)
+	//////    console.log('received:',req.body)
 	var index = getTaskIndex(req.body[0]._id)
 
-	////////console.log(index)
+	//////////    console.log(index)
 
 
 
@@ -814,7 +824,7 @@ app.post('/myPartIsDone', function(req, res) {
 	})
 	
 	
-	//console.log('!!!!!!!!!!!!',808,req.body[0]._id,req.body[0].thinker)
+	////    console.log('!!!!!!!!!!!!',808,req.body[0]._id,req.body[0].thinker)
 	
 	markSplitMoveDone(req.body[0]._id,req.body[0].thinker)
 
@@ -876,14 +886,21 @@ function findMIndex(tIndex,thinker){
 
 var busyTablesPop=function(tIndex){
 	
+	//    console.log('tindex',tIndex)
+	//    console.log('popped',busyTables.pendingPolls[tIndex])
+	
+	busyTables.pollNums[tIndex]++
+	
 	while(busyTables.pendingPolls[tIndex].length>0){
-		
+		//    console.log('volt egy')
 		var res=busyTables.pendingPolls[tIndex].pop()
 		
 		
 		res.json({
 				
-				busyThinkers: busyTables.splitMoves[tIndex]
+				busyThinkers: busyTables.splitMoves[tIndex],
+				pollNum: busyTables.pollNums[tIndex]
+				
 				
 		})
 		
@@ -904,13 +921,15 @@ function markSplitMoveDone(tNum,thinker){
 	
 	var tIndex=getBusyTableIndex(tNum)
 	
+	//    console.log('markedtindex',tIndex)
+	
 	var mIndex=findMIndex(tIndex,thinker)
 
 	busyTables.splitMoves[tIndex][mIndex].done=true
 	
-	busyTables.pollNums[tIndex]++
+	//busyTables.pollNums[tIndex]++
 	
-	//console.log(busyTables.pollNums[tIndex])
+	////    console.log(busyTables.pollNums[tIndex])
 	
 	busyTablesPop(tIndex)
 	
@@ -941,7 +960,7 @@ app.post('/moved', function(req, res) {
 	
 					case 'makeAiMove':
 						
-						////console.log('calling makeaimove..')
+						//////    console.log('calling makeaimove..')
 						makeAiMove(onTable)
 	
 	
@@ -1061,8 +1080,8 @@ app.get('/aiMove', function(req, res) {
 						.findOne({
 							_id: Number(req.query.t)
 						}, function(err2, tableInDb) {
-							// ////////// //////console.log(resJsn)
-							// ////////// //////console.log('dssdfsdgs')
+							// ////////// ////////    console.log(resJsn)
+							// ////////// ////////    console.log('dssdfsdgs')
 							if (!(resJsn == null || tableInDb == null)) {
 								var moveStr = String(resJsn.aimove)
 								if (!(moveStr == "")) { //there's at least 1 move
@@ -1129,11 +1148,16 @@ app.get('/getTPollNum', function(req, res) {
 
 app.get('/busyThinkersPoll', function(req, res) {
 	
-	var index=getBusyTableIndex(req.query.tNum)
+	//    console.log('longpoll tNum received: ',req.query.t)
+	
+	var index=getBusyTableIndex(Number(req.query.t))
 	
 	if(req.query.p==busyTables.pollNums[index]){
 		//no changes, let's store the res
 		busyTables.pendingPolls[index].push(res)
+		
+		// //    console.log('pushed',index)
+		// //    console.log('pendingpolls',busyTables.pendingPolls)
 		
 			
 	}else{
@@ -1141,7 +1165,8 @@ app.get('/busyThinkersPoll', function(req, res) {
 		
 		res.json({
 			
-			busyThinkers: busyTables.splitMoves[index]
+			busyThinkers: busyTables.splitMoves[index],
+			pollNum: busyTables.pollNums[index]
 			
 		})
 		
@@ -1326,7 +1351,7 @@ app.get('/longPollTable', function(req, res) {
 
 });
 app.get('/forceStop', function(req, res) {
-	//////////// //////console.log(req)
+	//////////// ////////    console.log(req)
 	res.send('sg')
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
@@ -1357,7 +1382,7 @@ app.get('/forceStop', function(req, res) {
 });
 ////////////////////////////post
 app.post('/evaledGame', function(req, res) {
-	//////////// //////console.log(req)
+	//////////// ////////    console.log(req)
 	res.send('started, check DB for t' + req.body._id)
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
@@ -1401,7 +1426,7 @@ app.post('/evaledGame', function(req, res) {
 }); /////////////////////////////
 
 app.get('/aiOn', function(req, res) {
-	//////////// //////console.log(req)
+	//////////// ////////    console.log(req)
 	res.send('sg')
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
@@ -1711,7 +1736,7 @@ app.get('/watchGame', function(req, res) {
 });
 
 app.get('/lobbyChat', function(req, res) {
-	//////////// //////console.log(req)
+	//////////// ////////    console.log(req)
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
@@ -1736,7 +1761,7 @@ app.get('/lobbyChat', function(req, res) {
 
 
 app.get('/getModTypes', function(req, res) {
-	//////////// //////console.log(req)
+	//////////// ////////    console.log(req)
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
@@ -1758,7 +1783,7 @@ app.get('/getModTypes', function(req, res) {
 });
 
 app.get('/getMyRecentGames', function(req, res) {
-	//////////// //////console.log(req)
+	//////////// ////////    console.log(req)
 	mongodb.connect(cn, function(err, db) {
 		db.collection("users")
 			.findOne({
@@ -1892,7 +1917,7 @@ function gotTask(taskForMe, id) {
 	//var forMe=false
 	var forAny = -1
 	for (var i = 0; i < taskQ.length; i++) {
-		//////// //////console.log(taskQ[i][1])
+		//////// ////////    console.log(taskQ[i][1])
 		if (taskQ[i][1] == id) {
 			//task for me
 			taskForMe.push(taskQ.splice(i, 1))
@@ -1917,7 +1942,7 @@ function gotTask(taskForMe, id) {
 }
 
 app.get('/longPollTasks', function(req, res) {
-	//////////// //////console.log(req)
+	//////////// ////////    console.log(req)
 	var pollerIndex = doIKnow(req.query.id)
 	if (-1 == pollerIndex) {
 		knownThinkers.push({
@@ -1997,7 +2022,7 @@ app.get('/longPollTasks', function(req, res) {
 		
 		if (gotTask(taskForMe, req.query.id)) { //ez beleirja a taskformebe
 
-		//////// //////console.log('for me: '+taskForMe)
+		//////// ////////    console.log('for me: '+taskForMe)
 		sendTask(taskForMe[0][0][0], taskForMe[0][0][1]) //why? !!!!!!!
 
 
@@ -2074,7 +2099,7 @@ app.get('/speedTestResult', function(req, res) {
 	//                                              )
 
 app.get('/learnerPoll', function(req, res) {
-	//////////// //////console.log(req)
+	//////////// ////////    console.log(req)
 
 	if (learners[0].indexOf(req.query.n) == -1) {
 		learners[0].push(req.query.n)
@@ -2203,7 +2228,7 @@ function clearDisconnectedLearners() {
 }
 
 app.get('/getLobby', function(req, res) {
-	//////////// //////console.log(req)
+	//////////// ////////    console.log(req)
 	clearDisconnectedPlayers()
 	if (players[0].indexOf(req.query.p) == -1) {
 		players[0].push(req.query.p)
@@ -2290,7 +2315,7 @@ var clear = ['']
 var stats = clear
 
 app.get('/refreshStats', function(req, res) {
-	////////// //////console.log(req)
+	////////// ////////    console.log(req)
 	// 	res.writeHead(200, {
 
 	//   'Content-Type': 'text/plain' 
@@ -2355,14 +2380,14 @@ app.get('/refreshStats', function(req, res) {
 							}, function(errs, bModGame) {
 								if (bModGame) {
 									//van matching pair game
-									////////// //////console.log('van')
+									////////// ////////    console.log('van')
 									var wonScore = 0
 									var moveCountScore = 0
 									var finalDataScore = 0
 
 
 									var resText = ''
-									//////console.log(wModGame.finalData, bModGame.finalData)
+									////////    console.log(wModGame.finalData, bModGame.finalData)
 									if (wModGame.finalData != undefined && bModGame.finalData != undefined) {
 										if (bModGame.finalData.black != undefined) resText = resText.concat(wModGame.finalData.white[0] + ' ' + bModGame.finalData.black[0])
 									}
@@ -2413,7 +2438,7 @@ app.get('/refreshStats', function(req, res) {
 
 
 									resArray.push(10 * finalDataScore, moveCountScore, 100 * wonScore, 1000 * wonScore + 10 * finalDataScore + moveCountScore, bModGame.bName, resText) //to be fixed
-										//////// //////console.log([wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9)])
+										//////// ////////    console.log([wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9)])
 									stats.push(resArray.join(String.fromCharCode(9)))
 									captainPop()
 										//res.write(resArray.join(''));
@@ -2436,7 +2461,7 @@ app.get('/refreshStats', function(req, res) {
 
 
 
-									////////// //////console.log('nincs')
+									////////// ////////    console.log('nincs')
 								}
 								// if(statIndex==statData.length-1){
 								// 		res.write('end')
@@ -2481,7 +2506,7 @@ app.get('/refreshStats', function(req, res) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // io.on('connection', function(socket){
-//   ////////// //////console.log('IO: a user connected');
+//   ////////// ////////    console.log('IO: a user connected');
 // });
 
 var server = app.listen(80, function() {
@@ -2491,7 +2516,7 @@ var server = app.listen(80, function() {
 	var port = server.address()
 		.port;
 
-	////////// //////console.log('app listening at http://%s:%s', host, port);
+	////////// ////////    console.log('app listening at http://%s:%s', host, port);
 
 });
 
@@ -2502,6 +2527,6 @@ var server = app.listen(80, function() {
 // 	var port = server.address()
 // 		.port;
 
-// 	////////// //////console.log('app listening at http://%s:%s', host, port);
+// 	////////// ////////    console.log('app listening at http://%s:%s', host, port);
 
 // });

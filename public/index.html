@@ -11,6 +11,8 @@
 	<script src="js/deepening.js"></script>
 	<script src="js/classes.js"></script>
 	<script src="js/thinker.js"></script>
+	
+	
 
 	<script>
 		
@@ -124,8 +126,41 @@
 
 		
 
-
-
+		var pollerMessage= function(event){
+			
+			switch (event.data.resCommand){
+				
+				case undefined:
+				
+				break;
+				
+				case 'updateBusyThinkers':
+				
+					console.log(event.data.resData)
+				
+				break;
+				
+				
+			}
+			
+			
+		}
+		
+		var poller
+		
+		ifWorkers(function(){
+			
+			poller=new Worker('js/poller.js')
+			poller.onMessage = pollerMessage
+			
+			
+		},function(){
+			//no worker support
+			
+			
+			
+		})
+		
 		ifWorkers(startWorkers)
 		
 		
@@ -798,9 +833,18 @@
 
 		$scope.newView = function(viewName) {
 			if(viewName == 'board.html') {
-				$scope.refreshRecentGames()
+				//$scope.refreshRecentGames()
 				//console.log('View changed to board, calling longpoll on t'+$rootScope._id)
 				$rootScope.longPollTable()		//start longpoll
+				
+				//console.log(poller)
+				
+				poller.postMessage({
+					reqCommand: 'startBusyThinkersPoll',
+					reqData: {
+						_id: $rootScope._id
+					}
+				})
 				
 				$rootScope.updateSizes()
 				

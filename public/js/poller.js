@@ -28,22 +28,27 @@ var btPNum=[]
  
 function busyThinkersPoll(_id){
 	
+	//console.log(btPNum)
+	
 	if(btpOn[_id]) simpleGet('/busyThinkersPoll?t='+_id+'&p='+btPNum[_id],
 		
 		function(respo){
 			
 			var res=eval("(" + respo.response + ')')
 			
+			//console.log('bthinkers received: ',res)
+			
 			postM(
 				'updateBusyThinkers',
 				{
 					_id:_id,
 					busyThinkers:res.busyThinkers
+					
 				},
 				'updateBusyThinkers on t'+res._id
 			)
 			
-			btPNum[_id]=res.pNum
+			btPNum[_id]=res.pollNum
 			
 			busyThinkersPoll(_id)
 			
@@ -91,6 +96,7 @@ onmessage = function(event) {
 			btPNum[reqData._id]=-1
 			busyThinkersPoll(reqData._id)
 			
+			console.log(btPNum)
 		
 		break;
 		
