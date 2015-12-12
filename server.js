@@ -115,17 +115,16 @@ var getThinkerIndex = function(id) {
 	return -1
 
 
-
-	//return speedArray.indexOf(Math.max.apply( Math, speedArray ));
 };
 var fastestThinker = function(spdPct) {
+	
 	var speedArray = []
 	for (var i = 0; i < pendingThinkerPolls.length; i++) {
 		speedArray.push(~~(100 * (pendingThinkerPolls[i][0].query.spd)))
 	}
 
 	var mx = speedArray.indexOf(Math.max.apply(Math, speedArray));
-	////////// //////console.log('highest: '+Math.max.apply( Math, speedArray ))
+	
 	if (!spdPct) {
 		return mx
 	}
@@ -160,6 +159,9 @@ function sendTask(task, thinkerId) {
 	// 	var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 	//var message=task.message
 	var thinkerPollIndex = 0
+	
+	var sentTo=''
+	
 	if (thinkerId) {
 
 
@@ -176,15 +178,20 @@ function sendTask(task, thinkerId) {
 
 	var thisRes = null
 
-	if (thinkerPollIndex > -1) { //thinker is waiting for us
+	if (thinkerPollIndex > -1) { //thinker is ready for us
 
 		thinkerId = pendingThinkerPolls[thinkerPollIndex][0].query.id
 
 		thisRes = pendingThinkerPolls.splice(thinkerPollIndex, 1)[0]
+		
+		
+		sentTo= thisRes[0].query.id//.IncomingMessage)//.IncomingMessage.query)
+		
+		
 			////////// //////console.log(thisRes,thinkerPollIndex)
 			//var newTaskNum=Number(thisRes[0].query.tn)+1	//!!!!!!!!!!!!!!!!!!! get real tasknum
 		task.taskNum = Number(thisRes[0].query.tn) + 1
-		task.sentRnd = Math.random()
+		//task.sentRnd = Math.random()
 
 		// if(thisPop[0].query.id!=knownThinkers[thisPop[0].query.id].id) {
 		// 	knownThinkers[thisPop[0].query.id]={id:thisPop[0].query.id}	// object has knownThinkers id
@@ -253,6 +260,7 @@ function sendTask(task, thinkerId) {
 
 	}
 
+	return sentTo
 
 }
 
@@ -586,6 +594,12 @@ var getSplitMoveTask = function(aiTable, percent) {
 
 }
 
+function pushSplitTask(splitTask){
+	
+		splitTaskQ.push(splitTask) //use this when receiving
+	
+}
+
 
 function makeSplitMove(dbTable) {
 	
@@ -593,36 +607,33 @@ function makeSplitMove(dbTable) {
 	
 	dbTable.splitMoveStarted = new Date()
 	
-	var aiTable = new MoveTask(dbTable)
+	var aiTable = new MoveTask(dbTable)			//this should happen on the calling client, not on the server
 
 	dbTable.aiTable = aiTable
 
 	dbTable.pendingSolvedMoves = aiTable.moves.length //set it here, it will be decreased as the moves come in
 
-	///dbTable.pendingSolvedMoves= aiTable.totalMoveCount,
-	//moves: aiTable.moves,
 	dbTable.returnedMoves = []
-		// notReceivedSplitMoves: aiTable.totalMoveCount
-		//}
-		
-	splitTaskQ.push(dbTable) //use this when receiving
+				
+	// splitTaskQ.push(dbTable) //use this when receiving
+	pushSplitTask(dbTable)
+	
 
 	while (aiTable.movesToSend.length > 0) {
 		
-		
-		////console.log(aiTable.movesToSend.length+' moves left to send')
-		////////console.log(617,'still need to send '+aiTable.movesToSend.length+' splitmoves')
-
-		// var sendThese = getSplitMoveTask(aiTable, fastestThinker(true))
-		// sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTable._id + ' moves: ' + sendThese.length))
-
-
-		////console.log('calling getSplitMoveTask')
+		var tempLength=aiTable.movesToSend.length
 		
 		var aa=fastestThinker(true)
-
-		////console.log('aa',aa)
 		
+		// if(aiTable.movesToSend.length===tempLength){
+		// 	console.log('itt a bug!!!!!!!!!!!')
+		// 	aiTable.movesToSend.length=[]		//no thinker available, should hold it!!!!!!!!!!!!!!!!!
+		// 	break;
+		// }
+		
+		
+
+	
 		if(isNaN(aa)){
 			////console.log('hacking',aa)
 			aa=1		//quickfix!!!!!!!!!!!!!!!!!!!!!!
@@ -632,33 +643,68 @@ function makeSplitMove(dbTable) {
 		
 		////console.log('calling sendTask')
 		
-		sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTable._id + ' moves: ' + sendThese.length))
+		var sentCount= sendThese.length
+		
+		var sentTNum = dbTable._id
+		
+		var sentTo = sendTask(new Task('splitMove', sendThese, 'splitMove t' + sentTNum + ' sentCount: ' + sentCount))			//string
 
+		registerSentMoves(sentTNum,sentTo,sentCount)
 
 	}
 
 
 
-
-	// dont save now
-
-	// mongodb.connect(cn, function(err, db) {
-	// db.collection("tables")
-	// 	.save(onTable, function(err3, res) {
-	// 			//table moved and saved, let's check what to do
-
-	// 	//check if still waiting and eval if not
-
-
-
-
-	// popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
-
-
-	// db.close()
-
 }
 
+var BusyTables=function(){
+	
+	this.tables=[]
+	this.splitMoves=[]
+	
+}
+
+var busyTables=new BusyTables()
+
+
+// var workingOnSplitMoves=[]
+
+var getBusyTableIndex = function(tNum){
+	
+	var index=busyTables.tables.indexOf(tNum)
+	
+	if(index==-1){
+		//table not in array, lets push it
+		
+		busyTables.tables.push(tNum)
+		busyTables.splitMoves.push([])
+		
+		return busyTables.tables.length-1
+		
+		
+	}else{
+		
+		return index
+		
+	}
+	
+	
+}
+
+
+var registerSentMoves=function(sentTNum,sentTo,sentCount){
+	
+	var index=getBusyTableIndex(sentTNum)
+	
+	busyTables.splitMoves[index].push({
+		
+		thinker: sentTo,
+		sentCount: sentCount
+	
+	})
+	
+	
+}
 
 
 
@@ -669,6 +715,7 @@ function makeAiMove(dbTable) {
 		case 'fastest thinker':
 
 			var moveTask = new Task('move', dbTable, 'fastest thinker move t' + dbTable._id)
+			
 			sendTask(moveTask) //sends to fastest thinker
 
 			//callback handled as another post
@@ -756,6 +803,11 @@ app.post('/myPartIsDone', function(req, res) {
 		splitTaskQ[index].pendingSolvedMoves--
 	
 	})
+	
+	
+	//console.log('!!!!!!!!!!!!',808,req.body[0]._id,req.body[0].thinker)
+	
+	markSplitMoveDone(req.body[0]._id,req.body[0].thinker)
 
 	if (splitTaskQ[index].pendingSolvedMoves == 0) {
 		
@@ -801,6 +853,32 @@ app.post('/myPartIsDone', function(req, res) {
 
 });
 
+function findMIndex(tIndex,thinker){
+	
+	for (var i=busyTables.splitMoves[tIndex].length-1;i>=0;i--){
+		
+		if(busyTables.splitMoves[tIndex][i].thinker==thinker){
+			
+			return i
+			
+		}
+	}
+}
+
+
+function markSplitMoveDone(tNum,thinker){
+	
+	var tIndex=getBusyTableIndex(tNum)
+	
+	var mIndex=findMIndex(tIndex,thinker)
+	
+	console.log(mIndex)
+	
+	busyTables.splitMoves[mIndex].done=true
+	
+	console.log('marked.')
+	
+}
 
 app.post('/moved', function(req, res) {
 	

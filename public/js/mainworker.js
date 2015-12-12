@@ -418,7 +418,7 @@ onmessage = function(event) {
 								
 										
 							
-								simplePost('/myPartIsDone', postThis, function(req, res) {
+								simplePost('/myPartIsDone?id='+ sendID , postThis, function(req, res) {
 								
 									
 								
