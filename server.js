@@ -618,6 +618,9 @@ function makeSplitMove(dbTable) {
 	// splitTaskQ.push(dbTable) //use this when receiving
 	pushSplitTask(dbTable)
 	
+	var sentTNum = dbTable._id
+	
+	clearSentMoves(sentTNum)
 
 	while (aiTable.movesToSend.length > 0) {
 		
@@ -645,7 +648,7 @@ function makeSplitMove(dbTable) {
 		
 		var sentCount= sendThese.length
 		
-		var sentTNum = dbTable._id
+		
 		
 		var sentTo = sendTask(new Task('splitMove', sendThese, 'splitMove t' + sentTNum + ' sentCount: ' + sentCount))			//string
 
@@ -703,6 +706,10 @@ var getBusyTableIndex = function(tNum){
 	
 }
 
+var clearSentMoves=function(sentTNum){
+	var index=getBusyTableIndex(sentTNum)
+	busyTables.splitMoves[index]=[]
+}
 
 var registerSentMoves=function(sentTNum,sentTo,sentCount){
 	
