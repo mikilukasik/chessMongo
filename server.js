@@ -661,6 +661,8 @@ var BusyTables=function(){
 	
 	this.tables=[]
 	this.splitMoves=[]
+	this.pollNums=[]
+	this.pendingPolls=[]
 	
 }
 
@@ -678,6 +680,8 @@ var getBusyTableIndex = function(tNum){
 		
 		busyTables.tables.push(tNum)
 		busyTables.splitMoves.push([])
+		busyTables.pollNums.push(0)
+		busyTables.pendingPolls.push([])
 		
 		return busyTables.tables.length-1
 		
@@ -699,14 +703,19 @@ var registerSentMoves=function(sentTNum,sentTo,sentCount){
 	busyTables.splitMoves[index].push({
 		
 		thinker: sentTo,
-		sentCount: sentCount
+		sentCount: sentCount,
+		done: false
 	
 	})
+	
+	busyTables.pollNums[index]++
+	
+	busyTablesPop(index)
 	
 	
 }
 
-
+//
 
 function makeAiMove(dbTable) {
 
@@ -865,6 +874,31 @@ function findMIndex(tIndex,thinker){
 	}
 }
 
+var busyTablesPop=function(tIndex){
+	
+	while(busyTables.pendingPolls[tIndex].length>0){
+		
+		var res=busyTables.pendingPolls[tIndex].pop()
+		
+		
+		res.json({
+				
+				busyThinkers: busyTables.splitMoves[tIndex]
+				
+		})
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+}
+
 
 function markSplitMoveDone(tNum,thinker){
 	
@@ -873,6 +907,12 @@ function markSplitMoveDone(tNum,thinker){
 	var mIndex=findMIndex(tIndex,thinker)
 
 	busyTables.splitMoves[tIndex][mIndex].done=true
+	
+	busyTables.pollNums[tIndex]++
+	
+	//console.log(busyTables.pollNums[tIndex])
+	
+	busyTablesPop(tIndex)
 	
 }
 
@@ -983,91 +1023,8 @@ app.get('/move', function(req, res) {
 					db.collection("tables")
 						.save(tableInDb, function(err3, res) {})
 
-					///////
-
-
-
-					// if (tableInDb.gameIsOn &&
-					// 	((tableInDb.wNext && tableInDb.wName == "Server") ||
-					// 		(!tableInDb.wNext && tableInDb.bName == "Server"))) { //if Server's next
-					// 	//need to make aiMove
-					// 	var options = {
-					// 		host: 'localhost',
-					// 		port: 16789,
-					// 		path: '/aichoice?t=' + tableInDb._id
-					// 	};
-
-					// 	http.request(options, function(response) {
-					// 			var resJsn = {};
-
-					// 			//another chunk of data has been recieved, so append it to `resJsn`
-					// 			response.on('data', function(chunk) {
-					// 				resJsn = JSON.parse(chunk);
-					// 			});
-
-					// 			response.on('end', function() {
-
-					// 				// if (!(resJsn == null)) {
-					// 				// 	var moveStr = String(resJsn.aimove)
-					// 				// 	if (!(moveStr == "")) { //there's at least 1 move
-					// 				// 		var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
-					// 				// 			tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
-					// 				// 			moveStr + //the string
-					// 				// 			tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][0] + //color of whats hit
-					// 				// 			tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][1] //piece
-					// 				// 			//en passnal nem latszik a leveett paraszt
-
-					// 				// 		tableInDb.moves.push(toPush)
-					// 				// 			//tableInDb.toBeChecked = true
-					// 				// 		tableInDb.table = moveIt(moveStr, tableInDb.table)
-
-					// 				// 		tableInDb.wNext = !tableInDb.wNext
-
-					// 				// 		evalGame(tableInDb)
-
-					// 				// 		tableInDb.learnerIsBusy = false
-
-					// 				// 		tableInDb.pollNum++
-
-					// 				// 			tableInDb.moved = new Date()
-					// 				// 			.getTime()
-					// 				// 		tableInDb.chat = resJsn.toconsole
-
-					// 				// 		//tableInDb.toBeChecked = false //checked for now. this should be done later, there are other stuff to be checked
-
-					// 				// 		tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
-
-					// 				// 		//remember this state for 3fold rule
-
-					// 				// 		tableInDb.allPastTables.push(createState(tableInDb.table))
-
-					// 				// 		popThem(Number(tableInDb._id), tableInDb, 'moved', 'Ai moved: ' + moveStr) //respond to pending longpolls
-
-					// 				// 		db.collection("tables")
-					// 				// 			.save(tableInDb, function(err3, res) {})
-
-					// 				// 	}
-					// 				// }
-
-					// 				db.close()
-					// 			});
-					// 		})
-					// 		.end();
-
-					// }
-					// else {
-						//not computer is next
-
-						//fastest client, etc handled with post
-
-
-
-
-						db.close()
-					// }
-
-
-
+					db.close()
+					
 				}
 
 			});
@@ -1168,6 +1125,29 @@ app.get('/getTPollNum', function(req, res) {
 
 	});
 
+});
+
+app.get('/busyThinkersPoll', function(req, res) {
+	
+	var index=getBusyTableIndex(req.query.tNum)
+	
+	if(req.query.p==busyTables.pollNums[index]){
+		//no changes, let's store the res
+		busyTables.pendingPolls[index].push(res)
+		
+			
+	}else{
+		//state changed, let's reply
+		
+		res.json({
+			
+			busyThinkers: busyTables.splitMoves[index]
+			
+		})
+		
+		
+	}
+	
 });
 
 //////////////////////////			user register
