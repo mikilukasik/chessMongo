@@ -386,10 +386,10 @@ var FakeDbTable = function(_id, wName, bName) { //used for speed testing only
 	this.table[2][7] = [0, 0, 0, true, false] //,bishopCanMove]
 	this.table[5][7] = [0, 0, 0, true, false] //,bishopCanMove]
 
-	this.table[3][0] = [2, 5, 0, true, false] //,queenCanMove]				//w queen
+	this.table[3][0] = [0, 0, 0, true, false] //,queenCanMove]				//w queen
 	this.table[4][0] = [2, 9, 0, true, false] //,kingCanMove]				//w king
 
-	this.table[3][7] = [1, 5, 0, true, false] //,queenCanMove]				//b q
+	this.table[3][7] = [0, 0, 0, true, false] //,queenCanMove]				//b q
 	this.table[4][7] = [1, 9, 0, true, false] //,kingCanMove]				//b k
 
 	this.table = addMovesToTable(this.table, true)
