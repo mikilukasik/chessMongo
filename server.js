@@ -620,7 +620,7 @@ function makeSplitMove(dbTable) {
 	
 	var sentTNum = dbTable._id
 	
-	clearSentMoves(sentTNum)
+	//clearSentMoves(sentTNum)
 
 	while (aiTable.movesToSend.length > 0) {
 		
@@ -715,14 +715,39 @@ var registerSentMoves=function(sentTNum,sentTo,sentCount){
 	
 	var index=getBusyTableIndex(sentTNum)
 	
-	busyTables.splitMoves[index].push({
+	
+	var mIndex=-1
+	
+	for (var i=busyTables.splitMoves[index].length-1;i>=0;i--){
+		if (busyTables.splitMoves[index][i].thinker==sentTo){
+			mIndex=i
+		}
+	}
+	
+	if(mIndex==-1){
+	
+		busyTables.splitMoves[index].push({
+			
+			thinker: sentTo,
+			sentCount: sentCount,
+			done: false
 		
-		thinker: sentTo,
-		sentCount: sentCount,
-		done: false
-	
-	})
-	
+		})
+		
+	}else{
+		
+		busyTables.splitMoves[index][mIndex]={
+			
+			thinker: sentTo,
+			sentCount: sentCount,
+			done: false
+		
+		}
+		
+		
+		
+		
+	}
 	//busyTables.pollNums[index]++
 	
 	//    console.log('registeredtindex',index)
