@@ -2,7 +2,7 @@
 				
 					
 					<tr>
-						<td nowrap class="wBorder"> 
+						<td nowrap class="wBorder statusBox"> 
 							<form ng-submit="setDepth(depth)">
 								Depth:
 								<input ng-model="depth" style="width:40px">
@@ -24,8 +24,8 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="wBorder scrollThis moves">
-							<div class="lbborder scrollThis">
+						<td class="scrollThis">
+							<div class="lbborder scrollThis moves" style="overflow-y:scroll">
 								<div ng-repeat="x in moves">
 									<img ng-src="{{'cPiecesPng/'+x[0]+x[1]+'.png'}}" style="width: 15%">
 									{{x[2]+x[3]+x[4]+x[5]}}

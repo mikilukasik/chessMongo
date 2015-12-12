@@ -155,10 +155,11 @@
 				
 				case 'updateBusyThinkers':
 				
-					console.log(event.data.resData.busyThinkers)
+			//		console.log(event.data.resData.busyThinkers)
 					
 					$rootScope.busyThinkers=event.data.resData.busyThinkers
 					$scope.$apply()
+					$rootScope.updateSizes()
 				
 				break;
 				
@@ -233,9 +234,10 @@
 			
 			
 			var nw=$('.navvv').width()
+			var sbh=$('.statusBox').height()
 			
 			$('.frame-table').css({'width':nw+'px'});
-			$('.frame-table').css({'height':(sh-60)+'px'});
+			$('.frame-table').css({'height':(sh-50)+'px'});
 			
 			
 			
@@ -244,6 +246,7 @@
 				case 0:
 				
 				$('.leftBar').css({'width':130+'px'});
+				
 					
 					$('.iderakd').css({'height':(1)+'px'});
 					$('.iderakd').css({'width':(1)+'px'});
@@ -256,6 +259,8 @@
 					$('.chatCell').css({'height':(sh-92)+'px'});
 					
 					$('.chatInpt').css({'width':(sw-sh-144)+'px'});
+					
+					$('.moves').css({'height':(sh-sbh-75)+'px'});
 				
 				break;
 				
@@ -281,6 +286,8 @@
 					$('.main-table').css({'height':(nw-215)+'px'});
 					$('.main-table').css({'width':(nw-215)+'px'});
 					
+					
+					$('.moves').css({'height':(sh-sbh+112)+'px'});
 					
 					
 				
@@ -309,6 +316,7 @@
 					$('.main-table').css({'height':(nw-150)+'px'});
 					$('.main-table').css({'width':(nw-150)+'px'});
 					
+					$('.moves').css({'height':(sh-sbh-82)+'px'});
 					
 				
 				break;
@@ -332,7 +340,7 @@
 					$('.main-table').css({'height':(nw-8)+'px'});
 					$('.main-table').css({'width':(nw-8)+'px'});
 					
-					
+					$('.moves').css({'height':(sh-sbh-nw-73)+'px'});
 					
 				break;
 				
