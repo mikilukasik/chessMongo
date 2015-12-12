@@ -621,6 +621,8 @@ function makeSplitMove(dbTable) {
 	var sentTNum = dbTable._id
 	
 	clearSentMoves(sentTNum)
+	
+	var index
 
 	//for(var i=busyTables.splitMoves[])
 
@@ -654,12 +656,13 @@ function makeSplitMove(dbTable) {
 		
 		var sentTo = sendTask(new Task('splitMove', sendThese, 'splitMove t' + sentTNum + ' sentCount: ' + sentCount))			//string
 
-		var index=registerSentMoves(sentTNum,sentTo,sentCount)
+		index=registerSentMoves(sentTNum,sentTo,sentCount)
 		
-		busyTablesPop(index)
+		
 
 	}
 
+	busyTablesPop(index)
 
 
 }
