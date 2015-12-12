@@ -876,7 +876,7 @@ function markSplitMoveDone(tNum,thinker){
 	
 	busyTables.splitMoves[mIndex].done=true
 	
-	console.log('marked.')
+	console.log(thinker,'marked.')
 	
 }
 
