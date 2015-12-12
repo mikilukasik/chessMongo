@@ -721,6 +721,10 @@ var registerSentMoves=function(sentTNum,sentTo,sentCount){
 	var mIndex=-1
 	
 	for (var i=busyTables.splitMoves[index].length-1;i>=0;i--){
+		
+		busyTables.splitMoves[index][i].sentCount=0
+		
+	
 		if (busyTables.splitMoves[index][i].thinker==sentTo){
 			mIndex=i
 		}
