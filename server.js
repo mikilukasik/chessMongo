@@ -620,7 +620,9 @@ function makeSplitMove(dbTable) {
 	
 	var sentTNum = dbTable._id
 	
-	//clearSentMoves(sentTNum)
+	clearSentMoves(sentTNum)
+
+	//for(var i=busyTables.splitMoves[])
 
 	while (aiTable.movesToSend.length > 0) {
 		
@@ -709,8 +711,15 @@ var getBusyTableIndex = function(tNum){
 }
 
 var clearSentMoves=function(sentTNum){
+	
 	var index=getBusyTableIndex(sentTNum)
-	busyTables.splitMoves[index]=[]
+	
+	for (var i=busyTables.splitMoves[index].length-1;i>=0;i--){
+			busyTables.splitMoves[index][i].sentCount=0
+	}
+	
+
+	
 }
 
 var registerSentMoves=function(sentTNum,sentTo,sentCount){
@@ -722,7 +731,7 @@ var registerSentMoves=function(sentTNum,sentTo,sentCount){
 	
 	for (var i=busyTables.splitMoves[index].length-1;i>=0;i--){
 		
-		busyTables.splitMoves[index][i].sentCount=0
+		// busyTables.splitMoves[index][i].sentCount=0
 		
 	
 		if (busyTables.splitMoves[index][i].thinker==sentTo){
