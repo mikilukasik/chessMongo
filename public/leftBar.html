@@ -17,9 +17,11 @@
 							<span ng-if="wNext!=wPlayer">Please wait..</span> 
 							<br>
 							<br>
-							<div ng-repeat="x in busyThinkers">
-								<div ng-class="{ makeGreen: x.done , makeRed: !x.done , makeGrey: x.sentCount==0 }">{{x.thinker}}: {{x.sentCount}} moves </div>
-								</div>
+							<div ng-repeat="x in busyThinkers track by $index">
+								<div ng-class="{ makeGreen: x.done , makeRed: !x.done , makeGrey: x.sentCount==0 }">{{x.thinker}}: {{x.sentCount}} moves</div>
+								<progress class='prog' max='100' style="width:100%" value="{{x.progress}}">
+								<!--<div>{{x.progress}}</div>-->
+							</div>
 							
 						</td>
 					</tr>
@@ -30,7 +32,7 @@
 									<img ng-src="{{'cPiecesPng/'+x[0]+x[1]+'.png'}}" style="width: 15%">
 									{{x[2]+x[3]+x[4]+x[5]}}
 									<img ng-src="{{'cPiecesPng/'+x[6]+x[7]+'.png'}}" style="width: 15%" class="rotate90">
-									</div>
+								</div>
 								<!--<table>
 									<tr class="recentGames pointed" ng-repeat="x in myRecentGames">
 										<td ng-click="setTableNum(x)" ng-class="{ selected: x==_id}">{{x}}<span ng-if="x==_id">&lArr;</span> </td>

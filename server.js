@@ -678,9 +678,6 @@ var BusyTables=function(){
 
 var busyTables=new BusyTables()
 
-
-// var workingOnSplitMoves=[]
-
 var getBusyTableIndex = function(tNum){
 	
 	var index=busyTables.tables.indexOf(tNum)
@@ -693,18 +690,10 @@ var getBusyTableIndex = function(tNum){
 		busyTables.pollNums.push(0)
 		busyTables.pendingPolls.push([])
 		
-		//    console.log('fstrtn', busyTables.tables.length-1)
-		
 		return busyTables.tables.length-1
 		
 		
 	}else{
-		
-		
-		//    console.log('indexrtn', index)
-		
-		//    console.log('btb',busyTables.pendingPolls)
-		
 		
 		return index
 		
@@ -725,12 +714,9 @@ var clearSentMoves=function(sentTNum){
 	
 }
 
-var registerSentMoves=function(sentTNum,sentTo,sentCount){
+var getMIndex=function(index,sentTo){
 	
-	var index=getBusyTableIndex(sentTNum)
-	
-	
-	var mIndex=-1
+	//var mIndex=-1
 	
 	for (var i=busyTables.splitMoves[index].length-1;i>=0;i--){
 		
@@ -738,9 +724,20 @@ var registerSentMoves=function(sentTNum,sentTo,sentCount){
 		
 	
 		if (busyTables.splitMoves[index][i].thinker==sentTo){
-			mIndex=i
+			return i
 		}
 	}
+	
+	return -1
+	
+}
+
+var registerSentMoves=function(sentTNum,sentTo,sentCount){
+	
+	var index=getBusyTableIndex(sentTNum)
+	
+	var mIndex=getMIndex(index,sentTo)
+	
 	
 	if(mIndex==-1){
 	
@@ -748,7 +745,8 @@ var registerSentMoves=function(sentTNum,sentTo,sentCount){
 			
 			thinker: sentTo,
 			sentCount: sentCount,
-			done: false
+			done: false,
+			progress: 0
 		
 		})
 		
@@ -758,22 +756,30 @@ var registerSentMoves=function(sentTNum,sentTo,sentCount){
 			
 			thinker: sentTo,
 			sentCount: sentCount,
-			done: false
+			done: false,
+			progress:0
 		
 		}
 		
-		
-		
-		
 	}
-	//busyTables.pollNums[index]++
 	
-	//    console.log('registeredtindex',index)
-	
-	// busyTablesPop(index)
 	
 	return index
 	
+	
+}
+
+
+var updateSplitMoveProgress=function(sentTNum,sentTo,progress){
+	
+	var index=getBusyTableIndex(sentTNum)
+	
+	var mIndex=getMIndex(index,sentTo)
+	
+	
+		busyTables.splitMoves[index][mIndex].progress=progress
+		
+		busyTablesPop(index)
 	
 }
 
@@ -836,10 +842,40 @@ function postThinkerMessage(thinker, message){
 	
 }
 app.post('/thinkerMessage', function(req, res) {
+	
+	res.send('something')
+	
 	var thinker = knownThinkers[doIKnow(req.body.thinker)]
+	
+	switch(req.body.command){
+		
+		case 'log':
+		
+			postThinkerMessage(thinker,req.body.message)
+		
+		break;
+		
+		case 'progress':
+		
+			updateSplitMoveProgress(req.body.data._id,req.body.thinker,req.body.data.progress)
+		
+		break;
+		
+		
+		
+	}
 	////    console.log(req)
-	postThinkerMessage(thinker,req.body.message)
-	res.send('ok')
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//fdz
 })
 
@@ -979,6 +1015,7 @@ function markSplitMoveDone(tNum,thinker){
 
 	busyTables.splitMoves[tIndex][mIndex].done=true
 	
+	busyTables.splitMoves[tIndex][mIndex].progress=100
 	//busyTables.pollNums[tIndex]++
 	
 	////    console.log(busyTables.pollNums[tIndex])
