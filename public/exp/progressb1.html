@@ -1,0 +1,96 @@
+
+<head>
+
+	<script src="../jquery.js"></script>
+	<script src="../angular.js"></script>
+	
+	
+	<style>
+	
+		.willBeHere {
+			width: 100%;
+			/*background-color: black*/
+		}
+		
+		.hereItIs {
+			background-color: green;
+			height: 15px
+		}
+	
+		
+	</style>
+	
+	<script>
+	
+	var appModule = angular.module("appModule", []);
+
+	appModule.controller("ApplicationController", ApplicationController);
+
+	function ApplicationController($scope,$timeout) {			//$rootScope, , $timeout, $http, $interval, $compile
+	
+	$scope.tiktaks=[]
+	
+	//var count=10
+	
+	
+		function tiktak(){
+			
+			
+					$scope.a=~~(10000*Math.random())/100
+			
+			
+			// $scope.a=~~(10000*Math.random())/100
+			
+			
+			
+				$('.hereItIs').css({'width':$scope.a+'%'});
+				
+			
+			
+			$timeout(tiktak,1000)
+			
+		}
+		
+		tiktak()
+	
+	
+	
+	
+	
+	}
+	
+	</script>
+	
+</head>
+
+<body ng-app="appModule" ng-controller="ApplicationController">
+	
+	<table ng-controller="ApplicationController">
+		
+		<tr>
+			
+			<td nowrap>
+	
+				<span>Progress: {{a}}%</span>
+				
+			</td>
+			
+			<td style="width: 100%; border: 1px solid black">
+	
+				<div class="willBeHere">
+					<div class="hereItIs">
+					
+					</div>
+				</div>
+				
+			</td>
+			
+		</tr>
+		
+	</table>
+						
+	
+	
+	
+
+</body>

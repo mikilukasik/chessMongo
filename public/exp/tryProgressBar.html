@@ -1,0 +1,111 @@
+<head>
+
+	<style>
+		
+		.progressbar {
+			background-color: black;
+			/*border-radius: 13px;*/
+			padding: auto;
+		}
+		.progressbar > div {
+			background-color: orange;
+			width: 0%;
+			/* Adjust with JavaScript */
+			height: 10px;
+			/*border-radius: 10px;*/
+		}
+		
+	</style>
+
+
+	<script src="../jquery.js"></script>
+	<script src="../angular.js"></script>
+	
+	<script>
+	
+	var appModule = angular.module("appModule", []);
+
+	appModule.controller("ApplicationController", ApplicationController);
+
+	function ApplicationController($scope) {			//$rootScope, , $timeout, $http, $interval, $compile
+	
+	
+		$scope.moves={
+			totalCount: 10,
+			doneCount: 3,
+			tempCount: 5
+		}
+	
+	
+	
+	
+	}
+	
+	
+	
+appModule.directive("progressbar", function () {
+    return {
+        restrict: "E",
+        template: '<div class="progressbar">'+
+                    '<div></div>'+
+                 '</div>',
+        replace: true,
+        scope: {
+            total: "=",
+            current: "="
+        },
+        link: function (scope, element) {
+            var bar = angular.element(element.children());
+            scope.$watch("current", function (value) {
+                bar.css("width", value / scope.total * 100 + "%");
+            });
+        }
+    };
+});
+	
+	</script>
+	
+</head>
+
+<body ng-app="appModule" ng-controller="ApplicationController">
+	
+	 <div ng-controller="ApplicationController">
+		 
+		
+	
+	
+	<table>
+	
+	<tr>
+		
+		<td>
+		 <input ng-model="moves.tempCount"><br>
+		
+		</td>
+		
+	</tr>
+	
+	
+	<tr>
+		
+		<td>
+		<div nowrap>  a <progressbar total="moves.totalCount" current="moves.doneCount"></progressbar> </div>
+		
+		</td>
+		
+	</tr>
+	
+	<tr>
+		<td>
+		b <progressbar total="moves.totalCount" current="moves.tempCount"></progressbar>
+	
+		</td>
+		
+	</tr>
+	
+	</table>
+	
+	 </div>
+	 	
+
+</body>
