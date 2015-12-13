@@ -60,15 +60,17 @@ function busyThinkersPoll(_id){
 			busyThinkersPoll(_id)
 			
 		},function(err){
+			
+			setTimeout(busyThinkersPoll(_id),2000)
 		
-			postM(
-				'updateBusyThinkersFailed',
-				{
-					_id:_id
+			// postM(
+			// 	'updateBusyThinkersFailed',
+			// 	{
+			// 		_id:_id
 					
-				},
-				'updateBusyThinkers failed t'+_id
-			)
+			// 	},
+			// 	'updateBusyThinkers failed t'+_id
+			// )
 		
 		
 		}
