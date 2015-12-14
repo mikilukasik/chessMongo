@@ -68,6 +68,7 @@ var progress={
 	overall: 0
 }
 
+var tempDTasks=[]
 
 function workerMove(smallMoveTask, thinker) { //for 1 thread, smallmovetask has one of my possible 1st moves
 
@@ -87,7 +88,7 @@ function workerMove(smallMoveTask, thinker) { //for 1 thread, smallmovetask has 
 										
 										//!!!!!!!!!!!implement !!!!!!!!!!typedarray
 										
-										
+			tempDTasks=deepeningTask
 
 			waitingSdts = []
 			
@@ -95,14 +96,30 @@ function workerMove(smallMoveTask, thinker) { //for 1 thread, smallmovetask has 
 			
 			progress.oneDeeperMoves=sentSdtCount		//set this splitmoves max
 			progress.doneDM=0							//val
-
-			while (deepeningTask.smallDeepeningTasks.length > 1) {
+			
+			
+			
+			
+			
+			
+			for(var j=maxWorkerNum;j>0;j--){
+							
+						
+						
+						
+						
+						
+						
+			if (deepeningTask.smallDeepeningTasks.length > 1) {
 
 				var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
 
 				toSub('solveSDT',smallDeepeningTask)
 
 			}
+			
+			}
+						
 
 		}
 
@@ -532,6 +549,24 @@ onmessage = function(event) {
 
 
 						}
+					}else{
+						
+						for(var j=maxWorkerNum;j>0;j--){
+							
+							if (tempDTasks.smallDeepeningTasks.length > 1) {
+								
+								
+								var deepeningTask=tempDTasks//.pop()
+	
+								var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
+				
+								toSub('solveSDT',smallDeepeningTask)
+				
+							}
+							
+						}
+						
+						
 					}
 
 
