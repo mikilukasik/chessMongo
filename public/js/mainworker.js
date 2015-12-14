@@ -28,7 +28,7 @@ var longPollOnHold
 var toPostSplitMoves
 
 
-var messageTheServer = function(command, data, message) {
+var messageTheServer = function(command, data, message,cb) {
 	
 			var postThis={
 				
@@ -40,6 +40,9 @@ var messageTheServer = function(command, data, message) {
 			}
 	
 			simplePost('/thinkerMessage', postThis, function(res) {}, function(err) {})
+			
+			cb()
+			
 			
 	}
 
@@ -551,32 +554,68 @@ onmessage = function(event) {
 									_id: workingOnTableNum,
 									progress:progress.overall
 									
-								},'progress')
+								},'progress',function(){
+									
+									
+									
+									for(var j=maxWorkerNum;j>0;j--){
+										
+										if (tempDTasks.smallDeepeningTasks.length > 1) {
+											
+											waitingForIdle++
+											
+											var deepeningTask=tempDTasks//.pop()
+				
+											var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
+							
+											toSub('solveSDT',smallDeepeningTask)
+							
+										}
+										
+									}
+									
+									
+						
+						
+									
+									
+									
+								})
+								
+								console.log(new Date().getTime(),progress)
 								
 							//}
 							
 							
 							
 							lastOverallProgressCalc=tdate
+						}else{
+							
+							
+							for(var j=maxWorkerNum;j>0;j--){
+										
+										if (tempDTasks.smallDeepeningTasks.length > 1) {
+											
+											waitingForIdle++
+											
+											var deepeningTask=tempDTasks//.pop()
+				
+											var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
+							
+											toSub('solveSDT',smallDeepeningTask)
+							
+										}
+										
+									}
+									
+									
+									
+									
 						}
 						
 					
 						
-						for(var j=maxWorkerNum;j>0;j--){
-							
-							if (tempDTasks.smallDeepeningTasks.length > 1) {
-								
-								waitingForIdle++
-								
-								var deepeningTask=tempDTasks//.pop()
-	
-								var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
-				
-								toSub('solveSDT',smallDeepeningTask)
-				
-							}
-							
-						}
+						
 						
 					}
 						
