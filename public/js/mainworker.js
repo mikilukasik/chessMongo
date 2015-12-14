@@ -48,7 +48,7 @@ var messageTheServer = function(command, data, message,cb) {
 
 var sendMessage = function(message) {
 
-			console.log(message)
+			//console.log(message)
 
 			messageTheServer('log',{},message)
 			// 	'message': message,
@@ -451,7 +451,7 @@ onmessage = function(event) {
 						
 						progress.doneSM++
 
-						//////console.log('resolve now: '+$scope.waitingSdts[0].moveTree)
+						////////console.log('resolve now: '+$scope.waitingSdts[0].moveTree)
 
 						var tempResolveArray = []
 						tempResolveArray[1] = []
@@ -462,7 +462,7 @@ onmessage = function(event) {
 							//use tempResolveArray[1][0].value
 
 						var pushAgain = tempResolveArray[1][0]
-							////console.log('ran again')
+							//////console.log('ran again')
 
 						pushAgain._id = workingOnTableNum
 						pushAgain.score = pushAgain.value
@@ -540,12 +540,12 @@ onmessage = function(event) {
 						
 					if (waitingForIdle==0){
 							
-						if (tdate-lastOverallProgressCalc > 300){
+						if (tdate-lastOverallProgressCalc > 512){
 							
 							progress.overall= progress.doneSM * (100/progress.splitMoves)	+	(progress.doneDM * (100/progress.oneDeeperMoves))/progress.splitMoves
 							
 							
-							//console.log('progress',progress.overall)
+							////console.log('progress',progress.overall)
 							
 						
 								
@@ -582,7 +582,7 @@ onmessage = function(event) {
 									
 								})
 								
-								console.log(new Date().getTime(),progress)
+								//console.log(new Date().getTime(),progress)
 								
 							//}
 							
@@ -623,7 +623,7 @@ onmessage = function(event) {
 					}
 
 
-					//////console.log(event.data.resData)
+					////////console.log(event.data.resData)
 
 					break;
 	
