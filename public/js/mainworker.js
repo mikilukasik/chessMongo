@@ -111,7 +111,9 @@ function workerMove(smallMoveTask, thinker) { //for 1 thread, smallmovetask has 
 						
 						
 			if (deepeningTask.smallDeepeningTasks.length > 1) {
-
+				
+				waitingForIdle++
+				
 				var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
 
 				toSub('solveSDT',smallDeepeningTask)
@@ -417,30 +419,11 @@ onmessage = function(event) {
 					
 					progress.doneDM++
 					
-					
+					waitingForIdle--
 					
 					var tdate=new Date()
 					
-					if (tdate-lastOverallProgressCalc > 300){
-						
-						progress.overall= progress.doneSM * (100/progress.splitMoves)	+	(progress.doneSM * (100/progress.oneDeeperMoves))/progress.splitMoves
-						
-						
-						//console.log('progress',progress.overall)
-						
-						messageTheServer('progress',{
-							
-							_id: workingOnTableNum,
-							progress:progress.overall
-							
-						},'progress')
-						
-						
-						
-						
-						
-						lastOverallProgressCalc=tdate
-					}
+					
 					
 					
 					var toPush = { 
@@ -551,10 +534,39 @@ onmessage = function(event) {
 						}
 					}else{
 						
+						
+					if (waitingForIdle==0){
+							
+						if (tdate-lastOverallProgressCalc > 300){
+							
+							progress.overall= progress.doneSM * (100/progress.splitMoves)	+	(progress.doneSM * (100/progress.oneDeeperMoves))/progress.splitMoves
+							
+							
+							//console.log('progress',progress.overall)
+							
+						
+								
+								messageTheServer('progress',{
+									
+									_id: workingOnTableNum,
+									progress:progress.overall
+									
+								},'progress')
+								
+							//}
+							
+							
+							
+							lastOverallProgressCalc=tdate
+						}
+						
+					
+						
 						for(var j=maxWorkerNum;j>0;j--){
 							
 							if (tempDTasks.smallDeepeningTasks.length > 1) {
 								
+								waitingForIdle++
 								
 								var deepeningTask=tempDTasks//.pop()
 	
@@ -565,6 +577,8 @@ onmessage = function(event) {
 							}
 							
 						}
+						
+					}
 						
 						
 					}
@@ -580,6 +594,9 @@ onmessage = function(event) {
 	
 
 };
+
+var waitingForIdle=0
+
 
 function toSub(command,data){
 	
