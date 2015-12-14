@@ -542,7 +542,7 @@ onmessage = function(event) {
 							
 						if (tdate-lastOverallProgressCalc > 300){
 							
-							progress.overall= progress.doneSM * (100/progress.splitMoves)	+	(progress.doneSM * (100/progress.oneDeeperMoves))/progress.splitMoves
+							progress.overall= progress.doneSM * (100/progress.splitMoves)	+	(progress.doneDM * (100/progress.oneDeeperMoves))/progress.splitMoves
 							
 							
 							//console.log('progress',progress.overall)
