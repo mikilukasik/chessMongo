@@ -102,6 +102,12 @@
 				
 				break;
 				
+				case 'refreshBrowser':
+				
+				
+				
+				break;
+				
 				case 'refreshUs':
 				
 					refreshWorkers()
