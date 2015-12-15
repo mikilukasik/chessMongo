@@ -1991,12 +1991,14 @@ function checkIfPending(id) {
 }
 
 function clearPending(id) {
-	for (var i = 0; i < pendingThinkerPolls.length; i++) {
-		if (pendingThinkerPolls[i][0].query.id == id) {
+	//for (var i = 0; i < pendingThinkerPolls.length; i++) {
+		//if (pendingThinkerPolls[i][0].query.id == id) {
 			//client sent repeated poll, remove pending one
-			pendingThinkerPolls.splice(i, 1)
-		}
-	}
+			//pendingThinkerPolls.splice(i, 1)
+			sendTask(new Task('dontCall',{},'dontCall'),id)
+			console.log('clearpending called')
+		//}
+	//}
 	//return false
 }
 
@@ -2047,7 +2049,7 @@ app.get('/longPollTasks', function(req, res) {
 	}
 	else {
 
-		// first poll
+		
 		
 		var oldSpeed=knownThinkers[pollerIndex].spd
 		var newSpeed=~~(req.query.spd*100000)/100000
@@ -2069,10 +2071,15 @@ app.get('/longPollTasks', function(req, res) {
 
 	}
 
+	console.log('will check if  pending')
 
+	
+	
 	if (checkIfPending(req.query.id)) {
 
 		//sendTask(new Task('ping',0,'normal ping'),req.query.id)
+
+		console.log('will call clearpending')
 
 		clearPending(req.query.id)
 
@@ -2096,12 +2103,12 @@ app.get('/longPollTasks', function(req, res) {
 
 	var taskForMe = []
 	
-	if(req.query.spd==1){
+	if(false){
 		
-		//thinker doesn'tknow it's speed
-		//test it
+		// //thinker doesn'tknow it's speed
+		// //test it
 		
-		sendTask(new Task('speedTest',{},'speedTest'),req.query.id)
+		// sendTask(new Task('speedTest',{},'speedTest'),req.query.id)
 		
 		
 		

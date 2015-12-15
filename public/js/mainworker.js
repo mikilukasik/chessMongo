@@ -28,6 +28,10 @@ var longPollOnHold
 var toPostSplitMoves
 
 
+
+var pollingTask=-1
+
+
 var messageTheServer = function(command, data, message,cb) {
 	
 			var postThis={
@@ -41,7 +45,13 @@ var messageTheServer = function(command, data, message,cb) {
 	
 			simplePost('/thinkerMessage', postThis, function(res) {}, function(err) {})
 			
-			cb()
+			if(cb)cb()
+			
+			
+			//try:
+			
+			console.log('trying: ',sendID)
+			longPollTasks(pollingTask,sendID,mySpeed)
 			
 			
 	}
@@ -192,13 +202,15 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 	var speedTestNum = 1 //temp
 	
 
-	simpleGet('/longPollTasks?id=' + sendID + '&tn=' + taskNum + '&spd=' + mySpeed + '&stn=' + speedTestNum, 
+	simpleGet('/longPollTasks?id=' + sendID + '&tn=' + taskNum + '&spd=' + mySpeed + '&stn=' + speedTestNum + '&rnd=' + Math.random(), 
 		
 		function(res) {
 		// 1 task received
 			var task=eval("(" + res.response + ')')		//http://stackoverflow.com/questions/45015/safely-turning-a-json-string-into-an-object
 			
 			//sendMessage('mw: command received: '+ task.command)
+			
+			pollingTask=taskNum+1
 			
 			switch(task.command){
 				
@@ -274,7 +286,7 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 					pollOn=false
 					
 					longPollOnHold=function(){
-						longPollTasks(taskNum+1,sendID,mySpeed)
+						longPollTasks(pollingTask,sendID,mySpeed)
 					}
 					
 					
@@ -314,7 +326,7 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 					pollOn=false
 					
 					longPollOnHold=function(speed){
-						longPollTasks(taskNum+1,sendID,speed)
+						longPollTasks(pollingTask,sendID,speed)
 					}
 					
 					speedTest()
@@ -326,11 +338,12 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 				
 			}
 
-			if (pollOn){
+			if (pollOn&&task.command!='dontCall'){
 				
 				//sendMessage('mw: pollOn true, recalling longPollTasks (task '+(taskNum+1)+')')
-				longPollTasks(taskNum+1,sendID,mySpeed) //recall for new task, server might hold any new task until this one finishes
-			
+				
+				longPollTasks(pollingTask,sendID,mySpeed) //recall for new task, server might hold any new task until this one finishes
+				
 			} 	
 		},function(err){
 					
@@ -343,6 +356,7 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 					sendMessage('mw: retrying longPollTasks (task '+(taskNum)+')')
 					
 					longPollTasks(taskNum,sendID,mySpeed) 
+					
 				},2000)
 			}
 			
@@ -351,6 +365,8 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 		}) 
 		
 }
+
+
 
 var lastOverallProgressCalc=new Date()
 
