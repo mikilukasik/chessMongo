@@ -108,9 +108,10 @@ function doIKnow(id) {
 
 
 var getThinkerIndex = function(id) {
-	var speedArray = []
+	//var speedArray = []
 	for (var i = 0; i < pendingThinkerPolls.length; i++) {
-		if (pendingThinkerPolls[i].id = id) return i
+		//console.log('thisone',pendingThinkerPolls[i][0].query.id)
+		if (pendingThinkerPolls[i][0].query.id == id) return i
 	}
 	return -1
 
@@ -163,12 +164,18 @@ function sendTask(task, thinkerId) {
 	var sentTo=''
 	
 	if (thinkerId) {
-
-
+		
+		
+		console.log('sendTask called with ID',thinkerId,'command',task.command)
+		
+		 
 		thinkerPollIndex = getThinkerIndex(thinkerId)
 
 	}
 	else {
+		
+		console.log('sendTask called: fastest','command',task.command)
+		
 		//replace id to fastest available!!!!!!!!!!!!!!!
 
 		thinkerPollIndex = fastestThinker()
@@ -1995,7 +2002,9 @@ function clearPending(id) {
 		//if (pendingThinkerPolls[i][0].query.id == id) {
 			//client sent repeated poll, remove pending one
 			//pendingThinkerPolls.splice(i, 1)
-			sendTask(new Task('dontCall',{},'dontCall'),id)
+			sendTask(new Task('dontCall',{
+				meantToSendTo:id
+			},'dontCall'),id)
 			console.log('clearpending called')
 		//}
 	//}
@@ -2035,7 +2044,9 @@ function gotTask(taskForMe, id) {
 app.get('/longPollTasks', function(req, res) {
 	//////////// ////////    console.log(req)
 	var pollerIndex = doIKnow(req.query.id)
+	
 	if (-1 == pollerIndex) {
+		
 		knownThinkers.push({
 			id: req.query.id,
 			lastSeen: new Date()
@@ -2046,8 +2057,7 @@ app.get('/longPollTasks', function(req, res) {
 		})
 
 
-	}
-	else {
+	} else {
 
 		
 		
@@ -2071,7 +2081,7 @@ app.get('/longPollTasks', function(req, res) {
 
 	}
 
-	console.log('will check if  pending')
+	console.log('will check if pending for req.query.id',req.query.id)
 
 	
 	
@@ -2079,7 +2089,7 @@ app.get('/longPollTasks', function(req, res) {
 
 		//sendTask(new Task('ping',0,'normal ping'),req.query.id)
 
-		console.log('will call clearpending')
+		console.log('found logpoll, will call clearpending for',req.query.id)
 
 		clearPending(req.query.id)
 

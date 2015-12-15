@@ -210,6 +210,8 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 			
 			//sendMessage('mw: command received: '+ task.command)
 			
+			console.log('received',task)
+			
 			pollingTask=taskNum+1
 			
 			switch(task.command){
