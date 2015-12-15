@@ -28,22 +28,33 @@ var longPollOnHold
 var toPostSplitMoves
 
 
-var messageTheServer = function(message) {
-			simplePost('/thinkerMessage', message, function(res) {}, function(err) {})
+var messageTheServer = function(command, data, message,cb) {
+	
+			var postThis={
+				
+				'command': command,
+				'data': data,
+				'message': message,
+				'thinker': sendID
+				
+			}
+	
+			simplePost('/thinkerMessage', postThis, function(res) {}, function(err) {})
+			
+			cb()
+			
 			
 	}
 
 var sendMessage = function(message) {
 
-			console.log(message)
+			//console.log(message)
 
-			messageTheServer({
+			messageTheServer('log',{},message)
+			// 	'message': message,
+			// 	'thinker': sendID
 
-				'command': 'log',
-				'message': message,
-				'thinker': sendID
-
-			})
+			// })
 	}
 
 var workDeepSplitMovesStarted
@@ -52,10 +63,22 @@ var sentSdtCount
 
 var pollOn = true		//we only make this false before restart			//not true
 
+var progress={
+	splitMoves: 0,
+	oneDeeperMoves: 0,
+	doneSM: 0,
+	doneDM: 0,
+	overall: 0
+}
+
+var tempDTasks=[]
+
 function workerMove(smallMoveTask, thinker) { //for 1 thread, smallmovetask has one of my possible 1st moves
 
 			workDeepSplitMovesStarted = new Date()
 				.getTime()
+
+			
 
 			// var solvedTableCount = 0
 
@@ -68,19 +91,40 @@ function workerMove(smallMoveTask, thinker) { //for 1 thread, smallmovetask has 
 										
 										//!!!!!!!!!!!implement !!!!!!!!!!typedarray
 										
-										
+			tempDTasks=deepeningTask
 
 			waitingSdts = []
 			
 			sentSdtCount = deepeningTask.smallDeepeningTasks.length - 1
-
-			while (deepeningTask.smallDeepeningTasks.length > 1) {
-
+			
+			progress.oneDeeperMoves=sentSdtCount		//set this splitmoves max
+			progress.doneDM=0							//val
+			
+			
+			
+			
+			
+			
+			for(var j=maxWorkerNum;j>0;j--){
+							
+						
+						
+						
+						
+						
+						
+			if (deepeningTask.smallDeepeningTasks.length > 1) {
+				
+				waitingForIdle++
+				
 				var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
 
 				toSub('solveSDT',smallDeepeningTask)
 
 			}
+			
+			}
+						
 
 		}
 
@@ -167,7 +211,14 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 						.getTime()
 
 					totalSolved = 0
-
+					
+					progress={
+						splitMoves: 0,
+						oneDeeperMoves: 0,
+						doneSM: 0,
+						doneDM: 0
+					}
+										
 
 
 
@@ -180,10 +231,14 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 							//mark it busy
 							
 							workingOnTableNum = task.data[0]._id
-
 								
-								totalSplitMovesReceived = task.data.length //we need this to know when we worked them all out
-
+								var tt=task.data.length //we need this to know when we worked them all out
+								
+								totalSplitMovesReceived = tt  //task.data.length //we need this to know when we worked them all out
+								
+								progress.splitMoves=tt
+								
+								
 								splitMovesToProcess = task.data
 
 
@@ -297,6 +352,8 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 		
 }
 
+var lastOverallProgressCalc=new Date()
+
 onmessage = function(event) {
 
 	var reqCommand = event.data.reqCommand
@@ -361,7 +418,16 @@ onmessage = function(event) {
 					
 					var resData = event.data.reqData
 					
-					totalSolved+=resData.ranCount
+					//totalSolved+=resData.ranCount
+					
+					progress.doneDM++
+					
+					waitingForIdle--
+					
+					var tdate=new Date()
+					
+					
+					
 					
 					var toPush = { 
 						move: resData.moveTree.slice(0, 4),
@@ -382,8 +448,10 @@ onmessage = function(event) {
 						//all SDTs returned,
 						//resolve one splitmove now:
 						//////////////////////////////////////////////////
+						
+						progress.doneSM++
 
-						//////console.log('resolve now: '+$scope.waitingSdts[0].moveTree)
+						////////console.log('resolve now: '+$scope.waitingSdts[0].moveTree)
 
 						var tempResolveArray = []
 						tempResolveArray[1] = []
@@ -394,7 +462,7 @@ onmessage = function(event) {
 							//use tempResolveArray[1][0].value
 
 						var pushAgain = tempResolveArray[1][0]
-							////console.log('ran again')
+							//////console.log('ran again')
 
 						pushAgain._id = workingOnTableNum
 						pushAgain.score = pushAgain.value
@@ -467,24 +535,107 @@ onmessage = function(event) {
 
 
 						}
+					}else{
+						
+						
+					if (waitingForIdle==0){
+							
+						if (tdate-lastOverallProgressCalc > 512){
+							
+							progress.overall= progress.doneSM * (100/progress.splitMoves)	+	(progress.doneDM * (100/progress.oneDeeperMoves))/progress.splitMoves
+							
+							
+							////console.log('progress',progress.overall)
+							
+						
+								
+								messageTheServer('progress',{
+									
+									_id: workingOnTableNum,
+									progress:progress.overall
+									
+								},'progress',function(){
+									
+									
+									
+									for(var j=maxWorkerNum;j>0;j--){
+										
+										if (tempDTasks.smallDeepeningTasks.length > 1) {
+											
+											waitingForIdle++
+											
+											var deepeningTask=tempDTasks//.pop()
+				
+											var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
+							
+											toSub('solveSDT',smallDeepeningTask)
+							
+										}
+										
+									}
+									
+									
+						
+						
+									
+									
+									
+								})
+								
+								//console.log(new Date().getTime(),progress)
+								
+							//}
+							
+							
+							
+							lastOverallProgressCalc=tdate
+						}else{
+							
+							
+							for(var j=maxWorkerNum;j>0;j--){
+										
+										if (tempDTasks.smallDeepeningTasks.length > 1) {
+											
+											waitingForIdle++
+											
+											var deepeningTask=tempDTasks//.pop()
+				
+											var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
+							
+											toSub('solveSDT',smallDeepeningTask)
+							
+										}
+										
+									}
+									
+									
+									
+									
+						}
+						
+					
+						
+						
+						
+					}
+						
+						
 					}
 
 
-					//////console.log(event.data.resData)
+					////////console.log(event.data.resData)
 
 					break;
 	
 
 	}
 
-	// postMessage({
-	// 	// command:undefined,
-	// 	'resMessage': resMessage,
-	// 	'resData': resData,
-	// 	'resCommand': resCommand
-	// });
+	
 
 };
+
+var waitingForIdle=0
+
 
 function toSub(command,data){
 	
