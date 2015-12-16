@@ -40,8 +40,9 @@ wsServer.on('request', function(request) {
     connection.on('message', function(message) {
         if (message.type === 'utf8') {
 			// process WebSocket message
-            var received=message.utf8Data
-            console.log('received',received)
+            var received=eval("(" + message.utf8Data + ")")
+			
+            console.log('received',received.message)
             
             
             

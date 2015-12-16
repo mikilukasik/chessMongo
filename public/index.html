@@ -35,10 +35,11 @@
                ws.onopen = function()
                {
                   // Web Socket is connected, send data using send()
-                  ws.send({
-                      a:12,
-                      b:'dsfa'
-                  });
+                  ws.send(JSON.stringify( {
+                      command:'Hello',
+					  data: {},
+					  message: 'Hello'
+                  }));
                   //alert("Message is sent...");
                };
 				
