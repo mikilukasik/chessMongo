@@ -10,21 +10,47 @@ var bodyParser = require("body-parser");
 var fs = require('fs');
 
 var mongodb = require('mongodb');
-//var io = require('socket.io');
 
-var app = express();
 var http = require('http')
-var httpServ = http.createServer(function(request, response) {
-    // Not important for us. We're writing WebSocket server, not HTTP server
-});
+// var httpServ = http.createServer(function(request, response) {
+//     // Not important for us. We're writing WebSocket server, not HTTP server
+// });
 //http.Server(app);
 
+
+var httpServ = http.Server(app);
+
+
 //
+
+//var express = require("express");
+var app = express//.createServer(); 
+
+// app.get('/', function(req, res){ 
+//     res.redirect("/index.html");
+// }); 
+
+// app.configure(function(){
+//   app.use(express.static('/public'));
+// });
+
+// app.listen(80); 
+
+// var io = require('socket.io'); 
+// var socket = io.listen(app); 
+// socket.on('connection', function(client){ 
+//   client.on('message', function(){...});
+// })
+
+
+
+
 
 var WebSocketServer = require('websocket').server;
 
 var wsServer = new WebSocketServer({
-    httpServer: httpServ
+    httpServer: httpServ,
+    path: '/sockets'
 });
 
 // WebSocket server
