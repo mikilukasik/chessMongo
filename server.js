@@ -67,6 +67,45 @@ wsServer.on('request', function(request) {
 				
 				break;
 				
+				case 'moved':
+				
+						var onTable = received.data// req.body
+						
+						onTable.moved = new Date()
+											.getTime()
+											
+											
+						var command = onTable.command
+						
+						onTable.command = ''
+							
+						mongodb.connect(cn, function(err, db) {
+							db.collection("tables")
+								.save(onTable, function(err3, res) {
+									//table moved and saved, let's check what to do
+									db.close()
+									popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
+						
+									switch (command) {
+						
+										case 'makeAiMove':
+											
+											//////    console.log('calling makeaimove..')
+											makeAiMove(onTable)
+						
+						
+											break;
+						
+						
+									}
+						
+						
+								})
+						
+										
+						});
+				
+				break;
 				
 				case 'getLobby':
 				
@@ -1210,43 +1249,43 @@ function markSplitMoveDone(tNum,thinker){
 
 app.post('/moved', function(req, res) {
 	
-	res.send('received.')
+	// res.send('received.')
 	
-	var onTable = req.body
+	// var onTable = req.body
 	
-	onTable.moved = new Date()
-						.getTime()
+	// onTable.moved = new Date()
+	// 					.getTime()
 						
 						
-	var command = onTable.command
+	// var command = onTable.command
 	
-					onTable.command = ''
+	// 				onTable.command = ''
 		
-	mongodb.connect(cn, function(err, db) {
-		db.collection("tables")
-			.save(onTable, function(err3, res) {
-				//table moved and saved, let's check what to do
-				db.close()
-				popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
+	// mongodb.connect(cn, function(err, db) {
+	// 	db.collection("tables")
+	// 		.save(onTable, function(err3, res) {
+	// 			//table moved and saved, let's check what to do
+	// 			db.close()
+	// 			popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
 	
-				switch (command) {
+	// 			switch (command) {
 	
-					case 'makeAiMove':
+	// 				case 'makeAiMove':
 						
-						//////    console.log('calling makeaimove..')
-						makeAiMove(onTable)
+	// 					//////    console.log('calling makeaimove..')
+	// 					makeAiMove(onTable)
 	
 	
-						break;
+	// 					break;
 	
 	
-				}
+	// 			}
 	
 	
-			})
+	// 		})
 	
 					
-	});
+	// });
 
 
 })

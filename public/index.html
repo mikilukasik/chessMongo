@@ -19,146 +19,17 @@
 	//thinker stuff
 		/////////////////////	websocket stuff		//////////////////////////////////
 		
-	
-	
-	
-	
-	
-	
-	
-	
-		//////////////////////////	cookie stuff	////////////////////////////////////////////////
-
-		function setCookie(cname, cvalue, exdays) {
-			
-			var d = new Date();
-			
-			d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-			
-			var expires = "expires=" + d.toUTCString();
-			
-			document.cookie = cname + "=" + cvalue + "; " + expires;
-			
-		}
-
-		function getCookie(cname) {
-			
-			var name = cname + "=";
-			var ca = document.cookie.split(';');
-			
-			for (var i = 0; i < ca.length; i++) {
-				var c = ca[i];
-				while (c.charAt(0) == ' ') c = c.substring(1);
-				if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
-			}
-			
-			return "";
-			
-		}
-
-
-		//init cookie vars
-
-		var cookieID = ""
-		var workerSpeed = ""
-		var mainThreadSpeed = ""
-		var rndID=""
-
-
-		//load cookies
-
-		cookieID = getCookie("myID");
-		rndID = getCookie("rndID");
-		
-		// mainThreadSpeed = Number(getCookie("mainThreadSpeed"));
-		// workerSpeed = Number(getCookie("workerSpeed"));
-		
-
-		if (workerSpeed == "" || isNaN(workerSpeed)) {
-
-			workerSpeed = 1 //temp val before first test		//should this be 0????
-			
-		}
-		
-		var sendID;
-
-		if (cookieID == "") {
-			
-			if(rndID == ""){
-				rndID = ~~(Math.random() * 1000000000000000)
-				setCookie("rndID", rndID, 365)
-			}
-			
-			sendID=rndID
-
-			
-		} else {
-			
-			sendID = cookieID
-			
-		}
-
-		var setID = function(id) {
-			
-			setCookie("myID", id, 365)
-			cookieID = id
-			sendID = id
-
-			//should send some rename info to server to rename me!!!!!!!!!!!!!!!!!!!!!
-
-
-		}
-		
-		
-		
-		var setWorkerSpeed = function(count, time) {
-			
-			var tempSpeed=Number(count) / Number(time)
-			
-			var percDiff=~~(tempSpeed/Number(workerSpeed)*100)
-			
-			tempSpeed=(workerSpeed+2*tempSpeed)/3		//average of last few
-			
-			workerSpeed = tempSpeed
-	
-			setCookie("workerSpeed", workerSpeed, 365)
-			
-			return percDiff
-				
-		}
-
-		var setSpeedCookies = function() {
-
-			setWorkerSpeed(workerSpeed,1)
-		
-		}
-
-		
-
-		
-		
-		
-		
-		ifWorkers(startWorkers)
-		
-		
-		
-		
-		
-	var appModule = angular.module("appModule", []);
-
-	appModule.controller("ApplicationController", ApplicationController);
-
-	function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
+		var socketOn=false
 		
 		var socketSend=function(command,data,message,cb){}
 		
 		
 		
-		  function sockets()
-         {
+		 function sockets($rootScope,$scope) {
             if ("WebSocket" in window)
             {
+				
+					socketOn=true
                //alert("WebSocket is supported by your Browser!");
                
                // Let us open a web socket
@@ -293,7 +164,144 @@
          }
 	
 	
-	sockets()
+	
+	
+	
+	
+	
+	
+	
+		//////////////////////////	cookie stuff	////////////////////////////////////////////////
+
+		function setCookie(cname, cvalue, exdays) {
+			
+			var d = new Date();
+			
+			d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+			
+			var expires = "expires=" + d.toUTCString();
+			
+			document.cookie = cname + "=" + cvalue + "; " + expires;
+			
+		}
+
+		function getCookie(cname) {
+			
+			var name = cname + "=";
+			var ca = document.cookie.split(';');
+			
+			for (var i = 0; i < ca.length; i++) {
+				var c = ca[i];
+				while (c.charAt(0) == ' ') c = c.substring(1);
+				if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+			}
+			
+			return "";
+			
+		}
+
+
+		//init cookie vars
+
+		var cookieID = ""
+		var workerSpeed = ""
+		var mainThreadSpeed = ""
+		var rndID=""
+
+
+		//load cookies
+
+		cookieID = getCookie("myID");
+		rndID = getCookie("rndID");
+		
+		// mainThreadSpeed = Number(getCookie("mainThreadSpeed"));
+		// workerSpeed = Number(getCookie("workerSpeed"));
+		
+
+		if (workerSpeed == "" || isNaN(workerSpeed)) {
+
+			workerSpeed = 1 //temp val before first test		//should this be 0????
+			
+		}
+		
+		var sendID;
+
+		if (cookieID == "") {
+			
+			if(rndID == ""){
+				rndID = ~~(Math.random() * 1000000000000000)
+				setCookie("rndID", rndID, 365)
+			}
+			
+			sendID=rndID
+
+			
+		} else {
+			
+			sendID = cookieID
+			
+		}
+
+		var setID = function(id) {
+			
+			setCookie("myID", id, 365)
+			cookieID = id
+			sendID = id
+
+			//should send some rename info to server to rename me!!!!!!!!!!!!!!!!!!!!!
+
+
+		}
+		
+		
+		
+		var setWorkerSpeed = function(count, time) {
+			
+			var tempSpeed=Number(count) / Number(time)
+			
+			var percDiff=~~(tempSpeed/Number(workerSpeed)*100)
+			
+			tempSpeed=(workerSpeed+2*tempSpeed)/3		//average of last few
+			
+			workerSpeed = tempSpeed
+	
+			setCookie("workerSpeed", workerSpeed, 365)
+			
+			return percDiff
+				
+		}
+
+		var setSpeedCookies = function() {
+
+			setWorkerSpeed(workerSpeed,1)
+		
+		}
+
+		
+
+		
+		
+		
+		
+		ifWorkers(startWorkers)
+		
+		
+		
+		
+		
+	var appModule = angular.module("appModule", []);
+
+	appModule.controller("ApplicationController", ApplicationController);
+
+	function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
+		
+		
+		
+		if(!socketOn)sockets($rootScope, $scope)
+	
+	
+		
+		 
 		
 		var pollerMessage= function(event){
 			
@@ -712,70 +720,9 @@
 					socketSend('getLobby',{p: $rootScope.loginName},'getLobby',function(){
 						console.log("'getLobby' callback")
 					})
-								
-					
-
-					// $http.get('/getLobby?p=' + $rootScope.loginName)
-					// 	.success(function(response) {
-					// 		////console.log('polling lobby')
-					// 		if(response.asktoopen) {
-					// 			////console.log('opening')
-
-					// 			$rootScope._id = response.opentablenum
-					// 			$rootScope.wPlayer = response.opentablecolor
-					// 			$scope.opponentsName = response.opponentsname
-					// 			$rootScope.pollNum = 0
-
-					// 			$scope.openNow = true;
-
-					// 		}
-
-					// 		if(!($scope.lobbyPollNum == response.lobbypollnum)) {
-
-					// 			//////console.log('polling lobby')
-
-					// 			$scope.lobbyChatLines = response.lobbychat
-					// 			$scope.players = response.players
-					// 			$scope.players.unshift("Fastest thinker")
-					// 			$scope.players.unshift("Multiple thinkers")
-					// 			$scope.players.unshift("Server")
-								
-								
-					// 			$scope.games = response.games
-					// 			$scope.players.sort(function(a, b) {
-					// 				return a.toLowerCase().localeCompare(b.toLowerCase());
-					// 			});
-					// 			$scope.lobbyPollNum = response.lobbyPollNum
-					// 				//showLobby(lobbyChatLines, players, games, $scope.lobbyPollNum)
-					// 			if(!$scope.$$phase) {
-					// 			$scope.$apply()
-					// 		}
-
-					// 		}
-					// 		if($scope.openNow) {
-					// 			$rootScope.tempMoveString=""
-					// 			$rootScope.viewName = "board.html"
-								
-					// 			$scope.openNow = false
-
-					// 			// 		window.setTimeout(function() {
-					// 			//  $scope.drawTable(true)
-
-					// 			//     $scope.$apply();
-					// 			// }, 3000);
-
-					// 		}
-
-					// 	}) //lobbypoll callback ends here
+				
 				} else {
-					//itt lehetne mast pollozni
-					////console.log($rootScope.tempMoveString)
-
-					// if($rootScope.viewName == 'board.html'&& $rootScope.tempMoveString=="") {
-					// 	////console.log('refreshtable called from interval '+ $rootScope.tempMoveString)
-					// 	$scope.refreshTable()
-						
-					// }
+					
 
 				}
 			}, 1000); //setinterval stuff ends here
@@ -858,12 +805,19 @@
 			dbTable._id=$rootScope.tableId
 			dbTable.desiredDepth=$rootScope.depth
 			
-			$http.post('/moved',dbTable,function(req,res){
+			socketSend('moved',dbTable,'moved',function(){
+				
 				$rootScope.table=dbTable.table
 				$rootScope.wNext=dbTable.wNext
 				$rootScope.moves=dbTable.moves
-				
 			})
+			
+			// $http.post('/moved',dbTable,function(req,res){
+			// 	$rootScope.table=dbTable.table
+			// 	$rootScope.wNext=dbTable.wNext
+			// 	$rootScope.moves=dbTable.moves
+				
+			// })
 			
 		}	else{
 		
@@ -872,19 +826,11 @@
 			
 		}
 			
-			
-				// .success(function(response) {
-				// 	$rootScope.wNext = !$rootScope.wNext
-				// 	$rootScope.pollNum-=5
-				// 	$scope.refreshTable()
-				// 	return response.table
-
-				// })
 
 		}
 		
 		$rootScope.takeItBack= function(){
-			$http.post('/moved',$rootScope.lastState,function(req,res){
+			socketSend('moved',dbTable,'moved',function(){
 				$rootScope.table=$rootScope.lastState.table
 				$rootScope.wNext=$rootScope.lastState.wNext
 				$rootScope.moves=$rootScope.lastState.moves
