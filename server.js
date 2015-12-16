@@ -784,9 +784,13 @@ var updateSplitMoveProgress=function(sentTNum,sentTo,progress){
 	var mIndex=getMIndex(index,sentTo)
 	
 	
-		busyTables.splitMoves[index][mIndex].progress=progress
+	if(progress>busyTables.splitMoves[index][mIndex].progress){
 		
-		busyTablesPop(index)
+		 busyTables.splitMoves[index][mIndex].progress=progress
+	
+	}
+	
+	busyTablesPop(index)
 	
 }
 
