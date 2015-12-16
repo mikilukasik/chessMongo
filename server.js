@@ -31,6 +31,13 @@ var wsServer = new WebSocketServer({
 });
 
 
+var socketSend=function(connection,command,data,message,cb){
+	connection.sendUTF(JSON.stringify({
+						command: command,
+						data: data,
+						message: message
+					}))
+}
 
 wsServer.on('request', function(request) {
     var connection = request.accept(null, request.origin);
@@ -49,18 +56,105 @@ wsServer.on('request', function(request) {
 				case 'Hello':
 					
 					//initial thing
+					socketSend(connection,'reHello',{},'reHello',function(){})
 					
-					connection.sendUTF(JSON.stringify({
-						command: 'reHello',
-						data: {},
-						message: 'reHello'
-					}))
 				
 				break;
 				
 				case 'startGame':
 				
 					startGame(received.data.w,received.data.b)	
+				
+				break;
+				
+				
+				case 'getLobby':
+				
+					
+				
+					//app.get('/getLobby', function(req, res) {
+						//////////// ////////    console.log(req)
+						clearDisconnectedPlayers()			//nemide!!!!!!!!!!!!
+						
+						if (players[0].indexOf(received.data.p) == -1) {
+							players[0].push(received.data.p)
+							players[1].push((new Date())
+								.getTime())
+					
+							//players.sort(sortPlayers)
+							lobbyPollNum++
+					
+						}
+						else {
+							players[1][players[0].indexOf(received.data.p)] = (new Date())
+								.getTime()
+						}
+					
+						var playerIndex = players[0].indexOf(received.data.p)
+						if (players[2][playerIndex]) {
+							//var askToOpen=true;
+							lobbyPollNum++
+							var openTableNum = players[4][playerIndex]
+							var openTableColor = players[3][playerIndex]
+							var opponentsName = players[5][playerIndex]
+					
+							players[2][playerIndex] = false
+					
+							socketSend(connection,'lobbyState',{
+								players: players[0],
+								games: [], //[activeGames],
+								lobbypollnum: lobbyPollNum,
+								lobbychat: [], //lobbyChat,
+								asktoopen: true,
+								opentablenum: openTableNum,
+								opentablecolor: openTableColor,
+								opponentsname: opponentsName
+							},'lobbyState',function(){});
+					
+						}
+						else {
+					
+							mongodb.connect(cn, function(err, db) {
+								if (!(db == null)) {
+									db.collection("tables")
+										.findOne({
+											_id: "xData"
+										}, function(err2, xData) {
+											if (xData == null) {
+					
+												createXData()
+					
+												var resLChat = []
+												var resAGames = []
+					
+											}
+											else {
+					
+												var resLChat = xData.lobbyChat
+												var resAGames = xData.activeTables
+											}
+											db.close()
+												///////
+											socketSend(connection,'lobbyState',{
+												players: players[0],
+												games: resAGames,
+												lobbypollnum: lobbyPollNum,
+												lobbychat: resLChat,
+												asktoopen: false
+											},'lobbyState',function(){});
+											///////
+					
+										});
+								}
+							});
+					
+						}
+					
+					//});
+									
+									
+									
+				
 				
 				break;
 				
@@ -2412,84 +2506,84 @@ function clearDisconnectedLearners() {
 	//clearInactiveGames()
 }
 
-app.get('/getLobby', function(req, res) {
-	//////////// ////////    console.log(req)
-	clearDisconnectedPlayers()
-	if (players[0].indexOf(req.query.p) == -1) {
-		players[0].push(req.query.p)
-		players[1].push((new Date())
-			.getTime())
+// app.get('/getLobby', function(req, res) {
+// 	//////////// ////////    console.log(req)
+// 	clearDisconnectedPlayers()
+// 	if (players[0].indexOf(req.query.p) == -1) {
+// 		players[0].push(req.query.p)
+// 		players[1].push((new Date())
+// 			.getTime())
 
-		//players.sort(sortPlayers)
-		lobbyPollNum++
+// 		//players.sort(sortPlayers)
+// 		lobbyPollNum++
 
-	}
-	else {
-		players[1][players[0].indexOf(req.query.p)] = (new Date())
-			.getTime()
-	}
+// 	}
+// 	else {
+// 		players[1][players[0].indexOf(req.query.p)] = (new Date())
+// 			.getTime()
+// 	}
 
-	playerIndex = players[0].indexOf(req.query.p)
-	if (players[2][playerIndex]) {
-		//var askToOpen=true;
-		lobbyPollNum++
-		var openTableNum = players[4][playerIndex]
-		var openTableColor = players[3][playerIndex]
-		var opponentsName = players[5][playerIndex]
+// 	playerIndex = players[0].indexOf(req.query.p)
+// 	if (players[2][playerIndex]) {
+// 		//var askToOpen=true;
+// 		lobbyPollNum++
+// 		var openTableNum = players[4][playerIndex]
+// 		var openTableColor = players[3][playerIndex]
+// 		var opponentsName = players[5][playerIndex]
 
-		players[2][playerIndex] = false
+// 		players[2][playerIndex] = false
 
-		res.json({
-			players: players[0],
-			games: [], //[activeGames],
-			lobbypollnum: lobbyPollNum,
-			lobbychat: [], //lobbyChat,
-			asktoopen: true,
-			opentablenum: openTableNum,
-			opentablecolor: openTableColor,
-			opponentsname: opponentsName
-		});
+// 		res.json({
+// 			players: players[0],
+// 			games: [], //[activeGames],
+// 			lobbypollnum: lobbyPollNum,
+// 			lobbychat: [], //lobbyChat,
+// 			asktoopen: true,
+// 			opentablenum: openTableNum,
+// 			opentablecolor: openTableColor,
+// 			opponentsname: opponentsName
+// 		});
 
-	}
-	else {
+// 	}
+// 	else {
 
-		mongodb.connect(cn, function(err, db) {
-			if (!(db == null)) {
-				db.collection("tables")
-					.findOne({
-						_id: "xData"
-					}, function(err2, xData) {
-						if (xData == null) {
+// 		mongodb.connect(cn, function(err, db) {
+// 			if (!(db == null)) {
+// 				db.collection("tables")
+// 					.findOne({
+// 						_id: "xData"
+// 					}, function(err2, xData) {
+// 						if (xData == null) {
 
-							createXData()
+// 							createXData()
 
-							var resLChat = []
-							var resAGames = []
+// 							var resLChat = []
+// 							var resAGames = []
 
-						}
-						else {
+// 						}
+// 						else {
 
-							var resLChat = xData.lobbyChat
-							var resAGames = xData.activeTables
-						}
-						db.close()
-							///////
-						res.json({
-							players: players[0],
-							games: resAGames,
-							lobbypollnum: lobbyPollNum,
-							lobbychat: resLChat,
-							asktoopen: false
-						});
-						///////
+// 							var resLChat = xData.lobbyChat
+// 							var resAGames = xData.activeTables
+// 						}
+// 						db.close()
+// 							///////
+// 						res.json({
+// 							players: players[0],
+// 							games: resAGames,
+// 							lobbypollnum: lobbyPollNum,
+// 							lobbychat: resLChat,
+// 							asktoopen: false
+// 						});
+// 						///////
 
-					});
-			}
-		});
+// 					});
+// 			}
+// 		});
 
-	}
+// 	}
 
-});
+// });
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 

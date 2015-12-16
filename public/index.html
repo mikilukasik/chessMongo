@@ -19,85 +19,7 @@
 	//thinker stuff
 		/////////////////////	websocket stuff		//////////////////////////////////
 		
-	var socketSend=function(){}
-		
-		
-		
-		  function sockets()
-         {
-            if ("WebSocket" in window)
-            {
-               //alert("WebSocket is supported by your Browser!");
-               
-               // Let us open a web socket
-               var ws = new WebSocket('ws://'+document.location.hostname+'/sockets/');
-				
-               ws.onopen = function()
-               {
-                  // Web Socket is connected, send data using send()
-				  
-				  
-				  
-			
-				  socketSend=function(command,data,message,cb){
-					  
-					  var sendThis={
-						  command: command,
-						  data: data,
-						  message: message
-					  }
-					 
-					  
-					  
-					  ws.send(JSON.stringify(sendThis),cb());
-				
-				  }
-				  
-				  console.log("socket connected, let's say hello...")
-				  
-				  socketSend('Hello',{},'Hello',function(){
-					  console.log("socketSend 'hello' callback called")
-				  })	//init
-				  
-               };
-				
-               ws.onmessage = function (evt) 
-               { 
-                  var received = eval("(" + evt.data + ")");
-                  //console.log("socketMessage is received:",received);
-				  
-				  switch(received.command){
-					  
-					  case 'reHello' : 
-					  
-					  	console.log('Hello worked.')
-					  
-					  
-					  break
-					  
-					  
-				  }
-				  
-				  
-				  
-               };
-				
-               ws.onclose = function()
-               { 
-                  // websocket is closed.
-                  console.log("socketConnection is closed..."); 
-               };
-            }
-            
-            else
-            {
-               // The browser doesn't support WebSocket
-               console.log("WebSocket NOT supported by your Browser!");
-            }
-         }
 	
-	
-	sockets()
 	
 	
 	
@@ -229,6 +151,149 @@
 
 	function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
 		
+		var socketSend=function(command,data,message,cb){}
+		
+		
+		
+		  function sockets()
+         {
+            if ("WebSocket" in window)
+            {
+               //alert("WebSocket is supported by your Browser!");
+               
+               // Let us open a web socket
+               var ws = new WebSocket('ws://'+document.location.hostname+'/sockets/');
+				
+               ws.onopen = function()
+               {
+                  // Web Socket is connected, send data using send()
+				  
+				  
+				  
+			
+				  socketSend=function(command,data,message,cb){
+					  
+					  var sendThis={
+						  command: command,
+						  data: data,
+						  message: message
+					  }
+					 
+					  
+					  
+					  ws.send(JSON.stringify(sendThis),cb());
+				
+				  }
+				  
+				  console.log("socket connected, let's say hello...")
+				  
+				  socketSend('Hello',{},'Hello',function(){
+					  console.log("socketSend 'hello' callback called")
+				  })	//init
+				  
+               };
+				
+               ws.onmessage = function (evt) 
+               { 
+                  var received = eval("(" + evt.data + ")");
+                  //console.log("socketMessage is received:",received);
+				  
+				  switch(received.command){
+					  
+					  case 'reHello' : 
+					  
+					  	console.log('Hello worked.')
+					  
+					  
+					  break;
+					  
+					  
+					  case 'lobbyState':
+					  
+					  
+					  
+					  
+					  
+					  //console.log('polling lobby')
+							if(received.data.asktoopen) {
+								////console.log('opening')
+
+								$rootScope._id = received.data.opentablenum
+								$rootScope.wPlayer = received.data.opentablecolor
+								$scope.opponentsName = received.data.opponentsname
+								$rootScope.pollNum = 0
+
+								$scope.openNow = true;
+
+							}
+
+							if(!($scope.lobbyPollNum == received.data.lobbypollnum)) {
+
+								//////console.log('polling lobby')
+
+								$scope.lobbyChatLines = received.data.lobbychat
+								$scope.players = received.data.players
+								$scope.players.unshift("Fastest thinker")
+								$scope.players.unshift("Multiple thinkers")
+								$scope.players.unshift("Server")
+								
+								
+								$scope.games = received.data.games
+								$scope.players.sort(function(a, b) {
+									return a.toLowerCase().localeCompare(b.toLowerCase());
+								});
+								$scope.lobbyPollNum = received.data.lobbyPollNum
+									//showLobby(lobbyChatLines, players, games, $scope.lobbyPollNum)
+								if(!$scope.$$phase) {
+								$scope.$apply()
+							}
+
+							}
+							if($scope.openNow) {
+								$rootScope.tempMoveString=""
+								$rootScope.viewName = "board.html"
+								
+								$scope.openNow = false
+
+								// 		window.setTimeout(function() {
+								//  $scope.drawTable(true)
+
+								//     $scope.$apply();
+								// }, 3000);
+
+							}
+
+					  
+					  
+					  
+					  
+					  
+					  
+					  break;
+					  
+					  
+				  }
+				  
+				  
+				  
+               };
+				
+               ws.onclose = function()
+               { 
+                  // websocket is closed.
+                  console.log("socketConnection is closed..."); 
+               };
+            }
+            
+            else
+            {
+               // The browser doesn't support WebSocket
+               console.log("WebSocket NOT supported by your Browser!");
+            }
+         }
+	
+	
+	sockets()
 		
 		var pollerMessage= function(event){
 			
@@ -633,63 +698,75 @@
 		}
 
 		$scope.pollLobby = function() {
+			
+			
+			
+			
+			
 			$scope.lobbyPromise = $interval(function() {
 
 				//refreshLobby()
 				if($rootScope.viewName == 'lobby.html') {
+					
+					console.log("'getLobby'??")
+					socketSend('getLobby',{p: $rootScope.loginName},'getLobby',function(){
+						console.log("'getLobby' callback")
+					})
+								
+					
 
-					$http.get('/getLobby?p=' + $rootScope.loginName)
-						.success(function(response) {
-							////console.log('polling lobby')
-							if(response.asktoopen) {
-								////console.log('opening')
+					// $http.get('/getLobby?p=' + $rootScope.loginName)
+					// 	.success(function(response) {
+					// 		////console.log('polling lobby')
+					// 		if(response.asktoopen) {
+					// 			////console.log('opening')
 
-								$rootScope._id = response.opentablenum
-								$rootScope.wPlayer = response.opentablecolor
-								$scope.opponentsName = response.opponentsname
-								$rootScope.pollNum = 0
+					// 			$rootScope._id = response.opentablenum
+					// 			$rootScope.wPlayer = response.opentablecolor
+					// 			$scope.opponentsName = response.opponentsname
+					// 			$rootScope.pollNum = 0
 
-								$scope.openNow = true;
+					// 			$scope.openNow = true;
 
-							}
+					// 		}
 
-							if(!($scope.lobbyPollNum == response.lobbypollnum)) {
+					// 		if(!($scope.lobbyPollNum == response.lobbypollnum)) {
 
-								//////console.log('polling lobby')
+					// 			//////console.log('polling lobby')
 
-								$scope.lobbyChatLines = response.lobbychat
-								$scope.players = response.players
-								$scope.players.unshift("Fastest thinker")
-								$scope.players.unshift("Multiple thinkers")
-								$scope.players.unshift("Server")
+					// 			$scope.lobbyChatLines = response.lobbychat
+					// 			$scope.players = response.players
+					// 			$scope.players.unshift("Fastest thinker")
+					// 			$scope.players.unshift("Multiple thinkers")
+					// 			$scope.players.unshift("Server")
 								
 								
-								$scope.games = response.games
-								$scope.players.sort(function(a, b) {
-									return a.toLowerCase().localeCompare(b.toLowerCase());
-								});
-								$scope.lobbyPollNum = response.lobbyPollNum
-									//showLobby(lobbyChatLines, players, games, $scope.lobbyPollNum)
-								if(!$scope.$$phase) {
-								$scope.$apply()
-							}
+					// 			$scope.games = response.games
+					// 			$scope.players.sort(function(a, b) {
+					// 				return a.toLowerCase().localeCompare(b.toLowerCase());
+					// 			});
+					// 			$scope.lobbyPollNum = response.lobbyPollNum
+					// 				//showLobby(lobbyChatLines, players, games, $scope.lobbyPollNum)
+					// 			if(!$scope.$$phase) {
+					// 			$scope.$apply()
+					// 		}
 
-							}
-							if($scope.openNow) {
-								$rootScope.tempMoveString=""
-								$rootScope.viewName = "board.html"
+					// 		}
+					// 		if($scope.openNow) {
+					// 			$rootScope.tempMoveString=""
+					// 			$rootScope.viewName = "board.html"
 								
-								$scope.openNow = false
+					// 			$scope.openNow = false
 
-								// 		window.setTimeout(function() {
-								//  $scope.drawTable(true)
+					// 			// 		window.setTimeout(function() {
+					// 			//  $scope.drawTable(true)
 
-								//     $scope.$apply();
-								// }, 3000);
+					// 			//     $scope.$apply();
+					// 			// }, 3000);
 
-							}
+					// 		}
 
-						}) //lobbypoll callback ends here
+					// 	}) //lobbypoll callback ends here
 				} else {
 					//itt lehetne mast pollozni
 					////console.log($rootScope.tempMoveString)
@@ -705,7 +782,10 @@
 
 		}
 
-		$scope.pollLobby()
+		$scope.pollLobby()			//replaced with socketSend
+		
+		
+		
 
 		$scope.clickedItTrans = function(i, j) {
 			//alert("called")
