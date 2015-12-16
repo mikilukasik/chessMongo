@@ -213,6 +213,33 @@ var myPartIsDone=function(data){
 	
 }
 
+var thinkerMessage=function(data){
+	
+		//res.send('something')
+	
+	var thinker = knownThinkers[doIKnow(data.thinker)]
+	
+	switch(data.command){
+		
+		case 'log':
+		
+			postThinkerMessage(thinker,data.message)
+		
+		break;
+		
+		case 'progress':
+		
+			updateSplitMoveProgress(data.data._id,data.thinker,data.data.progress)
+		
+		break;
+		
+		
+		
+	}
+	
+	
+}
+
 var socketSend=function(connection,command,data,message,cb){
 	connection.sendUTF(JSON.stringify({
 						command: command,
@@ -266,6 +293,13 @@ wsServer.on('request', function(request) {
 				case 'myPartIsDone':
 				
 					myPartIsDone(received.data)
+				
+				break;
+				
+				case 'thinkerMessage':
+				
+				
+					thinkerMessage(received.data)
 				
 				break;
 				
@@ -1072,27 +1106,27 @@ function postThinkerMessage(thinker, message){
 }
 app.post('/thinkerMessage', function(req, res) {
 	
-	res.send('something')
+	// res.send('something')
 	
-	var thinker = knownThinkers[doIKnow(req.body.thinker)]
+	// var thinker = knownThinkers[doIKnow(req.body.thinker)]
 	
-	switch(req.body.command){
+	// switch(req.body.command){
 		
-		case 'log':
+	// 	case 'log':
 		
-			postThinkerMessage(thinker,req.body.message)
+	// 		postThinkerMessage(thinker,req.body.message)
 		
-		break;
+	// 	break;
 		
-		case 'progress':
+	// 	case 'progress':
 		
-			updateSplitMoveProgress(req.body.data._id,req.body.thinker,req.body.data.progress)
+	// 		updateSplitMoveProgress(req.body.data._id,req.body.thinker,req.body.data.progress)
 		
-		break;
+	// 	break;
 		
 		
 		
-	}
+	// }
 	////    console.log(req)
 
 })

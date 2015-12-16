@@ -50,7 +50,8 @@ var messageTheServer = function(command, data, message,cb) {
 				
 			}
 	
-			simplePost('/thinkerMessage', postThis, function(res) {}, function(err) {})
+			socketSend('thinkerMessage',postThis,'thinkerMessage',function(){})
+			//simplePost('/thinkerMessage', postThis, function(res) {}, function(err) {})
 			
 			if(cb)cb()
 			
@@ -58,7 +59,7 @@ var messageTheServer = function(command, data, message,cb) {
 			//try:
 			
 			console.log('trying: ',sendID)
-			longPollTasks(pollingTask,sendID,mySpeed)
+			//longPollTasks(pollingTask,sendID,mySpeed)
 			
 			
 	}
@@ -567,7 +568,7 @@ onmessage = function(event) {
 						
 					if (waitingForIdle==0){
 							
-						if (tdate-lastOverallProgressCalc > 512){
+						if (tdate-lastOverallProgressCalc > 256){
 							
 							progress.overall= progress.doneSM * (100/progress.splitMoves)	+	(progress.doneDM * (100/progress.oneDeeperMoves))/progress.splitMoves
 							
