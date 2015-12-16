@@ -42,7 +42,28 @@ wsServer.on('request', function(request) {
 			// process WebSocket message
             var received=eval("(" + message.utf8Data + ")")
 			
-            console.log('received',received.message)
+            console.log('received:',received.message)
+			
+			switch(received.command){
+				
+				case 'Hello':
+					
+					//initial thing
+					
+					connection.sendUTF(JSON.stringify({
+						command: 'reHello',
+						data: {},
+						message: 'reHello'
+					}))
+				
+				
+				
+				
+				break;
+				
+				
+				
+			}
             
             
             

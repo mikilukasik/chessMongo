@@ -45,8 +45,37 @@
 				
                ws.onmessage = function (evt) 
                { 
-                  var received_msg = evt.data;
-                  alert("socketMessage is received...");
+                  var received = eval("(" + evt.data + ")");
+                  //console.log("socketMessage is received:",received);
+				  
+				  switch(received.command){
+					  
+					  case 'reHello' : 
+					  
+					  	console.log('socket open.')
+					  
+					  
+					  break
+					  
+					  
+					  
+					  
+					  
+					  
+				  }
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  
                };
 				
                ws.onclose = function()
