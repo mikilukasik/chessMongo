@@ -31,6 +31,13 @@ var toPostSplitMoves
 
 var pollingTask=-1
 
+var socketSend=function(command,data,message,cb){
+	
+	toServer(command,data,message,cb)
+	
+}
+		
+
 
 var messageTheServer = function(command, data, message,cb) {
 	
@@ -501,14 +508,16 @@ onmessage = function(event) {
 								var postThis = toPostSplitMoves
 	
 								postThis[0]._id = workingOnTableNum
+								postThis[0].sendID=sendID
 								
-										
+								
+								socketSend('myPartIsDone',postThis,'myPartIsDone',function(){})		
 							
-								simplePost('/myPartIsDone?id='+ sendID , postThis, function(req, res) {
+								//simplePost('/myPartIsDone?id='+ sendID , postThis, function(req, res) {
 								
 									
 								
-								})
+								//})
 								
 								
 							}else{
@@ -669,6 +678,27 @@ function toSub(command,data){
 		
 	})
 	
+	
+}
+
+
+function toServer(command,data,message,cb){
+	
+	
+	
+	postMessage({
+		'resCommand': 'toServer',
+		'resMessage': 'toServer',
+		'resData':	{
+						command:command,
+						data:data,
+						message: message,
+						
+					}
+		
+	})
+	
+	cb()
 	
 }
 

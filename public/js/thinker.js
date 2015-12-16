@@ -102,6 +102,13 @@
 				
 				break;
 				
+				case 'toServer':
+				
+					socketSend(event.data.resData.command,event.data.resData.data,event.data.resData.message,function(){})
+				
+				
+				break;
+				
 				case 'refreshBrowser':
 				
 				

@@ -31,105 +31,27 @@ var wsServer = new WebSocketServer({
 });
 
 
-var socketSend=function(connection,command,data,message,cb){
-	connection.sendUTF(JSON.stringify({
-						command: command,
-						data: data,
-						message: message
-					}))
-}
-
-wsServer.on('request', function(request) {
-    var connection = request.accept(null, request.origin);
-
-    // This is the most important callback for us, we'll handle
-    // all messages from users here.
-    connection.on('message', function(message) {
-        if (message.type === 'utf8') {
-			// process WebSocket message
-            var received=eval("(" + message.utf8Data + ")")
-			
-            console.log('received:',received.message)
-			
-			switch(received.command){
-				
-				case 'Hello':
-					
-					//initial thing
-					socketSend(connection,'reHello',{},'reHello',function(){})
-					
-				
-				break;
-				
-				case 'startGame':
-				
-					startGame(received.data.w,received.data.b)	
-				
-				break;
-				
-				case 'moved':
-				
-						var onTable = received.data// req.body
-						
-						onTable.moved = new Date()
-											.getTime()
-											
-											
-						var command = onTable.command
-						
-						onTable.command = ''
-							
-						mongodb.connect(cn, function(err, db) {
-							db.collection("tables")
-								.save(onTable, function(err3, res) {
-									//table moved and saved, let's check what to do
-									db.close()
-									popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
-						
-									switch (command) {
-						
-										case 'makeAiMove':
-											
-											//////    console.log('calling makeaimove..')
-											makeAiMove(onTable)
-						
-						
-											break;
-						
-						
-									}
-						
-						
-								})
-						
-										
-						});
-				
-				break;
-				
-				case 'getLobby':
+var sendLobby=function(connection,data){
+	
 				
 					
-				
-					//app.get('/getLobby', function(req, res) {
-						//////////// ////////    console.log(req)
 						clearDisconnectedPlayers()			//nemide!!!!!!!!!!!!
 						
-						if (players[0].indexOf(received.data.p) == -1) {
-							players[0].push(received.data.p)
+						if (players[0].indexOf(data.p) == -1) {
+							players[0].push(data.p)
 							players[1].push((new Date())
 								.getTime())
 					
-							//players.sort(sortPlayers)
+							
 							lobbyPollNum++
 					
 						}
 						else {
-							players[1][players[0].indexOf(received.data.p)] = (new Date())
+							players[1][players[0].indexOf(data.p)] = (new Date())
 								.getTime()
 						}
 					
-						var playerIndex = players[0].indexOf(received.data.p)
+						var playerIndex = players[0].indexOf(data.p)
 						if (players[2][playerIndex]) {
 							//var askToOpen=true;
 							lobbyPollNum++
@@ -173,7 +95,7 @@ wsServer.on('request', function(request) {
 												var resAGames = xData.activeTables
 											}
 											db.close()
-												///////
+												
 											socketSend(connection,'lobbyState',{
 												players: players[0],
 												games: resAGames,
@@ -181,7 +103,7 @@ wsServer.on('request', function(request) {
 												lobbychat: resLChat,
 												asktoopen: false
 											},'lobbyState',function(){});
-											///////
+											
 					
 										});
 								}
@@ -189,14 +111,163 @@ wsServer.on('request', function(request) {
 					
 						}
 					
-					//});
+			
 									
 									
-									
+}
+
+var moved=function(onTable){
+	
+	//var onTable = received.data// req.body
+						
+						onTable.moved = new Date()
+											.getTime()
+											
+											
+						var command = onTable.command
+						
+						onTable.command = ''
+							
+						mongodb.connect(cn, function(err, db) {
+							db.collection("tables")
+								.save(onTable, function(err3, res) {
+									//table moved and saved, let's check what to do
+									db.close()
+									popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
+						
+									switch (command) {
+						
+										case 'makeAiMove':
+											
+											//////    console.log('calling makeaimove..')
+											makeAiMove(onTable)
+						
+						
+											break;
+						
+						
+									}
+						
+						
+								})
+						
+										
+						});
+	
+	
+}
+
+
+var myPartIsDone=function(data){
+	
+	var index = getTaskIndex(data[0]._id)
+
+
+	data.forEach(function(move) {
+		
+		splitTaskQ[index].returnedMoves.push(move)
+		splitTaskQ[index].pendingSolvedMoves--
+	
+	})
+	
+	markSplitMoveDone(data[0]._id,data[0].thinker)
+
+	if (splitTaskQ[index].pendingSolvedMoves == 0) {
+		
+		////////////////////////////////////////////////////////////all moves solved, check best and make a move
+		
+		splitTaskQ[index].returnedMoves.sort(
+			moveSorter
+		)
+
+		moveInTable(splitTaskQ[index].returnedMoves[0].move, splitTaskQ[index])
+		
+		splitTaskQ[index].chat = [~~((new Date()-splitTaskQ[index].splitMoveStarted)/10)/100+'sec']	//1st line in chat is timeItTook
+		
+		splitTaskQ[index].returnedMoves.forEach(function(returnedMove){
+			splitTaskQ[index].chat=splitTaskQ[index].chat.concat({
+				//move: returnedMove.moveStr,
+				score: returnedMove.score,
+				hex: returnedMove.score.toString(16),
+				moves: returnedMove.moveTree
+				
+			})
+
+		})
+		
+		
+		mongodb.connect(cn, function(err, db) {
+			db.collection("tables")
+				.save(splitTaskQ[index], function(err3, res) {
+					popThem(splitTaskQ[index]._id, splitTaskQ[index], 'splitMove', 'splitMove')
+					
+					db.close()
+					
+					splitTaskQ.splice(index, 1)
+					
+				})
+		})
+	}
+
+	
+	
+}
+
+var socketSend=function(connection,command,data,message,cb){
+	connection.sendUTF(JSON.stringify({
+						command: command,
+						data: data,
+						message: message
+					}))
+}
+
+wsServer.on('request', function(request) {
+    var connection = request.accept(null, request.origin);
+
+    // This is the most important callback for us, we'll handle
+    // all messages from users here.
+    connection.on('message', function(message) {
+        if (message.type === 'utf8') {
+			// process WebSocket message
+            var received=eval("(" + message.utf8Data + ")")
+			
+            console.log('received:',received.message)
+			
+			switch(received.command){
+				
+				case 'Hello':
+					
+					//initial thing
+					socketSend(connection,'reHello',{},'reHello',function(){})
+					
+				
+				break;
+				
+				case 'startGame':
+				
+					startGame(received.data.w,received.data.b)	
+				
+				break;
+				
+				case 'moved':
+				
+					moved(received.data)
+				
+				break;
+				
+				case 'getLobby':
+				
+					
+					sendLobby(connection,received.data)				
 				
 				
 				break;
 				
+				case 'myPartIsDone':
+				
+					myPartIsDone(received.data)
+				
+				break;
 				
 				
 				
@@ -402,33 +473,18 @@ function sendTask(task, thinkerId) {
 		sentTo= thisRes[0].query.id//.IncomingMessage)//.IncomingMessage.query)
 		
 		
-			////////// ////////    console.log(thisRes,thinkerPollIndex)
-			//var newTaskNum=Number(thisRes[0].query.tn)+1	//!!!!!!!!!!!!!!!!!!! get real tasknum
+	
 		task.taskNum = Number(thisRes[0].query.tn) + 1
-		//task.sentRnd = Math.random()
-
-		// if(thisPop[0].query.id!=knownThinkers[thisPop[0].query.id].id) {
-		// 	knownThinkers[thisPop[0].query.id]={id:thisPop[0].query.id}	// object has knownThinkers id
-		// }
-
+		
 		var thinkerIndex = doIKnow(thinkerId)
 
-		// if(thinkerIndex==-1){
-		// 	knownThinkers.push({
-		// 		id:thinkerId						
-		// 	})
-		// 	thinkerIndex=doIKnow(thinkerId)		//itt mar benne lesz a tombben
-
-		// }
+		
 
 		knownThinkers[thinkerIndex].busy = true
 
-		//knownThinkers[thinkerIndex].taskNum=newTaskNum		//we need to remember the tasknum we sent
-		
 		
 		postThinkerMessage(knownThinkers[thinkerIndex],task.message)
 		
-		//knownThinkers[thinkerIndex].message = task.message //do we we need to remember the message we sent?
 		knownThinkers[thinkerIndex].command = task.command //we need to remember the task we sent
 		knownThinkers[thinkerIndex].sent = new Date()
 			.getTime()
@@ -437,10 +493,7 @@ function sendTask(task, thinkerId) {
 		
 
 
-		/////
-
-		//knownThinkers[thinkerIndex].busy=true
-
+		
 		knownThinkers[thinkerIndex].taskNum = task.taskNum //we need to remember the tasknum we sent
 			// knownThinkers[thinkerIndex].message=task.message		//do we we need to remember the message we sent?
 			// knownThinkers[thinkerIndex].command=task.command		//we need to remember the task we sent
@@ -452,15 +505,7 @@ function sendTask(task, thinkerId) {
 
 		thisRes[1].json(task)
 
-		/////
-
-
-
-		// thisRes[1].json({
-		// 	message:message,
-		// 	taskNum:newTaskNum,
-		// 	task:task
-		// })
+	
 		captainPop()
 
 	}
@@ -480,10 +525,7 @@ function sendTask(task, thinkerId) {
 
 function sendToAll(task) {
 
-	// var command=task.command
-	// var message=task.message
-	// var data=task.data
-
+	
 
 
 	while (pendingThinkerPolls.length > 0) {
@@ -491,10 +533,6 @@ function sendToAll(task) {
 		var thisPop = pendingThinkerPolls.pop()
 		task.taskNum = Number(thisPop[0].query.tn) + 1
 		task.sentRnd = Math.random()
-
-		// if(thisPop[0].query.id!=knownThinkers[thisPop[0].query.id].id) {
-		// 	knownThinkers[thisPop[0].query.id]={id:thisPop[0].query.id}	// object has knownThinkers id
-		// }
 
 		var thinkerIndex = doIKnow(thisPop[0].query.id)
 
@@ -679,9 +717,6 @@ function ping(msecs) {
 		}
 	}
 
-
-	//sendToAll('ping','ping')
-
 }
 
 setInterval(function() {
@@ -699,12 +734,7 @@ var evalToClient = function() {
 		db4.collection('tables')
 			.findOne({
 
-				// gameIsOn:false,
-				// whiteWon:false,
-				// blackWon:false,
-				// isDraw:false,
-				// aiOn:false,
-				// toBeChecked:true
+			
 
 				toBeChecked: false
 
@@ -758,30 +788,12 @@ var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 
 				var resp = pendingLongPolls[tNum].pop()
 
-				// var passMoves = tableInDb.moves
-				// var passTable = tableInDb.table
-				// var passWnext = tableInDb.wNext
-
-				// var passChat = tableInDb.chat
-
-				// var passPollNum = tableInDb.pollNum
-				// db.close()
+	
 
 				resp.json(
 					tableInDb
 
-					// 	{
-					// 	_id: tNum,
-					// 	table: passTable,
-					// 	next: passWnext,
-					// 	allmoves: passMoves,
-					// 	chat: passChat,
-					// 	tablepollnum: passPollNum,
-					// 	command: commandToSend,
-					// 	message: messageToSend
-					// }
-
-
+		
 				);
 
 			}
@@ -845,12 +857,6 @@ function makeSplitMove(dbTable) {
 		var tempLength=aiTable.movesToSend.length
 		
 		var aa=fastestThinker(true)
-		
-		// if(aiTable.movesToSend.length===tempLength){
-		// 	//    console.log('itt a bug!!!!!!!!!!!')
-		// 	aiTable.movesToSend.length=[]		//no thinker available, should hold it!!!!!!!!!!!!!!!!!
-		// 	break;
-		// }
 		
 		
 
@@ -1088,98 +1094,13 @@ app.post('/thinkerMessage', function(req, res) {
 		
 	}
 	////    console.log(req)
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//fdz
+
 })
 
 app.post('/myPartIsDone', function(req, res) {
 
-	//var movedTable=req.body
-	//////////// ////////    console.log(req)
 	res.send('received.')
 
-
-
-	// 	mongodb.connect(cn, function(err, db) {
-	// 		db.collection("tables")
-	// 			.findOne({
-	// 				_id: req.body[0]._id		//no header in post req
-	// 			}, function(err2, onTable) {
-
-	// 				if(onTable!=null){
-
-	// 				//onTable.gameIsOn=false
-
-	//////    console.log('received:',req.body)
-	var index = getTaskIndex(req.body[0]._id)
-
-	//////////    console.log(index)
-
-
-
-	req.body.forEach(function(move) {
-		
-		splitTaskQ[index].returnedMoves.push(move)
-		splitTaskQ[index].pendingSolvedMoves--
-	
-	})
-	
-	
-	////    console.log('!!!!!!!!!!!!',808,req.body[0]._id,req.body[0].thinker)
-	
-	markSplitMoveDone(req.body[0]._id,req.body[0].thinker)
-
-	if (splitTaskQ[index].pendingSolvedMoves == 0) {
-		
-		////////////////////////////////////////////////////////////all moves solved, check best and make a move
-		
-		splitTaskQ[index].returnedMoves.sort(
-			moveSorter
-		)
-
-		moveInTable(splitTaskQ[index].returnedMoves[0].move, splitTaskQ[index])
-		
-		splitTaskQ[index].chat = [~~((new Date()-splitTaskQ[index].splitMoveStarted)/10)/100+'sec']	//1st line in chat is timeItTook
-		
-		splitTaskQ[index].returnedMoves.forEach(function(returnedMove){
-			splitTaskQ[index].chat=splitTaskQ[index].chat.concat({
-				//move: returnedMove.moveStr,
-				score: returnedMove.score,
-				hex: returnedMove.score.toString(16),
-				moves: returnedMove.moveTree
-				
-			})
-
-		})
-		
-		//splitTaskQ[index].chat=splitTaskQ[index].chat.concat(splitTaskQ[index].returnedMoves)
-
-
-		//
-
-		//save here
-		mongodb.connect(cn, function(err, db) {
-			db.collection("tables")
-				.save(splitTaskQ[index], function(err3, res) {
-					popThem(splitTaskQ[index]._id, splitTaskQ[index], 'splitMove', 'splitMove')
-					
-					db.close()
-					
-					splitTaskQ.splice(index, 1)
-					
-				})
-		})
-	}
 
 });
 
