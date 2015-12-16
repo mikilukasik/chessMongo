@@ -1,66 +1,19 @@
-
+//
 var express = require('express');
 var morgan = require('morgan');
+//
+
 var bodyParser = require("body-parser");
+
+
+
 var fs = require('fs');
 var mongodb = require('mongodb');
+//var io = require('socket.io');
+
+var app = express();
 var http = require('http')
-var WebSocketServer = require('websocket').server;
-
-
-var app=express()
-var httpServ = http.createServer(app)
-
-
-var server = httpServ.listen(80, function() {
-
-	var host = server.address()
-		.address;
-	var port = server.address()
-		.port;
-
- console.log('app listening at http://%s:%s', host, port);
-
-});
-
-
-
-var wsServer = new WebSocketServer({
-    httpServer: httpServ,
-    path: '/sockets/'
-});
-
-
-
-wsServer.on('request', function(request) {
-    var connection = request.accept(null, request.origin);
-
-    // This is the most important callback for us, we'll handle
-    // all messages from users here.
-    connection.on('message', function(message) {
-        if (message.type === 'utf8') {
-			// process WebSocket message
-            var received=message.utf8Data
-            console.log('received',received)
-            
-            
-            
-            
-            
-        }
-    });
-
-    connection.on('close', function(connection) {
-        // close user connection
-        
-        
-        
-        
-    });
-});
-
-
-
+var httpServ = http.Server(app);
 
 
 app.use(bodyParser.json());
@@ -830,19 +783,14 @@ var updateSplitMoveProgress=function(sentTNum,sentTo,progress){
 	
 	var mIndex=getMIndex(index,sentTo)
 	
-	if(busyTables.splitMoves[index][mIndex]){
-		
-		if(progress>busyTables.splitMoves[index][mIndex].progress){
+	
+	if(progress>busyTables.splitMoves[index][mIndex].progress){
 		
 		 busyTables.splitMoves[index][mIndex].progress=progress
 	
 	}
 	
 	busyTablesPop(index)
-		
-	}
-	
-	
 	
 }
 
@@ -2671,18 +2619,18 @@ app.get('/refreshStats', function(req, res) {
 //   ////////// ////////    console.log('IO: a user connected');
 // });
 
-// var server = app.listen(80, function() {
+var server = app.listen(80, function() {
 
-// 	var host = server.address()
-// 		.address;
-// 	var port = server.address()
-// 		.port;
+	var host = server.address()
+		.address;
+	var port = server.address()
+		.port;
 
-// 	////////// ////////    console.log('app listening at http://%s:%s', host, port);
+	////////// ////////    console.log('app listening at http://%s:%s', host, port);
 
-// });
+});
 
-// // //var server2 = app.listen(17889, function() {
+// //var server2 = app.listen(17889, function() {
 
 // 	var host = server.address()
 // 		.address;

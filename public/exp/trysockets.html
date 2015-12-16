@@ -16,12 +16,15 @@
                alert("WebSocket is supported by your Browser!");
                
                // Let us open a web socket
-               var ws = new WebSocket('ws://'+document.location.hostname+'/sockets');
+               var ws = new WebSocket('ws://'+document.location.hostname+'/sockets/');
 				
                ws.onopen = function()
                {
                   // Web Socket is connected, send data using send()
-                  ws.send("Message to send");
+                  ws.send({
+                      a:12,
+                      b:'dsfa'
+                  });
                   alert("Message is sent...");
                };
 				

@@ -7,12 +7,10 @@
   },
   "dependencies": {
     "body-parser": "^1.14.1",
-    
     "express": "~4.12.4",
-   
+    "express-ws": "^0.2.6",
     "mongodb": "~2.0.35",
     "morgan": "~1.5.3",
-  
     "websocket": "^1.0.22"
   }
 }
