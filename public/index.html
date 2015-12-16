@@ -19,7 +19,7 @@
 	//thinker stuff
 		/////////////////////	websocket stuff		//////////////////////////////////
 		
-		
+	var socketSend=function(){}
 		
 		
 		
@@ -35,12 +35,37 @@
                ws.onopen = function()
                {
                   // Web Socket is connected, send data using send()
-                  ws.send(JSON.stringify( {
-                      command:'Hello',
-					  data: {},
-					  message: 'Hello'
-                  }));
+				  
+				  
+				  console.log('trying socket...')
+				  
+                //   ws.send(JSON.stringify( {
+                //       command:'Hello',
+				// 	  data: {},
+				// 	  message: 'Hello'
+                //   }));
                   //alert("Message is sent...");
+				  
+				  
+				  socketSend=function(command,data,message){
+					  
+					  var sendThis={
+						  command: command,
+						  data: data,
+						  message: message
+					  }
+					  
+					  
+					  
+					  ws.send(JSON.stringify(sendThis));
+					  
+					  
+					  
+				  }
+				  
+				  
+				  socketSend('Hello',{},'Hello')
+				  
                };
 				
                ws.onmessage = function (evt) 
@@ -58,21 +83,7 @@
 					  break
 					  
 					  
-					  
-					  
-					  
-					  
 				  }
-				  
-				  
-				  
-				  
-				  
-				  
-				  
-				  
-				  
-				  
 				  
 				  
 				  
@@ -81,14 +92,14 @@
                ws.onclose = function()
                { 
                   // websocket is closed.
-                  alert("socketConnection is closed..."); 
+                  console.log("socketConnection is closed..."); 
                };
             }
             
             else
             {
                // The browser doesn't support WebSocket
-               alert("WebSocket NOT supported by your Browser!");
+               console.log("WebSocket NOT supported by your Browser!");
             }
          }
 	
@@ -494,7 +505,11 @@
 
 		}
 		$scope.askToStart = function(opponentsName) {
-			if(opponentsName!=$rootScope.loginName)	$http.get('/startGame?w=' + $rootScope.loginName + "&b=" + opponentsName)
+			if(opponentsName!=$rootScope.loginName)	socketSend('startGame',{
+				w:$rootScope.loginName,
+				b:opponentsName
+			},'startGame against '+opponentsName)
+			//$http.get('/startGame?w=' + $rootScope.loginName + "&b=" + opponentsName)
 
 		}
 
@@ -512,62 +527,15 @@
 		$scope.quickGame=function(){
 			
 			
-			// if(!($scope.lobbyPollNum == response.lobbypollnum)) {
-
-								//////console.log('polling lobby')
-
-							// 	$scope.lobbyChatLines = response.lobbychat
-							// 	$scope.players = response.players
-							// 	$scope.players.unshift("Fastest thinker")
-							// 	$scope.players.unshift("Multiple thinkers")
-							// 	$scope.players.unshift("Server")
-								
-								
-							// 	$scope.games = response.games
-							// 	$scope.players.sort(function(a, b) {
-							// 		return a.toLowerCase().localeCompare(b.toLowerCase());
-							// 	});
-							// 	$scope.lobbyPollNum = response.lobbyPollNum
-							// 		//showLobby(lobbyChatLines, players, games, $scope.lobbyPollNum)
-							// 	if(!$scope.$$phase) {
-							// 	$scope.$apply()
-							// }
-
-					//		}
-							// if($scope.openNow) {
-								
-								$http.get('/startGame?w=' + $rootScope.loginName + "&b=" + 'Multiple thinkers')
-								
-								
 								$rootScope.showView('lobby.html')
-								
-								// $rootScope._id = response.opentablenum
-								// $rootScope.wPlayer = response.opentablecolor
-								// $scope.opponentsName = response.opponentsname
-								// $rootScope.pollNum = 0
-
-								// $scope.openNow = true;
-								
-								
-								
-								// $rootScope.tempMoveString=""
-								// $rootScope.viewName = "board.html"
-								
-							// 	$scope.openNow = false
-
-							// 	// 		window.setTimeout(function() {
-							// 	//  $scope.drawTable(true)
-
-							// 	//     $scope.$apply();
-							// 	// }, 3000);
-
-							// }
-							
-							
-							
 			
-			//alert()
-			
+								//$http.get('/startGame?w=' + $rootScope.loginName + "&b=" + 'Multiple thinkers')
+								
+								socketSend('startGame',{
+									w: $rootScope.loginName,
+									b: 'Multiple thinkers'
+								},'startQuickGame for '+$rootScope.loginName)
+								
 		}
 		
 		

@@ -56,10 +56,15 @@ wsServer.on('request', function(request) {
 						message: 'reHello'
 					}))
 				
+				break;
 				
+				case 'startGame':
 				
+					startGame(received.data.w,received.data.b)	
 				
 				break;
+				
+				
 				
 				
 				
@@ -1726,13 +1731,14 @@ app.get('/chat', function(req, res) {
 	}
 });
 
-app.get('/startGame', function(req, res) {
 
+function startGame(w,b){
+	
 	var modType = ""
 
-	var wPNum = players[0].indexOf(req.query.w)
-	var bPNum = players[0].indexOf(req.query.b)
-		//var firstFreeTable=-5
+	var wPNum = players[0].indexOf(w)
+	var bPNum = players[0].indexOf(b)
+		
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
@@ -1756,16 +1762,12 @@ app.get('/startGame', function(req, res) {
 					});
 
 
-
-				//ide
-
-
-				var initedTable = new Dbtable(firstFreeTable, req.query.w, req.query.b)
+				var initedTable = new Dbtable(firstFreeTable, w, b)
 
 				mongodb.connect(cn, function(err, db2) {
 					db2.collection("users")
 						.findOne({
-							name: req.query.w
+							name: w
 						}, function(err2, userInDb) {
 							if (!(userInDb == null)) {
 								userInDb.games.unshift(initedTable._id)
@@ -1785,7 +1787,7 @@ app.get('/startGame', function(req, res) {
 				mongodb.connect(cn, function(err, db3) {
 					db3.collection("users")
 						.findOne({
-							name: req.query.b
+							name: b
 						}, function(err2, userInDb) {
 							if (!(userInDb == null)) {
 								userInDb.games.unshift(initedTable._id)
@@ -1794,9 +1796,7 @@ app.get('/startGame', function(req, res) {
 									.save(userInDb, function(err3, res) {})
 							}
 							db3.close()
-								// res.json({
-
-							// });
+								
 						});
 
 				});
@@ -1807,7 +1807,7 @@ app.get('/startGame', function(req, res) {
 					db4.close()
 				})
 
-				//?dbTables.insert(initedTable, function (err, doc) {});
+				
 
 				players[2][wPNum] = true; //ask wplayer to start game
 				players[2][bPNum] = true; //ask bplayer to start game
@@ -1818,39 +1818,40 @@ app.get('/startGame', function(req, res) {
 				players[4][wPNum] = firstFreeTable
 				players[4][bPNum] = firstFreeTable
 
-				players[5][wPNum] = req.query.b; //give them the opponents name
-				players[5][bPNum] = req.query.w;
+				players[5][wPNum] = b; //give them the opponents name
+				players[5][bPNum] = w;
 
-				//firstFreeTable++
 
-				// mongodb.connect(cn, function(err, db) {
-				// 	db.collection("tables")
-				// 		.findOne({
-				// 			_id: "xData"
-				// 		}, function(err2, xData) {
+			
 
-				// 			xData.firstFreeTable = firstFreeTable
-
-				// 			db.collection("tables")
-				// 				.save(xData, function(err3, res) {})
-				// 			db.close()
-				// 		});
-				// });
-
-				res.json({
-					"message": "ok",
-					"_id": firstFreeTable,
-					"modType": modType
-				});
-
-				//ide
+				
 
 			});
 	});
 
 
 
-});
+	
+	
+	
+	
+}
+
+
+// app.get('/startGame', function(req, res) {
+	
+// 		startGame(req.query.w,req.query.b)
+		
+		
+	
+// 		res.json({
+// 			"message": "ok"
+// 			// "_id": firstFreeTable,
+// 			// "modType": modType
+// 		});
+
+	
+// });
 
 app.post('/mod', function(req, res) {
 
