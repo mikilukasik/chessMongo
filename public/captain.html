@@ -117,10 +117,13 @@ table tr:nth-child(even) {
 		
 		<tr>
 			<th>
-				Views
+				views
 			</th>
 			<th>
-				ViewParts: vieverCount
+				subViews
+			</th>
+			<th>
+				viewParts: connections
 			</th>
 		</tr>
 		
@@ -130,7 +133,7 @@ table tr:nth-child(even) {
 				
 				<div ng-if="$index==0">{{y}}</div>
 				
-				<div ng-if="$index==1">
+				<div ng-if="$index>0">
 					<li ng-repeat="z in y track by $index">{{z.viewPartName}}: {{z.viewers}}</li>
 				</div>
 				<!--<ul ng-if="$index==1" ng-repeat="z in y track by $index">{{z}}</ul>-->

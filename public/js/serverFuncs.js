@@ -11,10 +11,16 @@ var toConnection = function(connection, command, data, message, cb) {
 
 var View=function(viewName){
 	this.viewName=viewName;
-	this.viewParts=[]
+	this.subViews=[]
 	// this.connections=[]
 }
 
+
+
+var SubView=function(subViewName){
+	this.subViewName=subViewName;
+	this.viewParts=[]
+}
 var ViewPart=function(viewPartName){
 	this.viewPartName=viewPartName;
 	this.connections=[]
@@ -29,26 +35,37 @@ var findViewIndex=function(viewName){
 	return len
 }
 
-var findViewPartIndex=function(viewIndex,viewPartName){
-	var len=knownClients.views[viewIndex].viewParts.length
+var findSubViewIndex=function(viewIndex,subViewName){
+	var len=knownClients.views[viewIndex].subViews.length
 	for (var i=len-1;i>=0;i--){
-		if(knownClients.views[viewIndex].viewParts[i].viewPartName==viewPartName) return i
+		if(knownClients.views[viewIndex].subViews[i].subViewName==subViewName) return i
 	}
-	knownClients.views[viewIndex].viewParts.push(new ViewPart(viewPartName))
+	knownClients.views[viewIndex].subViews.push(new SubView(subViewName))
 	return len
 }
 
-var addViewer=function(viewName, viewParts, connection){
+var findViewPartIndex=function(viewIndex,subViewIndex,viewPartName){
+	var len=knownClients.views[viewIndex].subViews[subViewIndex].viewParts.length
+	for (var i=len-1;i>=0;i--){
+		if(knownClients.views[viewIndex].subViews[subViewIndex].viewParts[i].viewPartName==viewPartName) return i
+	}
+	knownClients.views[viewIndex].subViews[subViewIndex].viewParts.push(new ViewPart(viewPartName))
+	return len
+}
+
+var addViewer=function(viewName, subViewName, viewParts, connection){
 	
 	var viewIndex= findViewIndex(viewName)
+	
+	var subViewIndex= findSubViewIndex(viewIndex,subViewName)
 	
 	for(var i=viewParts.length-1;i>=0;i--){
 		
 		var viewPart= viewParts[i]
 		
-		var viewPartIndex=	findViewPartIndex(viewIndex,viewPart)
+		var viewPartIndex=	findViewPartIndex(viewIndex,subViewIndex,viewPart)
 	
-		knownClients.views[viewIndex].viewParts[viewPartIndex].connections.push(connection)
+		knownClients.views[viewIndex].subViews[subViewIndex].viewParts[viewPartIndex].connections.push(connection)
 		
 	}
 	
@@ -99,20 +116,23 @@ var connectionIndex=function(id,connection){
 
 
 
-var viewPop = function(viewName,viewPart,data) {
+var viewPop = function(viewName,subViewName,viewPart,data) {
 	console.log('viewPop called',viewName,viewPart)
 	var viewIndex= findViewIndex(viewName)
 	
-	var viewPartIndex= findViewPartIndex(viewIndex,viewPart)
+	var subViewIndex= findSubViewIndex(viewIndex,subViewName)
+	
+	var viewPartIndex= findViewPartIndex(viewIndex,subViewIndex,viewPart)
 	
 	
-	for (var i=knownClients.views[viewIndex].viewParts[viewPartIndex].connections.length-1;i>=0;i--){
+	for (var i=knownClients.views[viewIndex].subViews[subViewIndex].viewParts[viewPartIndex].connections.length-1;i>=0;i--){
 		
-		var connection=knownClients.views[viewIndex].viewParts[viewPartIndex].connections[i]
+		var connection=knownClients.views[viewIndex].subViews[subViewIndex].viewParts[viewPartIndex].connections[i]
 		
 		toConnection(connection,'updateView',{
 			
 			viewName:viewName,
+			subViewName:subViewName,
 			viewPart: viewPart,
 			data: data
 			
@@ -157,25 +177,41 @@ var simpleKnownClients=function(){
 	
 	knownClients.views.forEach(function(view){
 		
-		var tempViewParts=[]
+		var tempSubViews=[]
 		
-		view.viewParts.forEach(function(viewPart){
+		view.subViews.forEach(function(subView){
 			
-			tempViewParts.push({
-				viewPartName:viewPart.viewPartName,
-				viewers:viewPart.connections.length
+			var tempViewParts=[]
+			
+			subView.viewParts.forEach(function(viewPart){
+				
+				tempViewParts.push({
+					viewPartName:viewPart.viewPartName,
+					viewers:viewPart.connections.length
+				})
+				
+				
 			})
+				
+			tempSubViews.push({
+				subViewName:subView.subViewName,
+				viewParts:tempViewParts
+			
+			})
+			
 			
 			
 		})
 		
-		var tempResult={
-			viewName:view.viewName,
-			viewParts:tempViewParts
-			
-		}
 		
-		result.push(tempResult)
+		
+		//var tempResult=
+		
+		result.push({
+				viewName:view.viewName,
+				subViews:tempSubViews
+			
+			})
 		
 	})
 	
@@ -376,11 +412,11 @@ var onMessageFuncs = {
 	
 	showView:function(connection, data, id){
 		
-		addViewer(data.newViewName,data.newViewParts,connection)
+		addViewer(data.newViewName,data.newSubViewName,data.newViewParts,connection)
 		
 		var sendThis=simpleKnownClients(knownClients)
 		
-		viewPop('captain.html','knownClients',sendThis)//nownClients.views.length)
+		viewPop('captain.html','default','knownClients',sendThis)//nownClients.views.length)
 		
 		
 		

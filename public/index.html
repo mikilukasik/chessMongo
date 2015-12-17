@@ -31,8 +31,23 @@
 				console.log('updateview called',data)
 				
 				if($rootScope.viewName==data.viewName){
-					//we're on the right view
-					eval("($rootScope."+data.viewPart+"=data.data)") // $rootScope.
+					
+					
+					if($rootScope.subViewName==data.subViewName){
+						//we're on the right view
+						
+						
+								eval("($rootScope."+data.viewPart+"=data.data)") // $rootScope.
+						
+						
+					}else{
+					//view must have changed, let the server know maybe...
+					
+					
+					
+				}
+					
+			
 					
 					
 					
@@ -1053,9 +1068,11 @@
 		}
 		$rootScope.activeViewParts=[]
 		
-		$rootScope.showView = function(viewName) {
+		$rootScope.showView = function(viewName,subViewName) {
 			
 			//let the server know what we're watching
+			
+			if(!(subViewName))subViewName='default'
 			
 			var newViewParts=[]
 			var oldViewParts=$rootScope.activeViewParts
@@ -1109,7 +1126,8 @@
 			socketSend('showView',{
 				oldViewName:$rootScope.viewName,
 				newViewName:viewName,
-				oldViewParts:oldViewParts,
+				newSubViewName:subViewName,
+				// oldViewParts:oldViewParts,
 				newViewParts:newViewParts
 				
 			},'showView')
@@ -1119,6 +1137,8 @@
 			
 			
 			$rootScope.viewName = viewName;
+			$rootScope.subViewName = subViewName;
+			
 
 			if(viewName == 'lobby.html'||viewName == 'board.html') {
 				$scope.openNow = false
