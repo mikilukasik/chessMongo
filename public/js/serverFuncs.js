@@ -222,6 +222,126 @@ var simpleKnownClients=function(){
 
 
 var onMessageFuncs = {
+	quickGame: function(connection, data){
+		var w = data.w
+		var b = data.b
+
+		var modType = ""
+
+		var wPNum = players[0].indexOf(w)
+		var bPNum = players[0].indexOf(b)
+
+		mongodb.connect(cn, function(err, db) {
+			db.collection("tables")
+				.findOne({
+					_id: "xData"
+				}, function(err2, xData) {
+					var firstFreeTable = -5
+					if (xData == null) {
+
+						createXData();
+
+						firstFreeTable = 1
+					} else {
+						firstFreeTable = xData.firstFreeTable
+						modType = xData.modType
+						xData.firstFreeTable++
+					}
+					db.collection("tables")
+						.save(xData, function(err, doc) {
+							
+							
+							
+							
+							
+							
+							db.close()
+							
+							toConnection(connection,'openGame',{
+								_id:firstFreeTable,
+								wPlayer:true
+								
+							},'openGame',function(){})
+
+							
+							
+						});
+
+					var initedTable = new Dbtable(firstFreeTable, w, b)
+
+					mongodb.connect(cn, function(err, db2) {
+						db2.collection("users")
+							.findOne({
+								name: w
+							}, function(err2, userInDb) {
+								if (!(userInDb == null)) {
+									userInDb.games.unshift(initedTable._id)
+
+									db2.collection("users")
+										.save(userInDb, function(err3, res) {})
+
+								}
+								db2.close()
+									// res.json({
+
+								// });
+							});
+
+					});
+
+					mongodb.connect(cn, function(err, db3) {
+						db3.collection("users")
+							.findOne({
+								name: b
+							}, function(err2, userInDb) {
+								if (!(userInDb == null)) {
+									userInDb.games.unshift(initedTable._id)
+
+									db3.collection("users")
+										.save(userInDb, function(err3, res) {})
+								}
+								db3.close()
+
+							});
+
+					});
+
+					mongodb.connect(cn, function(err, db4) {
+						db4.collection("tables")
+							.insert(initedTable, function(err, doc) {
+								
+								
+								
+								
+								
+								
+								
+								
+							});
+						db4.close()
+					})
+
+					players[2][wPNum] = true; //ask wplayer to start game
+					players[2][bPNum] = true; //ask bplayer to start game
+
+					players[3][wPNum] = true; //will play w
+					players[3][bPNum] = false; //will play b
+
+					players[4][wPNum] = firstFreeTable
+					players[4][bPNum] = firstFreeTable
+
+					players[5][wPNum] = b; //give them the opponents name
+					players[5][bPNum] = w;
+
+				});
+		});
+		
+		
+		/////////////below quickgame specific
+		
+	
+	},
+
 	getLobby: function(connection, data) {
 
 		clearDisconnectedPlayers() //nemide!!!!!!!!!!!!

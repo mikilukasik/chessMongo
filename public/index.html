@@ -123,6 +123,15 @@
 					  
 					  break;
 					  
+					  case 'openGame':
+					  
+					  	$rootScope.showView('board.html',received.data._id)
+						$rootScope._id=received.data._id	//temp hack!!!!!!!!!!!!!!!!!!!!!!!
+						$rootScope.wPlayer = received.data.wPlayer
+					  
+					  break;
+					  
+					  
 					  case 'showOnConsole':
 					  
 					  	console.log('showOnConsole received from server',received.data)
@@ -172,6 +181,7 @@
 								////console.log('opening')
 
 								$rootScope._id = received.data.opentablenum
+								$rootScope.showView('board.html',$rootScope._id)
 								$rootScope.wPlayer = received.data.opentablecolor
 								$scope.opponentsName = received.data.opponentsname
 								$rootScope.pollNum = 0
@@ -205,6 +215,7 @@
 							if($scope.openNow) {
 								$rootScope.tempMoveString=""
 								$rootScope.viewName = "board.html"
+								$rootScope.subViewName = $rootScope._id
 								
 								$scope.openNow = false
 
@@ -686,11 +697,13 @@
 		$scope.quickGame=function(){
 			
 			
-								$rootScope.showView('lobby.html')
+								//$rootScope.showView('board.html',)
 			
 								//$http.get('/startGame?w=' + $rootScope.loginName + "&b=" + 'Multiple thinkers')
 								
-								socketSend('startGame',{
+								$scope.opponentsName='Multiple thinkers'
+								
+								socketSend('quickGame',{
 									w: $rootScope.loginName,
 									b: 'Multiple thinkers'
 								},'startQuickGame for '+$rootScope.loginName,function(){
@@ -744,7 +757,7 @@
 	
 						// $scope.refreshRecentGames()
 						$scope.showTable()
-						console.log('showing table, viewName is '+$rootScope.viewName)
+						console.log('showing table, viewName',$rootScope.viewName,'subView',$rootScope.subViewName)
 						if($rootScope.viewName == "board.html") {			
 							console.log('Repeating longpoll on t'+ response._id)			
 							$rootScope.longPollTable()	//loop till change view	(or table)
@@ -808,9 +821,9 @@
 				if($rootScope.viewName == 'lobby.html') {
 					
 					console.log("'getLobby'??")
-					socketSend('getLobby',{p: $rootScope.loginName},'getLobby',function(){
-						console.log("'getLobby' callback")
-					})
+					// socketSend('getLobby',{p: $rootScope.loginName},'getLobby',function(){
+					// 	console.log("'getLobby' callback")
+					// })
 				
 				} else {
 					
@@ -1066,13 +1079,22 @@
 		$scope.drTable = function(viewName) {
 			$rootScope.draTable = viewName;
 		}
+		
 		$rootScope.activeViewParts=[]
 		
 		$rootScope.showView = function(viewName,subViewName) {
 			
 			//let the server know what we're watching
 			
-			if(!(subViewName))subViewName='default'
+			if(!(subViewName)){
+				
+				if(viewName==$rootScope.viewName&&$rootScope.subViewName){
+					subViewName=$rootScope.subViewName
+				}else{
+					subViewName='default'
+				}
+				
+			}
 			
 			var newViewParts=[]
 			var oldViewParts=$rootScope.activeViewParts
@@ -1125,9 +1147,11 @@
 			
 			socketSend('showView',{
 				oldViewName:$rootScope.viewName,
+				oldSubViewName:$rootScope.subViewName,
+				oldViewParts:oldViewParts,
 				newViewName:viewName,
 				newSubViewName:subViewName,
-				// oldViewParts:oldViewParts,
+				
 				newViewParts:newViewParts
 				
 			},'showView')
@@ -1310,7 +1334,7 @@
 			
 		</td>
 		
-		
+		<td nowrap>v: {{viewName}} sv: {{subViewName}}</td>
 		
 		<td nowrap width=100% align="right">{{greetUser}}</td>
 		</tr>
