@@ -26,6 +26,26 @@
 		var socketSend=function(command,data,message,cb){}
 		
 		
+			function updateView($rootScope,$scope,data){
+				
+				console.log('updateview called',data)
+				
+				if($rootScope.viewName==data.viewName){
+					//we're on the right view
+					eval("($rootScope."+data.viewPart+"=data.data)") // $rootScope.
+					
+					
+					
+					
+				}else{
+					//view must have changed, let the server know maybe...
+					
+					
+					
+				}
+				
+			}
+		
 		
 		 function sockets($rootScope,$scope) {
             if ("WebSocket" in window)
@@ -72,7 +92,8 @@
                ws.onmessage = function (evt) 
                { 
                   var received = eval("(" + evt.data + ")");
-                  //console.log("socketMessage is received:",received);
+                  
+				  console.log("socketMessage received:",received.message,received.data);
 				  
 				  switch(received.command){
 					  
@@ -113,7 +134,16 @@
 					  
 
 
-						break;					  
+						break;		
+						
+						case 'updateView':
+						
+							updateView($rootScope,$scope,received.data)
+							
+						
+						
+						
+						break;			  
 					  
 					  
 					  case 'lobbyState':

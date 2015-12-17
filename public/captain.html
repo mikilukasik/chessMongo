@@ -1,17 +1,5 @@
-<!--<head>
-	<!--<link rel="stylesheet" type="text/css" href="chess.css">
-
-	<script src="jquery.js"></script>
-	<script src="angular.js"></script>-->
-	<!--<script src="brandNewAi.js"></script>
-	<script src="engine.js"></script>-->
-<!--
 <style>
 
-.thinkerTable {
-	height:60%;
-}
-	
 table, td  {
   border: 1px solid grey;
   border-collapse: collapse;
@@ -29,143 +17,19 @@ table tr:nth-child(even) {
 	vertical-align:bottom;
 	height:80%
 }
+.makeGreen {
+	color: green
+}
+
+.makeRed {
+	color: red
+}
+
+.makeGrey {
+	color: grey
+}
+
 </style>
-
-
-
-	<script>
-		var appModule = angular.module("appModule", []);
-
-
-		function ApplicationController($http, $interval, $scope) {
-
-			$scope.modTypes = []
-
-			$http.get('/getModTypes')
-				.then(function(response) {
-					if (response.data.modTypes != undefined) $scope.modTypes = response.data.modTypes
-
-					$scope.min = response.data.min
-					$scope.max = response.data.max
-
-				}, function(data) {
-				})
-
-			$scope.pollNum = 0
-			//var captainPollConst = 500
-			$scope.learners = []
-
-			var longPoll = function() {
-				$http.get('/captainPoll?pn=' + $scope.pollNum + '&r=' + Math.random())
-
-				.then(function(response) {
-					//$scope.waitingThinkers=response.data.thinkers
-					$scope.learners = response.data.learners
-					$scope.knownThinkers = response.data.knownThinkers
-					$scope.pollNum = response.data.captainPollNum
-					$scope.taskQ = response.data.taskQ
-					$scope.stats = response.data.stats
-					$scope.speedTests = response.data.speedTests
-
-
-
-					$scope.learners.sort(function(a, b) {
-						if (Number(a[5]) > Number(b[5])) {
-							return -1
-						}
-						else {
-							if (Number(a[5]) < Number(b[5])) {
-								return 1
-							}
-							else {
-								return 0
-							}
-
-
-
-						}
-					})
-					longPoll()
-				})
-
-			}
-
-
-			longPoll()
-			$scope.clearModTypes = function() {
-				$scope.modTypes = []
-				$http.post('/mod', $scope.modTypes)
-			}
-
-
-			$scope.refreshStats = function() {
-				//$scope.modTypes=[]
-				$http.get('/refreshStats')
-			}
-
-
-			$scope.setMod = function(modType, min, max) {
-
-				$scope.mType = ''
-				if (modType != undefined && modType != '') {
-					$scope.modTypes.push(modType)
-					$scope.modTypes.sort()
-
-				}
-
-				var modJson = {
-						'modTypes': $scope.modTypes,
-						'min': min,
-						'max': max
-					}
-					
-
-				$http.post('/mod', modJson)
-
-			}
-
-			$scope.refreshAllThinkers = function() {
-				$http.get('/refreshAllThinkers')
-			}
-
-			$scope.stopAllLearners = function() {
-				$http.get('/stopAllLearners')
-			}
-
-
-
-			$scope.echoTestAll = function() {
-				$http.get('/echoTestAll')
-			}
-
-			$scope.startAllLearners = function() {
-				$http.get('/startAllLearners')
-			}
-
-		}
-		appModule.controller("ApplicationController", ApplicationController);
-
-	</script>
-
-	<style>
-		.makeGreen {
-			color: green
-		}
-		
-		.makeRed {
-			color: red
-		}
-		
-		.makeGrey {
-			color: grey
-		}
-
-	</style>
-
-
-</head>-->
-<!--
-<body ng-app="appModule" ng-controller="ApplicationController">-->
 
 
 	<form ng-submit="setMod(mType,min,max)">
@@ -236,36 +100,49 @@ table tr:nth-child(even) {
 	<button ng-click="stopAllLearners()">Stop all learners</button>
 	<button ng-click="echoTestAll()">Echo test all</button>
 
-	<table>
-		<tr>
-			<td>
-				name
-			</td>
-			<td>
-				_id
-			</td>
-			<td>
-				modeType
-			</td>
-			<td>
-				pollNum
-			</td>
-			<td>
-				modVal
-			</td>
-			<td>
-				moves / minute
-			</td>
 
-		</tr>
-		<tr ng-repeat="x in learners track by $index">
+
+
+
+
+
+
+
+
+
+
+
+
+	<table>
+		
+		
+		
+		<tr ng-repeat="x in knownClients track by $index">
 
 			<td ng-repeat="y in x track by $index">
-				{{y}}
+				
+				<div ng-if="$index==0">{{y}}</div>
+				
+				<div ng-if="$index==1">
+					<li ng-repeat="z in y track by $index">{{z.viewPartName}}: {{z.viewers}}</li>
+				</div>
+				<!--<ul ng-if="$index==1" ng-repeat="z in y track by $index">{{z}}</ul>-->
 			</td>
 		</tr>
+		
+		
+		
+		
+		
 	</table>
+	
+	
+	
+	
 	<table>
+		
+		
+		
 
 		<tr ng-repeat="x in speedTests track by $index">
 

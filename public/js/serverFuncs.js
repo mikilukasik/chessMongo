@@ -38,13 +38,21 @@ var findViewPartIndex=function(viewIndex,viewPartName){
 	return len
 }
 
-var addViewer=function(viewName, viewPart, connection){
+var addViewer=function(viewName, viewParts, connection){
 	
 	var viewIndex= findViewIndex(viewName)
 	
-	var viewPartIndex=	findViewPartIndex(viewIndex,viewPart)
+	for(var i=viewParts.length-1;i>=0;i--){
+		
+		var viewPart= viewParts[i]
+		
+		var viewPartIndex=	findViewPartIndex(viewIndex,viewPart)
 	
-	knownClients.views[viewIndex].viewParts[viewPartIndex].connections.push(connection)
+		knownClients.views[viewIndex].viewParts[viewPartIndex].connections.push(connection)
+		
+	}
+	
+	
 	
 	
 	
@@ -92,7 +100,7 @@ var connectionIndex=function(id,connection){
 
 
 var viewPop = function(viewName,viewPart,data) {
-	//captainPollNum++
+	console.log('viewPop called',viewName,viewPart)
 	var viewIndex= findViewIndex(viewName)
 	
 	var viewPartIndex= findViewPartIndex(viewIndex,viewPart)
@@ -368,12 +376,14 @@ var onMessageFuncs = {
 	
 	showView:function(connection, data, id){
 		
+		addViewer(data.newViewName,data.newViewParts,connection)
+		
 		var sendThis=simpleKnownClients(knownClients)
 		
 		viewPop('captain.html','knownClients',sendThis)//nownClients.views.length)
 		
 		
-		addViewer(data.newViewName,data.newViewParts,connection)
+		
 		//should clear leavers!!!!!!!!!!!!!!!!!!!!!!!
 		//var log='viewer added'+knownClients.views+','+data.newViewName+','+data.newViewParts
 		//console.log(log)
