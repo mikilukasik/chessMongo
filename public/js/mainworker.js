@@ -177,11 +177,11 @@ function speedTest(){
 		totalSolved = 0
 
 		
-		var stTable= new FakeDbTable(-1)
+		var stTable= new Dbtable(-1)
 		
 		var aiTable = new MoveTask(stTable)
 		
-		aiTable.movesToSend=[aiTable.movesToSend[0],aiTable.movesToSend[1]]
+		aiTable.movesToSend=[aiTable.movesToSend[0],aiTable.movesToSend[1],aiTable.movesToSend[2],aiTable.movesToSend[3],aiTable.movesToSend[4]]
 		
 		splitMovesToProcess = aiTable.movesToSend
 		
