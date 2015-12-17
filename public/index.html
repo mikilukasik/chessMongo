@@ -1141,6 +1141,8 @@
 				
 				case 'board.html':
 				
+					if(subViewName=='default'&&$rootScope.subViewName)subViewName=$rootScope.subViewName
+				
 					newViewParts=[
 						'table',
 						'chat',
