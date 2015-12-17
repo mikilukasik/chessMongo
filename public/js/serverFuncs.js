@@ -89,8 +89,7 @@ var addViewer=function(viewName, subViewName, viewParts, connection){
 
 var removeViewer=function(viewName, subViewName, viewParts, connection){
 	
-	// console.log('viewParts',viewParts)
-		
+	
 	
 	
 	var viewIndex= findViewIndex(viewName)
@@ -103,7 +102,6 @@ var removeViewer=function(viewName, subViewName, viewParts, connection){
 		
 		var viewPartIndex=	findViewPartIndex(viewIndex,subViewIndex,viewPart)
 		
-		// console.log('viewPartIndex',viewPartIndex)
 		
 	
 		var connections= knownClients.views[viewIndex].subViews[subViewIndex].viewParts[viewPartIndex].connections
@@ -115,6 +113,13 @@ var removeViewer=function(viewName, subViewName, viewParts, connection){
 			}
 			
 		}
+		
+		if(connections.length==0){
+			
+			knownClients.views[viewIndex].subViews[subViewIndex].viewParts.splice(viewPartIndex,1)
+			
+		}
+		
 		
 	}
 	
