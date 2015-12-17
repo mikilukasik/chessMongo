@@ -1,5 +1,5 @@
 var toConnection = function(connection, command, data, message, cb) {
-	console.log('data:',data)
+	console.log('connection writable:',connection.socket.writable)
 	connection.sendUTF(JSON.stringify({
 		command: command,
 		data: data,
