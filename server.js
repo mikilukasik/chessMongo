@@ -25,23 +25,13 @@ var wsServer = new WebSocketServer({
 	path: '/sockets/'
 });
 
-
-
 eval(fs.readFileSync('public/js/brandNewAi.js') + '');
 eval(fs.readFileSync('public/js/deepening.js') + '');
 eval(fs.readFileSync('public/js/classes.js') + '');
 eval(fs.readFileSync('public/js/engine.js') + '');
 eval(fs.readFileSync('public/js/serverFuncs.js') + '');
 
-
-
-
-
 //var sendLobby = 
-
-
-
-
 
 var socketSend = function(connection, command, data, message, cb) {
 	connection.sendUTF(JSON.stringify({
@@ -62,10 +52,8 @@ wsServer.on('request', function(request) {
 			var received = eval("(" + message.utf8Data + ")")
 
 			console.log('received:', received.message)
-			
-			eval("(socketFuncs." + received.command + "(connection,received.data))")	//this is in serverfuncs.js
 
-
+			eval("(socketFuncs." + received.command + "(connection,received.data))") //this is in serverfuncs.js
 
 		}
 	});
@@ -144,20 +132,18 @@ function doIKnow(id) {
 		if (knownThinkers[i].id == id) return i
 	}
 
-	//if(thinkerIndex==-1){
 	knownThinkers.push({
 			id: id
 		})
 		//itt mar benne lesz a tombben
 
-	//}
 	return knownThinkers.length - 1
 }
 
 var getThinkerIndex = function(id) {
-	//var speedArray = []
+
 	for (var i = 0; i < pendingThinkerPolls.length; i++) {
-		//console.log('thisone',pendingThinkerPolls[i][0].query.id)
+
 		if (pendingThinkerPolls[i][0].query.id == id) return i
 	}
 	return -1
@@ -249,8 +235,8 @@ function sendTask(task, thinkerId) {
 			// knownThinkers[thinkerIndex].lastSeen=knownThinkers[thinkerIndex].sent
 
 		//thisRes[1].json(task)
-		
-		socketSend(thisRes[1],'task',task,'task',function(){})
+
+		socketSend(thisRes[1], 'task', task, 'task', function() {})
 
 		captainPop()
 
@@ -828,12 +814,10 @@ function markSplitMoveDone(tNum, thinker) {
 	busyTables.splitMoves[tIndex][mIndex].done = true
 
 	busyTables.splitMoves[tIndex][mIndex].progress = 100
-	
 
 	busyTablesPop(tIndex)
 
 }
-
 
 // app.get('/move', function(req, res) {
 
@@ -1155,7 +1139,7 @@ app.get('/longPollTable', function(req, res) {
 					var passPollNum = tableInDb.pollNum
 
 					if (passPollNum > req.query.pn) {
-						
+
 						db.close()
 
 						tableInDb.command = 'sync'

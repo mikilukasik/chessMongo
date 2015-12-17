@@ -73,7 +73,7 @@ var socketFuncs = {
 		}
 
 	},
-	thinkerMessage: function(connection,data) {
+	thinkerMessage: function(connection, data) {
 
 		//res.send('something')
 
@@ -176,14 +176,13 @@ var socketFuncs = {
 		captainPop()
 
 	},
-	Hello: function(connection,data){
+	Hello: function(connection, data) {
 		socketSend(connection, 'reHello', {}, 'reHello', function() {})
 	},
-	startGame: function(connection,data) {
+	startGame: function(connection, data) {
 
-		var w=data.w
-		var b=data.b
-		
+		var w = data.w
+		var b = data.b
 
 		var modType = ""
 
@@ -273,7 +272,7 @@ var socketFuncs = {
 
 	},
 
-	moved: function(connection,onTable) {
+	moved: function(connection, onTable) {
 
 		//var onTable = received.data// req.body
 
@@ -308,7 +307,7 @@ var socketFuncs = {
 
 	},
 	//var 
-	myPartIsDone: function(connection,data) {
+	myPartIsDone: function(connection, data) {
 
 		var index = getTaskIndex(data[0]._id)
 
@@ -359,6 +358,6 @@ var socketFuncs = {
 
 	}
 
-	,
-	end: 1
+	// ,
+	// end: 1
 }
