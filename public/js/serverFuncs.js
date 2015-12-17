@@ -85,9 +85,38 @@ var addViewer=function(viewName, subViewName, viewParts, connection){
 		
 	}
 	
+}
+
+var removeViewer=function(viewName, subViewName, viewParts, connection){
+	
+	// console.log('viewParts',viewParts)
+		
 	
 	
+	var viewIndex= findViewIndex(viewName)
 	
+	var subViewIndex= findSubViewIndex(viewIndex,subViewName)
+	
+	for(var i=viewParts.length-1;i>=0;i--){
+		
+		var viewPart= viewParts[i]
+		
+		var viewPartIndex=	findViewPartIndex(viewIndex,subViewIndex,viewPart)
+		
+		// console.log('viewPartIndex',viewPartIndex)
+		
+	
+		var connections= knownClients.views[viewIndex].subViews[subViewIndex].viewParts[viewPartIndex].connections
+		
+		for(var j=connections.length-1;j>=0;j--){
+			
+			if(connections[j].connectionID==connection.connectionID){
+				connections.splice(j,1)
+			}
+			
+		}
+		
+	}
 	
 }
 
@@ -556,22 +585,17 @@ var onMessageFuncs = {
 	
 	showView:function(connection, data, id){
 		
+		connection.connectionID=id
+		
 		addViewer(data.newViewName,data.newSubViewName,data.newViewParts,connection)
+		
+		removeViewer(data.oldViewName,data.oldSubViewName,data.oldViewParts,connection)
 		
 		var sendThis=simpleKnownClients(knownClients)
 		
 		viewPop('captain.html','default','knownClients',sendThis)//nownClients.views.length)
 		
-		
-		
-		//should clear leavers!!!!!!!!!!!!!!!!!!!!!!!
-		//var log='viewer added'+knownClients.views+','+data.newViewName+','+data.newViewParts
-		//console.log(log)
-		
-		
-		//tempMessage
-		//toConnection(connection,'showOnConsole',sendThis,'showOnConsole',function(){})
-		
+	
 	},
 	
 	

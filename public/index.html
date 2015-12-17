@@ -134,6 +134,7 @@
 					  case 'openGame':
 					  
 					  	$rootScope.showView('board.html',received.data._id)
+						  
 						$rootScope._id=received.data._id	//temp hack!!!!!!!!!!!!!!!!!!!!!!!
 						$rootScope.wPlayer = received.data.wPlayer
 						
@@ -397,7 +398,7 @@
 		
 		ifWorkers(startWorkers)
 		
-		var activeViewParts=[]
+		//var activeViewParts=[]
 		
 		
 		
@@ -410,7 +411,7 @@
 
 	function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
 		
-		$rootScope.activeViewParts=activeViewParts
+		//$rootScope.activeViewParts=activeViewParts
 		
 		
 		
@@ -793,34 +794,20 @@
 				})
 
 		}
+		
 		$scope.setTableNum = function(num){
+			
 			var oldNum = $rootScope._id
 			
 			$rootScope._id=num
 			$rootScope.pollNum=-1
 			
-			
-			
-			//console.log('_id changed, calling new longpoll on t'+ num + ', forcePop on t'+oldNum)
-			
 			$http.get('/forcePopTable?t='+oldNum+'&p='+$rootScope.loginName+'&m=Went to t'+num)
 			$rootScope.longPollTable()
-			
-			//$scope.refreshTable()
+		
 		}
 		$scope.refreshRecentGames = function() {
 
-			//////console.log('polling table ' + $rootScope._id)
-
-			// $http.get('/getMyRecentGames?n=' + $rootScope.loginName)
-			// 	.success(function(response) {
-			// 		$scope.myRecentGames = response.recentgames
-			// 		//$scope.$apply()
-
-			// 		//$scope.showTable()
-
-			// 	})				//gets no response
-			
 
 		}
 
@@ -1167,11 +1154,13 @@
 			
 			//var oldViewParts=$rootScope.activeViewParts.slice()
 			
+			if(!($rootScope.activeViewParts))$rootScope.activeViewParts=[]//init here
+			
 			socketSend('showView',{
 				
 				oldViewName:$rootScope.viewName,
 				oldSubViewName:$rootScope.subViewName,
-				oldViewParts:$rootScope.activeViewParts,
+				oldViewParts:$rootScope.activeViewParts.slice(),
 				
 				newViewName:viewName,
 				newSubViewName:subViewName,
@@ -1179,9 +1168,11 @@
 				
 			},'showView',function(){
 				
+				
+				
 				$rootScope.viewName = viewName;
 				$rootScope.subViewName = subViewName;
-				$rootScope.activeViewParts= newViewParts
+				$rootScope.activeViewParts= newViewParts.slice()
 				
 			})
 			
