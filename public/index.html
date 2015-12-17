@@ -82,10 +82,11 @@
 				  socketSend=function(command,data,message,cb){
 					  
 					  var sendThis={
-						  socketID: socketID,
+						 
 						  command: command,
 						  data: data,
-						  message: message
+						  message: message,
+						   socketID: socketID
 					  }
 					 
 					  if(!cb){
