@@ -1051,24 +1051,58 @@
 		$scope.drTable = function(viewName) {
 			$rootScope.draTable = viewName;
 		}
+		$rootScope.activeViewParts=[]
+		
 		$rootScope.showView = function(viewName) {
 			
 			//let the server know what we're watching
 			
 			var newViewParts=[]
-			var oldViewParts=[]
+			var oldViewParts=$rootScope.activeViewParts
 			
 			switch(viewName){
+				case 'login.html':
+				
+					newViewParts=[
+						'default'
+					]
+					
+					
+				
+				break;
+				
+				case 'lobby.html':
+				
+					newViewParts=[
+						'lobbyChat',
+						'activeGames',
+						'activePlayers'
+					]
+					
+					
+				
+				break;
+				
 				case 'captain.html':
 				
 					newViewParts=[
 						'knownClients'
 					]
 					
-					,
 					
-					oldViewParts=[]			////////!!!!!!!!!!!!!!!!!!!!!!
 				
+				break;
+				
+				case 'board.html':
+				
+					newViewParts=[
+						'table',
+						'chat',
+						'moves',
+						'busyThinkers',
+						
+					]
+								
 				break;
 			}
 			
