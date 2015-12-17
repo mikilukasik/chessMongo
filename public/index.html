@@ -129,6 +129,8 @@
 					  	$rootScope.showView('board.html',received.data._id)
 						$rootScope._id=received.data._id	//temp hack!!!!!!!!!!!!!!!!!!!!!!!
 						$rootScope.wPlayer = received.data.wPlayer
+						
+						$rootScope.tempMoveString=""
 					  
 					  break;
 					  
@@ -388,6 +390,9 @@
 		
 		ifWorkers(startWorkers)
 		
+		var activeViewParts=[]
+		
+		
 		
 		
 		
@@ -397,6 +402,8 @@
 	appModule.controller("ApplicationController", ApplicationController);
 
 	function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
+		
+		$rootScope.activeViewParts=activeViewParts
 		
 		
 		
@@ -1081,7 +1088,7 @@
 			$rootScope.draTable = viewName;
 		}
 		
-		$rootScope.activeViewParts=[]
+		
 		
 		$rootScope.showView = function(viewName,subViewName) {
 			
@@ -1098,7 +1105,7 @@
 			}
 			
 			var newViewParts=[]
-			var oldViewParts=$rootScope.activeViewParts
+			//var oldViewParts=$rootScope.activeViewParts
 			
 			switch(viewName){
 				case 'login.html':
@@ -1107,6 +1114,11 @@
 						'default'
 					]
 					
+					
+					$scope.greetUser = ''
+					$scope.inOrOut = 'Login'
+					$rootScope.loginName = 'someone'
+					$scope.loggedIn = false
 					
 				
 				break;
@@ -1146,6 +1158,8 @@
 				break;
 			}
 			
+			var oldViewParts=$rootScope.activeViewParts
+			
 			socketSend('showView',{
 				oldViewName:$rootScope.viewName,
 				oldSubViewName:$rootScope.subViewName,
@@ -1164,22 +1178,15 @@
 			$rootScope.viewName = viewName;
 			$rootScope.subViewName = subViewName;
 			
-
-			if(viewName == 'lobby.html'||viewName == 'board.html') {
-				$scope.openNow = false
-					//$scope.lobbyPollNum=0	
-					$rootScope.tempMoveString=""
+			$rootScope.activeViewParts= newViewParts
 			
-			} else {
 
-				if(viewName == 'login.html') {
-				
-					$scope.greetUser = ''
-					$scope.inOrOut = 'Login'
-					$rootScope.loginName = 'someone'
-					$scope.loggedIn = false
-				}
-			}
+			// if(viewName == 'lobby.html'||viewName == 'board.html') {
+			// 	$scope.openNow = false
+			// 		//$scope.lobbyPollNum=0	
+			// 		$rootScope.tempMoveString=""
+			
+			// } 
 		}
 
 		$scope.clickedIt = function(clickedField, clickedString) {

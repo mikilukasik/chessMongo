@@ -1,12 +1,28 @@
-var toConnection = function(connection, command, data, message, cb) {
-	console.log('connection writable:',connection.socket.writable)
-	connection.sendUTF(JSON.stringify({
-		command: command,
-		data: data,
-		message: message
-	}))
+var toConnection = function(connection, command, data, message, cb ,err) {
 	
-	cb()
+	console.log('connection writable:',connection.socket.writable)
+	
+	if(connection.socket.writable) {
+		
+		
+			connection.sendUTF(JSON.stringify({
+				command: command,
+				data: data,
+				message: message
+			}))
+			
+			cb()
+		
+		
+		
+		
+	}else{
+		
+		if(err)err()
+		
+	}
+	
+
 }
 
 var View=function(viewName){
@@ -137,7 +153,15 @@ var viewPop = function(viewName,subViewName,viewPart,data) {
 			data: data
 			
 
-		},'updateView',function(){})
+		},'updateView',function(){},function(){
+			//connection is not writeable, splice
+			
+			knownClients.views[viewIndex].subViews[subViewIndex].viewParts[viewPartIndex].connections.splice(i,1)
+			
+			
+			
+			
+		})
 		
 	}
 	
