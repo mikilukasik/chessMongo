@@ -120,6 +120,13 @@
 					  	console.log('received connectionID',received.data.connectionID)
 					  
 					  	$rootScope.socketID=received.data.connectionID
+						  
+						 if(!$rootScope.ran) {
+		
+							$rootScope.ran=true
+							$rootScope.showView('login.html')
+						
+						}
 					  
 					  
 					  break;
@@ -215,20 +222,20 @@
 							}
 
 							}
-							if($scope.openNow) {
-								$rootScope.tempMoveString=""
-								$rootScope.viewName = "board.html"
-								$rootScope.subViewName = $rootScope._id
+							// if($scope.openNow) {
+							// 	$rootScope.tempMoveString=""
+							// 	$rootScope.viewName = "board.html"
+							// 	$rootScope.subViewName = $rootScope._id
 								
-								$scope.openNow = false
+							// 	$scope.openNow = false
 
-								// 		window.setTimeout(function() {
-								//  $scope.drawTable(true)
+							// 	// 		window.setTimeout(function() {
+							// 	//  $scope.drawTable(true)
 
-								//     $scope.$apply();
-								// }, 3000);
+							// 	//     $scope.$apply();
+							// 	// }, 3000);
 
-							}
+							// }
 
 					  
 					  
@@ -666,7 +673,7 @@
 
 							$scope.inOrOut = 'Logoff' //displayed on nav when logged in
 							$rootScope.loginName = user.name
-							$rootScope.showView('lobby.html')
+							$rootScope.showView('lobby.html','default')
 
 							if(!$scope.$$phase) {
 								$scope.$apply()
@@ -1158,35 +1165,29 @@
 				break;
 			}
 			
-			var oldViewParts=$rootScope.activeViewParts
+			//var oldViewParts=$rootScope.activeViewParts.slice()
 			
 			socketSend('showView',{
+				
 				oldViewName:$rootScope.viewName,
 				oldSubViewName:$rootScope.subViewName,
-				oldViewParts:oldViewParts,
+				oldViewParts:$rootScope.activeViewParts,
+				
 				newViewName:viewName,
 				newSubViewName:subViewName,
-				
 				newViewParts:newViewParts
 				
-			},'showView')
+			},'showView',function(){
+				
+				$rootScope.viewName = viewName;
+				$rootScope.subViewName = subViewName;
+				$rootScope.activeViewParts= newViewParts
+				
+			})
+			
+				
 			
 			
-			//socket should be connected already
-			
-			
-			$rootScope.viewName = viewName;
-			$rootScope.subViewName = subViewName;
-			
-			$rootScope.activeViewParts= newViewParts
-			
-
-			// if(viewName == 'lobby.html'||viewName == 'board.html') {
-			// 	$scope.openNow = false
-			// 		//$scope.lobbyPollNum=0	
-			// 		$rootScope.tempMoveString=""
-			
-			// } 
 		}
 
 		$scope.clickedIt = function(clickedField, clickedString) {
@@ -1275,12 +1276,7 @@
 		$rootScope.updateSizes()
 		console.log('appcontr ran')
 		
-		if(!$rootScope.ran) {
 		
-			$rootScope.ran=true
-			$rootScope.showView('login.html')
-		
-		}
 		
 		
 		
@@ -1315,7 +1311,7 @@
 
 
 	
-	<nav width=100% class="navvv">
+	<nav ng-if="ran" width=100% class="navvv">
 		<table>
 			<tr>
 				<td nowrap align="left">
@@ -1348,7 +1344,8 @@
 		</tr>
 		</table>
 	</nav>
-	<div id="content" ng-include="viewName" onload="newView(viewName)">
+	<div id="content" ng-include="viewName" onload="newView(viewName)"></div>
+	<h1 ng-if="!(ran)">Please wait...</h1>
 
 	</div>
 

@@ -570,7 +570,7 @@ var onMessageFuncs = {
 		
 		
 		//tempMessage
-		toConnection(connection,'showOnConsole',sendThis,'showOnConsole',function(){})
+		//toConnection(connection,'showOnConsole',sendThis,'showOnConsole',function(){})
 		
 	},
 	
