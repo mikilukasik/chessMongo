@@ -1,15 +1,15 @@
 <style>
 
-table, td  {
+.atable, .atd  {
   border: 1px solid grey;
   border-collapse: collapse;
   padding: 5px;
   
 }
-table tr:nth-child(odd)	{
+.atable tr:nth-child(odd)	{
   background-color: #f1f1f1;
 }
-table tr:nth-child(even) {
+.atable tr:nth-child(even) {
   background-color: #ffffff;
 }
 
@@ -113,31 +113,57 @@ table tr:nth-child(even) {
 
 
 
-	<table>
+	<table class="atable">
 		
-		<tr>
+		<!--<tr>
 			<th>
 				views
 			</th>
 			<th>
-				subViews
+				subViews  viewParts: connections
 			</th>
-			<th>
-				viewParts: connections
-			</th>
+			
 		</tr>
-		
+		-->
 		<tr ng-repeat="x in knownClients track by $index">
+			
+		<td>{{x.viewName}}</td>
+		
+		<td>
+			
+			<table>
+				
+				<tr ng-repeat="y in x.subViews track by $index">
+					
+					<td>
+						{{y.subViewName}}
+					</td>
+					
+					
+					<td ng-repeat="z in y.viewParts track by $index">
+				
+						<!--<div ng-if="$index==0">{{y}}</div>-->
+						{{z.viewPartName}}: {{z.viewers}}
+						<!--<div>
+							<li ng-repeat="z in y track by $index">{{z.viewPartName}}: {{z.viewers}}</li>
+						</div>-->
+						<!--<ul ng-if="$index==1" ng-repeat="z in y track by $index">{{z}}</ul>-->
+					</td>
+							
+					
+					
+				</tr>
+				
+				
+				
+				
+			</table>
+					
+			
+		</td>
+				
 
-			<td ng-repeat="y in x track by $index">
-				
-				<div ng-if="$index==0">{{y}}</div>
-				
-				<div ng-if="$index>0">
-					<li ng-repeat="z in y track by $index">{{z.viewPartName}}: {{z.viewers}}</li>
-				</div>
-				<!--<ul ng-if="$index==1" ng-repeat="z in y track by $index">{{z}}</ul>-->
-			</td>
+			
 		</tr>
 		
 		
