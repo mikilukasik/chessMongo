@@ -121,7 +121,22 @@ var removeViewer=function(viewName, subViewName, viewParts, connection){
 		}
 		
 		
+		
 	}
+	
+	if(knownClients.views[viewIndex].subViews[subViewIndex].viewParts.length==0){
+		
+			knownClients.views[viewIndex].subViews.splice(subViewIndex,1)
+		
+	}
+	
+	if(knownClients.views[viewIndex].subViews.length==0){
+		
+			knownClients.views.splice(viewIndex,1)
+		
+	}
+	
+	
 	
 }
 
