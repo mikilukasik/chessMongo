@@ -10,14 +10,11 @@ var app = express()
 var httpServ = http.createServer(app)
 
 var server = httpServ.listen(80, function() {
-
 	var host = server.address()
 		.address;
 	var port = server.address()
 		.port;
-
 	console.log('app listening at http://%s:%s', host, port);
-
 });
 
 var wsServer = new WebSocketServer({
@@ -25,24 +22,16 @@ var wsServer = new WebSocketServer({
 	path: '/sockets/'
 });
 
+
+
+
 eval(fs.readFileSync('public/js/brandNewAi.js') + '');
 eval(fs.readFileSync('public/js/deepening.js') + '');
 eval(fs.readFileSync('public/js/classes.js') + '');
 eval(fs.readFileSync('public/js/engine.js') + '');
 eval(fs.readFileSync('public/js/serverFuncs.js') + '');
 
-//var sendLobby = 
 
-var socketSend = function(connection, command, data, message, cb) {
-	connection.sendUTF(JSON.stringify({
-		command: command,
-		data: data,
-		message: message
-	}))
-	
-	cb()
-	
-}
 
 wsServer.on('request', function(request) {
 	var connection = request.accept(null, request.origin);

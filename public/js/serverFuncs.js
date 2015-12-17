@@ -1,3 +1,41 @@
+var socketSend = function(connection, command, data, message, cb) {
+	connection.sendUTF(JSON.stringify({
+		command: command,
+		data: data,
+		message: message
+	}))
+	
+	cb()
+}
+
+var connectedSockets=[]
+
+var ConnectedSocket=function(id,connection){
+	this.id=id;
+	this.connection=connection;
+	this.view=undefined
+}
+
+var connectionIndex=function(id,connection){
+	
+	var csLen=connectedSockets.length
+	
+	for (var i=csLen-1;i>=0;i--){
+		
+		if(connectedSockets[i].id==id){
+			return i
+		}
+		
+	}
+	
+	//not found, did not return
+		
+	connectedSockets.push(new ConnectedSocket(id,connection))
+	return csLen
+	
+}
+
+
 var onMessageFuncs = {
 	getLobby: function(connection, data) {
 
@@ -177,7 +215,15 @@ var onMessageFuncs = {
 
 	},
 	Hello: function(connection, data) {
-		socketSend(connection, 'reHello', {}, 'reHello', function() {})
+		
+		
+		var newConnectionId=Math.random()*Math.random()
+		
+		console.log('new connection, index:',connectionIndex(newConnectionId,connection),'id:',newConnectionId)// connectionIndex())
+		
+		socketSend(connection, 'reHello', {
+			connectionID: newConnectionId
+		}, 'reHello', function() {})
 	},
 	startGame: function(connection, data) {
 

@@ -21,6 +21,8 @@
 		
 		var socketOn=false
 		
+		var socketID=undefined
+		
 		var socketSend=function(command,data,message,cb){}
 		
 		
@@ -73,7 +75,11 @@
 					  
 					  case 'reHello' : 
 					  
-					  	console.log('Hello worked.')
+					  	 socketID = received.data.connectionID
+					  
+					  	console.log('received connectionID',received.data.connectionID)
+					  
+					  	$rootScope.socketID=socketID
 					  
 					  
 					  break;
@@ -174,7 +180,16 @@
                ws.onclose = function()
                { 
                   // websocket is closed.
-                  console.log("socketConnection is closed..."); 
+				  
+				  socketOn=false
+				  
+				  socketID=undefined
+				  
+                  console.log("socketConnection is closed, retry in 2s.."); 
+				  
+				  setTimeout(function(){
+					  if(!socketOn)sockets($rootScope, $scope)
+				  },2000)
                };
             }
             
@@ -998,6 +1013,13 @@
 			$rootScope.draTable = viewName;
 		}
 		$rootScope.showView = function(viewName) {
+			
+			//let the server know what we're watching
+			
+			
+			//socket should be connected already
+			
+			
 			$rootScope.viewName = viewName;
 
 			if(viewName == 'lobby.html'||viewName == 'board.html') {
@@ -1150,6 +1172,8 @@
 		<a href="#" ng-click="showView('login.html')" ng-class="{ selected: viewName == 'login.html' }">{{inOrOut}}</a>
 		<a href="#" ng-click="showView('lobby.html')" ng-class="{ selected: viewName == 'lobby.html' }">Lobby</a>
 		<a href="#" ng-click="showView('board.html')" ng-class="{ selected: viewName == 'board.html' }">Chessboard</a>
+		<a href="#" ng-click="showView('captain.html')" ng-class="{ selected: viewName == 'captain.html' }">Captain</a>
+		
 		<!--<a href="#" ng-click="showView('captain.html')" ng-class="{ selected: viewName == 'captain.html' }">Thinkers</a>-->
 		</td>
 		
@@ -1170,7 +1194,7 @@
 		
 		
 		
-		<td nowrap width=100% align="right">{{greetUser}} - {{screenRatio}}</td>
+		<td nowrap width=100% align="right">{{greetUser}} {{socketID}}</td>
 		</tr>
 		</table>
 	</nav>
