@@ -609,8 +609,9 @@ var onMessageFuncs = {
 		
 		addViewer(data.newViewName,data.newSubViewName,data.newViewParts,connection)
 		
-		removeViewer(data.oldViewName,data.oldSubViewName,data.oldViewParts,connection)
-		
+		if(data.oldViewName==data.newViewName&&data.newSubViewName==data.oldSubViewName){}else{
+			removeViewer(data.oldViewName,data.oldSubViewName,data.oldViewParts,connection)
+		}
 		var sendThis=simpleKnownClients(knownClients)
 		
 		viewPop('captain.html','default','knownClients',sendThis)//nownClients.views.length)
