@@ -209,18 +209,191 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 	
 	var speedTestNum = 1 //temp
 	
-
-	simpleGet('/longPollTasks?id=' + sendID + '&tn=' + taskNum + '&spd=' + mySpeed + '&stn=' + speedTestNum + '&rnd=' + Math.random(), 
+	toServer('longPollTasks',{
+		id:sendID,
+		tn: taskNum,
+		spd: mySpeed,
+		stn:speedTestNum
+	})
+	// simpleGet('/longPollTasks?id=' + sendID + '&tn=' + taskNum + '&spd=' + mySpeed + '&stn=' + speedTestNum + '&rnd=' + Math.random(), 
 		
-		function(res) {
-		// 1 task received
-			var task=eval("(" + res.response + ')')		//http://stackoverflow.com/questions/45015/safely-turning-a-json-string-into-an-object
+	// 	function(res) {
+	// 	// // 1 task received
+	// 	// 	var task=eval("(" + res.response + ')')		//http://stackoverflow.com/questions/45015/safely-turning-a-json-string-into-an-object
+			
+	// 	// 	//sendMessage('mw: command received: '+ task.command)
+			
+	// 	// 	console.log('received',task)
+			
+	// 	// 	pollingTask=taskNum+1
+			
+	// 	// 	switch(task.command){
+				
+				
+	// 	// 		case "splitMove":
+
+					
+
+	// 	// 			splitMoveStarted = new Date()
+	// 	// 				.getTime()
+
+	// 	// 			totalSolved = 0
+					
+	// 	// 			progress={
+	// 	// 				splitMoves: 0,
+	// 	// 				oneDeeperMoves: 0,
+	// 	// 				doneSM: 0,
+	// 	// 				doneDM: 0
+	// 	// 			}
+										
+
+
+
+	// 	// 			if (task.data[0] != undefined) {
+	// 	// 				//we received some moves
+
+
+	// 	// 				if (workingOnTableNum == 0) {
+	// 	// 					//thinker is idle
+	// 	// 					//mark it busy
+							
+	// 	// 					workingOnTableNum = task.data[0]._id
+								
+	// 	// 						var tt=task.data.length //we need this to know when we worked them all out
+								
+	// 	// 						totalSplitMovesReceived = tt  //task.data.length //we need this to know when we worked them all out
+								
+	// 	// 						progress.splitMoves=tt
+								
+								
+	// 	// 						splitMovesToProcess = task.data
+
+
+	// 	// 						mwProcessDeepSplitMoves(splitMovesToProcess, sendID)			//starting to process splitmove from server
+								
+						
+	// 	// 				} else {
+	// 	// 					//thinker is already calculating something
+							
+	// 	// 					sendMessage('thinker is busy')
+
+
+
+	// 	// 				}
+
+	// 	// 			} else {
+	// 	// 				//error in receiving task
+
+
+
+	// 	// 			}
+					
+
+	// 	// 			break;
+
+			
+	// 	// 		case 'longEcho':
+	// 	// 			//
+	// 	// 			longEchoStarted=new Date().getTime()
+					
+	// 	// 			pendingLongEchoes=maxWorkerNum
+					
+	// 	// 			pollOn=false
+					
+	// 	// 			longPollOnHold=function(){
+	// 	// 				longPollTasks(pollingTask,sendID,mySpeed)
+	// 	// 			}
+					
+					
+	// 	// 			for(var i=maxWorkerNum-1;i>=0;i--){
+						
+	// 	// 				toSub('longEcho',{})
+						
+						
+	// 	// 			}
+		
+	// 	// 	break;
+	// 	// 	case 'refresh':
+			
+	// 	// 			//asking main thread to refresh all web workers
+					
+					
+	// 	// 			pollOn=false
+					
+						
+	// 	// 				postMessage({
+	// 	// 								'resCommand': 'refreshUs',
+	// 	// 								'resMessage': 'refreshUs',
+	// 	// 								'resData':	{}
+		
+	// 	// 							})
+					
+		
+	// 	// 	break;
+			
+			
+	// 	// 	case 'speedTest':
+					
+	// 	// 			if(mySpeed==1)mySpeed=0.99		//at initial, temp, !!!!!!!!otherwise server would keep trying to test us
+					
+	// 	// 			//call speedtest
+					
+	// 	// 			pollOn=false
+					
+	// 	// 			longPollOnHold=function(speed){
+	// 	// 				longPollTasks(pollingTask,sendID,speed)
+	// 	// 			}
+					
+	// 	// 			speedTest()
+					
+		
+	// 	// 	break;
+			
+				
+				
+	// 	// 	}
+
+	// 	// 	if (pollOn&&task.command!='dontCall'){
+				
+	// 	// 		//sendMessage('mw: pollOn true, recalling longPollTasks (task '+(taskNum+1)+')')
+				
+	// 	// 		longPollTasks(pollingTask,sendID,mySpeed) //recall for new task, server might hold any new task until this one finishes
+				
+	// 	// 	} 	
+	// 	},function(err){
+					
+	// 		if (pollOn) {
+					
+	// 			sendMessage('mw: longPollTasks returned error, waiting 2 secs')
+		
+	// 			setTimeout(function(){
+					
+	// 				sendMessage('mw: retrying longPollTasks (task '+(taskNum)+')')
+					
+	// 				longPollTasks(taskNum,sendID,mySpeed) 
+					
+	// 			},2000)
+	// 		}
+			
+	// 		//
+			
+	// 	}) 
+		
+}
+
+
+
+var lastOverallProgressCalc=new Date()
+
+var taskReceived=function(task){
+			// 1 task received
+			//var task=eval("(" + res.response + ')')		//http://stackoverflow.com/questions/45015/safely-turning-a-json-string-into-an-object
 			
 			//sendMessage('mw: command received: '+ task.command)
 			
 			console.log('received',task)
 			
-			pollingTask=taskNum+1
+			pollingTask=task.data.tn+1
 			
 			switch(task.command){
 				
@@ -355,30 +528,8 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 				longPollTasks(pollingTask,sendID,mySpeed) //recall for new task, server might hold any new task until this one finishes
 				
 			} 	
-		},function(err){
-					
-			if (pollOn) {
-					
-				sendMessage('mw: longPollTasks returned error, waiting 2 secs')
-		
-				setTimeout(function(){
-					
-					sendMessage('mw: retrying longPollTasks (task '+(taskNum)+')')
-					
-					longPollTasks(taskNum,sendID,mySpeed) 
-					
-				},2000)
-			}
-			
-			//
-			
-		}) 
-		
 }
 
-
-
-var lastOverallProgressCalc=new Date()
 
 onmessage = function(event) {
 
@@ -419,7 +570,18 @@ onmessage = function(event) {
 
 			break;
 			
+			case 'taskReceived':
 			
+				taskReceived(reqData)
+			
+			
+			
+			
+			
+			
+			
+			
+			break;
 			
 		case 'start':
 			
@@ -699,7 +861,7 @@ function toServer(command,data,message,cb){
 		
 	})
 	
-	cb()
+	if(cb)cb()
 	
 }
 

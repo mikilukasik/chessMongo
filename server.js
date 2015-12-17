@@ -1,4 +1,3 @@
-
 var express = require('express');
 var morgan = require('morgan');
 var bodyParser = require("body-parser");
@@ -7,10 +6,8 @@ var mongodb = require('mongodb');
 var http = require('http')
 var WebSocketServer = require('websocket').server;
 
-
-var app=express()
+var app = express()
 var httpServ = http.createServer(app)
-
 
 var server = httpServ.listen(80, function() {
 
@@ -19,314 +16,356 @@ var server = httpServ.listen(80, function() {
 	var port = server.address()
 		.port;
 
- console.log('app listening at http://%s:%s', host, port);
+	console.log('app listening at http://%s:%s', host, port);
 
 });
-
-
 
 var wsServer = new WebSocketServer({
-    httpServer: httpServ,
-    path: '/sockets/'
+	httpServer: httpServ,
+	path: '/sockets/'
 });
 
+var sendLobby = function(connection, data) {
 
-var sendLobby=function(connection,data){
-	
-				
-					
-						clearDisconnectedPlayers()			//nemide!!!!!!!!!!!!
-						
-						if (players[0].indexOf(data.p) == -1) {
-							players[0].push(data.p)
-							players[1].push((new Date())
-								.getTime())
-					
-							
-							lobbyPollNum++
-					
+	clearDisconnectedPlayers() //nemide!!!!!!!!!!!!
+
+	if (players[0].indexOf(data.p) == -1) {
+		players[0].push(data.p)
+		players[1].push((new Date())
+			.getTime())
+
+		lobbyPollNum++
+
+	} else {
+		players[1][players[0].indexOf(data.p)] = (new Date())
+			.getTime()
+	}
+
+	var playerIndex = players[0].indexOf(data.p)
+	if (players[2][playerIndex]) {
+		//var askToOpen=true;
+		lobbyPollNum++
+		var openTableNum = players[4][playerIndex]
+		var openTableColor = players[3][playerIndex]
+		var opponentsName = players[5][playerIndex]
+
+		players[2][playerIndex] = false
+
+		socketSend(connection, 'lobbyState', {
+			players: players[0],
+			games: [], //[activeGames],
+			lobbypollnum: lobbyPollNum,
+			lobbychat: [], //lobbyChat,
+			asktoopen: true,
+			opentablenum: openTableNum,
+			opentablecolor: openTableColor,
+			opponentsname: opponentsName
+		}, 'lobbyState', function() {});
+
+	} else {
+
+		mongodb.connect(cn, function(err, db) {
+			if (!(db == null)) {
+				db.collection("tables")
+					.findOne({
+						_id: "xData"
+					}, function(err2, xData) {
+						if (xData == null) {
+
+							createXData()
+
+							var resLChat = []
+							var resAGames = []
+
+						} else {
+
+							var resLChat = xData.lobbyChat
+							var resAGames = xData.activeTables
 						}
-						else {
-							players[1][players[0].indexOf(data.p)] = (new Date())
-								.getTime()
-						}
-					
-						var playerIndex = players[0].indexOf(data.p)
-						if (players[2][playerIndex]) {
-							//var askToOpen=true;
-							lobbyPollNum++
-							var openTableNum = players[4][playerIndex]
-							var openTableColor = players[3][playerIndex]
-							var opponentsName = players[5][playerIndex]
-					
-							players[2][playerIndex] = false
-					
-							socketSend(connection,'lobbyState',{
-								players: players[0],
-								games: [], //[activeGames],
-								lobbypollnum: lobbyPollNum,
-								lobbychat: [], //lobbyChat,
-								asktoopen: true,
-								opentablenum: openTableNum,
-								opentablecolor: openTableColor,
-								opponentsname: opponentsName
-							},'lobbyState',function(){});
-					
-						}
-						else {
-					
-							mongodb.connect(cn, function(err, db) {
-								if (!(db == null)) {
-									db.collection("tables")
-										.findOne({
-											_id: "xData"
-										}, function(err2, xData) {
-											if (xData == null) {
-					
-												createXData()
-					
-												var resLChat = []
-												var resAGames = []
-					
-											}
-											else {
-					
-												var resLChat = xData.lobbyChat
-												var resAGames = xData.activeTables
-											}
-											db.close()
-												
-											socketSend(connection,'lobbyState',{
-												players: players[0],
-												games: resAGames,
-												lobbypollnum: lobbyPollNum,
-												lobbychat: resLChat,
-												asktoopen: false
-											},'lobbyState',function(){});
-											
-					
-										});
-								}
-							});
-					
-						}
-					
-			
-									
-									
+						db.close()
+
+						socketSend(connection, 'lobbyState', {
+							players: players[0],
+							games: resAGames,
+							lobbypollnum: lobbyPollNum,
+							lobbychat: resLChat,
+							asktoopen: false
+						}, 'lobbyState', function() {});
+
+					});
+			}
+		});
+
+	}
+
 }
 
-var moved=function(onTable){
-	
+var moved = function(onTable) {
+
 	//var onTable = received.data// req.body
-						
-						onTable.moved = new Date()
-											.getTime()
-											
-											
-						var command = onTable.command
-						
-						onTable.command = ''
-							
-						mongodb.connect(cn, function(err, db) {
-							db.collection("tables")
-								.save(onTable, function(err3, res) {
-									//table moved and saved, let's check what to do
-									db.close()
-									popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
-						
-									switch (command) {
-						
-										case 'makeAiMove':
-											
-											//////    console.log('calling makeaimove..')
-											makeAiMove(onTable)
-						
-						
-											break;
-						
-						
-									}
-						
-						
-								})
-						
-										
-						});
-	
-	
+
+	onTable.moved = new Date()
+		.getTime()
+
+	var command = onTable.command
+
+	onTable.command = ''
+
+	mongodb.connect(cn, function(err, db) {
+		db.collection("tables")
+			.save(onTable, function(err3, res) {
+				//table moved and saved, let's check what to do
+				db.close()
+				popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
+
+				switch (command) {
+
+					case 'makeAiMove':
+
+						//////    console.log('calling makeaimove..')
+						makeAiMove(onTable)
+
+						break;
+
+				}
+
+			})
+
+	});
+
 }
 
+var myPartIsDone = function(data) {
 
-var myPartIsDone=function(data){
-	
 	var index = getTaskIndex(data[0]._id)
 
-
 	data.forEach(function(move) {
-		
+
 		splitTaskQ[index].returnedMoves.push(move)
 		splitTaskQ[index].pendingSolvedMoves--
-	
+
 	})
-	
-	markSplitMoveDone(data[0]._id,data[0].thinker)
+
+	markSplitMoveDone(data[0]._id, data[0].thinker)
 
 	if (splitTaskQ[index].pendingSolvedMoves == 0) {
-		
+
 		////////////////////////////////////////////////////////////all moves solved, check best and make a move
-		
+
 		splitTaskQ[index].returnedMoves.sort(
 			moveSorter
 		)
 
 		moveInTable(splitTaskQ[index].returnedMoves[0].move, splitTaskQ[index])
-		
-		splitTaskQ[index].chat = [~~((new Date()-splitTaskQ[index].splitMoveStarted)/10)/100+'sec']	//1st line in chat is timeItTook
-		
-		splitTaskQ[index].returnedMoves.forEach(function(returnedMove){
-			splitTaskQ[index].chat=splitTaskQ[index].chat.concat({
+
+		splitTaskQ[index].chat = [~~((new Date() - splitTaskQ[index].splitMoveStarted) / 10) / 100 + 'sec'] //1st line in chat is timeItTook
+
+		splitTaskQ[index].returnedMoves.forEach(function(returnedMove) {
+			splitTaskQ[index].chat = splitTaskQ[index].chat.concat({
 				//move: returnedMove.moveStr,
 				score: returnedMove.score,
 				hex: returnedMove.score.toString(16),
 				moves: returnedMove.moveTree
-				
+
 			})
 
 		})
-		
-		
+
 		mongodb.connect(cn, function(err, db) {
 			db.collection("tables")
 				.save(splitTaskQ[index], function(err3, res) {
 					popThem(splitTaskQ[index]._id, splitTaskQ[index], 'splitMove', 'splitMove')
-					
+
 					db.close()
-					
+
 					splitTaskQ.splice(index, 1)
-					
+
 				})
 		})
 	}
 
-	
-	
 }
 
-var thinkerMessage=function(data){
-	
-		//res.send('something')
-	
-	var thinker = knownThinkers[doIKnow(data.thinker)]
-	
-	switch(data.command){
-		
-		case 'log':
-		
-			postThinkerMessage(thinker,data.message)
-		
-		break;
-		
-		case 'progress':
-		
-			updateSplitMoveProgress(data.data._id,data.thinker,data.data.progress)
-		
-		break;
-		
-		
-		
+var longPollTasks = function(connection,data) {
+
+	var pollerIndex = doIKnow(data.id)
+
+	if (-1 == pollerIndex) {
+
+		knownThinkers.push({
+			id: data.id,
+			lastSeen: new Date()
+				.getTime(),
+			busy: false,
+			polling: true,
+			spd: ~~(data.spd * 100) / 100
+		})
+
+	} else {
+
+		var oldSpeed = knownThinkers[pollerIndex].spd
+		var newSpeed = ~~(data.spd * 100000) / 100000
+
+		knownThinkers[pollerIndex].lastSeen = new Date()
+			.getTime()
+		knownThinkers[pollerIndex].busy = false
+		knownThinkers[pollerIndex].polling = true
+		knownThinkers[pollerIndex].spd = newSpeed
+
+		if (knownThinkers[pollerIndex].stn != data.stn) { //new speedtest data, check pct
+
+			knownThinkers[pollerIndex].pct = ~~(newSpeed / oldSpeed * 1000) / 10
+
+			knownThinkers[pollerIndex].stn = data.stn
+
+		}
+
 	}
+
+	console.log('will check if pending for data.id', data.id)
+
+	if (checkIfPending(data.id)) {
+
+		//sendTask(new Task('ping',0,'normal ping'),data.id)
+
+		console.log('found longpoll, will call clearpending for', data.id)
+
+		clearPending(data.id)
+
+	}
+
+	knownThinkers[pollerIndex].lastSeen = new Date()
+		.getTime()
+	knownThinkers[pollerIndex].busy = false
+	var tempReq={
+		query:data
+	}
+	pendingThinkerPolls.push([tempReq, connection, new Date() ///!!!!!!!!!!!!!!!!!!!!
+		.getTime()
+	])
 	
-	
+	console.log('lpt pushed.')
+
+	var taskForMe = []
+
+	if (false) {
+
+	} else {
+
+		if (gotTask(taskForMe, data.id)) { //ez beleirja a taskformebe
+
+			//////// ////////    console.log('for me: '+taskForMe)
+			sendTask(taskForMe[0][0][0], taskForMe[0][0][1]) //why? !!!!!!!
+
+		} else {
+
+		}
+
+	}
+
+	captainPop()
+
 }
 
-var socketSend=function(connection,command,data,message,cb){
+var thinkerMessage = function(data) {
+
+	//res.send('something')
+
+	var thinker = knownThinkers[doIKnow(data.thinker)]
+
+	switch (data.command) {
+
+		case 'log':
+
+			postThinkerMessage(thinker, data.message)
+
+			break;
+
+		case 'progress':
+
+			updateSplitMoveProgress(data.data._id, data.thinker, data.data.progress)
+
+			break;
+
+	}
+
+}
+
+var socketSend = function(connection, command, data, message, cb) {
 	connection.sendUTF(JSON.stringify({
-						command: command,
-						data: data,
-						message: message
-					}))
+		command: command,
+		data: data,
+		message: message
+	}))
 }
 
 wsServer.on('request', function(request) {
-    var connection = request.accept(null, request.origin);
+	var connection = request.accept(null, request.origin);
 
-    // This is the most important callback for us, we'll handle
-    // all messages from users here.
-    connection.on('message', function(message) {
-        if (message.type === 'utf8') {
+	// This is the most important callback for us, we'll handle
+	// all messages from users here.
+	connection.on('message', function(message) {
+		if (message.type === 'utf8') {
 			// process WebSocket message
-            var received=eval("(" + message.utf8Data + ")")
-			
-            console.log('received:',received.message)
-			
-			switch(received.command){
-				
+			var received = eval("(" + message.utf8Data + ")")
+
+			console.log('received:', received.message)
+
+			switch (received.command) {
+
+				case 'longPollTasks':
+
+					longPollTasks(connection,received.data)
+
+					break;
+
 				case 'Hello':
-					
+
 					//initial thing
-					socketSend(connection,'reHello',{},'reHello',function(){})
-					
-				
-				break;
-				
+					socketSend(connection, 'reHello', {}, 'reHello', function() {})
+
+					break;
+
 				case 'startGame':
-				
-					startGame(received.data.w,received.data.b)	
-				
-				break;
-				
+
+					startGame(received.data.w, received.data.b)
+
+					break;
+
 				case 'moved':
-				
+
 					moved(received.data)
-				
-				break;
-				
+
+					break;
+
 				case 'getLobby':
-				
-					
-					sendLobby(connection,received.data)				
-				
-				
-				break;
-				
+
+					sendLobby(connection, received.data)
+
+					break;
+
 				case 'myPartIsDone':
-				
+
 					myPartIsDone(received.data)
-				
-				break;
-				
+
+					break;
+
 				case 'thinkerMessage':
-				
-				
+
 					thinkerMessage(received.data)
-				
-				break;
-				
-				
-				
-				
+
+					break;
+
 			}
-            
-            
-            
-            
-            
-        }
-    });
 
-    connection.on('close', function(connection) {
-        // close user connection
-        
-        
-        
-        
-    });
+		}
+	});
+
+	connection.on('close', function(connection) {
+		// close user connection
+
+	});
 });
-
-
-
-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -354,7 +393,6 @@ var players = []
 var learners = []
 var speedTests = []
 
-
 learners[0] = [] //learner IDs
 learners[1] = [] //learners last polled
 learners[2] = [] //learner is on table
@@ -364,8 +402,6 @@ learners[5] = [] //learner modVal
 learners[6] = [] //learner at pollnum
 learners[7] = [] //learner at pollnum
 
-
-
 speedTests[0] = [] //learner IDs
 speedTests[1] = [] //speedTests last polled
 speedTests[2] = [] //learner mtspeed
@@ -374,7 +410,6 @@ speedTests[4] = [] //learner faster
 	// speedTests[5]=[]	//learner modVal
 	// speedTests[6]=[]	//learner at pollnum
 	// speedTests[7]=[]	//learner at pollnum
-
 
 var oldSpeedTestConst = 10000
 var playerDisconnectConst = 15000 //15sec
@@ -399,12 +434,10 @@ var lobbyChat = []
 var knownThinkers = []
 var pendingThinkerPolls = []
 
-
 function doIKnow(id) {
 	for (var i = 0; i < knownThinkers.length; i++) {
 		if (knownThinkers[i].id == id) return i
 	}
-
 
 	//if(thinkerIndex==-1){
 	knownThinkers.push({
@@ -416,9 +449,6 @@ function doIKnow(id) {
 	return knownThinkers.length - 1
 }
 
-
-
-
 var getThinkerIndex = function(id) {
 	//var speedArray = []
 	for (var i = 0; i < pendingThinkerPolls.length; i++) {
@@ -427,27 +457,24 @@ var getThinkerIndex = function(id) {
 	}
 	return -1
 
-
 };
 var fastestThinker = function(spdPct) {
-	
+
 	var speedArray = []
 	for (var i = 0; i < pendingThinkerPolls.length; i++) {
 		speedArray.push(~~(100 * (pendingThinkerPolls[i][0].query.spd)))
 	}
 
 	var mx = speedArray.indexOf(Math.max.apply(Math, speedArray));
-	
+
 	if (!spdPct) {
 		return mx
-	}
-	else { //parameter true
+	} else { //parameter true
 		//hany szazalaka az osszes geperonek a fastest thinker
 		if (speedArray.length == 0) {
 			//no available thinkers!! server move?
 			return 0
-		}
-		else {
+		} else {
 			var totalPower = speedArray.reduce(function(a, b) {
 					return a + b
 				}) //sum
@@ -455,39 +482,30 @@ var fastestThinker = function(spdPct) {
 			return maxPower / totalPower
 		}
 
-
-
-
 	}
-
-
 
 };
 
 var taskQ = []
 var splitTaskQ = []
 
-
 function sendTask(task, thinkerId) {
 	// 	var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 	//var message=task.message
 	var thinkerPollIndex = 0
-	
-	var sentTo=''
-	
+
+	var sentTo = ''
+
 	if (thinkerId) {
-		
-		
-		console.log('sendTask called with ID',thinkerId,'command',task.command)
-		
-		 
+
+		console.log('sendTask called with ID', thinkerId, 'command', task.command)
+
 		thinkerPollIndex = getThinkerIndex(thinkerId)
 
-	}
-	else {
-		
-		console.log('sendTask called: fastest','command',task.command)
-		
+	} else {
+
+		console.log('sendTask called: fastest', 'command', task.command)
+
 		//replace id to fastest available!!!!!!!!!!!!!!!
 
 		thinkerPollIndex = fastestThinker()
@@ -502,48 +520,36 @@ function sendTask(task, thinkerId) {
 		thinkerId = pendingThinkerPolls[thinkerPollIndex][0].query.id
 
 		thisRes = pendingThinkerPolls.splice(thinkerPollIndex, 1)[0]
-		
-		
-		sentTo= thisRes[0].query.id//.IncomingMessage)//.IncomingMessage.query)
-		
-		
-	
-		task.taskNum = Number(thisRes[0].query.tn) + 1
-		
-		var thinkerIndex = doIKnow(thinkerId)
 
-		
+		sentTo = thisRes[0].query.id //.IncomingMessage)//.IncomingMessage.query)
+
+		task.taskNum = Number(thisRes[0].query.tn) + 1
+
+		var thinkerIndex = doIKnow(thinkerId)
 
 		knownThinkers[thinkerIndex].busy = true
 
-		
-		postThinkerMessage(knownThinkers[thinkerIndex],task.message)
-		
+		postThinkerMessage(knownThinkers[thinkerIndex], task.message)
+
 		knownThinkers[thinkerIndex].command = task.command //we need to remember the task we sent
 		knownThinkers[thinkerIndex].sent = new Date()
 			.getTime()
 		knownThinkers[thinkerIndex].lastSeen = knownThinkers[thinkerIndex].sent
-		knownThinkers[thinkerIndex].polling=false
-		
+		knownThinkers[thinkerIndex].polling = false
 
-
-		
 		knownThinkers[thinkerIndex].taskNum = task.taskNum //we need to remember the tasknum we sent
 			// knownThinkers[thinkerIndex].message=task.message		//do we we need to remember the message we sent?
 			// knownThinkers[thinkerIndex].command=task.command		//we need to remember the task we sent
 			// knownThinkers[thinkerIndex].sent=new Date().getTime()
 			// knownThinkers[thinkerIndex].lastSeen=knownThinkers[thinkerIndex].sent
 
+		//thisRes[1].json(task)
+		
+		socketSend(thisRes[1],'task',task,'task',function(){})
 
-
-
-		thisRes[1].json(task)
-
-	
 		captainPop()
 
-	}
-	else {
+	} else {
 		//thinker is not here or none is available
 
 		//queue task for thinker next available
@@ -558,9 +564,6 @@ function sendTask(task, thinkerId) {
 }
 
 function sendToAll(task) {
-
-	
-
 
 	while (pendingThinkerPolls.length > 0) {
 
@@ -581,23 +584,17 @@ function sendToAll(task) {
 		knownThinkers[thinkerIndex].busy = true
 
 		knownThinkers[thinkerIndex].taskNum = task.taskNum //we need to remember the tasknum we sent
-		
-		postThinkerMessage(knownThinkers[thinkerIndex],task.message)
-		
-		
+
+		postThinkerMessage(knownThinkers[thinkerIndex], task.message)
+
 		//knownThinkers[thinkerIndex].message = task.message //do we we need to remember the message we sent?
 		knownThinkers[thinkerIndex].command = task.command //we need to remember the task we sent
 		knownThinkers[thinkerIndex].sent = new Date()
 			.getTime()
 		knownThinkers[thinkerIndex].lastSeen = knownThinkers[thinkerIndex].sent
-		knownThinkers[thinkerIndex].polling=false
-
-
-
+		knownThinkers[thinkerIndex].polling = false
 
 		thisPop[1].json(task)
-
-
 
 	}
 
@@ -634,9 +631,6 @@ app.get('/stopAllLearners', function(req, res) {
 
 });
 
-
-
-
 function createXData() {
 	////////// ////////    console.log("can't find xData in db, creating..") //header in db
 
@@ -665,8 +659,7 @@ mongodb.connect(cn, function(err, db) {
 				createXData();
 
 				//firstFreeTable = 1
-			}
-			else {
+			} else {
 				//firstFreeTable = xData.firstFreeTable
 				//xData.firstFreeTable++
 			}
@@ -679,8 +672,6 @@ mongodb.connect(cn, function(err, db) {
 });
 
 setInterval(function() {
-
-
 
 	mongodb.connect(cn, function(err5, db2) {
 		var laterThan = new Date()
@@ -702,8 +693,7 @@ setInterval(function() {
 					actGames.sort(function(a, b) {
 						if (a._id > b._id) {
 							return -1
-						}
-						else {
+						} else {
 							return 1
 						}
 						//no duplicates
@@ -713,8 +703,6 @@ setInterval(function() {
 						.findOne({
 							"_id": "xData"
 						}, function(err24, xData) {
-
-
 
 							xData.activeTables = actGames
 
@@ -731,13 +719,9 @@ setInterval(function() {
 
 	});
 
-
-
 	////innentol jon az eval by clients
 
-
 	//evalToClient()
-
 
 }, checkGamesConst);
 
@@ -757,7 +741,6 @@ setInterval(function() {
 	ping(10000)
 }, 1000)
 
-
 // setInterval( function(){	
 // 	evalToClient()
 // },evalGameConst)
@@ -768,19 +751,14 @@ var evalToClient = function() {
 		db4.collection('tables')
 			.findOne({
 
-			
-
 				toBeChecked: false
 
 			}, function(errx, gameToEval) {
 				//send gameToEval to fastest available client
 				//var arguments=[]
 
-
-
 				var task = {}
 				if (gameToEval != null) {
-
 
 					gameToEval.toBeChecked = true
 
@@ -796,15 +774,13 @@ var evalToClient = function() {
 
 					//task=new Task('evalGame',gameToEval,'evalGame, t'+gameToEval._id)
 					sendTask(task)
-				}
-				else {
+				} else {
 
 					// task=new Task('',0,'nothing to eval')
 
 					// sendTask(task)
 				}
 				db4.close()
-
 
 			})
 	})
@@ -822,12 +798,9 @@ var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 
 				var resp = pendingLongPolls[tNum].pop()
 
-	
-
 				resp.json(
 					tableInDb
 
-		
 				);
 
 			}
@@ -854,196 +827,174 @@ var getSplitMoveTask = function(aiTable, percent) {
 
 }
 
-function pushSplitTask(splitTask){
-	
-		splitTaskQ.push(splitTask) //use this when receiving
-	
+function pushSplitTask(splitTask) {
+
+	splitTaskQ.push(splitTask) //use this when receiving
+
 }
 
-
 function makeSplitMove(dbTable) {
-	
-	
-	
+
 	dbTable.splitMoveStarted = new Date()
-	
-	var aiTable = new MoveTask(dbTable)			//this should happen on the calling client, not on the server
+
+	var aiTable = new MoveTask(dbTable) //this should happen on the calling client, not on the server
 
 	dbTable.aiTable = aiTable
 
 	dbTable.pendingSolvedMoves = aiTable.moves.length //set it here, it will be decreased as the moves come in
 
 	dbTable.returnedMoves = []
-				
+
 	// splitTaskQ.push(dbTable) //use this when receiving
 	pushSplitTask(dbTable)
-	
+
 	var sentTNum = dbTable._id
-	
+
 	clearSentMoves(sentTNum)
-	
+
 	var index
 
 	//for(var i=busyTables.splitMoves[])
 
 	while (aiTable.movesToSend.length > 0) {
-		
-		var tempLength=aiTable.movesToSend.length
-		
-		var aa=fastestThinker(true)
-		
-		
 
-	
-		if(isNaN(aa)){
+		var tempLength = aiTable.movesToSend.length
+
+		var aa = fastestThinker(true)
+
+		if (isNaN(aa)) {
 			//////    console.log('hacking',aa)
-			aa=1		//quickfix!!!!!!!!!!!!!!!!!!!!!!
+			aa = 1 //quickfix!!!!!!!!!!!!!!!!!!!!!!
 		}
-		
-		var sendThese = getSplitMoveTask(aiTable, aa)
-		
-		//////    console.log('calling sendTask')
-		
-		var sentCount= sendThese.length
-		
-		
-		
-		var sentTo = sendTask(new Task('splitMove', sendThese, 'splitMove t' + sentTNum + ' sentCount: ' + sentCount))			//string
 
-		index=registerSentMoves(sentTNum,sentTo,sentCount)
-		
-		
+		var sendThese = getSplitMoveTask(aiTable, aa)
+
+		//////    console.log('calling sendTask')
+
+		var sentCount = sendThese.length
+
+		var sentTo = sendTask(new Task('splitMove', sendThese, 'splitMove t' + sentTNum + ' sentCount: ' + sentCount)) //string
+
+		index = registerSentMoves(sentTNum, sentTo, sentCount)
 
 	}
 
 	busyTablesPop(index)
 
+}
+
+var BusyTables = function() {
+
+	this.tables = []
+	this.splitMoves = []
+	this.pollNums = []
+	this.pendingPolls = []
 
 }
 
-var BusyTables=function(){
-	
-	this.tables=[]
-	this.splitMoves=[]
-	this.pollNums=[]
-	this.pendingPolls=[]
-	
-}
+var busyTables = new BusyTables()
 
-var busyTables=new BusyTables()
+var getBusyTableIndex = function(tNum) {
 
-var getBusyTableIndex = function(tNum){
-	
-	var index=busyTables.tables.indexOf(tNum)
-	
-	if(index==-1){
+	var index = busyTables.tables.indexOf(tNum)
+
+	if (index == -1) {
 		//table not in array, lets push it
-		
+
 		busyTables.tables.push(tNum)
 		busyTables.splitMoves.push([])
 		busyTables.pollNums.push(0)
 		busyTables.pendingPolls.push([])
-		
-		return busyTables.tables.length-1
-		
-		
-	}else{
-		
+
+		return busyTables.tables.length - 1
+
+	} else {
+
 		return index
-		
+
 	}
-	
-	
+
 }
 
-var clearSentMoves=function(sentTNum){
-	
-	var index=getBusyTableIndex(sentTNum)
-	
-	for (var i=busyTables.splitMoves[index].length-1;i>=0;i--){
-			busyTables.splitMoves[index][i].sentCount=0
-	}
-	
+var clearSentMoves = function(sentTNum) {
 
-	
+	var index = getBusyTableIndex(sentTNum)
+
+	for (var i = busyTables.splitMoves[index].length - 1; i >= 0; i--) {
+		busyTables.splitMoves[index][i].sentCount = 0
+	}
+
 }
 
-var getMIndex=function(index,sentTo){
-	
+var getMIndex = function(index, sentTo) {
+
 	//var mIndex=-1
-	
-	for (var i=busyTables.splitMoves[index].length-1;i>=0;i--){
-		
+
+	for (var i = busyTables.splitMoves[index].length - 1; i >= 0; i--) {
+
 		// busyTables.splitMoves[index][i].sentCount=0
-		
-	
-		if (busyTables.splitMoves[index][i].thinker==sentTo){
+
+		if (busyTables.splitMoves[index][i].thinker == sentTo) {
 			return i
 		}
 	}
-	
+
 	return -1
-	
+
 }
 
-var registerSentMoves=function(sentTNum,sentTo,sentCount){
-	
-	var index=getBusyTableIndex(sentTNum)
-	
-	var mIndex=getMIndex(index,sentTo)
-	
-	
-	if(mIndex==-1){
-	
+var registerSentMoves = function(sentTNum, sentTo, sentCount) {
+
+	var index = getBusyTableIndex(sentTNum)
+
+	var mIndex = getMIndex(index, sentTo)
+
+	if (mIndex == -1) {
+
 		busyTables.splitMoves[index].push({
-			
+
 			thinker: sentTo,
 			sentCount: sentCount,
 			done: false,
 			progress: 0
-		
+
 		})
-		
-	}else{
-		
-		busyTables.splitMoves[index][mIndex]={
-			
+
+	} else {
+
+		busyTables.splitMoves[index][mIndex] = {
+
 			thinker: sentTo,
 			sentCount: sentCount,
 			done: false,
-			progress:0
-		
+			progress: 0
+
 		}
-		
+
 	}
-	
-	
+
 	return index
-	
-	
+
 }
 
+var updateSplitMoveProgress = function(sentTNum, sentTo, progress) {
 
-var updateSplitMoveProgress=function(sentTNum,sentTo,progress){
-	
-	var index=getBusyTableIndex(sentTNum)
-	
-	var mIndex=getMIndex(index,sentTo)
-	
-	if(busyTables.splitMoves[index][mIndex]){
-		
-		if(progress>busyTables.splitMoves[index][mIndex].progress){
-		
-		 busyTables.splitMoves[index][mIndex].progress=progress
-	
+	var index = getBusyTableIndex(sentTNum)
+
+	var mIndex = getMIndex(index, sentTo)
+
+	if (busyTables.splitMoves[index][mIndex]) {
+
+		if (progress > busyTables.splitMoves[index][mIndex].progress) {
+
+			busyTables.splitMoves[index][mIndex].progress = progress
+
+		}
+
+		busyTablesPop(index)
+
 	}
-	
-	busyTablesPop(index)
-		
-	}
-	
-	
-	
+
 }
 
 //
@@ -1055,7 +1006,7 @@ function makeAiMove(dbTable) {
 		case 'fastest thinker':
 
 			var moveTask = new Task('move', dbTable, 'fastest thinker move t' + dbTable._id)
-			
+
 			sendTask(moveTask) //sends to fastest thinker
 
 			//callback handled as another post
@@ -1068,22 +1019,15 @@ function makeAiMove(dbTable) {
 			//////    console.log('calling makeSplitMove..')
 			makeSplitMove(dbTable) //starts processing table in multi-thinker mode
 
-
 			break;
 
 		case 'server':
 
 			////////////////////////ez mikor kerul mar ide?????!!!!!!!!!!!!!!!!!!!!!!
 
-
 			break;
 
-
-
-
 	}
-
-
 
 }
 //
@@ -1094,38 +1038,37 @@ function getTaskIndex(tNum) {
 	}
 
 }
-function postThinkerMessage(thinker, message){
-	if(thinker.messages==undefined)thinker.messages=[]
-	thinker.messages.push(message)//) = req.body.message
-	if(thinker.messages.length>12)thinker.messages.shift()
+
+function postThinkerMessage(thinker, message) {
+	if (thinker.messages == undefined) thinker.messages = []
+	thinker.messages.push(message) //) = req.body.message
+	if (thinker.messages.length > 12) thinker.messages.shift()
 	thinker.lastSeen = new Date()
 		.getTime()
 
 	captainPop();
-	
+
 }
 app.post('/thinkerMessage', function(req, res) {
-	
+
 	// res.send('something')
-	
+
 	// var thinker = knownThinkers[doIKnow(req.body.thinker)]
-	
+
 	// switch(req.body.command){
-		
+
 	// 	case 'log':
-		
+
 	// 		postThinkerMessage(thinker,req.body.message)
-		
+
 	// 	break;
-		
+
 	// 	case 'progress':
-		
+
 	// 		updateSplitMoveProgress(req.body.data._id,req.body.thinker,req.body.data.progress)
-		
+
 	// 	break;
-		
-		
-		
+
 	// }
 	////    console.log(req)
 
@@ -1135,116 +1078,97 @@ app.post('/myPartIsDone', function(req, res) {
 
 	res.send('received.')
 
-
 });
 
-function findMIndex(tIndex,thinker){
-	
-	for (var i=busyTables.splitMoves[tIndex].length-1;i>=0;i--){
-		
-		if(busyTables.splitMoves[tIndex][i].thinker==thinker){
-			
+function findMIndex(tIndex, thinker) {
+
+	for (var i = busyTables.splitMoves[tIndex].length - 1; i >= 0; i--) {
+
+		if (busyTables.splitMoves[tIndex][i].thinker == thinker) {
+
 			return i
-			
+
 		}
 	}
 }
 
-var busyTablesPop=function(tIndex){
-	
+var busyTablesPop = function(tIndex) {
+
 	//    console.log('tindex',tIndex)
 	//    console.log('popped',busyTables.pendingPolls[tIndex])
-	
+
 	busyTables.pollNums[tIndex]++
-	
-	while(busyTables.pendingPolls[tIndex].length>0){
-		//    console.log('volt egy')
-		var res=busyTables.pendingPolls[tIndex].pop()
-		
-		
-		res.json({
-				
+
+		while (busyTables.pendingPolls[tIndex].length > 0) {
+			//    console.log('volt egy')
+			var res = busyTables.pendingPolls[tIndex].pop()
+
+			res.json({
+
 				busyThinkers: busyTables.splitMoves[tIndex],
 				pollNum: busyTables.pollNums[tIndex]
-				
-				
-		})
-		
-		
-		
-	}
-	
-	
-	
-	
-	
-	
-	
+
+			})
+
+		}
+
 }
 
+function markSplitMoveDone(tNum, thinker) {
 
-function markSplitMoveDone(tNum,thinker){
-	
-	var tIndex=getBusyTableIndex(tNum)
-	
+	var tIndex = getBusyTableIndex(tNum)
+
 	//    console.log('markedtindex',tIndex)
-	
-	var mIndex=findMIndex(tIndex,thinker)
 
-	busyTables.splitMoves[tIndex][mIndex].done=true
-	
-	busyTables.splitMoves[tIndex][mIndex].progress=100
-	//busyTables.pollNums[tIndex]++
-	
+	var mIndex = findMIndex(tIndex, thinker)
+
+	busyTables.splitMoves[tIndex][mIndex].done = true
+
+	busyTables.splitMoves[tIndex][mIndex].progress = 100
+		//busyTables.pollNums[tIndex]++
+
 	////    console.log(busyTables.pollNums[tIndex])
-	
+
 	busyTablesPop(tIndex)
-	
+
 }
 
 app.post('/moved', function(req, res) {
-	
+
 	// res.send('received.')
-	
+
 	// var onTable = req.body
-	
+
 	// onTable.moved = new Date()
 	// 					.getTime()
-						
-						
+
 	// var command = onTable.command
-	
+
 	// 				onTable.command = ''
-		
+
 	// mongodb.connect(cn, function(err, db) {
 	// 	db.collection("tables")
 	// 		.save(onTable, function(err3, res) {
 	// 			//table moved and saved, let's check what to do
 	// 			db.close()
 	// 			popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
-	
+
 	// 			switch (command) {
-	
+
 	// 				case 'makeAiMove':
-						
+
 	// 					//////    console.log('calling makeaimove..')
 	// 					makeAiMove(onTable)
-	
-	
+
 	// 					break;
-	
-	
+
 	// 			}
-	
-	
+
 	// 		})
-	
-					
+
 	// });
 
-
 })
-
 
 app.get('/move', function(req, res) {
 
@@ -1261,13 +1185,11 @@ app.get('/move', function(req, res) {
 
 				if (tableInDb == null) {
 					db.close()
-				}
-				else {
-				
+				} else {
+
 					tableInDb.wNext = !tableInDb.wNext
 
 					tableInDb.pollNum++
-
 
 						if (proper) {
 
@@ -1281,16 +1203,11 @@ app.get('/move', function(req, res) {
 
 							tableInDb.allPastTables.push(createState(tableInDb.table))
 
-
-						}
-						else {
+						} else {
 							tableInDb.moves.push("00" + moveStr + "00")
 						}
 
 						//if(proper) tableInDb.table = moveIt(moveStr, tableInDb.table)		//ezt is elhagyhatnank ha !proper, needs eval after!!
-
-
-
 
 					tableInDb.moved = new Date()
 						.getTime()
@@ -1310,11 +1227,10 @@ app.get('/move', function(req, res) {
 						.save(tableInDb, function(err3, res) {})
 
 					db.close()
-					
+
 				}
 
 			});
-
 
 		res.json({
 			message: "moved"
@@ -1397,8 +1313,7 @@ app.get('/getTPollNum', function(req, res) {
 
 				if (!(tableInDb == null)) {
 					var passPollNum = tableInDb.pollNum
-				}
-				else {
+				} else {
 					var passPollNum = 0
 				}
 
@@ -1414,32 +1329,30 @@ app.get('/getTPollNum', function(req, res) {
 });
 
 app.get('/busyThinkersPoll', function(req, res) {
-	
+
 	//    console.log('longpoll tNum received: ',req.query.t)
-	
-	var index=getBusyTableIndex(Number(req.query.t))
-	
-	if(req.query.p==busyTables.pollNums[index]){
+
+	var index = getBusyTableIndex(Number(req.query.t))
+
+	if (req.query.p == busyTables.pollNums[index]) {
 		//no changes, let's store the res
 		busyTables.pendingPolls[index].push(res)
-		
+
 		// //    console.log('pushed',index)
 		// //    console.log('pendingpolls',busyTables.pendingPolls)
-		
-			
-	}else{
+
+	} else {
 		//state changed, let's reply
-		
+
 		res.json({
-			
+
 			busyThinkers: busyTables.splitMoves[index],
 			pollNum: busyTables.pollNums[index]
-			
+
 		})
-		
-		
+
 	}
-	
+
 });
 
 //////////////////////////			user register
@@ -1474,8 +1387,7 @@ app.get('/checkUser', function(req, res) {
 					retJsn = {
 						'exists': false
 					}
-				}
-				else {
+				} else {
 					retJsn = {
 						'exists': true
 					}
@@ -1507,8 +1419,7 @@ app.get('/checkUserPwd', function(req, res) {
 						'denied': true
 					}
 
-				}
-				else {
+				} else {
 					//record exists, let's check pwd
 					if (thing.pwd == req.query.p) {
 						//password match, log him in
@@ -1518,8 +1429,7 @@ app.get('/checkUserPwd', function(req, res) {
 							'denied': false
 						}
 
-					}
-					else {
+					} else {
 						//wrong pwd
 						//alert("Username and password don't match, try again!")
 						retJsn = {
@@ -1590,14 +1500,12 @@ app.get('/longPollTable', function(req, res) {
 
 						db.close()
 
-
 						tableInDb.command = 'sync'
 						tableInDb.message = 'sync t' + req.query.t + ', poll' + passPollNum
 
 						res.json(tableInDb);
 
-					}
-					else {
+					} else {
 						//nincs mit kuldeni
 						if (pendingLongPolls[req.query.t] == undefined) pendingLongPolls[req.query.t] = []
 
@@ -1605,8 +1513,7 @@ app.get('/longPollTable', function(req, res) {
 						db.close()
 					}
 
-				}
-				else {
+				} else {
 					//nincs meg a tabla
 					db.close()
 
@@ -1634,11 +1541,8 @@ app.get('/forceStop', function(req, res) {
 					db.collection("tables")
 						.save(stopThisTable, function(err3, res) {
 
-
-
 						})
-				}
-				else {
+				} else {
 
 				}
 
@@ -1674,15 +1578,11 @@ app.post('/evaledGame', function(req, res) {
 
 					evaledTable.pollNum = req.body.pollNum
 
-
 					db.collection("tables")
 						.save(evaledTable, function(err3, res) {
 
-
-
 						})
-				}
-				else {
+				} else {
 
 				}
 
@@ -1707,8 +1607,7 @@ app.get('/aiOn', function(req, res) {
 
 					db.collection("tables")
 						.save(ttable, function(err3, res) {})
-				}
-				else {
+				} else {
 
 				}
 
@@ -1793,8 +1692,7 @@ app.get('/chat', function(req, res) {
 		////////
 
 		res.json({})
-	}
-	else {
+	} else {
 
 		mongodb.connect(cn, function(err, db) {
 			db.collection("tables")
@@ -1819,14 +1717,13 @@ app.get('/chat', function(req, res) {
 	}
 });
 
+function startGame(w, b) {
 
-function startGame(w,b){
-	
 	var modType = ""
 
 	var wPNum = players[0].indexOf(w)
 	var bPNum = players[0].indexOf(b)
-		
+
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
 			.findOne({
@@ -1838,8 +1735,7 @@ function startGame(w,b){
 					createXData();
 
 					firstFreeTable = 1
-				}
-				else {
+				} else {
 					firstFreeTable = xData.firstFreeTable
 					modType = xData.modType
 					xData.firstFreeTable++
@@ -1848,7 +1744,6 @@ function startGame(w,b){
 					.save(xData, function(err, doc) {
 						db.close()
 					});
-
 
 				var initedTable = new Dbtable(firstFreeTable, w, b)
 
@@ -1884,7 +1779,7 @@ function startGame(w,b){
 									.save(userInDb, function(err3, res) {})
 							}
 							db3.close()
-								
+
 						});
 
 				});
@@ -1894,8 +1789,6 @@ function startGame(w,b){
 						.insert(initedTable, function(err, doc) {});
 					db4.close()
 				})
-
-				
 
 				players[2][wPNum] = true; //ask wplayer to start game
 				players[2][bPNum] = true; //ask bplayer to start game
@@ -1909,40 +1802,24 @@ function startGame(w,b){
 				players[5][wPNum] = b; //give them the opponents name
 				players[5][bPNum] = w;
 
-
-			
-
-				
-
 			});
 	});
 
-
-
-	
-	
-	
-	
 }
 
-
 // app.get('/startGame', function(req, res) {
-	
+
 // 		startGame(req.query.w,req.query.b)
-		
-		
-	
+
 // 		res.json({
 // 			"message": "ok"
 // 			// "_id": firstFreeTable,
 // 			// "modType": modType
 // 		});
 
-	
 // });
 
 app.post('/mod', function(req, res) {
-
 
 	mongodb.connect(cn, function(err, db) {
 		db.collection("tables")
@@ -1968,13 +1845,9 @@ app.post('/mod', function(req, res) {
 						})
 					});
 
-
-
-
 			})
 	})
 })
-
 
 app.get('/watchGame', function(req, res) {
 
@@ -2022,7 +1895,6 @@ app.get('/lobbyChat', function(req, res) {
 
 });
 
-
 app.get('/getModTypes', function(req, res) {
 	//////////// ////////    console.log(req)
 	mongodb.connect(cn, function(err, db) {
@@ -2068,7 +1940,6 @@ var captainPop = function() {
 	while (captainPolls.length > 0) {
 		var res = captainPolls.pop()
 
-
 		//clearDisconnectedLearners()
 
 		var texttosnd = []
@@ -2080,7 +1951,6 @@ var captainPop = function() {
 		// pendingThinkerPolls.forEach(function(task){
 		// 	waitingThinkers.push(task[0].query.id)			//the req from /longpolltask
 		// })
-
 
 		res.json({
 
@@ -2096,7 +1966,6 @@ var captainPop = function() {
 
 			"speedTests": speedTests
 
-
 		})
 
 	}
@@ -2106,7 +1975,6 @@ var captainPolls = []
 app.get('/captainPoll', function(req, res) {
 
 	if (req.query.pn != captainPollNum) {
-
 
 		clearDisconnectedLearners()
 
@@ -2123,7 +1991,6 @@ app.get('/captainPoll', function(req, res) {
 			waitingThinkers.push(task[0].query.id) //the req from /longpolltask
 		})
 
-
 		res.json({
 
 			"learners": texttosnd,
@@ -2138,22 +2005,16 @@ app.get('/captainPoll', function(req, res) {
 
 			"speedTests": speedTests
 
-
 		})
 
-	}
-	else {
+	} else {
 
 		captainPolls.push(res)
-
-
-
 
 	}
 	//var aa=[]
 
 })
-
 
 function checkIfPending(id) {
 	for (var i = 0; i < pendingThinkerPolls.length; i++) {
@@ -2166,20 +2027,19 @@ function checkIfPending(id) {
 
 function clearPending(id) {
 	//for (var i = 0; i < pendingThinkerPolls.length; i++) {
-		//if (pendingThinkerPolls[i][0].query.id == id) {
-			//client sent repeated poll, remove pending one
-			//pendingThinkerPolls.splice(i, 1)
-			sendTask(new Task('dontCall',{
-				meantToSendTo:id
-			},'dontCall'),id)
-			console.log('clearpending called')
+	//if (pendingThinkerPolls[i][0].query.id == id) {
+	//client sent repeated poll, remove pending one
+	//pendingThinkerPolls.splice(i, 1)
+	sendTask(new Task('dontCall', {
+		meantToSendTo: id
+	}, 'dontCall'), id)
+	console.log('clearpending called')
 		//}
-	//}
-	//return false
+		//}
+		//return false
 }
 
 function gotTask(taskForMe, id) {
-
 
 	//var forMe=false
 	var forAny = -1
@@ -2190,8 +2050,7 @@ function gotTask(taskForMe, id) {
 			taskForMe.push(taskQ.splice(i, 1))
 			return true
 
-		}
-		else {
+		} else {
 
 			if (taskQ[i][1] == 'fastest') {
 				forAny = i
@@ -2210,166 +2069,112 @@ function gotTask(taskForMe, id) {
 
 app.get('/longPollTasks', function(req, res) {
 	//////////// ////////    console.log(req)
-	var pollerIndex = doIKnow(req.query.id)
-	
-	if (-1 == pollerIndex) {
-		
-		knownThinkers.push({
-			id: req.query.id,
-			lastSeen: new Date()
-				.getTime(),
-			busy: false,
-			polling:true,
-			spd:~~(req.query.spd*100)/100
-		})
+	// var pollerIndex = doIKnow(req.query.id)
 
+	// if (-1 == pollerIndex) {
 
-	} else {
+	// 	knownThinkers.push({
+	// 		id: req.query.id,
+	// 		lastSeen: new Date()
+	// 			.getTime(),
+	// 		busy: false,
+	// 		polling: true,
+	// 		spd: ~~(req.query.spd * 100) / 100
+	// 	})
 
-		
-		
-		var oldSpeed=knownThinkers[pollerIndex].spd
-		var newSpeed=~~(req.query.spd*100000)/100000
+	// } else {
 
-		knownThinkers[pollerIndex].lastSeen = new Date()
-			.getTime()
-		knownThinkers[pollerIndex].busy = false
-		knownThinkers[pollerIndex].polling=true
-		knownThinkers[pollerIndex].spd=newSpeed
-		
-		if(knownThinkers[pollerIndex].stn!=req.query.stn) {							//new speedtest data, check pct
-		
-			knownThinkers[pollerIndex].pct=~~(newSpeed/oldSpeed*1000)/10
-			
-			knownThinkers[pollerIndex].stn=req.query.stn
-			
-		}
-		
+	// 	var oldSpeed = knownThinkers[pollerIndex].spd
+	// 	var newSpeed = ~~(req.query.spd * 100000) / 100000
 
-	}
+	// 	knownThinkers[pollerIndex].lastSeen = new Date()
+	// 		.getTime()
+	// 	knownThinkers[pollerIndex].busy = false
+	// 	knownThinkers[pollerIndex].polling = true
+	// 	knownThinkers[pollerIndex].spd = newSpeed
 
-	console.log('will check if pending for req.query.id',req.query.id)
+	// 	if (knownThinkers[pollerIndex].stn != req.query.stn) { //new speedtest data, check pct
 
-	
-	
-	if (checkIfPending(req.query.id)) {
+	// 		knownThinkers[pollerIndex].pct = ~~(newSpeed / oldSpeed * 1000) / 10
 
-		//sendTask(new Task('ping',0,'normal ping'),req.query.id)
+	// 		knownThinkers[pollerIndex].stn = req.query.stn
 
-		console.log('found logpoll, will call clearpending for',req.query.id)
+	// 	}
 
-		clearPending(req.query.id)
+	// }
 
-		
+	// console.log('will check if pending for req.query.id', req.query.id)
 
+	// if (checkIfPending(req.query.id)) {
 
-	}
+	// 	//sendTask(new Task('ping',0,'normal ping'),req.query.id)
 
-	
+	// 	console.log('found logpoll, will call clearpending for', req.query.id)
 
+	// 	clearPending(req.query.id)
 
-	knownThinkers[pollerIndex].lastSeen = new Date()
-		.getTime()
-	knownThinkers[pollerIndex].busy = false
+	// }
 
+	// knownThinkers[pollerIndex].lastSeen = new Date()
+	// 	.getTime()
+	// knownThinkers[pollerIndex].busy = false
 
+	// pendingThinkerPolls.push([req, res, new Date()
+	// 	.getTime()
+	// ])
 
-	pendingThinkerPolls.push([req, res, new Date()
-		.getTime()
-	])
+	// var taskForMe = []
 
-	var taskForMe = []
-	
-	if(false){
-		
-		// //thinker doesn'tknow it's speed
-		// //test it
-		
-		// sendTask(new Task('speedTest',{},'speedTest'),req.query.id)
-		
-		
-		
-		
-		
-	}else{
-		
-		if (gotTask(taskForMe, req.query.id)) { //ez beleirja a taskformebe
+	// if (false) {
 
-		//////// ////////    console.log('for me: '+taskForMe)
-		sendTask(taskForMe[0][0][0], taskForMe[0][0][1]) //why? !!!!!!!
+	// } else {
 
+	// 	if (gotTask(taskForMe, req.query.id)) { //ez beleirja a taskformebe
 
+	// 		//////// ////////    console.log('for me: '+taskForMe)
+	// 		sendTask(taskForMe[0][0][0], taskForMe[0][0][1]) //why? !!!!!!!
 
-	}
-	else {
+	// 	} else {
 
+	// 	}
 
+	// }
 
-	}
-		
-	}
-
-	
-
-	captainPop()
-
-
-
+	// captainPop()
 
 });
 
-
 app.get('/speedTestResult', function(req, res) {
 
-		if (speedTests[0].indexOf(req.query.thinker) == -1) {
-			speedTests[0].push(req.query.thinker)
-			speedTests[1].push((new Date())
-				.getTime())
+	if (speedTests[0].indexOf(req.query.thinker) == -1) {
+		speedTests[0].push(req.query.thinker)
+		speedTests[1].push((new Date())
+			.getTime())
 
+		speedTests[2].push(req.query.mtSpeed)
+		speedTests[3].push(req.query.wSpeed)
+		speedTests[4].push(req.query.faster)
 
-			speedTests[2].push(req.query.mtSpeed)
-			speedTests[3].push(req.query.wSpeed)
-			speedTests[4].push(req.query.faster)
-				// speedTests[5].push(req.query.mv)
-				// speedTests[6].push(req.query.p)
-				// speedTests[7].push(req.query.a)
+	} else {
 
+		var learnerIndex = speedTests[0].indexOf(req.query.thinker)
 
-		}
-		else {
+		speedTests[1][learnerIndex] = (new Date())
+			.getTime()
 
-			var learnerIndex = speedTests[0].indexOf(req.query.thinker)
+		speedTests[2][learnerIndex] = req.query.mtSpeed
+		speedTests[3][learnerIndex] = req.query.wSpeed
+		speedTests[4][learnerIndex] = req.query.faster
 
-			speedTests[1][learnerIndex] = (new Date())
-				.getTime()
+	}
 
-
-			speedTests[2][learnerIndex] = req.query.mtSpeed
-			speedTests[3][learnerIndex] = req.query.wSpeed
-			speedTests[4][learnerIndex] = req.query.faster
-				// speedTests[5][learnerIndex] = req.query.mv
-				// speedTests[6][learnerIndex] = req.query.p
-				// speedTests[7][learnerIndex] = req.query.a
-
-
-		}
-
-
-		res.json({
-			message: 'nincs'
-		})
-
-		captainPop()
-
-
-
+	res.json({
+		message: 'nincs'
 	})
-	//  ?thinker=' + $rootScope.sendID +
-	//                                                     '&ws=' + $rootScope.workersSpeed +
-	//                                                     '&mts=' + $rootScope.mainThreadSpeed +
-	//                                                     '&f=' + $rootScope.faster
-	//                                                 // +  '&r=' + Math.random()
-	//                                              )
+
+	captainPop()
+
+})
 
 app.get('/learnerPoll', function(req, res) {
 	//////////// ////////    console.log(req)
@@ -2379,7 +2184,6 @@ app.get('/learnerPoll', function(req, res) {
 		learners[1].push((new Date())
 			.getTime())
 
-
 		learners[2].push(req.query.t)
 		learners[3].push(req.query.w)
 		learners[4].push(req.query.mt)
@@ -2387,15 +2191,12 @@ app.get('/learnerPoll', function(req, res) {
 		learners[6].push(req.query.p)
 		learners[7].push(req.query.a)
 
-
-	}
-	else {
+	} else {
 
 		var learnerIndex = learners[0].indexOf(req.query.n)
 
 		learners[1][learnerIndex] = (new Date())
 			.getTime()
-
 
 		learners[2][learnerIndex] = req.query.t
 		learners[3][learnerIndex] = req.query.w
@@ -2404,16 +2205,13 @@ app.get('/learnerPoll', function(req, res) {
 		learners[6][learnerIndex] = req.query.p
 		learners[7][learnerIndex] = req.query.a
 
-
 	}
-
 
 	res.json({
 		message: 'nincs'
 	})
 
 	captainPop()
-
 
 });
 
@@ -2431,29 +2229,6 @@ function clearDisconnectedPlayers() {
 	}
 	//clearInactiveGames()
 }
-//var pingThinkersConst=10000	//10 sec, only pings them where inactive
-
-
-// function pingWaitingThinkers() {
-// 	for(var i = pendingThinkerPolls.length - 1; i >= 0; i--) {
-
-// 		if(pendingThinkerPolls[i][2] + pingThinkersConst < (new Date())
-// 			.getTime()) {
-
-// 			//pendingThinkerPolls
-// 			var pingThisPoll=pendingThinkerPolls.splice(i, 1)
-// 			var retThis=new Task('ping','ping','ping')
-
-// 			pingThisPoll[1].json(retThis)
-// 			//lobbyPollNum++
-
-// 		}
-
-// 	}
-// 	//clearInactiveGames()
-// }
-
-
 
 function clearOldSpeedTests() {
 	for (var i = speedTests.length - 1; i >= 0; i--) {
@@ -2465,18 +2240,12 @@ function clearOldSpeedTests() {
 			speedTests[2].splice(i, 1)
 			speedTests[3].splice(i, 1)
 			speedTests[4].splice(i, 1)
-				// speedTests[5].splice(i, 1)
-				// speedTests[6].splice(i, 1)
-				// speedTests[7].splice(i, 1)
-
-			//lobbyPollNum++
 
 		}
 
 	}
-	//clearInactiveGames()
-}
 
+}
 
 function clearDisconnectedLearners() {
 	for (var i = learners.length - 1; i >= 0; i--) {
@@ -2500,102 +2269,12 @@ function clearDisconnectedLearners() {
 	//clearInactiveGames()
 }
 
-// app.get('/getLobby', function(req, res) {
-// 	//////////// ////////    console.log(req)
-// 	clearDisconnectedPlayers()
-// 	if (players[0].indexOf(req.query.p) == -1) {
-// 		players[0].push(req.query.p)
-// 		players[1].push((new Date())
-// 			.getTime())
-
-// 		//players.sort(sortPlayers)
-// 		lobbyPollNum++
-
-// 	}
-// 	else {
-// 		players[1][players[0].indexOf(req.query.p)] = (new Date())
-// 			.getTime()
-// 	}
-
-// 	playerIndex = players[0].indexOf(req.query.p)
-// 	if (players[2][playerIndex]) {
-// 		//var askToOpen=true;
-// 		lobbyPollNum++
-// 		var openTableNum = players[4][playerIndex]
-// 		var openTableColor = players[3][playerIndex]
-// 		var opponentsName = players[5][playerIndex]
-
-// 		players[2][playerIndex] = false
-
-// 		res.json({
-// 			players: players[0],
-// 			games: [], //[activeGames],
-// 			lobbypollnum: lobbyPollNum,
-// 			lobbychat: [], //lobbyChat,
-// 			asktoopen: true,
-// 			opentablenum: openTableNum,
-// 			opentablecolor: openTableColor,
-// 			opponentsname: opponentsName
-// 		});
-
-// 	}
-// 	else {
-
-// 		mongodb.connect(cn, function(err, db) {
-// 			if (!(db == null)) {
-// 				db.collection("tables")
-// 					.findOne({
-// 						_id: "xData"
-// 					}, function(err2, xData) {
-// 						if (xData == null) {
-
-// 							createXData()
-
-// 							var resLChat = []
-// 							var resAGames = []
-
-// 						}
-// 						else {
-
-// 							var resLChat = xData.lobbyChat
-// 							var resAGames = xData.activeTables
-// 						}
-// 						db.close()
-// 							///////
-// 						res.json({
-// 							players: players[0],
-// 							games: resAGames,
-// 							lobbypollnum: lobbyPollNum,
-// 							lobbychat: resLChat,
-// 							asktoopen: false
-// 						});
-// 						///////
-
-// 					});
-// 			}
-// 		});
-
-// 	}
-
-// });
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// function existsInArray()
 var clear = ['']
 var stats = clear
 
 app.get('/refreshStats', function(req, res) {
-	////////// ////////    console.log(req)
-	// 	res.writeHead(200, {
 
-	//   'Content-Type': 'text/plain' 
-
-	//   });
 	res.send('started.')
-
 
 	if (stats == clear) {
 
@@ -2610,7 +2289,6 @@ app.get('/refreshStats', function(req, res) {
 
 		var asyncHack = 0
 
-
 		mongodb.connect(cn, function(err, db) {
 			if (!(db == null)) {
 				db.collection("tables")
@@ -2620,28 +2298,11 @@ app.get('/refreshStats', function(req, res) {
 						bName: "standard"
 
 					})
-					// .sort( {
-
-				// 	 _id: 1 
-
-				// } )
-				//.toArray(function(err28, statData) {
-				//if(statData != null) {
-				// statData.sort(function(a,b){
-				// 	if(a._id>b._id){
-				// 		return 1
-				// 	}else{
-				// 		return -1
-				// 	}
-				// })
-				//statData
-
 
 				.forEach(function(wModGame) {
 
 						//var kellEz=0
 						asyncHack++ //countRequests
-
 
 						tempArray.push(wModGame)
 
@@ -2658,9 +2319,8 @@ app.get('/refreshStats', function(req, res) {
 									var moveCountScore = 0
 									var finalDataScore = 0
 
-
 									var resText = ''
-									////////    console.log(wModGame.finalData, bModGame.finalData)
+										////////    console.log(wModGame.finalData, bModGame.finalData)
 									if (wModGame.finalData != undefined && bModGame.finalData != undefined) {
 										if (bModGame.finalData.black != undefined) resText = resText.concat(wModGame.finalData.white[0] + ' ' + bModGame.finalData.black[0])
 									}
@@ -2671,33 +2331,28 @@ app.get('/refreshStats', function(req, res) {
 										wonScore++
 										moveCountScore -= bModGame.pollNum
 										resText = resText.concat(' black won, ')
-									}
-									else {
+									} else {
 										if (bModGame.whiteWon) {
 											wonScore--
 											moveCountScore += bModGame.pollNum
 											resText = resText.concat(' black lost, ')
-										}
-										else {
+										} else {
 											resText = resText.concat(' black drew, ')
 										}
 									}
 
 									resText = resText.concat('t' + wModGame._id)
 
-
 									if (wModGame.whiteWon) {
 										wonScore++
 										moveCountScore -= bModGame.pollNum
 										resText = resText.concat(' white won.')
-									}
-									else {
+									} else {
 										if (wModGame.blackWon) {
 											wonScore--
 											moveCountScore += bModGame.pollNum
 											resText = resText.concat(' white lost.')
-										}
-										else {
+										} else {
 											resText = resText.concat(' white drew.')
 										}
 									}
@@ -2709,97 +2364,26 @@ app.get('/refreshStats', function(req, res) {
 										if (bModGame.finalData.black != undefined) finalDataScore = wModGame.finalData.white[0] + bModGame.finalData.black[0]
 									}
 
-
 									resArray.push(10 * finalDataScore, moveCountScore, 100 * wonScore, 1000 * wonScore + 10 * finalDataScore + moveCountScore, bModGame.bName, resText) //to be fixed
 										//////// ////////    console.log([wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9)])
 									stats.push(resArray.join(String.fromCharCode(9)))
 									captainPop()
-										//res.write(resArray.join(''));
-
-									// if(statIndex==statData.length()-1){
-									// 	res.end()
-									// }
-
-									// if(statIndex==statData.length-1){
-									// 	res.write('end')
-									// 	//res.end()
-									//}
 
 								}
-								else {
-									// if(statIndex==statData.length-1){
-									// 	res.write('end')
-									// 	//res.end()
-									//}
-
-
-
-									////////// ////////    console.log('nincs')
-								}
-								// if(statIndex==statData.length-1){
-								// 		res.write('end')
-								// 		//res.end()
-								// 		}
 								asyncHack-- //request answered
 								if (asyncHack == 0) {
-									//res.write('end')
-									//res.end()
+
 								}
 							})
 
-						//pairedArray.push(wModGame.wName)
-
 					}) //<--statData.forEach(function(wModGame){
-					//res.send(resArray.join(''));
 
-				//		}
-				//db.close()
-
-				//		}); //<--.toArray
-
-
-
-				///////
-
-				///////
 			}
 		});
 
-	}
-	else {
+	} else {
 		stats = clear
 		captainPop()
 	}
 
 });
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// io.on('connection', function(socket){
-//   ////////// ////////    console.log('IO: a user connected');
-// });
-
-// var server = app.listen(80, function() {
-
-// 	var host = server.address()
-// 		.address;
-// 	var port = server.address()
-// 		.port;
-
-// 	////////// ////////    console.log('app listening at http://%s:%s', host, port);
-
-// });
-
-// // //var server2 = app.listen(17889, function() {
-
-// 	var host = server.address()
-// 		.address;
-// 	var port = server.address()
-// 		.port;
-
-// 	////////// ////////    console.log('app listening at http://%s:%s', host, port);
-
-// });
