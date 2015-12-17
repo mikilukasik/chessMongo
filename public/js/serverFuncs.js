@@ -1,4 +1,4 @@
-var socketFuncs = {
+var onMessageFuncs = {
 	getLobby: function(connection, data) {
 
 		clearDisconnectedPlayers() //nemide!!!!!!!!!!!!

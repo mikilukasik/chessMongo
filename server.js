@@ -39,6 +39,9 @@ var socketSend = function(connection, command, data, message, cb) {
 		data: data,
 		message: message
 	}))
+	
+	cb()
+	
 }
 
 wsServer.on('request', function(request) {
@@ -53,7 +56,7 @@ wsServer.on('request', function(request) {
 
 			console.log('received:', received.message)
 
-			eval("(socketFuncs." + received.command + "(connection,received.data))") //this is in serverfuncs.js
+			eval("(onMessageFuncs." + received.command + "(connection,received.data))") //this is in serverfuncs.js
 
 		}
 	});
@@ -285,7 +288,9 @@ function sendToAll(task) {
 		knownThinkers[thinkerIndex].lastSeen = knownThinkers[thinkerIndex].sent
 		knownThinkers[thinkerIndex].polling = false
 
-		thisPop[1].json(task)
+		console.log('aaaaaa')
+		socketSend(thisPop[1],'task',task,'task',function(){console.log('somecb')})
+		//thisPop[1].json(task)
 
 	}
 
@@ -1514,7 +1519,7 @@ var captainPop = function() {
 
 			"taskQ": taskQ.length,
 
-			"stats": stats,
+			//"stats": stats,
 
 			"speedTests": speedTests
 
@@ -1553,7 +1558,7 @@ app.get('/captainPoll', function(req, res) {
 
 			"taskQ": taskQ.length,
 
-			"stats": stats,
+			//"stats": stats,
 
 			"speedTests": speedTests
 
@@ -1728,44 +1733,7 @@ app.get('/speedTestResult', function(req, res) {
 
 })
 
-app.get('/learnerPoll', function(req, res) {
-	//////////// ////////    console.log(req)
 
-	if (learners[0].indexOf(req.query.n) == -1) {
-		learners[0].push(req.query.n)
-		learners[1].push((new Date())
-			.getTime())
-
-		learners[2].push(req.query.t)
-		learners[3].push(req.query.w)
-		learners[4].push(req.query.mt)
-		learners[5].push(req.query.mv)
-		learners[6].push(req.query.p)
-		learners[7].push(req.query.a)
-
-	} else {
-
-		var learnerIndex = learners[0].indexOf(req.query.n)
-
-		learners[1][learnerIndex] = (new Date())
-			.getTime()
-
-		learners[2][learnerIndex] = req.query.t
-		learners[3][learnerIndex] = req.query.w
-		learners[4][learnerIndex] = req.query.mt
-		learners[5][learnerIndex] = req.query.mv
-		learners[6][learnerIndex] = req.query.p
-		learners[7][learnerIndex] = req.query.a
-
-	}
-
-	res.json({
-		message: 'nincs'
-	})
-
-	captainPop()
-
-});
 
 function clearDisconnectedPlayers() {
 	for (var i = players.length - 1; i >= 0; i--) {
@@ -1820,122 +1788,3 @@ function clearDisconnectedLearners() {
 	}
 	//clearInactiveGames()
 }
-
-var clear = ['']
-var stats = clear
-
-app.get('/refreshStats', function(req, res) {
-
-	res.send('started.')
-
-	if (stats == clear) {
-
-		stats = []
-
-		var resArray = []
-		resArray.push("wonScore", String.fromCharCode(9), "modVal", String.fromCharCode(9), "resText", String.fromCharCode(13))
-			//var resText=""
-
-		var tempArray = []
-			//var arrToString=[]
-
-		var asyncHack = 0
-
-		mongodb.connect(cn, function(err, db) {
-			if (!(db == null)) {
-				db.collection("tables")
-					.find({
-
-						gameIsOn: false,
-						bName: "standard"
-
-					})
-
-				.forEach(function(wModGame) {
-
-						//var kellEz=0
-						asyncHack++ //countRequests
-
-						tempArray.push(wModGame)
-
-						db.collection("tables")
-							.findOne({
-								gameIsOn: false,
-								//wName: "standard",
-								bName: wModGame.wName
-							}, function(errs, bModGame) {
-								if (bModGame) {
-									//van matching pair game
-									////////// ////////    console.log('van')
-									var wonScore = 0
-									var moveCountScore = 0
-									var finalDataScore = 0
-
-									var resText = ''
-										////////    console.log(wModGame.finalData, bModGame.finalData)
-									if (wModGame.finalData != undefined && bModGame.finalData != undefined) {
-										if (bModGame.finalData.black != undefined) resText = resText.concat(wModGame.finalData.white[0] + ' ' + bModGame.finalData.black[0])
-									}
-
-									resText = resText.concat('       ' + bModGame.modConst)
-									resText = resText.concat('  t' + bModGame._id)
-									if (bModGame.blackWon) {
-										wonScore++
-										moveCountScore -= bModGame.pollNum
-										resText = resText.concat(' black won, ')
-									} else {
-										if (bModGame.whiteWon) {
-											wonScore--
-											moveCountScore += bModGame.pollNum
-											resText = resText.concat(' black lost, ')
-										} else {
-											resText = resText.concat(' black drew, ')
-										}
-									}
-
-									resText = resText.concat('t' + wModGame._id)
-
-									if (wModGame.whiteWon) {
-										wonScore++
-										moveCountScore -= bModGame.pollNum
-										resText = resText.concat(' white won.')
-									} else {
-										if (wModGame.blackWon) {
-											wonScore--
-											moveCountScore += bModGame.pollNum
-											resText = resText.concat(' white lost.')
-										} else {
-											resText = resText.concat(' white drew.')
-										}
-									}
-
-									//var resArray=["wonScore",String.fromCharCode(9),"modVal",String.fromCharCode(9),"modType",String.fromCharCode(13)]
-									resArray = []
-
-									if (wModGame.finalData != undefined && bModGame.finalData != undefined) {
-										if (bModGame.finalData.black != undefined) finalDataScore = wModGame.finalData.white[0] + bModGame.finalData.black[0]
-									}
-
-									resArray.push(10 * finalDataScore, moveCountScore, 100 * wonScore, 1000 * wonScore + 10 * finalDataScore + moveCountScore, bModGame.bName, resText) //to be fixed
-										//////// ////////    console.log([wonScore, String.fromCharCode(9), bModGame.bName, String.fromCharCode(9)])
-									stats.push(resArray.join(String.fromCharCode(9)))
-									captainPop()
-
-								}
-								asyncHack-- //request answered
-								if (asyncHack == 0) {
-
-								}
-							})
-
-					}) //<--statData.forEach(function(wModGame){
-
-			}
-		});
-
-	} else {
-		stats = clear
-		captainPop()
-	}
-
-});
