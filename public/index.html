@@ -47,12 +47,15 @@
 				  socketSend=function(command,data,message,cb){
 					  
 					  var sendThis={
+						  socketID: socketID,
 						  command: command,
 						  data: data,
 						  message: message
 					  }
 					 
-					  
+					  if(!cb){
+						  var cb=function(){}
+					  }
 					  
 					  ws.send(JSON.stringify(sendThis),cb());
 				
@@ -61,7 +64,7 @@
 				  console.log("socket connected, let's say hello...")
 				  
 				  socketSend('Hello',{},'Hello',function(){
-					  console.log("socketSend 'hello' callback called")
+					  //console.log("socketSend 'hello' callback called")
 				  })	//init
 				  
                };
@@ -79,7 +82,7 @@
 					  
 					  	console.log('received connectionID',received.data.connectionID)
 					  
-					  	$rootScope.socketID=socketID
+					  	$rootScope.socketID=received.data.connectionID
 					  
 					  
 					  break;
@@ -1016,6 +1019,11 @@
 			
 			//let the server know what we're watching
 			
+			socketSend('showView',{
+				oldViewName:$rootScope.viewName,
+				newViewName:viewName
+			},'showView')
+			
 			
 			//socket should be connected already
 			
@@ -1194,7 +1202,7 @@
 		
 		
 		
-		<td nowrap width=100% align="right">{{greetUser}} {{socketID}}</td>
+		<td nowrap width=100% align="right">{{greetUser}}</td>
 		</tr>
 		</table>
 	</nav>

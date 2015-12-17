@@ -58,7 +58,7 @@ var messageTheServer = function(command, data, message,cb) {
 			
 			//try:
 			
-			console.log('trying: ',sendID)
+			//console.log('trying: ',sendID)
 			//longPollTasks(pollingTask,sendID,mySpeed)
 			
 			

@@ -8,21 +8,57 @@ var socketSend = function(connection, command, data, message, cb) {
 	cb()
 }
 
-var connectedSockets=[]
+var View=function(viewName){
+	this.viewName=viewName;
+	this.connections=[]
+}
+
+var findViewIndex=function(viewName){
+	var len=knownClients.views.length
+	for (var i=len-1;i>=0;i--){
+		if(knownClients.views[i].viewName==viewName) return i
+	}
+	knownClients.views.push(new View(viewName))
+	return len
+}
+
+var addViewer=function(viewName,connection){
+	
+	var viewIndex= findViewIndex(viewName)
+	
+	knownClients.views[viewIndex].connections.push(connection)
+	
+	
+	
+}
+
+var knownClients={
+	connectedSockets:[],
+	
+	views:[]
+	
+	
+	
+}
+
+
 
 var ConnectedSocket=function(id,connection){
 	this.id=id;
+	this.loginName=''
+	this.thinkerName=''
+	
 	this.connection=connection;
 	this.view=undefined
 }
 
 var connectionIndex=function(id,connection){
 	
-	var csLen=connectedSockets.length
+	var csLen=knownClients.connectedSockets.length
 	
 	for (var i=csLen-1;i>=0;i--){
 		
-		if(connectedSockets[i].id==id){
+		if(knownClients.connectedSockets[i].id==id){
 			return i
 		}
 		
@@ -30,11 +66,48 @@ var connectionIndex=function(id,connection){
 	
 	//not found, did not return
 		
-	connectedSockets.push(new ConnectedSocket(id,connection))
+	knownClients.connectedSockets.push(new ConnectedSocket(id,connection))
 	return csLen
 	
 }
 
+
+
+var captainPop = function() {
+	captainPollNum++
+	while (captainPolls.length > 0) {
+		var res = captainPolls.pop()
+
+		//clearDisconnectedLearners()
+
+		var texttosnd = []
+
+		for (var i = 0; i < learners[0].length; i++) {
+			texttosnd[i] = [learners[0][i], learners[2][i], learners[4][i], learners[6][i], learners[5][i], learners[7][i]]
+		}
+		// var waitingThinkers=[]
+		// pendingThinkerPolls.forEach(function(task){
+		// 	waitingThinkers.push(task[0].query.id)			//the req from /longpolltask
+		// })
+
+		res.json({
+
+			"learners": texttosnd,
+			// "thinkers":waitingThinkers,
+			"knownThinkers": knownThinkers,
+
+			"captainPollNum": captainPollNum,
+
+			"taskQ": taskQ.length,
+
+			//"stats": stats,
+
+			"speedTests": speedTests
+
+		})
+
+	}
+}
 
 var onMessageFuncs = {
 	getLobby: function(connection, data) {
@@ -211,20 +284,28 @@ var onMessageFuncs = {
 
 		}
 
-		captainPop()
+		//captainPop()
 
 	},
-	Hello: function(connection, data) {
+	Hello: function(connection, data, connectionID) {
 		
-		
-		var newConnectionId=Math.random()*Math.random()
-		
-		console.log('new connection, index:',connectionIndex(newConnectionId,connection),'id:',newConnectionId)// connectionIndex())
+		//var newConnectionIndex=connectionIndex(connectionID,connection)
 		
 		socketSend(connection, 'reHello', {
-			connectionID: newConnectionId
+			connectionID: connectionID
+			
 		}, 'reHello', function() {})
 	},
+	
+	showView:function(connection, data, id){
+		
+		addViewer(data.newViewName,connection)
+		
+		console.log('viewer added',knownClients.views)
+		
+	},
+	
+	
 	startGame: function(connection, data) {
 
 		var w = data.w

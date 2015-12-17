@@ -34,7 +34,15 @@ eval(fs.readFileSync('public/js/serverFuncs.js') + '');
 
 
 wsServer.on('request', function(request) {
+	
 	var connection = request.accept(null, request.origin);
+
+	var newConnectionID=Math.random()*Math.random()
+		
+	//var newConnectionIndex=connectionIndex(newConnectionID,connection)
+		
+	console.log('new connection, id:',newConnectionID)// connectionIndex())
+		
 
 	// This is the most important callback for us, we'll handle
 	// all messages from users here.
@@ -45,7 +53,7 @@ wsServer.on('request', function(request) {
 
 			console.log('received:', received.message)
 
-			eval("(onMessageFuncs." + received.command + "(connection,received.data))") //this is in serverfuncs.js
+			eval("(onMessageFuncs." + received.command + "(connection,received.data,newConnectionID))") //this is in serverfuncs.js
 
 		}
 	});
@@ -230,7 +238,7 @@ function sendTask(task, thinkerId) {
 
 		socketSend(thisRes[1], 'task', task, 'task', function() {})
 
-		captainPop()
+		//captainPop()
 
 	} else {
 		//thinker is not here or none is available
@@ -238,7 +246,7 @@ function sendTask(task, thinkerId) {
 		//queue task for thinker next available
 		if (!(thinkerId)) thinkerId = 'fastest'
 		taskQ.unshift([task, thinkerId])
-		captainPop()
+		//captainPop()
 
 	}
 
@@ -283,7 +291,7 @@ function sendToAll(task) {
 
 	}
 
-	captainPop()
+	//captainPop()
 }
 
 app.get('/refreshAllThinkers', function(req, res) {
@@ -731,33 +739,9 @@ function postThinkerMessage(thinker, message) {
 	thinker.lastSeen = new Date()
 		.getTime()
 
-	captainPop();
+	//captainPop();
 
 }
-app.post('/thinkerMessage', function(req, res) {
-
-	// res.send('something')
-
-	// var thinker = knownThinkers[doIKnow(req.body.thinker)]
-
-	// switch(req.body.command){
-
-	// 	case 'log':
-
-	// 		postThinkerMessage(thinker,req.body.message)
-
-	// 	break;
-
-	// 	case 'progress':
-
-	// 		updateSplitMoveProgress(req.body.data._id,req.body.thinker,req.body.data.progress)
-
-	// 	break;
-
-	// }
-	////    console.log(req)
-
-})
 
 app.post('/myPartIsDone', function(req, res) {
 
@@ -778,9 +762,6 @@ function findMIndex(tIndex, thinker) {
 }
 
 var busyTablesPop = function(tIndex) {
-
-	//    console.log('tindex',tIndex)
-	//    console.log('popped',busyTables.pendingPolls[tIndex])
 
 	busyTables.pollNums[tIndex]++
 
@@ -812,164 +793,6 @@ function markSplitMoveDone(tNum, thinker) {
 	busyTablesPop(tIndex)
 
 }
-
-// app.get('/move', function(req, res) {
-
-// 	var proper = true
-// 	if (req.query.s == 1) proper = false
-
-// 	mongodb.connect(cn, function(err, db) {
-// 		db.collection("tables")
-// 			.findOne({
-// 				_id: Number(req.query.t)
-// 			}, function(err2, tableInDb) {
-
-// 				var moveStr = String(req.query.m)
-
-// 				if (tableInDb == null) {
-// 					db.close()
-// 				} else {
-
-// 					tableInDb.wNext = !tableInDb.wNext
-
-// 					tableInDb.pollNum++
-
-// 						if (proper) {
-
-// 							tableInDb.moves.push(getPushString(tableInDb.table, moveStr)) //getPushString external, en passed when table is ok
-
-// 							tableInDb.table = moveIt(moveStr, tableInDb.table)
-
-// 							evalGame(tableInDb)
-
-// 							tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
-
-// 							tableInDb.allPastTables.push(createState(tableInDb.table))
-
-// 						} else {
-// 							tableInDb.moves.push("00" + moveStr + "00")
-// 						}
-
-// 						//if(proper) tableInDb.table = moveIt(moveStr, tableInDb.table)		//ezt is elhagyhatnank ha !proper, needs eval after!!
-
-// 					tableInDb.moved = new Date()
-// 						.getTime()
-
-// 					//if(proper)//kell az allpasttablehoz
-// 					//if(proper)tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
-
-// 					//remember this state for 3fold rule
-
-// 					//if(proper)tableInDb.allPastTables.push(createState(tableInDb.table))		//we'll have all moves anyway
-
-// 					popThem(req.query.t, tableInDb, 'moved', 'Player moved: ' + moveStr) //respond to pending longpolls
-
-// 					//}
-
-// 					db.collection("tables")
-// 						.save(tableInDb, function(err3, res) {})
-
-// 					db.close()
-
-// 				}
-
-// 			});
-
-// 		res.json({
-// 			message: "moved"
-// 		});
-
-// 	});
-// });
-
-// app.get('/aiMove', function(req, res) {
-
-// 	var options = {
-// 		host: 'localhost',
-// 		port: 16789,
-// 		path: '/aichoice?t=' + req.query.t
-// 	};
-
-// 	http.request(options, function(response) {
-// 			var resJsn = {};
-
-// 			//another chunk of data has been recieved, so append it to `resJsn`
-// 			response.on('data', function(chunk) {
-// 				resJsn = JSON.parse(chunk);
-// 			});
-
-// 			response.on('end', function() {
-// 				/////////
-
-// 				mongodb.connect(cn, function(err, db) {
-// 					db.collection("tables")
-// 						.findOne({
-// 							_id: Number(req.query.t)
-// 						}, function(err2, tableInDb) {
-// 							// ////////// ////////    console.log(resJsn)
-// 							// ////////// ////////    console.log('dssdfsdgs')
-// 							if (!(resJsn == null || tableInDb == null)) {
-// 								var moveStr = String(resJsn.aimove)
-// 								if (!(moveStr == "")) { //there's at least 1 move
-// 									var toPush = String(tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) + //color of whats moving
-// 										tableInDb.table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1] + //piece
-// 										moveStr + //the string
-// 										tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][0] + //color of whats hit
-// 										tableInDb.table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][1] //piece
-
-// 									// if(!(toPush==tableInDb.moves[tableInDb.moves.length-1])){
-// 									tableInDb.moves.push(toPush)
-// 									tableInDb.table = moveIt(moveStr, tableInDb.table)
-// 									tableInDb.wNext = !tableInDb.wNext
-// 									tableInDb.pollNum++
-// 										tableInDb.moved = new Date()
-// 										.getTime()
-// 									tableInDb.chat = resJsn.toconsole
-
-// 									tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
-
-// 									db.collection("tables")
-// 										.save(tableInDb, function(err3, res) {})
-// 								}
-// 							}
-// 							db.close()
-// 						});
-
-// 				});
-// 				/////////
-
-// 			});
-// 		})
-// 		.end();
-
-// 	res.json({});
-
-// });
-
-// app.get('/getTPollNum', function(req, res) {
-
-// 	mongodb.connect(cn, function(err, db) {
-// 		db.collection("tables")
-// 			.findOne({
-// 				_id: Number(req.query.t)
-// 			}, function(err2, tableInDb) {
-
-// 				if (!(tableInDb == null)) {
-// 					var passPollNum = tableInDb.pollNum
-// 				} else {
-// 					var passPollNum = 0
-// 				}
-
-// 				db.close()
-// 				res.json({
-// 					tablepollnum: passPollNum
-// 				});
-
-// 			});
-
-// 	});
-
-// });
 
 app.get('/busyThinkersPoll', function(req, res) {
 
@@ -1481,41 +1304,41 @@ app.get('/getMyRecentGames', function(req, res) {
 	});
 
 });
-var captainPop = function() {
-	captainPollNum++
-	while (captainPolls.length > 0) {
-		var res = captainPolls.pop()
+// var captainPop = function() {
+// 	captainPollNum++
+// 	while (captainPolls.length > 0) {
+// 		var res = captainPolls.pop()
 
-		//clearDisconnectedLearners()
+// 		//clearDisconnectedLearners()
 
-		var texttosnd = []
+// 		var texttosnd = []
 
-		for (var i = 0; i < learners[0].length; i++) {
-			texttosnd[i] = [learners[0][i], learners[2][i], learners[4][i], learners[6][i], learners[5][i], learners[7][i]]
-		}
-		// var waitingThinkers=[]
-		// pendingThinkerPolls.forEach(function(task){
-		// 	waitingThinkers.push(task[0].query.id)			//the req from /longpolltask
-		// })
+// 		for (var i = 0; i < learners[0].length; i++) {
+// 			texttosnd[i] = [learners[0][i], learners[2][i], learners[4][i], learners[6][i], learners[5][i], learners[7][i]]
+// 		}
+// 		// var waitingThinkers=[]
+// 		// pendingThinkerPolls.forEach(function(task){
+// 		// 	waitingThinkers.push(task[0].query.id)			//the req from /longpolltask
+// 		// })
 
-		res.json({
+// 		res.json({
 
-			"learners": texttosnd,
-			// "thinkers":waitingThinkers,
-			"knownThinkers": knownThinkers,
+// 			"learners": texttosnd,
+// 			// "thinkers":waitingThinkers,
+// 			"knownThinkers": knownThinkers,
 
-			"captainPollNum": captainPollNum,
+// 			"captainPollNum": captainPollNum,
 
-			"taskQ": taskQ.length,
+// 			"taskQ": taskQ.length,
 
-			//"stats": stats,
+// 			//"stats": stats,
 
-			"speedTests": speedTests
+// 			"speedTests": speedTests
 
-		})
+// 		})
 
-	}
-}
+// 	}
+// }
 var captainPollNum = 0
 var captainPolls = []
 app.get('/captainPoll', function(req, res) {
@@ -1525,7 +1348,7 @@ app.get('/captainPoll', function(req, res) {
 		clearDisconnectedLearners()
 
 		captainPollNum++
-		//captainPop()
+		////captainPop()
 
 		var texttosnd = []
 
@@ -1686,7 +1509,7 @@ app.get('/longPollTasks', function(req, res) {
 
 	// }
 
-	// captainPop()
+	// //captainPop()
 
 });
 
@@ -1718,7 +1541,7 @@ app.get('/speedTestResult', function(req, res) {
 		message: 'nincs'
 	})
 
-	captainPop()
+	//captainPop()
 
 })
 
