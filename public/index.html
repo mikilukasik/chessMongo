@@ -87,6 +87,12 @@
 					  
 					  break;
 					  
+					  case 'showOnConsole':
+					  
+					  	console.log('showOnConsole received from server',received.data)
+					  
+					  break;
+					  
 					  case 'task':
 					  
 					  
@@ -1019,9 +1025,29 @@
 			
 			//let the server know what we're watching
 			
+			var newViewParts=[]
+			var oldViewParts=[]
+			
+			switch(viewName){
+				case 'captain.html':
+				
+					newViewParts=[
+						'knownClients'
+					]
+					
+					,
+					
+					oldViewParts=[]			////////!!!!!!!!!!!!!!!!!!!!!!
+				
+				break;
+			}
+			
 			socketSend('showView',{
 				oldViewName:$rootScope.viewName,
-				newViewName:viewName
+				newViewName:viewName,
+				oldViewParts:oldViewParts,
+				newViewParts:newViewParts
+				
 			},'showView')
 			
 			

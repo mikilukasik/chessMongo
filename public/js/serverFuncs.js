@@ -1,4 +1,5 @@
-var socketSend = function(connection, command, data, message, cb) {
+var toConnection = function(connection, command, data, message, cb) {
+	console.log('data:',data)
 	connection.sendUTF(JSON.stringify({
 		command: command,
 		data: data,
@@ -10,6 +11,12 @@ var socketSend = function(connection, command, data, message, cb) {
 
 var View=function(viewName){
 	this.viewName=viewName;
+	this.viewParts=[]
+	// this.connections=[]
+}
+
+var ViewPart=function(viewPartName){
+	this.viewPartName=viewPartName;
 	this.connections=[]
 }
 
@@ -22,11 +29,22 @@ var findViewIndex=function(viewName){
 	return len
 }
 
-var addViewer=function(viewName,connection){
+var findViewPartIndex=function(viewIndex,viewPartName){
+	var len=knownClients.views[viewIndex].viewParts.length
+	for (var i=len-1;i>=0;i--){
+		if(knownClients.views[viewIndex].viewParts[i].viewPartName==viewPartName) return i
+	}
+	knownClients.views[viewIndex].viewParts.push(new ViewPart(viewPartName))
+	return len
+}
+
+var addViewer=function(viewName, viewPart, connection){
 	
 	var viewIndex= findViewIndex(viewName)
 	
-	knownClients.views[viewIndex].connections.push(connection)
+	var viewPartIndex=	findViewPartIndex(viewIndex,viewPart)
+	
+	knownClients.views[viewIndex].viewParts[viewPartIndex].connections.push(connection)
 	
 	
 	
@@ -73,41 +91,91 @@ var connectionIndex=function(id,connection){
 
 
 
-var captainPop = function() {
-	captainPollNum++
-	while (captainPolls.length > 0) {
-		var res = captainPolls.pop()
+var viewPop = function(viewName,viewPart,data) {
+	//captainPollNum++
+	var viewIndex= findViewIndex(viewName)
+	
+	var viewPartIndex= findViewPartIndex(viewIndex,viewPart)
+	
+	
+	for (var i=knownClients.views[viewIndex].viewParts[viewPartIndex].connections.length-1;i>=0;i--){
+		
+		var connection=knownClients.views[viewIndex].viewParts[viewPartIndex].connections[i]
+		
+		toConnection(connection,'updateView',{
+			
+			viewName:viewName,
+			viewPart: viewPart,
+			data: data
+			
 
-		//clearDisconnectedLearners()
-
-		var texttosnd = []
-
-		for (var i = 0; i < learners[0].length; i++) {
-			texttosnd[i] = [learners[0][i], learners[2][i], learners[4][i], learners[6][i], learners[5][i], learners[7][i]]
-		}
-		// var waitingThinkers=[]
-		// pendingThinkerPolls.forEach(function(task){
-		// 	waitingThinkers.push(task[0].query.id)			//the req from /longpolltask
-		// })
-
-		res.json({
-
-			"learners": texttosnd,
-			// "thinkers":waitingThinkers,
-			"knownThinkers": knownThinkers,
-
-			"captainPollNum": captainPollNum,
-
-			"taskQ": taskQ.length,
-
-			//"stats": stats,
-
-			"speedTests": speedTests
-
-		})
-
+		},'updateView',function(){})
+		
 	}
+	
+	
+	
+	
+		
+
+	
 }
+
+function noCircular(input){
+	
+	//http://stackoverflow.com/questions/11616630/json-stringify-avoid-typeerror-converting-circular-structure-to-json
+		
+	var cache = [];
+	var result = JSON.stringify(input, function(key, value) {
+		if (typeof value === 'object' && value !== null) {
+			if (cache.indexOf(value) !== -1) {
+				// Circular reference found, discard key
+				return;
+			}
+			// Store value in our collection
+			cache.push(value);
+		}
+		return value;
+	});
+	cache = null; // Enable garbage collection
+		
+	return result
+	
+}
+
+var simpleKnownClients=function(){
+	
+	var result=[]
+	
+	knownClients.views.forEach(function(view){
+		
+		var tempViewParts=[]
+		
+		view.viewParts.forEach(function(viewPart){
+			
+			tempViewParts.push({
+				viewPartName:viewPart.viewPartName,
+				viewers:viewPart.connections.length
+			})
+			
+			
+		})
+		
+		var tempResult={
+			viewName:view.viewName,
+			viewParts:tempViewParts
+			
+		}
+		
+		result.push(tempResult)
+		
+	})
+	
+	return result
+	
+	
+}
+
 
 var onMessageFuncs = {
 	getLobby: function(connection, data) {
@@ -136,7 +204,7 @@ var onMessageFuncs = {
 
 			players[2][playerIndex] = false
 
-			socketSend(connection, 'lobbyState', {
+			toConnection(connection, 'lobbyState', {
 				players: players[0],
 				games: [], //[activeGames],
 				lobbypollnum: lobbyPollNum,
@@ -169,7 +237,7 @@ var onMessageFuncs = {
 							}
 							db.close()
 
-							socketSend(connection, 'lobbyState', {
+							toConnection(connection, 'lobbyState', {
 								players: players[0],
 								games: resAGames,
 								lobbypollnum: lobbyPollNum,
@@ -289,9 +357,10 @@ var onMessageFuncs = {
 	},
 	Hello: function(connection, data, connectionID) {
 		
+		// viewPop('captain.html','knownClients',knownClients)
 		//var newConnectionIndex=connectionIndex(connectionID,connection)
 		
-		socketSend(connection, 'reHello', {
+		toConnection(connection, 'reHello', {
 			connectionID: connectionID
 			
 		}, 'reHello', function() {})
@@ -299,14 +368,29 @@ var onMessageFuncs = {
 	
 	showView:function(connection, data, id){
 		
-		addViewer(data.newViewName,connection)
+		var sendThis=simpleKnownClients(knownClients)
 		
-		console.log('viewer added',knownClients.views)
+		viewPop('captain.html','knownClients',sendThis)//nownClients.views.length)
+		
+		
+		addViewer(data.newViewName,data.newViewParts,connection)
+		//should clear leavers!!!!!!!!!!!!!!!!!!!!!!!
+		//var log='viewer added'+knownClients.views+','+data.newViewName+','+data.newViewParts
+		//console.log(log)
+		
+		
+		//tempMessage
+		toConnection(connection,'showOnConsole',sendThis,'showOnConsole',function(){})
 		
 	},
 	
 	
 	startGame: function(connection, data) {
+		
+		// viewPop('captain.html','knownClients',knownClients.views.length)			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		//console.log('viewpop works.............................................')
+
+
 
 		var w = data.w
 		var b = data.b

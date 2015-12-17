@@ -236,7 +236,7 @@ function sendTask(task, thinkerId) {
 
 		//thisRes[1].json(task)
 
-		socketSend(thisRes[1], 'task', task, 'task', function() {})
+		toConnection(thisRes[1], 'task', task, 'task', function() {})
 
 		//captainPop()
 
@@ -286,7 +286,7 @@ function sendToAll(task) {
 		knownThinkers[thinkerIndex].polling = false
 
 		console.log('aaaaaa')
-		socketSend(thisPop[1],'task',task,'task',function(){console.log('somecb')})
+		toConnection(thisPop[1],'task',task,'task',function(){console.log('somecb')})
 		//thisPop[1].json(task)
 
 	}
