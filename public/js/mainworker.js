@@ -181,7 +181,7 @@ function speedTest(){
 		
 		var aiTable = new MoveTask(stTable)
 		
-		aiTable.movesToSend=[aiTable.movesToSend[0],aiTable.movesToSend[1],aiTable.movesToSend[2],aiTable.movesToSend[3],aiTable.movesToSend[4]]
+		aiTable.movesToSend=[aiTable.movesToSend[0],aiTable.movesToSend[1],aiTable.movesToSend[2]]
 		
 		splitMovesToProcess = aiTable.movesToSend
 		
