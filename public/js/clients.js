@@ -45,24 +45,24 @@ var Clients=function(){
 	
 	
 	
-	// var connectionIndex=function(id,connection){
+	var findConnectionIndex=function(connection){
 		
-	// 	var csLen=knownClients.connectedSockets.length
+		var csLen=knownClients.connectedSockets.length
 		
-	// 	for (var i=csLen-1;i>=0;i--){
+		for (var i=csLen-1;i>=0;i--){
 			
-	// 		if(knownClients.connectedSockets[i].id==id){
-	// 			return i
-	// 		}
+			if(knownClients.connectedSockets[i].connectionID==connection.connectionID){
+				return i
+			}
 			
-	// 	}
+		}
 		
-	// 	//not found, did not return
+		//not found, did not return
 			
-	// 	knownClients.connectedSockets.push(new ConnectedSocket(id,connection))
-	// 	return csLen
+		knownClients.connectedSockets.push(connection)
+		return csLen
 		
-	// }
+	}
 	
 		
 		
@@ -158,9 +158,13 @@ var Clients=function(){
 		return len
 	}
 	
+	
+	
 	this.save=function(viewName, subViewName, viewParts, connection){
 		
+		//connection must have .connectionID already
 		
+		connection = knownClients.connectedSockets[findConnectionIndex(connection)]		//will push it if has to, will return the stored one with local vars in it
 		
 		var viewIndex= findViewIndex(viewName)
 		

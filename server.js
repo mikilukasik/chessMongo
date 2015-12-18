@@ -548,7 +548,7 @@ function makeSplitMove(dbTable) {
 	clearSentMoves(sentTNum)
 
 	var index
-
+//
 	//for(var i=busyTables.splitMoves[])
 
 	while (aiTable.movesToSend.length > 0) {
@@ -572,7 +572,7 @@ function makeSplitMove(dbTable) {
 
 		index = registerSentMoves(sentTNum, sentTo, sentCount)
 
-	}
+	}//
 
 	busyTablesPop(index)
 

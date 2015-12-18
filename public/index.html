@@ -286,7 +286,7 @@
 				  
                   console.log("socketConnection is closed, retry in 2s.."); 
 				  
-				  setTimeout(function(){
+				  window.setTimeout(function(){
 					  if(!socketOn)sockets($rootScope, $scope)
 				  },2000)
                };
@@ -1169,7 +1169,7 @@
 				
 				case 'board.html':
 				
-					if(subViewName=='default'&&$rootScope.dbTable._id)subViewName=$rootScope.dbTable._id
+					//if(subViewName=='default'&&$rootScope.dbTable._id)subViewName=$rootScope.dbTable._id
 				
 					newViewParts=[
 						'table',
