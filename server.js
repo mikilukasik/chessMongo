@@ -32,6 +32,8 @@ eval(fs.readFileSync('public/js/engine.js') + '');
 eval(fs.readFileSync('public/js/serverFuncs.js') + '');
 
 
+eval(fs.readFileSync('public/js/clients.js') + '');
+var clients=new Clients()
 
 wsServer.on('request', function(request) {
 	
@@ -236,7 +238,7 @@ function sendTask(task, thinkerId) {
 
 		//thisRes[1].json(task)
 
-		toConnection(thisRes[1], 'task', task, 'task', function() {})
+		clients.send(thisRes[1], 'task', task, 'task', function() {})
 
 		//captainPop()
 
@@ -286,7 +288,7 @@ function sendToAll(task) {
 		knownThinkers[thinkerIndex].polling = false
 
 		console.log('aaaaaa')
-		toConnection(thisPop[1],'task',task,'task',function(){console.log('somecb')})
+		clients.send(thisPop[1],'task',task,'task',function(){console.log('somecb')})
 		//thisPop[1].json(task)
 
 	}
