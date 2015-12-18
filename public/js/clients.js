@@ -45,7 +45,7 @@ var Clients=function(){
 	
 	
 	
-	var findConnectionIndex=function(connection){
+	var findConnectionIndex=function(connection,dontPush){
 		
 		var csLen=knownClients.connectedSockets.length
 		
@@ -58,9 +58,13 @@ var Clients=function(){
 		}
 		
 		//not found, did not return
-			
-		knownClients.connectedSockets.push(connection)
-		return csLen
+		if(dontPush){
+			//return 
+		}else{
+			knownClients.connectedSockets.push(connection)
+			return csLen
+		}	
+		
 		
 	}
 	
@@ -163,7 +167,7 @@ var Clients=function(){
 	this.save=function(viewName, subViewName, viewParts, connection){
 		
 		//connection must have .connectionID already
-		
+		//console.log(knownClients)
 		connection = knownClients.connectedSockets[findConnectionIndex(connection)]		//will push it if has to, will return the stored one with local vars in it
 		
 		var viewIndex= findViewIndex(viewName)
@@ -181,16 +185,39 @@ var Clients=function(){
 		}
 		
 		
-		
-		if(connection.viewing)removeViewer(connection.viewing.viewName,connection.viewing.subViewName,connection.viewing.viewParts,connection)
-		
-		
-		connection.viewing={
-			viewName:viewName,
-			subViewName:subViewName,
-			viewParts:viewParts
+		if(connection){
+			if(connection.viewing)removeViewer(connection.viewing.viewName,connection.viewing.subViewName,connection.viewing.viewParts,connection)
 			
+			
+			connection.viewing={
+				viewName:viewName,
+				subViewName:subViewName,
+				viewParts:viewParts
+				
+			}
 		}
+			
+	}
+	
+	
+	
+	
+	this.destroy=function(connection){
+		
+		//connection must have .connectionID already
+			
+		var connectionIndex=findConnectionIndex(connection,true)	//true for destroying, no push
+		
+		connection = knownClients.connectedSockets[connectionIndex]		//will push it if has to, will return the stored one with local vars in it
+		
+		if(connection){
+			if(connection.viewing)removeViewer(connection.viewing.viewName,connection.viewing.subViewName,connection.viewing.viewParts,connection)
+		
+			knownClients.connectedSockets.splice(connectionIndex,1)
+			
+			//connection.destroy()
+		}
+		
 		
 		
 	}

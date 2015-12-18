@@ -43,6 +43,8 @@ wsServer.on('request', function(request) {
 		
 	//var newConnectionIndex=connectionIndex(newConnectionID,connection)
 		
+	connection.connectionID=newConnectionID
+		
 	console.log('new connection, id:',newConnectionID)// connectionIndex())
 		
 
@@ -62,6 +64,14 @@ wsServer.on('request', function(request) {
 
 	connection.on('close', function(connection) {
 		// close user connection
+		var sendConnection={}//.splice()
+		console.log(newConnectionID)
+		sendConnection.connectionID=newConnectionID
+		console.log('connection closed ----------------------------------------------------------')
+		console.log(sendConnection.connectionID)
+		clients.destroy(sendConnection)
+		
+		clients.publishView('captain.html','default','knownClients',clients.simpleKnownClients())
 
 	});
 });
