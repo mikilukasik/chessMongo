@@ -335,12 +335,17 @@ var onMessageFuncs = {
 								wPlayer:true
 								
 							},'openGame',function(){})
+							
+							
 
 							
 							
 						});
 
 					var initedTable = new Dbtable(firstFreeTable, w, b)
+					
+					//initedTable.table= addMovesToTable(initedTable.table,true)
+					
 
 					mongodb.connect(cn, function(err, db2) {
 						db2.collection("users")
@@ -384,7 +389,10 @@ var onMessageFuncs = {
 							.insert(initedTable, function(err, doc) {
 								
 								
-								
+								viewPop('board.html',firstFreeTable,'table',{
+									table:initedTable.table,
+									wNext:true
+								})
 								
 								
 								
@@ -615,8 +623,30 @@ var onMessageFuncs = {
 		var sendThis=simpleKnownClients(knownClients)
 		
 		viewPop('captain.html','default','knownClients',sendThis)//nownClients.views.length)
+		if(data.newViewName=='board.html'){
+			//send the dbtable 
+		console.log('...........................................................')
+			
+			mongodb.connect(cn, function(err, db) {
+				db.collection("tables")
+					.findOne({
+						_id: Number(data.newSubViewName)
+					}, function(err2, tableInDb) {
+						toConnection(connection,'updateDbTable',tableInDb,'updateDbTable',function(){},function(){})
+						db.close()
+						
+					});
 		
-	
+			});
+					
+					
+			
+			
+			
+			//toConnection(connection,'updateDbTable',)
+			
+		}
+		
 	},
 	
 	
@@ -734,7 +764,14 @@ var onMessageFuncs = {
 				.save(onTable, function(err3, res) {
 					//table moved and saved, let's check what to do
 					db.close()
-					popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
+					
+					
+					
+					viewPop('board.html',onTable._id,'table',{
+						table:onTable.table,
+						wNext:onTable.wNext
+						})
+					//popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
 
 					switch (command) {
 

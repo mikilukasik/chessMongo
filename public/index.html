@@ -15,8 +15,12 @@
 	
 
 	<script>
+	
+		/////////////////////	temp stuff for debugging	//////////////////////////////////
 		
-	//thinker stuff
+		var tempConsole
+		
+		
 		/////////////////////	websocket stuff		//////////////////////////////////
 		
 		var socketOn=false
@@ -37,9 +41,19 @@
 						//we're on the right view
 						
 						
-								eval("($rootScope."+data.viewPart+"=data.data)") // $rootScope.
-						
-						
+									
+								if(data.viewPart=='table') {
+									
+									eval("($rootScope."+data.viewPart+"=data.data."+data.viewPart+")") // $rootScope.
+								
+									$rootScope.dbTable.wNext=data.data.wNext
+									$rootScope.tempMoveString=''	
+									$scope.showTable()
+								}else{
+									
+									eval("($rootScope."+data.viewPart+"=data.data)") // $rootScope.
+							
+								}
 					}else{
 					//view must have changed, let the server know maybe...
 					
@@ -178,7 +192,15 @@
 						
 						
 						
-						break;			  
+						break;		
+						
+						case 'updateDbTable':
+						
+							$rootScope.dbTable=received.data
+							tempConsole=received.data
+						
+						
+						break;	  
 					  
 					  
 					  case 'lobbyState':
@@ -410,6 +432,8 @@
 	appModule.controller("ApplicationController", ApplicationController);
 
 	function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
+		
+		if($rootScope.dbTable==undefined)$rootScope.dbTable={}
 		
 		//$rootScope.activeViewParts=activeViewParts
 		
@@ -734,64 +758,64 @@
 
 			////console.log('polling table ' + $rootScope._id)
 
-			$http.get('/longPollTable?t=' + $rootScope._id + '&pn=' + $rootScope.pollNum + '&r=' + Math.random())
-				.then(function(responseData) {
-					var response=responseData.data
+			// $http.get('/longPollTable?t=' + $rootScope._id + '&pn=' + $rootScope.pollNum + '&r=' + Math.random())
+			// 	.then(function(responseData) {
+			// 		var response=responseData.data
 					
-					//console.log('Data received: '+response.command+' - '+response.message)
+			// 		//console.log('Data received: '+response.command+' - '+response.message)
 					
-					if(response._id==$rootScope._id){		//break poll on changed _id
-						//$rootScope.table = response.table
+			// 		if(response._id==$rootScope._id){		//break poll on changed _id
+			// 			//$rootScope.dbTable.table = response.table
 						
-						if($rootScope.table!=undefined){
-							//highlight changed squares
-							//var changed=false
-							for(var i=0;i<8;i++){
-								for (var j=0;j<8;j++){
-									var theSame=($rootScope.table[i][j][0]!=response.table[i][j][0])
-									$rootScope.table[i][j]=response.table[i][j]
-									if(theSame){
-										$rootScope.table[i][j][15]=true
-										//changed=true
-									}
-								}
-							}
+			// 			if($rootScope.dbTable.table!=undefined){
+			// 				//highlight changed squares
+			// 				//var changed=false
+			// 				for(var i=0;i<8;i++){
+			// 					for (var j=0;j<8;j++){
+			// 						var theSame=($rootScope.dbTable.table[i][j][0]!=response.table[i][j][0])
+			// 						$rootScope.dbTable.table[i][j]=response.table[i][j]
+			// 						if(theSame){
+			// 							$rootScope.dbTable.table[i][j][15]=true
+			// 							//changed=true
+			// 						}
+			// 					}
+			// 				}
 							
-						}else{
-						// 	//
-							//just copy the table
-							$rootScope.table = response.table
-						}
-						$rootScope.tableId=response._id
-						$rootScope.wNext = response.wNext
-						//$scope.allMoves = response.allMoves				//these are my possible moves now
-						$rootScope.chatLines = response.chat
-						$rootScope.pollNum=response.pollNum
-						$rootScope.moves=response.moves	
-						$rootScope.allPastTables=response.allPastTables	
-						//$rootScope.moves=response.moves										
+			// 			}else{
+			// 			// 	//
+			// 				//just copy the table
+			// 				$rootScope.dbTable.table = response.table
+			// 			}
+			// 			$rootScope.dbTable.tableId=response._id
+			// 			$rootScope.dbTable.wNext = response.wNext
+			// 			//$scope.allMoves = response.allMoves				//these are my possible moves now
+			// 			$rootScope.chatLines = response.chat
+			// 			$rootScope.pollNum=response.pollNum
+			// 			$rootScope.dbTable.moves=response.moves	
+			// 			$rootScope.dbTable.allPastTables=response.allPastTables	
+			// 			//$rootScope.dbTable.moves=response.moves										
 	
-						// $scope.refreshRecentGames()
-						$scope.showTable()
-						console.log('showing table, viewName',$rootScope.viewName,'subView',$rootScope.subViewName)
-						if($rootScope.viewName == "board.html") {			
-							console.log('Repeating longpoll on t'+ response._id)			
-							$rootScope.longPollTable()	//loop till change view	(or table)
+			// 			// $scope.refreshRecentGames()
+			// 			$scope.showTable()
+			// 			console.log('showing table, viewName',$rootScope.viewName,'subView',$rootScope.subViewName)
+			// 			if($rootScope.viewName == "board.html") {			
+			// 				console.log('Repeating longpoll on t'+ response._id)			
+			// 				$rootScope.longPollTable()	//loop till change view	(or table)
 							
 							
-							$rootScope.updateSizes()
+			// 				$rootScope.updateSizes()
 							
 							
-						}else{
-							//console.log('board not displayed (viewName: '+ $rootScope.viewName+'), discontinuing longpoll for table ' + response._id)
+			// 			}else{
+			// 				//console.log('board not displayed (viewName: '+ $rootScope.viewName+'), discontinuing longpoll for table ' + response._id)
 							
-						}
-					}else{
-						//console.log('_id changed, discontinuing longpoll for table ' + response._id)
-					}
-				},function(data){
-					$interval($rootScope.longPollTable(),2000)	//retry
-				})
+			// 			}
+			// 		}else{
+			// 			//console.log('_id changed, discontinuing longpoll for table ' + response._id)
+			// 		}
+			// 	},function(data){
+			// 		$interval($rootScope.longPollTable(),2000)	//retry
+			// 	})
 
 		}
 		
@@ -871,12 +895,12 @@
 				dbTable.bName=$rootScope.bName
 				
 				
-				dbTable.table=$rootScope.table
-				dbTable.wNext=$rootScope.wNext
+				dbTable.table=$rootScope.dbTable.table
+				dbTable.wNext=$rootScope.dbTable.wNext
 																						//refaktor!!!!!!
-				dbTable.moves= $rootScope.moves
+				dbTable.moves= $rootScope.dbTable.moves
 				dbTable.pollNum= $rootScope.pollNum
-				dbTable.allPastTables= $rootScope.allPastTables
+				dbTable.allPastTables= $rootScope.dbTable.allPastTables
 				// dbTable.wName= $rootScope.wName
 				// dbTable.bName= $rootScope.bName
 				
@@ -885,7 +909,7 @@
 				
 				
 				$scope.clearHighlights($rootScope.lastState.table)
-				
+				console.log('dbTable',dbTable)
 				dbTable=moveInTable(moveStr,dbTable,false)
 				
 		
@@ -908,20 +932,20 @@
 				}
 			
 			
-			dbTable._id=$rootScope.tableId
+			dbTable._id=$rootScope.dbTable.tableId
 			dbTable.desiredDepth=$rootScope.depth
 			
 			socketSend('moved',dbTable,'moved',function(){
 				
-				$rootScope.table=dbTable.table
-				$rootScope.wNext=dbTable.wNext
-				$rootScope.moves=dbTable.moves
+				$rootScope.dbTable.table=dbTable.table
+				$rootScope.dbTable.wNext=dbTable.wNext
+				$rootScope.dbTable.moves=dbTable.moves
 			})
 			
 			// $http.post('/moved',dbTable,function(req,res){
-			// 	$rootScope.table=dbTable.table
-			// 	$rootScope.wNext=dbTable.wNext
-			// 	$rootScope.moves=dbTable.moves
+			// 	$rootScope.dbTable.table=dbTable.table
+			// 	$rootScope.dbTable.wNext=dbTable.wNext
+			// 	$rootScope.dbTable.moves=dbTable.moves
 				
 			// })
 			
@@ -937,11 +961,11 @@
 		
 		$rootScope.takeItBack= function(){
 			socketSend('moved',dbTable,'moved',function(){
-				$rootScope.table=$rootScope.lastState.table
-				$rootScope.wNext=$rootScope.lastState.wNext
-				$rootScope.moves=$rootScope.lastState.moves
+				$rootScope.dbTable.table=$rootScope.lastState.table
+				$rootScope.dbTable.wNext=$rootScope.lastState.wNext
+				$rootScope.dbTable.moves=$rootScope.lastState.moves
 				
-				//$scope.clearHighlights($rootScope.table)
+				//$scope.clearHighlights($rootScope.dbTable.table)
 				
 			})
 		}
@@ -976,7 +1000,7 @@
 				for(var i=0; i<8; i++) {
 					tt[i]=[]
 					for(var j=0; j<8; j++) {
-						tt[i][j]=$rootScope.table[j][7-i]
+						tt[i][j]=$rootScope.dbTable.table[j][7-i]
 						if((i+j)&1)tt[i][j][7]=true
 					}
 				}
@@ -986,7 +1010,7 @@
 				for(var i=0; i<8; i++) {
 					tt[i]=[]
 					for(var j=0; j<8; j++) {
-						tt[i][j]=$rootScope.table[7-j][i]
+						tt[i][j]=$rootScope.dbTable.table[7-j][i]
 						if((i+j)&1)tt[i][j][7]=true
 					}
 				}
@@ -1002,6 +1026,8 @@
 			
 			
 			$rootScope.sTable=tt
+			
+			consoleTable=$rootScope.dbTable.table
 			
 			//$scope.$apply()
 	
@@ -1091,7 +1117,7 @@
 			if(!(subViewName)){
 				
 				if(viewName==$rootScope.viewName&&$rootScope.subViewName){
-					// subViewName=$rootScope.subViewName
+					subViewName=$rootScope.subViewName
 				}else{
 					subViewName='default'
 				}
@@ -1185,48 +1211,50 @@
 
 		$scope.clickedIt = function(clickedField, clickedString) {
 
+			
 			var x = clickedField[0]
 			var y = clickedField[1]
 			var clickedColor = false
 			
-		//console.log('testing',$rootScope.table[x][y][5] , $rootScope.tempMoveString.length ,$rootScope.wNext , $rootScope.wPlayer)	
-			if((!($rootScope.table[x][y][5] == []) || $rootScope.tempMoveString.length > 0) && $rootScope.wNext == $rootScope.wPlayer) {
+		//console.log('testing',$rootScope.dbTable.table[x][y][5] , $rootScope.tempMoveString.length ,$rootScope.dbTable.wNext , $rootScope.wPlayer)	
+			if((!($rootScope.dbTable.table[x][y][5] == []) || $rootScope.tempMoveString.length > 0) && $rootScope.dbTable.wNext == $rootScope.wPlayer) {
+				console.log('clickeit called',clickedField, clickedString)
 
 				if(clickedString == $rootScope.tempMoveString) {
-					$rootScope.table[x][y][8] = false
-					$scope.clearHighlights($rootScope.table)
+					$rootScope.dbTable.table[x][y][8] = false
+					$scope.clearHighlights($rootScope.dbTable.table)
 					$scope.showTable()
 					$rootScope.tempMoveString = ""
 				} else {
 					
-					if($rootScope.table[x][y][0] > 0 && $rootScope.tempMoveString == "") {
+					if($rootScope.dbTable.table[x][y][0] > 0 && $rootScope.tempMoveString == "") {
 						
 						for(var i=0;i<8;i++){
 								for (var j=0;j<8;j++){
-									$rootScope.table[i][j][15]=false
+									$rootScope.dbTable.table[i][j][15]=false
 									
 								}}	
 						
 						
-						$rootScope.table[x][y][5].forEach($scope.highLightThem) //5odik elem ahova lephet
+						$rootScope.dbTable.table[x][y][5].forEach($scope.highLightThem) //5odik elem ahova lephet
 						$scope.showTable()
 							
 					};
-					if($rootScope.table[x][y][0] > 0 || 0 < $rootScope.tempMoveString.length) {
+					if($rootScope.dbTable.table[x][y][0] > 0 || 0 < $rootScope.tempMoveString.length) {
 
 						$rootScope.tempMoveString += clickedString
 
 						if($rootScope.tempMoveString.length < 3) {
-							$rootScope.table[x][y][8] = true;
+							$rootScope.dbTable.table[x][y][8] = true;
 						}
 
 					}
 					if($rootScope.tempMoveString.length > 3) {
 
-						if($rootScope.table[x][y][9] == true) {
+						if($rootScope.dbTable.table[x][y][9] == true) {
 
 							$scope.makeAMove($rootScope.tempMoveString)
-							$rootScope.wNext = !$rootScope.wNext
+							$rootScope.dbTable.wNext = !$rootScope.dbTable.wNext
 
 							$rootScope.tempMoveString = ""
 
@@ -1241,7 +1269,7 @@
 			}
 		}
 		$scope.highLightThem = function(arrayOfCoords) {
-			$rootScope.table[arrayOfCoords[0]][arrayOfCoords[1]][9] = true;
+			$rootScope.dbTable.table[arrayOfCoords[0]][arrayOfCoords[1]][9] = true;
 		}
 
 		$scope.clearHighlights = function(onTable) {
