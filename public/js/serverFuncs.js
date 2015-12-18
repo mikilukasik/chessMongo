@@ -51,7 +51,8 @@ var onMessageFuncs = {
 
 					var initedTable = new Dbtable(firstFreeTable, w, b)
 					
-					//initedTable._id=firstFreeTable
+					initedTable._id=firstFreeTable
+					
 					//initedTable.table= addMovesToTable(initedTable.table,true)
 					
 

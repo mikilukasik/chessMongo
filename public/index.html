@@ -933,7 +933,7 @@
 				}
 			
 			
-			dbTable._id=$rootScope.dbTable.tableId
+			dbTable._id=$rootScope.dbTable._id
 			dbTable.desiredDepth=$rootScope.depth
 			
 			socketSend('moved',dbTable,'moved',function(){
@@ -1361,7 +1361,7 @@
 			
 		</td>
 		
-		<td nowrap>v: {{viewName}} sv: {{subViewName}}</td>
+		<td nowrap>{{dbTable._id}}</td>
 		
 		<td nowrap width=100% align="right">{{greetUser}}</td>
 		</tr>
