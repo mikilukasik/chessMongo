@@ -51,6 +51,7 @@ var onMessageFuncs = {
 
 					var initedTable = new Dbtable(firstFreeTable, w, b)
 					
+					//initedTable._id=firstFreeTable
 					//initedTable.table= addMovesToTable(initedTable.table,true)
 					
 
@@ -92,6 +93,7 @@ var onMessageFuncs = {
 					});
 
 					mongodb.connect(cn, function(err, db4) {
+						console.log(initedTable._id	)
 						db4.collection("tables")
 							.insert(initedTable, function(err, doc) {
 								

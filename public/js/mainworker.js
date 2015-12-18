@@ -707,7 +707,8 @@ onmessage = function(event) {
 									
 									
 								}else{
-									sendMessage(' this should never happen ')
+									console.log(' this should never happen, problem with tablenum in mainworker ')
+									
 									
 								}
 							}

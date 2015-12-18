@@ -146,10 +146,11 @@
 					  break;
 					  
 					  case 'openGame':
-					  
+					  	
+						  $rootScope.dbTable={}
 					  	$rootScope.showView('board.html',received.data._id)
 						  
-						$rootScope._id=received.data._id	//temp hack!!!!!!!!!!!!!!!!!!!!!!!
+						$rootScope.dbTable._id=received.data._id	//temp hack!!!!!!!!!!!!!!!!!!!!!!!
 						$rootScope.wPlayer = received.data.wPlayer
 						
 						$rootScope.tempMoveString=""
@@ -213,8 +214,8 @@
 							if(received.data.asktoopen) {
 								////console.log('opening')
 
-								$rootScope._id = received.data.opentablenum
-								$rootScope.showView('board.html',$rootScope._id)
+								$rootScope.dbTable._id = received.data.opentablenum
+								$rootScope.showView('board.html',$rootScope.dbTable._id)
 								$rootScope.wPlayer = received.data.opentablecolor
 								$scope.opponentsName = received.data.opponentsname
 								$rootScope.pollNum = 0
@@ -248,7 +249,7 @@
 							// if($scope.openNow) {
 							// 	$rootScope.tempMoveString=""
 							// 	$rootScope.viewName = "board.html"
-							// 	$rootScope.subViewName = $rootScope._id
+							// 	$rootScope.subViewName = $rootScope.dbTable._id
 								
 							// 	$scope.openNow = false
 
@@ -756,15 +757,15 @@
 		
 		$rootScope.longPollTable = function() {
 
-			////console.log('polling table ' + $rootScope._id)
+			////console.log('polling table ' + $rootScope.dbTable._id)
 
-			// $http.get('/longPollTable?t=' + $rootScope._id + '&pn=' + $rootScope.pollNum + '&r=' + Math.random())
+			// $http.get('/longPollTable?t=' + $rootScope.dbTable._id + '&pn=' + $rootScope.pollNum + '&r=' + Math.random())
 			// 	.then(function(responseData) {
 			// 		var response=responseData.data
 					
 			// 		//console.log('Data received: '+response.command+' - '+response.message)
 					
-			// 		if(response._id==$rootScope._id){		//break poll on changed _id
+			// 		if(response._id==$rootScope.dbTable._id){		//break poll on changed _id
 			// 			//$rootScope.dbTable.table = response.table
 						
 			// 			if($rootScope.dbTable.table!=undefined){
@@ -821,9 +822,9 @@
 		
 		$scope.setTableNum = function(num){
 			
-			var oldNum = $rootScope._id
+			var oldNum = $rootScope.dbTable._id
 			
-			$rootScope._id=num
+			$rootScope.dbTable._id=num
 			$rootScope.pollNum=-1
 			
 			$http.get('/forcePopTable?t='+oldNum+'&p='+$rootScope.loginName+'&m=Went to t'+num)
@@ -886,11 +887,11 @@
 			//////////////////////
 							///replace this!!!
 							
-				var dbTable={}//new Dbtable($rootScope._id, $rootScope.wName, $rootScope.bName)
+				var dbTable={}//new Dbtable($rootScope.dbTable._id, $rootScope.wName, $rootScope.bName)
 				
 				//hello Marzenka
-				
-				dbTable._id=$rootScope._id
+				console.log($rootScope.dbTable._id)
+				dbTable._id=$rootScope.dbTable._id
 				dbTable.wName=$rootScope.wName
 				dbTable.bName=$rootScope.bName
 				
@@ -951,7 +952,7 @@
 			
 		}	else{
 		
-			$http.get('/move?m=' + whatMove + '&t=' + $rootScope._id)
+			$http.get('/move?m=' + whatMove + '&t=' + $rootScope.dbTable._id)
 			
 			
 		}
@@ -972,7 +973,7 @@
 
 		$scope.refreshTable = function() {
 
-			$http.get('/getTPollNum?t=' + $rootScope._id)
+			$http.get('/getTPollNum?t=' + $rootScope.dbTable._id)
 				.success(function(response) {
 					////console.log('getting board pollnum: '+response.tablepollnum+" vs "+$rootScope.pollNum)
 					if(!(response.tablepollnum == $rootScope.pollNum)) {
@@ -994,6 +995,7 @@
 		
 			var tt=[]
 			
+			if(!($rootScope.dbTable.table))$rootScope.dbTable=new Dbtable(0,0,0)
 			//console.log()
 			if($rootScope.wPlayer){				
 				
@@ -1062,7 +1064,7 @@
 		$scope.newView = function(viewName) {
 			if(viewName == 'board.html') {
 				//$scope.refreshRecentGames()
-				//console.log('View changed to board, calling longpoll on t'+$rootScope._id)
+				//console.log('View changed to board, calling longpoll on t'+$rootScope.dbTable._id)
 				$rootScope.longPollTable()		//start longpoll
 				
 				//console.log(poller)
@@ -1070,7 +1072,7 @@
 				poller.postMessage({
 					reqCommand: 'startBusyThinkersPoll',
 					reqData: {
-						_id: $rootScope._id
+						_id: $rootScope.dbTable._id
 					}
 				})
 				
@@ -1086,7 +1088,7 @@
 					
 					//forcepop
 					
-					$http.get('/forcePopTable?t='+$rootScope._id+'&p='+$rootScope.loginName+'&m=user logged out')
+					$http.get('/forcePopTable?t='+$rootScope.dbTable._id+'&p='+$rootScope.loginName+'&m=user logged out')
 					
 					
 					focusOnLogin()
@@ -1095,7 +1097,7 @@
 				
 				
 				if(viewName == 'lobby.html'){
-					$http.get('/forcePopTable?t='+$rootScope._id+'&p='+$rootScope.loginName+'&m=user went to lobby')
+					$http.get('/forcePopTable?t='+$rootScope.dbTable._id+'&p='+$rootScope.loginName+'&m=user went to lobby')
 				}
 				
 				
@@ -1167,7 +1169,7 @@
 				
 				case 'board.html':
 				
-					if(subViewName=='default'&&$rootScope._id)subViewName=$rootScope._id
+					if(subViewName=='default'&&$rootScope.dbTable._id)subViewName=$rootScope.dbTable._id
 				
 					newViewParts=[
 						'table',
@@ -1283,7 +1285,7 @@
 		}
 		$scope.sendChat= function (){
 			
-			$http.get('/chat?t='+$rootScope._id+'&c='+$rootScope.loginName+": "+$scope.sendThis)
+			$http.get('/chat?t='+$rootScope.dbTable._id+'&c='+$rootScope.loginName+": "+$scope.sendThis)
 				
 					
 					
