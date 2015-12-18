@@ -94,15 +94,14 @@ var onMessageFuncs = {
 					});
 
 					mongodb.connect(cn, function(err, db4) {
-						console.log(initedTable._id	)
+						//console.log(initedTable._id	)
 						db4.collection("tables")
 							.insert(initedTable, function(err, doc) {
 								
 								
-								clients.publishView('board.html',firstFreeTable,'table',{
-									table:initedTable.table,
-									wNext:true
-								})
+								clients.publishView('board.html',firstFreeTable,'dbTable.table',initedTable.table)
+								
+								clients.publishView('board.html',firstFreeTable,'dbTable.wNext',initedTable.wNext)
 								
 								
 								
@@ -266,13 +265,13 @@ var onMessageFuncs = {
 
 		}
 
-		console.log('will check if pending for data.id', data.id)
+		//console.log('will check if pending for data.id', data.id)
 
 		if (checkIfPending(data.id)) {
 
 			//sendTask(new Task('ping',0,'normal ping'),data.id)
 
-			console.log('found longpoll, will call clearpending for', data.id)
+			//console.log('found longpoll, will call clearpending for', data.id)
 
 			clearPending(data.id)
 
@@ -288,7 +287,7 @@ var onMessageFuncs = {
 			.getTime()
 		])
 
-		console.log('lpt pushed.')
+		//console.log('lpt pushed.')
 
 		var taskForMe = []
 
@@ -298,7 +297,7 @@ var onMessageFuncs = {
 
 			if (gotTask(taskForMe, data.id)) { //ez beleirja a taskformebe
 
-				//////// ////////    console.log('for me: '+taskForMe)
+				//////// ////////    //console.log('for me: '+taskForMe)
 				sendTask(taskForMe[0][0][0], taskForMe[0][0][1]) //why? !!!!!!!
 
 			} else {
@@ -335,7 +334,7 @@ var onMessageFuncs = {
 		clients.publishView('captain.html','default','knownClients',sendThis)//nownClients.views.length)
 		if(data.newViewName=='board.html'){
 			//send the dbtable 
-		console.log('...........................................................')
+		//console.log('...........................................................')
 			
 			mongodb.connect(cn, function(err, db) {
 				db.collection("tables")
@@ -363,7 +362,7 @@ var onMessageFuncs = {
 	startGame: function(connection, data) {
 		
 		// clients.publishView('captain.html','knownClients',knownClients.views.length)			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		//console.log('clients.publishView works.............................................')
+		////console.log('clients.publishView works.............................................')
 
 
 
@@ -477,17 +476,17 @@ var onMessageFuncs = {
 					
 					
 					
-					clients.publishView('board.html',onTable._id,'table',{
-						table:onTable.table,
-						wNext:onTable.wNext
-						})
+						clients.publishView('board.html',onTable._id,'dbTable.table',onTable.table)
+								
+						clients.publishView('board.html',onTable._id,'dbTable.wNext',onTable.wNext)
+							
 					//popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
 
 					switch (command) {
 
 						case 'makeAiMove':
 
-							//////    console.log('calling makeaimove..')
+							//////    //console.log('calling makeaimove..')
 							makeAiMove(onTable)
 
 							break;
@@ -539,7 +538,18 @@ var onMessageFuncs = {
 			mongodb.connect(cn, function(err, db) {
 				db.collection("tables")
 					.save(splitTaskQ[index], function(err3, res) {
-						popThem(splitTaskQ[index]._id, splitTaskQ[index], 'splitMove', 'splitMove')
+						
+						console.log('publishing-------------------------------->>> ',splitTaskQ[index]._id)
+						//clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.table',splitTaskQ[index].table)
+						
+						clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.table',splitTaskQ[index].table)
+								
+						clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.wNext',splitTaskQ[index].wNext)
+							
+						
+						
+						
+						//popThem(splitTaskQ[index]._id, splitTaskQ[index], 'splitMove', 'splitMove')
 
 						db.close()
 

@@ -23,6 +23,8 @@
 		
 		/////////////////////	websocket stuff		//////////////////////////////////
 		
+		var showTable=function(){}
+		
 		var socketOn=false
 		
 		var socketID=undefined
@@ -42,21 +44,23 @@
 						
 						
 									
-								if(data.viewPart=='table') {
+								// if(data.viewPart=='table') {
 									
-									eval("($rootScope."+data.viewPart+"=data.data."+data.viewPart+")") // $rootScope.
+								// 	eval("($rootScope."+data.viewPart+"=data.data."+data.viewPart+")") // $rootScope.
 								
-									$rootScope.dbTable.wNext=data.data.wNext
-									$rootScope.tempMoveString=''	
-									$scope.showTable()
-								}else{
-									
+								// 	$rootScope.dbTable.wNext=data.data.wNext
+								// 	$rootScope.tempMoveString=''	
+								// 	$scope.showTable()
+								// }else{
+									console.log('updating ---- ',data.viewPart)
 									eval("($rootScope."+data.viewPart+"=data.data)") // $rootScope.
-							
-								}
+									
+									if(data.viewPart=='dbTable.table')showTable()
+									
+								//}
 					}else{
 					//view must have changed, let the server know maybe...
-					
+					// console.log('sorryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
 					
 					
 				}
@@ -1034,6 +1038,8 @@
 			//$scope.$apply()
 	
 		}
+		
+		showTable=$scope.showTable
 
 		$scope.register = function(user) {
 
@@ -1172,10 +1178,11 @@
 					//if(subViewName=='default'&&$rootScope.dbTable._id)subViewName=$rootScope.dbTable._id
 				
 					newViewParts=[
-						'table',
-						'chat',
-						'moves',
+						'dbTable.table',
+						'dbTable.chat',
+						'dbTable.moves',
 						'busyThinkers',
+						'dbTable.wNext'
 						
 					]
 								
