@@ -5,6 +5,8 @@ var Clients=function(){
 	var knownClients={
 		
 		connectedSockets:[],
+		//socketValues:[],
+		
 		views:[]
 		
 	}
@@ -13,14 +15,14 @@ var Clients=function(){
 	/////   sub classes
 	
 		
-	var ConnectedSocket=function(id,connection){
-		this.id=id;
-		this.loginName=''
-		this.thinkerName=''
+	// var ConnectedSocket=function(id,connection){
+	// 	this.id=id;
+	// 	this.loginName=''
+	// 	this.thinkerName=''
 		
-		this.connection=connection;
-		this.view=undefined
-	}
+	// 	this.connection=connection;
+	// 	this.view=undefined
+	// }
 
 	
 		
@@ -196,6 +198,44 @@ var Clients=function(){
 				
 			}
 		}
+			
+	}
+	
+	this.update=function(connection,property,value){
+		
+		//connection must have .connectionID already
+		//console.log(knownClients)
+		connection = knownClients.connectedSockets[findConnectionIndex(connection)]		//will push it if has to, will return the stored one with local vars in it
+		
+		eval("(connection."+property+"=value)")
+		
+		console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',knownClients.connectedSockets[findConnectionIndex(connection)],'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
+		// var viewIndex= findViewIndex(viewName)
+		
+		// var subViewIndex= findSubViewIndex(viewIndex,subViewName)
+		
+		// for(var i=viewParts.length-1;i>=0;i--){
+			
+		// 	var viewPart= viewParts[i]
+			
+		// 	var viewPartIndex=	findViewPartIndex(viewIndex,subViewIndex,viewPart)
+		
+		// 	knownClients.views[viewIndex].subViews[subViewIndex].viewParts[viewPartIndex].connections.push(connection)
+			
+		// }
+		
+		
+		// if(connection){
+		// 	if(connection.viewing)removeViewer(connection.viewing.viewName,connection.viewing.subViewName,connection.viewing.viewParts,connection)
+			
+			
+		// 	connection.viewing={
+		// 		viewName:viewName,
+		// 		subViewName:subViewName,
+		// 		viewParts:viewParts
+				
+		// 	}
+		// }
 			
 	}
 	

@@ -206,7 +206,7 @@ var onMessageFuncs = {
 		}
 
 	},
-	thinkerMessage: function(connection, data) {
+	thinkerMessage: function(connection, data, connectionID) {
 
 		//res.send('something')
 
@@ -225,6 +225,21 @@ var onMessageFuncs = {
 				updateSplitMoveProgress(data.data._id, data.thinker, data.data.progress)
 
 				break;
+				
+				
+			case 'speedTestResult':
+			
+				
+				connection.connectionID=connectionID
+				//connection.speed=data.speed
+				
+				clients.update(connection,'speed',data.data.speed)
+				
+			
+			
+			
+			
+			break;
 
 		}
 
@@ -319,6 +334,8 @@ var onMessageFuncs = {
 			
 		}, 'reHello', function() {})
 	},
+	
+	
 	
 	showView:function(connection, data, id){
 		

@@ -693,6 +693,10 @@ onmessage = function(event) {
 									
 									mySpeed=1000/speedTestTook
 									
+									messageTheServer('speedTestResult',{
+										speed:mySpeed
+									},'speedTestResult: '+mySpeed,function(){})
+									
 									// simplePost('/speedTest', {
 										
 									// 	speed:mySpeed
