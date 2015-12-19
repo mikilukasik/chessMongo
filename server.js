@@ -442,9 +442,9 @@ function ping(msecs) {
 
 }
 
-setInterval(function() {
-	ping(10000)
-}, 1000)
+// setInterval(function() {
+// 	ping(10000)
+// }, 1000)
 
 // setInterval( function(){	
 // 	evalToClient()
