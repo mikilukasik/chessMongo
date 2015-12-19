@@ -584,7 +584,9 @@ function makeSplitMove(dbTable) {
 
 	}//
 
-	busyTablesPop(index)
+	//busyTablesPop(index)
+	clients.publishView('board.html',sentTNum,'busyThinkers',busyTables.splitMoves[index])
+
 
 }
 
@@ -696,7 +698,8 @@ var updateSplitMoveProgress = function(sentTNum, sentTo, progress) {
 
 		}
 
-		busyTablesPop(index)
+		//busyTablesPop(index)
+		clients.publishView('board.html',sentTNum,'busyThinkers',busyTables.splitMoves[index])
 
 	}
 
@@ -802,7 +805,9 @@ function markSplitMoveDone(tNum, thinker) {
 
 	busyTables.splitMoves[tIndex][mIndex].progress = 100
 
-	busyTablesPop(tIndex)
+	//busyTablesPop(tIndex)
+	clients.publishView('board.html',tNum,'busyThinkers',busyTables.splitMoves[tIndex])
+
 
 }
 
