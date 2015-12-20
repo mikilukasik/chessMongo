@@ -189,10 +189,10 @@ var Clients=function(){
 		
 		
 		if(connection){
-			if(connection.viewing)removeViewer(connection.viewing.viewName,connection.viewing.subViewName,connection.viewing.viewParts,connection)
+			if(connection.addedData.viewing)removeViewer(connection.addedData.viewing.viewName,connection.addedData.viewing.subViewName,connection.addedData.viewing.viewParts,connection)
 			
 			
-			connection.viewing={
+			connection.addedData.viewing={
 				viewName:viewName,
 				subViewName:subViewName,
 				viewParts:viewParts
@@ -208,9 +208,10 @@ var Clients=function(){
 		//console.log(knownClients)
 		connection = knownClients.connectedSockets[findConnectionIndex(connection)]		//will push it if has to, will return the stored one with local vars in it
 		
-		eval("(connection."+property+"=value)")
+		eval("(connection.addedData."+property+"=value)")
 		
 		console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',knownClients.connectedSockets[findConnectionIndex(connection)],'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
+		
 		// var viewIndex= findViewIndex(viewName)
 		
 		// var subViewIndex= findSubViewIndex(viewIndex,subViewName)
@@ -227,10 +228,10 @@ var Clients=function(){
 		
 		
 		// if(connection){
-		// 	if(connection.viewing)removeViewer(connection.viewing.viewName,connection.viewing.subViewName,connection.viewing.viewParts,connection)
+		// 	if(connection.addedData.viewing)removeViewer(connection.addedData.viewing.viewName,connection.addedData.viewing.subViewName,connection.addedData.viewing.viewParts,connection)
 			
 			
-		// 	connection.viewing={
+		// 	connection.addedData.viewing={
 		// 		viewName:viewName,
 		// 		subViewName:subViewName,
 		// 		viewParts:viewParts
@@ -252,7 +253,7 @@ var Clients=function(){
 		connection = knownClients.connectedSockets[connectionIndex]		//will push it if has to, will return the stored one with local vars in it
 		
 		if(connection){
-			if(connection.viewing)removeViewer(connection.viewing.viewName,connection.viewing.subViewName,connection.viewing.viewParts,connection)
+			if(connection.addedData.viewing)removeViewer(connection.addedData.viewing.viewName,connection.addedData.viewing.subViewName,connection.addedData.viewing.viewParts,connection)
 		
 			knownClients.connectedSockets.splice(connectionIndex,1)
 			

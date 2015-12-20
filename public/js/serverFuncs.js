@@ -227,13 +227,13 @@ var onMessageFuncs = {
 				break;
 				
 				
-			case 'speedTestResult':
+			case 'updateVal':
 			
 				
 				//connection.addedData.connectionID=connectionID
 				//connection.speed=data.speed
 				
-				clients.update(connection,'speed',data.data.speed)
+				clients.update(connection,data.data.name,data.data.value)
 				
 			
 			

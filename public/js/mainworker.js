@@ -62,7 +62,18 @@ var messageTheServer = function(command, data, message,cb) {
 			//longPollTasks(pollingTask,sendID,mySpeed)
 			
 			
-	}
+}
+
+function saveVal(name,value){
+										
+	messageTheServer('updateVal',{
+		
+		name:name,
+		value:value
+		
+	},'updateVal: '+mySpeed,function(){})
+	
+}
 
 var sendMessage = function(message) {
 
@@ -693,9 +704,9 @@ onmessage = function(event) {
 									
 									mySpeed=1000/speedTestTook
 									
-									messageTheServer('speedTestResult',{
-										speed:mySpeed
-									},'speedTestResult: '+mySpeed,function(){})
+									
+									
+									saveVal('initSpeed',mySpeed)
 									
 									// simplePost('/speedTest', {
 										
