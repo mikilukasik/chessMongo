@@ -265,6 +265,56 @@ var Clients=function(){
 
 		
 	this.simpleKnownClients=function(){
+		console.log('oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo	')
+		var result=[]
+		
+		knownClients.views.forEach(function(view){
+			
+			var tempSubViews=[]
+			
+			view.subViews.forEach(function(subView){
+				
+				var tempViewParts=[]
+				
+				subView.viewParts.forEach(function(viewPart){
+					
+					tempViewParts.push({
+						viewPartName:viewPart.viewPartName,
+						viewers:viewPart.connections.length
+					})
+					
+					
+				})
+					
+				tempSubViews.push({
+					subViewName:subView.subViewName,
+					viewParts:tempViewParts
+				
+				})
+				
+				
+				
+			})
+			
+			
+			
+			//var tempResult=
+			
+			result.push({
+					viewName:view.viewName,
+					subViews:tempSubViews
+				
+				})
+			
+		})
+		
+		return result
+		
+		
+	}
+
+
+this.simpleActiveViews=function(){
 		
 		var result=[]
 		

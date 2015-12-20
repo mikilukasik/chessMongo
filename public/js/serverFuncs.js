@@ -348,9 +348,13 @@ var onMessageFuncs = {
 		// if(data.oldViewName==data.newViewName&&data.newSubViewName==data.oldSubViewName){}else{
 		// 	removeViewer(data.oldViewName,data.oldSubViewName,data.oldViewParts,connection)
 		// }		///this should be inside the class!!!!!!!!!!!!!!!
-		var sendThis=clients.simpleKnownClients()
+		var sendThis=clients.simpleActiveViews()
+		var sendThis2=clients.simpleKnownClients()
 		
-		clients.publishView('captain.html','default','knownClients',sendThis)//nownClients.views.length)
+		clients.publishView('captain.html','default','activeViews',sendThis)//nownClients.views.length)
+		clients.publishView('captain.html','default','knownClients',sendThis2)//nownClients.views.length)
+		
+		
 		if(data.newViewName=='board.html'){
 			//send the dbtable 
 		//console.log('...........................................................')

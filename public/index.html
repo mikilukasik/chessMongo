@@ -34,7 +34,7 @@
 		
 			function updateView($rootScope,$scope,data){
 				
-				console.log('updateview called',data)
+				//console.log('updateview called',data)
 				
 				if($rootScope.viewName==data.viewName){
 					
@@ -127,7 +127,7 @@
                { 
                   var received = eval("(" + evt.data + ")");
                   
-				  console.log("socketMessage received:",received.message,received.data);
+				 // console.log("socketMessage received:",received.message,received.data);
 				  
 				  switch(received.command){
 					  
@@ -1178,7 +1178,8 @@
 				case 'captain.html':
 				
 					newViewParts=[
-						'knownClients'
+						'knownClients',
+						'activeViews'
 					]
 					
 					//

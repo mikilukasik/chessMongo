@@ -79,7 +79,7 @@ wsServer.on('request', function(request) {
 		//console.log(sendconnection.addedData.connectionID)
 		clients.destroy(connection)
 		
-		clients.publishView('captain.html','default','knownClients',clients.simpleKnownClients())
+		clients.publishView('captain.html','default','activeViews',clients.simpleKnownClients())
 
 	});
 });
