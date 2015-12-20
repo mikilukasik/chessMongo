@@ -150,9 +150,18 @@
 					  break;
 					  
 					  case 'openGame':
+					  
+						if($rootScope.wPlayer){
+							$scope.drTable("/wtable.html")
+						}else{
+							$scope.drTable("/btable.html")
+						}
+					  
+					  	$rootScope.rememberTablenum=received.data._id
 					  	
-						  $rootScope.dbTable={}
-					  	$rootScope.showView('board.html',received.data._id)
+						$rootScope.dbTable={}
+					  	
+						$rootScope.showView('board.html',received.data._id)
 						  
 						$rootScope.dbTable._id=received.data._id	//temp hack!!!!!!!!!!!!!!!!!!!!!!!
 						$rootScope.wPlayer = received.data.wPlayer
@@ -999,7 +1008,7 @@
 		
 			var tt=[]
 			
-			if(!($rootScope.dbTable.table))$rootScope.dbTable=new Dbtable(0,0,0)
+			if(!($rootScope.dbTable))$rootScope.dbTable={table:[]}
 			//console.log()
 			if($rootScope.wPlayer){				
 				
@@ -1069,9 +1078,12 @@
 
 		$scope.newView = function(viewName) {
 			if(viewName == 'board.html') {
+				
+				
+				
 				//$scope.refreshRecentGames()
 				//console.log('View changed to board, calling longpoll on t'+$rootScope.dbTable._id)
-				$rootScope.longPollTable()		//start longpoll
+				//$rootScope.longPollTable()		//start longpoll
 				
 				//console.log(poller)
 				
@@ -1087,14 +1099,14 @@
 				if($rootScope.wPlayer){
 						$scope.drTable("/wtable.html")
 				}else{
-					$scope.drTable("/btable.html")
+						$scope.drTable("/btable.html")
 				}
 			}else{
 				if(viewName == 'login.html'){
 					
 					//forcepop
 					
-					$http.get('/forcePopTable?t='+$rootScope.dbTable._id+'&p='+$rootScope.loginName+'&m=user logged out')
+					//$http.get('/forcePopTable?t='+$rootScope.dbTable._id+'&p='+$rootScope.loginName+'&m=user logged out')
 					
 					
 					focusOnLogin()
@@ -1103,7 +1115,7 @@
 				
 				
 				if(viewName == 'lobby.html'){
-					$http.get('/forcePopTable?t='+$rootScope.dbTable._id+'&p='+$rootScope.loginName+'&m=user went to lobby')
+					//$http.get('/forcePopTable?t='+$rootScope.dbTable._id+'&p='+$rootScope.loginName+'&m=user went to lobby')
 				}
 				
 				
@@ -1347,7 +1359,7 @@
 				<td nowrap align="left">
 		<a href="#" ng-click="showView('login.html')" ng-class="{ selected: viewName == 'login.html' }">{{inOrOut}}</a>
 		<a href="#" ng-click="showView('lobby.html')" ng-class="{ selected: viewName == 'lobby.html' }">Lobby</a>
-		<a href="#" ng-click="showView('board.html')" ng-class="{ selected: viewName == 'board.html' }">Chessboard</a>
+		<a href="#" ng-click="showView('board.html',rememberTablenum)" ng-class="{ selected: viewName == 'board.html' }">Chessboard</a>
 		<a href="#" ng-click="showView('captain.html')" ng-class="{ selected: viewName == 'captain.html' }">Captain</a>
 		
 		<!--<a href="#" ng-click="showView('captain.html')" ng-class="{ selected: viewName == 'captain.html' }">Thinkers</a>-->
@@ -1368,8 +1380,8 @@
 			
 		</td>
 		
-		<td nowrap>{{dbTable._id}}</td>
-		
+		<!--<td nowrap>{{dbTable._id}} or {{rememberTablenum}} wn:{{dbTable.wNext}} wp:{{wPlayer}} draTa:{{draTable}}</td>
+		-->
 		<td nowrap width=100% align="right">{{greetUser}}</td>
 		</tr>
 		</table>

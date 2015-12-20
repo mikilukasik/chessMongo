@@ -4,7 +4,7 @@ var Clients=function(){
 	
 	var knownClients={
 		
-		connectedSockets:[],
+		connectedSockets:[],		//sockets will have extra data added to them
 		//socketValues:[],
 		
 		views:[]
@@ -53,15 +53,15 @@ var Clients=function(){
 		
 		for (var i=csLen-1;i>=0;i--){
 			
-			if(knownClients.connectedSockets[i].connectionID==connection.connectionID){
+			if(knownClients.connectedSockets[i].addedData.connectionID==connection.addedData.connectionID){
 				return i
 			}
 			
 		}
 		
-		//not found, did not return
+		//connection not found, did not return yet
 		if(dontPush){
-			//return 
+			//for when destroying
 		}else{
 			knownClients.connectedSockets.push(connection)
 			return csLen
@@ -99,7 +99,7 @@ var Clients=function(){
 	
 	}
 	
-	/////////////  functions to manage views
+	//////////////////////////////////////////////////  functions to manage views
 	
 		
 	
@@ -166,10 +166,11 @@ var Clients=function(){
 	
 	
 	
-	this.save=function(viewName, subViewName, viewParts, connection){
+	this.saveView=function(viewName, subViewName, viewParts, connection){
 		
-		//connection must have .connectionID already
+		//connection must have .addedData.connectionID already
 		//console.log(knownClients)
+		
 		connection = knownClients.connectedSockets[findConnectionIndex(connection)]		//will push it if has to, will return the stored one with local vars in it
 		
 		var viewIndex= findViewIndex(viewName)
@@ -203,7 +204,7 @@ var Clients=function(){
 	
 	this.update=function(connection,property,value){
 		
-		//connection must have .connectionID already
+		//connection must have .addedData.connectionID already
 		//console.log(knownClients)
 		connection = knownClients.connectedSockets[findConnectionIndex(connection)]		//will push it if has to, will return the stored one with local vars in it
 		
@@ -244,7 +245,7 @@ var Clients=function(){
 	
 	this.destroy=function(connection){
 		
-		//connection must have .connectionID already
+		//connection must have .addedData.connectionID already
 			
 		var connectionIndex=findConnectionIndex(connection,true)	//true for destroying, no push
 		
@@ -336,7 +337,7 @@ var Clients=function(){
 			
 			for(var j=connections.length-1;j>=0;j--){
 				
-				if(connections[j].connectionID==connection.connectionID){
+				if(connections[j].addedData.connectionID==connection.addedData.connectionID){
 					connections.splice(j,1)
 				}
 				

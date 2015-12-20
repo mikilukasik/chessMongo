@@ -230,7 +230,7 @@ var onMessageFuncs = {
 			case 'speedTestResult':
 			
 				
-				connection.connectionID=connectionID
+				//connection.addedData.connectionID=connectionID
 				//connection.speed=data.speed
 				
 				clients.update(connection,'speed',data.data.speed)
@@ -339,9 +339,11 @@ var onMessageFuncs = {
 	
 	showView:function(connection, data, id){
 		
-		connection.connectionID=id
+		// connection.addedData={
+		// 	connectionID:id
+		// }
 		
-		clients.save(data.newViewName,data.newSubViewName,data.newViewParts,connection)
+		clients.saveView(data.newViewName,data.newSubViewName,data.newViewParts,connection)
 		
 		// if(data.oldViewName==data.newViewName&&data.newSubViewName==data.oldSubViewName){}else{
 		// 	removeViewer(data.oldViewName,data.oldSubViewName,data.oldViewParts,connection)
