@@ -77,6 +77,8 @@
 					
 				}
 				
+				$scope.$apply()
+				
 			}
 		
 		
@@ -143,6 +145,8 @@
 		
 							$rootScope.ran=true
 							$rootScope.showView('login.html')
+							
+							
 						
 						}
 					  
@@ -765,74 +769,7 @@
 								})
 								
 		}
-		
-		
-		
-		$rootScope.longPollTable = function() {
-
-			////console.log('polling table ' + $rootScope.dbTable._id)
-
-			// $http.get('/longPollTable?t=' + $rootScope.dbTable._id + '&pn=' + $rootScope.pollNum + '&r=' + Math.random())
-			// 	.then(function(responseData) {
-			// 		var response=responseData.data
-					
-			// 		//console.log('Data received: '+response.command+' - '+response.message)
-					
-			// 		if(response._id==$rootScope.dbTable._id){		//break poll on changed _id
-			// 			//$rootScope.dbTable.table = response.table
-						
-			// 			if($rootScope.dbTable.table!=undefined){
-			// 				//highlight changed squares
-			// 				//var changed=false
-			// 				for(var i=0;i<8;i++){
-			// 					for (var j=0;j<8;j++){
-			// 						var theSame=($rootScope.dbTable.table[i][j][0]!=response.table[i][j][0])
-			// 						$rootScope.dbTable.table[i][j]=response.table[i][j]
-			// 						if(theSame){
-			// 							$rootScope.dbTable.table[i][j][15]=true
-			// 							//changed=true
-			// 						}
-			// 					}
-			// 				}
-							
-			// 			}else{
-			// 			// 	//
-			// 				//just copy the table
-			// 				$rootScope.dbTable.table = response.table
-			// 			}
-			// 			$rootScope.dbTable.tableId=response._id
-			// 			$rootScope.dbTable.wNext = response.wNext
-			// 			//$scope.allMoves = response.allMoves				//these are my possible moves now
-			// 			$rootScope.chatLines = response.chat
-			// 			$rootScope.pollNum=response.pollNum
-			// 			$rootScope.dbTable.moves=response.moves	
-			// 			$rootScope.dbTable.allPastTables=response.allPastTables	
-			// 			//$rootScope.dbTable.moves=response.moves										
-	
-			// 			// $scope.refreshRecentGames()
-			// 			$scope.showTable()
-			// 			console.log('showing table, viewName',$rootScope.viewName,'subView',$rootScope.subViewName)
-			// 			if($rootScope.viewName == "board.html") {			
-			// 				console.log('Repeating longpoll on t'+ response._id)			
-			// 				$rootScope.longPollTable()	//loop till change view	(or table)
-							
-							
-			// 				$rootScope.updateSizes()
-							
-							
-			// 			}else{
-			// 				//console.log('board not displayed (viewName: '+ $rootScope.viewName+'), discontinuing longpoll for table ' + response._id)
-							
-			// 			}
-			// 		}else{
-			// 			//console.log('_id changed, discontinuing longpoll for table ' + response._id)
-			// 		}
-			// 	},function(data){
-			// 		$interval($rootScope.longPollTable(),2000)	//retry
-			// 	})
-
-		}
-		
+			
 		$scope.setTableNum = function(num){
 			
 			var oldNum = $rootScope.dbTable._id
@@ -844,36 +781,25 @@
 			$rootScope.longPollTable()
 		
 		}
-		$scope.refreshRecentGames = function() {
+		
+		// $scope.pollLobby = function() {
+			
+		// 	$scope.lobbyPromise = $interval(function() {
 
-
-		}
-
-		$scope.pollLobby = function() {
-			
-			
-			
-			
-			
-			$scope.lobbyPromise = $interval(function() {
-
-				//refreshLobby()
-				if($rootScope.viewName == 'lobby.html') {
+		// 		//refreshLobby()
+		// 		if($rootScope.viewName == 'lobby.html') {
 					
-					console.log("'getLobby'??")
-					// socketSend('getLobby',{p: $rootScope.loginName},'getLobby',function(){
-					// 	console.log("'getLobby' callback")
-					// })
-				
-				} else {
+		// 			console.log("'getLobby'??")
+					
+		// 		} else {
 					
 
-				}
-			}, 1000); //setinterval stuff ends here
+		// 		}
+		// 	}, 1000); //setinterval stuff ends here
 
-		}
+		// }
 
-		$scope.pollLobby()			//replaced with socketSend
+		// $scope.pollLobby()			//replaced with socketSend
 		
 		
 		
@@ -1227,7 +1153,7 @@
 			})
 			
 				
-			
+			$scope.$apply()
 			
 		}
 
