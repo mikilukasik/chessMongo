@@ -1,31 +1,15 @@
 var Clients=function(){
 	
-	/////  main store
-	
+	////////  main store
 	var knownClients={
 		
 		connectedSockets:[],		//sockets will have extra data added to them
-		//socketValues:[],
-		
 		views:[]
 		
 	}
 		
+	///////  classes
 	
-	/////   sub classes
-	
-		
-	// var ConnectedSocket=function(id,connection){
-	// 	this.id=id;
-	// 	this.loginName=''
-	// 	this.thinkerName=''
-		
-	// 	this.connection=connection;
-	// 	this.view=undefined
-	// }
-
-	
-		
 	var View=function(viewName){
 		this.viewName=viewName;
 		this.subViews=[]
@@ -164,14 +148,19 @@ var Clients=function(){
 		return len
 	}
 	
+	this.fromStore=function(connection){
+		
+		return knownClients.connectedSockets[findConnectionIndex(connection)]
+		
+	}
 	
-	
-	this.saveView=function(viewName, subViewName, viewParts, connection){
+	this.addViewer=function(viewName, subViewName, viewParts, connection){
 		
 		//connection must have .addedData.connectionID already
 		//console.log(knownClients)
 		
-		connection = knownClients.connectedSockets[findConnectionIndex(connection)]		//will push it if has to, will return the stored one with local vars in it
+		connection = this.fromStore(connection)
+		//knownClients.connectedSockets[findConnectionIndex(connection)]		//will push it if has to, will return the stored one with local vars in it
 		
 		var viewIndex= findViewIndex(viewName)
 		
@@ -212,33 +201,7 @@ var Clients=function(){
 		
 		console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',knownClients.connectedSockets[findConnectionIndex(connection)],'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
 		
-		// var viewIndex= findViewIndex(viewName)
 		
-		// var subViewIndex= findSubViewIndex(viewIndex,subViewName)
-		
-		// for(var i=viewParts.length-1;i>=0;i--){
-			
-		// 	var viewPart= viewParts[i]
-			
-		// 	var viewPartIndex=	findViewPartIndex(viewIndex,subViewIndex,viewPart)
-		
-		// 	knownClients.views[viewIndex].subViews[subViewIndex].viewParts[viewPartIndex].connections.push(connection)
-			
-		// }
-		
-		
-		// if(connection){
-		// 	if(connection.addedData.viewing)removeViewer(connection.addedData.viewing.viewName,connection.addedData.viewing.subViewName,connection.addedData.viewing.viewParts,connection)
-			
-			
-		// 	connection.addedData.viewing={
-		// 		viewName:viewName,
-		// 		subViewName:subViewName,
-		// 		viewParts:viewParts
-				
-		// 	}
-		// }
-			
 	}
 	
 	
@@ -264,6 +227,22 @@ var Clients=function(){
 		
 	}
 
+	this.addedData=function(connection){
+		var result=[]
+		if(connection){
+			
+		}else{
+			
+			for (var i=knownClients.connectedSockets.length-1;i>=0;i--){
+				
+				result[i]=knownClients.connectedSockets.addedData
+				
+			}
+			
+		}
+		
+		
+	}
 		
 	this.simpleKnownClients=function(){
 		console.log('oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo	')

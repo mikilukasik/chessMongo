@@ -348,7 +348,7 @@ var onMessageFuncs = {
 		// 	connectionID:id
 		// }
 		
-		clients.saveView(data.newViewName,data.newSubViewName,data.newViewParts,connection)
+		clients.addViewer(data.newViewName,data.newSubViewName,data.newViewParts,connection)
 		
 		// if(data.oldViewName==data.newViewName&&data.newSubViewName==data.oldSubViewName){}else{
 		// 	removeViewer(data.oldViewName,data.oldSubViewName,data.oldViewParts,connection)
