@@ -94,7 +94,7 @@ var onMessageFuncs = {
 					});
 
 					mongodb.connect(cn, function(err, db4) {
-						//console.log(initedTable._id	)
+						////console.log(initedTable._id	)
 						db4.collection("tables")
 							.insert(initedTable, function(err, doc) {
 								
@@ -249,86 +249,86 @@ var onMessageFuncs = {
 				
 			
 	},
-	longPollTasks: function(connection, data) {
+	// longPollTasks: function(connection, data) {
 
-		var pollerIndex = doIKnow(data.id)
+	// 	var pollerIndex = doIKnow(data.id)
 
-		if (-1 == pollerIndex) {
+	// 	if (-1 == pollerIndex) {
 
-			knownThinkers.push({
-				id: data.id,
-				lastSeen: new Date()
-					.getTime(),
-				busy: false,
-				polling: true,
-				spd: ~~(data.spd * 100) / 100
-			})
+	// 		knownThinkers.push({
+	// 			id: data.id,
+	// 			lastSeen: new Date()
+	// 				.getTime(),
+	// 			busy: false,
+	// 			polling: true,
+	// 			spd: ~~(data.spd * 100) / 100
+	// 		})
 
-		} else {
+	// 	} else {
 
-			var oldSpeed = knownThinkers[pollerIndex].spd
-			var newSpeed = ~~(data.spd * 100000) / 100000
+	// 		var oldSpeed = knownThinkers[pollerIndex].spd
+	// 		var newSpeed = ~~(data.spd * 100000) / 100000
 
-			knownThinkers[pollerIndex].lastSeen = new Date()
-				.getTime()
-			knownThinkers[pollerIndex].busy = false
-			knownThinkers[pollerIndex].polling = true
-			knownThinkers[pollerIndex].spd = newSpeed
+	// 		knownThinkers[pollerIndex].lastSeen = new Date()
+	// 			.getTime()
+	// 		knownThinkers[pollerIndex].busy = false
+	// 		knownThinkers[pollerIndex].polling = true
+	// 		knownThinkers[pollerIndex].spd = newSpeed
 
-			if (knownThinkers[pollerIndex].stn != data.stn) { //new speedtest data, check pct
+	// 		if (knownThinkers[pollerIndex].stn != data.stn) { //new speedtest data, check pct
 
-				knownThinkers[pollerIndex].pct = ~~(newSpeed / oldSpeed * 1000) / 10
+	// 			knownThinkers[pollerIndex].pct = ~~(newSpeed / oldSpeed * 1000) / 10
 
-				knownThinkers[pollerIndex].stn = data.stn
+	// 			knownThinkers[pollerIndex].stn = data.stn
 
-			}
+	// 		}
 
-		}
+	// 	}
 
-		//console.log('will check if pending for data.id', data.id)
+	// 	////console.log('will check if pending for data.id', data.id)
 
-		if (checkIfPending(data.id)) {
+	// 	if (checkIfPending(data.id)) {
 
-			//sendTask(new Task('ping',0,'normal ping'),data.id)
+	// 		//sendTask(new Task('ping',0,'normal ping'),data.id)
 
-			//console.log('found longpoll, will call clearpending for', data.id)
+	// 		////console.log('found longpoll, will call clearpending for', data.id)
 
-			clearPending(data.id)
+	// 		clearPending(data.id)
 
-		}
+	// 	}
 
-		knownThinkers[pollerIndex].lastSeen = new Date()
-			.getTime()
-		knownThinkers[pollerIndex].busy = false
-		var tempReq = {
-			query: data
-		}
-		pendingThinkerPolls.push([tempReq, connection, new Date() ///!!!!!!!!!!!!!!!!!!!!
-			.getTime()
-		])
+	// 	knownThinkers[pollerIndex].lastSeen = new Date()
+	// 		.getTime()
+	// 	knownThinkers[pollerIndex].busy = false
+	// 	var tempReq = {
+	// 		query: data
+	// 	}
+	// 	pendingThinkerPolls.push([tempReq, connection, new Date() ///!!!!!!!!!!!!!!!!!!!!
+	// 		.getTime()
+	// 	])
 
-		//console.log('lpt pushed.')
+	// 	////console.log('lpt pushed.')
 
-		var taskForMe = []
+	// 	var taskForMe = []
 
-		if (false) {
+	// 	if (false) {
 
-		} else {
+	// 	} else {
 
-			if (gotTask(taskForMe, data.id)) { //ez beleirja a taskformebe
+	// 		if (gotTask(taskForMe, data.id)) { //ez beleirja a taskformebe
 
-				//////// ////////    //console.log('for me: '+taskForMe)
-				sendTask(taskForMe[0][0][0], taskForMe[0][0][1]) //why? !!!!!!!
+	// 			//////// ////////    ////console.log('for me: '+taskForMe)
+	// 			sendTask(taskForMe[0][0][0], taskForMe[0][0][1]) //why? !!!!!!!
 
-			} else {
+	// 		} else {
 
-			}
+	// 		}
 
-		}
+	// 	}
 
-		//captainPop()
+	// 	//captainPop()
 
-	},
+	// },
 	Hello: function(connection, data, connectionID) {
 		
 		// clients.publishView('captain.html','knownClients',knownClients)
@@ -362,7 +362,7 @@ var onMessageFuncs = {
 		
 		if(data.newViewName=='board.html'){
 			//send the dbtable 
-		//console.log('...........................................................')
+		////console.log('...........................................................')
 			
 			mongodb.connect(cn, function(err, db) {
 				db.collection("tables")
@@ -390,7 +390,7 @@ var onMessageFuncs = {
 	startGame: function(connection, data) {
 		
 		// clients.publishView('captain.html','knownClients',knownClients.views.length)			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		////console.log('clients.publishView works.............................................')
+		//////console.log('clients.publishView works.............................................')
 
 
 
@@ -514,7 +514,7 @@ var onMessageFuncs = {
 
 						case 'makeAiMove':
 
-							//////    //console.log('calling makeaimove..')
+							//////    ////console.log('calling makeaimove..')
 							makeAiMove(onTable)
 
 							break;
@@ -567,14 +567,14 @@ var onMessageFuncs = {
 				db.collection("tables")
 					.save(splitTaskQ[index], function(err3, res) {
 						
-						console.log('publishing-------------------------------->>> ',splitTaskQ[index]._id)
+						//console.log('publishing-------------------------------->>> ',splitTaskQ[index]._id)
 						//clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.table',splitTaskQ[index].table)
 						
 						clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.table',splitTaskQ[index].table)
 								
 						clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.wNext',splitTaskQ[index].wNext)
 							
-						
+						connection.speed=connection.speed*100
 						
 						
 						//popThem(splitTaskQ[index]._id, splitTaskQ[index], 'splitMove', 'splitMove')

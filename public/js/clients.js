@@ -58,7 +58,7 @@ var Clients=function(){
 		
 	this.send = function(connection, command, data, message, cb ,err) {
 	
-		console.log('connection writable:',connection.socket.writable)
+		//console.log('connection writable:',connection.socket.writable)
 		
 		if(connection.socket.writable) {
 			
@@ -88,7 +88,7 @@ var Clients=function(){
 		
 	
 	this.publishView = function(viewName,subViewName,viewPart,data) {
-		console.log('viewPop called',viewName,viewPart)
+		//console.log('viewPop called',viewName,viewPart)
 		var viewIndex= findViewIndex(viewName)
 		
 		var subViewIndex= findSubViewIndex(viewIndex,subViewName)
@@ -157,7 +157,7 @@ var Clients=function(){
 	this.addViewer=function(viewName, subViewName, viewParts, connection){
 		
 		//connection must have .addedData.connectionID already
-		//console.log(knownClients)
+		////console.log(knownClients)
 		
 		connection = this.fromStore(connection)
 		//knownClients.connectedSockets[findConnectionIndex(connection)]		//will push it if has to, will return the stored one with local vars in it
@@ -194,12 +194,12 @@ var Clients=function(){
 	this.update=function(connection,property,value){
 		
 		//connection must have .addedData.connectionID already
-		//console.log(knownClients)
+		////console.log(knownClients)
 		connection = knownClients.connectedSockets[findConnectionIndex(connection)]		//will push it if has to, will return the stored one with local vars in it
 		
 		eval("(connection.addedData."+property+"=value)")
 		
-		console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',knownClients.connectedSockets[findConnectionIndex(connection)],'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
+		//console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',knownClients.connectedSockets[findConnectionIndex(connection)],'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
 		
 		
 	}
@@ -245,7 +245,7 @@ var Clients=function(){
 	}
 		
 	this.simpleKnownClients=function(){
-		console.log('oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo	')
+		//console.log('oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo	')
 		var result=[]
 		
 		knownClients.views.forEach(function(view){
@@ -407,13 +407,13 @@ this.simpleActiveViews=function(){
 
 		var speedArray = []
 		// for (var i = 0; i < knownClients.connectedSockets.length; i++) {
-		// 	console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+		// 	//console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
 		
 		// 	speedArray.push(~~(100 * (knownClients.connectedSockets[i].addedData.speed)))
 		// }
 		
 		knownClients.connectedSockets.forEach(function(connection){
-			console.log(connection.addedData)
+			//console.log(connection.addedData)
 			
 			if(!connection.addedData.speed)connection.addedData.speed=0.000001//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			
@@ -425,7 +425,7 @@ this.simpleActiveViews=function(){
 		var mx = speedArray.indexOf(Math.max.apply(Math, speedArray));
 	
 		if (!spdPct) {
-			console.log(speedArray[0], mx,speedArray.length,'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+			//console.log(speedArray[0], mx,speedArray.length,'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
 		
 			return knownClients.connectedSockets[mx]
 		} else { //parameter true
@@ -457,9 +457,9 @@ this.simpleActiveViews=function(){
 	
 			//get fastest available connection
 			
-			console.log('a')		
+			//console.log('a')		
 			connection = this.fastestThinker()
-			console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',connection,'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
+			//console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',connection,'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
 		
 		}
 	
@@ -476,7 +476,9 @@ this.simpleActiveViews=function(){
 			connection.addedData.currentState={}
 		}
 	
-	
+		if(task.command='splitMove'){
+			connection.speed=connection.speed/100
+		}
 	
 	
 		var timeNow=new Date()
@@ -497,7 +499,7 @@ this.simpleActiveViews=function(){
 		this.send(connection, 'task', task, 'task', function() {}, function() {})
 	
 			//captainPop()!!!!!!!!!!!!!!!!!!!!!!!!!
-		console.log('this ID:',connection.addedData.connectionID)
+		//console.log('this ID:',connection.addedData.connectionID)
 		return connection.addedData.connectionID
 	
 	}
