@@ -227,7 +227,7 @@ var onMessageFuncs = {
 				break;
 				
 				
-			case 'updateVal':
+			case 'saveVal':
 			
 				
 				//connection.addedData.connectionID=connectionID
@@ -244,7 +244,7 @@ var onMessageFuncs = {
 		}
 
 	},
-	updateVal:function(connection, data, connectionID){
+	saveVal:function(connection, data, connectionID){
 		clients.update(connection,data.name,data.value)
 				
 			

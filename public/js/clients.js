@@ -27,7 +27,7 @@ var Clients=function(){
 
 	
 	
-	//// functions to manage connections
+	//////////////////////// functions to manage connections
 	
 	
 	
@@ -400,32 +400,97 @@ this.simpleActiveViews=function(){
 	}
 	
 
+	//////////////////////// functions to manage tasks
+	
+	
+	this.fastestThinker = function(spdPct) {
+
+		var speedArray = []
+		// for (var i = 0; i < knownClients.connectedSockets.length; i++) {
+		// 	console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+		
+		// 	speedArray.push(~~(100 * (knownClients.connectedSockets[i].addedData.speed)))
+		// }
+		
+		knownClients.connectedSockets.forEach(function(connection){
+			speedArray.push(connection.addedData.speed)
+		})
+	
+		var mx = speedArray.indexOf(Math.max.apply(Math, speedArray));
+	
+		if (!spdPct) {
+			console.log(mx,'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+		
+			return knownClients.connectedSockets[mx]
+		} else { //parameter true
+			//hany szazalaka az osszes geperonek a fastest thinker
+			if (speedArray.length == 0) {
+				//no thinkers??????????!! server move?
+				return 0
+			} else {
+				var totalPower = speedArray.reduce(function(a, b) {
+						return a + b
+					}) //sum
+				var maxPower = speedArray[mx]
+				return maxPower / totalPower
+			}
+	
+		}
+	
+	};
+	
+	this.sendTask=function(task, connection) {
+		
+		//var sentTo = ''
+	
+		if (!connection) {
+	
+			//get fastest available connection
+			
+				
+			connection = this.fastestThinker()
+		
+		}
 	
 		
+	
+			//////////////get these out of here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		if(connection.addedData){
+			connection.addedData={}
+		}
+		if(!connection.addedData.history){
+			connection.addedData.history=[]
+		}
+		if(!connection.addedData.currentState){
+			connection.addedData.currentState={}
+		}
+	
+	
+	
+	
+		var timeNow=new Date()
+		
+		connection.addedData.currentState.busy=true
+		connection.addedData.currentState.lastSeen=timeNow
+		
+		var pushHistoryObject={
+			
+			taskNum : task.taskNum,
+			command : task.command,
+			sent : timeNow
+			
+		}
+		
+		connection.addedData.history.push(pushHistoryObject)
+		
+		this.send(connection, 'task', task, 'task', function() {}, function() {})
+	
+			//captainPop()!!!!!!!!!!!!!!!!!!!!!!!!!
+	
+		return connection.addedData.connectionID
+	
+	}
+
 	
 }
 
-
-
-
-// function noCircular(input){
-	
-// 	//http://stackoverflow.com/questions/11616630/json-stringify-avoid-typeerror-converting-circular-structure-to-json
-		
-// 	var cache = [];
-// 	var result = JSON.stringify(input, function(key, value) {
-// 		if (typeof value === 'object' && value !== null) {
-// 			if (cache.indexOf(value) !== -1) {
-// 				// Circular reference found, discard key
-// 				return;
-// 			}
-// 			// Store value in our collection
-// 			cache.push(value);
-// 		}
-// 		return value;
-// 	});
-// 	cache = null; // Enable garbage collection
-		
-// 	return result
-	
-// }

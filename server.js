@@ -169,110 +169,110 @@ var getThinkerIndex = function(id) {
 	return -1
 
 };
-var fastestThinker = function(spdPct) {
+// var fastestThinker = function(spdPct) {
 
-	var speedArray = []
-	for (var i = 0; i < pendingThinkerPolls.length; i++) {
-		speedArray.push(~~(100 * (pendingThinkerPolls[i][0].query.spd)))
-	}
+// 	var speedArray = []
+// 	for (var i = 0; i < pendingThinkerPolls.length; i++) {
+// 		speedArray.push(~~(100 * (pendingThinkerPolls[i][0].query.spd)))
+// 	}
 
-	var mx = speedArray.indexOf(Math.max.apply(Math, speedArray));
+// 	var mx = speedArray.indexOf(Math.max.apply(Math, speedArray));
 
-	if (!spdPct) {
-		return mx
-	} else { //parameter true
-		//hany szazalaka az osszes geperonek a fastest thinker
-		if (speedArray.length == 0) {
-			//no available thinkers!! server move?
-			return 0
-		} else {
-			var totalPower = speedArray.reduce(function(a, b) {
-					return a + b
-				}) //sum
-			var maxPower = speedArray[mx]
-			return maxPower / totalPower
-		}
+// 	if (!spdPct) {
+// 		return mx
+// 	} else { //parameter true
+// 		//hany szazalaka az osszes geperonek a fastest thinker
+// 		if (speedArray.length == 0) {
+// 			//no available thinkers!! server move?
+// 			return 0
+// 		} else {
+// 			var totalPower = speedArray.reduce(function(a, b) {
+// 					return a + b
+// 				}) //sum
+// 			var maxPower = speedArray[mx]
+// 			return maxPower / totalPower
+// 		}
 
-	}
+// 	}
 
-};
+// };
 
 var taskQ = []
 var splitTaskQ = []
 
-function sendTask(task, thinkerId) {
-	// 	var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
-	//var message=task.message
-	var thinkerPollIndex = 0
+// function sendTask(task, thinkerId) {
+// 	// 	var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
+// 	//var message=task.message
+// 	var thinkerPollIndex = 0
 
-	var sentTo = ''
+// 	var sentTo = ''
 
-	if (thinkerId) {
+// 	if (thinkerId) {
 
-		console.log('sendTask called with ID', thinkerId, 'command', task.command)
+// 		console.log('sendTask called with ID', thinkerId, 'command', task.command)
 
-		thinkerPollIndex = getThinkerIndex(thinkerId)
+// 		thinkerPollIndex = getThinkerIndex(thinkerId)
 
-	} else {
+// 	} else {
 
-		console.log('sendTask called: fastest', 'command', task.command)
+// 		console.log('sendTask called: fastest', 'command', task.command)
 
-		//replace id to fastest available!!!!!!!!!!!!!!!
+// 		//replace id to fastest available!!!!!!!!!!!!!!!
 
-		thinkerPollIndex = fastestThinker()
-	}
+// 		thinkerPollIndex = fastestThinker()
+// 	}
 
-	////////// ////////    console.log(thinkerId+' '+thinkerPollIndex)
+// 	////////// ////////    console.log(thinkerId+' '+thinkerPollIndex)
 
-	var thisRes = null
+// 	var thisRes = null
 
-	if (thinkerPollIndex > -1) { //thinker is ready for us
+// 	if (thinkerPollIndex > -1) { //thinker is ready for us
 
-		thinkerId = pendingThinkerPolls[thinkerPollIndex][0].query.id
+// 		thinkerId = pendingThinkerPolls[thinkerPollIndex][0].query.id
 
-		thisRes = pendingThinkerPolls.splice(thinkerPollIndex, 1)[0]
+// 		thisRes = pendingThinkerPolls.splice(thinkerPollIndex, 1)[0]
 
-		sentTo = thisRes[0].query.id //.IncomingMessage)//.IncomingMessage.query)
+// 		sentTo = thisRes[0].query.id //.IncomingMessage)//.IncomingMessage.query)
 
-		task.taskNum = Number(thisRes[0].query.tn) + 1
+// 		task.taskNum = Number(thisRes[0].query.tn) + 1
 
-		var thinkerIndex = doIKnow(thinkerId)
+// 		var thinkerIndex = doIKnow(thinkerId)
 
-		knownThinkers[thinkerIndex].busy = true
+// 		knownThinkers[thinkerIndex].busy = true
 
-		postThinkerMessage(knownThinkers[thinkerIndex], task.message)
+// 		postThinkerMessage(knownThinkers[thinkerIndex], task.message)
 
-		knownThinkers[thinkerIndex].command = task.command //we need to remember the task we sent
-		knownThinkers[thinkerIndex].sent = new Date()
-			.getTime()
-		knownThinkers[thinkerIndex].lastSeen = knownThinkers[thinkerIndex].sent
-		knownThinkers[thinkerIndex].polling = false
+// 		knownThinkers[thinkerIndex].command = task.command //we need to remember the task we sent
+// 		knownThinkers[thinkerIndex].sent = new Date()
+// 			.getTime()
+// 		knownThinkers[thinkerIndex].lastSeen = knownThinkers[thinkerIndex].sent
+// 		knownThinkers[thinkerIndex].polling = false
 
-		knownThinkers[thinkerIndex].taskNum = task.taskNum //we need to remember the tasknum we sent
-			// knownThinkers[thinkerIndex].message=task.message		//do we we need to remember the message we sent?
-			// knownThinkers[thinkerIndex].command=task.command		//we need to remember the task we sent
-			// knownThinkers[thinkerIndex].sent=new Date().getTime()
-			// knownThinkers[thinkerIndex].lastSeen=knownThinkers[thinkerIndex].sent
+// 		knownThinkers[thinkerIndex].taskNum = task.taskNum //we need to remember the tasknum we sent
+// 			// knownThinkers[thinkerIndex].message=task.message		//do we we need to remember the message we sent?
+// 			// knownThinkers[thinkerIndex].command=task.command		//we need to remember the task we sent
+// 			// knownThinkers[thinkerIndex].sent=new Date().getTime()
+// 			// knownThinkers[thinkerIndex].lastSeen=knownThinkers[thinkerIndex].sent
 
-		//thisRes[1].json(task)
+// 		//thisRes[1].json(task)
 
-		clients.send(thisRes[1], 'task', task, 'task', function() {})
+// 		clients.send(thisRes[1], 'task', task, 'task', function() {})
 
-		//captainPop()
+// 		//captainPop()
 
-	} else {
-		//thinker is not here or none is available
+// 	} else {
+// 		//thinker is not here or none is available
 
-		//queue task for thinker next available
-		if (!(thinkerId)) thinkerId = 'fastest'
-		taskQ.unshift([task, thinkerId])
-		//captainPop()
+// 		//queue task for thinker next available
+// 		if (!(thinkerId)) thinkerId = 'fastest'
+// 		taskQ.unshift([task, thinkerId])
+// 		//captainPop()
 
-	}
+// 	}
 
-	return sentTo
+// 	return sentTo
 
-}
+// }
 
 function sendToAll(task) {
 
@@ -573,7 +573,7 @@ function makeSplitMove(dbTable) {
 
 		var tempLength = aiTable.movesToSend.length
 
-		var aa = fastestThinker(true)
+		var aa = clients.fastestThinker(true)
 
 		if (isNaN(aa)) {
 			//////    console.log('hacking',aa)
@@ -586,8 +586,8 @@ function makeSplitMove(dbTable) {
 
 		var sentCount = sendThese.length
 
-		var sentTo = sendTask(new Task('splitMove', sendThese, 'splitMove t' + sentTNum + ' sentCount: ' + sentCount)) //string
-
+		var sentTo = clients.sendTask(new Task('splitMove', sendThese, 'splitMove t' + sentTNum + ' sentCount: ' + sentCount)) //string
+		console.log(sentTo)
 		index = registerSentMoves(sentTNum, sentTo, sentCount)
 
 	}//
@@ -1359,9 +1359,9 @@ function clearPending(id) {
 	//if (pendingThinkerPolls[i][0].query.id == id) {
 	//client sent repeated poll, remove pending one
 	//pendingThinkerPolls.splice(i, 1)
-	sendTask(new Task('dontCall', {
-		meantToSendTo: id
-	}, 'dontCall'), id)
+	// sendTask(new Task('dontCall', {
+	// 	meantToSendTo: id
+	// }, 'dontCall'), id)
 	console.log('clearpending called')
 		//}
 		//}
