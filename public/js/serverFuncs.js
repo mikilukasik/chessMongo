@@ -574,7 +574,7 @@ var onMessageFuncs = {
 								
 						clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.wNext',splitTaskQ[index].wNext)
 							
-						connection.speed=connection.speed*100
+						connection.addedData.speed=connection.addedData.speed*100
 						
 						
 						//popThem(splitTaskQ[index]._id, splitTaskQ[index], 'splitMove', 'splitMove')
