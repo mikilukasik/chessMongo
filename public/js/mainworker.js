@@ -453,7 +453,7 @@ onmessage = function(event) {
 
 						pushAgain._id = workingOnTableNum
 						pushAgain.score = pushAgain.value
-						pushAgain.thinker = sendID
+						pushAgain.thinker = sendID.toString()//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 						pushAgain.move = pushAgain.moveTree.slice(0, 4)
 
 						if(toPostSplitMoves==undefined)toPostSplitMoves=[]
@@ -470,7 +470,7 @@ onmessage = function(event) {
 								var postThis = toPostSplitMoves
 	
 								postThis[0]._id = workingOnTableNum
-								postThis[0].sendID=sendID
+								postThis[0].sendID=sendID.toString()//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 								
 								
 								toServer('myPartIsDone',postThis,'myPartIsDone',function(){})		

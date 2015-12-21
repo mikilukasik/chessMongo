@@ -42,7 +42,7 @@ wsServer.on('request', function(request) {
 	var newConnectionID=Math.random()*Math.random()
 	
 	connection.addedData={
-			connectionID:newConnectionID
+			connectionID:newConnectionID.toString()
 		}
 		
 		
@@ -577,7 +577,7 @@ function makeSplitMove(dbTable) {
 
 		if (isNaN(aa)) {
 			//////    console.log('hacking',aa)
-			aa = 1 //quickfix!!!!!!!!!!!!!!!!!!!!!!
+			aa = 1 //quickfix!!!!!!!!!!!!!!!!!!!!!!//but doesn't work
 		}
 
 		var sendThese = getSplitMoveTask(aiTable, aa)
@@ -588,6 +588,7 @@ function makeSplitMove(dbTable) {
 
 		var sentTo = clients.sendTask(new Task('splitMove', sendThese, 'splitMove t' + sentTNum + ' sentCount: ' + sentCount)) //string
 		console.log(sentTo)
+		
 		index = registerSentMoves(sentTNum, sentTo, sentCount)
 
 	}//
@@ -649,7 +650,7 @@ var getMIndex = function(index, sentTo) {
 
 		// busyTables.splitMoves[index][i].sentCount=0
 
-		if (busyTables.splitMoves[index][i].thinker == sentTo) {
+		if (busyTables.splitMoves[index][i].thinker == sentTo.toString()) {
 			return i
 		}
 	}
@@ -659,7 +660,7 @@ var getMIndex = function(index, sentTo) {
 }
 
 var registerSentMoves = function(sentTNum, sentTo, sentCount) {
-
+	console.log('ez',sentTo)
 	var index = getBusyTableIndex(sentTNum)
 
 	var mIndex = getMIndex(index, sentTo)
@@ -775,7 +776,7 @@ app.post('/myPartIsDone', function(req, res) {
 function findMIndex(tIndex, thinker) {
 
 	for (var i = busyTables.splitMoves[tIndex].length - 1; i >= 0; i--) {
-
+		console.log(tIndex, busyTables.splitMoves[tIndex],busyTables.splitMoves[tIndex][i].thinker,thinker)
 		if (busyTables.splitMoves[tIndex][i].thinker == thinker) {
 
 			return i
@@ -807,7 +808,9 @@ function markSplitMoveDone(tNum, thinker) {
 
 	var tIndex = getBusyTableIndex(tNum)
 
-	var mIndex = findMIndex(tIndex, thinker)
+	var mIndex = findMIndex(tIndex, thinker.toString())//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+	console.log(tIndex,mIndex,thinker)
 
 	busyTables.splitMoves[tIndex][mIndex].done = true
 
@@ -819,32 +822,32 @@ function markSplitMoveDone(tNum, thinker) {
 
 }
 
-app.get('/busyThinkersPoll', function(req, res) {
+// app.get('/busyThinkersPoll', function(req, res) {
 
-	//    console.log('longpoll tNum received: ',req.query.t)
+// 	//    console.log('longpoll tNum received: ',req.query.t)
 
-	var index = getBusyTableIndex(Number(req.query.t))
+// 	var index = getBusyTableIndex(Number(req.query.t))
 
-	if (req.query.p == busyTables.pollNums[index]) {
-		//no changes, let's store the res
-		busyTables.pendingPolls[index].push(res)
+// 	if (req.query.p == busyTables.pollNums[index]) {
+// 		//no changes, let's store the res
+// 		busyTables.pendingPolls[index].push(res)
 
-		// //    console.log('pushed',index)
-		// //    console.log('pendingpolls',busyTables.pendingPolls)
+// 		// //    console.log('pushed',index)
+// 		// //    console.log('pendingpolls',busyTables.pendingPolls)
 
-	} else {
-		//state changed, let's reply
+// 	} else {
+// 		//state changed, let's reply
 
-		res.json({
+// 		res.json({
 
-			busyThinkers: busyTables.splitMoves[index],
-			pollNum: busyTables.pollNums[index]
+// 			busyThinkers: busyTables.splitMoves[index],
+// 			pollNum: busyTables.pollNums[index]
 
-		})
+// 		})
 
-	}
+// 	}
 
-});
+// });
 
 //////////////////////////			user register
 

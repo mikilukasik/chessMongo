@@ -413,13 +413,19 @@ this.simpleActiveViews=function(){
 		// }
 		
 		knownClients.connectedSockets.forEach(function(connection){
+			console.log(connection.addedData)
+			
+			if(!connection.addedData.speed)connection.addedData.speed=0.000001//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			
 			speedArray.push(connection.addedData.speed)
 		})
+		
+		
 	
 		var mx = speedArray.indexOf(Math.max.apply(Math, speedArray));
 	
 		if (!spdPct) {
-			console.log(mx,'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+			console.log(speedArray[0], mx,speedArray.length,'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
 		
 			return knownClients.connectedSockets[mx]
 		} else { //parameter true
@@ -443,19 +449,24 @@ this.simpleActiveViews=function(){
 		
 		//var sentTo = ''
 	
-		if (!connection) {
+		if (connection) {
+			
+			connection=this.fromStore(connection)
+			
+		}else{
 	
 			//get fastest available connection
 			
-				
+			console.log('a')		
 			connection = this.fastestThinker()
+			console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',connection,'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
 		
 		}
 	
 		
 	
 			//////////////get these out of here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		if(connection.addedData){
+		if(!connection.addedData){
 			connection.addedData={}
 		}
 		if(!connection.addedData.history){
@@ -486,7 +497,7 @@ this.simpleActiveViews=function(){
 		this.send(connection, 'task', task, 'task', function() {}, function() {})
 	
 			//captainPop()!!!!!!!!!!!!!!!!!!!!!!!!!
-	
+		console.log('this ID:',connection.addedData.connectionID)
 		return connection.addedData.connectionID
 	
 	}
@@ -494,3 +505,4 @@ this.simpleActiveViews=function(){
 	
 }
 
+//
