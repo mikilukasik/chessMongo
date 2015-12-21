@@ -42,33 +42,18 @@
 					if($rootScope.subViewName==data.subViewName){
 						//we're on the right view
 						
-						
-									
-								// if(data.viewPart=='table') {
-									
-								// 	eval("($rootScope."+data.viewPart+"=data.data."+data.viewPart+")") // $rootScope.
-								
-								// 	$rootScope.dbTable.wNext=data.data.wNext
-								// 	$rootScope.tempMoveString=''	
-								// 	$scope.showTable()
-								// }else{
 									console.log('updating ---- ',data.viewPart)
 									eval("($rootScope."+data.viewPart+"=data.data)") // $rootScope.
 									
 									if(data.viewPart=='dbTable.table')showTable()
 									
-								//}
+							
 					}else{
 					//view must have changed, let the server know maybe...
 					// console.log('sorryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
 					
 					
 				}
-					
-			
-					
-					
-					
 					
 				}else{
 					//view must have changed, let the server know maybe...
@@ -146,6 +131,10 @@
 							$rootScope.ran=true
 							$rootScope.showView('login.html')
 							
+							socketSend('updateVal',{
+								name:'anyad',
+								value:6
+							},'anyad')
 							
 						
 						}

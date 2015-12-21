@@ -244,6 +244,11 @@ var onMessageFuncs = {
 		}
 
 	},
+	updateVal:function(connection, data, connectionID){
+		clients.update(connection,data.name,data.value)
+				
+			
+	},
 	longPollTasks: function(connection, data) {
 
 		var pollerIndex = doIKnow(data.id)
