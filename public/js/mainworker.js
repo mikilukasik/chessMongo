@@ -7,37 +7,17 @@ importScripts('httpreq.js')
 var sendID
 var mySpeed
 var maxWorkerNum
-
 var ranCount=0
-
 var longEchoStarted
 var splitMoveStarted
-
 var totalSolved
-
 var workingOnTableNum = 0
-
-
 var totalSplitMovesReceived
 var splitMovesToProcess
-
 var pendingLongEchoes
-
 var longPollOnHold
-
 var toPostSplitMoves
-
-
-
 var pollingTask=-1
-
-var socketSend=function(command,data,message,cb){
-	
-	toServer(command,data,message,cb)
-	
-}
-		
-
 
 var messageTheServer = function(command, data, message,cb) {
 	
@@ -50,18 +30,10 @@ var messageTheServer = function(command, data, message,cb) {
 				
 			}
 	
-			socketSend('thinkerMessage',postThis,'thinkerMessage',function(){})
-			//simplePost('/thinkerMessage', postThis, function(res) {}, function(err) {})
+			toServer('thinkerMessage',postThis,'thinkerMessage',function(){})
 			
 			if(cb)cb()
-			
-			
-			//try:
-			
-			//console.log('trying: ',sendID)
-			//longPollTasks(pollingTask,sendID,mySpeed)
-			
-			
+						
 }
 
 function saveVal(name,value){
@@ -71,19 +43,14 @@ function saveVal(name,value){
 		name:name,
 		value:value
 		
-	},'updateVal: '+mySpeed,function(){})
+	},'updateVal: ' +name+ ': ' + value ,function(){})
 	
 }
 
-var sendMessage = function(message) {
-
-			//console.log(message)
+var sendLog = function(message) {
 
 			messageTheServer('log',{},message)
-			// 	'message': message,
-			// 	'thinker': sendID
-
-			// })
+			
 	}
 
 var workDeepSplitMovesStarted
@@ -210,7 +177,7 @@ function speedTest(){
 		
 		
 	}else{
-		sendMessage("can't start speedTest, thinker is busy")
+		sendLog("can't start speedTest, thinker is busy")
 	}
 	
 	
@@ -234,7 +201,7 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 	// 	// // 1 task received
 	// 	// 	var task=eval("(" + res.response + ')')		//http://stackoverflow.com/questions/45015/safely-turning-a-json-string-into-an-object
 			
-	// 	// 	//sendMessage('mw: command received: '+ task.command)
+	// 	// 	//sendLog('mw: command received: '+ task.command)
 			
 	// 	// 	console.log('received',task)
 			
@@ -288,7 +255,7 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 	// 	// 				} else {
 	// 	// 					//thinker is already calculating something
 							
-	// 	// 					sendMessage('thinker is busy')
+	// 	// 					sendLog('thinker is busy')
 
 
 
@@ -368,7 +335,7 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 
 	// 	// 	if (pollOn&&task.command!='dontCall'){
 				
-	// 	// 		//sendMessage('mw: pollOn true, recalling longPollTasks (task '+(taskNum+1)+')')
+	// 	// 		//sendLog('mw: pollOn true, recalling longPollTasks (task '+(taskNum+1)+')')
 				
 	// 	// 		longPollTasks(pollingTask,sendID,mySpeed) //recall for new task, server might hold any new task until this one finishes
 				
@@ -377,11 +344,11 @@ var longPollTasks = function(taskNum,sendID,mySpeed) {
 					
 	// 		if (pollOn) {
 					
-	// 			sendMessage('mw: longPollTasks returned error, waiting 2 secs')
+	// 			sendLog('mw: longPollTasks returned error, waiting 2 secs')
 		
 	// 			setTimeout(function(){
 					
-	// 				sendMessage('mw: retrying longPollTasks (task '+(taskNum)+')')
+	// 				sendLog('mw: retrying longPollTasks (task '+(taskNum)+')')
 					
 	// 				longPollTasks(taskNum,sendID,mySpeed) 
 					
@@ -402,7 +369,7 @@ var taskReceived=function(task){
 			// 1 task received
 			//var task=eval("(" + res.response + ')')		//http://stackoverflow.com/questions/45015/safely-turning-a-json-string-into-an-object
 			
-			//sendMessage('mw: command received: '+ task.command)
+			//sendLog('mw: command received: '+ task.command)
 			
 			console.log('received',task)
 			
@@ -456,7 +423,7 @@ var taskReceived=function(task){
 						} else {
 							//thinker is already calculating something
 							
-							sendMessage('thinker is busy')
+							sendLog('thinker is busy')
 
 
 
@@ -536,7 +503,7 @@ var taskReceived=function(task){
 
 			if (pollOn&&task.command!='dontCall'){
 				
-				//sendMessage('mw: pollOn true, recalling longPollTasks (task '+(taskNum+1)+')')
+				//sendLog('mw: pollOn true, recalling longPollTasks (task '+(taskNum+1)+')')
 				
 				longPollTasks(pollingTask,sendID,mySpeed) //recall for new task, server might hold any new task until this one finishes
 				
@@ -548,14 +515,7 @@ onmessage = function(event) {
 
 	var reqCommand = event.data.reqCommand
 	var reqData = event.data.reqData;
-	// var reqMessage = event.data.reqMessage;
-
-	// var resData;
-	// var resCommand;
-	// var resMessage;
 	
-	//sendMessage('mainWorker onmessage event.data.command: '+event.data.command)
-
 	switch (reqCommand) {
 		case undefined:
 
@@ -563,22 +523,19 @@ onmessage = function(event) {
 
 		case 'echo':
 			
-			// resMessage = 'echo: '+reqMessage
-			// resData = reqData
-			// resCommand = 'reEcho'
-
-			break;
+			
+		break;
 			
 		case 'retLongEcho':
 			
 			pendingLongEchoes--
 			
 			if(pendingLongEchoes==0){
-				//sendMessage('hurray')
+				
 				pollOn=true
 				longPollOnHold()
 				var longEchoTook=new Date().getTime()-longEchoStarted
-				//sendMessage('longEcho done in '+longEchoTook+' ms.')
+				
 			}
 
 			break;
@@ -608,27 +565,18 @@ onmessage = function(event) {
 					}
 			
 			speedTest()
-			//longPollTasks(1,sendID,mySpeed)		//initial longpoll
 			
-		
 			break;
 			
 		case 'sdtSolved':
-				
-					/// solved  smalldeepeningtask returned from worker
-					
+									
 					var resData = event.data.reqData
-					
-					//totalSolved+=resData.ranCount
-					
+										
 					progress.doneDM++
 					
 					waitingForIdle--
 					
 					var tdate=new Date()
-					
-					
-					
 					
 					var toPush = { 
 						move: resData.moveTree.slice(0, 4),
@@ -652,8 +600,6 @@ onmessage = function(event) {
 						
 						progress.doneSM++
 
-						////////console.log('resolve now: '+$scope.waitingSdts[0].moveTree)
-
 						var tempResolveArray = []
 						tempResolveArray[1] = []
 						tempResolveArray[2] = waitingSdts
@@ -663,7 +609,7 @@ onmessage = function(event) {
 							//use tempResolveArray[1][0].value
 
 						var pushAgain = tempResolveArray[1][0]
-							//////console.log('ran again')
+							
 
 						pushAgain._id = workingOnTableNum
 						pushAgain.score = pushAgain.value
@@ -687,14 +633,8 @@ onmessage = function(event) {
 								postThis[0].sendID=sendID
 								
 								
-								socketSend('myPartIsDone',postThis,'myPartIsDone',function(){})		
+								toServer('myPartIsDone',postThis,'myPartIsDone',function(){})		
 							
-								//simplePost('/myPartIsDone?id='+ sendID , postThis, function(req, res) {
-								
-									
-								
-								//})
-								
 								
 							}else{
 								if(workingOnTableNum==-1){
@@ -704,27 +644,14 @@ onmessage = function(event) {
 									
 									mySpeed=1000/speedTestTook
 									
-									
-									
 									saveVal('initSpeed',mySpeed)
-									
-									// simplePost('/speedTest', {
-										
-									// 	speed:mySpeed
-										
-									// })
 									
 									pollOn=true
 									longPollOnHold(mySpeed)
 									
-									
-					
-									
-									
 								}else{
 									console.log(' this should never happen, problem with tablenum in mainworker ')
-									
-									
+								
 								}
 							}
 							
@@ -752,11 +679,6 @@ onmessage = function(event) {
 							
 							progress.overall= progress.doneSM * (100/progress.splitMoves)	+	(progress.doneDM * (100/progress.oneDeeperMoves))/progress.splitMoves
 							
-							
-							////console.log('progress',progress.overall)
-							
-						
-								
 								messageTheServer('progress',{
 									
 									_id: workingOnTableNum,
@@ -781,20 +703,8 @@ onmessage = function(event) {
 										}
 										
 									}
-									
-									
-						
-						
-									
-									
-									
+								
 								})
-								
-								//console.log(new Date().getTime(),progress)
-								
-							//}
-							
-							
 							
 							lastOverallProgressCalc=tdate
 						}else{
@@ -816,29 +726,16 @@ onmessage = function(event) {
 										
 									}
 									
-									
-									
-									
 						}
 						
-					
-						
-						
-						
 					}
 						
 						
 					}
-
-
-					////////console.log(event.data.resData)
 
 					break;
 	
-
 	}
-
-	
 
 };
 
