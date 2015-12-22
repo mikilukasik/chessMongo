@@ -1305,7 +1305,7 @@
 		</tr>
 		</table>
 	</nav>
-	<div id="content" ng-include="viewName" onload="newView(viewName)"></div>
+	<div ng-if="viewName" id="content" ng-include="'html/'+viewName" onload="newView(viewName)"></div>
 	<h1 ng-if="!(ran)">Please wait...</h1>
 
 	</div>

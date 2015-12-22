@@ -162,14 +162,14 @@
 		<tr>
 			
 			<td class="leftBar">
-				<div ng-include="'/leftBar.html'" onload="updateSizes()"></div>
+				<div ng-include="'html/leftBar.html'" onload="updateSizes()"></div>
 			</td>
 			
-			<td class="ideRakd" ng-include="draTable" onload="showTable()"></td>
+			<td class="ideRakd" ng-include="'html/'+draTable" onload="showTable()"></td>
 			
 			
 			<td class="chatTd">
-							<div ng-include="'/chatTd.html'" nowrap onload="updateSizes()"></div>
+							<div ng-include="'html/chatTd.html'" nowrap onload="updateSizes()"></div>
 						</td>
 
 		</tr>
@@ -178,17 +178,17 @@
 	<table ng-if="screenRatio==1" class="frame-table lbborder" ng-controller="ApplicationController">
 		<tr>
 			<td class="leftBar">
-				<div ng-include="'/leftBar.html'" onload="updateSizes()"></div>
+				<div ng-include="'html/leftBar.html'" onload="updateSizes()"></div>
 			</td>
 			
 			<td class="tableAndChat">
 				<table>
 					<tr>
-						<td class="ideRakd" ng-include="draTable" onload="showTable()"></td>
+						<td class="ideRakd" ng-include="'html/'+draTable" onload="showTable()"></td>
 					</tr>
 					<tr>
 						<td class="chatTd">
-							<div ng-include="'/chatTd.html'" nowrap onload="updateSizes()"></div>
+							<div ng-include="'html/chatTd.html'" nowrap onload="updateSizes()"></div>
 						</td>
 
 					</tr>
@@ -204,17 +204,17 @@
 	<table ng-if="screenRatio==2" class="frame-table lbborder" ng-controller="ApplicationController">
 		<tr>
 			<td class="leftBar">
-				<div ng-include="'/leftBar.html'" onload="updateSizes()"></div>
+				<div ng-include="'html/leftBar.html'" onload="updateSizes()"></div>
 			</td>
 			
 			<td class="tableAndChat">
 				<table>
 					<tr>
-						<td class="ideRakd" ng-include="draTable" onload="showTable()"></td>
+						<td class="ideRakd" ng-include="'html/'+draTable" onload="showTable()"></td>
 					</tr>
 					<tr>
 						<td class="chatTd">
-							<div ng-include="'/chatTd.html'" nowrap onload="updateSizes()"></div>
+							<div ng-include="'html/chatTd.html'" nowrap onload="updateSizes()"></div>
 						</td>
 
 					</tr>
@@ -230,17 +230,17 @@
 	<table ng-if="screenRatio==3" class="frame-table lbborder" ng-controller="ApplicationController">
 		<tr>
 
-			<td colspan="10" style="width: 100%" class="ideRakd" ng-include="draTable" onload="showTable()" onload="updateSizes()"></td>
+			<td colspan="10" style="width: 100%" class="ideRakd" ng-include="'html/'+draTable" onload="showTable()" onload="updateSizes()"></td>
 
 		</tr>
 		<tr>
 
 			<td class="leftBar">
-				<div ng-include="'/leftBar.html'" onload="updateSizes()"></div>
+				<div ng-include="'html/leftBar.html'" onload="updateSizes()"></div>
 			</td>
 
 			<td class="chatTd">
-				<div ng-include="'/chatTd.html'" nowrap onload="updateSizes()"></div>
+				<div ng-include="'html/chatTd.html'" nowrap onload="updateSizes()"></div>
 			</td>
 
 		</tr>
