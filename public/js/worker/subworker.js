@@ -1,9 +1,11 @@
-importScripts('brandNewAi.js')
-importScripts('engine.js')
-importScripts('deepening.js')
-importScripts('classes.js')
 
-	
+
+
+importScripts('../all/classes.js')
+importScripts('../all/engine.js')
+importScripts('../all/brandNewAi.js')
+importScripts('../worker/deepening.js')
+
 onmessage = function(event) {
 
 	var reqCommand = event.data.reqCommand

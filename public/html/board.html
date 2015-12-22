@@ -165,12 +165,13 @@
 				<div ng-include="'html/leftBar.html'" onload="updateSizes()"></div>
 			</td>
 			
-			<td class="ideRakd" ng-include="'html/'+draTable" onload="showTable()"></td>
+			<td class="ideRakd" ng-include="'html/'+draTable" onload="showTable()">
+			</td>
 			
 			
 			<td class="chatTd">
-							<div ng-include="'html/chatTd.html'" nowrap onload="updateSizes()"></div>
-						</td>
+				<div ng-include="'html/chatTd.html'" nowrap onload="updateSizes()"></div>
+			</td>
 
 		</tr>
 	</table>

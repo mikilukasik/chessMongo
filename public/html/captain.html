@@ -55,6 +55,13 @@
 				
 			</td>
 		</tr><tr>
+			<td>currentState</td>	
+			<td ng-repeat="x in clients track by $index">
+					
+					{{x.currentState}}
+				
+			</td>
+		</tr><tr>
 			<td>viewing</td>	
 			<td ng-repeat="x in clients track by $index">
 					
@@ -66,13 +73,6 @@
 			<td ng-repeat="x in clients track by $index">
 					
 					{{x.history}}
-				
-			</td>
-		</tr><tr>
-			<td>currentState</td>	
-			<td ng-repeat="x in clients track by $index">
-					
-					{{x.currentState}}
 				
 			</td>
 		</tr>

@@ -1,8 +1,7 @@
-importScripts('brandNewAi.js')
-importScripts('engine.js')
-importScripts('deepening.js')
-importScripts('classes.js')
-importScripts('httpreq.js')
+importScripts('../all/classes.js')
+importScripts('../all/engine.js')
+importScripts('../all/brandNewAi.js')
+importScripts('../worker/deepening.js')
 
 var sendID
 var mySpeed
@@ -27,7 +26,6 @@ var messageTheServer = function(command, data, message,cb) {
 				'data': data,
 				'message': message,
 				'thinker': sendID
-				
 			}
 	
 			toServer('thinkerMessage',postThis,'thinkerMessage',function(){})
@@ -36,7 +34,7 @@ var messageTheServer = function(command, data, message,cb) {
 						
 }
 
-function saveVal(name,value){
+function saveValOnServer(name,value){
 										
 	messageTheServer('saveVal',{
 		
@@ -484,7 +482,7 @@ onmessage = function(event) {
 									
 									mySpeed=1000/speedTestTook
 									
-									saveVal('speed',mySpeed)
+									saveValOnServer('speed',mySpeed)
 									
 									pollOn=true
 							//		longPollOnHold(mySpeed)

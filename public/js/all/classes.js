@@ -1,5 +1,5 @@
 /////////////////////////		Classes		/////////////////////////////////////////////////
-
+console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx classes loaded xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
 var SmallDeepeningTask=function(table, wNext, depth, moveTree, desiredDepth, score, stopped){
 	
 		//this.sdt=true
@@ -21,7 +21,7 @@ var SmallDeepeningTask=function(table, wNext, depth, moveTree, desiredDepth, sco
 		//this.stopped= stopped
 		
 }
-//
+////
 // var ResolverArray=function(depth){		
 	
 // 	this.=[]			//results will be validated tables on the next level

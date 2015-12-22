@@ -22,17 +22,30 @@ var wsServer = new WebSocketServer({
 	path: '/sockets/'
 });
 
+// var extJss=[
+	
+// 	'all/classes',
+// 	'all/engine',
+// 	'all/brandNewAi',
+// 	'all/deepening',
+// 	'server/serverFuncs',
+// 	'server/clients'
+	
+// ]
+
+// for(var i=extJss.lengt-1;i>=0;i--){
+	// eval(fs.readFileSync('public/js/'+extJss[i]+'.js') + '');
+//}
+
+eval(fs.readFileSync('public/js/all/classes.js') + '');
+eval(fs.readFileSync('public/js/all/engine.js') + '');
+eval(fs.readFileSync('public/js/all/brandNewAi.js') + '');
+//eval(fs.readFileSync('public/js/all/deepening.js') + '');
+eval(fs.readFileSync('public/js/server/serverFuncs.js') + '');
+eval(fs.readFileSync('public/js/server/clients.js') + '');
 
 
 
-eval(fs.readFileSync('public/js/brandNewAi.js') + '');
-eval(fs.readFileSync('public/js/deepening.js') + '');
-eval(fs.readFileSync('public/js/classes.js') + '');
-eval(fs.readFileSync('public/js/engine.js') + '');
-eval(fs.readFileSync('public/js/serverFuncs.js') + '');
-
-
-eval(fs.readFileSync('public/js/clients.js') + '');
 var clients=new Clients()
 
 wsServer.on('request', function(request) {

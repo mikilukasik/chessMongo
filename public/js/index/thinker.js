@@ -131,7 +131,7 @@
 
 			if (typeof(mainWorker) == "undefined") {
 			
-				mainWorker = new Worker("js/mainworker.js");
+				mainWorker = new Worker("js/worker/mainworker.js");
 				mainWorker.onmessage = mainWorkerMsgInThinker
 			
 			}			
@@ -143,7 +143,7 @@
 				
 			while (workerToStart < maxWorkerNum) {
 
-				subWorkers[workerToStart] = new Worker("js/subworker.js");
+				subWorkers[workerToStart] = new Worker("js/worker/subworker.js");
 
 				var subWorkerNo = workerToStart
 				
