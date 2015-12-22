@@ -339,6 +339,12 @@ var onMessageFuncs = {
 		console.log('cookieIdRnd received:',data.cookieIdRnd)
 		
 		clients.update(connection,'cookieIdRnd',data.cookieIdRnd)
+		
+		
+		//check in db if we know this client by cookieIdRnd and update from there!!!!!!!!!!!!!!!!!!!
+		
+		
+		
 		clients.publishAddedData()
 		
 		clients.send(connection, 'reHello', {

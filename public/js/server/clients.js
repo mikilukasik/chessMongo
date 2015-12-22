@@ -220,7 +220,7 @@ var Clients=function(){
 		var connectionIndex=findConnectionIndex(connection,true)	//true for destroying, no push
 		
 		connection = knownClients.connectedSockets.splice(connectionIndex,1)[0]//knownClients.connectedSockets[connectionIndex]		//will push it if has to, will return the stored one with local vars in it
-		console.log('---------------->>>',connectionIndex,connection.addedData,'<<<----------------')
+		//console.log('---------------->>>',connectionIndex,connection.addedData,'<<<----------------')
 		if(connection){
 			if(connection.addedData.viewing)removeViewer(connection.addedData.viewing.viewName,connection.addedData.viewing.subViewName,connection.addedData.viewing.viewParts,connection)
 		
@@ -231,6 +231,12 @@ var Clients=function(){
 				connectionData.currentState='offline'
 		
 				knownClients.offlineSockets.push(connectionData)
+				
+				//below function is from another file loaded before this script
+				
+				updateDbClients(connectionData)
+				
+				
 				
 			}
 		

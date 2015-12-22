@@ -37,6 +37,12 @@ var wsServer = new WebSocketServer({
 	// eval(fs.readFileSync('public/js/'+extJss[i]+'.js') + '');
 //}
 
+
+
+var updateDbClients=function(){
+	console.log('updateDbClients function not inited')
+}
+
 eval(fs.readFileSync('public/js/all/classes.js') + '');
 eval(fs.readFileSync('public/js/all/engine.js') + '');
 eval(fs.readFileSync('public/js/all/brandNewAi.js') + '');
