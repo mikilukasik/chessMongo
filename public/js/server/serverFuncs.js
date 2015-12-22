@@ -336,6 +336,11 @@ var onMessageFuncs = {
 		// clients.publishView('captain.html','knownClients',knownClients)
 		//var newConnectionIndex=connectionIndex(connectionID,connection)
 		
+		console.log('cookieIdRnd received:',data.cookieIdRnd)
+		
+		clients.update(connection,'cookieIdRnd',data.cookieIdRnd)
+		clients.publishAddedData()
+		
 		clients.send(connection, 'reHello', {
 			connectionID: connectionID
 			
