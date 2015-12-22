@@ -1,10 +1,16 @@
 <style>
 
-.atable, .atd  {
+.atable, td  {
   border: 1px solid grey;
   border-collapse: collapse;
   padding: 5px;
   
+}
+.btd {
+	 border: none;
+	border-collapse: collapse;
+	padding: 5px;
+	width: 100px;
 }
 .atable tr:nth-child(odd)	{
   background-color: #f1f1f1;
@@ -31,20 +37,48 @@
 
 </style>
 <h3>Clients:</h3>
-
+	<div style="width:100%;overflow-x:scroll">
 	<table class="atable">
-		<tr ng-repeat="x in clients track by $index">
-			
-			<!--{{x}}-->
-			<td ng-repeat="(key,data) in x track by $index">
+		<tr>
+			<td>connectionID</td>
+			<td ng-repeat="x in clients track by $index">
+					
+					{{x.connectionID}}
 				
-				{{key}}<br> {{data}}
+			</td>
+			
+		</tr><tr>
+			<td>speed</td>
+			<td ng-repeat="x in clients track by $index">
+					
+					{{x.speed}}
+				
+			</td>
+		</tr><tr>
+			<td>viewing</td>	
+			<td ng-repeat="x in clients track by $index">
+					
+					{{x.viewing}}
+				
+			</td>
+		</tr><tr>
+			<td>history</td>	
+			<td ng-repeat="x in clients track by $index">
+					
+					{{x.history}}
+				
+			</td>
+		</tr><tr>
+			<td>currentState</td>	
+			<td ng-repeat="x in clients track by $index">
+					
+					{{x.currentState}}
 				
 			</td>
 		</tr>
 		
 	</table>
-
+	</div>
 
 
 
@@ -154,7 +188,7 @@
 				
 				<tr ng-repeat="y in x.subViews track by $index">
 					
-					<td>
+					<td class="btd">
 						{{y.subViewName}}
 					</td>
 					

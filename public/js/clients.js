@@ -503,6 +503,7 @@ this.simpleActiveViews=function(){
 			
 		}
 		
+		if(connection.addedData.history.length>3)connection.addedData.history.shift()
 		connection.addedData.history.push(pushHistoryObject)
 		
 		this.send(connection, 'task', task, 'task', function() {}, function() {})
