@@ -404,6 +404,17 @@ mongodb.connect(cn, function(err, db) {
 		});
 });
 
+
+updateDbClients=function(connectionData){
+	connectionData._id=connectionData.cookieIdRnd
+	mongodb.connect(cn, function(err, db) {
+		db.collection("clients")
+			.save(connectionData, function(err, doc) {});
+		db.close()
+
+	});	
+}
+
 setInterval(function() {
 
 	mongodb.connect(cn, function(err5, db2) {
