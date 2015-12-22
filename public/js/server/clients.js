@@ -509,8 +509,8 @@ this.simpleActiveViews=function(){
 	
 		var timeNow=new Date()
 		
-		connection.addedData.currentState.busy=true
-		connection.addedData.currentState.lastSeen=timeNow
+		connection.addedData.currentState='busy'
+		//connection.addedData.currentState.lastSeen=timeNow
 		
 		var pushHistoryObject={
 			
