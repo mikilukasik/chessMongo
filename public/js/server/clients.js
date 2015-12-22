@@ -4,6 +4,7 @@ var Clients=function(){
 	var knownClients={
 		
 		connectedSockets:[],		//sockets will have extra data added to them
+		offlineSockets:[],
 		views:[]
 		
 	}
@@ -86,7 +87,7 @@ var Clients=function(){
 	
 	//////////////////////////////////////////////////  functions to manage views
 	this.publishAddedData=function(){
-		console.log('3333333333333333333333333333333333333333333333333333333333333333333333333333')
+		//console.log('3333333333333333333333333333333333333333333333333333333333333333333333333333')
 		this.publishView('captain.html','default','clients',this.addedData())
 	}
 		
@@ -218,13 +219,21 @@ var Clients=function(){
 			
 		var connectionIndex=findConnectionIndex(connection,true)	//true for destroying, no push
 		
-		connection = knownClients.connectedSockets[connectionIndex]		//will push it if has to, will return the stored one with local vars in it
-		
+		connection = knownClients.connectedSockets.splice(connectionIndex,1)[0]//knownClients.connectedSockets[connectionIndex]		//will push it if has to, will return the stored one with local vars in it
+		console.log('---------------->>>',connection.addedData,'<<<----------------')
 		if(connection){
 			if(connection.addedData.viewing)removeViewer(connection.addedData.viewing.viewName,connection.addedData.viewing.subViewName,connection.addedData.viewing.viewParts,connection)
 		
-			knownClients.connectedSockets.splice(connectionIndex,1)
+			var connectionData=connection.addedData
 			
+			if(connectionData){
+				
+				connectionData.currentState='offline'
+		
+				knownClients.offlineSockets.push(connectionData)
+				
+			}
+		
 			//connection.destroy()
 		}
 		
@@ -240,13 +249,21 @@ var Clients=function(){
 			
 			for (var i=knownClients.connectedSockets.length-1;i>=0;i--){
 				
-				
-				console.log('ccccccccccccccccccccccccccccc::::::',knownClients.connectedSockets[i].addedData)
 				result[i]=knownClients.connectedSockets[i].addedData
+				
+				if(!knownClients.connectedSockets[i].socket.writable){
+					result[i].speed='non-writable'
+				}
+				
+				
 				
 			}
 			
 		}
+		
+		result=result.concat(knownClients.offlineSockets)
+		
+		console.log('ccccccccccccccccccccccccccccc::::::',knownClients.offlineSockets)
 		
 		return result
 		

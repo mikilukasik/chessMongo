@@ -234,7 +234,7 @@ var onMessageFuncs = {
 				//connection.speed=data.speed
 				
 				clients.update(connection,data.data.name,data.data.value)
-				console.log('hjkl;ez:',clients.addedData())
+				//console.log('hjkl;ez:',clients.addedData())
 				clients.publishAddedData()//View('captain.html','default','clients',clients.addedData())
 				
 			
