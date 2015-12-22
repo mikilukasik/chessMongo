@@ -234,6 +234,8 @@ var onMessageFuncs = {
 				//connection.speed=data.speed
 				
 				clients.update(connection,data.data.name,data.data.value)
+				console.log('hjkl;ez:',clients.addedData())
+				clients.publishAddedData()//View('captain.html','default','clients',clients.addedData())
 				
 			
 			
@@ -246,7 +248,7 @@ var onMessageFuncs = {
 	},
 	saveVal:function(connection, data, connectionID){
 		clients.update(connection,data.name,data.value)
-				
+		clients.publishAddedData()
 			
 	},
 	// longPollTasks: function(connection, data) {
@@ -354,10 +356,10 @@ var onMessageFuncs = {
 		// 	removeViewer(data.oldViewName,data.oldSubViewName,data.oldViewParts,connection)
 		// }		///this should be inside the class!!!!!!!!!!!!!!!
 		var sendThis=clients.simpleActiveViews()
-		var sendThis2=clients.simpleKnownClients()
+		var sendThis2=clients.addedData()
 		
 		clients.publishView('captain.html','default','activeViews',sendThis)//nownClients.views.length)
-		clients.publishView('captain.html','default','knownClients',sendThis2)//nownClients.views.length)
+		clients.publishView('captain.html','default','clients',sendThis2)//nownClients.views.length)
 		
 		
 		if(data.newViewName=='board.html'){
@@ -528,6 +530,10 @@ var onMessageFuncs = {
 	},
 	//var 
 	myPartIsDone: function(connection, data) {
+		
+		connection=clients.fromStore(connection)
+		
+		connection.addedData.speed=connection.addedData.speed*100
 
 		var index = getTaskIndex(data[0]._id)
 
@@ -574,7 +580,7 @@ var onMessageFuncs = {
 								
 						clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.wNext',splitTaskQ[index].wNext)
 							
-						connection.addedData.speed=connection.addedData.speed*100
+						
 						
 						
 						//popThem(splitTaskQ[index]._id, splitTaskQ[index], 'splitMove', 'splitMove')

@@ -18,7 +18,7 @@
 							<br>
 							<br>
 							<div ng-repeat="x in busyThinkers track by $index">
-								<div ng-class="{ makeGreen: x.done , makeRed: !x.done , makeGrey: x.sentCount==0 }">{{x.thinker}}: {{x.sentCount}} moves</div>
+								<div ng-class="{ makeGreen: x.done , makeRed: !x.done , makeGrey: x.sentCount==0 }">thinker {{$index+1}}: {{x.sentCount}} moves</div>
 								<progress class='prog' max='100' style="width:100%; height:4px; color:blue" value="{{x.progress}}">
 								<!--<div>{{x.progress}}</div>-->
 							</div>

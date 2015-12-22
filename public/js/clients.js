@@ -59,6 +59,7 @@ var Clients=function(){
 	this.send = function(connection, command, data, message, cb ,err) {
 	
 		//console.log('connection writable:',connection.socket.writable)
+		// this.publishView('captain.html','default','clients',this.addedData())			//loops it!!!!!!!!!!!!!!!
 		
 		if(connection.socket.writable) {
 			
@@ -84,7 +85,11 @@ var Clients=function(){
 	}
 	
 	//////////////////////////////////////////////////  functions to manage views
-	
+	this.publishAddedData=function(){
+		console.log('3333333333333333333333333333333333333333333333333333333333333333333333333333')
+		this.publishView('captain.html','default','clients',this.addedData())
+	}
+		
 		
 	
 	this.publishView = function(viewName,subViewName,viewPart,data) {
@@ -235,11 +240,15 @@ var Clients=function(){
 			
 			for (var i=knownClients.connectedSockets.length-1;i>=0;i--){
 				
-				result[i]=knownClients.connectedSockets.addedData
+				
+				console.log('ccccccccccccccccccccccccccccc::::::',knownClients.connectedSockets[i].addedData)
+				result[i]=knownClients.connectedSockets[i].addedData
 				
 			}
 			
 		}
+		
+		return result
 		
 		
 	}
@@ -477,7 +486,7 @@ this.simpleActiveViews=function(){
 		}
 	
 		if(task.command='splitMove'){
-			connection.speed=connection.speed/100
+			connection.addedData.speed=connection.addedData.speed/100
 		}
 	
 	
@@ -497,6 +506,7 @@ this.simpleActiveViews=function(){
 		connection.addedData.history.push(pushHistoryObject)
 		
 		this.send(connection, 'task', task, 'task', function() {}, function() {})
+		
 	
 			//captainPop()!!!!!!!!!!!!!!!!!!!!!!!!!
 		//console.log('this ID:',connection.addedData.connectionID)

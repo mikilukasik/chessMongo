@@ -80,7 +80,8 @@ wsServer.on('request', function(request) {
 		clients.destroy(connection)
 		
 		clients.publishView('captain.html','default','activeViews',clients.simpleKnownClients())
-
+		clients.publishAddedData()
+		
 	});
 });
 
@@ -590,12 +591,13 @@ function makeSplitMove(dbTable) {
 		console.log(sentTo)
 		
 		index = registerSentMoves(sentTNum, sentTo, sentCount)
+		//clients.publishView()
 
 	}//
 
 	//busyTablesPop(index)
 	clients.publishView('board.html',sentTNum,'busyThinkers',busyTables.splitMoves[index])
-
+	clients.publishAddedData()
 
 }
 
@@ -660,7 +662,7 @@ var getMIndex = function(index, sentTo) {
 }
 
 var registerSentMoves = function(sentTNum, sentTo, sentCount) {
-	console.log('ez',sentTo)
+	//console.log('ez',sentTo)
 	var index = getBusyTableIndex(sentTNum)
 
 	var mIndex = getMIndex(index, sentTo)
@@ -818,7 +820,7 @@ function markSplitMoveDone(tNum, thinker) {
 
 	//busyTablesPop(tIndex)
 	clients.publishView('board.html',tNum,'busyThinkers',busyTables.splitMoves[tIndex])
-
+	clients.publishAddedData()
 
 }
 

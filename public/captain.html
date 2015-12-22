@@ -30,8 +30,27 @@
 }
 
 </style>
+<h3>Clients:</h3>
+
+	<table class="atable">
+		<tr ng-repeat="x in clients track by $index">
+			
+			<!--{{x}}-->
+			<td ng-repeat="(key,data) in x track by $index">
+				
+				{{key}}<br> {{data}}
+				
+			</td>
+		</tr>
+		
+	</table>
 
 
+
+
+
+<h3>Views:</h3>
+<!--
 	<form ng-submit="setMod(mType,min,max)">
 		add modType:
 		<input ng-model="mType"></input>
@@ -110,7 +129,7 @@
 
 
 
-
+-->
 
 
 	<table class="atable">
@@ -172,7 +191,7 @@
 		
 	</table>
 	
-	
+<!--	
 	
 	
 	<table>
