@@ -6,6 +6,8 @@ var mongodb = require('mongodb');
 var http = require('http')
 var WebSocketServer = require('websocket').server;
 
+var ObjectID = mongodb.ObjectID
+
 var app = express()
 var httpServ = http.createServer(app)
 
@@ -315,7 +317,7 @@ mongodb.connect(cn, function(err, db) {
 
 updateDbClients=function(connectionData){
 	
-	connectionData._id=connectionData.clientMongoId
+	connectionData._id=new ObjectID(connectionData.clientMongoId)
 	
 	mongodb.connect(cn, function(err, db) {
 		db.collection("clients")
