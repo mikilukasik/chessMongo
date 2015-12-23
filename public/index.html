@@ -315,12 +315,6 @@
 							
 							$rootScope.showView('login.html')
 							
-							// socketSend('saveVal',{
-							// 	name:'anyad',
-							// 	value:6
-							// },'anyad')
-							
-						
 						}
 					  
 					  
@@ -328,7 +322,8 @@
 					  
 					  case 'saveYourClientMongoId':
 					  
-					  	//alert('id received: '+received.data.clientMongoId)
+					  		//we said hello without a mongoID so we were given one, let's say hello again
+					  
 					  	
 						  clientMongoId=received.data.clientMongoId
 						  setCookie('clientMongoId',clientMongoId,365)
@@ -1047,56 +1042,14 @@
 						pwd:user.pwd
 					})
 
-			
-
-			// $http.get("/checkUserPwd?n=" + user.name + '&p=' + user.pwd)
-			// 	.success(function(response) {
-			// 		if(response.exists) {
-			// 			if(response.denied) {
-			// 				//wrong pwd
-			// 				alert("Username and password don't match, please try again!")
-			// 			} else {
-			// 				//all good, log him in
-			// 				//ask server to log user in ang generate unique login ID. this html will poll the server with that unique ID so you can't be logged in from 2 stations
-
-			// 				//alert("User logged in.")
-			// 				$scope.loggedIn = true
-			// 				$scope.greetUser = 'Logged in as ' + user.name + '. '
-
-			// 				$scope.inOrOut = 'Logoff' //displayed on nav when logged in
-			// 				$rootScope.loginName = user.name
-			// 				$rootScope.showView('lobby.html','default')
-
-			// 				if(!$scope.$$phase) {
-			// 					$scope.$apply()
-			// 				}
-			// 			}
-			// 		} else {
-			// 			//username not in DB
-			// 			alert('User not registered, please register first!')
-			// 		}
-
-			// 	})
-
+		
 		}
 
 		$scope.register = function(user) {
 
 			if(user.pwd1 == user.pwd2) {
 				if(!(user.pwd1 == undefined || user.rName == undefined || user.rName == "")) {
-					//check if existing, if not then register in db
-
-					// $http.get("/checkUser?n=" + user.rName)
-					// 	.success(function(response) {
-					// 		if(response.exists) {
-					// 			alert('Name already exists, try another!')
-					// 		} else {
-					// 			$http.get('/newUser?n=' + user.rName + '&p=' + user.pwd1)
-					// 				.success(function(response) {
-					// 					alert(user.rName + ' registered.')
-					// 				})
-					// 		}
-					// 	});
+					
 					
 					socketSend('registerUser',{
 						name:user.rName,
@@ -1109,25 +1062,9 @@
 			}
 		}
 
-		//$rootScope.viewName = "login.html";
-
 		$scope.newView = function(viewName) {
 			if(viewName == 'board.html') {
 				
-				
-				
-				//$scope.refreshRecentGames()
-				//console.log('View changed to board, calling longpoll on t'+$rootScope.dbTable._id)
-				//$rootScope.longPollTable()		//start longpoll
-				
-				//console.log(poller)
-				
-				// poller.postMessage({
-				// 	reqCommand: 'startBusyThinkersPoll',
-				// 	reqData: {
-				// 		_id: $rootScope.dbTable._id
-				// 	}
-				// })
 				
 				$rootScope.updateSizes()
 				
@@ -1139,18 +1076,13 @@
 			}else{
 				if(viewName == 'login.html'){
 					
-					//forcepop
-					
-					//$http.get('/forcePopTable?t='+$rootScope.dbTable._id+'&p='+$rootScope.loginName+'&m=user logged out')
-					
-					
 					focusOnLogin()
 					 
 				}else{
 				
 				
 				if(viewName == 'lobby.html'){
-					//$http.get('/forcePopTable?t='+$rootScope.dbTable._id+'&p='+$rootScope.loginName+'&m=user went to lobby')
+					
 				}
 				
 				
