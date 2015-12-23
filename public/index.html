@@ -59,6 +59,9 @@
 		var workerSpeed = ""
 		var mainThreadSpeed = ""
 		var cookieIdRnd=""
+		
+		var clientMongoId=''
+		var userMongoId=''
 
 
 		//load cookies
@@ -66,9 +69,13 @@
 		cookieId = getCookie("myID");
 		cookieIdRnd = getCookie("rndId");
 		
+		clientMongoId=getCookie("clientMongoId");
+		userMongoId=getCookie("userMongoId");
+		
+		
 			
 			if(cookieIdRnd == ""){
-				cookieIdRnd = (Math.random() * Math.random())
+				cookieIdRnd = (Math.random() * Math.random()).toString()
 				setCookie("rndId", cookieIdRnd, 365)
 			}
 			
@@ -221,12 +228,15 @@
 				  
 				  console.log("socket connected, let's say hello...")
 				  
-				  socketSend('Hello',{ cookieIdRnd:cookieIdRnd},'Hello',function(){
+				  socketSend('Hello',{ 
+					  cookieIdRnd:cookieIdRnd,
+					  clientMongoId:clientMongoId
+					  },'Hello',function(){
 					  
 					 
 					  //console.log("socketSend 'hello' callback called")
 				  })	//init
-				  console.log('cookieIdRnd again',cookieIdRnd)
+				 // console.log('cookieIdRnd again',cookieIdRnd)
 		
                };
 				
@@ -240,12 +250,15 @@
 					  
 					  case 'reHello' : 
 					  
-					  	 socketID = received.data.connectionID
+					  
+					  	socketID = received.data.connectionID
 					  
 					  	console.log('received connectionID',received.data.connectionID)
 					  
 					  	$rootScope.socketID=received.data.connectionID
 						sendID=$rootScope.socketID
+						
+						
 						ifWorkers(startWorkers)
 						
 						  
@@ -254,14 +267,37 @@
 							$rootScope.ran=true
 							$rootScope.showView('login.html')
 							
-							socketSend('saveVal',{
-								name:'anyad',
-								value:6
-							},'anyad')
+							// socketSend('saveVal',{
+							// 	name:'anyad',
+							// 	value:6
+							// },'anyad')
 							
 						
 						}
 					  
+					  
+					  break;
+					  
+					  case 'saveYourClientMongoId':
+					  
+					  	//alert('id received: '+received.data.clientMongoId)
+					  	
+						  clientMongoId=received.data.clientMongoId
+						  setCookie('clientMongoId',clientMongoId,365)
+						  
+						  //recall Hello
+						  
+						  console.log('clientMongoId '+clientMongoId+' registered, saying Hello again...')
+						  
+						  socketSend('Hello',{ 
+								cookieIdRnd:cookieIdRnd,
+								clientMongoId:clientMongoId
+							},'Hello',function(){})	//init
+						  
+						  
+					  	
+						  
+						  
 					  
 					  break;
 					  

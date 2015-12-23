@@ -336,21 +336,35 @@ var onMessageFuncs = {
 		// clients.publishView('captain.html','knownClients',knownClients)
 		//var newConnectionIndex=connectionIndex(connectionID,connection)
 		
-		console.log('cookieIdRnd received:',data.cookieIdRnd)
+		//console.log('cookieIdRnd received:',data.cookieIdRnd)
 		
 		clients.update(connection,'cookieIdRnd',data.cookieIdRnd)
 		
+		var newClientMongoId
 		
-		//check in db if we know this client by cookieIdRnd and update from there!!!!!!!!!!!!!!!!!!!
-		
-		
-		
-		clients.publishAddedData()
-		
-		clients.send(connection, 'reHello', {
-			connectionID: connectionID
+		if(data.clientMongoId==''){
 			
-		}, 'reHello', function() {})
+			registerNewClient(data,connection)	//this will put it in db and ask client to return with new mongoID
+			
+			
+			
+		}else{
+			//we must know this client already, look it up in DB!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			//console.log('known client came.......................................')
+			clients.update(connection,'clientMongoId',data.clientMongoId)
+			
+			clients.publishAddedData()
+			
+			clients.send(connection, 'reHello', {
+				connectionID: connectionID
+				
+			}, 'reHello', function() {})
+			
+		}
+		
+		
+		
+		
 	},
 	
 	

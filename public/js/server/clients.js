@@ -230,7 +230,7 @@ var Clients=function(){
 				
 				connectionData.currentState='offline'
 		
-				knownClients.offlineSockets.push(connectionData)
+				//knownClients.offlineSockets.push(connectionData)
 				
 				//below function is from another file loaded before this script
 				

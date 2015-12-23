@@ -1,5 +1,5 @@
 /////////////////////////		Classes		/////////////////////////////////////////////////
-console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx classes loaded xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+//console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx classes loaded xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
 var SmallDeepeningTask=function(table, wNext, depth, moveTree, desiredDepth, score, stopped){
 	
 		//this.sdt=true

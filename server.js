@@ -43,6 +43,12 @@ var updateDbClients=function(){
 	console.log('updateDbClients function not inited')
 }
 
+var registerNewClient=function(){
+	console.log('registerNewClient function not inited')
+}
+
+
+
 eval(fs.readFileSync('public/js/all/classes.js') + '');
 eval(fs.readFileSync('public/js/all/engine.js') + '');
 eval(fs.readFileSync('public/js/all/brandNewAi.js') + '');
@@ -189,110 +195,12 @@ var getThinkerIndex = function(id) {
 	return -1
 
 };
-// var fastestThinker = function(spdPct) {
 
-// 	var speedArray = []
-// 	for (var i = 0; i < pendingThinkerPolls.length; i++) {
-// 		speedArray.push(~~(100 * (pendingThinkerPolls[i][0].query.spd)))
-// 	}
-
-// 	var mx = speedArray.indexOf(Math.max.apply(Math, speedArray));
-
-// 	if (!spdPct) {
-// 		return mx
-// 	} else { //parameter true
-// 		//hany szazalaka az osszes geperonek a fastest thinker
-// 		if (speedArray.length == 0) {
-// 			//no available thinkers!! server move?
-// 			return 0
-// 		} else {
-// 			var totalPower = speedArray.reduce(function(a, b) {
-// 					return a + b
-// 				}) //sum
-// 			var maxPower = speedArray[mx]
-// 			return maxPower / totalPower
-// 		}
-
-// 	}
-
-// };
 
 var taskQ = []
 var splitTaskQ = []
 
-// function sendTask(task, thinkerId) {
-// 	// 	var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
-// 	//var message=task.message
-// 	var thinkerPollIndex = 0
 
-// 	var sentTo = ''
-
-// 	if (thinkerId) {
-
-// 		console.log('sendTask called with ID', thinkerId, 'command', task.command)
-
-// 		thinkerPollIndex = getThinkerIndex(thinkerId)
-
-// 	} else {
-
-// 		console.log('sendTask called: fastest', 'command', task.command)
-
-// 		//replace id to fastest available!!!!!!!!!!!!!!!
-
-// 		thinkerPollIndex = fastestThinker()
-// 	}
-
-// 	////////// ////////    console.log(thinkerId+' '+thinkerPollIndex)
-
-// 	var thisRes = null
-
-// 	if (thinkerPollIndex > -1) { //thinker is ready for us
-
-// 		thinkerId = pendingThinkerPolls[thinkerPollIndex][0].query.id
-
-// 		thisRes = pendingThinkerPolls.splice(thinkerPollIndex, 1)[0]
-
-// 		sentTo = thisRes[0].query.id //.IncomingMessage)//.IncomingMessage.query)
-
-// 		task.taskNum = Number(thisRes[0].query.tn) + 1
-
-// 		var thinkerIndex = doIKnow(thinkerId)
-
-// 		knownThinkers[thinkerIndex].busy = true
-
-// 		postThinkerMessage(knownThinkers[thinkerIndex], task.message)
-
-// 		knownThinkers[thinkerIndex].command = task.command //we need to remember the task we sent
-// 		knownThinkers[thinkerIndex].sent = new Date()
-// 			.getTime()
-// 		knownThinkers[thinkerIndex].lastSeen = knownThinkers[thinkerIndex].sent
-// 		knownThinkers[thinkerIndex].polling = false
-
-// 		knownThinkers[thinkerIndex].taskNum = task.taskNum //we need to remember the tasknum we sent
-// 			// knownThinkers[thinkerIndex].message=task.message		//do we we need to remember the message we sent?
-// 			// knownThinkers[thinkerIndex].command=task.command		//we need to remember the task we sent
-// 			// knownThinkers[thinkerIndex].sent=new Date().getTime()
-// 			// knownThinkers[thinkerIndex].lastSeen=knownThinkers[thinkerIndex].sent
-
-// 		//thisRes[1].json(task)
-
-// 		clients.send(thisRes[1], 'task', task, 'task', function() {})
-
-// 		//captainPop()
-
-// 	} else {
-// 		//thinker is not here or none is available
-
-// 		//queue task for thinker next available
-// 		if (!(thinkerId)) thinkerId = 'fastest'
-// 		taskQ.unshift([task, thinkerId])
-// 		//captainPop()
-
-// 	}
-
-// 	return sentTo
-
-// }
 
 function sendToAll(task) {
 
@@ -406,13 +314,28 @@ mongodb.connect(cn, function(err, db) {
 
 
 updateDbClients=function(connectionData){
-	connectionData._id=connectionData.cookieIdRnd
+	
+	connectionData._id=connectionData.clientMongoId
+	
 	mongodb.connect(cn, function(err, db) {
 		db.collection("clients")
 			.save(connectionData, function(err, doc) {});
 		db.close()
 
 	});	
+}
+
+registerNewClient=function(initialData,connection){
+	mongodb.connect(cn, function(err, db) {
+		db.collection("clients")
+			.insert(initialData, function(err, doc) {});
+		db.close()
+		clients.send(connection, 'saveYourClientMongoId', {
+			clientMongoId: initialData._id
+			
+		}, 'saveYourClientMongoId', function() {})
+		//console.log('asasasasasasasasasasasasasa',initialData._id)
+	});
 }
 
 setInterval(function() {
