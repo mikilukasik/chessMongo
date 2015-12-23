@@ -263,8 +263,20 @@
 						
 						  
 						 if(!$rootScope.ran) {
-		
+							console.log('starting...')
 							$rootScope.ran=true
+							$rootScope.dbTable=new Dbtable(1,2,3)
+							$rootScope.wPlayer=true
+							
+							$rootScope.sTable=[]
+							for(var i=7;i>=0;i--){
+								$rootScope.sTable[i]=[]
+								for(var j=7;j>=0;j--){
+									$rootScope.sTable[i][j]=[0,0]
+								}
+								
+							}
+							
 							$rootScope.showView('login.html')
 							
 							// socketSend('saveVal',{
@@ -311,7 +323,7 @@
 					  
 					  	$rootScope.rememberTablenum=received.data._id
 					  	
-						$rootScope.dbTable={}
+						//$rootScope.dbTable={}
 					  	
 						$rootScope.showView('board.html',received.data._id)
 						  
@@ -472,7 +484,7 @@
 
 	function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
 		
-		if($rootScope.dbTable==undefined)$rootScope.dbTable={}
+		//if($rootScope.dbTable==undefined)$rootScope.dbTable={}
 		
 		//$rootScope.activeViewParts=activeViewParts
 		
@@ -512,19 +524,19 @@
 		
 		//var poller={}
 		
-		ifWorkers(function(){
+		// ifWorkers(function(){
 			
-			// poller=new Worker('js/poller.js')
-			// poller.onmessage = pollerMessage
-			
-			
-			
-		},function(){
-			//no worker support
+		// 	// poller=new Worker('js/poller.js')
+		// 	// poller.onmessage = pollerMessage
 			
 			
 			
-		})
+		// },function(){
+		// 	//no worker support
+			
+			
+			
+		// })
 		
 		
 		
@@ -952,17 +964,37 @@
 		$scope.showTable = function() { //this will update the displayed table from the array
 			
 			//shit i need to rotate it first
-		
-			var tt=[]
 			
-			if(!($rootScope.dbTable))$rootScope.dbTable={table:[]}
+			// for(var i=0;i<8;i++){
+			// 					for (var j=0;j<8;j++){
+			// 						var theSame=($rootScope.table[i][j][0]!=response.table[i][j][0])
+									
+			// 						$rootScope.table[i][j]=response.table[i][j]
+									
+			// 						if(theSame){
+										
+			// 							$rootScope.table[i][j][15]=true
+			// 							//changed=true
+			// 						}
+			// 					}
+			// 				}
+		
+			var tt=$rootScope.sTable
+			
+			//if(!($rootScope.dbTable))$rootScope.dbTable={table:[]}
 			//console.log()
 			if($rootScope.wPlayer){				
 				
 				for(var i=0; i<8; i++) {
-					tt[i]=[]
+				
 					for(var j=0; j<8; j++) {
+						
+						var theSame=(tt[i][j][0]==$rootScope.dbTable.table[j][7-i][0])
+						
 						tt[i][j]=$rootScope.dbTable.table[j][7-i]
+						
+						if(!theSame)tt[i][j][15]=true
+						
 						if((i+j)&1)tt[i][j][7]=true
 					}
 				}
@@ -970,10 +1002,17 @@
 			}else{
 				
 				for(var i=0; i<8; i++) {
-					tt[i]=[]
+				
 					for(var j=0; j<8; j++) {
+						
+						var theSame=(tt[i][j][0]==$rootScope.dbTable.table[7-j][i][0])
+						
 						tt[i][j]=$rootScope.dbTable.table[7-j][i]
+						
+						if(!theSame)tt[i][j][15]=true
+						
 						if((i+j)&1)tt[i][j][7]=true
+						
 					}
 				}
 				
@@ -989,7 +1028,7 @@
 			
 			$rootScope.sTable=tt
 			
-			consoleTable=$rootScope.dbTable.table
+			//consoleTable=$rootScope.dbTable.table
 			
 			//$scope.$apply()
 	
@@ -1328,8 +1367,8 @@
 			
 		</td>
 		
-		<!--<td nowrap>{{dbTable._id}} or {{rememberTablenum}} wn:{{dbTable.wNext}} wp:{{wPlayer}} draTa:{{draTable}}</td>
-		-->
+		<td nowrap>{{sTable}}</td>
+		
 		<td nowrap width=100% align="right">{{greetUser}}</td>
 		</tr>
 		</table>

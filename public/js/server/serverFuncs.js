@@ -390,7 +390,7 @@ var onMessageFuncs = {
 		clients.publishView('captain.html','default','clients',sendThis2)//nownClients.views.length)
 		
 		
-		if(data.newViewName=='board.html'){
+		if(data.newViewName=='board.html'&&data.newSubViewName!='default'){
 			//send the dbtable 
 		////console.log('...........................................................')
 			
