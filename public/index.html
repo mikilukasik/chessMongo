@@ -248,6 +248,42 @@
 				  
 				  switch(received.command){
 					  
+					  case 'userRegistered':
+					  
+					  	alert('User '+received.data.name+' registered.')
+					  
+					  break;
+					  
+					  case 'userNotRegistered':
+					  
+					  	alert('User not registered, please register first!')
+						  
+						break;
+						
+						case 'wrongPwd':
+							
+							alert("Username and password don't match, please try again!")
+					  
+					  break;
+					  
+					  case 'login':
+
+					  		$scope.loggedIn = true
+							$scope.greetUser = 'Logged in as ' + received.data.name + '. '
+
+							$scope.inOrOut = 'Logoff' //displayed on nav when logged in
+							$rootScope.loginName = received.data.name
+							$rootScope.showView('lobby.html','default')
+					  	
+
+						break;					  
+					  
+					  case 'userExists':
+					  
+					  	alert('Username '+received.data.name+' already exists, please try another!')
+					  
+					  break;
+					  
 					  case 'reHello' : 
 					  
 					  
@@ -730,39 +766,7 @@
 		
 		$rootScope.depth=3
 		
-		$scope.login = function(user) {
-			
-
-			$http.get("/checkUserPwd?n=" + user.name + '&p=' + user.pwd)
-				.success(function(response) {
-					if(response.exists) {
-						if(response.denied) {
-							//wrong pwd
-							alert("Username and password don't match, please try again!")
-						} else {
-							//all good, log him in
-							//ask server to log user in ang generate unique login ID. this html will poll the server with that unique ID so you can't be logged in from 2 stations
-
-							//alert("User logged in.")
-							$scope.loggedIn = true
-							$scope.greetUser = 'Logged in as ' + user.name + '. '
-
-							$scope.inOrOut = 'Logoff' //displayed on nav when logged in
-							$rootScope.loginName = user.name
-							$rootScope.showView('lobby.html','default')
-
-							if(!$scope.$$phase) {
-								$scope.$apply()
-							}
-						}
-					} else {
-						//username not in DB
-						alert('User not registered, please register first!')
-					}
-
-				})
-
-		}
+	
 		$scope.askToStart = function(opponentsName) {
 			if(opponentsName!=$rootScope.loginName)	socketSend('startGame',{
 				w:$rootScope.loginName,
@@ -1035,6 +1039,46 @@
 		}
 		
 		showTable=$scope.showTable
+		
+		$scope.login = function(user) {
+			
+			socketSend('loginUser',{
+						name:user.name,
+						pwd:user.pwd
+					})
+
+			
+
+			// $http.get("/checkUserPwd?n=" + user.name + '&p=' + user.pwd)
+			// 	.success(function(response) {
+			// 		if(response.exists) {
+			// 			if(response.denied) {
+			// 				//wrong pwd
+			// 				alert("Username and password don't match, please try again!")
+			// 			} else {
+			// 				//all good, log him in
+			// 				//ask server to log user in ang generate unique login ID. this html will poll the server with that unique ID so you can't be logged in from 2 stations
+
+			// 				//alert("User logged in.")
+			// 				$scope.loggedIn = true
+			// 				$scope.greetUser = 'Logged in as ' + user.name + '. '
+
+			// 				$scope.inOrOut = 'Logoff' //displayed on nav when logged in
+			// 				$rootScope.loginName = user.name
+			// 				$rootScope.showView('lobby.html','default')
+
+			// 				if(!$scope.$$phase) {
+			// 					$scope.$apply()
+			// 				}
+			// 			}
+			// 		} else {
+			// 			//username not in DB
+			// 			alert('User not registered, please register first!')
+			// 		}
+
+			// 	})
+
+		}
 
 		$scope.register = function(user) {
 
@@ -1042,17 +1086,22 @@
 				if(!(user.pwd1 == undefined || user.rName == undefined || user.rName == "")) {
 					//check if existing, if not then register in db
 
-					$http.get("/checkUser?n=" + user.rName)
-						.success(function(response) {
-							if(response.exists) {
-								alert('Name already exists, try another!')
-							} else {
-								$http.get('/newUser?n=' + user.rName + '&p=' + user.pwd1)
-									.success(function(response) {
-										alert(user.rName + ' registered.')
-									})
-							}
-						});
+					// $http.get("/checkUser?n=" + user.rName)
+					// 	.success(function(response) {
+					// 		if(response.exists) {
+					// 			alert('Name already exists, try another!')
+					// 		} else {
+					// 			$http.get('/newUser?n=' + user.rName + '&p=' + user.pwd1)
+					// 				.success(function(response) {
+					// 					alert(user.rName + ' registered.')
+					// 				})
+					// 		}
+					// 	});
+					
+					socketSend('registerUser',{
+						name:user.rName,
+						pwd:user.pwd1
+					})
 
 				}
 			} else {
@@ -1367,7 +1416,7 @@
 			
 		</td>
 		
-		<td nowrap>{{sTable}}</td>
+		<!--<td nowrap>{{sTable}}</td>-->
 		
 		<td nowrap width=100% align="right">{{greetUser}}</td>
 		</tr>

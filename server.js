@@ -54,6 +54,16 @@ var knownClientReturned=function(){
 }
 
 
+var registerUser=function(){
+	console.log('registerUser function not inited')
+}
+
+
+var loginUser=function(){
+	console.log('loginUser function not inited')
+}
+
+
 
 eval(fs.readFileSync('public/js/all/classes.js') + '');
 eval(fs.readFileSync('public/js/all/engine.js') + '');
@@ -317,6 +327,117 @@ mongodb.connect(cn, function(err, db) {
 
 		});
 });
+
+registerUser=function(name,pwd,connection){
+	
+	mongodb.connect(cn, function(err, db) {
+		//db.collection("users")
+
+		db.collection("users")
+			.findOne({
+				name: name
+			}, function(err, thing) {
+				if (thing == null) {
+					// retJsn = {
+					// 	'exists': false
+					// }
+					//register this user
+					var user = new Dbuser(name, pwd)
+					//mongodb.connect(cn, function(err, db) {
+						db.collection("users")
+							.insert(user, function(err, doc) {
+								
+								clients.send(connection,'userRegistered',{name:name})
+								
+							});
+					
+				} else {
+					clients.send(connection,'userExists',{name:name})
+				}
+				db.close()
+				//res.json(retJsn)
+			})
+
+	});
+	
+	
+	
+}
+
+
+loginUser=function(name,pwd,connection){
+	
+	mongodb.connect(cn, function(err, db) {
+		//db.collection("users")
+
+		db.collection("users")
+			.findOne({
+				name: name
+			}, function(err, thing) {
+				if (thing == null) {
+					clients.send(connection,'userNotRegistered',{name:name})
+				} else {
+					//user exists, check pwd 
+					
+				// 					if (thing == null) {
+				// 	retJsn = {
+				// 		'exists': false,
+				// 		'denied': true
+				// 	}
+
+				// } else {
+					//record exists, let's check pwd
+					if (thing.pwd == pwd) {
+						//password match, log him in
+						//alert('match')
+						// retJsn = {
+						// 	'exists': true,
+						// 	'denied': false
+						// }
+						
+						clients.send(connection,'login',{name:name})
+
+					} else {
+						//wrong pwd
+						
+						
+						clients.send(connection,'wrongPwd',{name:name})
+						
+						
+						//alert("Username and password don't match, try again!")
+						// retJsn = {
+						// 	'exists': true,
+						// 	'denied': true
+						// }
+					}
+				//}
+				//db.close()
+				//res.json(retJsn)
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+				}
+				db.close()
+				//res.json(retJsn)
+			})
+
+	});
+	
+	
+}
 
 knownClientReturned=function(data,connection){
 	

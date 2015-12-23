@@ -251,86 +251,22 @@ var onMessageFuncs = {
 		clients.publishAddedData()
 			
 	},
-	// longPollTasks: function(connection, data) {
-
-	// 	var pollerIndex = doIKnow(data.id)
-
-	// 	if (-1 == pollerIndex) {
-
-	// 		knownThinkers.push({
-	// 			id: data.id,
-	// 			lastSeen: new Date()
-	// 				.getTime(),
-	// 			busy: false,
-	// 			polling: true,
-	// 			spd: ~~(data.spd * 100) / 100
-	// 		})
-
-	// 	} else {
-
-	// 		var oldSpeed = knownThinkers[pollerIndex].spd
-	// 		var newSpeed = ~~(data.spd * 100000) / 100000
-
-	// 		knownThinkers[pollerIndex].lastSeen = new Date()
-	// 			.getTime()
-	// 		knownThinkers[pollerIndex].busy = false
-	// 		knownThinkers[pollerIndex].polling = true
-	// 		knownThinkers[pollerIndex].spd = newSpeed
-
-	// 		if (knownThinkers[pollerIndex].stn != data.stn) { //new speedtest data, check pct
-
-	// 			knownThinkers[pollerIndex].pct = ~~(newSpeed / oldSpeed * 1000) / 10
-
-	// 			knownThinkers[pollerIndex].stn = data.stn
-
-	// 		}
-
-	// 	}
-
-	// 	////console.log('will check if pending for data.id', data.id)
-
-	// 	if (checkIfPending(data.id)) {
-
-	// 		//sendTask(new Task('ping',0,'normal ping'),data.id)
-
-	// 		////console.log('found longpoll, will call clearpending for', data.id)
-
-	// 		clearPending(data.id)
-
-	// 	}
-
-	// 	knownThinkers[pollerIndex].lastSeen = new Date()
-	// 		.getTime()
-	// 	knownThinkers[pollerIndex].busy = false
-	// 	var tempReq = {
-	// 		query: data
-	// 	}
-	// 	pendingThinkerPolls.push([tempReq, connection, new Date() ///!!!!!!!!!!!!!!!!!!!!
-	// 		.getTime()
-	// 	])
-
-	// 	////console.log('lpt pushed.')
-
-	// 	var taskForMe = []
-
-	// 	if (false) {
-
-	// 	} else {
-
-	// 		if (gotTask(taskForMe, data.id)) { //ez beleirja a taskformebe
-
-	// 			//////// ////////    ////console.log('for me: '+taskForMe)
-	// 			sendTask(taskForMe[0][0][0], taskForMe[0][0][1]) //why? !!!!!!!
-
-	// 		} else {
-
-	// 		}
-
-	// 	}
-
-	// 	//captainPop()
-
-	// },
+	
+	registerUser: function(connection,data,id){
+		
+		registerUser(data.name,data.pwd,connection)
+		
+		
+	},
+	
+	
+	loginUser: function(connection,data,id){
+		
+		loginUser(data.name,data.pwd,connection)
+		
+		
+	},
+	
 	Hello: function(connection, data, connectionID) {
 		
 		// clients.publishView('captain.html','knownClients',knownClients)
@@ -340,7 +276,7 @@ var onMessageFuncs = {
 		
 		clients.update(connection,'cookieIdRnd',data.cookieIdRnd)
 		
-		var newClientMongoId
+		//var newClientMongoId
 		
 		if(data.clientMongoId==''){
 			

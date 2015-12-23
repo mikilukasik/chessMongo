@@ -71,7 +71,7 @@ var Clients=function(){
 					message: message
 				}))
 				
-				cb()
+				if(cb)cb()
 			
 			
 			
