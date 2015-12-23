@@ -85,6 +85,43 @@ var Clients=function(){
 	
 	}
 	
+	
+	this.sendToAll = function(command, data, message, cb ,err) {
+	
+		//console.log('connection writable:',connection.socket.writable)
+		// this.publishView('captain.html','default','clients',this.addedData())			//loops it!!!!!!!!!!!!!!!
+		
+		for (var i=knownClients.connectedSockets.length-1;i>=0;i--){
+			
+			if(knownClients.connectedSockets[i].socket.writable) {
+			
+			
+				knownClients.connectedSockets[i].sendUTF(JSON.stringify({
+					command: command,
+					data: data,
+					message: message
+				}))
+				
+				if(cb)cb()
+			
+			
+			
+				
+			}else{
+				
+				if(err)err()
+				
+			}
+			
+			
+			
+		}
+		
+		
+		
+	
+	}
+	
 	//////////////////////////////////////////////////  functions to manage views
 	this.publishAddedData=function(){
 		//console.log('3333333333333333333333333333333333333333333333333333333333333333333333333333')

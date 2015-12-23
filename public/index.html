@@ -248,6 +248,12 @@
 				  
 				  switch(received.command){
 					  
+					  case 'refreshBrowser':
+					  
+					  	location.reload(true)
+					  
+					  break;
+					  
 					  case 'userRegistered':
 					  
 					  	alert('User '+received.data.name+' registered.')
@@ -583,7 +589,11 @@
 			
 		}
 		
-		
+		$scope.refreshAllBrowsers=function(){
+			
+			socketSend('refreshAllBrowsers')
+			
+		}
 		
 		$scope.setDepth=function(depth){
 			$rootScope.depth=depth

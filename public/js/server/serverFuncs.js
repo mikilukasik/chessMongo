@@ -259,6 +259,11 @@ var onMessageFuncs = {
 		
 	},
 	
+	refreshAllBrowsers: function(connection,data,id){
+		
+		clients.sendToAll('refreshBrowser')
+		
+	},
 	
 	loginUser: function(connection,data,id){
 		
