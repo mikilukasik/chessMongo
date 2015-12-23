@@ -49,6 +49,10 @@ var registerNewClient=function(){
 	console.log('registerNewClient function not inited')
 }
 
+var knownClientReturned=function(){
+	console.log('knownClientReturned function not inited')
+}
+
 
 
 eval(fs.readFileSync('public/js/all/classes.js') + '');
@@ -314,6 +318,22 @@ mongodb.connect(cn, function(err, db) {
 		});
 });
 
+knownClientReturned=function(data,connection){
+	
+	data._id=new ObjectID(data.clientMongoId)
+	
+	data.currentState='online'
+	
+	mongodb.connect(cn, function(err, db) {
+		db.collection("clients")
+			.save(data, function(err, doc) {});
+		db.close()
+
+	});	
+
+	
+	
+}
 
 updateDbClients=function(connectionData){
 	
