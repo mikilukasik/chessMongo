@@ -371,13 +371,36 @@ knownClientReturned=function(data,connection){
 	
 	data._id=new ObjectID(data.clientMongoId)
 	
-	data.currentState='online'
+	// data.currentState='online'
 	
 	mongodb.connect(cn, function(err, db) {
-		db.collection("clients")
-			.save(data, function(err, doc) {});
-		db.close()
+	// 	db.collection("clients")
+	// 		.save(data, function(err, doc) {});
+		
+		db.collection("clients").findOne({
+			_id:data._id
+			},function(err,doc){
+				
+				//console.log('found client in db:  ',doc)
+						
+				db.close()
+				
+				if(doc.loggedInAs!=''){
+					//client has saved login details in db, log it in!
+					userFuncs.loginUser(doc.loggedInAs,0,true,connection,true)
+					
+					
+					
+				}
 
+				
+			})
+			
+			
+			
+			
+			
+	
 	});	
 
 	

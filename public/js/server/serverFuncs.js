@@ -10,7 +10,7 @@ var userFuncs={
 			
 	},
 	
-	loginUser:function(name,pwd, stayLoggedIn, connection){
+	loginUser:function(name,pwd, stayLoggedIn, connection, noPwd){
 		
 		mongodb.connect(cn, function(err, db) {
 			//db.collection("users")
@@ -24,7 +24,7 @@ var userFuncs={
 					} else {
 						//user exists, check pwd 
 				
-						if (thing.pwd == pwd) {
+						if (thing.pwd == pwd || noPwd) {
 							//password match, log him in
 							
 							clients.send(connection,'login',{name:name})

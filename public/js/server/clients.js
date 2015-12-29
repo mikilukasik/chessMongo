@@ -271,6 +271,15 @@ var Clients=function(){
 				
 				//below function is from another file loaded before this script
 				
+				//console.log()
+				
+				if(!connectionData.stayLoggedIn){
+					console.log('user disconnected, stayLoggedIn was oped out. Clearing login details for client.')
+					
+					connectionData.loggedInAs=''
+					
+				}
+				
 				updateDbClients(connectionData)
 				
 				
