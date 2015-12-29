@@ -11,7 +11,7 @@ var ObjectID = mongodb.ObjectID
 var app = express()
 var httpServ = http.createServer(app)
 
-var server = httpServ.listen(80, function() {
+var server = httpServ.listen(3000, function() {
 	var host = server.address()
 		.address;
 	var port = server.address()
@@ -21,6 +21,7 @@ var server = httpServ.listen(80, function() {
 
 var wsServer = new WebSocketServer({
 	httpServer: httpServ,
+	//port: 3000,
 	path: '/sockets/'
 });
 
