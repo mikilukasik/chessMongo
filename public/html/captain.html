@@ -1,6 +1,6 @@
 <style>
 
-.atable, td  {
+.atable, .atd  {
   border: 1px solid grey;
   border-collapse: collapse;
   padding: 5px;
@@ -45,52 +45,52 @@
 	<div style="width:100%;overflow-x:scroll">
 	<table class="atable">
 		<tr>
-			<td>connectionID</td>
-			<td ng-repeat="x in clients track by $index">
+			<td class="atd">connectionID</td>
+			<td class="atd"  ng-repeat="x in clients track by $index">
 					
 					{{x.connectionID}}
 				
 			</td>
 			
 		</tr><tr>
-			<td>clientMongoId</td>
-			<td ng-repeat="x in clients track by $index">
+			<td class="atd">clientMongoId</td>
+			<td class="atd"  ng-repeat="x in clients track by $index">
 					
 					{{x.clientMongoId}}
 				
 			</td>
 			
 		</tr><tr>
-			<td>speed</td>
-			<td ng-repeat="x in clients track by $index">
+			<td class="atd">speed</td>
+			<td class="atd"  ng-repeat="x in clients track by $index">
 					
 					{{x.speed}}
 				
 			</td>
 		</tr><tr>
-			<td>loggedInAs</td>
-			<td ng-repeat="x in clients track by $index">
+			<td class="atd">loggedInAs</td>
+			<td class="atd"  ng-repeat="x in clients track by $index">
 					
 					{{x.loggedInAs}}<span ng-if="x.stayLoggedIn"> *</span>
 				
 			</td>
 		</tr><tr>
-			<td>currentState</td>	
-			<td ng-repeat="x in clients track by $index">
+			<td class="atd">currentState</td>	
+			<td class="atd"  ng-repeat="x in clients track by $index">
 					
 					{{x.currentState}}
 				
 			</td>
 		</tr><tr>
-			<td>viewing</td>	
-			<td ng-repeat="x in clients track by $index">
+			<td class="atd">viewing</td>	
+			<td class="atd"  ng-repeat="x in clients track by $index">
 					
 					{{x.viewing}}
 				
 			</td>
 		</tr><tr>
-			<td>history</td>	
-			<td ng-repeat="x in clients track by $index">
+			<td class="atd">history</td>	
+			<td class="atd"  ng-repeat="x in clients track by $index">
 					
 					{{x.history}}
 				
@@ -104,116 +104,25 @@
 
 
 <h3>Views:</h3>
-<!--
-	<form ng-submit="setMod(mType,min,max)">
-		add modType:
-		<input ng-model="mType"></input>
-		<button>Add</button>
-		<br> min. modVal: (>0)
-		<input ng-model="min"></input>
-		<button>Set</button>
-		<br> max. modVal: (>0)
-		<input ng-model="max"></input>
-		<button>Set</button>
-		<br>
-		
-	</form>
-	<button ng-click="clearModTypes()">Clear modTypes</button>
-	modTypes:
-	<span ng-repeat="x in modTypes track by $index"> {{x}} </span> Tasks in queue: {{taskQ}}
-
-	<br> Known thinkers:
-	<table style="table-layout: fixed" class="thinkerTable">
-		<tr>
-		<td ng-repeat="x in knownThinkers track by $index">
-
-			<div ng-class="{ makeGreen: x.polling , makeRed: !x.polling }">{{x.id}}</div>
-			
-		</td>
-		</tr>
-		
-		<tr>
-		<td ng-repeat="x in knownThinkers track by $index">
-
-			<div>t/ms: {{x.spd}} ({{x.pct}}%)</div>
-			
-		</td>
-		</tr>
-		
-		<tr>
-		<td ng-repeat="x in knownThinkers track by $index">
-
-			<div ng-class="{ makeGrey: x.polling }">#{{x.taskNum}}</div>
-			
-		</td>
-		</tr>
-		
-	
-		
-		<tr>
-		<td ng-repeat="x in knownThinkers track by $index" class="msgs">
-
-			
-			<div ng-repeat="y in x.messages track by $index">{{y}}</div>
-			
-		</td>
-		</tr>
-		
-		
-		
-		
-		
-		
-		
-	</table>
-	<br>
-
-	<button ng-click="refreshAllThinkers()">Refresh all thinkers</button>
-	<button ng-click="startAllLearners()">Start all learners</button>
-	<button ng-click="stopAllLearners()">Stop all learners</button>
-	<button ng-click="echoTestAll()">Echo test all</button>
-
-
-
-
-
-
-
-
-
-
-
--->
-
 
 	<table class="atable">
-		
-		<!--<tr>
-			<th>
-				views
-			</th>
-			<th>
-				subViews  viewParts: connections
-			</th>
-			
-		</tr>
-		-->
+	
 		<tr ng-repeat="x in activeViews track by $index">
 			
-		<td>{{x.viewName}}</td>
+		<td class="atd">{{x.viewName}}</td>
 		
-		<td>
+		<td class="atd">
 			
 			<table>
 				
 				<tr ng-repeat="y in x.subViews track by $index">
 					
-					<td class="btd">
+					<td class="atd">
 						{{y.subViewName}}
 					</td>
 					
 					
-					<td ng-repeat="z in y.viewParts track by $index">
+					<td class="atd"  ng-repeat="z in y.viewParts track by $index">
 				
 						<!--<div ng-if="$index==0">{{y}}</div>-->
 						{{z.viewPartName}}: {{z.viewers}}
@@ -244,30 +153,3 @@
 		
 		
 	</table>
-	
-<!--	
-	
-	
-	<table>
-		
-		
-		
-
-		<tr ng-repeat="x in speedTests track by $index">
-
-			<td ng-repeat="y in x track by $index">
-				{{y}}
-			</td>
-		</tr>
-	</table>
-
-	<br>
-	<br> stats:
-
-	<br>
-	<button ng-click="refreshStats()">refresh stats</button>
-	<br>
-
-	<div ng-repeat="x in stats track by $index">{{x}}</div>
-<!--	
-</body>-->
