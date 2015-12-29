@@ -525,7 +525,9 @@
 		
 		//$rootScope.activeViewParts=activeViewParts
 		
-		
+		$rootScope.aa={
+			stayLoggedIn:false
+		}
 		
 		if(!socketOn)sockets($rootScope, $scope)
 	
@@ -1049,7 +1051,8 @@
 			
 			socketSend('loginUser',{
 						name:user.name,
-						pwd:user.pwd
+						pwd:user.pwd,
+						stayLoggedIn:user.stayLoggedIn
 					})
 
 		
@@ -1358,7 +1361,7 @@
 			
 		</td>
 		
-		<!--<td nowrap>{{sTable}}</td>-->
+		<!--<td nowrap>{{aa.stayLoggedIn}}</td>-->
 		
 		<td nowrap width=100% align="right">{{greetUser}}</td>
 		</tr>
