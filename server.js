@@ -385,7 +385,7 @@ knownClientReturned=function(data,connection){
 						
 				db.close()
 				
-				if(doc.loggedInAs!=''){
+				if(doc!=null&&doc.loggedInAs!=''){
 					//client has saved login details in db, log it in!
 					userFuncs.loginUser(doc.loggedInAs,0,true,connection,true)
 					
