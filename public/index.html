@@ -1135,6 +1135,13 @@
 					]
 					
 					
+					//console.log('inorout',$scope.inOrOut)
+					if($scope.inOrOut == 'Logoff'){
+						
+						socketSend('logoff')
+						
+					}
+					
 					$scope.greetUser = ''
 					$scope.inOrOut = 'Login'
 					$rootScope.loginName = 'someone'
@@ -1207,8 +1214,10 @@
 			})
 			
 				
-			$scope.$apply()
-			
+				if(!$scope.$$phase) {
+					$scope.$apply()
+				}
+
 		}
 
 		$scope.clickedIt = function(clickedField, clickedString) {

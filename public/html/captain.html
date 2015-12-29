@@ -68,6 +68,13 @@
 				
 			</td>
 		</tr><tr>
+			<td>loggedInAs</td>
+			<td ng-repeat="x in clients track by $index">
+					
+					{{x.loggedInAs}}<span ng-if="x.stayLoggedIn"> *</span>
+				
+			</td>
+		</tr><tr>
 			<td>currentState</td>	
 			<td ng-repeat="x in clients track by $index">
 					

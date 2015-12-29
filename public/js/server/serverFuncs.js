@@ -1,7 +1,66 @@
+var userFuncs={
+	
+	logoff:function(connection){
+		
+		clients.update(connection,'loggedInAs',undefined)
+		clients.update(connection,'stayLoggedIn',undefined)
+		clients.publishAddedData()
 
 
+			
+	},
+	
+	loginUser:function(name,pwd, stayLoggedIn, connection){
+		
+		mongodb.connect(cn, function(err, db) {
+			//db.collection("users")
+	
+			db.collection("users")
+				.findOne({
+					name: name
+				}, function(err, thing) {
+					if (thing == null) {
+						clients.send(connection,'userNotRegistered',{name:name})
+					} else {
+						//user exists, check pwd 
+				
+						if (thing.pwd == pwd) {
+							//password match, log him in
+							
+							clients.send(connection,'login',{name:name})
+							console.log('user logging in: ',name)
+							clients.update(connection,'loggedInAs',name)
+							clients.update(connection,'stayLoggedIn',stayLoggedIn)
+							clients.publishAddedData()
+	
+						} else {
+							//wrong pwd
+							
+							
+							clients.send(connection,'wrongPwd',{name:name})
+							
+						}
+					
+						
+					}
+					db.close()
+					//res.json(retJsn)
+				})
+	
+		});
+		
+		
+	},
+	
+	end:0
+
+}
+	
 
 var onMessageFuncs = {
+	
+	
+	
 	quickGame: function(connection, data){
 		var w = data.w
 		var b = data.b
@@ -267,8 +326,14 @@ var onMessageFuncs = {
 	
 	loginUser: function(connection,data,id){
 		
-		loginUser(data.name,data.pwd,connection)
+		userFuncs.loginUser(data.name,data.pwd,data.stayLoggedIn,connection)
 		
+		
+	},
+	
+	logoff: function(connection){
+		
+		userFuncs.logoff(connection)
 		
 	},
 	
