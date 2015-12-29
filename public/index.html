@@ -160,7 +160,7 @@
 				
 				//console.log('updateview called',data)
 				
-				if($rootScope.viewName==data.viewName){
+				if($rootScope.loginVals.viewName==data.viewName){
 					
 					
 					if($rootScope.subViewName==data.subViewName){
@@ -280,6 +280,8 @@
 							$rootScope.loginVals.inOrOut = 'Logoff' //displayed on nav when logged in
 							$rootScope.loginName = received.data.name
 							$rootScope.showView('lobby.html','default')
+							
+							$scope.$apply()
 					  	
 
 						break;					  
@@ -528,7 +530,8 @@
 		if(!$rootScope.ran){
 			console.log('egyszer?')
 			$rootScope.loginVals={
-				inOrOut:'Login'
+				inOrOut:'Login',
+				viewName:'login.html'
 			}
 		}
 		
@@ -768,7 +771,6 @@
 		
 		var dletters = ["a","b","c","d","e","f","g","h"]
 		
-		//$rootScope.loginVals.inOrOut = 'Login' //displayed on nav when not logged in
 		$scope.loggedIn = false
 		$scope.lobbyPollNum = 0
 
@@ -795,8 +797,22 @@
 			$http.get('/watchGame?v=' + $rootScope.loginName + "&t=" + gameID)
 
 		}
-		$scope.applyIt=function(){
-			$scope.$apply()
+		$rootScope.applyIt=function(){
+			
+			console.log('should apply')
+			
+			// if(!$scope.$$phase) {
+				
+			// 	console.log('does apply')
+			// 	$scope.$apply()
+				
+			// }else{
+				
+			// 	console.log('apply: try again in 3s')
+			// 	$interval($rootScope.applyIt(),3000)
+				
+			// }
+			
 		}
 		
 		$scope.quickGame=function(){
@@ -834,7 +850,7 @@
 		// 	$scope.lobbyPromise = $interval(function() {
 
 		// 		//refreshLobby()
-		// 		if($rootScope.viewName == 'lobby.html') {
+		// 		if($rootScope.loginVals.viewName == 'lobby.html') {
 					
 		// 			console.log("'getLobby'??")
 					
@@ -1119,7 +1135,7 @@
 			
 			if(!(subViewName)){
 				
-				if(viewName==$rootScope.viewName&&$rootScope.subViewName){
+				if(viewName==$rootScope.loginVals.viewName&&$rootScope.subViewName){
 					subViewName=$rootScope.subViewName
 				}else{
 					subViewName='default'
@@ -1200,7 +1216,7 @@
 			
 			socketSend('showView',{
 				
-				oldViewName:$rootScope.viewName,
+				oldViewName:$rootScope.loginVals.viewName,
 				oldSubViewName:$rootScope.subViewName,
 				oldViewParts:$rootScope.activeViewParts.slice(),
 				
@@ -1212,16 +1228,13 @@
 				
 				
 				
-				$rootScope.viewName = viewName;
+				$rootScope.loginVals.viewName = viewName;
 				$rootScope.subViewName = subViewName;
 				$rootScope.activeViewParts= newViewParts.slice()
 				
 			})
 			
-				
-				if(!$scope.$$phase) {
-					$scope.$apply()
-				}
+			$rootScope.applyIt()
 
 		}
 
@@ -1352,10 +1365,10 @@
 		<table>
 			<tr>
 				<td nowrap align="left">
-		<a href="#" ng-click="showView('login.html')" ng-class="{ selected: viewName == 'login.html' }">{{loginVals.inOrOut}}</a>
-		<a href="#" ng-click="showView('lobby.html')" ng-class="{ selected: viewName == 'lobby.html' }">Lobby</a>
-		<a href="#" ng-click="showView('board.html',rememberTablenum)" ng-class="{ selected: viewName == 'board.html' }">Chessboard</a>
-		<a href="#" ng-click="showView('captain.html')" ng-class="{ selected: viewName == 'captain.html' }">Captain</a>
+		<a href="#" ng-click="showView('login.html')" ng-class="{ selected: loginVals.viewName == 'login.html' }">{{loginVals.inOrOut}}</a>
+		<a href="#" ng-click="showView('lobby.html')" ng-class="{ selected: loginVals.viewName == 'lobby.html' }">Lobby</a>
+		<a href="#" ng-click="showView('board.html',rememberTablenum)" ng-class="{ selected: loginVals.viewName == 'board.html' }">Chessboard</a>
+		<a href="#" ng-click="showView('captain.html')" ng-class="{ selected: loginVals.viewName == 'captain.html' }">Captain</a>
 		
 		<!--<a href="#" ng-click="showView('captain.html')" ng-class="{ selected: viewName == 'captain.html' }">Thinkers</a>-->
 		</td>
@@ -1381,7 +1394,7 @@
 		</tr>
 		</table>
 	</nav>
-	<div ng-if="viewName" id="content" ng-include="'html/'+viewName" onload="newView(viewName)"></div>
+	<div ng-if="loginVals.viewName&&loginVals.viewName!=''" id="content" ng-include="'html/'+loginVals.viewName" onload="newView(viewName)"></div>
 	<h1 ng-if="!(ran)">Please wait...</h1>
 
 	</div>
