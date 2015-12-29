@@ -277,7 +277,7 @@
 					  		$scope.loggedIn = true
 							$scope.greetUser = 'Logged in as ' + received.data.name + '. '
 
-							$scope.inOrOut = 'Logoff' //displayed on nav when logged in
+							$rootScope.loginVals.inOrOut = 'Logoff' //displayed on nav when logged in
 							$rootScope.loginName = received.data.name
 							$rootScope.showView('lobby.html','default')
 					  	
@@ -525,8 +525,11 @@
 		
 		//$rootScope.activeViewParts=activeViewParts
 		
-		$rootScope.aa={
-			stayLoggedIn:false
+		if(!$rootScope.ran){
+			console.log('egyszer?')
+			$rootScope.loginVals={
+				inOrOut:'Login'
+			}
 		}
 		
 		if(!socketOn)sockets($rootScope, $scope)
@@ -765,7 +768,7 @@
 		
 		var dletters = ["a","b","c","d","e","f","g","h"]
 		
-		$scope.inOrOut = 'Login' //displayed on nav when not logged in
+		//$rootScope.loginVals.inOrOut = 'Login' //displayed on nav when not logged in
 		$scope.loggedIn = false
 		$scope.lobbyPollNum = 0
 
@@ -1127,6 +1130,8 @@
 			var newViewParts=[]
 			//var oldViewParts=$rootScope.activeViewParts
 			
+			console.log('test',viewName,$rootScope.loginVals.inOrOut)
+			
 			switch(viewName){
 				case 'login.html':
 				
@@ -1135,15 +1140,15 @@
 					]
 					
 					
-					//console.log('inorout',$scope.inOrOut)
-					if($scope.inOrOut == 'Logoff'){
+					//console.log('inorout',$rootScope.inOrOut)
+					if($rootScope.loginVals.inOrOut == 'Logoff'){
 						
 						socketSend('logoff')
 						
 					}
 					
 					$scope.greetUser = ''
-					$scope.inOrOut = 'Login'
+					$rootScope.loginVals.inOrOut = 'Login'
 					$rootScope.loginName = 'someone'
 					$scope.loggedIn = false
 					
@@ -1347,7 +1352,7 @@
 		<table>
 			<tr>
 				<td nowrap align="left">
-		<a href="#" ng-click="showView('login.html')" ng-class="{ selected: viewName == 'login.html' }">{{inOrOut}}</a>
+		<a href="#" ng-click="showView('login.html')" ng-class="{ selected: viewName == 'login.html' }">{{loginVals.inOrOut}}</a>
 		<a href="#" ng-click="showView('lobby.html')" ng-class="{ selected: viewName == 'lobby.html' }">Lobby</a>
 		<a href="#" ng-click="showView('board.html',rememberTablenum)" ng-class="{ selected: viewName == 'board.html' }">Chessboard</a>
 		<a href="#" ng-click="showView('captain.html')" ng-class="{ selected: viewName == 'captain.html' }">Captain</a>
