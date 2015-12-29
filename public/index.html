@@ -801,12 +801,12 @@
 			
 			console.log('should apply')
 			
-			// if(!$scope.$$phase) {
+			if(!$scope.$$phase) {
 				
-			// 	console.log('does apply')
-			// 	$scope.$apply()
+				console.log('does apply')
+				$scope.$apply()
 				
-			// }else{
+			}//else{
 				
 			// 	console.log('apply: try again in 3s')
 			// 	$interval($rootScope.applyIt(),3000)
