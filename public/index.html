@@ -373,7 +373,9 @@
 							$rootScope.wPlayer = received.data.wPlayer
 
 							$rootScope.tempMoveString = ""
-
+							
+							
+							
 							break;
 
 
@@ -417,7 +419,10 @@
 							$rootScope.dbTable = received.data
 							tempConsole = received.data
 								//wplayer info kell itt!!
+							
+							$rootScope.updateSizes()
 
+							
 							showTable(function() {
 								$rootScope.$apply
 							})
@@ -1191,7 +1196,7 @@
 				if (viewName == 'board.html') {
 
 
-					$rootScope.updateSizes()
+					// $timeout($rootScope.updateSizes(), 800)
 
 					if ($rootScope.wPlayer) {
 						$scope.drTable("/wtable.html")
@@ -1478,7 +1483,7 @@
 
 						<div style="overflow-x: auto; width: auto; display: inline-block;white-space: nowrap;">
 							<div ng-repeat="x in displayedGames" style="display: inline-block;white-space: nowrap;">
-								&nbsp&nbsp<a href="#" ng-attr-title="playing {{x.wPlayer&&('white')||('black')}} against {{x.opponentsName}}" class="dtext" ng-click="showView('board.html',x.gameNo)" ng-class="{ selected: loginVals.viewName == 'board.html' && subViewName == x.gameNo }">Game {{x.gameNo}}</a><span ng-click="removeDisplayedGame(x.gameNo)" class="pointed dtext" style="background-color:red; vertical-align:top; line-height: 0.8; color:white">x</span>
+								&nbsp&nbsp<a href="#" ng-attr-title="playing {{x.wPlayer&&('white')||('black')}} against {{x.opponentsName}}" class="dtext" ng-click="showView('board.html',x.gameNo)" ng-class="{ selected: loginVals.viewName == 'board.html' && subViewName == x.gameNo }">Game {{x.gameNo}}</a><span ng-click="removeDisplayedGame(x.gameNo)" class="pointed dtext" style="background-color:#ff3333; vertical-align:top; line-height: 0.8; color:white">x</span>
 
 
 								<!--<div> &nbsp </div>-->

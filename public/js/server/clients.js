@@ -5,7 +5,8 @@ var Clients=function(){
 		
 		connectedSockets:[],		//sockets will have extra data added to them
 		offlineSockets:[],
-		views:[]
+		views:[],
+		onlineUsers:[]
 		
 	}
 		
@@ -26,6 +27,26 @@ var Clients=function(){
 		this.connections=[]
 	}
 
+	
+	
+	//////////////////////// functions to manage users
+	
+	this.login=function(connection,userName){
+		
+		
+		knownClients.onlineUsers.push({
+			name:userName,
+			onlineSince:new Date()
+		})
+		
+		
+		console.log('after login',knownClients.onlineUsers)
+		this.publushOnlineUsers()
+	}
+	
+	this.publushOnlineUsers=function(){
+		this.publishView('lobby.html','default','onlineUsers',knownClients.onlineUsers)
+	}
 	
 	
 	//////////////////////// functions to manage connections

@@ -75,6 +75,8 @@ var userFuncs={
 							clients.update(connection,'stayLoggedIn',stayLoggedIn)
 							clients.publishAddedData()
 							clients.publishDisplayedGames(name,connection)
+							
+							clients.login(connection,name)
 	
 						} else {
 							//wrong pwd
