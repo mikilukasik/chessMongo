@@ -1,55 +1,54 @@
 <html>
 
 <head>
-	
+
 	<link rel="stylesheet" type="text/css" href="chess.css">
-	
+
 	<script src="js/modules/jquery.js"></script>
 	<script src="js/modules/angular.js"></script>
-	
+
 	<script src="js/all/engine.js"></script>
 	<script src="js/all/brandNewAi.js"></script>
 	<script src="js/worker/deepening.js"></script>
 	<script src="js/all/classes.js"></script>
 	<script src="js/index/thinker.js"></script>
-	
-	
+
+
 
 	<script>
-	
 		/////////////////////	temp stuff for debugging	//////////////////////////////////
-		
+
 		var tempConsole
-		
-		
-			
+
+
+
 		//////////////////////////	cookie stuff	////////////////////////////////////////////////
 
 		function setCookie(cname, cvalue, exdays) {
-			
+
 			var d = new Date();
-			
+
 			d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-			
+
 			var expires = "expires=" + d.toUTCString();
-			
+
 			document.cookie = cname + "=" + cvalue + "; " + expires;
-			
+
 		}
 
 		function getCookie(cname) {
-			
+
 			var name = cname + "=";
 			var ca = document.cookie.split(';');
-			
+
 			for (var i = 0; i < ca.length; i++) {
 				var c = ca[i];
 				while (c.charAt(0) == ' ') c = c.substring(1);
 				if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
 			}
-			
+
 			return "";
-			
+
 		}
 
 
@@ -58,56 +57,56 @@
 		var cookieId = ""
 		var workerSpeed = ""
 		var mainThreadSpeed = ""
-		var cookieIdRnd=""
-		
-		var clientMongoId=''
-		var userMongoId=''
+		var cookieIdRnd = ""
+
+		var clientMongoId = ''
+		var userMongoId = ''
 
 
 		//load cookies
 
 		cookieId = getCookie("myID");
 		cookieIdRnd = getCookie("rndId");
-		
-		clientMongoId=getCookie("clientMongoId");
-		userMongoId=getCookie("userMongoId");
-		
-		
-			
-			if(cookieIdRnd == ""){
-				cookieIdRnd = (Math.random() * Math.random()).toString()
-				setCookie("rndId", cookieIdRnd, 365)
-			}
-			
-			console.log('cookieIdRnd',cookieIdRnd)
-		
+
+		clientMongoId = getCookie("clientMongoId");
+		userMongoId = getCookie("userMongoId");
+
+
+
+		if (cookieIdRnd == "") {
+			cookieIdRnd = (Math.random() * Math.random()).toString()
+			setCookie("rndId", cookieIdRnd, 365)
+		}
+
+		console.log('cookieIdRnd', cookieIdRnd)
+
 		// mainThreadSpeed = Number(getCookie("mainThreadSpeed"));
 		// workerSpeed = Number(getCookie("workerSpeed"));
-		
+
 
 		if (workerSpeed == "" || isNaN(workerSpeed)) {
 
 			workerSpeed = 1 //temp val before first test		//should this be 0????
-			
+
 		}
-		
+
 		var sendID;
 
 		if (cookieId == "") {
-		
-			
-			
-			sendID=cookieIdRnd
 
-			
-		// } else {
-			
-		// 	sendID = cookieId
-			
+
+
+			sendID = cookieIdRnd
+
+
+			// } else {
+
+			// 	sendID = cookieId
+
 		}
 
 		var setID = function(id) {
-			
+
 			setCookie("myID", id, 365)
 			cookieId = id
 			sendID = id
@@ -116,337 +115,328 @@
 
 
 		}
-		
-		
-		
+
+
+
 		var setWorkerSpeed = function(count, time) {
-			
-			var tempSpeed=Number(count) / Number(time)
-			
-			var percDiff=~~(tempSpeed/Number(workerSpeed)*100)
-			
-			tempSpeed=(workerSpeed+2*tempSpeed)/3		//average of last few
-			
+
+			var tempSpeed = Number(count) / Number(time)
+
+			var percDiff = ~~(tempSpeed / Number(workerSpeed) * 100)
+
+			tempSpeed = (workerSpeed + 2 * tempSpeed) / 3 //average of last few
+
 			workerSpeed = tempSpeed
-	
+
 			setCookie("workerSpeed", workerSpeed, 365)
-			
+
 			return percDiff
-				
+
 		}
 
 		var setSpeedCookies = function() {
 
-			setWorkerSpeed(workerSpeed,1)
-		
+			setWorkerSpeed(workerSpeed, 1)
+
 		}
 
-		
 
-		
-		
+
+
 		/////////////////////	websocket stuff		//////////////////////////////////
-		
-		var showTable=function(){}
-		
-		var socketOn=false
-		
-		var socketID=undefined
-		
-		var socketSend=function(command,data,message,cb){}
-		
-		
-			function updateView($rootScope,$scope,data){
-				
-				//console.log('updateview called',data)
-				
-				if($rootScope.loginVals.viewName==data.viewName){
-					
-					
-					if($rootScope.subViewName==data.subViewName){
-						//we're on the right view
-						
-									console.log('updating ---- ',data.viewPart)
-									eval("($rootScope."+data.viewPart+"=data.data)") // $rootScope.
-									
-									if(data.viewPart=='dbTable.table')showTable(function(){
-										$rootScope.$apply
-									})
-									
-							
-					}else{
+
+		var showTable = function() {}
+
+		var socketOn = false
+
+		var socketID = undefined
+
+		var socketSend = function(command, data, message, cb) {}
+
+
+		function updateView($rootScope, $scope, data) {
+
+			//console.log('updateview called',data)
+
+			if ($rootScope.loginVals.viewName == data.viewName) {
+
+
+				if ($rootScope.subViewName == data.subViewName) {
+					//we're on the right view
+
+					console.log('updating ---- ', data.viewPart)
+					eval("($rootScope." + data.viewPart + "=data.data)") // $rootScope.
+
+					if (data.viewPart == 'dbTable.table') showTable(function() {
+						$rootScope.$apply
+					})
+
+
+				} else {
 					//view must have changed, let the server know maybe...
 					// console.log('sorryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
-					
-					
-				}
-					
-				}else{
-					//view must have changed, let the server know maybe...
-					
-					
-					
-				}
-				
-				$scope.$apply()
-				
-			}
-		
-		
-		 function sockets($rootScope,$scope) {
-            if ("WebSocket" in window)
-            {
-				
-					socketOn=true
-               //alert("WebSocket is supported by your Browser!");
-               
-               // Let us open a web socket
-               var ws = new WebSocket('ws://'+document.location.host+'/sockets/');
-				
-               ws.onopen = function()
-               {
-                  // Web Socket is connected, send data using send()
-				  
-				  
-				  
-			
-				  socketSend=function(command,data,message,cb){
-					  
-					  var sendThis={
-						 
-						  command: command,
-						  data: data,
-						  message: message,
-						  socketID: socketID
-					  }
-					 
-					  if(!cb){
-						  var cb=function(){}
-					  }
-					  
-					  ws.send(JSON.stringify(sendThis),cb());
-				
-				  }
-				  
-				  console.log("socket connected, let's say hello...")
-				  
-				  socketSend('Hello',{ 
-					  cookieIdRnd:cookieIdRnd,
-					  clientMongoId:clientMongoId
-					  },'Hello',function(){
-					  
-					 
-					  //console.log("socketSend 'hello' callback called")
-				  })	//init
-				 // console.log('cookieIdRnd again',cookieIdRnd)
-		
-               };
-				
-               ws.onmessage = function (evt) 
-               { 
-                  var received = eval("(" + evt.data + ")");
-                  
-				 // console.log("socketMessage received:",received.message,received.data);
-				  
-				  switch(received.command){
-					  
-					  case 'refreshBrowser':
-					  
-					  	location.reload(true)
-					  
-					  break;
-					  
-					  case 'updateDisplayedGames':
-					  
-					  	$rootScope.displayedGames=received.data
-					  
-					  
-					  break;
-					  
-					  case 'userRegistered':
-					  
-					  	alert('User '+received.data.name+' registered.')
-					  
-					  break;
-					  
-					  case 'userNotRegistered':
-					  
-					  	alert('User not registered, please register first!')
-						  
-						break;
-						
-						case 'wrongPwd':
-							
-							alert("Username and password don't match, please try again!")
-					  
-					  break;
-					  
-					  case 'login':
 
-					  		$scope.loggedIn = true
+
+				}
+
+			} else {
+				//view must have changed, let the server know maybe...
+
+
+
+			}
+
+			$scope.$apply()
+
+		}
+
+
+		function sockets($rootScope, $scope) {
+			if ("WebSocket" in window) {
+
+				socketOn = true
+					//alert("WebSocket is supported by your Browser!");
+
+				// Let us open a web socket
+				var ws = new WebSocket('ws://' + document.location.host + '/sockets/');
+
+				ws.onopen = function() {
+					// Web Socket is connected, send data using send()
+
+
+
+
+					socketSend = function(command, data, message, cb) {
+
+						var sendThis = {
+
+							command: command,
+							data: data,
+							message: message,
+							socketID: socketID
+						}
+
+						if (!cb) {
+							var cb = function() {}
+						}
+
+						ws.send(JSON.stringify(sendThis), cb());
+
+					}
+
+					console.log("socket connected, let's say hello...")
+
+					socketSend('Hello', {
+							cookieIdRnd: cookieIdRnd,
+							clientMongoId: clientMongoId
+						}, 'Hello', function() {
+
+
+							//console.log("socketSend 'hello' callback called")
+						}) //init
+						// console.log('cookieIdRnd again',cookieIdRnd)
+
+				};
+
+				ws.onmessage = function(evt) {
+					var received = eval("(" + evt.data + ")");
+
+					// console.log("socketMessage received:",received.message,received.data);
+
+					switch (received.command) {
+
+						case 'refreshBrowser':
+
+							location.reload(true)
+
+							break;
+
+						case 'updateDisplayedGames':
+
+							$rootScope.displayedGames = received.data
+
+
+							break;
+
+						case 'userRegistered':
+
+							alert('User ' + received.data.name + ' registered.')
+
+							break;
+
+						case 'userNotRegistered':
+
+							alert('User not registered, please register first!')
+
+							break;
+
+						case 'wrongPwd':
+
+							alert("Username and password don't match, please try again!")
+
+							break;
+
+						case 'login':
+
+							$scope.loggedIn = true
 							$scope.greetUser = 'Logged in as ' + received.data.name + '. '
 
 							$rootScope.loginVals.inOrOut = 'Logoff' //displayed on nav when logged in
 							$rootScope.loginName = received.data.name
-							$rootScope.showView('lobby.html','default')
-							
-							
-					  	
+							$rootScope.showView('lobby.html', 'default')
 
-						break;					  
-					  
-					  case 'userExists':
-					  
-					  	alert('Username '+received.data.name+' already exists, please try another!')
-					  
-					  break;
-					  
-					  case 'reHello' : 
-					  
-					  
-					  	socketID = received.data.connectionID
-					  
-					  	console.log('received connectionID',received.data.connectionID)
-					  
-					  	$rootScope.socketID=received.data.connectionID
-						sendID=$rootScope.socketID
-						
-						
-						ifWorkers(startWorkers)
-						
-						  
-						 if(!$rootScope.ran) {
-							console.log('starting...')
-							$rootScope.ran=true
-							$rootScope.dbTable=new Dbtable(1,2,3)
-							$rootScope.wPlayer=true
-							//$rootScope.drTable='wTable.html'
-							
-							$rootScope.sTable=[]
-							for(var i=7;i>=0;i--){
-								$rootScope.sTable[i]=[]
-								for(var j=7;j>=0;j--){
-									$rootScope.sTable[i][j]=[0,0]
+
+
+
+							break;
+
+						case 'userExists':
+
+							alert('Username ' + received.data.name + ' already exists, please try another!')
+
+							break;
+
+						case 'reHello':
+
+
+							socketID = received.data.connectionID
+
+							console.log('received connectionID', received.data.connectionID)
+
+							$rootScope.socketID = received.data.connectionID
+							sendID = $rootScope.socketID
+
+
+							ifWorkers(startWorkers)
+
+
+							if (!$rootScope.ran) {
+								console.log('starting...')
+								$rootScope.ran = true
+								$rootScope.dbTable = new Dbtable(1, 2, 3)
+								$rootScope.wPlayer = true
+									//$rootScope.drTable='wTable.html'
+
+								$rootScope.sTable = []
+								for (var i = 7; i >= 0; i--) {
+									$rootScope.sTable[i] = []
+									for (var j = 7; j >= 0; j--) {
+										$rootScope.sTable[i][j] = [0, 0]
+									}
+
 								}
-								
+
+								$rootScope.showView('login.html')
+
 							}
-							
-							$rootScope.showView('login.html')
-							
-						}
-					  
-					  
-					  break;
-					  
-					  case 'saveYourClientMongoId':
-					  
-					  		//we said hello without a mongoID so we were given one, let's say hello again
-					  
-					  	
-						  clientMongoId=received.data.clientMongoId
-						  setCookie('clientMongoId',clientMongoId,365)
-						  
-						  //recall Hello
-						  
-						  console.log('clientMongoId '+clientMongoId+' registered, saying Hello again...')
-						  
-						  socketSend('Hello',{ 
-								cookieIdRnd:cookieIdRnd,
-								clientMongoId:clientMongoId
-							},'Hello',function(){})	//init
-						  
-						  
-					  	
-						  
-						  
-					  
-					  break;
-					  
-					  case 'openGame':
-					  
-						if($rootScope.wPlayer){
-							$scope.drTable("/wtable.html")
-						}else{
-							$scope.drTable("/btable.html")
-						}
-					  
-					  	$rootScope.rememberTablenum=received.data._id
-					  	
-						//$rootScope.dbTable={}
-					  	
-						$rootScope.showView('board.html',received.data._id)
-						  
-						$rootScope.dbTable._id=received.data._id	//temp hack!!!!!!!!!!!!!!!!!!!!!!!
-						$rootScope.wPlayer = received.data.wPlayer
-						
-						$rootScope.tempMoveString=""
-					  
-					  break;
-					  
-					  
-					  case 'showOnConsole':
-					  
-					  	console.log('from server to console:',received.data)
-					  
-					  break;
-					  
-					  case 'task':
-					  
-					  
-					  	mainWorker.postMessage	
-					
-						({
-																
-							reqCommand: 'taskReceived',
-							reqData : {
-								command:received.data.command,			//string
-								data: received.data.data
-							}
-							
-						})
-					  
-					  
-					  
-					  
 
 
-						break;		
-						
+							break;
+
+						case 'saveYourClientMongoId':
+
+							//we said hello without a mongoID so we were given one, let's say hello again
+
+
+							clientMongoId = received.data.clientMongoId
+							setCookie('clientMongoId', clientMongoId, 365)
+
+							//recall Hello
+
+							console.log('clientMongoId ' + clientMongoId + ' registered, saying Hello again...')
+
+							socketSend('Hello', {
+									cookieIdRnd: cookieIdRnd,
+									clientMongoId: clientMongoId
+								}, 'Hello', function() {}) //init
+
+
+
+
+							break;
+
+						case 'openGame':
+
+							if ($rootScope.wPlayer) {
+								$scope.drTable("/wtable.html")
+							} else {
+								$scope.drTable("/btable.html")
+							}
+
+							$rootScope.rememberTablenum = received.data._id
+
+							//$rootScope.dbTable={}
+
+							$rootScope.showView('board.html', received.data._id)
+
+							$rootScope.dbTable._id = received.data._id //temp hack!!!!!!!!!!!!!!!!!!!!!!!
+							$rootScope.wPlayer = received.data.wPlayer
+
+							$rootScope.tempMoveString = ""
+
+							break;
+
+
+						case 'showOnConsole':
+
+							console.log('from server to console:', received.data)
+
+							break;
+
+						case 'task':
+
+
+							mainWorker.postMessage
+
+								({
+
+								reqCommand: 'taskReceived',
+								reqData: {
+									command: received.data.command, //string
+									data: received.data.data
+								}
+
+							})
+
+
+
+
+							break;
+
 						case 'updateView':
-						
-							updateView($rootScope,$scope,received.data)
-							
-						
-						
-						
-						break;		
-						
+
+							updateView($rootScope, $scope, received.data)
+
+
+
+
+							break;
+
 						case 'updateDbTable':
-						
-							$rootScope.dbTable=received.data
-							tempConsole=received.data
-							//wplayer info kell itt!!
-							
-							showTable(function(){
-										$rootScope.$apply
-									})
-						
-						
-						break;	  
-					  
-					  
-					  case 'lobbyState':
-					  
-					  
-					  
-					  
-					  
-					  //console.log('polling lobby')
-							if(received.data.asktoopen) {
+
+							$rootScope.dbTable = received.data
+							tempConsole = received.data
+								//wplayer info kell itt!!
+
+							showTable(function() {
+								$rootScope.$apply
+							})
+
+
+							break;
+
+
+						case 'lobbyState':
+
+
+
+
+							//console.log('polling lobby')
+							if (received.data.asktoopen) {
 								////console.log('opening')
 
 								$rootScope.dbTable._id = received.data.opentablenum
-								$rootScope.showView('board.html',$rootScope.dbTable._id)
+								$rootScope.showView('board.html', $rootScope.dbTable._id)
 								$rootScope.wPlayer = received.data.opentablecolor
 								$scope.opponentsName = received.data.opponentsname
 								$rootScope.pollNum = 0
@@ -455,7 +445,7 @@
 
 							}
 
-							if(!($scope.lobbyPollNum == received.data.lobbypollnum)) {
+							if (!($scope.lobbyPollNum == received.data.lobbypollnum)) {
 
 								//////console.log('polling lobby')
 
@@ -464,975 +454,1118 @@
 								$scope.players.unshift("Fastest thinker")
 								$scope.players.unshift("Multiple thinkers")
 								$scope.players.unshift("Server")
-								
-								
+
+
 								$scope.games = received.data.games
 								$scope.players.sort(function(a, b) {
 									return a.toLowerCase().localeCompare(b.toLowerCase());
 								});
 								$scope.lobbyPollNum = received.data.lobbyPollNum
 									//showLobby(lobbyChatLines, players, games, $scope.lobbyPollNum)
-							// 	if(!$scope.$$phase) {
-							// 	$scope.$apply()
-							// }
+									// 	if(!$scope.$$phase) {
+									// 	$scope.$apply()
+									// }
 
 							}
-							
-					  
-					  break;
-					  
-					  
-				  }
-				if(!$scope.$$phase) {
-								$scope.$apply()
-							}
-				  
-               };
-				
-               ws.onclose = function()
-               { 
-                  // websocket is closed.
-				  
-				  socketOn=false
-				  
-				  socketID=undefined
-				  
-                  console.log("socketConnection is closed, retry in 2s.."); 
-				  
-				  window.setTimeout(function(){
-					  if(!socketOn)sockets($rootScope, $scope)
-				  },2000)
-               };
-            }
-            
-            else
-            {
-               // The browser doesn't support WebSocket
-               console.log("WebSocket NOT supported by your Browser!");
-            }
-         }
-	
-	
-	
-	
-	
-	
-	
-	
 
-		
-		
-		
-		
-		// ifWorkers(startWorkers)
-		
-		//var activeViewParts=[]
-		
-		
-		
-		
-		
-		
-	var appModule = angular.module("appModule", []);
 
-	appModule.controller("ApplicationController", ApplicationController);
+							break;
 
-	function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
-		
-		//if($rootScope.dbTable==undefined)$rootScope.dbTable={}
-		
-		//$rootScope.activeViewParts=activeViewParts
-		
-		if(!$rootScope.ran){
-			console.log('egyszer?')
-			$rootScope.loginVals={
-				inOrOut:'Login',
-				viewName:'login.html'
-			}
-		}
-		
-		if(!socketOn)sockets($rootScope, $scope)
-	
-	
-		
-		 
-		
-		var pollerMessage= function(event){
-			
-			//console.log('something')
-			
-			switch (event.data.resCommand){
-				
-				case undefined:
-				
-				break;
-				
-				case 'updateBusyThinkers':
-				
-			//		console.log(event.data.resData.busyThinkers)
-					
-					$rootScope.busyThinkers=event.data.resData.busyThinkers
-					$scope.$apply()
-					$rootScope.updateSizes()
-				
-				break;
-				
-				
-			}
-			
-			
-		}
-		
-		//var poller={}
-		
-		// ifWorkers(function(){
-			
-		// 	// poller=new Worker('js/poller.js')
-		// 	// poller.onmessage = pollerMessage
-			
-			
-			
-		// },function(){
-		// 	//no worker support
-			
-			
-			
-		// })
-		
-		
-		
-		
-		$rootScope.cookieId=cookieId
-		
-		$rootScope.setID=function(id){
-			
-			setID(id)
-			
-			$rootScope.cookieId=id
-			
-			
-		}
-		
-		$scope.refreshAllBrowsers=function(){
-			
-			socketSend('refreshAllBrowsers')
-			
-		}
-		
-		$scope.setDepth=function(depth){
-			$rootScope.depth=depth
-		}
-		
-		$rootScope.updateSizes=function(){
-			
-			var sw=window.innerWidth
-			var sh=window.innerHeight
-			
-			var sr=sh/sw
-			
-			if(sr<0.8){
-				$rootScope.screenRatio=0
-			}else{
-				
-				if(sr<1.1){
-					$rootScope.screenRatio=1
-				}else{
-					
-					if(sr<1.5){
-						$rootScope.screenRatio=2
-					}else{
-						$rootScope.screenRatio=3
+
 					}
-					
-					
-				}
-				
-			}
-			
-			
-			
-			var nw=$('.navvv').width()
-			var sbh=$('.statusBox').height()
-			
-			$('.frame-table').css({'width':nw+'px'});
-			$('.frame-table').css({'height':(sh-50)+'px'});
-			
-			
-			
-			switch ($rootScope.screenRatio) {
-				
-				case 0:
-				
-				$('.leftBar').css({'width':130+'px'});
-				
-					
-					$('.iderakd').css({'height':(1)+'px'});
-					$('.iderakd').css({'width':(1)+'px'});
-					
-					$('.main-table').css({'height':(sh-72)+'px'});
-					$('.main-table').css({'width':(sh-72)+'px'});
-					
-						
-					$('.chatCell').css({'width':(sw-sh-90)+'px'});
-					$('.chatCell').css({'height':(sh-92)+'px'});
-					
-					$('.chatInpt').css({'width':(sw-sh-144)+'px'});
-					
-					$('.moves').css({'height':(sh-sbh-75)+'px'});
-				
-				break;
-				
-				case 1:
-				
-					$('.leftBar').css({'width':230+'px'});
-			
-		
-					
-					$('.tableAndChat').css({'width':(nw-241)+'px'});
-					
-					
-					$('.chatCell').css({'width':(nw-214)+'px'});
-					$('.chatCell').css({'height':(sh-sw+342)+'px'});
-					
-					$('.chatInpt').css({'width':(nw-268)+'px'});
-					
-					
-					$('.iderakd').css({'height':(1)+'px'});
-					$('.iderakd').css({'width':(1)+'px'});
-					
-					
-					$('.main-table').css({'height':(nw-215)+'px'});
-					$('.main-table').css({'width':(nw-215)+'px'});
-					
-					
-					$('.moves').css({'height':(sh-sbh+112)+'px'});
-					
-					
-				
-				
-				break;
-				
-				case 2:
-				
-					$('.leftBar').css({'width':130+'px'});
-					
-					
-					$('.tableAndChat').css({'width':(1)+'px'});
-					
-					$('.iderakd').css({'height':(1)+'px'});
-					$('.iderakd').css({'width':(1)+'px'});
-					
-					
-					
-					$('.chatCell').css({'width':(nw-150)+'px'});
-					$('.chatCell').css({'height':(sh-nw+42)+'px'});
-					
-					$('.chatInpt').css({'width':(nw-214)+'px'});
-					
-					
-					
-					$('.main-table').css({'height':(nw-150)+'px'});
-					$('.main-table').css({'width':(nw-150)+'px'});
-					
-					$('.moves').css({'height':(sh-sbh-82)+'px'});
-					
-				
-				break;
-				
-				case 3:
-				
-					
-					
-								
-					$('.leftBar').css({'height':(sh-nw-68)+'px'});
-					
-					$('.chatCell').css({'width':(nw-148)+'px'});
-					$('.chatInpt').css({'width':(nw-202)+'px'});
-					
-					
-					$('.chatCell').css({'height':(sh-nw    -90)+'px'});
-					
-					$('.iderakd').css({'height':(1)+'px'});
-					$('.iderakd').css({'width':(1)+'px'});
-					
-					$('.main-table').css({'height':(nw-8)+'px'});
-					$('.main-table').css({'width':(nw-8)+'px'});
-					
-					$('.moves').css({'height':(sh-sbh-nw-73)+'px'});
-					
-				break;
-				
-			}
-			
-		}
-		
-		window.onresize=function(){
-			
-			
-			//http://stackoverflow.com/questions/14902321/how-to-determine-if-a-resize-event-was-triggered-by-soft-keyboard-in-mobile-brow
-			
-			
-			var t=$(document.activeElement).prop('type')
-			if(t === 'text' || t === 'password') {
-				// Logic for while keyboard is shown
+					if (!$scope.$$phase) {
+						$scope.$apply()
+					}
+
+				};
+
+				ws.onclose = function() {
+					// websocket is closed.
+
+					socketOn = false
+
+					socketID = undefined
+
+					console.log("socketConnection is closed, retry in 2s..");
+
+					window.setTimeout(function() {
+						if (!socketOn) sockets($rootScope, $scope)
+					}, 2000)
+				};
 			} else {
-				// Logic for while keyboard is hidden
-				
-				$timeout($rootScope.updateSizes(),800)
-				
-				
+				// The browser doesn't support WebSocket
+				console.log("WebSocket NOT supported by your Browser!");
 			}
-			
-		}
-		
-		var dletters = ["a","b","c","d","e","f","g","h"]
-		
-		$scope.loggedIn = false
-		$scope.lobbyPollNum = 0
-
-		$rootScope.pollNum = -2		//just in case
-		
-		$rootScope.depth=3
-		
-	
-		$scope.askToStart = function(opponentsName) {
-			if(opponentsName!=$rootScope.loginName)	socketSend('startGame',{
-				w:$rootScope.loginName,
-				b:opponentsName
-			},'startGame against '+opponentsName,function(){
-				console.log("'startGame' callback")
-			})
-			//$http.get('/startGame?w=' + $rootScope.loginName + "&b=" + opponentsName)
-
 		}
 
-		/// 
 
-		$scope.askToWatch = function(gameID) {
 
-			$http.get('/watchGame?v=' + $rootScope.loginName + "&t=" + gameID)
 
-		}
-		$rootScope.applyIt=function(){
-			
-			console.log('should apply')
-			
-			if(!$scope.$$phase) {
-				
-				console.log('does apply')
-				$scope.$apply()
-				
-			}//else{
-				
-			// 	console.log('apply: try again in 3s')
-			// 	$interval($rootScope.applyIt(),3000)
-				
-			// }
-			
-		}
-		
-		$scope.quickGame=function(){
-			
-			
-								//$rootScope.showView('board.html',)
-			
-								//$http.get('/startGame?w=' + $rootScope.loginName + "&b=" + 'Multiple thinkers')
-								
-								$scope.opponentsName='Multiple thinkers'
-								
-								socketSend('quickGame',{
-									w: $rootScope.loginName,
-									b: 'Multiple thinkers'
-								},'startQuickGame for '+$rootScope.loginName,function(){
-									console.log("'startGame' callback")
-								})
-								
-		}
-			
-		$scope.setTableNum = function(num){
-			
-			var oldNum = $rootScope.dbTable._id
-			
-			$rootScope.dbTable._id=num
-			$rootScope.pollNum=-1
-			
-			$http.get('/forcePopTable?t='+oldNum+'&p='+$rootScope.loginName+'&m=Went to t'+num)
-			$rootScope.longPollTable()
-		
-		}
-		
-		// $scope.pollLobby = function() {
-			
-		// 	$scope.lobbyPromise = $interval(function() {
+		// ifWorkers(startWorkers)
 
-		// 		//refreshLobby()
-		// 		if($rootScope.loginVals.viewName == 'lobby.html') {
-					
-		// 			console.log("'getLobby'??")
-					
-		// 		} else {
-					
+		//var activeViewParts=[]
 
-		// 		}
-		// 	}, 1000); //setinterval stuff ends here
 
-		// }
 
-		// $scope.pollLobby()			//replaced with socketSend
-		
-		
-		
 
-		$scope.clickedItTrans = function(i, j) {
-			//alert("called")
-			////console.log([i,j,$rootScope.tempMoveString])
-			
-			var clickedField = [j, 8 - i]
-			var clickedString = dletters[j] + (9 - i)
+		var appModule = angular.module("appModule", []);
 
-			if(!($scope.opponentsName == "Spectator")) {
-				$scope.clickedIt(clickedField, clickedString)
+		appModule.controller("ApplicationController", ApplicationController);
+
+		function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
+
+			//if($rootScope.dbTable==undefined)$rootScope.dbTable={}
+
+			//$rootScope.activeViewParts=activeViewParts
+
+			if (!$rootScope.ran) {
+				console.log('egyszer?')
+				$rootScope.loginVals = {
+					inOrOut: 'Login',
+					viewName: 'login.html'
+				}
 			}
-			//	////console.log(clickedField,clickedString)
 
-		}
-		
-		$scope.makeAMove = function(whatMove) {
+			if (!socketOn) sockets($rootScope, $scope)
 
-		if(!($scope.opponentsName=='Server')){			// temp hack!!!!!
-			
-			var moveStr=whatMove	//levagni a kepeket...	(mi ut mit)
-			//////////////////////
-							///replace this!!!
-							
-				var dbTable={}//new Dbtable($rootScope.dbTable._id, $rootScope.wName, $rootScope.bName)
-				
-				//hello Marzenka
-				console.log($rootScope.dbTable._id)
-				dbTable._id=$rootScope.dbTable._id
-				dbTable.wName=$rootScope.wName
-				dbTable.bName=$rootScope.bName
-				
-				
-				dbTable.table=$rootScope.dbTable.table
-				dbTable.wNext=$rootScope.dbTable.wNext
-																						//refaktor!!!!!!
-				dbTable.moves= $rootScope.dbTable.moves
-				dbTable.pollNum= $rootScope.pollNum
-				dbTable.allPastTables= $rootScope.dbTable.allPastTables
-				// dbTable.wName= $rootScope.wName
-				// dbTable.bName= $rootScope.bName
-				
-				$rootScope.lastState= $.extend(true, {}, dbTable)		//remember so we can Oooops!!
-				
-				
-				
-				$scope.clearHighlights($rootScope.lastState.table)
-				console.log('dbTable',dbTable)
-				dbTable=moveInTable(moveStr,dbTable,false)
-				
-		
-			
-			
-				if($scope.opponentsName=='Fastest thinker'){
-					dbTable.command='makeAiMove'
-					dbTable.aiType='fastest thinker'
-					
-						
+
+
+
+			var pollerMessage = function(event) {
+
+				//console.log('something')
+
+				switch (event.data.resCommand) {
+
+					case undefined:
+
+						break;
+
+					case 'updateBusyThinkers':
+
+						//		console.log(event.data.resData.busyThinkers)
+
+						$rootScope.busyThinkers = event.data.resData.busyThinkers
+						$scope.$apply()
+						$rootScope.updateSizes()
+
+						break;
+
+
 				}
-				
-				if($scope.opponentsName=='Multiple thinkers'){
-					dbTable.command='makeAiMove'
-					dbTable.aiType='thinkers'
-					
-					
-						
-					// dbTable.aiTable=new MoveTask(dbTable)	
-				}
-			
-			
-			dbTable._id=$rootScope.dbTable._id
-			dbTable.desiredDepth=$rootScope.depth
-			
-			socketSend('moved',dbTable,'moved',function(){
-				
-				$rootScope.dbTable.table=dbTable.table
-				$rootScope.dbTable.wNext=dbTable.wNext
-				$rootScope.dbTable.moves=dbTable.moves
-			})
-			
-			// $http.post('/moved',dbTable,function(req,res){
-			// 	$rootScope.dbTable.table=dbTable.table
-			// 	$rootScope.dbTable.wNext=dbTable.wNext
-			// 	$rootScope.dbTable.moves=dbTable.moves
-				
+
+
+			}
+
+			//var poller={}
+
+			// ifWorkers(function(){
+
+			// 	// poller=new Worker('js/poller.js')
+			// 	// poller.onmessage = pollerMessage
+
+
+
+			// },function(){
+			// 	//no worker support
+
+
+
 			// })
-			
-		}	else{
-		
-			$http.get('/move?m=' + whatMove + '&t=' + $rootScope.dbTable._id)
-			
-			
-		}
-			
 
-		}
-		
-		$rootScope.takeItBack= function(){
-			socketSend('moved',dbTable,'moved',function(){
-				$rootScope.dbTable.table=$rootScope.lastState.table
-				$rootScope.dbTable.wNext=$rootScope.lastState.wNext
-				$rootScope.dbTable.moves=$rootScope.lastState.moves
-				
-				//$scope.clearHighlights($rootScope.dbTable.table)
-				
-			})
-		}
 
-		$scope.refreshTable = function() {
 
-			$http.get('/getTPollNum?t=' + $rootScope.dbTable._id)
-				.success(function(response) {
-					////console.log('getting board pollnum: '+response.tablepollnum+" vs "+$rootScope.pollNum)
-					if(!(response.tablepollnum == $rootScope.pollNum)) {
-						$rootScope.pollNum = response.tablepollnum
-						////console.log('calling getandshow')
-						$rootScope.longPollTable()
-						if(!$scope.$$phase) {
+
+			$rootScope.cookieId = cookieId
+
+			$rootScope.setID = function(id) {
+
+				setID(id)
+
+				$rootScope.cookieId = id
+
+
+			}
+
+			$scope.refreshAllBrowsers = function() {
+
+				socketSend('refreshAllBrowsers')
+
+			}
+
+			$scope.setDepth = function(depth) {
+				$rootScope.depth = depth
+			}
+
+			$rootScope.updateSizes = function() {
+
+				// var docuWidth=~~($(document).width()/1)
+
+				// console.log(docuWidth)
+
+				//$('a').css({'font-size':docuWidth});
+				//set nav sizes here!!!!!!!!!!!!!!!!!!!!!
+
+
+
+				var sw = window.innerWidth
+				var sh = window.innerHeight
+
+				var sr = sh / sw
+
+				if (sr < 0.8) {
+					$rootScope.screenRatio = 0
+				} else {
+
+					if (sr < 1.1) {
+						$rootScope.screenRatio = 1
+					} else {
+
+						if (sr < 1.5) {
+							$rootScope.screenRatio = 2
+						} else {
+							$rootScope.screenRatio = 3
+						}
+
+
+					}
+
+				}
+
+
+
+				var nw = $('.navvv').width()
+				var sbh = $('.statusBox').height()
+
+				$('.frame-table').css({
+					'width': nw + 'px'
+				});
+				$('.frame-table').css({
+					'height': (sh - 50) + 'px'
+				});
+
+
+
+				switch ($rootScope.screenRatio) {
+
+					case 0:
+
+						$('.leftBar').css({
+							'width': 130 + 'px'
+						});
+
+
+						$('.iderakd').css({
+							'height': (1) + 'px'
+						});
+						$('.iderakd').css({
+							'width': (1) + 'px'
+						});
+
+						$('.main-table').css({
+							'height': (sh - 72) + 'px'
+						});
+						$('.main-table').css({
+							'width': (sh - 72) + 'px'
+						});
+
+
+						$('.chatCell').css({
+							'width': (sw - sh - 90) + 'px'
+						});
+						$('.chatCell').css({
+							'height': (sh - 92) + 'px'
+						});
+
+						$('.chatInpt').css({
+							'width': (sw - sh - 144) + 'px'
+						});
+
+						$('.moves').css({
+							'height': (sh - sbh - 75) + 'px'
+						});
+
+						$('.dtext').css({
+							'font-size': '1em'
+						});
+
+						break;
+
+					case 1:
+
+						$('.leftBar').css({
+							'width': 230 + 'px'
+						});
+
+
+
+						$('.tableAndChat').css({
+							'width': (nw - 241) + 'px'
+						});
+
+
+						$('.chatCell').css({
+							'width': (nw - 214) + 'px'
+						});
+						$('.chatCell').css({
+							'height': (sh - sw + 342) + 'px'
+						});
+
+						$('.chatInpt').css({
+							'width': (nw - 268) + 'px'
+						});
+
+
+						$('.iderakd').css({
+							'height': (1) + 'px'
+						});
+						$('.iderakd').css({
+							'width': (1) + 'px'
+						});
+
+
+						$('.main-table').css({
+							'height': (nw - 215) + 'px'
+						});
+						$('.main-table').css({
+							'width': (nw - 215) + 'px'
+						});
+
+
+						$('.moves').css({
+							'height': (sh - sbh + 112) + 'px'
+						});
+
+						$('.dtext').css({
+							'font-size': '1em'
+						});
+
+
+						break;
+
+					case 2:
+
+						$('.leftBar').css({
+							'width': 130 + 'px'
+						});
+
+
+						$('.tableAndChat').css({
+							'width': (1) + 'px'
+						});
+
+						$('.iderakd').css({
+							'height': (1) + 'px'
+						});
+						$('.iderakd').css({
+							'width': (1) + 'px'
+						});
+
+
+
+						$('.chatCell').css({
+							'width': (nw - 150) + 'px'
+						});
+						$('.chatCell').css({
+							'height': (sh - nw + 42) + 'px'
+						});
+
+						$('.chatInpt').css({
+							'width': (nw - 214) + 'px'
+						});
+
+
+
+						$('.main-table').css({
+							'height': (nw - 150) + 'px'
+						});
+						$('.main-table').css({
+							'width': (nw - 150) + 'px'
+						});
+
+						$('.moves').css({
+							'height': (sh - sbh - 82) + 'px'
+						});
+
+						$('.dtext').css({
+							'font-size': '1.2em'
+						});
+
+						break;
+
+					case 3:
+
+
+
+
+						$('.leftBar').css({
+							'height': (sh - nw - 68) + 'px'
+						});
+
+						$('.chatCell').css({
+							'width': (nw - 148) + 'px'
+						});
+						$('.chatInpt').css({
+							'width': (nw - 202) + 'px'
+						});
+
+
+						$('.chatCell').css({
+							'height': (sh - nw - 90) + 'px'
+						});
+
+						$('.iderakd').css({
+							'height': (1) + 'px'
+						});
+						$('.iderakd').css({
+							'width': (1) + 'px'
+						});
+
+						$('.main-table').css({
+							'height': (nw - 8) + 'px'
+						});
+						$('.main-table').css({
+							'width': (nw - 8) + 'px'
+						});
+
+						$('.moves').css({
+							'height': (sh - sbh - nw - 73) + 'px'
+						});
+
+
+						$('.dtext').css({
+							'font-size': '1.5em'
+						});
+
+						break;
+
+				}
+
+			}
+
+			window.onresize = function() {
+
+
+				//http://stackoverflow.com/questions/14902321/how-to-determine-if-a-resize-event-was-triggered-by-soft-keyboard-in-mobile-brow
+
+
+				var t = $(document.activeElement).prop('type')
+				if (t === 'text' || t === 'password') {
+					// Logic for while keyboard is shown
+				} else {
+					// Logic for while keyboard is hidden
+
+					$timeout($rootScope.updateSizes(), 800)
+
+
+				}
+
+			}
+
+			var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
+
+			$scope.loggedIn = false
+			$scope.lobbyPollNum = 0
+
+			$rootScope.pollNum = -2 //just in case
+
+			$rootScope.depth = 3
+
+
+			$scope.askToStart = function(opponentsName) {
+				if (opponentsName != $rootScope.loginName) socketSend('startGame', {
+						w: $rootScope.loginName,
+						b: opponentsName
+					}, 'startGame against ' + opponentsName, function() {
+						console.log("'startGame' callback")
+					})
+					//$http.get('/startGame?w=' + $rootScope.loginName + "&b=" + opponentsName)
+
+			}
+
+			/// 
+
+			$scope.askToWatch = function(gameID) {
+
+				$http.get('/watchGame?v=' + $rootScope.loginName + "&t=" + gameID)
+
+			}
+			$rootScope.applyIt = function() {
+
+				console.log('should apply')
+
+				if (!$scope.$$phase) {
+
+					console.log('does apply')
+					$scope.$apply()
+
+				} //else{
+
+				// 	console.log('apply: try again in 3s')
+				// 	$interval($rootScope.applyIt(),3000)
+
+				// }
+
+			}
+
+			$scope.quickGame = function() {
+
+
+				//$rootScope.showView('board.html',)
+
+				//$http.get('/startGame?w=' + $rootScope.loginName + "&b=" + 'Multiple thinkers')
+
+				$scope.opponentsName = 'Multiple thinkers'
+
+				socketSend('quickGame', {
+					w: $rootScope.loginName,
+					b: 'Multiple thinkers'
+				}, 'startQuickGame for ' + $rootScope.loginName, function() {
+					console.log("'startGame' callback")
+				})
+
+			}
+
+			$scope.setTableNum = function(num) {
+
+				var oldNum = $rootScope.dbTable._id
+
+				$rootScope.dbTable._id = num
+				$rootScope.pollNum = -1
+
+				$http.get('/forcePopTable?t=' + oldNum + '&p=' + $rootScope.loginName + '&m=Went to t' + num)
+				$rootScope.longPollTable()
+
+			}
+
+			// $scope.pollLobby = function() {
+
+			// 	$scope.lobbyPromise = $interval(function() {
+
+			// 		//refreshLobby()
+			// 		if($rootScope.loginVals.viewName == 'lobby.html') {
+
+			// 			console.log("'getLobby'??")
+
+			// 		} else {
+
+
+			// 		}
+			// 	}, 1000); //setinterval stuff ends here
+
+			// }
+
+			// $scope.pollLobby()			//replaced with socketSend
+
+
+
+
+			$scope.clickedItTrans = function(i, j) {
+				//alert("called")
+				////console.log([i,j,$rootScope.tempMoveString])
+
+				var clickedField = [j, 8 - i]
+				var clickedString = dletters[j] + (9 - i)
+
+				if (!($scope.opponentsName == "Spectator")) {
+					$scope.clickedIt(clickedField, clickedString)
+				}
+				//	////console.log(clickedField,clickedString)
+
+			}
+
+			$scope.makeAMove = function(whatMove) {
+
+				if (!($scope.opponentsName == 'Server')) { // temp hack!!!!!
+
+					var moveStr = whatMove //levagni a kepeket...	(mi ut mit)
+						//////////////////////
+						///replace this!!!
+
+					var dbTable = {} //new Dbtable($rootScope.dbTable._id, $rootScope.wName, $rootScope.bName)
+
+					//hello Marzenka
+					console.log($rootScope.dbTable._id)
+					dbTable._id = $rootScope.dbTable._id
+					dbTable.wName = $rootScope.wName
+					dbTable.bName = $rootScope.bName
+
+
+					dbTable.table = $rootScope.dbTable.table
+					dbTable.wNext = $rootScope.dbTable.wNext
+						//refaktor!!!!!!
+					dbTable.moves = $rootScope.dbTable.moves
+					dbTable.pollNum = $rootScope.pollNum
+					dbTable.allPastTables = $rootScope.dbTable.allPastTables
+						// dbTable.wName= $rootScope.wName
+						// dbTable.bName= $rootScope.bName
+
+					$rootScope.lastState = $.extend(true, {}, dbTable) //remember so we can Oooops!!
+
+
+
+					$scope.clearHighlights($rootScope.lastState.table)
+					console.log('dbTable', dbTable)
+					dbTable = moveInTable(moveStr, dbTable, false)
+
+
+
+
+					if ($scope.opponentsName == 'Fastest thinker') {
+						dbTable.command = 'makeAiMove'
+						dbTable.aiType = 'fastest thinker'
+
+
+					}
+
+					if ($scope.opponentsName == 'Multiple thinkers') {
+						dbTable.command = 'makeAiMove'
+						dbTable.aiType = 'thinkers'
+
+
+
+						// dbTable.aiTable=new MoveTask(dbTable)	
+					}
+
+
+					dbTable._id = $rootScope.dbTable._id
+					dbTable.desiredDepth = $rootScope.depth
+
+					socketSend('moved', dbTable, 'moved', function() {
+
+						$rootScope.dbTable.table = dbTable.table
+						$rootScope.dbTable.wNext = dbTable.wNext
+						$rootScope.dbTable.moves = dbTable.moves
+					})
+
+					// $http.post('/moved',dbTable,function(req,res){
+					// 	$rootScope.dbTable.table=dbTable.table
+					// 	$rootScope.dbTable.wNext=dbTable.wNext
+					// 	$rootScope.dbTable.moves=dbTable.moves
+
+					// })
+
+				} else {
+
+					$http.get('/move?m=' + whatMove + '&t=' + $rootScope.dbTable._id)
+
+
+				}
+
+
+			}
+
+			$rootScope.takeItBack = function() {
+				socketSend('moved', dbTable, 'moved', function() {
+					$rootScope.dbTable.table = $rootScope.lastState.table
+					$rootScope.dbTable.wNext = $rootScope.lastState.wNext
+					$rootScope.dbTable.moves = $rootScope.lastState.moves
+
+					//$scope.clearHighlights($rootScope.dbTable.table)
+
+				})
+			}
+
+			$scope.refreshTable = function() {
+
+				$http.get('/getTPollNum?t=' + $rootScope.dbTable._id)
+					.success(function(response) {
+						////console.log('getting board pollnum: '+response.tablepollnum+" vs "+$rootScope.pollNum)
+						if (!(response.tablepollnum == $rootScope.pollNum)) {
+							$rootScope.pollNum = response.tablepollnum
+								////console.log('calling getandshow')
+							$rootScope.longPollTable()
+							if (!$scope.$$phase) {
 								$scope.$apply()
 							}
+						}
+
+					})
+
+			}
+
+			$scope.showTable = function(cb) { //this will update the displayed table from the array
+
+				//shit i need to rotate it first
+
+				// for(var i=0;i<8;i++){
+				// 					for (var j=0;j<8;j++){
+				// 						var theSame=($rootScope.table[i][j][0]!=response.table[i][j][0])
+
+				// 						$rootScope.table[i][j]=response.table[i][j]
+
+				// 						if(theSame){
+
+				// 							$rootScope.table[i][j][15]=true
+				// 							//changed=true
+				// 						}
+				// 					}
+				// 				}
+
+				var tt = $rootScope.sTable
+
+				//if(!($rootScope.dbTable))$rootScope.dbTable={table:[]}
+				//console.log()
+				if ($rootScope.wPlayer) {
+
+					for (var i = 0; i < 8; i++) {
+
+						for (var j = 0; j < 8; j++) {
+
+							var theSame = (tt[i][j][0] == $rootScope.dbTable.table[j][7 - i][0])
+
+							tt[i][j] = $rootScope.dbTable.table[j][7 - i]
+
+							if (!theSame) tt[i][j][15] = true
+
+							if ((i + j) & 1) tt[i][j][7] = true
+						}
 					}
+
+				} else {
+
+					for (var i = 0; i < 8; i++) {
+
+						for (var j = 0; j < 8; j++) {
+
+							var theSame = (tt[i][j][0] == $rootScope.dbTable.table[7 - j][i][0])
+
+							tt[i][j] = $rootScope.dbTable.table[7 - j][i]
+
+							if (!theSame) tt[i][j][15] = true
+
+							if ((i + j) & 1) tt[i][j][7] = true
+
+						}
+					}
+
+
+
+
+				}
+
+
+
+
+				$rootScope.sTable = tt
+
+				//consoleTable=$rootScope.dbTable.table
+
+				//$scope.$apply()
+
+				if (cb) cb()
+
+			}
+
+			showTable = $scope.showTable
+
+			$scope.login = function(user) {
+
+				socketSend('loginUser', {
+					name: user.name,
+					pwd: user.pwd,
+					stayLoggedIn: user.stayLoggedIn
+				})
+
+
+			}
+
+			$scope.register = function(user) {
+
+				if (user.pwd1 == user.pwd2) {
+					if (!(user.pwd1 == undefined || user.rName == undefined || user.rName == "")) {
+
+
+						socketSend('registerUser', {
+							name: user.rName,
+							pwd: user.pwd1
+						})
+
+					}
+				} else {
+					alert("Passwords don't match, try again!")
+				}
+			}
+
+			$scope.newView = function(viewName) {
+				if (viewName == 'board.html') {
+
+
+					$rootScope.updateSizes()
+
+					if ($rootScope.wPlayer) {
+						$scope.drTable("/wtable.html")
+					} else {
+						$scope.drTable("/btable.html")
+					}
+				} else {
+					if (viewName == 'login.html') {
+
+						focusOnLogin()
+
+					} else {
+
+
+						if (viewName == 'lobby.html') {
+
+						}
+
+
+
+					}
+				}
+			}
+
+			$scope.drTable = function(viewName) {
+				$rootScope.draTable = viewName;
+			}
+
+
+
+			$rootScope.showView = function(viewName, subViewName) {
+
+				//let the server know what we're watching
+
+				if (!(subViewName)) {
+
+					if (viewName == $rootScope.loginVals.viewName && $rootScope.subViewName) {
+						subViewName = $rootScope.subViewName
+					} else {
+						subViewName = 'default'
+					}
+
+				}
+
+				var newViewParts = []
+					//var oldViewParts=$rootScope.activeViewParts
+
+				console.log('test', viewName, $rootScope.loginVals.inOrOut)
+
+				switch (viewName) {
+					case 'login.html':
+
+						newViewParts = [
+							'default'
+						]
+
+
+						//console.log('inorout',$rootScope.inOrOut)
+						if ($rootScope.loginVals.inOrOut == 'Logoff') {
+
+							socketSend('logoff')
+
+						}
+
+						$scope.greetUser = ''
+						$rootScope.loginVals.inOrOut = 'Login'
+						$rootScope.loginName = 'someone'
+						$scope.loggedIn = false
+
+
+						break;
+
+					case 'lobby.html':
+
+						newViewParts = [
+							'lobbyChat',
+							'activeGames',
+							'activePlayers'
+						]
+
+
+						//
+						break;
+
+					case 'captain.html':
+
+						newViewParts = [
+							'clients',
+							'activeViews'
+						]
+
+						//
+
+						break;
+
+					case 'board.html':
+
+						//if(subViewName=='default'&&$rootScope.dbTable._id)subViewName=$rootScope.dbTable._id
+
+						newViewParts = [
+							'dbTable.table',
+							'dbTable.chat',
+							'dbTable.moves',
+							'busyThinkers',
+							'dbTable.wNext'
+
+						]
+
+						break;
+				}
+
+				//var oldViewParts=$rootScope.activeViewParts.slice()
+
+				if (!($rootScope.activeViewParts)) $rootScope.activeViewParts = [] //init here
+
+				socketSend('showView', {
+
+					oldViewName: $rootScope.loginVals.viewName,
+					oldSubViewName: $rootScope.subViewName,
+					oldViewParts: $rootScope.activeViewParts.slice(),
+
+					newViewName: viewName,
+					newSubViewName: subViewName,
+					newViewParts: newViewParts
+
+				}, 'showView', function() {
+
+
+
+					$rootScope.loginVals.viewName = viewName;
+					$rootScope.subViewName = subViewName;
+					$rootScope.activeViewParts = newViewParts.slice()
 
 				})
 
-		}
+				$rootScope.applyIt()
 
-		$scope.showTable = function(cb) { //this will update the displayed table from the array
-			
-			//shit i need to rotate it first
-			
-			// for(var i=0;i<8;i++){
-			// 					for (var j=0;j<8;j++){
-			// 						var theSame=($rootScope.table[i][j][0]!=response.table[i][j][0])
-									
-			// 						$rootScope.table[i][j]=response.table[i][j]
-									
-			// 						if(theSame){
-										
-			// 							$rootScope.table[i][j][15]=true
-			// 							//changed=true
-			// 						}
-			// 					}
-			// 				}
-		
-			var tt=$rootScope.sTable
-			
-			//if(!($rootScope.dbTable))$rootScope.dbTable={table:[]}
-			//console.log()
-			if($rootScope.wPlayer){				
-				
-				for(var i=0; i<8; i++) {
-				
-					for(var j=0; j<8; j++) {
-						
-						var theSame=(tt[i][j][0]==$rootScope.dbTable.table[j][7-i][0])
-						
-						tt[i][j]=$rootScope.dbTable.table[j][7-i]
-						
-						if(!theSame)tt[i][j][15]=true
-						
-						if((i+j)&1)tt[i][j][7]=true
-					}
-				}
-				
-			}else{
-				
-				for(var i=0; i<8; i++) {
-				
-					for(var j=0; j<8; j++) {
-						
-						var theSame=(tt[i][j][0]==$rootScope.dbTable.table[7-j][i][0])
-						
-						tt[i][j]=$rootScope.dbTable.table[7-j][i]
-						
-						if(!theSame)tt[i][j][15]=true
-						
-						if((i+j)&1)tt[i][j][7]=true
-						
-					}
-				}
-				
-				
-				
-				
-				
-				
 			}
-				
-			
-			
-			
-			$rootScope.sTable=tt
-			
-			//consoleTable=$rootScope.dbTable.table
-			
-			//$scope.$apply()
-			
-			if(cb)cb()
-	
-		}
-		
-		showTable=$scope.showTable
-		
-		$scope.login = function(user) {
-			
-			socketSend('loginUser',{
-						name:user.name,
-						pwd:user.pwd,
-						stayLoggedIn:user.stayLoggedIn
-					})
 
-		
-		}
+			$scope.clickedIt = function(clickedField, clickedString) {
 
-		$scope.register = function(user) {
 
-			if(user.pwd1 == user.pwd2) {
-				if(!(user.pwd1 == undefined || user.rName == undefined || user.rName == "")) {
-					
-					
-					socketSend('registerUser',{
-						name:user.rName,
-						pwd:user.pwd1
-					})
+				var x = clickedField[0]
+				var y = clickedField[1]
+				var clickedColor = false
 
-				}
-			} else {
-				alert("Passwords don't match, try again!")
-			}
-		}
+				//console.log('testing',$rootScope.dbTable.table[x][y][5] , $rootScope.tempMoveString.length ,$rootScope.dbTable.wNext , $rootScope.wPlayer)	
+				if ((!($rootScope.dbTable.table[x][y][5] == []) || $rootScope.tempMoveString.length > 0) && $rootScope.dbTable.wNext == $rootScope.wPlayer) {
+					console.log('clickeit called', clickedField, clickedString)
 
-		$scope.newView = function(viewName) {
-			if(viewName == 'board.html') {
-				
-				
-				$rootScope.updateSizes()
-				
-				if($rootScope.wPlayer){
-						$scope.drTable("/wtable.html")
-				}else{
-						$scope.drTable("/btable.html")
-				}
-			}else{
-				if(viewName == 'login.html'){
-					
-					focusOnLogin()
-					 
-				}else{
-				
-				
-				if(viewName == 'lobby.html'){
-					
-				}
-				
-				
-				
-			}
-			}
-		}
-		
-		$scope.drTable = function(viewName) {
-			$rootScope.draTable = viewName;
-		}
-		
-		
-		
-		$rootScope.showView = function(viewName,subViewName) {
-			
-			//let the server know what we're watching
-			
-			if(!(subViewName)){
-				
-				if(viewName==$rootScope.loginVals.viewName&&$rootScope.subViewName){
-					subViewName=$rootScope.subViewName
-				}else{
-					subViewName='default'
-				}
-				
-			}
-			
-			var newViewParts=[]
-			//var oldViewParts=$rootScope.activeViewParts
-			
-			console.log('test',viewName,$rootScope.loginVals.inOrOut)
-			
-			switch(viewName){
-				case 'login.html':
-				
-					newViewParts=[
-						'default'
-					]
-					
-					
-					//console.log('inorout',$rootScope.inOrOut)
-					if($rootScope.loginVals.inOrOut == 'Logoff'){
-						
-						socketSend('logoff')
-						
-					}
-					
-					$scope.greetUser = ''
-					$rootScope.loginVals.inOrOut = 'Login'
-					$rootScope.loginName = 'someone'
-					$scope.loggedIn = false
-					
-				
-				break;
-				
-				case 'lobby.html':
-				
-					newViewParts=[
-						'lobbyChat',
-						'activeGames',
-						'activePlayers'
-					]
-					
-					
-				//
-				break;
-				
-				case 'captain.html':
-				
-					newViewParts=[
-						'clients',
-						'activeViews'
-					]
-					
-					//
-				
-				break;
-				
-				case 'board.html':
-				
-					//if(subViewName=='default'&&$rootScope.dbTable._id)subViewName=$rootScope.dbTable._id
-				
-					newViewParts=[
-						'dbTable.table',
-						'dbTable.chat',
-						'dbTable.moves',
-						'busyThinkers',
-						'dbTable.wNext'
-						
-					]
-								
-				break;
-			}
-			
-			//var oldViewParts=$rootScope.activeViewParts.slice()
-			
-			if(!($rootScope.activeViewParts))$rootScope.activeViewParts=[]//init here
-			
-			socketSend('showView',{
-				
-				oldViewName:$rootScope.loginVals.viewName,
-				oldSubViewName:$rootScope.subViewName,
-				oldViewParts:$rootScope.activeViewParts.slice(),
-				
-				newViewName:viewName,
-				newSubViewName:subViewName,
-				newViewParts:newViewParts
-				
-			},'showView',function(){
-				
-				
-				
-				$rootScope.loginVals.viewName = viewName;
-				$rootScope.subViewName = subViewName;
-				$rootScope.activeViewParts= newViewParts.slice()
-				
-			})
-			
-			$rootScope.applyIt()
-
-		}
-
-		$scope.clickedIt = function(clickedField, clickedString) {
-
-			
-			var x = clickedField[0]
-			var y = clickedField[1]
-			var clickedColor = false
-			
-		//console.log('testing',$rootScope.dbTable.table[x][y][5] , $rootScope.tempMoveString.length ,$rootScope.dbTable.wNext , $rootScope.wPlayer)	
-			if((!($rootScope.dbTable.table[x][y][5] == []) || $rootScope.tempMoveString.length > 0) && $rootScope.dbTable.wNext == $rootScope.wPlayer) {
-				console.log('clickeit called',clickedField, clickedString)
-
-				if(clickedString == $rootScope.tempMoveString) {
-					$rootScope.dbTable.table[x][y][8] = false
-					$scope.clearHighlights($rootScope.dbTable.table)
-					$scope.showTable()
-					$rootScope.tempMoveString = ""
-				} else {
-					
-					if($rootScope.dbTable.table[x][y][0] > 0 && $rootScope.tempMoveString == "") {
-						
-						for(var i=0;i<8;i++){
-								for (var j=0;j<8;j++){
-									$rootScope.dbTable.table[i][j][15]=false
-									
-								}}	
-						
-						
-						$rootScope.dbTable.table[x][y][5].forEach($scope.highLightThem) //5odik elem ahova lephet
+					if (clickedString == $rootScope.tempMoveString) {
+						$rootScope.dbTable.table[x][y][8] = false
+						$scope.clearHighlights($rootScope.dbTable.table)
 						$scope.showTable()
-							
-					};
-					if($rootScope.dbTable.table[x][y][0] > 0 || 0 < $rootScope.tempMoveString.length) {
+						$rootScope.tempMoveString = ""
+					} else {
 
-						$rootScope.tempMoveString += clickedString
+						if ($rootScope.dbTable.table[x][y][0] > 0 && $rootScope.tempMoveString == "") {
 
-						if($rootScope.tempMoveString.length < 3) {
-							$rootScope.dbTable.table[x][y][8] = true;
+							for (var i = 0; i < 8; i++) {
+								for (var j = 0; j < 8; j++) {
+									$rootScope.dbTable.table[i][j][15] = false
+
+								}
+							}
+
+
+							$rootScope.dbTable.table[x][y][5].forEach($scope.highLightThem) //5odik elem ahova lephet
+							$scope.showTable()
+
+						};
+						if ($rootScope.dbTable.table[x][y][0] > 0 || 0 < $rootScope.tempMoveString.length) {
+
+							$rootScope.tempMoveString += clickedString
+
+							if ($rootScope.tempMoveString.length < 3) {
+								$rootScope.dbTable.table[x][y][8] = true;
+							}
+
 						}
+						if ($rootScope.tempMoveString.length > 3) {
+
+							if ($rootScope.dbTable.table[x][y][9] == true) {
+
+								$scope.makeAMove($rootScope.tempMoveString)
+								$rootScope.dbTable.wNext = !$rootScope.dbTable.wNext
+
+								$rootScope.tempMoveString = ""
+
+							} else {
+								$rootScope.tempMoveString = $rootScope.tempMoveString[0] + $rootScope.tempMoveString[1]
+							}
+
+						}
+						$scope.showTable()
 
 					}
-					if($rootScope.tempMoveString.length > 3) {
+				}
+			}
+			$scope.highLightThem = function(arrayOfCoords) {
+				$rootScope.dbTable.table[arrayOfCoords[0]][arrayOfCoords[1]][9] = true;
+			}
 
-						if($rootScope.dbTable.table[x][y][9] == true) {
+			$scope.removeDisplayedGame = function(gameNo) {
+				//console.log('removeGame',gameNo)
+				socketSend('removeDisplayedGame', gameNo)
+			}
 
-							$scope.makeAMove($rootScope.tempMoveString)
-							$rootScope.dbTable.wNext = !$rootScope.dbTable.wNext
-
-							$rootScope.tempMoveString = ""
-
-						} else {
-							$rootScope.tempMoveString = $rootScope.tempMoveString[0] + $rootScope.tempMoveString[1]
-						}
+			$scope.clearHighlights = function(onTable) {
+				for (var i = 0; i < 8; i++) {
+					for (var j = 0; j < 8; j++) {
+						onTable[i][j][8] = false;
+						onTable[i][j][9] = false;
 
 					}
-					$scope.showTable()
-
 				}
 			}
-		}
-		$scope.highLightThem = function(arrayOfCoords) {
-			$rootScope.dbTable.table[arrayOfCoords[0]][arrayOfCoords[1]][9] = true;
-		}
-		
-		$scope.removeDisplayedGame=function(gameNo){
-			//console.log('removeGame',gameNo)
-			socketSend('removeDisplayedGame',gameNo)
-		}
+			$scope.sendChat = function() {
 
-		$scope.clearHighlights = function(onTable) {
-			for(var i = 0; i < 8; i++) {
-				for(var j = 0; j < 8; j++) {
-					onTable[i][j][8] = false;
-					onTable[i][j][9] = false;
+				$http.get('/chat?t=' + $rootScope.dbTable._id + '&c=' + $rootScope.loginName + ": " + $scope.sendThis)
 
-				}
+
+
+
+				$scope.sendThis = ""
+
 			}
+
+
+
+			$rootScope.updateSizes()
+			console.log('appcontr ran')
+
+
+
+
 		}
-		$scope.sendChat= function (){
-			
-			$http.get('/chat?t='+$rootScope.dbTable._id+'&c='+$rootScope.loginName+": "+$scope.sendThis)
-				
-					
-					
-	
-			$scope.sendThis=""
-			
+
+
+
+		function focusOnLogin() {
+
+			window.setTimeout(function() {
+					document.getElementById("inputLoginUser").focus();
+				}, 500)
+				// document.getElementById("inputLoginUser").focus();
+
+
+
 		}
-		
-		
-		
-		$rootScope.updateSizes()
-		console.log('appcontr ran')
-		
-		
-		
-		
-		
-		
-	}
-	
-	
-	
-	function focusOnLogin() {
-	
-	window.setTimeout(function(){
-		 document.getElementById("inputLoginUser").focus();
-	},500)	
-    // document.getElementById("inputLoginUser").focus();
-	
-	
-	
-}
-	
-	// $scope.firstView=function(){
-	// 	showView('login.html')
-	// }
-	
-	
-	
+
+		// $scope.firstView=function(){
+		// 	showView('login.html')
+		// }
 	</script>
-	
-	
+
+
 </head>
 
-<body ng-app="appModule" ng-controller="ApplicationController">
+<body ng-app="appModule" ng-controller="ApplicationController" class="docuBody">
+
+	<div class="main-div" ng-if="screenRatio<2">
 
 
+		<nav ng-if="ran" style="width: 100%" class="navvv unselectable">
+			<table>
+				<tr>
+					<td nowrap align="left">
+						<a href="#" ng-click="showView('login.html')" class="dtext" ng-class="{ selected: loginVals.viewName == 'login.html' }">{{loginVals.inOrOut}}</a>
+						<a href="#" ng-click="showView('lobby.html')" class="dtext" ng-class="{ selected: loginVals.viewName == 'lobby.html' }">Lobby</a>
+						<!--<a href="#" ng-click="showView('board.html',rememberTablenum)" ng-class="{ selected: loginVals.viewName == 'board.html' }">Chessboard</a>-->
+						<a href="#" ng-click="showView('captain.html')" class="dtext" ng-class="{ selected: loginVals.viewName == 'captain.html' }">Captain</a>
+
+						<!--<a href="#" ng-click="showView('captain.html')" ng-class="{ selected: viewName == 'captain.html' }">Thinkers</a>-->
+					</td>
+
+					<td nowrap>
+
+						<button class="dtext" ng-click="quickGame()">Instant Game</button>
+
+					</td>
+
+					<td nowrap style="width: 100%">
+
+						<div style="overflow-x: auto; width: auto; display: inline-block;white-space: nowrap;">
+							<div ng-repeat="x in displayedGames" style="display: inline-block;white-space: nowrap;">
+								&nbsp&nbsp&nbsp<a href="#" class="dtext" ng-click="showView('board.html',x)" ng-class="{ selected: loginVals.viewName == 'board.html' && subViewName == x }">Game {{x}}</a><span ng-click="removeDisplayedGame(x)" class="pointed dtext" style="background-color:red; vertical-align:top; line-height: 0.8; color:white">x</span>
+
+								<!--<div> &nbsp </div>-->
+							</div>
+						</div>
+
+					</td>
+
+					<td>
+
+						<form class="dtext" ng-if="cookieId==''" ng-submit="setID(thisID)">
+							This PC's name:
+							<input id="inputID" ng-model="thisID"></input>
+						</form>
+
+
+					</td>
+
+					<!--<td class="dtext" nowrap>{{wid}}</td>-->
+
+					<td class="dtext" nowrap align="right">{{greetUser}}</td>
+				</tr>
+			</table>
+		</nav>
+
+
+	</div>
 	
-	<nav ng-if="ran" style="width: 100%" class="navvv unselectable">
-		<table>
-			<tr>
-				<td nowrap align="left">
-		<a href="#" ng-click="showView('login.html')" ng-class="{ selected: loginVals.viewName == 'login.html' }">{{loginVals.inOrOut}}</a>
-		<a href="#" ng-click="showView('lobby.html')" ng-class="{ selected: loginVals.viewName == 'lobby.html' }">Lobby</a>
-		<!--<a href="#" ng-click="showView('board.html',rememberTablenum)" ng-class="{ selected: loginVals.viewName == 'board.html' }">Chessboard</a>-->
-		<a href="#" ng-click="showView('captain.html')" ng-class="{ selected: loginVals.viewName == 'captain.html' }">Captain</a>
-		
-		<!--<a href="#" ng-click="showView('captain.html')" ng-class="{ selected: viewName == 'captain.html' }">Thinkers</a>-->
-		</td>
-		
-		<td nowrap>
-			
-			<button  style="font-size:12px" ng-click="quickGame()">Instant Game</button>
-			
-		</td>
-		
-		<td nowrap style="width: 100%" >
-			
-			<div style="overflow-x: auto; width: auto; display: inline-block;white-space: nowrap;">
-				<div  ng-repeat="x in displayedGames" style="display: inline-block;white-space: nowrap;">
-					&nbsp&nbsp&nbsp<a href="#" ng-click="showView('board.html',x)" ng-class="{ selected: loginVals.viewName == 'board.html' && subViewName == x }">Game {{x}}</a><span ng-click="removeDisplayedGame(x)" class="pointed" style="background-color:red; vertical-align:top; line-height: 0.8; color:white">x</span>
+	
+	<div class="main-div" ng-if="screenRatio>1">
+
+
+		<nav ng-if="ran" style="width: 100%" class="navvv unselectable">
+			<table>
+				<tr>
+					<td nowrap align="left">
+						<a href="#" ng-click="showView('login.html')" class="dtext" ng-class="{ selected: loginVals.viewName == 'login.html' }">{{loginVals.inOrOut}}</a>
+						<a href="#" ng-click="showView('lobby.html')" class="dtext" ng-class="{ selected: loginVals.viewName == 'lobby.html' }">Lobby</a>
+						<!--<a href="#" ng-click="showView('board.html',rememberTablenum)" ng-class="{ selected: loginVals.viewName == 'board.html' }">Chessboard</a>-->
+						<a href="#" ng-click="showView('captain.html')" class="dtext" ng-class="{ selected: loginVals.viewName == 'captain.html' }">Captain</a>
+
+						<!--<a href="#" ng-click="showView('captain.html')" ng-class="{ selected: viewName == 'captain.html' }">Thinkers</a>-->
+					</td>
+
+					<td nowrap>
+
+						<button class="dtext" ng-click="quickGame()">Instant Game</button>
+
+					</td>
+
 					
-					<!--<div> &nbsp </div>-->
-				</div>
-			</div>
+
+					<td>
+
+						<form class="dtext" ng-if="cookieId==''" ng-submit="setID(thisID)">
+							This PC's name:
+							<input id="inputID" ng-model="thisID"></input>
+						</form>
+
+
+					</td>
+
+					<!--<td class="dtext" nowrap>{{wid}}</td>-->
+
+					<td class="dtext" style="width:100%" nowrap align="right">{{greetUser}}</td>
+				</tr>
+				</table>
+					<!--<td  colspan="3" nowrap style="width: 100%">-->
+
+						<div style="overflow-x: auto; width: auto; display: inline-block;white-space: nowrap;">
+							<div ng-repeat="x in displayedGames" style="display: inline-block;white-space: nowrap;">
+								&nbsp&nbsp&nbsp<a href="#" class="dtext" ng-click="showView('board.html',x)" ng-class="{ selected: loginVals.viewName == 'board.html' && subViewName == x }">Game {{x}}</a><span ng-click="removeDisplayedGame(x)" class="pointed dtext" style="background-color:red; vertical-align:top; line-height: 0.8; color:white">x</span>
+
+								<!--<div> &nbsp </div>-->
+							</div>
+						</div>
+
+					<!--</td>-->
+				
 			
-		</td>
-		
-		<td>
-			
-			<form ng-if="cookieId==''" ng-submit="setID(thisID)">
-				This PC's name:<input id="inputID" ng-model="thisID"></input>
-			</form>
-			
-			
-		</td>
-		
-		<!--<td nowrap>{{aa.stayLoggedIn}}</td>-->
-		
-		<td nowrap align="right">{{greetUser}}</td>
-		</tr>
-		</table>
-	</nav>
+		</nav>
+
+
+	</div>
+
 	<div ng-if="loginVals.viewName&&loginVals.viewName!=''" id="content" ng-include="'html/'+loginVals.viewName" onload="newView(viewName)"></div>
 	<h1 ng-if="!(ran)">Please wait...</h1>
 
-	</div>
 
 </body>
 
