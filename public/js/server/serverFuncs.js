@@ -468,9 +468,12 @@ var onMessageFuncs = {
 		clients.publishView('captain.html','default','clients',sendThis2)//nownClients.views.length)
 		
 		
-		if(data.newViewName=='board.html'&&data.newSubViewName!='default'){
+		switch(data.newViewName){//=='board.html'&&data.newSubViewName!='default'){
 			//send the dbtable 
 		////console.log('...........................................................')
+			
+			case 'board.html':
+			
 			
 			mongodb.connect(cn, function(err, db) {
 				db.collection("tables")
@@ -484,10 +487,21 @@ var onMessageFuncs = {
 		
 			});
 					
-					
+					break;
 			
+			case 'lobby.html':
 			
+				clients.send(connection,'updateView',{
+				
+				viewName:'lobby.html',
+				subViewName:'default',
+				viewPart: 'onlineUsers',
+				data: clients.getOnlineUsers()
+				
+	
+			})
 			
+			break;
 			//clients.send(connection,'updateDbTable',)
 			
 		}

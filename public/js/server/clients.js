@@ -41,11 +41,15 @@ var Clients=function(){
 		
 		
 		console.log('after login',knownClients.onlineUsers)
-		this.publushOnlineUsers()
+		this.publishOnlineUsers()
 	}
 	
-	this.publushOnlineUsers=function(){
+	this.publishOnlineUsers=function(){
 		this.publishView('lobby.html','default','onlineUsers',knownClients.onlineUsers)
+	}
+	
+	this.getOnlineUsers=function(){
+		return knownClients.onlineUsers
 	}
 	
 	
