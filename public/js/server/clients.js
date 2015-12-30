@@ -123,6 +123,29 @@ var Clients=function(){
 	}
 	
 	//////////////////////////////////////////////////  functions to manage views
+	
+	this.publishDisplayedGames=function(loginName,connection){
+		
+		if(connection){
+			
+			dbFuncs.publishDisplayedGames(loginName,connection)
+			
+			
+			
+			
+			
+		}else{
+			//find connection??!!!!!!!!!!!!!!!!
+			
+			
+			
+		}
+		
+		
+		
+	}
+	
+	
 	this.publishAddedData=function(){
 		//console.log('3333333333333333333333333333333333333333333333333333333333333333333333333333')
 		this.publishView('captain.html','default','clients',this.addedData())

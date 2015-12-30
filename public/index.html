@@ -169,7 +169,9 @@
 									console.log('updating ---- ',data.viewPart)
 									eval("($rootScope."+data.viewPart+"=data.data)") // $rootScope.
 									
-									if(data.viewPart=='dbTable.table')showTable()
+									if(data.viewPart=='dbTable.table')showTable(function(){
+										$rootScope.$apply
+									})
 									
 							
 					}else{
@@ -254,6 +256,13 @@
 					  
 					  break;
 					  
+					  case 'updateDisplayedGames':
+					  
+					  	$rootScope.displayedGames=received.data
+					  
+					  
+					  break;
+					  
 					  case 'userRegistered':
 					  
 					  	alert('User '+received.data.name+' registered.')
@@ -281,7 +290,7 @@
 							$rootScope.loginName = received.data.name
 							$rootScope.showView('lobby.html','default')
 							
-							$scope.$apply()
+							
 					  	
 
 						break;					  
@@ -415,6 +424,10 @@
 						
 							$rootScope.dbTable=received.data
 							tempConsole=received.data
+							
+							showTable(function(){
+										$rootScope.$apply
+									})
 						
 						
 						break;	  
@@ -457,9 +470,9 @@
 								});
 								$scope.lobbyPollNum = received.data.lobbyPollNum
 									//showLobby(lobbyChatLines, players, games, $scope.lobbyPollNum)
-								if(!$scope.$$phase) {
-								$scope.$apply()
-							}
+							// 	if(!$scope.$$phase) {
+							// 	$scope.$apply()
+							// }
 
 							}
 							
@@ -468,8 +481,9 @@
 					  
 					  
 				  }
-				  
-				  
+				if(!$scope.$$phase) {
+								$scope.$apply()
+							}
 				  
                };
 				
@@ -991,7 +1005,7 @@
 
 		}
 
-		$scope.showTable = function() { //this will update the displayed table from the array
+		$scope.showTable = function(cb) { //this will update the displayed table from the array
 			
 			//shit i need to rotate it first
 			
@@ -1061,6 +1075,8 @@
 			//consoleTable=$rootScope.dbTable.table
 			
 			//$scope.$apply()
+			
+			if(cb)cb()
 	
 		}
 		
@@ -1361,7 +1377,7 @@
 
 
 	
-	<nav ng-if="ran" width=100% class="navvv">
+	<nav ng-if="ran" style="width: 100%" class="navvv">
 		<table>
 			<tr>
 				<td nowrap align="left">
@@ -1379,6 +1395,18 @@
 			
 		</td>
 		
+		<td nowrap style="width: 100%" >
+			
+			<div style="overflow-x: auto; width: auto; display: inline-block;white-space: nowrap;">
+				<div  ng-repeat="x in displayedGames" style="display: inline-block;white-space: nowrap;">
+					&nbsp&nbsp&nbsp<a href="#" ng-click="showView('board.html',x)" ng-class="{ selected: loginVals.viewName == 'board.html' && subViewName == x }">Game {{x}}</a><span style="background-color:red; vertical-align:top; line-height: 0.8; color:white">x</span>
+					
+					<!--<div> &nbsp </div>-->
+				</div>
+			</div>
+			
+		</td>
+		
 		<td>
 			
 			<form ng-if="cookieId==''" ng-submit="setID(thisID)">
@@ -1390,7 +1418,7 @@
 		
 		<!--<td nowrap>{{aa.stayLoggedIn}}</td>-->
 		
-		<td nowrap width=100% align="right">{{greetUser}}</td>
+		<td nowrap align="right">{{greetUser}}</td>
 		</tr>
 		</table>
 	</nav>

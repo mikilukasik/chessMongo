@@ -58,8 +58,12 @@
 	    background-color: green;
 		
 	}*/
-	nav {
+	.navvv {
 	    background-color: lightblue;
+		display: inline-block;
+		width: 100%; 
+		white-space: nowrap;
+		float: left;
 	}
 	/*html,
 	body {
@@ -77,6 +81,17 @@
 
 
 	
+		.scrolled {
+			overflow:auto;
+			/*white-space: nowrap;*/
+		}
+		/*.scrolled a{ white-space: nowrap;}*/
+		.xc{
+			display: inline-block;
+			}
+		
+		
+
 
 		.makeGreen {
 			color: green

@@ -365,7 +365,35 @@ registerUser=function(name,pwd,connection){
 	
 }
 
+var dbFuncs={
+	publishDisplayedGames:function(loginName,connection){
+		
+		mongodb.connect(cn, function(err, db) {
+			
+			
+			db.collection("users")
+			.findOne({
+				name: loginName
+			}, function(err, doc) {
+				if (!(doc == null)) {
 
+					
+					clients.send(connection,'updateDisplayedGames',doc.games)
+					
+				}
+				db.close()
+			});
+			
+			
+			
+			
+			
+			
+			
+		})
+		
+	}
+}
 
 knownClientReturned=function(data,connection){
 	
