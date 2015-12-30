@@ -320,6 +320,7 @@
 							$rootScope.ran=true
 							$rootScope.dbTable=new Dbtable(1,2,3)
 							$rootScope.wPlayer=true
+							//$rootScope.drTable='wTable.html'
 							
 							$rootScope.sTable=[]
 							for(var i=7;i>=0;i--){
@@ -1389,7 +1390,7 @@
 				<td nowrap align="left">
 		<a href="#" ng-click="showView('login.html')" ng-class="{ selected: loginVals.viewName == 'login.html' }">{{loginVals.inOrOut}}</a>
 		<a href="#" ng-click="showView('lobby.html')" ng-class="{ selected: loginVals.viewName == 'lobby.html' }">Lobby</a>
-		<a href="#" ng-click="showView('board.html',rememberTablenum)" ng-class="{ selected: loginVals.viewName == 'board.html' }">Chessboard</a>
+		<!--<a href="#" ng-click="showView('board.html',rememberTablenum)" ng-class="{ selected: loginVals.viewName == 'board.html' }">Chessboard</a>-->
 		<a href="#" ng-click="showView('captain.html')" ng-class="{ selected: loginVals.viewName == 'captain.html' }">Captain</a>
 		
 		<!--<a href="#" ng-click="showView('captain.html')" ng-class="{ selected: viewName == 'captain.html' }">Thinkers</a>-->

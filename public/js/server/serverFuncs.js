@@ -159,7 +159,11 @@ var onMessageFuncs = {
 									userInDb.games.unshift(initedTable._id)
 
 									db2.collection("users")
-										.save(userInDb, function(err3, res) {})
+										.save(userInDb, function(err3, res) {
+											
+											clients.publishDisplayedGames(w,connection)
+											
+										})
 
 								}
 								db2.close()
@@ -179,7 +183,11 @@ var onMessageFuncs = {
 									userInDb.games.unshift(initedTable._id)
 
 									db3.collection("users")
-										.save(userInDb, function(err3, res) {})
+										.save(userInDb, function(err3, res) {
+											
+											clients.publishDisplayedGames(b,connection)
+											
+										})
 								}
 								db3.close()
 
