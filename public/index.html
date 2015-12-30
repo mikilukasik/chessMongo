@@ -1257,7 +1257,9 @@
 						//console.log('inorout',$rootScope.inOrOut)
 						if ($rootScope.loginVals.inOrOut == 'Logoff') {
 
-							socketSend('logoff')
+							socketSend('logoff',{
+								name:$rootScope.loginName
+							})
 
 						}
 

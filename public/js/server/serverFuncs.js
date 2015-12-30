@@ -42,11 +42,15 @@ var userFuncs={
 		
 	},
 	
-	logoff:function(connection){
+	logoff:function(connection,data){
+		
+		var name=data.name
 		
 		clients.update(connection,'loggedInAs',undefined)
 		clients.update(connection,'stayLoggedIn',undefined)
 		clients.publishAddedData()
+		
+		clients.logoff(name)
 
 
 			
@@ -393,9 +397,9 @@ var onMessageFuncs = {
 		
 	},
 	
-	logoff: function(connection){
+	logoff: function(connection,data){
 		
-		userFuncs.logoff(connection)
+		userFuncs.logoff(connection,data)
 		
 	},
 	
