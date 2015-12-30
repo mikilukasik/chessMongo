@@ -44,6 +44,23 @@ var Clients=function(){
 		this.publishOnlineUsers()
 	}
 	
+	this.logoff=function(nameOrConnection){
+		
+		var name
+		
+		if(nameOrConnection.addedData){
+			name=nameOrConnection.addedData.loggedInAs	//in case we received a connection, not a name
+		}else{
+			name=nameOrConnection
+		}
+		
+		
+		
+		knownClients.onlineUsers.splice(findOnlineUserIndex(name),1)
+		this.publishOnlineUsers()		
+	
+	}
+	
 	this.publishOnlineUsers=function(){
 		this.publishView('lobby.html','default','onlineUsers',knownClients.onlineUsers)
 	}
@@ -52,6 +69,16 @@ var Clients=function(){
 		return knownClients.onlineUsers
 	}
 	
+	var findOnlineUserIndex=function(name){
+		
+		for (var i=knownClients.onlineUsers.length-1;i>=0;i--){
+			
+			if(knownClients.onlineUsers[i].name==name)return i
+			
+		}
+		
+		return -1
+	}
 	
 	//////////////////////// functions to manage connections
 	
@@ -301,7 +328,9 @@ var Clients=function(){
 	this.destroy=function(connection){
 		
 		//connection must have .addedData.connectionID already
-			
+		
+		this.logoff(connection)
+		
 		var connectionIndex=findConnectionIndex(connection,true)	//true for destroying, no push
 		
 		connection = knownClients.connectedSockets.splice(connectionIndex,1)[0]//knownClients.connectedSockets[connectionIndex]		//will push it if has to, will return the stored one with local vars in it
