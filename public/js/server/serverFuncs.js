@@ -1,3 +1,11 @@
+var findUsersGameIndex=function(gameNo,games){
+	
+	for(var i=games.length-1;i>=0;i--){
+		if(games[i].gameNo==gameNo)return i
+	}
+	return -1
+}
+
 var userFuncs={
 	
 	removeDisplayedGame:function(connection,data){
@@ -9,12 +17,13 @@ var userFuncs={
 					}, function(err2, userInDb) {
 						if (!(userInDb == null)) {
 							
-							
-							userInDb.games.splice(userInDb.games.indexOf(data),1)
+							var index=findUsersGameIndex(data,userInDb.games)
+							userInDb.games.splice(index,1)
 							//unshift(initedTable._id)
 
 							db2.collection("users")
 								.save(userInDb, function(err3, res) {
+									
 									
 									
 									clients.publishDisplayedGames(connection.addedData.loggedInAs,connection)
@@ -156,7 +165,11 @@ var onMessageFuncs = {
 								name: w
 							}, function(err2, userInDb) {
 								if (!(userInDb == null)) {
-									userInDb.games.unshift(initedTable._id)
+									userInDb.games.unshift({
+										wPlayer:true,
+										gameNo:initedTable._id,
+										opponentsName:b
+									})
 
 									db2.collection("users")
 										.save(userInDb, function(err3, res) {
@@ -180,7 +193,11 @@ var onMessageFuncs = {
 								name: b
 							}, function(err2, userInDb) {
 								if (!(userInDb == null)) {
-									userInDb.games.unshift(initedTable._id)
+									userInDb.games.unshift({
+										wPlayer:false,
+										gameNo:initedTable._id,
+										opponentsName:w
+									})
 
 									db3.collection("users")
 										.save(userInDb, function(err3, res) {

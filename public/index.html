@@ -1478,7 +1478,8 @@
 
 						<div style="overflow-x: auto; width: auto; display: inline-block;white-space: nowrap;">
 							<div ng-repeat="x in displayedGames" style="display: inline-block;white-space: nowrap;">
-								&nbsp&nbsp&nbsp<a href="#" class="dtext" ng-click="showView('board.html',x)" ng-class="{ selected: loginVals.viewName == 'board.html' && subViewName == x }">Game {{x}}</a><span ng-click="removeDisplayedGame(x)" class="pointed dtext" style="background-color:red; vertical-align:top; line-height: 0.8; color:white">x</span>
+								&nbsp&nbsp&nbsp<a href="#" ng-attr-title="playing {{x.wPlayer&&('white')||('black')}} against {{x.opponentsName}}" class="dtext" ng-click="showView('board.html',x.gameNo)" ng-class="{ selected: loginVals.viewName == 'board.html' && subViewName == x.gameNo }">Game {{x.gameNo}}</a><span ng-click="removeDisplayedGame(x.gameNo)" class="pointed dtext" style="background-color:red; vertical-align:top; line-height: 0.8; color:white">x</span>
+
 
 								<!--<div> &nbsp </div>-->
 							</div>
@@ -1549,7 +1550,7 @@
 
 						<div style="overflow-x: auto; width: auto; display: inline-block;white-space: nowrap;">
 							<div ng-repeat="x in displayedGames" style="display: inline-block;white-space: nowrap;">
-								&nbsp&nbsp&nbsp<a href="#" class="dtext" ng-click="showView('board.html',x)" ng-class="{ selected: loginVals.viewName == 'board.html' && subViewName == x }">Game {{x}}</a><span ng-click="removeDisplayedGame(x)" class="pointed dtext" style="background-color:red; vertical-align:top; line-height: 0.8; color:white">x</span>
+								&nbsp&nbsp&nbsp<a href="#" class="dtext" ng-click="showView('board.html',x.gameNo)" ng-class="{ selected: loginVals.viewName == 'board.html' && subViewName == x.gameNo }">Game {{x.gameNo}}</a><span ng-click="removeDisplayedGame(x.gameNo)" class="pointed dtext" style="background-color:red; vertical-align:top; line-height: 0.8; color:white">x</span>
 
 								<!--<div> &nbsp </div>-->
 							</div>
