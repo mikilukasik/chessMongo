@@ -1317,6 +1317,11 @@
 		$scope.highLightThem = function(arrayOfCoords) {
 			$rootScope.dbTable.table[arrayOfCoords[0]][arrayOfCoords[1]][9] = true;
 		}
+		
+		$scope.removeDisplayedGame=function(gameNo){
+			//console.log('removeGame',gameNo)
+			socketSend('removeDisplayedGame',gameNo)
+		}
 
 		$scope.clearHighlights = function(onTable) {
 			for(var i = 0; i < 8; i++) {
@@ -1400,7 +1405,7 @@
 			
 			<div style="overflow-x: auto; width: auto; display: inline-block;white-space: nowrap;">
 				<div  ng-repeat="x in displayedGames" style="display: inline-block;white-space: nowrap;">
-					&nbsp&nbsp&nbsp<a href="#" ng-click="showView('board.html',x)" ng-class="{ selected: loginVals.viewName == 'board.html' && subViewName == x }">Game {{x}}</a><span style="background-color:red; vertical-align:top; line-height: 0.8; color:white">x</span>
+					&nbsp&nbsp&nbsp<a href="#" ng-click="showView('board.html',x)" ng-class="{ selected: loginVals.viewName == 'board.html' && subViewName == x }">Game {{x}}</a><span ng-click="removeDisplayedGame(x)" class="pointed" style="background-color:red; vertical-align:top; line-height: 0.8; color:white">x</span>
 					
 					<!--<div> &nbsp </div>-->
 				</div>

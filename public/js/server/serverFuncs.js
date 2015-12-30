@@ -1,5 +1,38 @@
 var userFuncs={
 	
+	removeDisplayedGame:function(connection,data){
+		console.log('remove game from name:',connection.addedData.loggedInAs)
+			mongodb.connect(cn, function(err, db2) {
+				db2.collection("users")
+					.findOne({
+						name: connection.addedData.loggedInAs
+					}, function(err2, userInDb) {
+						if (!(userInDb == null)) {
+							
+							
+							userInDb.games.splice(userInDb.games.indexOf(data),1)
+							//unshift(initedTable._id)
+
+							db2.collection("users")
+								.save(userInDb, function(err3, res) {
+									
+									
+									clients.publishDisplayedGames(connection.addedData.loggedInAs,connection)
+									
+									
+								})
+
+						}
+						db2.close()
+							// res.json({
+
+						// });
+					});
+
+			});
+		
+	},
+	
 	logoff:function(connection){
 		
 		clients.update(connection,'loggedInAs',undefined)
@@ -9,7 +42,7 @@ var userFuncs={
 
 			
 	},
-	
+
 	loginUser:function(name,pwd, stayLoggedIn, connection, noPwd){
 		
 		mongodb.connect(cn, function(err, db) {
@@ -59,6 +92,7 @@ var userFuncs={
 	
 
 var onMessageFuncs = {
+	
 	
 	
 	
@@ -335,6 +369,16 @@ var onMessageFuncs = {
 	logoff: function(connection){
 		
 		userFuncs.logoff(connection)
+		
+	},
+	
+		
+	removeDisplayedGame: function(connection,data){
+		//console.log('removeGame',data)
+		
+		
+		
+		userFuncs.removeDisplayedGame(connection,data)
 		
 	},
 	
