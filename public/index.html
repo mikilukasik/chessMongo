@@ -1466,34 +1466,108 @@
 		<nav ng-if="ran" style="width: 100%;padding-bottom:0px;border-spacing:0px" class="navvv unselectable">
 			<table style="padding-bottom:0px;border-spacing:0px;border-collapse: merge">
 				<tr valign="bottom" style="padding-bottom:0px;border-spacing:0px;border-collapse: merge">
-					<td nowrap align="left" valign="bottom">
-						<a href="#" ng-click="showView('login.html')" class="dtext" ng-class="{ activeTab: loginVals.viewName == 'login.html' }">{{loginVals.inOrOut}}</a>
-						<a href="#" ng-click="showView('lobby.html')" class="dtext" ng-class="{ activeTab: loginVals.viewName == 'lobby.html' }">Lobby</a>
-						<!--<a href="#" ng-click="showView('board.html',rememberTablenum)" ng-class="{ selected: loginVals.viewName == 'board.html' }">Chessboard</a>-->
-						<a href="#" ng-click="showView('captain.html')" class="dtext" ng-class="{ activeTab: loginVals.viewName == 'captain.html' }">Captain</a>
-
-						<!--<a href="#" ng-click="showView('captain.html')" ng-class="{ selected: viewName == 'captain.html' }">Thinkers</a>-->
-					</td>
-
+					
 					<td nowrap>
-
 						<button class="dtext" ng-click="quickGame()">Instant Game</button>
+					</td>
+					
+					
+					<td nowrap align="left" valign="bottom"   style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px">
+						
+						
+							<div style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px">
+								
+								<!--<!--<span class="betweenTabs">&nbsp</span>-->
+								
+								<div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'login.html', activeTab: loginVals.viewName == 'login.html' }">
+									&nbsp
+									<span ng-attr-title="Click here to {{loginVals.inOrOut}}" class="dtext pointed" ng-click="showView('login.html')">{{loginVals.inOrOut}}</span>
+									<!--<span ng-click="removeDisplayedGame(x.gameNo)" class="pointed dtext radial">X</span>-->
+									&nbsp
+								</div>
+								
+								<!--<span class="betweenTabs">&nbsp</span>-->
+								
+							</div>
+						
+						
+							<div style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px">
+								
+								<!--<span class="betweenTabs">&nbsp</span>-->
+								
+								<div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'lobby.html', activeTab: loginVals.viewName == 'lobby.html' }">
+									&nbsp
+									<span ng-attr-title="Click here to view the lobby" class="dtext pointed" ng-click="showView('lobby.html')">Lobby</span>
+									<!--<span ng-click="removeDisplayedGame(x.gameNo)" class="pointed dtext radial">X</span>-->
+									&nbsp
+								</div>
+								
+								<!--<span class="betweenTabs">&nbsp</span>-->
+								
+							</div>
+						
+						
+							<div style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px">
+								
+								<!--<span class="betweenTabs">&nbsp</span>-->
+								
+								<div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'captain.html', activeTab: loginVals.viewName == 'captain.html' }">
+									&nbsp
+									<span ng-attr-title="Hello captain, please click here!" class="dtext pointed" ng-click="showView('captain.html')">Captain</span>
+									<!--<span ng-click="removeDisplayedGame(x.gameNo)" class="pointed dtext radial">X</span>-->
+									&nbsp
+								</div>
+								
+								<!--<span class="betweenTabs">&nbsp</span>-->
+								
+							</div>
+						
+						
+						
+						
+						
+						
+						<!--<div ng-click="showView('login.html')" class="dtext" ng-class="{ activeTab: loginVals.viewName == 'login.html' }">{{loginVals.inOrOut}}</div>
+						
+						
+						<div ng-click="showView('lobby.html')" class="dtext" ng-class="{ activeTab: loginVals.viewName == 'lobby.html' }">Lobby</div>
+						
+						
+						
+						<div ng-click="showView('captain.html')" class="dtext" ng-class="{ activeTab: loginVals.viewName == 'captain.html' }">Captain</div>-->
 
 					</td>
+
+
+
+
+					
+
+
+
 
 					<td nowrap style="width: 100%;padding-bottom:0px;border-spacing:0px;border-collapse: merge" valign="bottom">
-					<div style="overflow-x: auto; width: auto; display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px;border-bottom:0px">
-						<div ng-repeat="x in displayedGames" style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px">
-							<span class="betweenTabs">&nbsp</span>
-							<div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'board.html' || subViewName != x.gameNo, activeTab: loginVals.viewName == 'board.html' && subViewName == x.gameNo }">
-								&nbsp<span ng-attr-title="playing {{x.wPlayer&&('white')||('black')}} against {{x.opponentsName}}" class="dtext pointed" ng-click="showView('board.html',x.gameNo)">Game {{x.gameNo}}</span><span ng-click="removeDisplayedGame(x.gameNo)" class="pointed dtext radial">X</span>&nbsp
-
-
-								<!--<div> &nbsp </div>-->
+						
+						<!--<div style="overflow-x: auto; width: auto; display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px;border-bottom:0px">-->
+							
+							<div ng-repeat="x in displayedGames" style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px"> 
+								
+								<!--<span class="betweenTabs">&nbsp</span>-->
+<!--								
+									 &nbsp-->
+								
+								<div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'board.html' || subViewName != x.gameNo, activeTab: loginVals.viewName == 'board.html' && subViewName == x.gameNo }">
+									&nbsp
+									<span ng-attr-title="playing {{x.wPlayer&&('white')||('black')}} against {{x.opponentsName}}" class="dtext pointed" ng-click="showView('board.html',x.gameNo)">Game {{x.gameNo}}</span>
+									<span ng-click="removeDisplayedGame(x.gameNo)" class="pointed dtext radial">X</span>
+									&nbsp
+								</div>
+								
+								<!--<span class="betweenTabs">&nbsp</span>-->
+							
 							</div>
-							<span class="betweenTabs">&nbsp</span>
-						</div>
-					</div>
+						<!--</div>-->
+					
 					</td>
 
 					<td>

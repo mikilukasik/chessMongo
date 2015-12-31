@@ -103,10 +103,10 @@
 			
 			
 			background: red; /* For browsers that do not support gradients */    
-			background: -webkit-radial-gradient(red,red,red,red,red,red,red,red,red, red,black, lightBlue, lightBlue, lightBlue, lightBlue); /* Safari 5.1 to 6.0 */
-			background: -o-radial-gradient(red,red,red,red,red,red,red,red,red, red,black, lightBlue, lightBlue, lightBlue, lightBlue); /* For Opera 11.6 to 12.0 */
-			background: -moz-radial-gradient(red,red,red,red,red,red,red,red,red, red, black,lightBlue, lightBlue, lightBlue, lightBlue); /* For Firefox 3.6 to 15 */
-			background: radial-gradient(red,red,red,red,red,red,red,red,red, red,black, lightBlue, lightBlue, lightBlue, lightBlue); /* Standard syntax (must be last) */
+			background: -webkit-radial-gradient(red,red,red,red,red,red,red,red,red, red,#636363, #e3e3e3, #e3e3e3, #e3e3e3, #e3e3e3); /* Safari 5.1 to 6.0 */
+			background: -o-radial-gradient(red,red,red,red,red,red,red,red,red, red,#636363, #e3e3e3, #e3e3e3, #e3e3e3, #e3e3e3); /* For Opera 11.6 to 12.0 */
+			background: -moz-radial-gradient(red,red,red,red,red,red,red,red,red, red, #636363,#e3e3e3, #e3e3e3, #e3e3e3, #e3e3e3); /* For Firefox 3.6 to 15 */
+			background: radial-gradient(red,red,red,red,red,red,red,red,red, red,#636363, #e3e3e3, #e3e3e3, #e3e3e3, #e3e3e3); /* Standard syntax (must be last) */
 		}
 
 
@@ -185,23 +185,42 @@
   		
 	}*/
 	
+	#trapezoid {
+		/*border-bottom: 100px solid red;
+		border-left: 50px solid transparent;
+		border-right: 50px solid transparent;
+		height: 0;
+		width: 100px;*/
+	}
+						
+						
+						
+	
 	.activeTab{
 		background-color: #f3f3f3;
 		border-top: 1px solid grey;
 		border-left: 1px solid grey;
 		border-right: 1px solid grey;
 		border-bottom: 1px solid #f3f3f3;
-		color: #000000
+		color: #000000;
+		
+		border-top-right-radius: 0.51em;
+		border-top-left-radius: 0.51em;
+		
 	}
 	
 	
 	.passiveTab{
-		background-color: #b3b3b3;
+		background-color: #d3d3d3;
 		border-top: 1px solid grey;
 		border-left: 1px solid grey;
 		border-right: 1px solid grey;
 		border-bottom: 1px solid grey;
-		color: #222222
+		color: #444444;
+		
+		border-top-right-radius: 0.51em;
+		border-top-left-radius: 0.51em;
+		
 	}
 	.betweenTabs{
 		border-top: 0px;
