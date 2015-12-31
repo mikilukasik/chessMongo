@@ -4,9 +4,10 @@ on gitHub:
 
 	https://github.com/mikilukasik/chessMongo
 
-on web:
+on the web (aws cloud):
 
 	http://miki.space
+	http://ec2-52-24-20-162.us-west-2.compute.amazonaws.com
 
 
 
