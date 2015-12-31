@@ -1460,17 +1460,17 @@
 
 <body ng-app="appModule" ng-controller="ApplicationController" class="docuBody">
 
-	<div class="main-div" ng-if="screenRatio<2">
+	<div class="main-div" style="padding-bottom:0px;border-spacing:0px">
 
 
-		<nav ng-if="ran" style="width: 100%" class="navvv unselectable">
-			<table>
-				<tr>
-					<td nowrap align="left">
-						<a href="#" ng-click="showView('login.html')" class="dtext" ng-class="{ selected: loginVals.viewName == 'login.html' }">{{loginVals.inOrOut}}</a>
-						<a href="#" ng-click="showView('lobby.html')" class="dtext" ng-class="{ selected: loginVals.viewName == 'lobby.html' }">Lobby</a>
+		<nav ng-if="ran" style="width: 100%;padding-bottom:0px;border-spacing:0px" class="navvv unselectable">
+			<table style="padding-bottom:0px;border-spacing:0px;border-collapse: merge">
+				<tr valign="bottom" style="padding-bottom:0px;border-spacing:0px;border-collapse: merge">
+					<td nowrap align="left" valign="bottom">
+						<a href="#" ng-click="showView('login.html')" class="dtext" ng-class="{ activeTab: loginVals.viewName == 'login.html' }">{{loginVals.inOrOut}}</a>
+						<a href="#" ng-click="showView('lobby.html')" class="dtext" ng-class="{ activeTab: loginVals.viewName == 'lobby.html' }">Lobby</a>
 						<!--<a href="#" ng-click="showView('board.html',rememberTablenum)" ng-class="{ selected: loginVals.viewName == 'board.html' }">Chessboard</a>-->
-						<a href="#" ng-click="showView('captain.html')" class="dtext" ng-class="{ selected: loginVals.viewName == 'captain.html' }">Captain</a>
+						<a href="#" ng-click="showView('captain.html')" class="dtext" ng-class="{ activeTab: loginVals.viewName == 'captain.html' }">Captain</a>
 
 						<!--<a href="#" ng-click="showView('captain.html')" ng-class="{ selected: viewName == 'captain.html' }">Thinkers</a>-->
 					</td>
@@ -1481,17 +1481,19 @@
 
 					</td>
 
-					<td nowrap style="width: 100%">
-
-						<div style="overflow-x: auto; width: auto; display: inline-block;white-space: nowrap;">
-							<div ng-repeat="x in displayedGames" style="display: inline-block;white-space: nowrap;">
-								&nbsp&nbsp<a href="#" ng-attr-title="playing {{x.wPlayer&&('white')||('black')}} against {{x.opponentsName}}" class="dtext" ng-click="showView('board.html',x.gameNo)" ng-class="{ selected: loginVals.viewName == 'board.html' && subViewName == x.gameNo }">Game {{x.gameNo}}</a><span ng-click="removeDisplayedGame(x.gameNo)" class="pointed dtext radial">X</span>
+					<td nowrap style="width: 100%;padding-bottom:0px;border-spacing:0px;border-collapse: merge" valign="bottom">
+					<div style="overflow-x: auto; width: auto; display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px;border-bottom:0px">
+						<div ng-repeat="x in displayedGames" style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px">
+							<span class="betweenTabs">&nbsp</span>
+							<div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'board.html' || subViewName != x.gameNo, activeTab: loginVals.viewName == 'board.html' && subViewName == x.gameNo }">
+								&nbsp<span ng-attr-title="playing {{x.wPlayer&&('white')||('black')}} against {{x.opponentsName}}" class="dtext pointed" ng-click="showView('board.html',x.gameNo)">Game {{x.gameNo}}</span><span ng-click="removeDisplayedGame(x.gameNo)" class="pointed dtext radial">X</span>&nbsp
 
 
 								<!--<div> &nbsp </div>-->
 							</div>
+							<span class="betweenTabs">&nbsp</span>
 						</div>
-
+					</div>
 					</td>
 
 					<td>
@@ -1515,19 +1517,19 @@
 	</div>
 	
 	
-	<div class="main-div" ng-if="screenRatio>1">
+	<!--<div class="main-div" ng-if="screenRatio>1">
 
 
 		<nav ng-if="ran" style="width: 100%" class="navvv unselectable">
 			<table>
-				<tr>
-					<td nowrap align="left">
-						<a href="#" ng-click="showView('login.html')" class="dtext" ng-class="{ selected: loginVals.viewName == 'login.html' }">{{loginVals.inOrOut}}</a>
-						<a href="#" ng-click="showView('lobby.html')" class="dtext" ng-class="{ selected: loginVals.viewName == 'lobby.html' }">Lobby</a>
-						<!--<a href="#" ng-click="showView('board.html',rememberTablenum)" ng-class="{ selected: loginVals.viewName == 'board.html' }">Chessboard</a>-->
-						<a href="#" ng-click="showView('captain.html')" class="dtext" ng-class="{ selected: loginVals.viewName == 'captain.html' }">Captain</a>
+				<tr valign="bottom">
+					<td nowrap align="left" valign="bottom">
+						<a href="#" ng-click="showView('login.html')" class="dtext" ng-class="{ activeTab: loginVals.viewName == 'login.html' }">{{loginVals.inOrOut}}</a>
+						<a href="#" ng-click="showView('lobby.html')" class="dtext" ng-class="{ activeTab: loginVals.viewName == 'lobby.html' }">Lobby</a>
+						<!--<a href="#" ng-click="showView('board.html',rememberTablenum)" ng-class="{ selected: loginVals.viewName == 'board.html' }">Chessboard</a>
+						<a href="#" ng-click="showView('captain.html')" class="dtext" ng-class="{ activeTab: loginVals.viewName == 'captain.html' }">Captain</a>
 
-						<!--<a href="#" ng-click="showView('captain.html')" ng-class="{ selected: viewName == 'captain.html' }">Thinkers</a>-->
+						<!--<a href="#" ng-click="showView('captain.html')" ng-class="{ selected: viewName == 'captain.html' }">Thinkers</a>
 					</td>
 
 					<td nowrap>
@@ -1548,28 +1550,27 @@
 
 					</td>
 
-					<!--<td class="dtext" nowrap>{{wid}}</td>-->
+					<!--<td class="dtext" nowrap>{{wid}}</td>
 
 					<td class="dtext" style="width:100%" nowrap align="right">{{greetUser}}</td>
 				</tr>
 				</table>
-					<!--<td  colspan="3" nowrap style="width: 100%">-->
+					<!--<td  colspan="3" nowrap style="width: 100%">
 
 						<div style="overflow-x: auto; width: auto; display: inline-block;white-space: nowrap;">
 							<div ng-repeat="x in displayedGames" style="display: inline-block;white-space: nowrap;">
-								&nbsp&nbsp<a href="#" class="dtext pointed" ng-click="showView('board.html',x.gameNo)" ng-class="{ selected: loginVals.viewName == 'board.html' && subViewName == x.gameNo }">Game {{x.gameNo}}</a><span ng-click="removeDisplayedGame(x.gameNo)" class="pointed radial dtext">X</span>
+								&nbsp&nbsp<a href="#" class="dtext pointed" ng-click="showView('board.html',x.gameNo)" ng-class="{ activeTab: loginVals.viewName == 'board.html' && subViewName == x.gameNo }">Game {{x.gameNo}}</a><span ng-click="removeDisplayedGame(x.gameNo)" class="pointed radial dtext">X</span>
 
-								<!--<div> &nbsp </div>-->
+								<!--<div> &nbsp </div>
 							</div>
 						</div>
 
-					<!--</td>-->
-				
+					<!--</td>
 			
 		</nav>
 
 
-	</div>
+	</div>-->
 
 	<div ng-if="loginVals.viewName&&loginVals.viewName!=''" id="content" ng-include="'html/'+loginVals.viewName" onload="newView(viewName)"></div>
 	<h1 ng-if="!(ran)">Please wait...</h1>
