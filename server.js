@@ -1295,24 +1295,24 @@ app.get('/getModTypes', function(req, res) {
 
 });
 
-app.get('/getMyRecentGames', function(req, res) {
-	//////////// ////////    //console.log(req)
-	mongodb.connect(cn, function(err, db) {
-		db.collection("users")
-			.findOne({
-				name: req.query.n
-			}, function(err2, xData) {
-				if (!(xData == null)) {
+// app.get('/getMyRecentGames', function(req, res) {
+// 	//////////// ////////    //console.log(req)
+// 	mongodb.connect(cn, function(err, db) {
+// 		db.collection("users")
+// 			.findOne({
+// 				name: req.query.n
+// 			}, function(err2, xData) {
+// 				if (!(xData == null)) {
 
-					res.json({
-						recentgames: xData.games
-					});
-				}
-				db.close()
-			});
-	});
+// 					res.json({
+// 						recentgames: xData.games
+// 					});
+// 				}
+// 				db.close()
+// 			});
+// 	});
 
-});
+// });
 // var captainPop = function() {
 // 	captainPollNum++
 // 	while (captainPolls.length > 0) {
