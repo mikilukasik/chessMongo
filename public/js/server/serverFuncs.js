@@ -159,6 +159,13 @@ var onMessageFuncs = {
 						});
 
 					var initedTable = new Dbtable(firstFreeTable, w, b)
+					console.log('----------------------  ----------------------  ----------------------  ')
+					
+					console.log(initedTable)
+					
+					console.log('----------------------  ----------------------  ----------------------  ')
+					
+					
 					
 					initedTable._id=firstFreeTable
 					

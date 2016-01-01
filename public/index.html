@@ -315,9 +315,14 @@
 								$rootScope.ran = true
 								$rootScope.dbTable = new Dbtable(1, 2, 3)
 								$rootScope.wPlayer = true
-									//$rootScope.drTable='wTable.html'
+								$rootScope.wNext = true
+								
+								$rootScope.tempMoveString=''
+								$rootScope.opponentsNam='Multiple thinkers'
+								
+								$rootScope.draTable='wTable.html'
 
-								$rootScope.sTable = []
+								$rootScope.sTable = $rootScope.dbTable.table
 								for (var i = 7; i >= 0; i--) {
 									$rootScope.sTable[i] = []
 									for (var j = 7; j >= 0; j--) {
@@ -420,10 +425,16 @@
 							tempConsole = received.data
 								//wplayer info kell itt!!
 							
+							$rootScope.wName=received.data.wName
+							$rootScope.bName=received.data.bName
+
+							
+							
 							$rootScope.updateSizes()
 
 							
-							showTable(function() {
+							$rootScope.showTable(function() {
+								//console.log('cb cb cb cb cb cb cb cb cb cb')
 								$rootScope.$apply
 							})
 
@@ -987,23 +998,24 @@
 						//////////////////////
 						///replace this!!!
 
-					var dbTable = {} //new Dbtable($rootScope.dbTable._id, $rootScope.wName, $rootScope.bName)
+					var dbTable = $rootScope.dbTable//{} //new Dbtable($rootScope.dbTable._id, $rootScope.wName, $rootScope.bName)
 
 					//hello Marzenka
-					console.log($rootScope.dbTable._id)
-					dbTable._id = $rootScope.dbTable._id
-					dbTable.wName = $rootScope.wName
-					dbTable.bName = $rootScope.bName
+					// console.log($rootScope.dbTable._id)
+					// dbTable._id = $rootScope.dbTable._id
+					// dbTable.wName = $rootScope.wName
+					// dbTable.bName = $rootScope.bName
 
 
-					dbTable.table = $rootScope.dbTable.table
-					dbTable.wNext = $rootScope.dbTable.wNext
-						//refaktor!!!!!!
-					dbTable.moves = $rootScope.dbTable.moves
-					dbTable.pollNum = $rootScope.pollNum
-					dbTable.allPastTables = $rootScope.dbTable.allPastTables
-						// dbTable.wName= $rootScope.wName
-						// dbTable.bName= $rootScope.bName
+					// dbTable.table = $rootScope.dbTable.table
+					// dbTable.wNext = $rootScope.dbTable.wNext
+					// 	//refaktor!!!!!!
+					// dbTable.moves = $rootScope.dbTable.moves
+					// dbTable.pollNum = $rootScope.pollNum
+					// dbTable.allPastTables = $rootScope.dbTable.allPastTables
+					// 	// dbTable.wName= $rootScope.wName
+					// 	// dbTable.bName= $rootScope.bName
+
 
 					$rootScope.lastState = $.extend(true, {}, dbTable) //remember so we can Oooops!!
 
@@ -1013,7 +1025,7 @@
 					console.log('dbTable', dbTable)
 					dbTable = moveInTable(moveStr, dbTable, false)
 
-
+					
 
 
 					if ($scope.opponentsName == 'Fastest thinker') {
@@ -1023,7 +1035,7 @@
 
 					}
 
-					if ($scope.opponentsName == 'Multiple thinkers') {
+					if ($scope.opponentsName == 'Multiple thinkers' || dbTable.wName=='Multiple thinkers' || dbTable.bName == 'Multiple thinkers') {
 						dbTable.command = 'makeAiMove'
 						dbTable.aiType = 'thinkers'
 
@@ -1089,7 +1101,7 @@
 
 			}
 
-			$scope.showTable = function(cb) { //this will update the displayed table from the array
+			$rootScope.showTable = function(cb) { //this will update the displayed table from the array
 
 				//shit i need to rotate it first
 
@@ -1106,8 +1118,16 @@
 				// 						}
 				// 					}
 				// 				}
-
-				var tt = $rootScope.sTable
+				
+				var tt
+				if($rootScope.sTable){
+					tt = $rootScope.sTable
+					console.log('got prev. table')
+				}else{
+					console.log('else called')
+					tt=new Dbtable(1,2,3).table
+				}
+				
 
 				//if(!($rootScope.dbTable))$rootScope.dbTable={table:[]}
 				//console.log()
@@ -1162,7 +1182,7 @@
 
 			}
 
-			showTable = $scope.showTable
+			showTable = $rootScope.showTable
 
 			$scope.login = function(user) {
 
@@ -1227,7 +1247,7 @@
 
 
 
-			$rootScope.showView = function(viewName, subViewName) {
+			$rootScope.showView = function(viewName, subViewName, requestUpdate) {
 
 				//let the server know what we're watching
 
@@ -1326,15 +1346,27 @@
 
 				}, 'showView', function() {
 
-
+					console.log('showView socketSend callback ran')
 
 					$rootScope.loginVals.viewName = viewName;
 					$rootScope.subViewName = subViewName;
 					$rootScope.activeViewParts = newViewParts.slice()
 
 				})
+				
+				if(requestUpdate){
+					// socketSend('updateMe',{
+						
+					// })
+					
+					console.log('here would be "updateMe"')
+					
+					$rootScope.applyIt()
+				}else{
+					$rootScope.applyIt()
+				}
 
-				$rootScope.applyIt()
+				
 
 			}
 
@@ -1352,12 +1384,13 @@
 					if (clickedString == $rootScope.tempMoveString) {
 						$rootScope.dbTable.table[x][y][8] = false
 						$scope.clearHighlights($rootScope.dbTable.table)
-						$scope.showTable()
+						$rootScope.showTable()
 						$rootScope.tempMoveString = ""
 					} else {
-
+						
 						if ($rootScope.dbTable.table[x][y][0] > 0 && $rootScope.tempMoveString == "") {
-
+							//console.log('testtesttesttesttesttesttesttest')
+						
 							for (var i = 0; i < 8; i++) {
 								for (var j = 0; j < 8; j++) {
 									$rootScope.dbTable.table[i][j][15] = false
@@ -1367,7 +1400,7 @@
 
 
 							$rootScope.dbTable.table[x][y][5].forEach($scope.highLightThem) //5odik elem ahova lephet
-							$scope.showTable()
+							$rootScope.showTable()
 
 						};
 						if ($rootScope.dbTable.table[x][y][0] > 0 || 0 < $rootScope.tempMoveString.length) {
@@ -1393,7 +1426,7 @@
 							}
 
 						}
-						$scope.showTable()
+						$rootScope.showTable()
 
 					}
 				}
@@ -1558,7 +1591,7 @@
 								
 								<div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'board.html' || subViewName != x.gameNo, activeTab: loginVals.viewName == 'board.html' && subViewName == x.gameNo }">
 									&nbsp
-									<span ng-attr-title="playing {{x.wPlayer&&('white')||('black')}} against {{x.opponentsName}}" class="dtext pointed" ng-click="showView('board.html',x.gameNo)">Game {{x.gameNo}}</span>
+									<span ng-attr-title="playing {{x.wPlayer&&('white')||('black')}} against {{x.opponentsName}}" class="dtext pointed" ng-click="showView('board.html',x.gameNo,true)">Game {{x.gameNo}}</span>
 									<span ng-click="removeDisplayedGame(x.gameNo)" class="pointed dtext radial">X</span>
 									&nbsp
 								</div>
