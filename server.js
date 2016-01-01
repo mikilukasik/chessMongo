@@ -83,8 +83,10 @@ wsServer.on('request', function(request) {
 	});
 //
 	connection.on('close', function(connection2) {
-		
 		console.log('closed-------------------------------------------------------------')
+		
+		console.log(connection2)
+		console.log('really closed-------------------------------------------------------------')
 		
 		clients.destroy(connection)
 		

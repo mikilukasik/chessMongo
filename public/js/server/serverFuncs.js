@@ -680,7 +680,8 @@ var onMessageFuncs = {
 		if (splitTaskQ[index].pendingSolvedMoves == 0) {
 
 			////////////////////////////////////////////////////////////all moves solved, check best and make a move
-
+			
+		
 			splitTaskQ[index].returnedMoves.sort(
 				moveSorter
 			)
@@ -699,7 +700,50 @@ var onMessageFuncs = {
 				})
 
 			})
-
+			
+			
+			splitTaskQ[index].pendingMoveCount=undefined
+			
+			
+			
+			splitTaskQ[index].returnedMoves=undefined
+			
+			splitTaskQ[index].command=undefined
+			
+			splitTaskQ[index].aiType=undefined
+			
+			splitTaskQ[index].splitMoveStarted=undefined
+			
+			splitTaskQ[index].oppKingPos=undefined
+			
+			splitTaskQ[index].origProtect=undefined
+			
+			splitTaskQ[index].origData=undefined
+			
+			splitTaskQ[index].origDeepDatatt=undefined
+			
+			splitTaskQ[index].origDeepDatatf=undefined
+			
+			splitTaskQ[index].origDeepDataft=undefined
+			
+			splitTaskQ[index].origDeepDataff=undefined
+			
+			
+			splitTaskQ[index].aiTable=undefined
+			splitTaskQ[index].pendingSolvedMoves=undefined
+			// splitTaskQ[index].
+			// splitTaskQ[index].
+			// splitTaskQ[index].
+			// splitTaskQ[index].
+			
+			
+				console.log('here:---------------------------------')
+			console.log(splitTaskQ[index])
+			console.log('length',splitTaskQ[index].length)
+			console.log('thats all.---------------------------------')
+			
+			
+			
 			mongodb.connect(cn, function(err, db) {
 				db.collection("tables")
 					.save(splitTaskQ[index], function(err3, res) {

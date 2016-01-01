@@ -1,0 +1,5308 @@
+{
+	"command": "moved",
+	"data": {
+		"_id": 501,
+		"pendingMoveCount": 0,
+		"desiredDepth": 3,
+		"returnedMoves": [{
+			"value": 28784,
+			"moveTree": "f8c5,g1e2,0,c5b4,0",
+			"_id": 501,
+			"score": 28784,
+			"thinker": "0.14005237258472503",
+			"move": "f8c5"
+		}, {
+			"value": 24096,
+			"moveTree": "f8e7,e1e2,0,c6d4,0",
+			"_id": 501,
+			"score": 24096,
+			"thinker": "0.14005237258472503",
+			"move": "f8e7"
+		}, {
+			"value": 14784,
+			"moveTree": "h7h6,b1d2,0,d8h4,0",
+			"_id": 501,
+			"score": 14784,
+			"thinker": "0.14005237258472503",
+			"move": "h7h6"
+		}, {
+			"value": 14528,
+			"moveTree": "a8b8,b1d2,0,d8h4,0",
+			"_id": 501,
+			"score": 14528,
+			"thinker": "0.14005237258472503",
+			"move": "a8b8"
+		}, {
+			"value": 14528,
+			"moveTree": "g7g6,b1d2,0,d8h4,0",
+			"_id": 501,
+			"score": 14528,
+			"thinker": "0.14005237258472503",
+			"move": "g7g6"
+		}, {
+			"value": 14272,
+			"moveTree": "a7a6,b1d2,0,d8h4,0",
+			"_id": 501,
+			"score": 14272,
+			"thinker": "0.14005237258472503",
+			"move": "a7a6",
+			"sendID": "0.14005237258472503"
+		}, {
+			"value": 14272,
+			"moveTree": "h7h5,b1d2,0,d8h4,0",
+			"_id": 501,
+			"score": 14272,
+			"thinker": "0.14005237258472503",
+			"move": "h7h5"
+		}, {
+			"value": 14272,
+			"moveTree": "b7b6,b1d2,0,d8h4,0",
+			"_id": 501,
+			"score": 14272,
+			"thinker": "0.14005237258472503",
+			"move": "b7b6"
+		}, {
+			"value": 14272,
+			"moveTree": "a7a5,b1d2,0,d8h4,0",
+			"_id": 501,
+			"score": 14272,
+			"thinker": "0.14005237258472503",
+			"move": "a7a5"
+		}, {
+			"value": 14272,
+			"moveTree": "d8f6,b1d2,0,f6h4,0",
+			"_id": 501,
+			"score": 14272,
+			"thinker": "0.14005237258472503",
+			"move": "d8f6"
+		}, {
+			"value": 14256,
+			"moveTree": "f8d6,b1d2,0,d8h4,0",
+			"_id": 501,
+			"score": 14256,
+			"thinker": "0.14005237258472503",
+			"move": "f8d6"
+		}, {
+			"value": 14016,
+			"moveTree": "e6e5,b1d2,0,d8h4,0",
+			"_id": 501,
+			"score": 14016,
+			"thinker": "0.14005237258472503",
+			"move": "e6e5"
+		}, {
+			"value": 9264,
+			"moveTree": "d8e7,c1f4,0,e6e5,0",
+			"_id": 501,
+			"score": 9264,
+			"thinker": "0.14005237258472503",
+			"move": "d8e7"
+		}, {
+			"value": 4368,
+			"moveTree": "f8b4,c2c3,0,b4c5,0",
+			"_id": 501,
+			"score": 4368,
+			"thinker": "0.14005237258472503",
+			"move": "f8b4"
+		}, {
+			"value": 3344,
+			"moveTree": "f7f6,b1d2,0,f8b4,0",
+			"_id": 501,
+			"score": 3344,
+			"thinker": "0.14005237258472503",
+			"move": "f7f6"
+		}, {
+			"value": 3344,
+			"moveTree": "g7g5,b1d2,0,f8b4,0",
+			"_id": 501,
+			"score": 3344,
+			"thinker": "0.14005237258472503",
+			"move": "g7g5"
+		}, {
+			"value": 2832,
+			"moveTree": "c6b8,e1e2,0,f8c5,0",
+			"_id": 501,
+			"score": 2832,
+			"thinker": "0.14005237258472503",
+			"move": "c6b8"
+		}, {
+			"value": 1536,
+			"moveTree": "d8h4,g2g3,0,h4e7,0",
+			"_id": 501,
+			"score": 1536,
+			"thinker": "0.14005237258472503",
+			"move": "d8h4"
+		}, {
+			"value": 1536,
+			"moveTree": "d7d6,h2h4,0,g8e7,0",
+			"_id": 501,
+			"score": 1536,
+			"thinker": "0.14005237258472503",
+			"move": "d7d6"
+		}, {
+			"value": 1280,
+			"moveTree": "g8e7,b1d2,0,g7g6,0",
+			"_id": 501,
+			"score": 1280,
+			"thinker": "0.14005237258472503",
+			"move": "g8e7"
+		}, {
+			"value": 1280,
+			"moveTree": "c6e5,f3f4,0,e5c6,0",
+			"_id": 501,
+			"score": 1280,
+			"thinker": "0.14005237258472503",
+			"move": "c6e5"
+		}, {
+			"value": 1248,
+			"moveTree": "e8e7,b1d2,0,g8f6,0",
+			"_id": 501,
+			"score": 1248,
+			"thinker": "0.14005237258472503",
+			"move": "e8e7"
+		}, {
+			"value": 512,
+			"moveTree": "b7b5,a2a4,0,b5b4,0",
+			"_id": 501,
+			"score": 512,
+			"thinker": "0.14005237258472503",
+			"move": "b7b5"
+		}, {
+			"value": 256,
+			"moveTree": "f7f5,e4f5,-1,e6f5,0",
+			"_id": 501,
+			"score": 256,
+			"thinker": "0.14005237258472503",
+			"move": "f7f5"
+		}, {
+			"value": 256,
+			"moveTree": "c6e7,b1d2,0,h7h6,0",
+			"_id": 501,
+			"score": 256,
+			"thinker": "0.14005237258472503",
+			"move": "c6e7"
+		}, {
+			"value": 256,
+			"moveTree": "c6d4,g1e2,0,d4c6,0",
+			"_id": 501,
+			"score": 256,
+			"thinker": "0.14005237258472503",
+			"move": "c6d4"
+		}, {
+			"value": 0,
+			"moveTree": "c6a5,c1d2,0,a5c6,0",
+			"_id": 501,
+			"score": 0,
+			"thinker": "0.14005237258472503",
+			"move": "c6a5"
+		}, {
+			"value": -16,
+			"moveTree": "c6b4,a2a3,0,b4c6,0",
+			"_id": 501,
+			"score": -16,
+			"thinker": "0.14005237258472503",
+			"move": "c6b4"
+		}, {
+			"value": -256,
+			"moveTree": "d7d5,e4d5,-1,e6d5,0",
+			"_id": 501,
+			"score": -256,
+			"thinker": "0.14005237258472503",
+			"move": "d7d5"
+		}, {
+			"value": -35008,
+			"moveTree": "g8f6,c1g5,0,f8b4,0",
+			"_id": 501,
+			"score": -35008,
+			"thinker": "0.14005237258472503",
+			"move": "g8f6"
+		}, {
+			"value": -64768,
+			"moveTree": "g8h6,c1h6,-3,g7h6,-1",
+			"_id": 501,
+			"score": -64768,
+			"thinker": "0.14005237258472503",
+			"move": "g8h6"
+		}, {
+			"value": -116544,
+			"moveTree": "f8a3,b1a3,-2,d8h4,-2",
+			"_id": 501,
+			"score": -116544,
+			"thinker": "0.14005237258472503",
+			"move": "f8a3"
+		}, {
+			"value": -299920,
+			"moveTree": "d8g5,c1g5,-5,f8b4,-5",
+			"_id": 501,
+			"score": -299920,
+			"thinker": "0.14005237258472503",
+			"move": "d8g5"
+		}],
+		"wName": "lenovo",
+		"bName": "Multiple thinkers",
+		"aiToMove": false,
+		"toBeChecked": true,
+		"gameIsOn": true,
+		"whiteWon": false,
+		"blackWon": false,
+		"isDraw": false,
+		"askWhiteDraw": false,
+		"askBlackDraw": false,
+		"whiteCanForceDraw": false,
+		"blackCanForceDraw": false,
+		"learner": false,
+		"learnerIsBusy": false,
+		"wNext": false,
+		"aiOn": false,
+		"chat": ["2.18sec", {
+			"score": 28784,
+			"hex": "7070",
+			"moves": "f8c5,g1e2,0,c5b4,0"
+		}, {
+			"score": 24096,
+			"hex": "5e20",
+			"moves": "f8e7,e1e2,0,c6d4,0"
+		}, {
+			"score": 14784,
+			"hex": "39c0",
+			"moves": "h7h6,b1d2,0,d8h4,0"
+		}, {
+			"score": 14528,
+			"hex": "38c0",
+			"moves": "a8b8,b1d2,0,d8h4,0"
+		}, {
+			"score": 14528,
+			"hex": "38c0",
+			"moves": "g7g6,b1d2,0,d8h4,0"
+		}, {
+			"score": 14272,
+			"hex": "37c0",
+			"moves": "a7a6,b1d2,0,d8h4,0"
+		}, {
+			"score": 14272,
+			"hex": "37c0",
+			"moves": "h7h5,b1d2,0,d8h4,0"
+		}, {
+			"score": 14272,
+			"hex": "37c0",
+			"moves": "b7b6,b1d2,0,d8h4,0"
+		}, {
+			"score": 14272,
+			"hex": "37c0",
+			"moves": "a7a5,b1d2,0,d8h4,0"
+		}, {
+			"score": 14272,
+			"hex": "37c0",
+			"moves": "d8f6,b1d2,0,f6h4,0"
+		}, {
+			"score": 14256,
+			"hex": "37b0",
+			"moves": "f8d6,b1d2,0,d8h4,0"
+		}, {
+			"score": 14016,
+			"hex": "36c0",
+			"moves": "e6e5,b1d2,0,d8h4,0"
+		}, {
+			"score": 9264,
+			"hex": "2430",
+			"moves": "d8e7,c1f4,0,e6e5,0"
+		}, {
+			"score": 4368,
+			"hex": "1110",
+			"moves": "f8b4,c2c3,0,b4c5,0"
+		}, {
+			"score": 3344,
+			"hex": "d10",
+			"moves": "f7f6,b1d2,0,f8b4,0"
+		}, {
+			"score": 3344,
+			"hex": "d10",
+			"moves": "g7g5,b1d2,0,f8b4,0"
+		}, {
+			"score": 2832,
+			"hex": "b10",
+			"moves": "c6b8,e1e2,0,f8c5,0"
+		}, {
+			"score": 1536,
+			"hex": "600",
+			"moves": "d8h4,g2g3,0,h4e7,0"
+		}, {
+			"score": 1536,
+			"hex": "600",
+			"moves": "d7d6,h2h4,0,g8e7,0"
+		}, {
+			"score": 1280,
+			"hex": "500",
+			"moves": "g8e7,b1d2,0,g7g6,0"
+		}, {
+			"score": 1280,
+			"hex": "500",
+			"moves": "c6e5,f3f4,0,e5c6,0"
+		}, {
+			"score": 1248,
+			"hex": "4e0",
+			"moves": "e8e7,b1d2,0,g8f6,0"
+		}, {
+			"score": 512,
+			"hex": "200",
+			"moves": "b7b5,a2a4,0,b5b4,0"
+		}, {
+			"score": 256,
+			"hex": "100",
+			"moves": "f7f5,e4f5,-1,e6f5,0"
+		}, {
+			"score": 256,
+			"hex": "100",
+			"moves": "c6e7,b1d2,0,h7h6,0"
+		}, {
+			"score": 256,
+			"hex": "100",
+			"moves": "c6d4,g1e2,0,d4c6,0"
+		}, {
+			"score": 0,
+			"hex": "0",
+			"moves": "c6a5,c1d2,0,a5c6,0"
+		}, {
+			"score": -16,
+			"hex": "-10",
+			"moves": "c6b4,a2a3,0,b4c6,0"
+		}, {
+			"score": -256,
+			"hex": "-100",
+			"moves": "d7d5,e4d5,-1,e6d5,0"
+		}, {
+			"score": -35008,
+			"hex": "-88c0",
+			"moves": "g8f6,c1g5,0,f8b4,0"
+		}, {
+			"score": -64768,
+			"hex": "-fd00",
+			"moves": "g8h6,c1h6,-3,g7h6,-1"
+		}, {
+			"score": -116544,
+			"hex": "-1c740",
+			"moves": "f8a3,b1a3,-2,d8h4,-2"
+		}, {
+			"score": -299920,
+			"hex": "-49390",
+			"moves": "d8g5,c1g5,-5,f8b4,-5"
+		}],
+		"moves": ["21e2e4001451678119889", "13b8c6001451678121353", "21d2d3001451678131566", "11e7e6001451678133193", "21f2f3001451678142826", "12f8c5001451678145074", "21e4e5001451686360570"],
+		"pollNum": 8,
+		"allPastTables": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAACDBCPALAAAB3534FTAAALBAJ5746MALAAAB5554ANLAAAAB6564DOLAAAAB7574E"],
+		"created": 1451678115369,
+		"moved": 1451678142847,
+		"table": [
+			[
+				[2, 4, 0, true],
+				[2, 1, 0, false],
+				[0, 0, 0, false],
+				[0, 0, 0, false],
+				[0, 0, 0, false],
+				[0, 0, 0, false],
+				[1, 1, 0, false, null, [
+					[0, 5, 0],
+					[0, 4, 0]
+				]],
+				[1, 4, 0, true, null, [
+					[1, 7, 0]
+				]]
+			],
+			[
+				[2, 3, 0, true],
+				[2, 1, 0, false],
+				[0, 0, 0, false],
+				[0, 0, 0, false],
+				[0, 0, 0, false],
+				[0, 0, 0, false],
+				[1, 1, 0, false, null, [
+					[1, 5, 0],
+					[1, 4, 0]
+				]],
+				[0, 0, 0, null]
+			],
+			[
+				[2, 2, 0, true],
+				[2, 1, 0, false],
+				[0, 0, 0, false],
+				[0, 0, 0, false],
+				[1, 2, 1, false, null, [
+					[3, 5, 0],
+					[1, 5, 0],
+					[3, 3, 0],
+					[1, 3, 0],
+					[4, 6, 0],
+					[4, 2, 0],
+					[0, 2, 0],
+					[5, 7, 0],
+					[5, 1, 0],
+					[6, 0, 3]
+				]],
+				[1, 3, 1, false, null, [
+					[3, 3, 0],
+					[1, 7, 0],
+					[1, 3, 0],
+					[4, 6, 0],
+					[0, 4, 0],
+					[4, 4, 1]
+				]],
+				[1, 1, 0, false, null, []],
+				[1, 2, 0, true, null, []]
+			],
+			[
+				[2, 5, 0, true],
+				[0, 0, 0, null],
+				[2, 1, 1, false],
+				[0, 0, 0, false],
+				[0, 0, 0, false],
+				[0, 0, 0, false],
+				[1, 1, 0, false, null, [
+					[3, 5, 0],
+					[3, 4, 0]
+				]],
+				[1, 5, 0, true, null, [
+					[4, 6, 0],
+					[5, 5, 0],
+					[6, 4, 0],
+					[7, 3, 0]
+				]]
+			],
+			[
+				[2, 9, 0, true],
+				[0, 0, 0, null],
+				[0, 0, 0, false],
+				[0, 0, 0],
+				[2, 1, 2, false],
+				[1, 1, 1, false, null, []],
+				[0, 0, 0, null],
+				[1, 9, 0, true, null, [
+					[5, 7, 0],
+					[4, 6, 0]
+				]]
+			],
+			[
+				[2, 2, 0, true],
+				[0, 0, 0, null],
+				[2, 1, 1, false],
+				[0, 0, 0, false],
+				[0, 0, 0, false],
+				[0, 0, 0, false],
+				[1, 1, 0, false, null, [
+					[5, 5, 0],
+					[5, 4, 0]
+				]],
+				[0, 0, 0, null]
+			],
+			[
+				[2, 3, 0, true],
+				[2, 1, 0, false],
+				[0, 0, 0, false],
+				[0, 0, 0, false],
+				[0, 0, 0, false],
+				[0, 0, 0, false],
+				[1, 1, 0, false, null, [
+					[6, 5, 0],
+					[6, 4, 0]
+				]],
+				[1, 3, 0, true, null, [
+					[7, 5, 0],
+					[5, 5, 0],
+					[4, 6, 0]
+				]]
+			],
+			[
+				[2, 4, 0, true],
+				[2, 1, 0, false],
+				[0, 0, 0, false],
+				[0, 0, 0, false],
+				[0, 0, 0, false],
+				[0, 0, 0, false],
+				[1, 1, 0, false, null, [
+					[7, 5, 0],
+					[7, 4, 0]
+				]],
+				[1, 4, 0, true, null, []]
+			]
+		],
+		"command": "makeAiMove",
+		"aiType": "thinkers",
+		"splitMoveStarted": "2016-01-01T19:55:42.897Z",
+		"oppKingPos": [4, 0],
+		"origProtect": 25,
+		"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+		"origDeepDatatt": {
+			"0": 512
+		},
+		"origDeepDatatf": {
+			"0": -512
+		},
+		"origDeepDataft": {
+			"0": -512
+		},
+		"origDeepDataff": {
+			"0": 512
+		},
+		"aiTable": {
+			"created": 1451678142897,
+			"allTempTables": [],
+			"desiredDepth": 3,
+			"dontLoop": false,
+			"movesToSend": [],
+			"moves": [{
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [0, 6, 0, 5],
+				"stepMove": "a7a6",
+				"moveStrings": ["a7a6"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 0,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [0, 6, 0, 4],
+				"stepMove": "a7a5",
+				"moveStrings": ["a7a5"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 1,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [0, 7, 1, 7],
+				"stepMove": "a8b8",
+				"moveStrings": ["a8b8"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 2,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [1, 6, 1, 5],
+				"stepMove": "b7b6",
+				"moveStrings": ["b7b6"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 3,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [1, 6, 1, 4],
+				"stepMove": "b7b5",
+				"moveStrings": ["b7b5"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 4,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [2, 5, 3, 3],
+				"stepMove": "c6d4",
+				"moveStrings": ["c6d4"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 5,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [2, 5, 1, 7],
+				"stepMove": "c6b8",
+				"moveStrings": ["c6b8"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 6,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [2, 5, 1, 3],
+				"stepMove": "c6b4",
+				"moveStrings": ["c6b4"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 7,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [2, 5, 4, 6],
+				"stepMove": "c6e7",
+				"moveStrings": ["c6e7"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 8,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [2, 5, 4, 4],
+				"stepMove": "c6e5",
+				"moveStrings": ["c6e5"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 9,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [2, 5, 0, 4],
+				"stepMove": "c6a5",
+				"moveStrings": ["c6a5"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 10,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [3, 6, 3, 5],
+				"stepMove": "d7d6",
+				"moveStrings": ["d7d6"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 11,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [3, 6, 3, 4],
+				"stepMove": "d7d5",
+				"moveStrings": ["d7d5"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 12,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [3, 7, 4, 6],
+				"stepMove": "d8e7",
+				"moveStrings": ["d8e7"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 13,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [3, 7, 5, 5],
+				"stepMove": "d8f6",
+				"moveStrings": ["d8f6"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 14,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [3, 7, 6, 4],
+				"stepMove": "d8g5",
+				"moveStrings": ["d8g5"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 15,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [3, 7, 7, 3],
+				"stepMove": "d8h4",
+				"moveStrings": ["d8h4"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 16,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [4, 5, 4, 4],
+				"stepMove": "e6e5",
+				"moveStrings": ["e6e5"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 17,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [4, 7, 4, 6],
+				"stepMove": "e8e7",
+				"moveStrings": ["e8e7"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 18,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [5, 6, 5, 5],
+				"stepMove": "f7f6",
+				"moveStrings": ["f7f6"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 19,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [5, 6, 5, 4],
+				"stepMove": "f7f5",
+				"moveStrings": ["f7f5"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 20,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [5, 7, 4, 6],
+				"stepMove": "f8e7",
+				"moveStrings": ["f8e7"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 21,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [5, 7, 3, 5],
+				"stepMove": "f8d6",
+				"moveStrings": ["f8d6"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 22,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [5, 7, 2, 4],
+				"stepMove": "f8c5",
+				"moveStrings": ["f8c5"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 23,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [5, 7, 1, 3],
+				"stepMove": "f8b4",
+				"moveStrings": ["f8b4"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 24,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [5, 7, 0, 2],
+				"stepMove": "f8a3",
+				"moveStrings": ["f8a3"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 25,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [6, 6, 6, 5],
+				"stepMove": "g7g6",
+				"moveStrings": ["g7g6"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 26,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [6, 6, 6, 4],
+				"stepMove": "g7g5",
+				"moveStrings": ["g7g5"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 27,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [6, 7, 7, 5],
+				"stepMove": "g8h6",
+				"moveStrings": ["g8h6"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 28,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [6, 7, 5, 5],
+				"stepMove": "g8f6",
+				"moveStrings": ["g8f6"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 29,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [6, 7, 4, 6],
+				"stepMove": "g8e7",
+				"moveStrings": ["g8e7"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 30,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [7, 6, 7, 5],
+				"stepMove": "h7h6",
+				"moveStrings": ["h7h6"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 31,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}, {
+				"firstDepthValue": 0,
+				"desiredDepth": 3,
+				"oppKingPos": [4, 0],
+				"_id": 501,
+				"cfMoveCoords": [7, 6, 7, 4],
+				"stepMove": "h7h5",
+				"moveStrings": ["h7h5"],
+				"retMoves": [],
+				"allPast": ["OLAAAAB0504ENLAAAAB1514DMLAAAAB2524CPLAAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPL3233AAAABFT41AAL44AABJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAAB4544JMLAAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AAADBCPAL33AAABFT3141AAL44ABAJML5253AAAABCNL6263AAAABDOL7273AAAABE", "OLAAAAB0504ENLAAAAB1514AMLAAADBCPALAAAB3534FTAALAB44AJ46MALAAAB5554CNLAAAAB6564DOLAAAAB7574E", "OL0203AAAABENL1213AAAABAML2223AACDBCPAL33AAABFT3141AAL44ABAJMAL53AAABANL6263AAAABDOL7273AAAABE"],
+				"cfTable": [
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[0, 5, 0],
+							[0, 4, 0]
+						], true],
+						[1, 4, 0, true, null, [
+							[1, 7, 0]
+						]]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[1, 5, 0],
+							[1, 4, 0]
+						], true],
+						[0, 0, 0, null]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 3, 1, false, null, [
+							[3, 3, 0],
+							[1, 7, 0],
+							[1, 3, 0],
+							[4, 6, 0],
+							[4, 4, 0],
+							[0, 4, 0]
+						], true],
+						[1, 1, 0, false, null, [], true],
+						[1, 2, 0, true, null, [], true]
+					],
+					[
+						[2, 5, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[3, 5, 0],
+							[3, 4, 0]
+						], true],
+						[1, 5, 0, true, null, [
+							[4, 6, 0],
+							[5, 5, 0],
+							[6, 4, 0],
+							[7, 3, 0]
+						], true]
+					],
+					[
+						[2, 9, 0, true, null, null, true],
+						[0, 0, 0, null],
+						[0, 0, 0, false],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[1, 1, 1, false, null, [
+							[4, 4, 0]
+						], true],
+						[0, 0, 0, null],
+						[1, 9, 0, true, null, [
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 2, 0, true, null, null, true],
+						[0, 0, 0],
+						[2, 1, 1, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[5, 5, 0],
+							[5, 4, 0]
+						], true],
+						[1, 2, 0, true, null, [
+							[4, 6, 0],
+							[3, 5, 0],
+							[2, 4, 0],
+							[1, 3, 0],
+							[0, 2, 0]
+						], true]
+					],
+					[
+						[2, 3, 0, true, null, null, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[6, 5, 0],
+							[6, 4, 0]
+						], true],
+						[1, 3, 0, true, null, [
+							[7, 5, 0],
+							[5, 5, 0],
+							[4, 6, 0]
+						], true]
+					],
+					[
+						[2, 4, 0, true],
+						[2, 1, 0, false, null, null, true],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[0, 0, 0, false],
+						[1, 1, 0, false, null, [
+							[7, 5, 0],
+							[7, 4, 0]
+						], true],
+						[1, 4, 0, true, null, []]
+					]
+				],
+				"moveIndex": 32,
+				"origProtect": 25,
+				"cfColor": false,
+				"origData": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"value": [0, 0, 0, 11, 14, 0, 9.8, 1, 228],
+				"fHitValue": [0]
+			}]
+		},
+		"pendingSolvedMoves": 0
+	},
+	"message": "moved",
+	"socketID": 0.9318386025638499
+}
