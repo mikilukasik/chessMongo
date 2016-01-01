@@ -435,8 +435,12 @@
 							
 							$rootScope.showTable(function() {
 								//console.log('cb cb cb cb cb cb cb cb cb cb')
+								
+								$rootScope.updateSizes(function(){
+									console.log('updatesizes lefutott')
+								})
+								
 								$rootScope.$apply
-								$rootScope.updateSizes()
 							})
 
 
@@ -614,7 +618,7 @@
 				$rootScope.depth = depth
 			}
 
-			$rootScope.updateSizes = function() {
+			$rootScope.updateSizes = function(cb) {
 
 				// var docuWidth=~~($(document).width()/1)
 
@@ -857,6 +861,8 @@
 						break;
 
 				}
+				
+				if(cb)cb()
 
 			}
 
