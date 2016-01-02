@@ -55,9 +55,17 @@ var clients=new Clients()
 
 wsServer.on('request', function(request) {
 	
+	
+	console.log('++++++++++++++++++++++++++++++++++++++++++')
+	console.log(request.key)
+	console.log('++++++++++++++++++++++++++++++++++++++++++')
+	
+
+	
+	
 	var connection = request.accept(null, request.origin);
 
-	var newConnectionID=Math.random()*Math.random()
+	var newConnectionID=request.key//Math.random()*Math.random()
 	
 	connection.addedData={
 			connectionID:newConnectionID.toString()
@@ -348,6 +356,11 @@ var dbFuncs={
 
 					
 					clients.send(connection,'updateDisplayedGames',doc.games)
+					
+				}else{
+					
+					clients.send(connection,'updateDisplayedGames',null)
+					
 					
 				}
 				db.close()

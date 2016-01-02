@@ -80,6 +80,8 @@ var Clients=function(){
 		return -1
 	}
 	
+	
+	
 	//////////////////////// functions to manage connections
 	
 	
@@ -312,13 +314,10 @@ var Clients=function(){
 	this.update=function(connection,property,value){
 		
 		//connection must have .addedData.connectionID already
-		////console.log(knownClients)
-		connection = knownClients.connectedSockets[findConnectionIndex(connection)]		//will push it if has to, will return the stored one with local vars in it
+		connection=this.fromStore(connection)
+		//connection = knownClients.connectedSockets[findConnectionIndex(connection)]		//will push it if has to, will return the stored one with local vars in it
 		
 		eval("(connection.addedData."+property+"=value)")
-		
-		//console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',knownClients.connectedSockets[findConnectionIndex(connection)],'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
-		
 		
 	}
 	
