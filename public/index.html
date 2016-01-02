@@ -278,8 +278,8 @@
 
 						case 'login':
 
-							$scope.loggedIn = true
-							$scope.greetUser = 'Logged in as ' + received.data.name + '. '
+							$rootScope.loggedIn = true
+							$rootScope.greetUser = 'Logged in as ' + received.data.name + '. '
 
 							$rootScope.loginVals.inOrOut = 'Logoff' //displayed on nav when logged in
 							$rootScope.loginName = received.data.name
@@ -889,7 +889,7 @@
 
 			var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
 
-			$scope.loggedIn = false
+			$rootScope.loggedIn = false
 			$scope.lobbyPollNum = 0
 
 			$rootScope.pollNum = -2 //just in case
@@ -1289,13 +1289,15 @@
 							socketSend('logoff', {
 								name: $rootScope.loginName
 							})
+							
+							$rootScope.greetUser = ''
+							$rootScope.loginVals.inOrOut = 'Login'
+							$rootScope.loginName = 'someone'
+							$rootScope.loggedIn = false
 
 						}
 
-						$scope.greetUser = ''
-						$rootScope.loginVals.inOrOut = 'Login'
-						$rootScope.loginName = 'someone'
-						$scope.loggedIn = false
+						
 
 
 						break;

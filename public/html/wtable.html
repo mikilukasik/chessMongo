@@ -10,10 +10,10 @@
 		<td>G</td>
 		<td>H</td>
 	</tr>
-	<tr ng-repeat="(xIndex, x) in sTable">
+	<tr ng-repeat="(xIndex, x) in sTable track by $index">
 		<td class="left-column">{{8-$index}}</td>
 		
-		<td ng-repeat="(yIndex, y) in x" ng-click="clickedItTrans(xIndex+1,yIndex)" ng-class="{ darker: y[7], square: !y[7]}">
+		<td ng-repeat="(yIndex, y) in x track by $index" ng-click="clickedItTrans(xIndex+1,yIndex)" ng-class="{ darker: y[7], square: !y[7]}">
 			
 			<div ng-class="divAroundIt">
 				<img ng-src="{{'cPiecesPng/'+y[0]+y[1]+'.png'}}" ng-class="{ selected: y[8]||y[9], selected2: y[15]}">

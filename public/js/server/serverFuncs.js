@@ -108,16 +108,10 @@ var userFuncs={
 }
 	
 
-var onMessageFuncs = {
+var startGame=function(w,b,connection,aiGmae){
 	
-	
-	
-	
-	quickGame: function(connection, data){
 		
-		var w = data.w
-		var b = data.b
-
+	
 		var modType = ""
 
 		var wPNum = players[0].indexOf(w)
@@ -162,11 +156,11 @@ var onMessageFuncs = {
 						});
 
 					var initedTable = new Dbtable(firstFreeTable, w, b)
-					console.log('----------------------  ----------------------  ----------------------  ')
+					// console.log('----------------------  ----------------------  ----------------------  ')
 					
-					console.log(initedTable)
+					// console.log(initedTable)
 					
-					console.log('----------------------  ----------------------  ----------------------  ')
+					// console.log('----------------------  ----------------------  ----------------------  ')
 					
 					
 					
@@ -261,6 +255,21 @@ var onMessageFuncs = {
 				});
 		});
 		
+	
+}
+
+
+var onMessageFuncs = {
+	
+	
+	
+	
+	quickGame: function(connection, data){
+		
+		var w = data.w
+		var b = data.b
+
+		startGame(w,b,connection,true)		//true stands for aiGame
 		
 		/////////////below quickgame specific
 		

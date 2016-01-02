@@ -10,11 +10,11 @@
 							</form>
 							<br>
 							<button ng-click="takeItBack()">Oooops!!</button>
-							<br> Pollnum: {{pollNum}}
+							<!--<br> Pollnum: {{pollNum}}
 							<br> on table {{_id}}
-							<br> 
-							<span ng-if="wNext==wPlayer">Your turn.</span> 
-							<span ng-if="wNext!=wPlayer">Please wait..</span> 
+							<br> -->
+							<span ng-if="dbTable.wNext==wPlayer">Your turn.</span> 
+							<span ng-if="dbTable.wNext!=wPlayer">Please wait..</span> 
 							<br>
 							<br>
 							<div ng-repeat="x in busyThinkers track by $index">
