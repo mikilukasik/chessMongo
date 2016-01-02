@@ -1,0 +1,16 @@
+<h4 style="	text-align: center;">{{alertData.h}}</h4>
+<p style="	text-align: center;">{{alertData.p}}</p>
+
+<li ng-repeat="x in alertData.li">{{x}}</li>
+<div style="
+	position: absolute;
+    bottom: 20;
+	
+	 width: 100%;
+  text-align: center;
+	
+	">
+	
+	<div style="width:100%">
+		<button style="margin:5px;" ng-repeat="x in alertData.button" ng-click="alertButton(alertData.h+'+'+x)"> {{x}} </button>
+</div></div>

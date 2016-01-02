@@ -1,0 +1,6 @@
+<h4>{{alertData.h}}</h4>
+<p>{{alertData.p}}</p>
+
+<li ng-repeat="x in alertData.li">{{x}}</li>
+
+<button style="margin:5px" ng-repeat="x in alertData.button" ng-click="alertButton(alertData.h+'+'+x)"> {{x}} </button>

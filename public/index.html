@@ -540,6 +540,46 @@
 			//if($rootScope.dbTable==undefined)$rootScope.dbTable={}
 
 			//$rootScope.activeViewParts=activeViewParts
+			
+			$scope.alertButton=function(thisCase){
+				//alert(thisCase)
+				switch (thisCase){
+					
+					case 'Challenge player+White':
+						
+					break;
+					case 'Challenge player+White':
+						
+					break;
+					case 'Challenge player+White':
+						
+					break;
+					case 'Challenge player+White':
+						
+					break;
+					case 'Challenge player+Cancel':
+						$rootScope.alertData=undefined
+					break;
+					
+					
+					
+				}
+				
+				
+				
+			}
+			
+			$rootScope.alertData={
+				// html:'html/alerts/challenging.html',
+				h:'Challenge player',
+				p:"You're about to challenge a player. Choose your color:",
+				
+				// li:[1,2,3],
+				button:['White','Black',"Opponent's choice","Random color",'Cancel']
+				
+			}
+			//$rootScope.alertBox='html/alerts/challenging.html'
+			
 
 			if (!$rootScope.ran) {
 				console.log('egyszer?')
@@ -1552,11 +1592,55 @@
 
 	</div>
 
+	<div>
+		
+		
+		
+		<div ng-if="loginVals.viewName&&loginVals.viewName!=''" id="content" ng-include="'html/'+loginVals.viewName" onload="newView(viewName)">
+			
+		
+		</div>
+		<h1 ng-if="!(ran)">Please wait...</h1>
 
-	<div ng-if="loginVals.viewName&&loginVals.viewName!=''" id="content" ng-include="'html/'+loginVals.viewName" onload="newView(viewName)"></div>
-	<h1 ng-if="!(ran)">Please wait...</h1>
-
-
+	</div>
+	
+	<div ng-if="alertData"style="
+	
+	
+	
+	
+	
+	position:absolute; 
+	
+	bottom:33vw;
+	top:33w;
+	 
+	right: 20vw;
+    left: 20vw;
+	
+    margin-right: auto;
+    margin-left: auto;
+	
+	margin-bottom: auto;
+    margin-top: auto;
+	
+	z-index:2;
+	
+	min-height:300px;
+	
+ 
+  
+	
+	vertical-align:middle;
+	
+	background-color:rgba(55,55,155,0.8);color:white">
+	
+		
+					<div ng-include="'/html/alert.html'">
+							
+	</div>
+	
+	
 </body>
 
 </html>
