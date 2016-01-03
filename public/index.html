@@ -249,19 +249,19 @@
 						
 							if(received.data.opponentsChoice){
 								
-								$rootScope.alertUser('Accept challenge',received.data.challenger+' is inviting you for a game, and letting you choose color.',['Accept, play with white.','Accept, play with black.','Decline'],{},10,'Decline')
+								$rootScope.alertUser('Accept challenge',received.data.challenger+' is inviting you for a game, and letting you choose color.',['Accept, play with white.','Accept, play with black.','Decline'],received.data,10,'Decline')
 
 								
 							}else{
 								
 								if(received.data.wPlayer){
 									
-									$rootScope.alertUser('Accept challenge',received.data.challenger+' is inviting you for a game. You will play with white.',['Accept','Decline'],{},10,'Decline')
+									$rootScope.alertUser('Accept challenge',received.data.challenger+' is inviting you for a game. You will play with white.',['Accept','Decline'],received.data,10,'Decline')
 
 									
 								}else{
 									
-									$rootScope.alertUser('Accept challenge',received.data.challenger+' is inviting you for a game. You will play with black.',['Accept','Decline'],{},10,'Decline')
+									$rootScope.alertUser('Accept challenge',received.data.challenger+' is inviting you for a game. You will play with black.',['Accept','Decline'],received.data,10,'Decline')
 
 									
 									
@@ -593,8 +593,19 @@
 			//$rootScope.activeViewParts=activeViewParts
 			
 			$rootScope.alertButton=function(thisCase,passData){
-				//alert(thisCase)
+				console.log('$rootScope.alertButton',thisCase,passData)
 				switch (thisCase){
+					
+					case 'Accept challenge+Accept':
+					
+						if(passData.wPlayer){
+							$scope.quickGame(passData.opponentsName,passData.challenger)
+						}else{
+							$scope.quickGame(passData.challenger,passData.opponentsName)
+						}
+					
+					
+					break;
 					
 					case 'Challenge player+White':
 					
@@ -1115,7 +1126,7 @@
 
 			}
 
-			$scope.quickGame = function() {
+			$scope.quickGame = function(w,b) {
 
 
 				//$rootScope.showView('board.html',)
@@ -1125,9 +1136,9 @@
 				$scope.opponentsName = 'Multiple thinkers'
 
 				socketSend('quickGame', {
-					w: $rootScope.loginName,
-					b: 'Multiple thinkers'
-				}, 'startQuickGame for ' + $rootScope.loginName, function() {
+					w: w,//$rootScope.loginName,
+					b: b//'Multiple thinkers'
+				}, 'startQuickGame for w:' + w +' b:'+b, function() {
 					console.log("'startGame' callback")
 				})
 
@@ -1696,7 +1707,7 @@
 				<tr valign="bottom" style="padding-bottom:0px;border-spacing:0px;border-collapse: merge">
 					
 					<td nowrap>
-						<button class="dtext" ng-click="quickGame()">Instant Game</button>
+						<button class="dtext" ng-click="quickGame(loginName,'Multiple thinkers')">Instant Game</button>
 					</td>
 					
 					
