@@ -628,6 +628,36 @@ var onMessageFuncs = {
 						_id: Number(data.newSubViewName)
 					}, function(err2, tableInDb) {
 						clients.send(connection,'updateDbTable',tableInDb,'updateDbTable',function(){},function(){})
+						
+						if(tableInDb.wName==connection.addedData.loggedInAs){
+							
+							clients.send(connection,'updateView',{
+				
+								viewName:'board.html',
+								subViewName:tableInDb._id,
+								viewPart: 'wPlayer',
+								data: true
+								
+					
+							},'updateView')
+							
+							//clients.publishView('board.html',tableInDb._id,'wPlayer',true)
+						}else{
+							clients.send(connection,'updateView',{
+				
+								viewName:'board.html',
+								subViewName:tableInDb._id,
+								viewPart: 'wPlayer',
+								data: false
+								
+					
+							},'updateView')
+							
+							//console.log('rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr',tableInDb.wName,connection.addedData.loggedInAs)
+							
+							
+						}
+						
 						db.close()
 						
 					});

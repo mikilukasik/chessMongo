@@ -167,9 +167,37 @@
 					console.log('updating ---- ', data.viewPart)
 					eval("($rootScope." + data.viewPart + "=data.data)") // $rootScope.
 
-					if (data.viewPart == 'dbTable.table') showTable(function() {
-						$rootScope.$apply
-					})
+
+					switch(data.viewPart){
+						
+						case 'dbTable.table':
+						
+							showTable(function() {
+								$rootScope.$apply
+							})
+								
+						break;
+						
+						case 'wPlayer':
+						
+							if($rootScope.wPlayer){
+								
+								$rootScope.draTable='wtable.html'
+								
+								
+							}else{
+								
+								$rootScope.draTable='btable.html'
+								
+								
+							}
+						
+						break;
+						
+					}
+
+
+					//if (data.viewPart == 'dbTable.table') 
 
 
 				} else {
@@ -614,6 +642,20 @@
 			$rootScope.alertButton=function(thisCase,passData){
 				console.log('$rootScope.alertButton',thisCase,passData)
 				switch (thisCase){
+					
+					case 'Accept challenge+Accept, play with white.':
+						
+						$scope.quickGame(passData.opponentsName,passData.challenger)
+						
+						
+					break;
+					
+					case 'Accept challenge+Accept, play with black.':
+						
+						$scope.quickGame(passData.challenger,passData.opponentsName)
+						
+						
+					break;
 					
 					case 'Accept challenge+Accept':
 					
@@ -1546,7 +1588,8 @@
 							'dbTable.chat',
 							'dbTable.moves',
 							'busyThinkers',
-							'dbTable.wNext'
+							'dbTable.wNext',
+							'wPlayer'
 
 						]
 
@@ -1574,22 +1617,25 @@
 					$rootScope.loginVals.viewName = viewName;
 					$rootScope.subViewName = subViewName;
 					$rootScope.activeViewParts = newViewParts.slice()
+					
+					
+					if (requestUpdate) {
+					// socketSend('updateMe',{
+	
+						// })
+	
+						console.log('here would be "updateMe"')
+	
+						$rootScope.applyIt()
+					} else {
+						$rootScope.applyIt()
+					}
+
+
 
 				})
 
-				if (requestUpdate) {
-					// socketSend('updateMe',{
-
-					// })
-
-					console.log('here would be "updateMe"')
-
-					$rootScope.applyIt()
-				} else {
-					$rootScope.applyIt()
-				}
-
-
+				
 
 			}
 
@@ -1744,7 +1790,7 @@
 									&nbsp
 								</div></div></td><td nowrap style="width: 100%;padding-bottom:0px;border-spacing:0px;border-collapse: merge" valign="bottom"><div ng-repeat="x in displayedGames" style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px"><div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'board.html' || subViewName != x.gameNo, activeTab: loginVals.viewName == 'board.html' && subViewName == x.gameNo }">
 									&nbsp
-									<span ng-attr-title="playing {{x.wPlayer&&('white')||('black')}} against {{x.opponentsName}}" class="dtext pointed" ng-click="showView('board.html',x.gameNo,true)">Game {{x.gameNo}}</span><span ng-click="removeDisplayedGame(x.gameNo)" class="pointed dtext radial">X</span>
+									<span ng-attr-title="playing {{x.wPlayer&&('white')||('black')}} against {{x.opponentsName}}" class="dtext pointed" ng-click="showView('board.html',x.gameNo,true)">Game {{x.gameNo}}</span><span style="position:relative;top:-1px;"ng-click="removeDisplayedGame(x.gameNo)" class="pointed dtext radial">X</span>
 									<!--&nbsp-->
 								</div></div></td>
 
