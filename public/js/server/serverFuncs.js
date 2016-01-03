@@ -116,6 +116,10 @@ var startGame=function(w,b,connection,aiGame){
 
 		// var wPNum = players[0].indexOf(w)
 		// var bPNum = players[0].indexOf(b)
+		
+		var wConnection=clients.getConnectionByName(w)
+		var bConnection=clients.getConnectionByName(b)
+		
 
 		mongodb.connect(cn, function(err, db) {
 			db.collection("tables")
@@ -172,7 +176,7 @@ var startGame=function(w,b,connection,aiGame){
 									userInDb&&db.collection("users")
 										.save(userInDb, function(err3, res) {
 											
-											clients.publishDisplayedGames(w,connection)
+											clients.publishDisplayedGames(w,wConnection)
 											
 											
 										
@@ -203,7 +207,7 @@ var startGame=function(w,b,connection,aiGame){
 									userInDb2&&db.collection("users")
 										.save(userInDb2, function(err3, res) {
 											
-											clients.publishDisplayedGames(b,connection)
+											clients.publishDisplayedGames(b,bConnection)
 											
 											
 											
@@ -219,7 +223,7 @@ var startGame=function(w,b,connection,aiGame){
 													 console.log(w,b,'----------------------  ----------------------  ----------------------  ')
 					
 													if(w&&w!='Multiple thinkers'){
-														clients.send(clients.getConnectionByName(w),'openGame',{
+														clients.send(wConnection,'openGame',{
 														_id:firstFreeTable,
 														wPlayer:true,
 																opponentsName:b
@@ -228,7 +232,7 @@ var startGame=function(w,b,connection,aiGame){
 													
 													
 													if(b&&b!='Multiple thinkers'){
-															clients.send(clients.getConnectionByName(b),'openGame',{
+															clients.send(bConnection,'openGame',{
 																_id:firstFreeTable,
 																wPlayer:false,
 																opponentsName:w
