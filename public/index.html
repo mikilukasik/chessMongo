@@ -244,7 +244,39 @@
 					// console.log("socketMessage received:",received.message,received.data);
 
 					switch (received.command) {
+						
+						case 'challenged':
+						
+							if(received.data.opponentsChoice){
+								
+								$rootScope.alertUser('Accept challenge',received.data.challenger+' is inviting you for a game, and letting you choose color.',['Accept, play with white.','Accept, play with black.','Decline'],{},10,'Decline')
 
+								
+							}else{
+								
+								if(received.data.wPlayer){
+									
+									$rootScope.alertUser('Accept challenge',received.data.challenger+' is inviting you for a game. You will play with white.',['Accept','Decline'],{},10,'Decline')
+
+									
+								}else{
+									
+									$rootScope.alertUser('Accept challenge',received.data.challenger+' is inviting you for a game. You will play with black.',['Accept','Decline'],{},10,'Decline')
+
+									
+									
+								}
+								
+								
+							}
+						
+							
+						
+						
+						
+						
+						break;
+						
 						case 'refreshBrowser':
 
 							location.reload(true)
