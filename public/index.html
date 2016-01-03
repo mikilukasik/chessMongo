@@ -410,7 +410,26 @@
 							$rootScope.showView('board.html', received.data._id)
 
 							$rootScope.dbTable._id = received.data._id //temp hack!!!!!!!!!!!!!!!!!!!!!!!
+							
+							if(received.data.wPlayer){
+								
+								$rootScope.wPlayer=true
+								$rootScope.draTable='/wtable.html'
+								
+							}else{
+								
+								$rootScope.wPlayer=true
+								$rootScope.draTable='/btable.html'
+								
+								
+								
+							}
+							
 							$rootScope.wPlayer = received.data.wPlayer
+							
+							
+							
+							$rootScope.opponentsName = received.data.opponentsName
 
 							$rootScope.tempMoveString = ""
 
@@ -1237,7 +1256,7 @@
 
 					}
 
-					if ($scope.opponentsName == 'Multiple thinkers' || dbTable.wName == 'Multiple thinkers' || dbTable.bName == 'Multiple thinkers') {
+					if (dbTable.wName == 'Multiple thinkers' || dbTable.bName == 'Multiple thinkers') {
 						dbTable.command = 'makeAiMove'
 						dbTable.aiType = 'thinkers'
 

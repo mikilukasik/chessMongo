@@ -139,7 +139,7 @@ var startGame=function(w,b,connection,aiGame){
 							var initedTable = new Dbtable(firstFreeTable, w, b)
 							
 							
-							// console.log('----------------------  ----------------------  ----------------------  ')
+							 console.log(w,b,'----------------------  ----------------------  ----------------------  ')
 					
 					// console.log(initedTable)
 					
@@ -192,7 +192,7 @@ var startGame=function(w,b,connection,aiGame){
 								
 								
 							//	if (!(userInDb == null)) {
-									console.log('----------------------  ----------------------  ----------------------  ')
+									//console.log('----------------------  ----------------------  ----------------------  ')
 					
 									userInDb2&&userInDb2.games.unshift({
 										wPlayer:false,
@@ -216,12 +216,53 @@ var startGame=function(w,b,connection,aiGame){
 													.insert(initedTable, function(err, doc) {
 								
 								
-								
-													clients.send(connection,'openGame',{
+													 console.log(w,b,'----------------------  ----------------------  ----------------------  ')
+					
+													if(w&&w!='Multiple thinkers'){
+														clients.send(clients.getConnectionByName(w),'openGame',{
 														_id:firstFreeTable,
-														wPlayer:true
+														wPlayer:true,
+																opponentsName:b
 														
 													},'openGamemmmmmmmmmmmmmmmmmmmmmmmmmmmmm',function(){})
+													
+													
+													if(b&&b!='Multiple thinkers'){
+															clients.send(clients.getConnectionByName(b),'openGame',{
+																_id:firstFreeTable,
+																wPlayer:false,
+																opponentsName:w
+																
+															},'openGamemmmmmmmmmmmmmmmmmmmmmmmmmmmmm',function(){})
+														}
+													
+													
+													
+													
+													}else{
+														
+														if(b&&b!='Multiple thinkers'){
+															clients.send(clients.getConnectionByName(b),'openGame',{
+																_id:firstFreeTable,
+																wPlayer:false,
+																opponentsName:w
+																
+															},'openGamemmmmmmmmmmmmmmmmmmmmmmmmmmmmm',function(){})
+														}else{
+															//against multiple, not logged in
+																clients.send(connection,'openGame',{
+																	_id:firstFreeTable,
+																	wPlayer:true,
+																opponentsName:b
+																	
+																},'openGamemmmmmmmmmmmmmmmmmmmmmmmmmmmmm',function(){})
+															
+															
+														}
+														
+													}
+													
+													
 													
 								
 								
@@ -346,7 +387,8 @@ var onMessageFuncs = {
 		
 		var w = data.w
 		var b = data.b
-
+		 console.log(w,b,'----------------------  ----------------------  ----------------------  ')
+					
 		startGame(w,b,connection,true)		//true stands for aiGame
 		
 		/////////////below quickgame specific
