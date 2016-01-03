@@ -536,7 +536,23 @@
 
 		var appModule = angular.module("appModule", []);
 
-		appModule.controller("ApplicationController", ApplicationController);
+		appModule.controller("ApplicationController", ApplicationController)	
+			// .directive('customAutofocus', function() {
+			// 	return{
+			// 			restrict: 'A',
+				
+			// 			link: function(scope, element, attrs){
+			// 			scope.$watch(function(){
+			// 				return scope.$eval(attrs.customAutofocus);
+			// 				},function (newValue){
+			// 				if (newValue === true){
+			// 					element[0].focus();//use focus function instead of autofocus attribute to avoid cross browser problem. And autofocus should only be used to mark an element to be focused when page loads.
+			// 				}
+			// 			});
+			// 			}
+			// 		};
+			// 	})
+								
 
 		function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
 
@@ -576,6 +592,7 @@
 				}
 				
 				$rootScope.alertData=undefined
+				//$scope.$destroy()
 					// console.log(thisCase)
 				
 			}
@@ -622,8 +639,14 @@
 					
 				}
 				
+				$timeout(function(){
+					// console.log( "Handler for .focus() called." );
+					 $( "#autoFoc" ).focus();
+				
+				},100) 
 				
 				$rootScope.autoButtonOnCountDown(alertID,countDown,heading+'+'+defaultButton)
+				
 				
 				
 			}
@@ -1589,6 +1612,8 @@
 
 
 		}
+		
+	
 
 
 

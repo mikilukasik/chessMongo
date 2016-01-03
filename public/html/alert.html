@@ -12,8 +12,8 @@
 	">
 	
 	<div style="width:100%">
-		<div style="display:inline-block" ng-repeat="x in alertData.buttons">
-			<button autofocus ng-if="x==alertData.defaultButton" style="margin:5px;" ng-click="alertButton(alertData.h+'+'+x,alertData.passData)"> {{x}} ({{alertCountDown}})</button>
+		<div style="display:inline-block" ng-repeat="x in alertData.buttons track by $index">
+			<button ng-if="x==alertData.defaultButton" id="autoFoc" style="margin:5px;" ng-click="alertButton(alertData.h+'+'+x,alertData.passData)"> {{x}} ({{alertCountDown}})</button>
 			<button ng-if="x!=alertData.defaultButton" style="margin:5px;" ng-click="alertButton(alertData.h+'+'+x,alertData.passData)"> {{x}} </button>
 		
 		</div>
