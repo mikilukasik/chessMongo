@@ -582,22 +582,25 @@
 			
 			$rootScope.autoButtonOnCountDown=function(alertID,countDown,callWithText){
 				
-				if(countDown>0){
-					console.log(countDown)
-					$timeout(function(){
-						$rootScope.autoButtonOnCountDown(alertID,countDown-1,callWithText)
-					},1000)
-				}else{
-					if($rootScope.alertData.alertID==alertID){
-						//t0, alert is still there
-						
-						$rootScope.alertButton(callWithText)
-						
+				if($rootScope.alertData&&$rootScope.alertData.alertID==alertID){
+					
+					if(countDown>0){
+						//console.log(countDown)
+						$rootScope.alertCountDown=countDown
+						$timeout(function(){
+							$rootScope.autoButtonOnCountDown(alertID,countDown-1,callWithText)
+						},1000)
 					}else{
-						//alert is not there on t0
+						//if($rootScope.alertData&&$rootScope.alertData.alertID==alertID){
+							//t0, alert is still there
+							
+							$rootScope.alertButton(callWithText)
+							
+						// }else{
+						// 	//alert is not there on t0
+						// }
 					}
 				}
-				
 			}
 			
 			$rootScope.alertUser=function(heading,paragraph,buttons,passData,countDown,defaultButton){
@@ -996,12 +999,13 @@
 
 
 			$scope.askToStart = function(opponentsName) {
+				//console.log('asktostart')
 				if (opponentsName != $rootScope.loginName) {
 					
-					
+					// console.log('asktostart')
 					$rootScope.alertUser('Challenge player',"You're about to challenge "+opponentsName+". Choose your color:",['White','Black',"Opponent's choice","Random color",'Cancel'],{
 						opponentsName:opponentsName
-					})
+					},10,'Cancel')
 			
 				}else{
 					
