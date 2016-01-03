@@ -108,14 +108,14 @@ var userFuncs={
 }
 	
 
-var startGame=function(w,b,connection,aiGmae){
+var startGame=function(w,b,connection,aiGame){
 	
 		
 	
-		var modType = ""
+		//var modType = ""
 
-		var wPNum = players[0].indexOf(w)
-		var bPNum = players[0].indexOf(b)
+		// var wPNum = players[0].indexOf(w)
+		// var bPNum = players[0].indexOf(b)
 
 		mongodb.connect(cn, function(err, db) {
 			db.collection("tables")
@@ -136,27 +136,10 @@ var startGame=function(w,b,connection,aiGmae){
 					db.collection("tables")
 						.save(xData, function(err, doc) {
 							
+							var initedTable = new Dbtable(firstFreeTable, w, b)
 							
 							
-							
-							
-							
-							db.close()
-							
-							clients.send(connection,'openGame',{
-								_id:firstFreeTable,
-								wPlayer:true
-								
-							},'openGame',function(){})
-							
-							
-
-							
-							
-						});
-
-					var initedTable = new Dbtable(firstFreeTable, w, b)
-					// console.log('----------------------  ----------------------  ----------------------  ')
+							// console.log('----------------------  ----------------------  ----------------------  ')
 					
 					// console.log(initedTable)
 					
@@ -166,91 +149,175 @@ var startGame=function(w,b,connection,aiGmae){
 					
 					initedTable._id=firstFreeTable
 					
-					//initedTable.table= addMovesToTable(initedTable.table,true)
 					
-
-					mongodb.connect(cn, function(err, db2) {
-						db2.collection("users")
+					
+					
+					db.collection("users")
 							.findOne({
 								name: w
 							}, function(err2, userInDb) {
-								if (!(userInDb == null)) {
-									userInDb.games.unshift({
+								
+								
+							
+					
+								
+								
+						//		if (!(userInDb == null)) {
+									userInDb&&userInDb.games.unshift({
 										wPlayer:true,
 										gameNo:initedTable._id,
 										opponentsName:b
 									})
-
-									db2.collection("users")
+										
+									userInDb&&db.collection("users")
 										.save(userInDb, function(err3, res) {
 											
 											clients.publishDisplayedGames(w,connection)
 											
+											
+										
+											
+											
+														
+											
 										})
-
-								}
-								db2.close()
-									// res.json({
-
-								// });
-							});
-
-					});
-
-					mongodb.connect(cn, function(err, db3) {
-						db3.collection("users")
+										
+										
+										
+												
+											db.collection("users")
 							.findOne({
 								name: b
-							}, function(err2, userInDb) {
-								if (!(userInDb == null)) {
-									userInDb.games.unshift({
+							}, function(err2, userInDb2) {
+								
+								
+							//	if (!(userInDb == null)) {
+									console.log('----------------------  ----------------------  ----------------------  ')
+					
+									userInDb2&&userInDb2.games.unshift({
 										wPlayer:false,
 										gameNo:initedTable._id,
 										opponentsName:w
 									})
 
-									db3.collection("users")
-										.save(userInDb, function(err3, res) {
+									userInDb2&&db.collection("users")
+										.save(userInDb2, function(err3, res) {
 											
 											clients.publishDisplayedGames(b,connection)
 											
+											
+											
+								
 										})
-								}
-								db3.close()
+										
+										
+										
+												db.collection("tables")
+													.insert(initedTable, function(err, doc) {
+								
+								
+								
+													clients.send(connection,'openGame',{
+														_id:firstFreeTable,
+														wPlayer:true
+														
+													},'openGamemmmmmmmmmmmmmmmmmmmmmmmmmmmmm',function(){})
+													
+								
+								
+								
+													clients.publishView('board.html',firstFreeTable,'dbTable.table',initedTable.table)
+													
+													clients.publishView('board.html',firstFreeTable,'dbTable.wNext',initedTable.wNext)
+													
+								
+								
+								
+												
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+												});
+											
+													
+							//	}
+								//db3.close()
 
 							});
+											
+											
+										
 
-					});
+						//		}
+								//db2.close()
+									// res.json({
 
-					mongodb.connect(cn, function(err, db4) {
-						////console.log(initedTable._id	)
-						db4.collection("tables")
-							.insert(initedTable, function(err, doc) {
-								
-								
-								clients.publishView('board.html',firstFreeTable,'dbTable.table',initedTable.table)
-								
-								clients.publishView('board.html',firstFreeTable,'dbTable.wNext',initedTable.wNext)
-								
-								
-								
-								
-								
+								// });
 							});
-						db4.close()
-					})
+					
+					
+					
+					
+					
+							
+							
+							
+							
+							
+							
+							// db.close()
+							
+							
+							
 
-					players[2][wPNum] = true; //ask wplayer to start game
-					players[2][bPNum] = true; //ask bplayer to start game
+							
+							
+						});
 
-					players[3][wPNum] = true; //will play w
-					players[3][bPNum] = false; //will play b
+					
+					
+					//initedTable.table= addMovesToTable(initedTable.table,true)
+					
 
-					players[4][wPNum] = firstFreeTable
-					players[4][bPNum] = firstFreeTable
+					// mongodb.connect(cn, function(err, db2) {
+						
 
-					players[5][wPNum] = b; //give them the opponents name
-					players[5][bPNum] = w;
+					// });
+
+					// mongodb.connect(cn, function(err, db3) {
+						
+
+					// });
+
+					// mongodb.connect(cn, function(err, db4) {
+					// 	////console.log(initedTable._id	)
+					
+					// 	db4.close()
+					// })
+
+					// players[2][wPNum] = true; //ask wplayer to start game
+					// players[2][bPNum] = true; //ask bplayer to start game
+
+					// players[3][wPNum] = true; //will play w
+					// players[3][bPNum] = false; //will play b
+
+					// players[4][wPNum] = firstFreeTable
+					// players[4][bPNum] = firstFreeTable
+
+					// players[5][wPNum] = b; //give them the opponents name
+					// players[5][bPNum] = w;
 
 				});
 		});
@@ -544,112 +611,7 @@ var onMessageFuncs = {
 		
 	},
 	
-	
-	startGame: function(connection, data) {
-		
-		// clients.publishView('captain.html','knownClients',knownClients.views.length)			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		console.log('startGame.............................................')
 
-		
-
-		// var w = data.w
-		// var b = data.b
-
-		// var modType = ""
-
-		// var wPNum = players[0].indexOf(w)
-		// var bPNum = players[0].indexOf(b)
-
-		// mongodb.connect(cn, function(err, db) {
-		// 	db.collection("tables")
-		// 		.findOne({
-		// 			_id: "xData"
-		// 		}, function(err2, xData) {
-		// 			var firstFreeTable = -5
-		// 			if (xData == null) {
-
-		// 				createXData();
-
-		// 				firstFreeTable = 1
-		// 			} else {
-		// 				firstFreeTable = xData.firstFreeTable
-		// 				modType = xData.modType
-		// 				xData.firstFreeTable++
-		// 			}
-		// 			db.collection("tables")
-		// 				.save(xData, function(err, doc) {
-		// 					db.close()
-		// 				});
-
-		// 			var initedTable = new Dbtable(firstFreeTable, w, b)
-
-		// 			mongodb.connect(cn, function(err, db2) {
-		// 				db2.collection("users")
-		// 					.findOne({
-		// 						name: w
-		// 					}, function(err2, userInDb) {
-		// 						if (!(userInDb == null)) {
-		// 							userInDb.games.unshift({
-		// 								wPlayer:true,
-		// 								gameNo:initedTable._id,
-		// 								opponentsName:b
-		// 							})
-
-		// 							db2.collection("users")
-		// 								.save(userInDb, function(err3, res) {})
-
-		// 						}
-		// 						db2.close()
-		// 							// res.json({
-
-		// 						// });
-		// 					});
-
-		// 			});
-
-		// 			mongodb.connect(cn, function(err, db3) {
-		// 				db3.collection("users")
-		// 					.findOne({
-		// 						name: b
-		// 					}, function(err2, userInDb) {
-		// 						if (!(userInDb == null)) {
-		// 							userInDb.games.unshift({
-		// 								wPlayer:true,
-		// 								gameNo:initedTable._id,
-		// 								opponentsName:b
-		// 							})
-
-		// 							db3.collection("users")
-		// 								.save(userInDb, function(err3, res) {})
-		// 						}
-		// 						db3.close()
-
-		// 					});
-
-		// 			});
-
-		// 			mongodb.connect(cn, function(err, db4) {
-		// 				db4.collection("tables")
-		// 					.insert(initedTable, function(err, doc) {});
-		// 				db4.close()
-		// 			})
-
-		// 			players[2][wPNum] = true; //ask wplayer to start game
-		// 			players[2][bPNum] = true; //ask bplayer to start game
-
-		// 			players[3][wPNum] = true; //will play w
-		// 			players[3][bPNum] = false; //will play b
-
-		// 			players[4][wPNum] = firstFreeTable
-		// 			players[4][bPNum] = firstFreeTable
-
-		// 			players[5][wPNum] = b; //give them the opponents name
-		// 			players[5][bPNum] = w;
-
-		// 		});
-		// });
-
-	},
 
 	moved: function(connection, onTable) {
 
