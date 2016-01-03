@@ -223,6 +223,13 @@ var startGame=function(w,b,connection,aiGame){
 													 //console.log(w,b,'----------------------  ----------------------  ----------------------  ')
 					
 													if(w&&w!='Computer'){
+														
+														if(w=='someone'){
+															
+															wConnection=connection
+															
+														}
+														
 														clients.send(wConnection,'openGame',{
 														_id:firstFreeTable,
 														wPlayer:true,

@@ -520,11 +520,16 @@
 							$rootScope.showTable(function() {
 								//console.log('cb cb cb cb cb cb cb cb cb cb')
 
-								$rootScope.updateSizes(function() {
-									console.log('updatesizes lefutott')
-								})
 
-								$rootScope.$apply
+								$rootScope.$on('$includeContentLoaded', function() {
+									$rootScope.updateSizes(function() {
+										console.log('updatesizes lefutott')
+									})
+								});
+											
+								
+
+								// $rootScope.$apply
 							})
 
 
