@@ -381,7 +381,7 @@
 								$rootScope.wNext = true
 
 								$rootScope.tempMoveString = ''
-								$rootScope.opponentsNam = 'Multiple thinkers'
+								$rootScope.opponentsNam = 'Computer'
 
 								$rootScope.draTable = '/wtable.html'
 
@@ -557,7 +557,7 @@
 								$scope.lobbyChatLines = received.data.lobbychat
 								$scope.players = received.data.players
 								$scope.players.unshift("Fastest thinker")
-								$scope.players.unshift("Multiple thinkers")
+								$scope.players.unshift("Computer")
 								$scope.players.unshift("Server")
 
 
@@ -1192,13 +1192,13 @@
 
 				//$rootScope.showView('board.html',)
 
-				//$http.get('/startGame?w=' + $rootScope.loginName + "&b=" + 'Multiple thinkers')
+				//$http.get('/startGame?w=' + $rootScope.loginName + "&b=" + 'Computer')
 
-				$scope.opponentsName = 'Multiple thinkers'
+				$scope.opponentsName = 'Computer'
 
 				socketSend('quickGame', {
 					w: w,//$rootScope.loginName,
-					b: b//'Multiple thinkers'
+					b: b//'Computer'
 				}, 'startQuickGame for w:' + w +' b:'+b, function() {
 					console.log("'startGame' callback")
 				})
@@ -1298,7 +1298,7 @@
 
 					}
 
-					if (dbTable.wName == 'Multiple thinkers' || dbTable.bName == 'Multiple thinkers') {
+					if (dbTable.wName == 'Computer' || dbTable.bName == 'Computer') {
 						dbTable.command = 'makeAiMove'
 						dbTable.aiType = 'thinkers'
 
@@ -1772,7 +1772,7 @@
 				<tr valign="bottom" style="padding-bottom:0px;border-spacing:0px;border-collapse: merge">
 					
 					<td nowrap>
-						<button class="dtext" ng-click="quickGame(loginName,'Multiple thinkers')">Instant Game</button>
+						<button class="dtext" ng-click="quickGame(loginName,'Computer')">Instant Game</button>
 					</td>
 					
 					

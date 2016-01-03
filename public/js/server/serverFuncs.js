@@ -222,7 +222,7 @@ var startGame=function(w,b,connection,aiGame){
 								
 													 console.log(w,b,'----------------------  ----------------------  ----------------------  ')
 					
-													if(w&&w!='Multiple thinkers'){
+													if(w&&w!='Computer'){
 														clients.send(wConnection,'openGame',{
 														_id:firstFreeTable,
 														wPlayer:true,
@@ -231,7 +231,7 @@ var startGame=function(w,b,connection,aiGame){
 													},'openGamemmmmmmmmmmmmmmmmmmmmmmmmmmmmm',function(){})
 													
 													
-													if(b&&b!='Multiple thinkers'){
+													if(b&&b!='Computer'){
 															clients.send(bConnection,'openGame',{
 																_id:firstFreeTable,
 																wPlayer:false,
@@ -245,7 +245,7 @@ var startGame=function(w,b,connection,aiGame){
 													
 													}else{
 														
-														if(b&&b!='Multiple thinkers'){
+														if(b&&b!='Computer'){
 															clients.send(clients.getConnectionByName(b),'openGame',{
 																_id:firstFreeTable,
 																wPlayer:false,
