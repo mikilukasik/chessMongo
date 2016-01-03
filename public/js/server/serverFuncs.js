@@ -9,7 +9,7 @@ var findUsersGameIndex=function(gameNo,games){
 var userFuncs={
 	
 	removeDisplayedGame:function(connection,data){
-		console.log('remove game from name:',connection.addedData.loggedInAs)
+		//console.log('remove game from name:',connection.addedData.loggedInAs)
 			mongodb.connect(cn, function(err, db2) {
 				db2.collection("users")
 					.findOne({
@@ -76,7 +76,7 @@ var userFuncs={
 							//password match, log him in
 							
 							clients.send(connection,'login',{name:name})
-							console.log('user logging in: ',name)
+							//console.log('user logging in: ',name)
 							clients.update(connection,'loggedInAs',name)
 							clients.update(connection,'stayLoggedIn',stayLoggedIn)
 							clients.publishAddedData()
@@ -143,11 +143,11 @@ var startGame=function(w,b,connection,aiGame){
 							var initedTable = new Dbtable(firstFreeTable, w, b)
 							
 							
-							 console.log(w,b,'----------------------  ----------------------  ----------------------  ')
+							 //console.log(w,b,'----------------------  ----------------------  ----------------------  ')
 					
-					// console.log(initedTable)
+					// //console.log(initedTable)
 					
-					// console.log('----------------------  ----------------------  ----------------------  ')
+					// //console.log('----------------------  ----------------------  ----------------------  ')
 					
 					
 					
@@ -196,7 +196,7 @@ var startGame=function(w,b,connection,aiGame){
 								
 								
 							//	if (!(userInDb == null)) {
-									//console.log('----------------------  ----------------------  ----------------------  ')
+									////console.log('----------------------  ----------------------  ----------------------  ')
 					
 									userInDb2&&userInDb2.games.unshift({
 										wPlayer:false,
@@ -220,7 +220,7 @@ var startGame=function(w,b,connection,aiGame){
 													.insert(initedTable, function(err, doc) {
 								
 								
-													 console.log(w,b,'----------------------  ----------------------  ----------------------  ')
+													 //console.log(w,b,'----------------------  ----------------------  ----------------------  ')
 					
 													if(w&&w!='Computer'){
 														clients.send(wConnection,'openGame',{
@@ -347,7 +347,7 @@ var startGame=function(w,b,connection,aiGame){
 					// });
 
 					// mongodb.connect(cn, function(err, db4) {
-					// 	////console.log(initedTable._id	)
+					// 	//////console.log(initedTable._id	)
 					
 					// 	db4.close()
 					// })
@@ -375,7 +375,7 @@ var onMessageFuncs = {
 	
 	
 	challenge: function(connection,data){
-		//console.log('challenge:>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',connection.addedData.loggedInAs)	
+		////console.log('challenge:>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',connection.addedData.loggedInAs)	
 		
 		//var challengedConnection=clients.getConnectionByName(data.opponentsName)
 		
@@ -391,7 +391,7 @@ var onMessageFuncs = {
 		
 		var w = data.w
 		var b = data.b
-		 console.log(w,b,'----------------------  ----------------------  ----------------------  ')
+		 //console.log(w,b,'----------------------  ----------------------  ----------------------  ')
 					
 		startGame(w,b,connection,true)		//true stands for aiGame
 		
@@ -502,7 +502,7 @@ var onMessageFuncs = {
 				//connection.speed=data.speed
 				
 				clients.update(connection,data.data.name,data.data.value)
-				//console.log('hjkl;ez:',clients.addedData())
+				////console.log('hjkl;ez:',clients.addedData())
 				clients.publishAddedData()//View('captain.html','default','clients',clients.addedData())
 				
 			
@@ -548,7 +548,7 @@ var onMessageFuncs = {
 	
 		
 	removeDisplayedGame: function(connection,data){
-		//console.log('removeGame',data)
+		////console.log('removeGame',data)
 		
 		
 		
@@ -561,7 +561,7 @@ var onMessageFuncs = {
 		// clients.publishView('captain.html','knownClients',knownClients)
 		//var newConnectionIndex=connectionIndex(connectionID,connection)
 		
-		//console.log('cookieIdRnd received:',data.cookieIdRnd)
+		////console.log('cookieIdRnd received:',data.cookieIdRnd)
 		
 		clients.update(connection,'cookieIdRnd',data.cookieIdRnd)
 		
@@ -575,7 +575,7 @@ var onMessageFuncs = {
 			
 		}else{
 			//we must know this client already, look it up in DB!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			//console.log('known client came.......................................')
+			////console.log('known client came.......................................')
 			
 			knownClientReturned(data,connection)	//this will mark it online in the db
 			
@@ -617,7 +617,7 @@ var onMessageFuncs = {
 		
 		switch(data.newViewName){//=='board.html'&&data.newSubViewName!='default'){
 			//send the dbtable 
-		////console.log('...........................................................')
+		//////console.log('...........................................................')
 			
 			case 'board.html':
 			
@@ -653,7 +653,7 @@ var onMessageFuncs = {
 					
 							},'updateView')
 							
-							//console.log('rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr',tableInDb.wName,connection.addedData.loggedInAs)
+							////console.log('rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr',tableInDb.wName,connection.addedData.loggedInAs)
 							
 							
 						}
@@ -668,7 +668,7 @@ var onMessageFuncs = {
 			
 			case 'lobby.html':
 				
-				//console.log(clients.getOnlineUsers(),'miabaj<<<<<<<<<<<<<<')
+				////console.log(clients.getOnlineUsers(),'miabaj<<<<<<<<<<<<<<')
 				
 				clients.send(connection,'updateView',{
 				
@@ -718,7 +718,7 @@ var onMessageFuncs = {
 
 						case 'makeAiMove':
 
-							//////    ////console.log('calling makeaimove..')
+							//////    //////console.log('calling makeaimove..')
 							makeAiMove(onTable)
 
 							break;
@@ -808,10 +808,10 @@ var onMessageFuncs = {
 			// splitTaskQ[index].
 			
 			
-				console.log('here:---------------------------------')
-			console.log(splitTaskQ[index])
-			console.log('length',splitTaskQ[index].length)
-			console.log('thats all.---------------------------------')
+				//console.log('here:---------------------------------')
+			//console.log(splitTaskQ[index])
+			//console.log('length',splitTaskQ[index].length)
+			//console.log('thats all.---------------------------------')
 			
 			
 			
@@ -819,7 +819,7 @@ var onMessageFuncs = {
 				db.collection("tables")
 					.save(splitTaskQ[index], function(err3, res) {
 						
-						//console.log('publishing-------------------------------->>> ',splitTaskQ[index]._id)
+						////console.log('publishing-------------------------------->>> ',splitTaskQ[index]._id)
 						//clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.table',splitTaskQ[index].table)
 						
 						clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.table',splitTaskQ[index].table)

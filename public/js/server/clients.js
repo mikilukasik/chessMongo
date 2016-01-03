@@ -41,12 +41,12 @@ var Clients=function(){
 		})
 		
 		
-		console.log('after login',knownClients.onlineUsers)
+		//console.log('after login',knownClients.onlineUsers)
 		this.publishOnlineUsers()
 	}
 	
 	this.getOnlineUsers=function(){
-		console.log('meghivtak.')
+		//console.log('meghivtak.')
 		var result=[]
 		for (var i=knownClients.onlineUsers.length-1;i>=0;i--){
 			result[i]={
@@ -92,7 +92,7 @@ var Clients=function(){
 	}
 	
 	this.publishOnlineUsers=function(){
-		console.log('engem hivtak',this.getOnlineUsers())
+		//console.log('engem hivtak',this.getOnlineUsers())
 		this.publishView('lobby.html','default','onlineUsers',this.getOnlineUsers())
 	}
 	
@@ -143,16 +143,16 @@ var Clients=function(){
 	this.sendByName= function(name, command, data, message, cb ,err) {
 	
 		var connection=this.getConnectionByName(name)
-		console.log('ittagond:<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<',name)
+		//console.log('ittagond:<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<',name)
 	
 		this.send(connection, command, data, message, cb ,err)
 	}
 		
 	this.send = function(connection, command, data, message, cb ,err) {
 	
-		//console.log('ittagond:<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<',connection)
+		////console.log('ittagond:<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<',connection)
 	
-		//console.log('connection writable:',connection.socket.writable)
+		////console.log('connection writable:',connection.socket.writable)
 		// this.publishView('captain.html','default','clients',this.addedData())			//loops it!!!!!!!!!!!!!!!
 		
 		if(connection.socket.writable) {
@@ -181,7 +181,7 @@ var Clients=function(){
 	
 	this.sendToAll = function(command, data, message, cb ,err) {
 	
-		//console.log('connection writable:',connection.socket.writable)
+		////console.log('connection writable:',connection.socket.writable)
 		// this.publishView('captain.html','default','clients',this.addedData())			//loops it!!!!!!!!!!!!!!!
 		
 		for (var i=knownClients.connectedSockets.length-1;i>=0;i--){
@@ -240,14 +240,14 @@ var Clients=function(){
 	
 	
 	this.publishAddedData=function(){
-		//console.log('3333333333333333333333333333333333333333333333333333333333333333333333333333')
+		////console.log('3333333333333333333333333333333333333333333333333333333333333333333333333333')
 		this.publishView('captain.html','default','clients',this.addedData())
 	}
 		
 		
 	
 	this.publishView = function(viewName,subViewName,viewPart,data) {
-		//console.log('viewPop called',viewName,viewPart)
+		////console.log('viewPop called',viewName,viewPart)
 		var viewIndex= findViewIndex(viewName)
 		
 		var subViewIndex= findSubViewIndex(viewIndex,subViewName)
@@ -316,7 +316,7 @@ var Clients=function(){
 	this.addViewer=function(viewName, subViewName, viewParts, connection){
 		
 		//connection must have .addedData.connectionID already
-		////console.log(knownClients)
+		//////console.log(knownClients)
 		
 		connection = this.fromStore(connection)
 		//knownClients.connectedSockets[findConnectionIndex(connection)]		//will push it if has to, will return the stored one with local vars in it
@@ -372,7 +372,7 @@ var Clients=function(){
 		var connectionIndex=findConnectionIndex(connection,true)	//true for destroying, no push
 		
 		connection = knownClients.connectedSockets.splice(connectionIndex,1)[0]//knownClients.connectedSockets[connectionIndex]		//will push it if has to, will return the stored one with local vars in it
-		//console.log('---------------->>>',connectionIndex,connection.addedData,'<<<----------------')
+		////console.log('---------------->>>',connectionIndex,connection.addedData,'<<<----------------')
 		if(connection){
 			if(connection.addedData.viewing)removeViewer(connection.addedData.viewing.viewName,connection.addedData.viewing.subViewName,connection.addedData.viewing.viewParts,connection)
 		
@@ -386,10 +386,10 @@ var Clients=function(){
 				
 				//below function is from another file loaded before this script
 				
-				//console.log()
+				////console.log()
 				
 				if(!connectionData.stayLoggedIn){
-					console.log('user disconnected, stayLoggedIn was oped out. Clearing login details for client.')
+					//console.log('user disconnected, stayLoggedIn was oped out. Clearing login details for client.')
 					
 					connectionData.loggedInAs=''
 					
@@ -430,7 +430,7 @@ var Clients=function(){
 		
 		result=result.concat(knownClients.offlineSockets)
 		
-		console.log('ccccccccccccccccccccccccccccc::::::',knownClients.offlineSockets)
+		//console.log('ccccccccccccccccccccccccccccc::::::',knownClients.offlineSockets)
 		
 		return result
 		
@@ -438,7 +438,7 @@ var Clients=function(){
 	}
 		
 	this.simpleKnownClients=function(){
-		//console.log('oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo	')
+		////console.log('oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo	')
 		var result=[]
 		
 		knownClients.views.forEach(function(view){
@@ -600,13 +600,13 @@ this.simpleActiveViews=function(){
 
 		var speedArray = []
 		// for (var i = 0; i < knownClients.connectedSockets.length; i++) {
-		// 	//console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+		// 	////console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
 		
 		// 	speedArray.push(~~(100 * (knownClients.connectedSockets[i].addedData.speed)))
 		// }
 		
 		knownClients.connectedSockets.forEach(function(connection){
-			//console.log(connection.addedData)
+			////console.log(connection.addedData)
 			
 			if(!connection.addedData.speed)connection.addedData.speed=0.000001//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			
@@ -618,7 +618,7 @@ this.simpleActiveViews=function(){
 		var mx = speedArray.indexOf(Math.max.apply(Math, speedArray));
 	
 		if (!spdPct) {
-			//console.log(speedArray[0], mx,speedArray.length,'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+			////console.log(speedArray[0], mx,speedArray.length,'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
 		
 			return knownClients.connectedSockets[mx]
 		} else { //parameter true
@@ -650,9 +650,9 @@ this.simpleActiveViews=function(){
 	
 			//get fastest available connection
 			
-			//console.log('a')		
+			////console.log('a')		
 			connection = this.fastestThinker()
-			//console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',connection,'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
+			////console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',connection,'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
 		
 		}
 	
@@ -694,7 +694,7 @@ this.simpleActiveViews=function(){
 		
 	
 			//captainPop()!!!!!!!!!!!!!!!!!!!!!!!!!
-		//console.log('this ID:',connection.addedData.connectionID)
+		////console.log('this ID:',connection.addedData.connectionID)
 		return connection.addedData.connectionID
 	
 	}

@@ -6,6 +6,9 @@
 				Below you can see the online users. <br>Click on someone to start a game against.<br>
 				<br>
 				<!--<p class="putPlayersHere"></p>-->
+				
+				<div ng-click="alertUser('Under Construction','Not yet implemented, to challange the Computer just click on the Instant Game button on the top right',['Ok'],{},5,'Ok')" class="pointed">Computer</div>
+				
 				<div ng-repeat="x in onlineUsers track by $index" ng-click="askToStart(x.name)" ng-class="{ greyed: x.name == loginName, pointed: x.name != loginName }">{{x.name}}</div>
 				
 				
