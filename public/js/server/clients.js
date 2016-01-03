@@ -55,9 +55,12 @@ var Clients=function(){
 		}
 		
 		
+		var userIndex=findOnlineUserIndex(name)
+		if(userIndex!=-1){
+			knownClients.onlineUsers.splice(userIndex,1)
+			this.publishOnlineUsers()		
+		}
 		
-		knownClients.onlineUsers.splice(findOnlineUserIndex(name),1)
-		this.publishOnlineUsers()		
 	
 	}
 	
