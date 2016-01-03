@@ -568,19 +568,37 @@
 					
 						console.log('challenging '+passData.opponentsName+' with white.')
 						
+						socketSend('challenge',{
+							opponentsName:passData.opponentsName,
+							wPlayer:true
+						})
+						
+						
+						
 					break;
 					case 'Challenge player+Black':
 					
 						console.log('challenging '+passData.opponentsName+' with black.')
+						socketSend('challenge',{
+							opponentsName:passData.opponentsName,
+							wPlayer:false
+						})
 						
 					break;
 					case "Challenge player+Opponent's choice":
 						
 						console.log('challenging '+passData.opponentsName+", who get's to chose color.")
-					
+					socketSend('challenge',{
+							opponentsName:passData.opponentsName,
+							opponentsChoice:true
+						})
 						
 					break;
 					case "Challenge player+Random color":
+						socketSend('challenge',{
+							opponentsName:passData.opponentsName,
+							wPlayer:(Math.random()>0.5)
+						})
 						console.log('jooo')
 					break;
 					// case 'Challenge player+Cancel':

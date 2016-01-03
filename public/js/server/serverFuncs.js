@@ -262,7 +262,16 @@ var startGame=function(w,b,connection,aiGmae){
 var onMessageFuncs = {
 	
 	
+	challenge: function(connection,data){
+		console.log('challenge:>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',connection.addedData.loggedInAs)	
+		
+		//var challengedConnection=clients.getConnectionByName(data.opponentsName)
+		
+		data.challenger=connection.addedData.loggedInAs
+		
+		clients.sendByName(data.opponentsName,'challenged',data)
 	
+	},
 	
 	quickGame: function(connection, data){
 		
@@ -513,7 +522,9 @@ var onMessageFuncs = {
 					break;
 			
 			case 'lobby.html':
-			
+				
+				//console.log(clients.getOnlineUsers(),'miabaj<<<<<<<<<<<<<<')
+				
 				clients.send(connection,'updateView',{
 				
 				viewName:'lobby.html',
@@ -526,7 +537,7 @@ var onMessageFuncs = {
 			
 			break;
 			//clients.send(connection,'updateDbTable',)
-			
+		//	
 		}
 		
 	},

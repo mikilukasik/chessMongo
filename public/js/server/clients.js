@@ -36,12 +36,28 @@ var Clients=function(){
 		
 		knownClients.onlineUsers.push({
 			name:userName,
-			onlineSince:new Date()
+			onlineSince:new Date(),
+			connection:connection
 		})
 		
 		
 		console.log('after login',knownClients.onlineUsers)
 		this.publishOnlineUsers()
+	}
+	
+	this.getOnlineUsers=function(){
+		console.log('meghivtak.')
+		var result=[]
+		for (var i=knownClients.onlineUsers.length-1;i>=0;i--){
+			result[i]={
+				name:knownClients.onlineUsers[i].name,
+				onlineSince:knownClients.onlineUsers[i].onlineSince
+				
+			
+			}
+				
+		}
+		return result
 	}
 	
 	this.logoff=function(nameOrConnection){
@@ -64,13 +80,25 @@ var Clients=function(){
 	
 	}
 	
-	this.publishOnlineUsers=function(){
-		this.publishView('lobby.html','default','onlineUsers',knownClients.onlineUsers)
+	this.getConnectionByName=function(name){
+		
+		for(var i=knownClients.onlineUsers.length-1;i>=0;i--){
+			if(knownClients.onlineUsers[i].name==name){
+				return knownClients.onlineUsers[i].connection
+			}
+		}
+		
+		return {}
 	}
 	
-	this.getOnlineUsers=function(){
-		return knownClients.onlineUsers
+	this.publishOnlineUsers=function(){
+		console.log('engem hivtak',this.getOnlineUsers())
+		this.publishView('lobby.html','default','onlineUsers',this.getOnlineUsers())
 	}
+	
+	// this.getOnlineUsers=function(){
+	// 	return knownClients.onlineUsers
+	// }
 	
 	var findOnlineUserIndex=function(name){
 		
@@ -112,9 +140,17 @@ var Clients=function(){
 		
 	}
 	
-		
+	this.sendByName= function(name, command, data, message, cb ,err) {
+	
+		var connection=this.getConnectionByName(name)
+		console.log('ittagond:<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<',name)
+	
+		this.send(connection, command, data, message, cb ,err)
+	}
 		
 	this.send = function(connection, command, data, message, cb ,err) {
+	
+		//console.log('ittagond:<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<',connection)
 	
 		//console.log('connection writable:',connection.socket.writable)
 		// this.publishView('captain.html','default','clients',this.addedData())			//loops it!!!!!!!!!!!!!!!
