@@ -260,19 +260,21 @@
 
 						case 'userRegistered':
 
-							alert('User ' + received.data.name + ' registered.')
-
+							//alert('User ' + received.data.name + ' registered.')
+							$rootScope.alertUser('Success','User ' + received.data.name + ' registered.',['OK'],{},5,'OK')
 							break;
 
 						case 'userNotRegistered':
 
-							alert('User not registered, please register first!')
+							//alert('User not registered, please register first!')
+							$rootScope.alertUser('Register first!','User not registered, please register first!',['OK'],{},5,'OK')
 
 							break;
 
 						case 'wrongPwd':
 
-							alert("Username and password don't match, please try again!")
+							//alert("Username and password don't match, please try again!")
+							$rootScope.alertUser('Wrong password',"Username and password don't match, please try again!",['OK'],{},5,'OK')
 
 							break;
 
@@ -292,7 +294,8 @@
 
 						case 'userExists':
 
-							alert('Username ' + received.data.name + ' already exists, please try another!')
+							//alert('Username ' + received.data.name + ' already exists, please try another!')
+							$rootScope.alertUser('Name exists','Username ' + received.data.name + ' already exists, please try another!',['OK'],{},5,'OK')
 
 							break;
 
@@ -541,43 +544,71 @@
 
 			//$rootScope.activeViewParts=activeViewParts
 			
-			$scope.alertButton=function(thisCase){
+			$scope.alertButton=function(thisCase,passData){
 				//alert(thisCase)
 				switch (thisCase){
 					
 					case 'Challenge player+White':
+					
+						console.log('challenging '+passData.opponentsName+' with white.')
 						
 					break;
-					case 'Challenge player+White':
+					case 'Challenge player+Black':
+					
+						console.log('challenging '+passData.opponentsName+' with black.')
 						
 					break;
-					case 'Challenge player+White':
+					case "Challenge player+Opponent's choice":
+						
+						console.log('challenging '+passData.opponentsName+", who get's to chose color.")
+					
 						
 					break;
-					case 'Challenge player+White':
-						
+					case "Challenge player+Random color":
+						console.log('jooo')
 					break;
-					case 'Challenge player+Cancel':
-						$rootScope.alertData=undefined
-					break;
+					// case 'Challenge player+Cancel':
+					// 	// $rootScope.alertData=undefined
+					// break;
 					
 					
 					
 				}
 				
+				$rootScope.alertData=undefined
+					// console.log(thisCase)
+				
+			}
+			
+			$rootScope.alertUser=function(heading,paragraph,buttons,passData,countDown,defaultButton){
+				
+				$rootScope.alertData={
+					// html:'html/alerts/challenging.html',
+					h:heading,
+					p:paragraph,
+					
+					// li:[1,2,3],
+					buttons:buttons,
+					passData:passData,
+					
+					defaultButton:defaultButton
+					
+				}
 				
 				
 			}
 			
-			$rootScope.alertData={
-				// html:'html/alerts/challenging.html',
-				h:'Challenge player',
-				p:"You're about to challenge a player. Choose your color:",
+	
+			
+			// $rootScope.alertData={
+			// 	// html:'html/alerts/challenging.html',
+			// 	h:'Challenge player',
+			// 	p:"You're about to challenge a player. Choose your color:",
 				
-				// li:[1,2,3],
-				button:['White','Black',"Opponent's choice","Random color",'Cancel']
+			// 	// li:[1,2,3],
+			// 	button:['White','Black',"Opponent's choice","Random color",'Cancel']
 				
-			}
+			// }
 			//$rootScope.alertBox='html/alerts/challenging.html'
 			
 
@@ -938,12 +969,19 @@
 
 
 			$scope.askToStart = function(opponentsName) {
-				if (opponentsName != $rootScope.loginName) socketSend('startGame', {
-						w: $rootScope.loginName,
-						b: opponentsName
-					}, 'startGame against ' + opponentsName, function() {
-						console.log("'startGame' callback")
+				if (opponentsName != $rootScope.loginName) {
+					
+					
+					$rootScope.alertUser('Challenge player',"You're about to challenge "+opponentsName+". Choose your color:",['White','Black',"Opponent's choice","Random color",'Cancel'],{
+						opponentsName:opponentsName
 					})
+			
+				}else{
+					
+					//clicked to challange himself
+					
+					
+				}
 					//$http.get('/startGame?w=' + $rootScope.loginName + "&b=" + opponentsName)
 
 			}
@@ -1257,7 +1295,7 @@
 
 					}
 				} else {
-					alert("Passwords don't match, try again!")
+					$rootScope.alertUser('Password mismatch',"Passwords don't match, try again!",['OK'],{},5,'OK')
 				}
 			}
 

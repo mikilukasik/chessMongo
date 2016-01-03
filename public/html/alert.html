@@ -12,5 +12,9 @@
 	">
 	
 	<div style="width:100%">
-		<button style="margin:5px;" ng-repeat="x in alertData.button" ng-click="alertButton(alertData.h+'+'+x)"> {{x}} </button>
+		<div style="display:inline-block" ng-repeat="x in alertData.buttons">
+			<button autofocus ng-if="x==alertData.defaultButton" style="margin:5px;" ng-click="alertButton(alertData.h+'+'+x,alertData.passData)"> {{x}} </button>
+			<button ng-if="x!=alertData.defaultButton" style="margin:5px;" ng-click="alertButton(alertData.h+'+'+x,alertData.passData)"> {{x}} </button>
+		
+		</div>
 </div></div>
