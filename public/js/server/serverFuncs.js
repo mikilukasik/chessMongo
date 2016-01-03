@@ -263,11 +263,13 @@ var onMessageFuncs = {
 	
 	
 	challenge: function(connection,data){
-		console.log('challenge:>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',connection.addedData.loggedInAs)	
+		//console.log('challenge:>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',connection.addedData.loggedInAs)	
 		
 		//var challengedConnection=clients.getConnectionByName(data.opponentsName)
 		
 		data.challenger=connection.addedData.loggedInAs
+		
+		data.wPlayer=!data.wPlayer
 		
 		clients.sendByName(data.opponentsName,'challenged',data)
 	
