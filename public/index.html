@@ -1151,7 +1151,7 @@
 
 			var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
 
-			$rootScope.loggedIn = false
+			//$rootScope.loggedIn = false
 			$scope.lobbyPollNum = 0
 
 			$rootScope.pollNum = -2 //just in case
@@ -1816,7 +1816,7 @@
 &nbsp
 <span title="Click here to view the lobby" class="dtext pointed" ng-click="showView('lobby.html')">Lobby</span>
 &nbsp
-</div></div><div style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px"><div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'captain.html', activeTab: loginVals.viewName == 'captain.html' }">
+</div></div><div  ng-if="loginName=='admin'" style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px"><div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'captain.html', activeTab: loginVals.viewName == 'captain.html' }">
 &nbsp
 <span title="Hello captain, please click here!" class="dtext pointed" ng-click="showView('captain.html')">Captain</span>
 &nbsp
