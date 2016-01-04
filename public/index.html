@@ -1812,7 +1812,7 @@
 &nbsp
 <span ng-attr-title="Click here to {{loginVals.inOrOut}}" class="dtext pointed" ng-click="showView('login.html')">{{loginVals.inOrOut}}</span>
 &nbsp
-</div></div><div style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px"><div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'lobby.html', activeTab: loginVals.viewName == 'lobby.html' }">
+</div></div><div ng-if="loggedIn" style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px"><div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'lobby.html', activeTab: loginVals.viewName == 'lobby.html' }">
 &nbsp
 <span title="Click here to view the lobby" class="dtext pointed" ng-click="showView('lobby.html')">Lobby</span>
 &nbsp
