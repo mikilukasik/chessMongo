@@ -9,7 +9,7 @@
 								<button>Set</button>
 							</form>
 							<br>
-							<button ng-click="takeItBack()">Oooops!!</button>
+							<button ng-if="dbTable.wName=='Computer'||dbTable.bName=='Computer'" ng-click="takeItBack()">Oooops!!</button>
 							<!--<br> Pollnum: {{pollNum}}
 							<br> on table {{_id}} -->
 							<br>
