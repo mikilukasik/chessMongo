@@ -830,16 +830,6 @@ var onMessageFuncs = {
 			
 			splitTaskQ[index].aiTable=undefined
 			splitTaskQ[index].pendingSolvedMoves=undefined
-			// splitTaskQ[index].
-			// splitTaskQ[index].
-			// splitTaskQ[index].
-			// splitTaskQ[index].
-			
-			
-				//console.log('here:---------------------------------')
-			//console.log(splitTaskQ[index])
-			//console.log('length',splitTaskQ[index].length)
-			//console.log('thats all.---------------------------------')
 			
 			
 			
@@ -853,6 +843,8 @@ var onMessageFuncs = {
 						clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.table',splitTaskQ[index].table)
 								
 						clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.wNext',splitTaskQ[index].wNext)
+						
+                        clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.chat',splitTaskQ[index].chat)
 							
 						
 						
