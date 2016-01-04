@@ -112,13 +112,6 @@ var userFuncs={
 
 var startGame=function(w,b,connection,aiGame){
 	
-		
-	
-		//var modType = ""
-
-		// var wPNum = players[0].indexOf(w)
-		// var bPNum = players[0].indexOf(b)
-		
 		var wConnection=clients.getConnectionByName(w)
 		var bConnection=clients.getConnectionByName(b)
 		
@@ -195,11 +188,7 @@ var startGame=function(w,b,connection,aiGame){
 							.findOne({
 								name: b
 							}, function(err2, userInDb2) {
-								
-								
-							//	if (!(userInDb == null)) {
-									////console.log('----------------------  ----------------------  ----------------------  ')
-					
+							
 									userInDb2&&userInDb2.games.unshift({
 										wPlayer:false,
 										gameNo:initedTable._id,
@@ -221,9 +210,6 @@ var startGame=function(w,b,connection,aiGame){
 												db.collection("tables")
 													.insert(initedTable, function(err, doc) {
 								
-								
-													 //console.log(w,b,'----------------------  ----------------------  ----------------------  ')
-					
 													if(w&&w!='Computer'){
 														
 														if(w=='someone'){
@@ -239,17 +225,50 @@ var startGame=function(w,b,connection,aiGame){
 														
 													},'openGamemmmmmmmmmmmmmmmmmmmmmmmmmmmmm',function(){})
 													
-													
-													if(b&&b!='Computer'){
-															clients.send(bConnection,'openGame',{
-																_id:firstFreeTable,
-																wPlayer:false,
-																opponentsName:w
-																
-															},'openGamemmmmmmmmmmmmmmmmmmmmmmmmmmmmm',function(){})
-														}
-													
-													
+													if(b){
+                                                        
+                                                        if(b=='Computer'){
+                                                            
+                                                            //hack!!!!!!!!!!!!!!!!!!!
+                                                            
+                                                            setTimeout(function(){
+                                                                
+                                                                clients.send(wConnection,'updateView',{
+                    
+                                                                    viewName:'board.html',
+                                                                    subViewName:firstFreeTable,
+                                                                    viewPart: 'wPlayer',
+                                                                    data: true
+                                                                    
+                                                        
+                                                                },'updateView')
+                                                           
+                                                                
+                                                                
+                                                                
+                                                            },500)
+                                                            
+                                                             
+                                                           
+                                                           
+                                                        }else{
+                                                             clients.send(bConnection,'openGame',{
+                                                                _id:firstFreeTable,
+                                                                wPlayer:false,
+                                                                opponentsName:w
+                                                                
+                                                            },'openGamemmmmmmmmmmmmmmmmmmmmmmmmmmmmm',function(){})
+                                                            
+                                                            
+                                                        }
+                                                        
+             
+                                                        
+                                                        
+                                                        
+                                                        
+                                                    }
+                                                                                                   
 													
 													
 													}else{

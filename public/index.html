@@ -22,6 +22,17 @@
 
 
 
+        ///////////global vars////////////////
+        
+        
+        var store={
+            
+            oopsStates:[]
+            
+            
+        }
+
+
 		//////////////////////////	cookie stuff	////////////////////////////////////////////////
 
 		function setCookie(cname, cvalue, exdays) {
@@ -1284,13 +1295,16 @@
 					// 	// dbTable.wName= $rootScope.wName
 					// 	// dbTable.bName= $rootScope.bName
 
+                       	dbTable.command = ''
+						dbTable.aiType = ''
 
-					$rootScope.lastState = $.extend(true, {}, dbTable) //remember so we can Oooops!!
+                    store.oopsStates[$rootScope.dbTable._id]=$.extend(true, {}, dbTable)
+					//$rootScope.lastState = $.extend(true, {}, dbTable) //remember so we can Oooops!!
 
 
 
-					$scope.clearHighlights($rootScope.lastState.table)
-					console.log('dbTable', dbTable)
+					$scope.clearHighlights(store.oopsStates[$rootScope.dbTable._id].table)
+					//console.log('dbTable', dbTable)
 					dbTable = moveInTable(moveStr, dbTable, false)
 
 
@@ -1323,12 +1337,7 @@
 						$rootScope.dbTable.moves = dbTable.moves
 					})
 
-					// $http.post('/moved',dbTable,function(req,res){
-					// 	$rootScope.dbTable.table=dbTable.table
-					// 	$rootScope.dbTable.wNext=dbTable.wNext
-					// 	$rootScope.dbTable.moves=dbTable.moves
-
-					// })
+					
 
 				} else {
 
@@ -1341,10 +1350,14 @@
 			}
 
 			$rootScope.takeItBack = function() {
-				socketSend('moved', dbTable, 'moved', function() {
-					$rootScope.dbTable.table = $rootScope.lastState.table
-					$rootScope.dbTable.wNext = $rootScope.lastState.wNext
-					$rootScope.dbTable.moves = $rootScope.lastState.moves
+				socketSend('moved', store.oopsStates[$rootScope.dbTable._id], 'moved', function() {
+                    
+                    console.log('wNext will be',store.oopsStates[$rootScope.dbTable._id].wNext)
+                    
+                    
+					$rootScope.dbTable.table = store.oopsStates[$rootScope.dbTable._id].table
+					$rootScope.dbTable.wNext = store.oopsStates[$rootScope.dbTable._id].wNext
+					$rootScope.dbTable.moves = store.oopsStates[$rootScope.dbTable._id].moves
 
 					//$scope.clearHighlights($rootScope.dbTable.table)
 
@@ -1739,18 +1752,10 @@
 			$rootScope.updateSizes()
 			console.log('appcontr ran')
 			
-				$scope.instantGame = function(w,b) {
+			$scope.instantGame = function(w,b) {
 
 
-				//$rootScope.showView('board.html',)
-
-				//$http.get('/startGame?w=' + $rootScope.loginName + "&b=" + 'Computer')
-				
-				$rootScope.wPlayer=true
-				$rootScope.draTable='wtable.html'
-				console.log('>>>>>>>>>>cleared')
-				
-				$scope.opponentsName = 'Computer'
+				// $scope.opponentsName = 'Computer'
 
 				socketSend('quickGame', {
 					w: $rootScope.loginName,
