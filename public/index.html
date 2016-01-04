@@ -383,7 +383,7 @@
 								$rootScope.tempMoveString = ''
 								$rootScope.opponentsNam = 'Computer'
 
-								$rootScope.draTable = '/wtable.html'
+								$rootScope.draTable = 'wtable.html'
 
 								$rootScope.sTable = $rootScope.dbTable.table
 								for (var i = 7; i >= 0; i--) {
@@ -442,12 +442,12 @@
 							if(received.data.wPlayer){
 								
 								$rootScope.wPlayer=true
-								$rootScope.draTable='/wtable.html'
+								$rootScope.draTable='wtable.html'
 								
 							}else{
 								
 								$rootScope.wPlayer=true
-								$rootScope.draTable='/btable.html'
+								$rootScope.draTable='btable.html'
 								
 								
 								
@@ -1199,7 +1199,7 @@
 
 				//$http.get('/startGame?w=' + $rootScope.loginName + "&b=" + 'Computer')
 
-				$scope.opponentsName = 'Computer'
+				// $scope.opponentsName = 'Computer'
 
 				socketSend('quickGame', {
 					w: w,//$rootScope.loginName,
@@ -1738,7 +1738,28 @@
 
 			$rootScope.updateSizes()
 			console.log('appcontr ran')
+			
+				$scope.instantGame = function(w,b) {
 
+
+				//$rootScope.showView('board.html',)
+
+				//$http.get('/startGame?w=' + $rootScope.loginName + "&b=" + 'Computer')
+				
+				$rootScope.wPlayer=true
+				$rootScope.draTable='wtable.html'
+				console.log('>>>>>>>>>>cleared')
+				
+				$scope.opponentsName = 'Computer'
+
+				socketSend('quickGame', {
+					w: $rootScope.loginName,
+					b: 'Computer'
+				}, 'startQuickGame for w:' + w +' b:'+b, function() {
+					console.log("'startGame' callback")
+				})
+
+			}
 
 
 
@@ -1777,7 +1798,7 @@
 				<tr valign="bottom" style="padding-bottom:0px;border-spacing:0px;border-collapse: merge">
 					
 					<td nowrap>
-						<button class="dtext" ng-click="quickGame(loginName,'Computer')">Instant Game</button>
+						<button class="dtext" ng-click="instantGame(loginName,'Computer')">Instant Game</button>
 					</td>
 					
 <!--indening the below leaves spaces between tabs on nav-->
@@ -1796,7 +1817,7 @@
 &nbsp
 </div></div></td><td nowrap style="width: 100%;padding-bottom:0px;border-spacing:0px;border-collapse: merge" valign="bottom"><div ng-repeat="x in displayedGames" style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px"><div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'board.html' || subViewName != x.gameNo, activeTab: loginVals.viewName == 'board.html' && subViewName == x.gameNo }">
 &nbsp
-<span ng-attr-title="playing {{x.wPlayer&&('white')||('black')}} against {{x.opponentsName}}" class="dtext pointed" ng-click="showView('board.html',x.gameNo,true)">Game {{x.gameNo}}</span><span style="position:relative;top:-1px;background-position: 0px -0.75pt;"ng-click="removeDisplayedGame(x.gameNo)" class="pointed dtext radial">X</span>
+<span ng-attr-title="playing {{x.wPlayer&&('white')||('black')}} against {{x.opponentsName}}" class="dtext pointed" ng-click="showView('board.html',x.gameNo,true)">Game {{x.gameNo}}</span><span style="position:relative;top:-1px;background-position: 0px -0.5pt;"ng-click="removeDisplayedGame(x.gameNo)" class="pointed dtext radial">X</span>
 </div></div></td>
 
 <td class="dtext" nowrap align="right">{{greetUser}}</td>

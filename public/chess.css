@@ -84,10 +84,10 @@
   font-family: "Lucida Console";
   color: white;
   background: red;
-  background: -webkit-radial-gradient(red,red,red,red,red,red, red,white, rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0));
-  background: -o-radial-gradient(red,red,red,red,red,red, red,white, rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0));
-  background: -moz-radial-gradient(red,red,red,red,red,red, red, white,rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0));
-  background: radial-gradient(red,red,red,red,red,red, red,white, rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0));
+  background: -webkit-radial-gradient(red,red,red,red,red,red, white,rgba(0,0,0,0.0), rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0));
+  background: -o-radial-gradient(red,red,red,red,red,red, white,rgba(0,0,0,0.0), rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0));
+  background: -moz-radial-gradient(red,red,red,red,red,red, red, rgba(0,0,0,0.0),rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0));
+  background: radial-gradient(red,red,red,red,red,red, white,rgba(0,0,0,0.0), rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0));
 }
 
 .makeGreen {
