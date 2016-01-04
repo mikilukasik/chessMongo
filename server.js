@@ -444,71 +444,71 @@ registerNewClient=function(initialData,connection){
 	});
 }
 
-setInterval(function() {
+// setInterval(function() {
 
-	mongodb.connect(cn, function(err5, db2) {
-		var laterThan = new Date()
-			.getTime() - gameInactiveConst
+// 	mongodb.connect(cn, function(err5, db2) {
+// 		var laterThan = new Date()
+// 			.getTime() - gameInactiveConst
 
-		if (!(db2 == null)) {
-			db2.collection("tables")
-				.find({
-					"moved": {
-						"$gte": laterThan
-					}
-				}, {
-					"_id": true,
-					"wName": true,
-					"bName": true
-				})
-				.toArray(function(err25, actGames) {
+// 		if (!(db2 == null)) {
+// 			db2.collection("tables")
+// 				.find({
+// 					"moved": {
+// 						"$gte": laterThan
+// 					}
+// 				}, {
+// 					"_id": true,
+// 					"wName": true,
+// 					"bName": true
+// 				})
+// 				.toArray(function(err25, actGames) {
 
-					actGames.sort(function(a, b) {
-						if (a._id > b._id) {
-							return -1
-						} else {
-							return 1
-						}
-						//no duplicates
-					})
+// 					actGames.sort(function(a, b) {
+// 						if (a._id > b._id) {
+// 							return -1
+// 						} else {
+// 							return 1
+// 						}
+// 						//no duplicates
+// 					})
 
-					db2.collection("tables")
-						.findOne({
-							"_id": "xData"
-						}, function(err24, xData) {
+// 					db2.collection("tables")
+// 						.findOne({
+// 							"_id": "xData"
+// 						}, function(err24, xData) {
 
-							xData.activeTables = actGames
+// 							xData.activeTables = actGames
 
-							db2.collection("tables")
-								.save(xData, function(err3, res) {
-									db2.close()
-								})
-								//////////// ////////    ////console.log('Games checked.')
+// 							db2.collection("tables")
+// 								.save(xData, function(err3, res) {
+// 									db2.close()
+// 								})
+// 								//////////// ////////    ////console.log('Games checked.')
 
-						});
+// 						});
 
-				});
-		}
+// 				});
+// 		}
 
-	});
+// 	});
 
-	////innentol jon az eval by clients
+// 	////innentol jon az eval by clients
 
-	//evalToClient()
+// 	//evalToClient()
 
-}, checkGamesConst);
+// }, checkGamesConst);
 
-function ping(msecs) {
-	for (var i = pendingThinkerPolls.length - 1; i > -1; i--) {
-		if (pendingThinkerPolls[i][2] < new Date()
-			.getTime() - msecs) {
-			//polled more tham MSECS time ago, let's pop it
-			sendTask(new Task('echoTest', 0, 'echoTest'), pendingThinkerPolls[i][0].query.id)
+// function ping(msecs) {
+// 	for (var i = pendingThinkerPolls.length - 1; i > -1; i--) {
+// 		if (pendingThinkerPolls[i][2] < new Date()
+// 			.getTime() - msecs) {
+// 			//polled more tham MSECS time ago, let's pop it
+// 			sendTask(new Task('echoTest', 0, 'echoTest'), pendingThinkerPolls[i][0].query.id)
 
-		}
-	}
+// 		}
+// 	}
 
-}
+// }
 
 // setInterval(function() {
 // 	ping(10000)
@@ -518,69 +518,69 @@ function ping(msecs) {
 // 	evalToClient()
 // },evalGameConst)
 
-var evalToClient = function() {
+// var evalToClient = function() {
 
-	mongodb.connect(cn, function(err7, db4) {
-		db4.collection('tables')
-			.findOne({
+// 	mongodb.connect(cn, function(err7, db4) {
+// 		db4.collection('tables')
+// 			.findOne({
 
-				toBeChecked: false
+// 				toBeChecked: false
 
-			}, function(errx, gameToEval) {
-				//send gameToEval to fastest available client
-				//var arguments=[]
+// 			}, function(errx, gameToEval) {
+// 				//send gameToEval to fastest available client
+// 				//var arguments=[]
 
-				var task = {}
-				if (gameToEval != null) {
+// 				var task = {}
+// 				if (gameToEval != null) {
 
-					gameToEval.toBeChecked = true
+// 					gameToEval.toBeChecked = true
 
-					db4.collection('tables')
-						.save(gameToEval, function() {})
-						// task={
-						// 	message:'evalGame, t'+gameToEval._id,
-						// 	command:'evalGame',
-						// 	data:gameToEval
+// 					db4.collection('tables')
+// 						.save(gameToEval, function() {})
+// 						// task={
+// 						// 	message:'evalGame, t'+gameToEval._id,
+// 						// 	command:'evalGame',
+// 						// 	data:gameToEval
 
-					// }
-					task = new Task('resetGame', gameToEval, 'resetGame, t' + gameToEval._id)
+// 					// }
+// 					task = new Task('resetGame', gameToEval, 'resetGame, t' + gameToEval._id)
 
-					//task=new Task('evalGame',gameToEval,'evalGame, t'+gameToEval._id)
-					sendTask(task)
-				} else {
+// 					//task=new Task('evalGame',gameToEval,'evalGame, t'+gameToEval._id)
+// 					sendTask(task)
+// 				} else {
 
-					// task=new Task('',0,'nothing to eval')
+// 					// task=new Task('',0,'nothing to eval')
 
-					// sendTask(task)
-				}
-				db4.close()
+// 					// sendTask(task)
+// 				}
+// 				db4.close()
 
-			})
-	})
+// 			})
+// 	})
 
-}
+// }
 
-var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
+// var popThem = function(tNum, tableInDb, commandToSend, messageToSend) {
 
-	if (!(pendingLongPolls[tNum] == undefined)) {
+// 	if (!(pendingLongPolls[tNum] == undefined)) {
 
-		if (pendingLongPolls[tNum].length > 0) {
-			//van mire valaszolni
+// 		if (pendingLongPolls[tNum].length > 0) {
+// 			//van mire valaszolni
 
-			while (pendingLongPolls[tNum].length > 0) {
+// 			while (pendingLongPolls[tNum].length > 0) {
 
-				var resp = pendingLongPolls[tNum].pop()
+// 				var resp = pendingLongPolls[tNum].pop()
 
-				resp.json(
-					tableInDb
+// 				resp.json(
+// 					tableInDb
 
-				);
+// 				);
 
-			}
+// 			}
 
-		}
-	}
-}
+// 		}
+// 	}
+// }
 
 var splitMoveTasks = [] //store ongoing splitmoves
 
@@ -828,11 +828,11 @@ function postThinkerMessage(thinker, message) {
 
 }
 
-app.post('/myPartIsDone', function(req, res) {
+// app.post('/myPartIsDone', function(req, res) {
 
-	res.send('received.')
+// 	res.send('received.')
 
-});
+// });
 
 function findMIndex(tIndex, thinker) {
 
@@ -846,24 +846,24 @@ function findMIndex(tIndex, thinker) {
 	}
 }
 
-var busyTablesPop = function(tIndex) {
+// var busyTablesPop = function(tIndex) {
 
-	busyTables.pollNums[tIndex]++
+// 	busyTables.pollNums[tIndex]++
 
-		while (busyTables.pendingPolls[tIndex].length > 0) {
-			//    ////console.log('volt egy')
-			var res = busyTables.pendingPolls[tIndex].pop()
+// 		while (busyTables.pendingPolls[tIndex].length > 0) {
+// 			//    ////console.log('volt egy')
+// 			var res = busyTables.pendingPolls[tIndex].pop()
 
-			res.json({
+// 			res.json({
 
-				busyThinkers: busyTables.splitMoves[tIndex],
-				pollNum: busyTables.pollNums[tIndex]
+// 				busyThinkers: busyTables.splitMoves[tIndex],
+// 				pollNum: busyTables.pollNums[tIndex]
 
-			})
+// 			})
 
-		}
+// 		}
 
-}
+// }
 
 function markSplitMoveDone(tNum, thinker) {
 
@@ -912,96 +912,96 @@ function markSplitMoveDone(tNum, thinker) {
 
 //////////////////////////			user register
 
-app.get('/newUser', function(req, res) {
-	//var initedTable =
+// app.get('/newUser', function(req, res) {
+// 	//var initedTable =
 
-	var user = new Dbuser(req.query.n, req.query.p)
-	mongodb.connect(cn, function(err, db) {
-		db.collection("users")
-			.insert(user, function(err, doc) {});
-		db.close()
+// 	var user = new Dbuser(req.query.n, req.query.p)
+// 	mongodb.connect(cn, function(err, db) {
+// 		db.collection("users")
+// 			.insert(user, function(err, doc) {});
+// 		db.close()
 
-	});
-	res.json({});
-});
+// 	});
+// 	res.json({});
+// });
 
-app.get('/checkUser', function(req, res) {
-	//var initedTable =
+// app.get('/checkUser', function(req, res) {
+// 	//var initedTable =
 
-	var retJsn = {}
+// 	var retJsn = {}
 
-	//var user=new Dbuser(req.query.n, req.query.p)
-	mongodb.connect(cn, function(err, db) {
-		//db.collection("users")
+// 	//var user=new Dbuser(req.query.n, req.query.p)
+// 	mongodb.connect(cn, function(err, db) {
+// 		//db.collection("users")
 
-		db.collection("users")
-			.findOne({
-				name: req.query.n
-			}, function(err, thing) {
-				if (thing == null) {
-					retJsn = {
-						'exists': false
-					}
-				} else {
-					retJsn = {
-						'exists': true
-					}
-				}
-				db.close()
-				res.json(retJsn)
-			})
+// 		db.collection("users")
+// 			.findOne({
+// 				name: req.query.n
+// 			}, function(err, thing) {
+// 				if (thing == null) {
+// 					retJsn = {
+// 						'exists': false
+// 					}
+// 				} else {
+// 					retJsn = {
+// 						'exists': true
+// 					}
+// 				}
+// 				db.close()
+// 				res.json(retJsn)
+// 			})
 
-	});
+// 	});
 
-});
+// });
 
-app.get('/checkUserPwd', function(req, res) {
-	//var initedTable =
+// app.get('/checkUserPwd', function(req, res) {
+// 	//var initedTable =
 
-	var retJsn = {}
+// 	var retJsn = {}
 
-	//var user=new Dbuser(req.query.n, req.query.p)
-	mongodb.connect(cn, function(err, db) {
-		//db.collection("users")
+// 	//var user=new Dbuser(req.query.n, req.query.p)
+// 	mongodb.connect(cn, function(err, db) {
+// 		//db.collection("users")
 
-		db.collection("users")
-			.findOne({
-				name: req.query.n
-			}, function(err, thing) {
-				if (thing == null) {
-					retJsn = {
-						'exists': false,
-						'denied': true
-					}
+// 		db.collection("users")
+// 			.findOne({
+// 				name: req.query.n
+// 			}, function(err, thing) {
+// 				if (thing == null) {
+// 					retJsn = {
+// 						'exists': false,
+// 						'denied': true
+// 					}
 
-				} else {
-					//record exists, let's check pwd
-					if (thing.pwd == req.query.p) {
-						//password match, log him in
-						//alert('match')
-						retJsn = {
-							'exists': true,
-							'denied': false
-						}
+// 				} else {
+// 					//record exists, let's check pwd
+// 					if (thing.pwd == req.query.p) {
+// 						//password match, log him in
+// 						//alert('match')
+// 						retJsn = {
+// 							'exists': true,
+// 							'denied': false
+// 						}
 
-					} else {
-						//wrong pwd
-						//alert("Username and password don't match, try again!")
-						retJsn = {
-							'exists': true,
-							'denied': true
-						}
-					}
-				}
-				db.close()
-				res.json(retJsn)
-			})
+// 					} else {
+// 						//wrong pwd
+// 						//alert("Username and password don't match, try again!")
+// 						retJsn = {
+// 							'exists': true,
+// 							'denied': true
+// 						}
+// 					}
+// 				}
+// 				db.close()
+// 				res.json(retJsn)
+// 			})
 
-	});
+// 	});
 
-});
+// });
 
-/////////////////////////
+// /////////////////////////
 
 // app.get('/getTable', function(req, res) {
 
@@ -1032,95 +1032,95 @@ app.get('/checkUserPwd', function(req, res) {
 
 // });
 
-app.get('/longPollTable', function(req, res) {
+// app.get('/longPollTable', function(req, res) {
 
-	mongodb.connect(cn, function(err, db) {
-		db.collection("tables")
-			.findOne({
-				_id: Number(req.query.t)
-			}, function(err2, tableInDb) {
-				if (!(tableInDb == null)) {
+// 	mongodb.connect(cn, function(err, db) {
+// 		db.collection("tables")
+// 			.findOne({
+// 				_id: Number(req.query.t)
+// 			}, function(err2, tableInDb) {
+// 				if (!(tableInDb == null)) {
 
-					//long
-					var passPollNum = tableInDb.pollNum
+// 					//long
+// 					var passPollNum = tableInDb.pollNum
 
-					if (passPollNum > req.query.pn) {
+// 					if (passPollNum > req.query.pn) {
 
-						db.close()
+// 						db.close()
 
-						tableInDb.command = 'sync'
-						tableInDb.message = 'sync t' + req.query.t + ', poll' + passPollNum
+// 						tableInDb.command = 'sync'
+// 						tableInDb.message = 'sync t' + req.query.t + ', poll' + passPollNum
 
-						res.json(tableInDb);
+// 						res.json(tableInDb);
 
-					} else {
-						//nincs mit kuldeni
-						if (pendingLongPolls[req.query.t] == undefined) pendingLongPolls[req.query.t] = []
+// 					} else {
+// 						//nincs mit kuldeni
+// 						if (pendingLongPolls[req.query.t] == undefined) pendingLongPolls[req.query.t] = []
 
-						pendingLongPolls[req.query.t].push(res) //hold that request for that table 
-						db.close()
-					}
+// 						pendingLongPolls[req.query.t].push(res) //hold that request for that table 
+// 						db.close()
+// 					}
 
-				} else {
-					//nincs meg a tabla
-					db.close()
+// 				} else {
+// 					//nincs meg a tabla
+// 					db.close()
 
-				}
+// 				}
 
-			});
+// 			});
 
-	});
+// 	});
 
-});
-app.get('/forceStop', function(req, res) {
-	//////////// ////////    ////console.log(req)
-	res.send('sg')
-	mongodb.connect(cn, function(err, db) {
-		db.collection("tables")
-			.findOne({
-				_id: Number(req.query.t)
-			}, function(err2, stopThisTable) {
+// });
+// app.get('/forceStop', function(req, res) {
+// 	//////////// ////////    ////console.log(req)
+// 	res.send('sg')
+// 	mongodb.connect(cn, function(err, db) {
+// 		db.collection("tables")
+// 			.findOne({
+// 				_id: Number(req.query.t)
+// 			}, function(err2, stopThisTable) {
 
-				if (stopThisTable != null) {
+// 				if (stopThisTable != null) {
 
-					stopThisTable.gameIsOn = false
-					evalGame(stopThisTable)
+// 					stopThisTable.gameIsOn = false
+// 					evalGame(stopThisTable)
 
-					db.collection("tables")
-						.save(stopThisTable, function(err3, res) {
+// 					db.collection("tables")
+// 						.save(stopThisTable, function(err3, res) {
 
-						})
-				} else {
+// 						})
+// 				} else {
 
-				}
+// 				}
 
-				db.close()
-			});
-	});
+// 				db.close()
+// 			});
+// 	});
 
-});
-app.get('/forcePopTable', function(req, res) {
+// });
+// app.get('/forcePopTable', function(req, res) {
 
-	mongodb.connect(cn, function(err, db) {
-		db.collection("tables")
-			.findOne({
-				_id: Number(req.query.t)
-			}, function(err2, tableInDb) {
+// 	mongodb.connect(cn, function(err, db) {
+// 		db.collection("tables")
+// 			.findOne({
+// 				_id: Number(req.query.t)
+// 			}, function(err2, tableInDb) {
 
-				if (!(tableInDb == null)) {
+// 				if (!(tableInDb == null)) {
 
-					popThem(Number(req.query.t), tableInDb, 'forcepop', 'Forcepop, ' + req.query.p + ': ' + req.query.m)
+// 					popThem(Number(req.query.t), tableInDb, 'forcepop', 'Forcepop, ' + req.query.p + ': ' + req.query.m)
 
-				}
-				db.close()
-			});
+// 				}
+// 				db.close()
+// 			});
 
-	});
+// 	});
 
-	res.json({
-		ok: 1
-	})
-});
+// 	res.json({
+// 		ok: 1
+// 	})
+// });
 
 app.get('/chat', function(req, res) {
 
@@ -1212,35 +1212,35 @@ app.get('/chat', function(req, res) {
 
 // });
 
-app.post('/mod', function(req, res) {
+// app.post('/mod', function(req, res) {
 
-	mongodb.connect(cn, function(err, db) {
-		db.collection("tables")
-			.findOne({
-				_id: "xData"
-			}, function(err2, xData) {
-				//var firstFreeTable=-5
-				if (xData == null) {
+// 	mongodb.connect(cn, function(err, db) {
+// 		db.collection("tables")
+// 			.findOne({
+// 				_id: "xData"
+// 			}, function(err2, xData) {
+// 				//var firstFreeTable=-5
+// 				if (xData == null) {
 
-					createXData();
+// 					createXData();
 
-					// firstFreeTable = 1
-				} //else {
-				//firstFreeTable = xData.firstFreeTable
-				xData.modTypes = req.body
-					//	xData.firstFreeTable++
-					//}
-				db.collection("tables")
-					.save(xData, function(err, doc) {
-						db.close()
-						res.json({
-							message: 'ok'
-						})
-					});
+// 					// firstFreeTable = 1
+// 				} //else {
+// 				//firstFreeTable = xData.firstFreeTable
+// 				xData.modTypes = req.body
+// 					//	xData.firstFreeTable++
+// 					//}
+// 				db.collection("tables")
+// 					.save(xData, function(err, doc) {
+// 						db.close()
+// 						res.json({
+// 							message: 'ok'
+// 						})
+// 					});
 
-			})
-	})
-})
+// 			})
+// 	})
+// })
 
 app.get('/watchGame', function(req, res) {
 
@@ -1288,34 +1288,34 @@ app.get('/lobbyChat', function(req, res) {
 
 });
 
-app.get('/getModTypes', function(req, res) {
-	//////////// ////////    ////console.log(req)
-	mongodb.connect(cn, function(err, db) {
-		db.collection("tables")
-			.findOne({
-				_id: "xData"
-			}, function(err2, xData) {
-
-				res.json(xData.modTypes);
-
-				db.close()
-			});
-	});
-
-	lobbyPollNum++
-
-	// res.json({
-	// 	//lobbychat: lobbyChat
-	// });
-
-});
-
-// app.get('/getMyRecentGames', function(req, res) {
+// app.get('/getModTypes', function(req, res) {
 // 	//////////// ////////    ////console.log(req)
 // 	mongodb.connect(cn, function(err, db) {
-// 		db.collection("users")
+// 		db.collection("tables")
 // 			.findOne({
-// 				name: req.query.n
+// 				_id: "xData"
+// 			}, function(err2, xData) {
+
+// 				res.json(xData.modTypes);
+
+// 				db.close()
+// 			});
+// 	});
+
+// 	lobbyPollNum++
+
+// 	// res.json({
+// 	// 	//lobbychat: lobbyChat
+// 	// });
+
+// });
+
+// // app.get('/getMyRecentGames', function(req, res) {
+// // 	//////////// ////////    ////console.log(req)
+// // 	mongodb.connect(cn, function(err, db) {
+// // 		db.collection("users")
+// // 			.findOne({
+// // 				name: req.query.n
 // 			}, function(err2, xData) {
 // 				if (!(xData == null)) {
 
@@ -1362,52 +1362,52 @@ app.get('/getModTypes', function(req, res) {
 // 		})
 
 // 	}
-// }
-var captainPollNum = 0
-var captainPolls = []
-app.get('/captainPoll', function(req, res) {
+// // }
+// var captainPollNum = 0
+// var captainPolls = []
+// // app.get('/captainPoll', function(req, res) {
 
-	if (req.query.pn != captainPollNum) {
+// 	if (req.query.pn != captainPollNum) {
 
-		clearDisconnectedLearners()
+// 		clearDisconnectedLearners()
 
-		captainPollNum++
-		////captainPop()
+// 		captainPollNum++
+// 		////captainPop()
 
-		var texttosnd = []
+// 		var texttosnd = []
 
-		for (var i = 0; i < learners[0].length; i++) {
-			texttosnd[i] = [learners[0][i], learners[2][i], learners[4][i], learners[6][i], learners[5][i], learners[7][i]]
-		}
-		var waitingThinkers = []
-		pendingThinkerPolls.forEach(function(task) {
-			waitingThinkers.push(task[0].query.id) //the req from /longpolltask
-		})
+// 		for (var i = 0; i < learners[0].length; i++) {
+// 			texttosnd[i] = [learners[0][i], learners[2][i], learners[4][i], learners[6][i], learners[5][i], learners[7][i]]
+// 		}
+// 		var waitingThinkers = []
+// 		pendingThinkerPolls.forEach(function(task) {
+// 			waitingThinkers.push(task[0].query.id) //the req from /longpolltask
+// 		})
 
-		res.json({
+// 		res.json({
 
-			"learners": texttosnd,
-			// "thinkers":waitingThinkers,
-			"knownThinkers": knownThinkers,
+// 			"learners": texttosnd,
+// 			// "thinkers":waitingThinkers,
+// 			"knownThinkers": knownThinkers,
 
-			"captainPollNum": captainPollNum,
+// 			"captainPollNum": captainPollNum,
 
-			"taskQ": taskQ.length,
+// 			"taskQ": taskQ.length,
 
-			//"stats": stats,
+// 			//"stats": stats,
 
-			"speedTests": speedTests
+// 			"speedTests": speedTests
 
-		})
+// 		})
 
-	} else {
+// 	} else {
 
-		captainPolls.push(res)
+// 		captainPolls.push(res)
 
-	}
-	//var aa=[]
+// 	}
+// 	//var aa=[]
 
-})
+// })
 
 function checkIfPending(id) {
 	for (var i = 0; i < pendingThinkerPolls.length; i++) {
@@ -1418,19 +1418,19 @@ function checkIfPending(id) {
 	return false
 }
 
-function clearPending(id) {
-	//for (var i = 0; i < pendingThinkerPolls.length; i++) {
-	//if (pendingThinkerPolls[i][0].query.id == id) {
-	//client sent repeated poll, remove pending one
-	//pendingThinkerPolls.splice(i, 1)
-	// sendTask(new Task('dontCall', {
-	// 	meantToSendTo: id
-	// }, 'dontCall'), id)
-	////console.log('clearpending called')
-		//}
-		//}
-		//return false
-}
+// function clearPending(id) {
+// 	//for (var i = 0; i < pendingThinkerPolls.length; i++) {
+// 	//if (pendingThinkerPolls[i][0].query.id == id) {
+// 	//client sent repeated poll, remove pending one
+// 	//pendingThinkerPolls.splice(i, 1)
+// 	// sendTask(new Task('dontCall', {
+// 	// 	meantToSendTo: id
+// 	// }, 'dontCall'), id)
+// 	////console.log('clearpending called')
+// 		//}
+// 		//}
+// 		//return false
+// }
 
 function gotTask(taskForMe, id) {
 
@@ -1460,167 +1460,167 @@ function gotTask(taskForMe, id) {
 
 }
 
-app.get('/longPollTasks', function(req, res) {
-	//////////// ////////    ////console.log(req)
-	// var pollerIndex = doIKnow(req.query.id)
+// app.get('/longPollTasks', function(req, res) {
+// 	//////////// ////////    ////console.log(req)
+// 	// var pollerIndex = doIKnow(req.query.id)
 
-	// if (-1 == pollerIndex) {
+// 	// if (-1 == pollerIndex) {
 
-	// 	knownThinkers.push({
-	// 		id: req.query.id,
-	// 		lastSeen: new Date()
-	// 			.getTime(),
-	// 		busy: false,
-	// 		polling: true,
-	// 		spd: ~~(req.query.spd * 100) / 100
-	// 	})
+// 	// 	knownThinkers.push({
+// 	// 		id: req.query.id,
+// 	// 		lastSeen: new Date()
+// 	// 			.getTime(),
+// 	// 		busy: false,
+// 	// 		polling: true,
+// 	// 		spd: ~~(req.query.spd * 100) / 100
+// 	// 	})
 
-	// } else {
+// 	// } else {
 
-	// 	var oldSpeed = knownThinkers[pollerIndex].spd
-	// 	var newSpeed = ~~(req.query.spd * 100000) / 100000
+// 	// 	var oldSpeed = knownThinkers[pollerIndex].spd
+// 	// 	var newSpeed = ~~(req.query.spd * 100000) / 100000
 
-	// 	knownThinkers[pollerIndex].lastSeen = new Date()
-	// 		.getTime()
-	// 	knownThinkers[pollerIndex].busy = false
-	// 	knownThinkers[pollerIndex].polling = true
-	// 	knownThinkers[pollerIndex].spd = newSpeed
+// 	// 	knownThinkers[pollerIndex].lastSeen = new Date()
+// 	// 		.getTime()
+// 	// 	knownThinkers[pollerIndex].busy = false
+// 	// 	knownThinkers[pollerIndex].polling = true
+// 	// 	knownThinkers[pollerIndex].spd = newSpeed
 
-	// 	if (knownThinkers[pollerIndex].stn != req.query.stn) { //new speedtest data, check pct
+// 	// 	if (knownThinkers[pollerIndex].stn != req.query.stn) { //new speedtest data, check pct
 
-	// 		knownThinkers[pollerIndex].pct = ~~(newSpeed / oldSpeed * 1000) / 10
+// 	// 		knownThinkers[pollerIndex].pct = ~~(newSpeed / oldSpeed * 1000) / 10
 
-	// 		knownThinkers[pollerIndex].stn = req.query.stn
+// 	// 		knownThinkers[pollerIndex].stn = req.query.stn
 
-	// 	}
+// 	// 	}
 
-	// }
+// 	// }
 
-	// ////console.log('will check if pending for req.query.id', req.query.id)
+// 	// ////console.log('will check if pending for req.query.id', req.query.id)
 
-	// if (checkIfPending(req.query.id)) {
+// 	// if (checkIfPending(req.query.id)) {
 
-	// 	//sendTask(new Task('ping',0,'normal ping'),req.query.id)
+// 	// 	//sendTask(new Task('ping',0,'normal ping'),req.query.id)
 
-	// 	////console.log('found logpoll, will call clearpending for', req.query.id)
+// 	// 	////console.log('found logpoll, will call clearpending for', req.query.id)
 
-	// 	clearPending(req.query.id)
+// 	// 	clearPending(req.query.id)
 
-	// }
+// 	// }
 
-	// knownThinkers[pollerIndex].lastSeen = new Date()
-	// 	.getTime()
-	// knownThinkers[pollerIndex].busy = false
+// 	// knownThinkers[pollerIndex].lastSeen = new Date()
+// 	// 	.getTime()
+// 	// knownThinkers[pollerIndex].busy = false
 
-	// pendingThinkerPolls.push([req, res, new Date()
-	// 	.getTime()
-	// ])
+// 	// pendingThinkerPolls.push([req, res, new Date()
+// 	// 	.getTime()
+// 	// ])
 
-	// var taskForMe = []
+// 	// var taskForMe = []
 
-	// if (false) {
+// 	// if (false) {
 
-	// } else {
+// 	// } else {
 
-	// 	if (gotTask(taskForMe, req.query.id)) { //ez beleirja a taskformebe
+// 	// 	if (gotTask(taskForMe, req.query.id)) { //ez beleirja a taskformebe
 
-	// 		//////// ////////    ////console.log('for me: '+taskForMe)
-	// 		sendTask(taskForMe[0][0][0], taskForMe[0][0][1]) //why? !!!!!!!
+// 	// 		//////// ////////    ////console.log('for me: '+taskForMe)
+// 	// 		sendTask(taskForMe[0][0][0], taskForMe[0][0][1]) //why? !!!!!!!
 
-	// 	} else {
+// 	// 	} else {
 
-	// 	}
+// 	// 	}
 
-	// }
+// 	// }
 
-	// //captainPop()
+// 	// //captainPop()
 
-});
+// });
 
-app.get('/speedTestResult', function(req, res) {
+// // app.get('/speedTestResult', function(req, res) {
 
-	if (speedTests[0].indexOf(req.query.thinker) == -1) {
-		speedTests[0].push(req.query.thinker)
-		speedTests[1].push((new Date())
-			.getTime())
+// // 	if (speedTests[0].indexOf(req.query.thinker) == -1) {
+// 		speedTests[0].push(req.query.thinker)
+// 		speedTests[1].push((new Date())
+// 			.getTime())
 
-		speedTests[2].push(req.query.mtSpeed)
-		speedTests[3].push(req.query.wSpeed)
-		speedTests[4].push(req.query.faster)
+// 		speedTests[2].push(req.query.mtSpeed)
+// 		speedTests[3].push(req.query.wSpeed)
+// 		speedTests[4].push(req.query.faster)
 
-	} else {
+// 	} else {
 
-		var learnerIndex = speedTests[0].indexOf(req.query.thinker)
+// 		var learnerIndex = speedTests[0].indexOf(req.query.thinker)
 
-		speedTests[1][learnerIndex] = (new Date())
-			.getTime()
+// 		speedTests[1][learnerIndex] = (new Date())
+// 			.getTime()
 
-		speedTests[2][learnerIndex] = req.query.mtSpeed
-		speedTests[3][learnerIndex] = req.query.wSpeed
-		speedTests[4][learnerIndex] = req.query.faster
+// 		speedTests[2][learnerIndex] = req.query.mtSpeed
+// 		speedTests[3][learnerIndex] = req.query.wSpeed
+// 		speedTests[4][learnerIndex] = req.query.faster
 
-	}
+// 	}
 
-	res.json({
-		message: 'nincs'
-	})
+// 	res.json({
+// 		message: 'nincs'
+// 	})
 
-	//captainPop()
+// 	//captainPop()
 
-})
+// })
 
 
 
-function clearDisconnectedPlayers() {
-	for (var i = players.length - 1; i >= 0; i--) {
+// function clearDisconnectedPlayers() {
+// 	for (var i = players.length - 1; i >= 0; i--) {
 
-		if (players[1][i] + playerDisconnectConst < (new Date())
-			.getTime()) {
-			players[1].splice(i, 1)
-			players[0].splice(i, 1)
-			lobbyPollNum++
+// 		if (players[1][i] + playerDisconnectConst < (new Date())
+// 			.getTime()) {
+// 			players[1].splice(i, 1)
+// 			players[0].splice(i, 1)
+// 			lobbyPollNum++
 
-		}
+// 		}
 
-	}
-	//clearInactiveGames()
-}
+// 	}
+// 	//clearInactiveGames()
+// }
 
-function clearOldSpeedTests() {
-	for (var i = speedTests.length - 1; i >= 0; i--) {
+// function clearOldSpeedTests() {
+// 	for (var i = speedTests.length - 1; i >= 0; i--) {
 
-		if (speedTests[1][i] + oldSpeedTestConst < (new Date())
-			.getTime()) {
-			speedTests[1].splice(i, 1)
-			speedTests[0].splice(i, 1)
-			speedTests[2].splice(i, 1)
-			speedTests[3].splice(i, 1)
-			speedTests[4].splice(i, 1)
+// 		if (speedTests[1][i] + oldSpeedTestConst < (new Date())
+// 			.getTime()) {
+// 			speedTests[1].splice(i, 1)
+// 			speedTests[0].splice(i, 1)
+// 			speedTests[2].splice(i, 1)
+// 			speedTests[3].splice(i, 1)
+// 			speedTests[4].splice(i, 1)
 
-		}
+// 		}
 
-	}
+// 	}
 
-}
+// }
 
-function clearDisconnectedLearners() {
-	for (var i = learners.length - 1; i >= 0; i--) {
+// // function clearDisconnectedLearners() {
+// 	for (var i = learners.length - 1; i >= 0; i--) {
 
-		if (learners[1][i] + learnerDisconnectConst < (new Date())
-			.getTime()) {
-			learners[1].splice(i, 1)
-			learners[0].splice(i, 1)
-			learners[2].splice(i, 1)
-			learners[3].splice(i, 1)
-			learners[4].splice(i, 1)
-			learners[5].splice(i, 1)
-			learners[6].splice(i, 1)
-			learners[7].splice(i, 1)
+// 		if (learners[1][i] + learnerDisconnectConst < (new Date())
+// 			.getTime()) {
+// 			learners[1].splice(i, 1)
+// 			learners[0].splice(i, 1)
+// 			learners[2].splice(i, 1)
+// 			learners[3].splice(i, 1)
+// 			learners[4].splice(i, 1)
+// 			learners[5].splice(i, 1)
+// 			learners[6].splice(i, 1)
+// 			learners[7].splice(i, 1)
 
-			//lobbyPollNum++
+// 			//lobbyPollNum++
 
-		}
+// 		}
 
-	}
-	//clearInactiveGames()
-}
+// 	}
+// 	//clearInactiveGames()
+// }

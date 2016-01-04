@@ -9,7 +9,7 @@ var findUsersGameIndex=function(gameNo,games){
 var userFuncs={
 	
 	removeDisplayedGame:function(connection,data){
-		//console.log('remove game from name:',connection.addedData.loggedInAs)
+		console.log('remove game from name:',connection.addedData.loggedInAs)
 			mongodb.connect(cn, function(err, db2) {
 				db2.collection("users")
 					.findOne({
@@ -68,6 +68,7 @@ var userFuncs={
 					name: name
 				}, function(err, thing) {
 					if (thing == null) {
+						console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',name)
 						clients.send(connection,'userNotRegistered',{name:name})
 					} else {
 						//user exists, check pwd 
@@ -78,6 +79,8 @@ var userFuncs={
 							clients.send(connection,'login',{name:name})
 							//console.log('user logging in: ',name)
 							clients.update(connection,'loggedInAs',name)
+							
+							if(name)clients.update(connection,'lastUser',name)
 							clients.update(connection,'stayLoggedIn',stayLoggedIn)
 							clients.publishAddedData()
 							clients.publishDisplayedGames(name,connection)

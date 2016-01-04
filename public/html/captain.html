@@ -48,6 +48,13 @@
 	<div style="width:100%;overflow-x:scroll">
 	<table class="atable">
 		<tr>
+			<th class="atd">lastUser</th>
+			<th class="atd"  ng-repeat="x in clients track by $index">
+					
+					{{x.lastUser}}
+				
+			</th>
+		</tr><tr>
 			<td class="atd">connectionID</td>
 			<td class="atd"  ng-repeat="x in clients track by $index">
 					

@@ -391,7 +391,7 @@ var Clients=function(){
 				if(!connectionData.stayLoggedIn){
 					//console.log('user disconnected, stayLoggedIn was oped out. Clearing login details for client.')
 					
-					connectionData.loggedInAs=''
+					connectionData.loggedInAs=undefined
 					
 				}
 				
