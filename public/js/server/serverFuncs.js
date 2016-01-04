@@ -845,6 +845,8 @@ var onMessageFuncs = {
 						clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.wNext',splitTaskQ[index].wNext)
 						
                         clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.chat',splitTaskQ[index].chat)
+						
+                        clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.moves',splitTaskQ[index].moves)
 							
 						
 						

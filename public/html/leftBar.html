@@ -31,9 +31,9 @@
 					<tr>
 						<td class="scrollThis">
 							<div class="lbborder scrollThis moves" style="overflow-y:scroll">
-								<div ng-repeat="x in moves">
+								<div ng-repeat="x in dbTable.moves">
 									<img ng-src="{{'cPiecesPng/'+x[0]+x[1]+'.png'}}" style="width: 15%">
-									{{x[2]+x[3]+x[4]+x[5]}}
+									<div style="display:inline-block;position:relative;top:-5px">{{x[2]+x[3]+x[4]+x[5]}}</div>
 									<img ng-src="{{'cPiecesPng/'+x[6]+x[7]+'.png'}}" style="width: 15%" class="rotate90">
 								</div>
 								<!--<table>
