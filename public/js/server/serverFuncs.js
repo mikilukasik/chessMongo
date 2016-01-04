@@ -68,8 +68,7 @@ var userFuncs={
 					name: name
 				}, function(err, thing) {
 					if (thing == null) {
-						console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',name)
-						clients.send(connection,'userNotRegistered',{name:name})
+						if(name)clients.send(connection,'userNotRegistered',{name:name})
 					} else {
 						//user exists, check pwd 
 				
