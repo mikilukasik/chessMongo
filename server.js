@@ -98,7 +98,7 @@ wsServer.on('request', function(request) {
 
 		clients.destroy(connection)
 
-		clients.publishView('captain.html', 'default', 'activeViews', clients.simpleKnownClients())
+		clients.publishView('admin.html', 'default', 'activeViews', clients.simpleKnownClients())
 		clients.publishAddedData()
 
 	});
@@ -235,7 +235,7 @@ function sendToAll(task) {
 
 	}
 
-	//captainPop()
+	//adminPop()
 }
 
 app.get('/refreshAllThinkers', function(req, res) {
@@ -695,7 +695,7 @@ function postThinkerMessage(thinker, message) {
 	thinker.lastSeen = new Date()
 		.getTime()
 
-	//captainPop();
+	//adminPop();
 
 }
 

@@ -153,7 +153,7 @@ var Clients=function(){
 		////console.log('ittagond:<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<',connection)
 	
 		////console.log('connection writable:',connection.socket.writable)
-		// this.publishView('captain.html','default','clients',this.addedData())			//loops it!!!!!!!!!!!!!!!
+		// this.publishView('admin.html','default','clients',this.addedData())			//loops it!!!!!!!!!!!!!!!
 		
 		if(connection.socket.writable) {
 			
@@ -182,7 +182,7 @@ var Clients=function(){
 	this.sendToAll = function(command, data, message, cb ,err) {
 	
 		////console.log('connection writable:',connection.socket.writable)
-		// this.publishView('captain.html','default','clients',this.addedData())			//loops it!!!!!!!!!!!!!!!
+		// this.publishView('admin.html','default','clients',this.addedData())			//loops it!!!!!!!!!!!!!!!
 		
 		for (var i=knownClients.connectedSockets.length-1;i>=0;i--){
 			
@@ -241,7 +241,7 @@ var Clients=function(){
 	
 	this.publishAddedData=function(){
 		////console.log('3333333333333333333333333333333333333333333333333333333333333333333333333333')
-		this.publishView('captain.html','default','clients',this.addedData())
+		this.publishView('admin.html','default','clients',this.addedData())
 	}
 		
 		
@@ -693,7 +693,7 @@ this.simpleActiveViews=function(){
 		this.send(connection, 'task', task, 'task', function() {}, function() {})
 		
 	
-			//captainPop()!!!!!!!!!!!!!!!!!!!!!!!!!
+			//adminPop()!!!!!!!!!!!!!!!!!!!!!!!!!
 		////console.log('this ID:',connection.addedData.connectionID)
 		return connection.addedData.connectionID
 	

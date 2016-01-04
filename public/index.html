@@ -1586,7 +1586,7 @@
 						//
 						break;
 
-					case 'captain.html':
+					case 'admin.html':
 
 						newViewParts = [
 							'clients',
@@ -1816,9 +1816,9 @@
 &nbsp
 <span title="Click here to view the lobby" class="dtext pointed" ng-click="showView('lobby.html')">Lobby</span>
 &nbsp
-</div></div><div  ng-if="loginName=='admin'" style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px"><div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'captain.html', activeTab: loginVals.viewName == 'captain.html' }">
+</div></div><div  ng-if="loginName=='admin'" style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px"><div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'admin.html', activeTab: loginVals.viewName == 'admin.html' }">
 &nbsp
-<span title="Hello captain, please click here!" class="dtext pointed" ng-click="showView('captain.html')">Captain</span>
+<span title="Hello admin, please click here!" class="dtext pointed" ng-click="showView('admin.html')">Admin</span>
 &nbsp
 </div></div></td><td nowrap style="width: 100%;padding-bottom:0px;border-spacing:0px;border-collapse: merge" valign="bottom"><div ng-repeat="x in displayedGames" style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px"><div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'board.html' || subViewName != x.gameNo, activeTab: loginVals.viewName == 'board.html' && subViewName == x.gameNo }">
 &nbsp

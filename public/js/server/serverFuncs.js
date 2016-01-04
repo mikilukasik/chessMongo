@@ -531,7 +531,7 @@ var onMessageFuncs = {
 				
 				clients.update(connection,data.data.name,data.data.value)
 				////console.log('hjkl;ez:',clients.addedData())
-				clients.publishAddedData()//View('captain.html','default','clients',clients.addedData())
+				clients.publishAddedData()//View('admin.html','default','clients',clients.addedData())
 				
 			
 			
@@ -586,7 +586,7 @@ var onMessageFuncs = {
 	
 	Hello: function(connection, data, connectionID) {
 		
-		// clients.publishView('captain.html','knownClients',knownClients)
+		// clients.publishView('admin.html','knownClients',knownClients)
 		//var newConnectionIndex=connectionIndex(connectionID,connection)
 		
 		////console.log('cookieIdRnd received:',data.cookieIdRnd)
@@ -639,8 +639,8 @@ var onMessageFuncs = {
 		var sendThis=clients.simpleActiveViews()
 		var sendThis2=clients.addedData()
 		
-		clients.publishView('captain.html','default','activeViews',sendThis)//nownClients.views.length)
-		clients.publishView('captain.html','default','clients',sendThis2)//nownClients.views.length)
+		clients.publishView('admin.html','default','activeViews',sendThis)//nownClients.views.length)
+		clients.publishView('admin.html','default','clients',sendThis2)//nownClients.views.length)
 		
 		
 		switch(data.newViewName){//=='board.html'&&data.newSubViewName!='default'){
