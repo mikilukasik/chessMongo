@@ -10,8 +10,7 @@
 							</form>
 							<br>
 							<button ng-if="dbTable.wName=='Computer'||dbTable.bName=='Computer'" ng-click="takeItBack()">Oooops!!</button>
-							<!--<br> Pollnum: {{pollNum}}
-							<br> on table {{_id}} -->
+							
 							<br>
 							<span ng-if="dbTable.wNext==wPlayer">Your turn.</span> 
 							<span ng-if="dbTable.wNext!=wPlayer">Please wait..</span> 
@@ -20,7 +19,7 @@
 							<div ng-repeat="x in busyThinkers track by $index">
 								<div ng-if="x.sentCount!=0" ng-class="{ makeGreen: x.done , makeRed: !x.done , makeGrey: x.sentCount==0 }">client{{$index+1}}: {{x.sentCount}} <span ng-if="x.sentCount!=1">moves</span><span ng-if="x.sentCount==1">move</span></div>
 								<progress  ng-if="x.sentCount!=0" class='prog' max='100' style="width:100%; height:4px; color:blue" value="{{x.progress}}">
-								<!--<div>{{x.progress}}</div>-->
+								
 							</div>
 							
 							
@@ -36,11 +35,7 @@
 									<div style="display:inline-block;position:relative;top:-5px">{{x[2]+x[3]+x[4]+x[5]}}</div>
 									<img ng-src="{{'cPiecesPng/'+x[6]+x[7]+'.png'}}" style="width: 15%" class="rotate90">
 								</div>
-								<!--<table>
-									<tr class="recentGames pointed" ng-repeat="x in myRecentGames">
-										<td ng-click="setTableNum(x)" ng-class="{ selected: x==_id}">{{x}}<span ng-if="x==_id">&lArr;</span> </td>
-									</tr>
-								</table>-->
+								
 							</div>
 						</td>
 					</tr>

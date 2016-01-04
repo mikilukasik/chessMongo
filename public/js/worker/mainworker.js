@@ -201,6 +201,10 @@ function speedTest(){
 
 var lastOverallProgressCalc=new Date()
 
+var globalCounter=new Uint32Array([0])
+var globalTimer
+
+
 var taskReceived=function(task){
 			// 1 task received
 			//var task=eval("(" + res.response + ')')		//http://stackoverflow.com/questions/45015/safely-turning-a-json-string-into-an-object
@@ -217,13 +221,14 @@ var taskReceived=function(task){
 				case "splitMove":
 
 					
+                    globalTimer=new Date()
+					splitMoveStarted = globalTimer//new Date().getTime()
 
-					splitMoveStarted = new Date()
-						.getTime()
-
-					totalSolved = 0
-					
+					//totalSolved = 0
+                    
+                    
 					progress={
+                        
 						splitMoves: 0,
 						oneDeeperMoves: 0,
 						doneSM: 0,
@@ -242,19 +247,22 @@ var taskReceived=function(task){
 							//mark it busy
 							
 							workingOnTableNum = task.data[0]._id
+                            
+                            globalCounter[0]=0
+					
 								
-								var tt=task.data.length //we need this to know when we worked them all out
-								
-								totalSplitMovesReceived = tt  //task.data.length //we need this to know when we worked them all out
-								
-								progress.splitMoves=tt
-								
-								
-								splitMovesToProcess = task.data
+                            var tt=task.data.length //we need this to know when we worked them all out
+                            
+                            totalSplitMovesReceived = tt  //task.data.length //we need this to know when we worked them all out
+                            
+                            progress.splitMoves=tt
+                            
+                            
+                            splitMovesToProcess = task.data
 
 
-								mwProcessDeepSplitMoves(splitMovesToProcess, sendID)			//starting to process splitmove from server
-								
+                            mwProcessDeepSplitMoves(splitMovesToProcess, sendID)			//starting to process splitmove from server
+                            
 						
 						} else {
 							//thinker is already calculating something
@@ -407,7 +415,9 @@ onmessage = function(event) {
 			break;
 			
 		case 'sdtSolved':
-									
+						
+                        
+                        			
 					var resData = event.data.reqData
 										
 					progress.doneDM++
@@ -415,6 +425,8 @@ onmessage = function(event) {
 					waitingForIdle--
 					
 					var tdate=new Date()
+                    
+                    globalCounter[0]+=new Number(resData.counter)
 					
 					var toPush = { 
 						move: resData.moveTree.slice(0, 4),
@@ -425,7 +437,7 @@ onmessage = function(event) {
 						_id: workingOnTableNum, // resData._id,
 						depth: resData.desiredDepth,
 						thinker: sendID,
-						ranCont: resData.ranCount
+						//counter: resData.counter
 					}
 
 					waitingSdts.push(toPush)
@@ -469,6 +481,23 @@ onmessage = function(event) {
 	
 								postThis[0]._id = workingOnTableNum
 								postThis[0].sendID=sendID.toString()//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+                                
+                                var t=globalCounter[0]
+                                var ms=new Date()-globalTimer
+                                var ts=~~(t/ms*1000)
+                                
+                                postThis[0].speed={
+                                    t:t,
+                                    ms:ms,
+                                    ts:ts
+                                    
+                                    }
+                                
+                                postThis[0].totalSolved=globalCounter[0]
+                                postThis[0].totalTime=new Date()-globalTimer
+                                
+                                
+                                console.log('>>>>>>>>>>>>>>>>>>',postThis[0].speed)
 								
 								
 								toServer('myPartIsDone',postThis,'myPartIsDone',function(){})		
@@ -476,7 +505,7 @@ onmessage = function(event) {
 								
 							}else{
 								if(workingOnTableNum==-1){
-									//speedTest finished
+									//initial speedTest finished
 									
 									var speedTestTook= new Date().getTime()-speedTestStarted
 									
