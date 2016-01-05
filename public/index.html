@@ -16,6 +16,16 @@
 
 
 	<script>
+		
+		var admins=[
+			'admin',
+			'lenovo',
+			'Droid',
+			'Miki',
+			'a-pc'
+		]
+		
+		
 		/////////////////////	temp stuff for debugging	//////////////////////////////////
 
 		var tempConsole
@@ -650,6 +660,12 @@
 								
 
 		function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
+			
+			$scope.isAdmin=function(name){
+				
+				return (admins.indexOf(name)!=-1)
+				
+			}
 
 			//if($rootScope.dbTable==undefined)$rootScope.dbTable={}
 
@@ -1493,6 +1509,8 @@
 				}
 			}
 			
+			
+			
 			$scope.adminButtons=function(func,client,data){
 				switch(func){
 					
@@ -1846,7 +1864,7 @@
 &nbsp
 <span title="Click here to view the lobby" class="dtext pointed" ng-click="showView('lobby.html')">Lobby</span>
 &nbsp
-</div></div><div  ng-if="loginName=='admin'" style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px"><div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'admin.html', activeTab: loginVals.viewName == 'admin.html' }">
+</div></div><div  ng-if="isAdmin(loginName)" style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px"><div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'admin.html', activeTab: loginVals.viewName == 'admin.html' }">
 &nbsp
 <span title="Hello admin, please click here!" class="dtext pointed" ng-click="showView('admin.html')">Admin</span>
 &nbsp
