@@ -1,8 +1,10 @@
 /////////////////////////		Classes		/////////////////////////////////////////////////
 //console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx classes loaded xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-var SmallDeepeningTask=function(table, wNext, depth, moveTree, desiredDepth, score, stopped){
+var SmallDeepeningTask=function(table, wNext, depth, moveTree, desiredDepth, score, wPlayer, stopped){
 	
 		//this.sdt=true
+        
+        this.wPlayer=wPlayer
 	
 		this.table= table,
 
@@ -35,7 +37,7 @@ var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for mai
 	this.resolverArray=[]
 
 	//this.smallMoveTask = smallMoveTask //kell ez????!!!!!			//we have the original object, there are approx. 30 of these per moveTask, we probably received a few of these only ((should have _id or rndID!!!!!!!!!)	
-
+    //console.log(smallMoveTask.cfColor,'smallMoveTask.cfColor')
 	this.initialWNext = smallMoveTask.cfColor
 
 	this.moveStr = smallMoveTask.stepMove //all resulting tables relate to this movestring: deppeningtask is made of smallmovetask..
@@ -90,7 +92,7 @@ var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for mai
 	this.smallDeepeningTaskCounts = [0, 1] //this will be an array of the total created smalldeepeningtasks per depth, depth 0 has 0, depth 1 has one in this splitmove
 
 
-	var initialSmallDeepeningTask = new SmallDeepeningTask(this.thisTaskTable, !this.initialWNext, this.actualDepth, this.initialTreeMoves, this.desiredDepth, this.firstDepthValue)
+	var initialSmallDeepeningTask = new SmallDeepeningTask(this.thisTaskTable, !this.initialWNext, this.actualDepth, this.initialTreeMoves, this.desiredDepth, this.firstDepthValue,smallMoveTask.cfColor)
 	
 	//this.value=initialSmallDeepeningTask.score
 

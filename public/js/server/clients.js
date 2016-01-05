@@ -656,7 +656,7 @@ this.simpleActiveViews=function(){
 		
 		}
 	
-		
+    if(connection){		
 	
 			//////////////get these out of here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		if(!connection.addedData){
@@ -697,9 +697,18 @@ this.simpleActiveViews=function(){
 		////console.log('this ID:',connection.addedData.connectionID)
 		return connection.addedData.connectionID
 	
-	}
+	}else{
+        
+        console.log('something really went wrong... no available connection??>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+        
+            
+        
+        console.log('<<<<<<<<<<<<<<<<<<<<<<<<something really went wrong... no available connection??!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        
+        
+    }
 
-	
+    }
 }
 
 //

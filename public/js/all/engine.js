@@ -401,9 +401,12 @@ function newCanMove(k, l, c, moveTable, protectedArray, iHitMoves, protectScore)
 
 }
 
-function getHitScores(origTable, wNext, flipIt) {
+function getHitScores(origTable, wNext, flipIt, wPlayer) {
 	
 	// if(counter)counter[0]++
+    
+    
+    var pawnVal=0
 
 	var iHitCoords = [] //[who k,l where to x,y, who, hits]
 	var heHitsCoords = []
@@ -448,17 +451,22 @@ function getHitScores(origTable, wNext, flipIt) {
 	for (var lookI = 0; lookI < 8; lookI++) {
 		for (var lookJ = 0; lookJ < 8; lookJ++) { //look through the table
 
+
+            
+
+
 			if (origTable[lookI][lookJ][0] == c) {
 				////////found my piece/////////
 				////////get all my moves and places i protect
-                    
+            if(origTable[lookI][lookJ][1]==1)pawnVal+=lookJ        
 					newCanMove(lookI, lookJ, c, origTable, protectedArray, iHitCoords, myprotectScore) //newCanMove will protect the table
 					//and append all my hits to iHitCoords
 					//will increase myprotectscore, inaccurate!!!!!!!				
 			} else {
 
 				if (origTable[lookI][lookJ][0] != 0) { ////////found opponent's piece/////////												
-					newCanMove(lookI, lookJ, nc, origTable, protectedArray, heHitsCoords, hisprotectScore)
+					if(origTable[lookI][lookJ][1]==1)pawnVal+=lookJ
+                    newCanMove(lookI, lookJ, nc, origTable, protectedArray, heHitsCoords, hisprotectScore)
 				}
 			}
 
@@ -521,6 +529,8 @@ function getHitScores(origTable, wNext, flipIt) {
 	
 	var protecScore=myprotectScore[0]-hisprotectScore[0]
 	var allhitScore=myAllHit-hisAllHit
+    
+    if(wPlayer)pawnVal*=-1
 	//var bHitScore=myBestHit-hisBestHit
 	
 	var result = new Int32Array(1)
@@ -530,9 +540,9 @@ function getHitScores(origTable, wNext, flipIt) {
 	
 	
 	if(flipIt){
-		result[0]-=   (protecScore << 8) + (allhitScore << 4)
+		result[0]-=   (protecScore << 8) + (allhitScore << 4) + pawnVal //*1633333
 	}else{
-		result[0]+=   (protecScore << 8) + (allhitScore << 4)
+		result[0]+=   (protecScore << 8) + (allhitScore << 4) + pawnVal //*1633333
 	}
 	//return myBestHit - hisBestHit / 16 //+(myAllHit-hisAllHit-hisBestHit*128+myprotectScore-hisprotectScore)/8192//-(hisBestHit/16)+(myprotectScore[0]-(hisprotectScore[0]+hisAllHit)/16+myAllHit)/256//,myBestHitCoords] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] 
 

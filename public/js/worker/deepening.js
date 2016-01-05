@@ -40,6 +40,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray, counter) {
 	var sdtScore=new Int32Array(1)
 	sdtScore[0]=smallDeepeningTask.score
 
+//console.log(smallDeepeningTask.wPlayer)
 	
 	//gets one task, produces an array of more tasks
 	//or empty array when done
@@ -53,7 +54,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray, counter) {
 		if(captured(sdtTable,newWNext)){
 			//invalid move, sakkban maradt
 			
-			result=[new SmallDeepeningTask(sdtTable,newWNext,sdtDepth+1,smallDeepeningTask.moveTree,smallDeepeningTask.desiredDepth,100)]
+			result=[new SmallDeepeningTask(sdtTable,newWNext,sdtDepth+1,smallDeepeningTask.moveTree,smallDeepeningTask.desiredDepth,100,smallDeepeningTask.wPlayer)]
 			
 			
 			
@@ -82,6 +83,9 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray, counter) {
 
 
 	} else {
+        
+        
+        
 		
 		counter[0]++
 
@@ -101,17 +105,17 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray, counter) {
 			if(sdtDepth == smallDeepeningTask.desiredDepth){
 				//////depth reached, eval table
 				
-				
+				//console.log(smallDeepeningTask.wPlayer)
 				
 				var newScore=new Int32Array(1)
 				
 				if(isNegative){
 					
-					newScore[0]=(sdtScore[0] << 16) - getHitScores(sdtTable,smallDeepeningTask.wNext,false)[0]
+					newScore[0]=(sdtScore[0] << 16) - getHitScores(sdtTable,smallDeepeningTask.wNext,false,smallDeepeningTask.wPlayer)[0]
 					
 				}else{
 				
-					newScore[0]=(sdtScore[0] << 16) + getHitScores(sdtTable,smallDeepeningTask.wNext,true)[0]
+					newScore[0]=(sdtScore[0] << 16) + getHitScores(sdtTable,smallDeepeningTask.wNext,true,smallDeepeningTask.wPlayer)[0]
 				}
 				
 				
@@ -122,14 +126,14 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray, counter) {
 						smallDeepeningTask.moveTree,
 						smallDeepeningTask.desiredDepth,
 
-						newScore[0]) //sdtScore + thisValue
+						newScore[0], //sdtScore + thisValue
 
-						//,stopped is missing, game goes on
-
+						
+                        smallDeepeningTask.wPlayer
 
 					)
 
-				//)
+				)
 
 				
 				
@@ -199,6 +203,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray, counter) {
 
 				var newMoveTree = smallDeepeningTask.moveTree.concat(moveStr,valueToSave)
 
+                //console.log(smallDeepeningTask.wPlayer)
 
 				result.push(new SmallDeepeningTask(
 						movedTable,
@@ -207,9 +212,10 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray, counter) {
 						newMoveTree,
 						smallDeepeningTask.desiredDepth,
 
-						valueToSave //sdtScore + thisValue
+						valueToSave ,//sdtScore + thisValue
 
-						//,stopped is missing, game goes on
+						
+                        smallDeepeningTask.wPlayer
 
 
 					)
@@ -255,18 +261,18 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 		//not filtered move, could be that we can hit the king now
 		//if we can, then this is a wrong move, need to throw away the whole lot!!!!!!!!!!!!!!!!!
 
-
     //counter[0]=deepeningTask.counter
 
 		var tempDeepeningTask = {
 			desiredDepth: deepeningTask.desiredDepth,
-			smallDeepeningTasks: [deepeningTask]
+			smallDeepeningTasks: [deepeningTask],
+            wPlayer: deepeningTask.wPlayer
 		}
 		deepeningTask = tempDeepeningTask
 	}
 
 	//var solved = 
-
+    
 
 	//var averageVal = 0 //will add then divide
 
@@ -293,6 +299,14 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 		//solved++
 
 		var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
+        
+        // if(smallDeepeningTask.wPlayer!=undefined){
+        //     console.log(smallDeepeningTask.wPlayer)
+        // }else{
+        //     console.log(smallDeepeningTask)
+        // }
+        
+
 		
 		smallDeepeningTask.table= toTypedTable(smallDeepeningTask.table)
 		//var thisMoveValue = 0
@@ -402,6 +416,8 @@ function mtProcessDeepSplitMoves(data, thinker, mt, modConst, looped) {
 
 function oneDeeper(deepeningTask) { //only takes original first level deepeningtasks??
 
+
+    
     var counter=new Int32Array(1)
 
 	//var newTasks = []
@@ -409,7 +425,8 @@ function oneDeeper(deepeningTask) { //only takes original first level deepeningt
 	var resolverArray = [] //deepeningTask.resolverArray //multidim, for each depth the results, will be updated a million times
 
 	var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
-
+    
+  // console.log(smallDeepeningTask.wPlayer)
 
 	var tempTasks = solveSmallDeepeningTask(smallDeepeningTask, smallDeepeningTask.resolverArray, counter)
 
@@ -422,6 +439,8 @@ function oneDeeper(deepeningTask) { //only takes original first level deepeningt
 		// if(tempTask.tabl!=undefined && captured(tempTask.table,!tempTask.wNext)){
 		// 	//rossz lepes
 		// }else{
+            
+         
 		deepeningTask.smallDeepeningTasks.push(tempTask)
 			//}
 
