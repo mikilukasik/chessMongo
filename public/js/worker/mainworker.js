@@ -143,6 +143,8 @@ var speedTestStarted
 		
 function speedTest(){
 	
+	//console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx that shit was actually called..')
+	
 	if (workingOnTableNum == 0) {
 		workingOnTableNum = -1				//speedTest tableNum
 		

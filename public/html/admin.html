@@ -99,7 +99,7 @@
 			<td class="atd">loggedInAs</td>
 			<td class="atd"  ng-repeat="x in clients track by $index">
 					
-					<span ng-if="!x.stayLoggedIn">(</span>{{x.loggedInAs}}<span ng-if="!x.stayLoggedIn">)</span><span ng-if="x.isAdmin"> (Admin)</span>
+					{{x.loggedInAs}}<span ng-if="x.stayLoggedIn">*</span><span ng-if="x.isAdmin"> (Admin)</span>
 				
 			</td>
 		</tr><tr>
