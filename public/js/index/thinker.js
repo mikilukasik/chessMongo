@@ -1,4 +1,4 @@
-		var maxWorkerNum = 16
+		var maxWorkerNum = 8
         
 		var nextWorkerNum = 0
 
