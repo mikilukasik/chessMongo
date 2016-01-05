@@ -1,431 +1,332 @@
-var findUsersGameIndex=function(gameNo,games){
-	
-	for(var i=games.length-1;i>=0;i--){
-		if(games[i].gameNo==gameNo)return i
+var findUsersGameIndex = function(gameNo, games) {
+
+	for (var i = games.length - 1; i >= 0; i--) {
+		if (games[i].gameNo == gameNo) return i
 	}
 	return -1
 }
 
-var userFuncs={
-	
-	removeDisplayedGame:function(connection,data){
-		console.log('remove game from name:',connection.addedData.loggedInAs)
-			mongodb.connect(cn, function(err, db2) {
-				db2.collection("users")
-					.findOne({
-						name: connection.addedData.loggedInAs
-					}, function(err2, userInDb) {
-						if (!(userInDb == null)) {
-							
-							var index=findUsersGameIndex(data,userInDb.games)
-							userInDb.games.splice(index,1)
+var userFuncs = {
+
+	removeDisplayedGame: function(connection, data) {
+		console.log('remove game from name:', connection.addedData.loggedInAs)
+		mongodb.connect(cn, function(err, db2) {
+			db2.collection("users")
+				.findOne({
+					name: connection.addedData.loggedInAs
+				}, function(err2, userInDb) {
+					if (!(userInDb == null)) {
+
+						var index = findUsersGameIndex(data, userInDb.games)
+						userInDb.games.splice(index, 1)
 							//unshift(initedTable._id)
 
-							db2.collection("users")
-								.save(userInDb, function(err3, res) {
-									
-									
-									
-									clients.publishDisplayedGames(connection.addedData.loggedInAs,connection)
-									
-									
-								})
+						db2.collection("users")
+							.save(userInDb, function(err3, res) {
 
-						}
-						db2.close()
-							// res.json({
+								clients.publishDisplayedGames(connection.addedData.loggedInAs, connection)
 
-						// });
-					});
+							})
 
-			});
-		
+					}
+					db2.close()
+						// res.json({
+
+					// });
+				});
+
+		});
+
 	},
-	
-	logoff:function(connection,data){
-		
-		var name=data.name
-		
-		clients.update(connection,'loggedInAs',undefined)
-		clients.update(connection,'stayLoggedIn',undefined)
+
+	logoff: function(connection, data) {
+
+		var name = data.name
+
+		clients.update(connection, 'loggedInAs', undefined)
+		clients.update(connection, 'stayLoggedIn', undefined)
 		clients.publishAddedData()
-		
-		clients.logoff(name)
-		
-		clients.publishDisplayedGames(undefined,connection)
-							
 
-			
+		clients.logoff(name)
+
+		clients.publishDisplayedGames(undefined, connection)
+
 	},
 
-	loginUser:function(name,pwd, stayLoggedIn, connection, noPwd){
-		
+	loginUser: function(name, pwd, stayLoggedIn, connection, noPwd) {
+
 		mongodb.connect(cn, function(err, db) {
 			//db.collection("users")
-	
+
 			db.collection("users")
 				.findOne({
 					name: name
 				}, function(err, thing) {
 					if (thing == null) {
-						if(name)clients.send(connection,'userNotRegistered',{name:name})
+						if (name) clients.send(connection, 'userNotRegistered', {
+							name: name
+						})
 					} else {
 						//user exists, check pwd 
-				
+
 						if (thing.pwd == pwd || noPwd) {
 							//password match, log him in
-							
-							clients.send(connection,'login',{name:name})
-							//console.log('user logging in: ',name)
-							clients.update(connection,'loggedInAs',name)
-							
-							if(name)clients.update(connection,'lastUser',name)
-							clients.update(connection,'stayLoggedIn',stayLoggedIn)
+
+							clients.send(connection, 'login', {
+									name: name
+								})
+								//console.log('user logging in: ',name)
+							clients.update(connection, 'loggedInAs', name)
+
+							if (name) clients.update(connection, 'lastUser', name)
+							clients.update(connection, 'stayLoggedIn', stayLoggedIn)
 							clients.publishAddedData()
-							clients.publishDisplayedGames(name,connection)
-							
-							clients.login(connection,name)
-	
+							clients.publishDisplayedGames(name, connection)
+
+							clients.login(connection, name)
+
 						} else {
 							//wrong pwd
-							
-							
-							clients.send(connection,'wrongPwd',{name:name})
-							
+
+							clients.send(connection, 'wrongPwd', {
+								name: name
+							})
+
 						}
-					
-						
+
 					}
 					db.close()
-					//res.json(retJsn)
+						//res.json(retJsn)
 				})
-	
+
 		});
-		
-		
+
 	},
-	
-	end:0
+
+	end: 0
 
 }
-	
 
-var startGame=function(w,b,connection,aiGame){
-	
-		var wConnection=clients.getConnectionByName(w)
-		var bConnection=clients.getConnectionByName(b)
-		
+var startGame = function(w, b, connection, aiGame) {
 
-		mongodb.connect(cn, function(err, db) {
-			db.collection("tables")
-				.findOne({
-					_id: "xData"
-				}, function(err2, xData) {
-					var firstFreeTable = -5
-					if (xData == null) {
+	var wConnection = clients.getConnectionByName(w)
+	var bConnection = clients.getConnectionByName(b)
 
-						createXData();
+	mongodb.connect(cn, function(err, db) {
+		db.collection("tables")
+			.findOne({
+				_id: "xData"
+			}, function(err2, xData) {
+				var firstFreeTable = -5
+				if (xData == null) {
 
-						firstFreeTable = 1
-					} else {
-						firstFreeTable = xData.firstFreeTable
-						modType = xData.modType
-						xData.firstFreeTable++
-					}
-					db.collection("tables")
-						.save(xData, function(err, doc) {
-							
-							var initedTable = new Dbtable(firstFreeTable, w, b)
-							
-							
-							 //console.log(w,b,'----------------------  ----------------------  ----------------------  ')
-					
-					// //console.log(initedTable)
-					
-					// //console.log('----------------------  ----------------------  ----------------------  ')
-					
-					
-					
-					initedTable._id=firstFreeTable
-					
-					
-					
-					
-					db.collection("users")
+					createXData();
+
+					firstFreeTable = 1
+				} else {
+					firstFreeTable = xData.firstFreeTable
+					modType = xData.modType
+					xData.firstFreeTable++
+				}
+				db.collection("tables")
+					.save(xData, function(err, doc) {
+
+						var initedTable = new Dbtable(firstFreeTable, w, b)
+
+						//console.log(w,b,'----------------------  ----------------------  ----------------------  ')
+
+						// //console.log(initedTable)
+
+						// //console.log('----------------------  ----------------------  ----------------------  ')
+
+						initedTable._id = firstFreeTable
+
+						db.collection("users")
 							.findOne({
 								name: w
 							}, function(err2, userInDb) {
-								
-								
-							
-					
-								
-								
-						//		if (!(userInDb == null)) {
-									userInDb&&userInDb.games.unshift({
-										wPlayer:true,
-										gameNo:initedTable._id,
-										opponentsName:b
-									})
-										
-									userInDb&&db.collection("users")
-										.save(userInDb, function(err3, res) {
-											
-											clients.publishDisplayedGames(w,wConnection)
-											
-											
-										
-											
-											
-														
-											
-										})
-										
-										
-										
-												
-											db.collection("users")
-							.findOne({
-								name: b
-							}, function(err2, userInDb2) {
-							
-									userInDb2&&userInDb2.games.unshift({
-										wPlayer:false,
-										gameNo:initedTable._id,
-										opponentsName:w
+
+								//		if (!(userInDb == null)) {
+								userInDb && userInDb.games.unshift({
+									wPlayer: true,
+									gameNo: initedTable._id,
+									opponentsName: b
+								})
+
+								userInDb && db.collection("users")
+									.save(userInDb, function(err3, res) {
+
+										clients.publishDisplayedGames(w, wConnection)
+
 									})
 
-									userInDb2&&db.collection("users")
-										.save(userInDb2, function(err3, res) {
-											
-											clients.publishDisplayedGames(b,bConnection)
-											
-											
-											
-								
+								db.collection("users")
+									.findOne({
+										name: b
+									}, function(err2, userInDb2) {
+
+										userInDb2 && userInDb2.games.unshift({
+											wPlayer: false,
+											gameNo: initedTable._id,
+											opponentsName: w
 										})
-										
-										
-										
-												db.collection("tables")
-													.insert(initedTable, function(err, doc) {
-								
-													if(w&&w!='Computer'){
-														
-														if(w=='someone'){
-															
-															wConnection=connection
-															
-														}
-														
-														clients.send(wConnection,'openGame',{
-														_id:firstFreeTable,
-														wPlayer:true,
-																opponentsName:b
-														
-													},'openGamemmmmmmmmmmmmmmmmmmmmmmmmmmmmm',function(){})
-													
-													if(b){
-                                                        
-                                                        if(b=='Computer'){
-                                                            
-                                                            //hack!!!!!!!!!!!!!!!!!!!
-                                                            
-                                                            setTimeout(function(){
-                                                                
-                                                                clients.send(wConnection,'updateView',{
-                    
-                                                                    viewName:'board.html',
-                                                                    subViewName:firstFreeTable,
-                                                                    viewPart: 'wPlayer',
-                                                                    data: true
-                                                                    
-                                                        
-                                                                },'updateView')
-                                                           
-                                                                
-                                                                
-                                                                
-                                                            },500)
-                                                            
-                                                             
-                                                           
-                                                           
-                                                        }else{
-                                                             clients.send(bConnection,'openGame',{
-                                                                _id:firstFreeTable,
-                                                                wPlayer:false,
-                                                                opponentsName:w
-                                                                
-                                                            },'openGamemmmmmmmmmmmmmmmmmmmmmmmmmmmmm',function(){})
-                                                            
-                                                            
-                                                        }
-                                                        
-             
-                                                        
-                                                        
-                                                        
-                                                        
-                                                    }
-                                                                                                   
-													
-													
-													}else{
-														
-														if(b&&b!='Computer'){
-															clients.send(clients.getConnectionByName(b),'openGame',{
-																_id:firstFreeTable,
-																wPlayer:false,
-																opponentsName:w
-																
-															},'openGamemmmmmmmmmmmmmmmmmmmmmmmmmmmmm',function(){})
-														}else{
-															//against multiple, not logged in
-																clients.send(connection,'openGame',{
-																	_id:firstFreeTable,
-																	wPlayer:true,
-																opponentsName:b
-																	
-																},'openGamemmmmmmmmmmmmmmmmmmmmmmmmmmmmm',function(){})
-															
-															
-														}
-														
+
+										userInDb2 && db.collection("users")
+											.save(userInDb2, function(err3, res) {
+
+												clients.publishDisplayedGames(b, bConnection)
+
+											})
+
+										db.collection("tables")
+											.insert(initedTable, function(err, doc) {
+
+												if (w && w != 'Computer') {
+
+													if (w == 'someone') {
+
+														wConnection = connection
+
 													}
-													
-													
-													
-								
-								
-								
-													clients.publishView('board.html',firstFreeTable,'dbTable.table',initedTable.table)
-													
-													clients.publishView('board.html',firstFreeTable,'dbTable.wNext',initedTable.wNext)
-													
-								
-								
-								
-												
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-												});
-											
-													
-							//	}
-								//db3.close()
 
-							});
-											
-											
-										
+													clients.send(wConnection, 'openGame', {
+														_id: firstFreeTable,
+														wPlayer: true,
+														opponentsName: b
 
-						//		}
+													}, 'openGamemmmmmmmmmmmmmmmmmmmmmmmmmmmmm', function() {})
+
+													if (b) {
+
+														if (b == 'Computer') {
+
+															//hack!!!!!!!!!!!!!!!!!!!
+
+															setTimeout(function() {
+
+																clients.send(wConnection, 'updateView', {
+
+																	viewName: 'board.html',
+																	subViewName: firstFreeTable,
+																	viewPart: 'wPlayer',
+																	data: true
+
+																}, 'updateView')
+
+															}, 500)
+
+														} else {
+															clients.send(bConnection, 'openGame', {
+																_id: firstFreeTable,
+																wPlayer: false,
+																opponentsName: w
+
+															}, 'openGamemmmmmmmmmmmmmmmmmmmmmmmmmmmmm', function() {})
+
+														}
+
+													}
+
+												} else {
+
+													if (b && b != 'Computer') {
+														clients.send(clients.getConnectionByName(b), 'openGame', {
+															_id: firstFreeTable,
+															wPlayer: false,
+															opponentsName: w
+
+														}, 'openGamemmmmmmmmmmmmmmmmmmmmmmmmmmmmm', function() {})
+													} else {
+														//against multiple, not logged in
+														clients.send(connection, 'openGame', {
+															_id: firstFreeTable,
+															wPlayer: true,
+															opponentsName: b
+
+														}, 'openGamemmmmmmmmmmmmmmmmmmmmmmmmmmmmm', function() {})
+
+													}
+
+												}
+
+												clients.publishView('board.html', firstFreeTable, 'dbTable.table', initedTable.table)
+
+												clients.publishView('board.html', firstFreeTable, 'dbTable.wNext', initedTable.wNext)
+
+											});
+
+										//	}
+										//db3.close()
+
+									});
+
+								//		}
 								//db2.close()
-									// res.json({
+								// res.json({
 
 								// });
 							});
-					
-					
-					
-					
-					
-							
-							
-							
-							
-							
-							
-							// db.close()
-							
-							
-							
 
-							
-							
-						});
+						// db.close()
 
-					
-					
-					//initedTable.table= addMovesToTable(initedTable.table,true)
-					
+					});
 
-					// mongodb.connect(cn, function(err, db2) {
-						
+			});
+	});
 
-					// });
-
-					// mongodb.connect(cn, function(err, db3) {
-						
-
-					// });
-
-					// mongodb.connect(cn, function(err, db4) {
-					// 	//////console.log(initedTable._id	)
-					
-					// 	db4.close()
-					// })
-
-					// players[2][wPNum] = true; //ask wplayer to start game
-					// players[2][bPNum] = true; //ask bplayer to start game
-
-					// players[3][wPNum] = true; //will play w
-					// players[3][bPNum] = false; //will play b
-
-					// players[4][wPNum] = firstFreeTable
-					// players[4][bPNum] = firstFreeTable
-
-					// players[5][wPNum] = b; //give them the opponents name
-					// players[5][bPNum] = w;
-
-				});
-		});
-		
-	
 }
-
 
 var onMessageFuncs = {
 	
-	
-	challenge: function(connection,data){
-		////console.log('challenge:>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',connection.addedData.loggedInAs)	
+	clientSpeedTest:function(connection,data){
+		//console.log('clientSpeedTest',data)
+		var fakeConnection={
+			addedData:{
+				connectionID:data.connectionID
+			}
+		}
+		var sendToConnection=clients.fromStore(fakeConnection)
 		
-		//var challengedConnection=clients.getConnectionByName(data.opponentsName)
+		clients.send(sendToConnection,'speedTest')
 		
-		data.challenger=connection.addedData.loggedInAs
-		
-		data.wPlayer=!data.wPlayer
-		
-		clients.sendByName(data.opponentsName,'challenged',data)
-	
 	},
 	
-	quickGame: function(connection, data){
+	refreshBrowser:function(connection,data){
+		//console.log('clientSpeedTest',data)
+		var fakeConnection={
+			addedData:{
+				connectionID:data.connectionID
+			}
+		}
+		var sendToConnection=clients.fromStore(fakeConnection)
 		
+		clients.send(sendToConnection,'refreshBrowser')
+		
+	},
+
+	challenge: function(connection, data) {
+		////console.log('challenge:>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',connection.addedData.loggedInAs)	
+
+		//var challengedConnection=clients.getConnectionByName(data.opponentsName)
+
+		data.challenger = connection.addedData.loggedInAs
+
+		data.wPlayer = !data.wPlayer
+
+		clients.sendByName(data.opponentsName, 'challenged', data)
+
+	},
+
+	quickGame: function(connection, data) {
+
 		var w = data.w
 		var b = data.b
-		 //console.log(w,b,'----------------------  ----------------------  ----------------------  ')
-					
-		startGame(w,b,connection,true)		//true stands for aiGame
-		
+			//console.log(w,b,'----------------------  ----------------------  ----------------------  ')
+
+		startGame(w, b, connection, true) //true stands for aiGame
+
 		/////////////below quickgame specific
-		
-	
+
 	},
 
 	getLobby: function(connection, data) {
@@ -521,201 +422,175 @@ var onMessageFuncs = {
 				updateSplitMoveProgress(data.data._id, data.thinker, data.data.progress)
 
 				break;
-				
-				
+
 			case 'saveVal':
-			
-				
+
 				//connection.addedData.connectionID=connectionID
 				//connection.speed=data.speed
-				
-				clients.update(connection,data.data.name,data.data.value)
-				////console.log('hjkl;ez:',clients.addedData())
-				clients.publishAddedData()//View('admin.html','default','clients',clients.addedData())
-				
-			
-			
-			
-			
-			break;
+
+				clients.update(connection, data.data.name, data.data.value)
+					////console.log('hjkl;ez:',clients.addedData())
+				clients.publishAddedData() //View('admin.html','default','clients',clients.addedData())
+
+				break;
 
 		}
 
 	},
-	saveVal:function(connection, data, connectionID){
-		clients.update(connection,data.name,data.value)
+	saveVal: function(connection, data, connectionID) {
+		clients.update(connection, data.name, data.value)
 		clients.publishAddedData()
-			
+
 	},
-	
-	registerUser: function(connection,data,id){
-		
-		registerUser(data.name,data.pwd,connection)
-		
-		
+
+	registerUser: function(connection, data, id) {
+
+		registerUser(data.name, data.pwd, connection)
+
 	},
-	
-	refreshAllBrowsers: function(connection,data,id){
-		
+
+	refreshAllBrowsers: function(connection, data, id) {
+
 		clients.sendToAll('refreshBrowser')
-		
+
 	},
-	
-	loginUser: function(connection,data,id){
-		
-		userFuncs.loginUser(data.name,data.pwd,data.stayLoggedIn,connection)
-		
-		
+
+	loginUser: function(connection, data, id) {
+
+		userFuncs.loginUser(data.name, data.pwd, data.stayLoggedIn, connection)
+
 	},
-	
-	logoff: function(connection,data){
-		
-		userFuncs.logoff(connection,data)
-		
+
+	logoff: function(connection, data) {
+
+		userFuncs.logoff(connection, data)
+
 	},
-	
-		
-	removeDisplayedGame: function(connection,data){
+
+	removeDisplayedGame: function(connection, data) {
 		////console.log('removeGame',data)
-		
-		
-		
-		userFuncs.removeDisplayedGame(connection,data)
-		
+
+		userFuncs.removeDisplayedGame(connection, data)
+
 	},
-	
+
 	Hello: function(connection, data, connectionID) {
-		
+
 		// clients.publishView('admin.html','knownClients',knownClients)
 		//var newConnectionIndex=connectionIndex(connectionID,connection)
-		
+
 		////console.log('cookieIdRnd received:',data.cookieIdRnd)
-		
-		clients.update(connection,'cookieIdRnd',data.cookieIdRnd)
-		
+
+		clients.update(connection, 'cookieIdRnd', data.cookieIdRnd)
+
 		//var newClientMongoId
-		
-		if(data.clientMongoId==''){
-			
-			registerNewClient(data,connection)	//this will put it in db and ask client to return with new mongoID
-			
-			
-			
-		}else{
+
+		if (data.clientMongoId == '') {
+
+			registerNewClient(data, connection) //this will put it in db and ask client to return with new mongoID
+
+		} else {
 			//we must know this client already, look it up in DB!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			////console.log('known client came.......................................')
-			
-			knownClientReturned(data,connection)	//this will mark it online in the db
-			
-			clients.update(connection,'clientMongoId',data.clientMongoId)
-			
+
+			knownClientReturned(data, connection) //this will mark it online in the db
+
+			clients.update(connection, 'clientMongoId', data.clientMongoId)
+
 			clients.publishAddedData()
-			
+
 			clients.send(connection, 'reHello', {
 				connectionID: connectionID
-				
+
 			}, 'reHello', function() {})
-			
+
 		}
-		
-		
-		
-		
+
 	},
-	
-	
-	
-	showView:function(connection, data, id){
-		
+
+	showView: function(connection, data, id) {
+
 		// connection.addedData={
 		// 	connectionID:id
 		// }
-		
-		clients.addViewer(data.newViewName,data.newSubViewName,data.newViewParts,connection)
-		
+
+		clients.addViewer(data.newViewName, data.newSubViewName, data.newViewParts, connection)
+
 		// if(data.oldViewName==data.newViewName&&data.newSubViewName==data.oldSubViewName){}else{
 		// 	removeViewer(data.oldViewName,data.oldSubViewName,data.oldViewParts,connection)
 		// }		///this should be inside the class!!!!!!!!!!!!!!!
-		var sendThis=clients.simpleActiveViews()
-		var sendThis2=clients.addedData()
-		
-		clients.publishView('admin.html','default','activeViews',sendThis)//nownClients.views.length)
-		clients.publishView('admin.html','default','clients',sendThis2)//nownClients.views.length)
-		
-		
-		switch(data.newViewName){//=='board.html'&&data.newSubViewName!='default'){
-			//send the dbtable 
-		//////console.log('...........................................................')
-			
-			case 'board.html':
-			
-			
-			mongodb.connect(cn, function(err, db) {
-				db.collection("tables")
-					.findOne({
-						_id: Number(data.newSubViewName)
-					}, function(err2, tableInDb) {
-						clients.send(connection,'updateDbTable',tableInDb,'updateDbTable',function(){},function(){})
-						
-						if(tableInDb.wName==connection.addedData.loggedInAs){
-							
-							clients.send(connection,'updateView',{
-				
-								viewName:'board.html',
-								subViewName:tableInDb._id,
-								viewPart: 'wPlayer',
-								data: true
-								
-					
-							},'updateView')
-							
-							//clients.publishView('board.html',tableInDb._id,'wPlayer',true)
-						}else{
-							clients.send(connection,'updateView',{
-				
-								viewName:'board.html',
-								subViewName:tableInDb._id,
-								viewPart: 'wPlayer',
-								data: false
-								
-					
-							},'updateView')
-							
-							////console.log('rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr',tableInDb.wName,connection.addedData.loggedInAs)
-							
-							
-						}
-						
-						db.close()
-						
-					});
-		
-			});
-					
-					break;
-			
-			case 'lobby.html':
-				
-				////console.log(clients.getOnlineUsers(),'miabaj<<<<<<<<<<<<<<')
-				
-				clients.send(connection,'updateView',{
-				
-				viewName:'lobby.html',
-				subViewName:'default',
-				viewPart: 'onlineUsers',
-				data: clients.getOnlineUsers()
-				
-	
-			})
-			
-			break;
-			//clients.send(connection,'updateDbTable',)
-		//	
-		}
-		
-	},
-	
+		var sendThis = clients.simpleActiveViews()
+		var sendThis2 = clients.addedData()
 
+		clients.publishView('admin.html', 'default', 'activeViews', sendThis) //nownClients.views.length)
+		clients.publishView('admin.html', 'default', 'clients', sendThis2) //nownClients.views.length)
+
+		switch (data.newViewName) { //=='board.html'&&data.newSubViewName!='default'){
+			//send the dbtable 
+			//////console.log('...........................................................')
+
+			case 'board.html':
+
+				mongodb.connect(cn, function(err, db) {
+					db.collection("tables")
+						.findOne({
+							_id: Number(data.newSubViewName)
+						}, function(err2, tableInDb) {
+							clients.send(connection, 'updateDbTable', tableInDb, 'updateDbTable', function() {}, function() {})
+
+							if (tableInDb.wName == connection.addedData.loggedInAs) {
+
+								clients.send(connection, 'updateView', {
+
+									viewName: 'board.html',
+									subViewName: tableInDb._id,
+									viewPart: 'wPlayer',
+									data: true
+
+								}, 'updateView')
+
+								//clients.publishView('board.html',tableInDb._id,'wPlayer',true)
+							} else {
+								clients.send(connection, 'updateView', {
+
+									viewName: 'board.html',
+									subViewName: tableInDb._id,
+									viewPart: 'wPlayer',
+									data: false
+
+								}, 'updateView')
+
+								////console.log('rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr',tableInDb.wName,connection.addedData.loggedInAs)
+
+							}
+
+							db.close()
+
+						});
+
+				});
+
+				break;
+
+			case 'lobby.html':
+
+				////console.log(clients.getOnlineUsers(),'miabaj<<<<<<<<<<<<<<')
+
+				clients.send(connection, 'updateView', {
+
+					viewName: 'lobby.html',
+					subViewName: 'default',
+					viewPart: 'onlineUsers',
+					data: clients.getOnlineUsers()
+
+				})
+
+				break;
+				//clients.send(connection,'updateDbTable',)
+				//	
+		}
+
+	},
 
 	moved: function(connection, onTable) {
 
@@ -733,13 +608,11 @@ var onMessageFuncs = {
 				.save(onTable, function(err3, res) {
 					//table moved and saved, let's check what to do
 					db.close()
-					
-					
-					
-						clients.publishView('board.html',onTable._id,'dbTable.table',onTable.table)
-								
-						clients.publishView('board.html',onTable._id,'dbTable.wNext',onTable.wNext)
-							
+
+					clients.publishView('board.html', onTable._id, 'dbTable.table', onTable.table)
+
+					clients.publishView('board.html', onTable._id, 'dbTable.wNext', onTable.wNext)
+
 					//popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
 
 					switch (command) {
@@ -760,10 +633,10 @@ var onMessageFuncs = {
 	},
 	//var 
 	myPartIsDone: function(connection, data) {
-		
-		connection=clients.fromStore(connection)
-		
-		connection.addedData.speed=connection.addedData.speed*100
+
+		connection = clients.fromStore(connection)
+
+		connection.addedData.speed = connection.addedData.speed * 100
 
 		var index = getTaskIndex(data[0]._id)
 
@@ -779,8 +652,7 @@ var onMessageFuncs = {
 		if (splitTaskQ[index].pendingSolvedMoves == 0) {
 
 			////////////////////////////////////////////////////////////all moves solved, check best and make a move
-			
-		
+
 			splitTaskQ[index].returnedMoves.sort(
 				moveSorter
 			)
@@ -799,58 +671,49 @@ var onMessageFuncs = {
 				})
 
 			})
-			
-			
-			splitTaskQ[index].pendingMoveCount=undefined
-			
-			
-			
-			splitTaskQ[index].returnedMoves=undefined
-			
-			splitTaskQ[index].command=undefined
-			
-			splitTaskQ[index].aiType=undefined
-			
-			splitTaskQ[index].splitMoveStarted=undefined
-			
-			splitTaskQ[index].oppKingPos=undefined
-			
-			splitTaskQ[index].origProtect=undefined
-			
-			splitTaskQ[index].origData=undefined
-			
-			splitTaskQ[index].origDeepDatatt=undefined
-			
-			splitTaskQ[index].origDeepDatatf=undefined
-			
-			splitTaskQ[index].origDeepDataft=undefined
-			
-			splitTaskQ[index].origDeepDataff=undefined
-			
-			
-			splitTaskQ[index].aiTable=undefined
-			splitTaskQ[index].pendingSolvedMoves=undefined
-			
-			
-			
+
+			splitTaskQ[index].pendingMoveCount = undefined
+
+			splitTaskQ[index].returnedMoves = undefined
+
+			splitTaskQ[index].command = undefined
+
+			splitTaskQ[index].aiType = undefined
+
+			splitTaskQ[index].splitMoveStarted = undefined
+
+			splitTaskQ[index].oppKingPos = undefined
+
+			splitTaskQ[index].origProtect = undefined
+
+			splitTaskQ[index].origData = undefined
+
+			splitTaskQ[index].origDeepDatatt = undefined
+
+			splitTaskQ[index].origDeepDatatf = undefined
+
+			splitTaskQ[index].origDeepDataft = undefined
+
+			splitTaskQ[index].origDeepDataff = undefined
+
+			splitTaskQ[index].aiTable = undefined
+			splitTaskQ[index].pendingSolvedMoves = undefined
+
 			mongodb.connect(cn, function(err, db) {
 				db.collection("tables")
 					.save(splitTaskQ[index], function(err3, res) {
-						
+
 						////console.log('publishing-------------------------------->>> ',splitTaskQ[index]._id)
 						//clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.table',splitTaskQ[index].table)
-						
-						clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.table',splitTaskQ[index].table)
-								
-						clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.wNext',splitTaskQ[index].wNext)
-						
-                        clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.chat',splitTaskQ[index].chat)
-						
-                        clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.moves',splitTaskQ[index].moves)
-							
-						
-						
-						
+
+						clients.publishView('board.html', splitTaskQ[index]._id, 'dbTable.table', splitTaskQ[index].table)
+
+						clients.publishView('board.html', splitTaskQ[index]._id, 'dbTable.wNext', splitTaskQ[index].wNext)
+
+						clients.publishView('board.html', splitTaskQ[index]._id, 'dbTable.chat', splitTaskQ[index].chat)
+
+						clients.publishView('board.html', splitTaskQ[index]._id, 'dbTable.moves', splitTaskQ[index].moves)
+
 						//popThem(splitTaskQ[index]._id, splitTaskQ[index], 'splitMove', 'splitMove')
 
 						db.close()
@@ -866,4 +729,3 @@ var onMessageFuncs = {
 	// ,
 	// end: 1
 }
-

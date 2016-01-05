@@ -83,13 +83,14 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray, counter) {
 
 	} else {
 		
-		
+		counter[0]++
+
 
 		if (sdtDepth > smallDeepeningTask.desiredDepth) { //depth +1
 			
 			resolverArray[sdtDepth].push(new ResolverItem(sdtScore[0], smallDeepeningTask.moveTree)) //this will fill in and then gets reduced to best movevalue only
-
-
+			
+			
 		} else {
 			
 			//counter[0]++
@@ -106,11 +107,11 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray, counter) {
 				
 				if(isNegative){
 					
-					newScore[0]=(sdtScore[0] << 16) - getHitScores(sdtTable,smallDeepeningTask.wNext,false,counter)[0]
+					newScore[0]=(sdtScore[0] << 16) - getHitScores(sdtTable,smallDeepeningTask.wNext,false)[0]
 					
 				}else{
 				
-					newScore[0]=(sdtScore[0] << 16) + getHitScores(sdtTable,smallDeepeningTask.wNext,true,counter)[0]
+					newScore[0]=(sdtScore[0] << 16) + getHitScores(sdtTable,smallDeepeningTask.wNext,true)[0]
 				}
 				
 				
@@ -133,13 +134,14 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray, counter) {
 				
 				
 				
-				
+					
 				
 				
 			}else{
 				//desireddepth not reached
 				
-						
+				
+	
 			
 			//depth not solved, lets solve it further
 

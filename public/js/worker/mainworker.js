@@ -482,7 +482,7 @@ onmessage = function(event) {
 								postThis[0]._id = workingOnTableNum
 								postThis[0].sendID=sendID.toString()//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
                                 
-                                var t=globalCounter[0]
+                                var t=globalCounter[0]// Math.sqrt(globalCounter[0])
                                 var ms=new Date()-globalTimer
                                 var ts=~~(t/ms*1000)
                                 

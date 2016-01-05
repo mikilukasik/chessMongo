@@ -155,7 +155,7 @@ var Clients=function(){
 		////console.log('connection writable:',connection.socket.writable)
 		// this.publishView('admin.html','default','clients',this.addedData())			//loops it!!!!!!!!!!!!!!!
 		
-		if(connection.socket.writable) {
+		if(connection.socket&&connection.socket.writable) {
 			
 			
 				connection.sendUTF(JSON.stringify({

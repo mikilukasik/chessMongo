@@ -1492,6 +1492,30 @@
 					$rootScope.alertUser('Password mismatch',"Passwords don't match, try again!",['OK'],{},5,'OK')
 				}
 			}
+			
+			$scope.adminButtons=function(func,client){
+				switch(func){
+					
+					case 'runClientSpeedTest':
+					
+						socketSend('clientSpeedTest',client)
+					
+					break;
+					
+					case 'refreshBrowser':
+					
+						socketSend('refreshBrowser',client)
+					
+					break;
+					
+					
+					
+					
+					
+				}
+				
+				
+			}
 
 			$scope.newView = function(viewName) {
 				if (viewName == 'board.html') {

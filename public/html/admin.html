@@ -55,6 +55,17 @@
 				
 			</th>
 		</tr>
+		
+		
+		<tr>
+			<td class="atd">commands</td>
+			<td class="atd"  ng-repeat="x in clients track by $index">
+					
+					<button ng-click="adminButtons('runClientSpeedTest',x)">speedTest</button>
+					<button ng-click="adminButtons('refreshBrowser',x)">refreshBrowser</button>
+					
+			</td>
+		</tr>
 		<!--<tr>
 			<td class="atd">connectionID</td>
 			<td class="atd"  ng-repeat="x in clients track by $index">
