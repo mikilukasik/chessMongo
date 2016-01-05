@@ -53,6 +53,7 @@ var userFuncs = {
 		var name = data.name
 
 		clients.update(connection, 'loggedInAs', undefined)
+		clients.update(connection, 'isAdmin', undefined)
 		clients.update(connection, 'stayLoggedIn', undefined)
 		clients.publishAddedData()
 
@@ -81,12 +82,15 @@ var userFuncs = {
 						if (thing.pwd == pwd || noPwd) {
 							//password match, log him in
 
+							var isAdmin=(admins.indexOf(name)!=-1)
+
 							clients.send(connection, 'login', {
 									name: name,
-									isAdmin: (admins.indexOf(name)!=-1)
+									isAdmin: isAdmin
 								})
 								//console.log('user logging in: ',name)
 							clients.update(connection, 'loggedInAs', name)
+							clients.update(connection, 'isAdmin', isAdmin)
 
 							if (name) clients.update(connection, 'lastUser', name)
 							clients.update(connection, 'stayLoggedIn', stayLoggedIn)
