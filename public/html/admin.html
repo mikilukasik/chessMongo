@@ -52,6 +52,11 @@
 			<th class="atd"  ng-repeat="x in clients track by $index">
 					
 					{{x.lastUser}}
+					<div ng-if="!x.lastUser">
+					<input ng-model="setLastUserTo"></input><button ng-click="adminButtons('setLastUser',x,setLastUserTo)">set</button>
+					</div> 
+					
+					
 				
 			</th>
 		</tr>

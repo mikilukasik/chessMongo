@@ -1493,7 +1493,7 @@
 				}
 			}
 			
-			$scope.adminButtons=function(func,client){
+			$scope.adminButtons=function(func,client,data){
 				switch(func){
 					
 					case 'runClientSpeedTest':
@@ -1505,6 +1505,12 @@
 					case 'refreshBrowser':
 					
 						socketSend('refreshBrowser',client)
+					
+					break;
+					
+					case 'setLastUser':
+						client.setLastUserTo=data
+						socketSend('setLastUser',client)
 					
 					break;
 					

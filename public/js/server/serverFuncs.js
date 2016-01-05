@@ -291,6 +291,27 @@ var onMessageFuncs = {
 		
 	},
 	
+	setLastUser:function(connection,data){
+		
+		//console.log('setLastUser',data)
+		
+		var fakeConnection={
+			addedData:{
+				connectionID:data.connectionID
+			}
+		}
+		var sendToConnection=clients.fromStore(fakeConnection)
+		
+		sendToConnection.addedData.lastUser=data.setLastUserTo
+		
+		clients.publishAddedData()
+		
+		
+		
+		//clients.send(sendToConnection,'setLastUser',data.setLastUserTo)
+		
+	},
+	
 	refreshBrowser:function(connection,data){
 		//console.log('clientSpeedTest',data)
 		var fakeConnection={
