@@ -18,6 +18,7 @@ var findUsersGameIndex = function(gameNo, games) {
 var userFuncs = {
 
 	removeDisplayedGame: function(connection, data) {
+        
 		console.log('remove game from name:', connection.addedData.loggedInAs)
 		mongodb.connect(cn, function(err, db2) {
 			db2.collection("users")
@@ -52,12 +53,13 @@ var userFuncs = {
 
 		var name = data.name
 
-		clients.update(connection, 'loggedInAs', undefined)
-		clients.update(connection, 'isAdmin', undefined)
-		clients.update(connection, 'stayLoggedIn', undefined)
+		clients.storeVal(connection, 'loggedInAs', undefined)
+		clients.storeVal(connection, 'isAdmin', undefined)
+		clients.storeVal(connection, 'stayLoggedIn', undefined)
+        
 		clients.publishAddedData()
 
-		clients.logoff(name)
+		clients.logoff(name)      //this removes it from onlineUsers
 
 		clients.publishDisplayedGames(undefined, connection)
 
@@ -89,11 +91,11 @@ var userFuncs = {
 									isAdmin: isAdmin
 								})
 								//console.log('user logging in: ',name)
-							clients.update(connection, 'loggedInAs', name)
-							clients.update(connection, 'isAdmin', isAdmin)
+							clients.storeVal(connection, 'loggedInAs', name)
+							clients.storeVal(connection, 'isAdmin', isAdmin)
 
-							if (name) clients.update(connection, 'lastUser', name)
-							clients.update(connection, 'stayLoggedIn', stayLoggedIn)
+							if (name) clients.storeVal(connection, 'lastUser', name)
+							clients.storeVal(connection, 'stayLoggedIn', stayLoggedIn)
 							clients.publishAddedData()
 							clients.publishDisplayedGames(name, connection)
 
@@ -463,7 +465,7 @@ var onMessageFuncs = {
 				//connection.addedData.connectionID=connectionID
 				//connection.speed=data.speed
 
-				clients.update(connection, data.data.name, data.data.value)
+				clients.storeVal(connection, data.data.name, data.data.value)
 					////console.log('hjkl;ez:',clients.addedData())
 				clients.publishAddedData() //View('admin.html','default','clients',clients.addedData())
 
@@ -473,7 +475,7 @@ var onMessageFuncs = {
 
 	},
 	saveVal: function(connection, data, connectionID) {
-		clients.update(connection, data.name, data.value)
+		clients.storeVal(connection, data.name, data.value)
 		clients.publishAddedData()
 
 	},
@@ -516,7 +518,7 @@ var onMessageFuncs = {
 
 		////console.log('cookieIdRnd received:',data.cookieIdRnd)
 
-		clients.update(connection, 'cookieIdRnd', data.cookieIdRnd)
+		clients.storeVal(connection, 'cookieIdRnd', data.cookieIdRnd)
 
 		//var newClientMongoId
 
@@ -530,7 +532,7 @@ var onMessageFuncs = {
 
 			knownClientReturned(data, connection) //this will mark it online in the db
 
-			clients.update(connection, 'clientMongoId', data.clientMongoId)
+			clients.storeVal(connection, 'clientMongoId', data.clientMongoId)
 
 			clients.publishAddedData()
 
