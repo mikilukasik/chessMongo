@@ -1,3 +1,12 @@
+var admins=[
+			'admin',
+			'lenovo',
+			'Droid',
+			'Miki',
+			'a-pc'
+		]
+
+
 var findUsersGameIndex = function(gameNo, games) {
 
 	for (var i = games.length - 1; i >= 0; i--) {
@@ -73,7 +82,8 @@ var userFuncs = {
 							//password match, log him in
 
 							clients.send(connection, 'login', {
-									name: name
+									name: name,
+									isAdmin: (admins.indexOf(name)!=-1)
 								})
 								//console.log('user logging in: ',name)
 							clients.update(connection, 'loggedInAs', name)
