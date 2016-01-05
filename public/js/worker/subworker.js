@@ -79,11 +79,16 @@ onmessage = function(event) {
 
 			break;
 
-		case 'bullShit':
+		case 'init':
 
-			resMessage = 'dont bullshit'
-			resData = undefined
-			resCommand = 'bullshit'
+		
+postMessage({
+		// command:undefined,
+		'resMessage': 'imUp',
+		'resData': 'imUp',
+		'resCommand': 'imUp'
+	});
+
 
 			break;
 
@@ -99,13 +104,5 @@ onmessage = function(event) {
 
 
 };
-
-postMessage({
-		// command:undefined,
-		'resMessage': 'imUp',
-		'resData': 'imUp',
-		'resCommand': 'imUp'
-	});
-
 
 /////////////////////worker func end

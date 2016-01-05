@@ -1,4 +1,5 @@
-		var maxWorkerNum = 4
+		var maxWorkerNum = 16
+        
 		var nextWorkerNum = 0
 
 
@@ -133,6 +134,7 @@
 			
 				mainWorker = new Worker("js/worker/mainworker.js");
 				mainWorker.onmessage = mainWorkerMsgInThinker
+                mainWorker.postMessage({init:true})
 			
 			}			
 			
@@ -140,6 +142,9 @@
 	
 
 			workerToStart = 0
+            
+            var spd=new Date()
+            var started=0
 				
 			while (workerToStart < maxWorkerNum) {
 
@@ -148,14 +153,18 @@
 				var subWorkerNo = workerToStart
 				
 				subWorkers[subWorkerNo].onmessage = subWorkerMsgInThinker
-				
+				subWorkers[subWorkerNo].postMessage({reqCommand:'init'})
 				//init it here!!!!!!!!!!!!!
 				
 				workerToStart++
-
+                
+                started++
 				
 			}
 			
+            spd2=new Date()
+            console.log(started,' subWorkers started ms/worker:',(spd2-spd)/started)
+            spd=spd2
 			
 
 

@@ -637,7 +637,7 @@ this.simpleActiveViews=function(){
 		}
 	
 	};
-	
+	//
 	this.sendTask=function(task, connection) {
 		
 		//var sentTo = ''
