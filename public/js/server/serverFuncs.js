@@ -457,7 +457,7 @@ var onMessageFuncs = {
 
 			case 'progress':
 
-				updateSplitMoveProgress(data.data._id, data.thinker, data.data.progress)
+				splitMoves.updateSplitMoveProgress(data.data._id, data.thinker, data.data.progress)
 
 				break;
 
@@ -684,7 +684,7 @@ var onMessageFuncs = {
 
 		})
 
-		markSplitMoveDone(data[0]._id, data[0].thinker)
+		splitMoves.markSplitMoveDone(data[0]._id, data[0].thinker)
 
 		if (splitTaskQ[index].pendingSolvedMoves == 0) {
 

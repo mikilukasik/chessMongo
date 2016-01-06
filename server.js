@@ -64,17 +64,6 @@ var clients = new Clients()
 
 var splitMoves = new SplitMoves(clients)
 
-// publishSplitMoves = function(nakedQ) {
-    
-//    clients.publishView('admin.html', 'default', 'splitMoves', nakedQ)//[[1,2,3],[4,5,6]])//this.getNakedQ())
-		
-// 	////console.log('publishSplitMoves function not inited')
-// }
-
-
-
-
-
 eval(fs.readFileSync('public/js/server/serverFuncs.js') + '');
 
 eval(fs.readFileSync('public/js/server/functions.js') + '');
@@ -506,122 +495,122 @@ function pushSplitTask(splitTask) {
 
 }
 
-var BusyTables = function() {
+// var BusyTables = function() {
 
-	this.tables = []
-	this.splitMoves = []
-	this.pollNums = []
-	this.pendingPolls = []
+// 	this.tables = []
+// 	this.splitMoves = []
+// 	this.pollNums = []
+// 	this.pendingPolls = []
 
-}
+// }
 
-var busyTables = new BusyTables()
+// var busyTables = new BusyTables()
 
-var getBusyTableIndex = function(tNum) {
+// // var getBusyTableIndex = function(tNum) {
 
-	var index = busyTables.tables.indexOf(tNum)
+// 	var index = busyTables.tables.indexOf(tNum)
 
-	if (index == -1) {
-		//table not in array, lets push it
+// 	if (index == -1) {
+// 		//table not in array, lets push it
 
-		busyTables.tables.push(tNum)
-		busyTables.splitMoves.push([])
-		busyTables.pollNums.push(0)
-		busyTables.pendingPolls.push([])
+// 		busyTables.tables.push(tNum)
+// 		busyTables.splitMoves.push([])
+// 		busyTables.pollNums.push(0)
+// 		busyTables.pendingPolls.push([])
 
-		return busyTables.tables.length - 1
+// 		return busyTables.tables.length - 1
 
-	} else {
+// 	} else {
 
-		return index
+// 		return index
 
-	}
+// 	}
 
-}
+// }
 
-var clearSentMoves = function(sentTNum) {
+// var clearSentMoves = function(sentTNum) {
 
-	var index = getBusyTableIndex(sentTNum)
+// 	var index = getBusyTableIndex(sentTNum)
 
-	for (var i = busyTables.splitMoves[index].length - 1; i >= 0; i--) {
-		busyTables.splitMoves[index][i].sentCount = 0
-	}
+// 	for (var i = busyTables.splitMoves[index].length - 1; i >= 0; i--) {
+// 		busyTables.splitMoves[index][i].sentCount = 0
+// 	}
 
-}
+// }
 
-var getMIndex = function(index, sentTo) {
+// var getMIndex = function(index, sentTo) {
 
-	//var mIndex=-1
+// 	//var mIndex=-1
 
-	for (var i = busyTables.splitMoves[index].length - 1; i >= 0; i--) {
+// 	for (var i = busyTables.splitMoves[index].length - 1; i >= 0; i--) {
 
-		// busyTables.splitMoves[index][i].sentCount=0
+// 		// busyTables.splitMoves[index][i].sentCount=0
 
-		if (busyTables.splitMoves[index][i].thinker == sentTo.toString()) {
-			return i
-		}
-	}
+// 		if (busyTables.splitMoves[index][i].thinker == sentTo.toString()) {
+// 			return i
+// 		}
+// 	}
 
-	return -1
+// 	return -1
 
-}
+// }
 
-var registerSentMoves = function(sentTNum, sentTo, sentCount) {
-	//////console.log('ez',sentTo)
-	var index = getBusyTableIndex(sentTNum)
+// var registerSentMoves = function(sentTNum, sentTo, sentCount) {
+// 	//////console.log('ez',sentTo)
+// 	var index = getBusyTableIndex(sentTNum)
 
-	var mIndex = getMIndex(index, sentTo)
+// 	var mIndex = getMIndex(index, sentTo)
 
-	if (mIndex == -1) {
+// 	if (mIndex == -1) {
 
-		busyTables.splitMoves[index].push({
+// 		busyTables.splitMoves[index].push({
 
-			thinker: sentTo,
-			sentCount: sentCount,
-			done: false,
-			progress: 0
+// 			thinker: sentTo,
+// 			sentCount: sentCount,
+// 			done: false,
+// 			progress: 0
 
-		})
+// 		})
 
-	} else {
+// 	} else {
 
-		busyTables.splitMoves[index][mIndex] = {
+// 		busyTables.splitMoves[index][mIndex] = {
 
-			thinker: sentTo,
-			sentCount: sentCount,
-			done: false,
-			progress: 0
+// 			thinker: sentTo,
+// 			sentCount: sentCount,
+// 			done: false,
+// 			progress: 0
 
-		}
+// 		}
 
-	}
+// 	}
 
-	return index
+// 	return index
 
-}
+// }
 
-var updateSplitMoveProgress = function(sentTNum, sentTo, progress) {
+// var updateSplitMoveProgress = function(sentTNum, sentTo, progress) {
 
-	var index = getBusyTableIndex(sentTNum)
+// 	var index = getBusyTableIndex(sentTNum)
 
-	var mIndex = getMIndex(index, sentTo)
+// 	var mIndex = getMIndex(index, sentTo)
 
-	if (busyTables.splitMoves[index][mIndex]) {
+// 	if (busyTables.splitMoves[index][mIndex]) {
 
-		if (progress > busyTables.splitMoves[index][mIndex].progress) {
+// 		if (progress > busyTables.splitMoves[index][mIndex].progress) {
 
-			busyTables.splitMoves[index][mIndex].progress = progress
+// 			busyTables.splitMoves[index][mIndex].progress = progress
 
-		}
+// 		}
 
-		//busyTablesPop(index)
-		clients.publishView('board.html', sentTNum, 'busyThinkers', busyTables.splitMoves[index])
+// 		//busyTablesPop(index)
+// 		clients.publishView('board.html', sentTNum, 'busyThinkers', busyTables.splitMoves[index])
 
-	}
+// 	}
 
-}
+// }
 
-//
+// //
 
 
 //
@@ -645,36 +634,36 @@ function postThinkerMessage(thinker, message) {
 }
 
 
-function findMIndex(tIndex, thinker) {
+// function findMIndex(tIndex, thinker) {
 
-	for (var i = busyTables.splitMoves[tIndex].length - 1; i >= 0; i--) {
-		////console.log(tIndex, busyTables.splitMoves[tIndex],busyTables.splitMoves[tIndex][i].thinker,thinker)
-		if (busyTables.splitMoves[tIndex][i].thinker == thinker) {
+// 	for (var i = busyTables.splitMoves[tIndex].length - 1; i >= 0; i--) {
+// 		////console.log(tIndex, busyTables.splitMoves[tIndex],busyTables.splitMoves[tIndex][i].thinker,thinker)
+// 		if (busyTables.splitMoves[tIndex][i].thinker == thinker) {
 
-			return i
+// 			return i
 
-		}
-	}
-}
+// 		}
+// 	}
+// }
 
 
-function markSplitMoveDone(tNum, thinker) {
+// function markSplitMoveDone(tNum, thinker) {
 
-	var tIndex = getBusyTableIndex(tNum)
+// 	var tIndex = getBusyTableIndex(tNum)
 
-	var mIndex = findMIndex(tIndex, thinker.toString()) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// 	var mIndex = findMIndex(tIndex, thinker.toString()) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-	////console.log(tIndex,mIndex,thinker)
+// 	////console.log(tIndex,mIndex,thinker)
 
-	busyTables.splitMoves[tIndex][mIndex].done = true
+// 	busyTables.splitMoves[tIndex][mIndex].done = true
 
-	busyTables.splitMoves[tIndex][mIndex].progress = 100
+// 	busyTables.splitMoves[tIndex][mIndex].progress = 100
 
-	//busyTablesPop(tIndex)
-	clients.publishView('board.html', tNum, 'busyThinkers', busyTables.splitMoves[tIndex])
-	clients.publishAddedData()
+// 	//busyTablesPop(tIndex)
+// 	clients.publishView('board.html', tNum, 'busyThinkers', busyTables.splitMoves[tIndex])
+// 	clients.publishAddedData()
 
-}
+// }
 
 app.get('/chat', function(req, res) {
 

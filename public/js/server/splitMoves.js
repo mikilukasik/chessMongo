@@ -1,12 +1,16 @@
-var SplitMove=function(dbTable,thinkers,moves){
+var SplitMove=function(dbTable){
     
     this.dbTable=dbTable
     
-    this.thinkers=thinkers
+    //this._id=dbTable._id
     
-    this.moves=moves
+    this.thinkers=[]
+    
+    this.moves=[]
     
     this.splitMoveID=undefined
+    
+    this.pollnum=-1
  
 }
 
@@ -15,8 +19,11 @@ var SplitMoves=function(clients){
     var store={
         
             q:[],
+            
+          
                        
         }
+     
     
     this.getNakedQ=function(){
         
@@ -62,15 +69,15 @@ var SplitMoves=function(clients){
         //publish to admin view here
     }
     
-    this.update=function(splitMove,propertyName,value){
+    this.add=function(dbTable){
         
-      
-        var forcePublish=false
+        var splitMove=new SplitMove(dbTable)
+        
         var index
         
-        if(splitMove.splitMoveID){
+         if(splitMove.splitMoveID){
             
-            index=qIndexBysplitMoveID(splitMove)
+            console.log('This is not new!!')
             
         } else {
             
@@ -79,7 +86,101 @@ var SplitMoves=function(clients){
 
             index = store.q.push(splitMove) -1
             
-            forcePublish=true
+            this.publishToAdmin()
+            
+           // forcePublish=true
+
+        }
+        
+         return splitMove   
+        
+        
+    }
+    
+    var getThinkerIndex=function(qIndex,thinker) {
+
+       
+        if(store.q[qIndex])for (var i = store.q[qIndex].thinkers.length - 1; i >= 0; i--) {
+
+
+            if (store.q[qIndex].thinkers[i].thinker == thinker.toString()) {
+                return i
+            }
+        }
+
+
+
+        return -1
+
+    }
+    
+    this.registerSentMoves=function(gameID, thinker, sentCount){
+        
+        var qIndex = qIndexByGameID(gameID)
+        
+        return store.q[qIndex].thinkers.push({
+            
+            
+            thinker: thinker,
+            sentCount: sentCount,
+            done: false,
+            progress: 0
+
+        }) -1
+  
+        
+    }
+    
+    this.updateSplitMoveProgress = function(gameID, thinker, progress) {
+
+        var qIndex = qIndexByGameID(gameID)
+
+        var mIndex = getThinkerIndex(qIndex, thinker)
+
+        if (store.q[qIndex]&&store.q[qIndex].thinkers[mIndex]) {
+
+            if (progress > store.q[qIndex].thinkers[mIndex].progress) {
+
+                store.q[qIndex].thinkers[mIndex].progress = progress
+
+            }
+
+            //busyTablesPop(index)
+            clients.publishView('board.html', gameID, 'busyThinkers', store.q[qIndex].thinkers)
+
+        }
+
+    }
+    
+    this.markSplitMoveDone=function(gameID, thinker) {
+
+        var qIndex = qIndexByGameID(gameID)
+
+        var mIndex = getThinkerIndex(qIndex, thinker)
+
+       store.q[qIndex].thinkers[mIndex].done = true
+
+       store.q[qIndex].thinkers[mIndex].progress = 100
+
+        //busyTablesPop(tIndex)
+        clients.publishView('board.html', gameID, 'busyThinkers', store.q[qIndex].thinkers)
+        clients.publishAddedData()
+
+    }
+        
+    this.update=function(splitMove,propertyName,value){
+        
+      
+      //  var forcePublish=false
+        var index
+        
+        if(splitMove.splitMoveID){
+            
+            index=qIndexBysplitMoveID(splitMove)
+            
+        } else {
+            
+           console.log('no id')
 
         }
         
@@ -92,11 +193,11 @@ var SplitMoves=function(clients){
             
         }else{
             
-            if (forcePublish){
+            // if (forcePublish){
                 
-               this.publishToAdmin()
+            //    this.publishToAdmin()
            
-            }
+            // }
             
         }
         

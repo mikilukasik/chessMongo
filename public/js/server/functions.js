@@ -20,21 +20,21 @@ function makeAiMove(dbTable) {
 
 	pushSplitTask(dbTable)
     
-    /////////////////////////////////
+    /////////////////////////////////  new splitmove
     
-    var splitMove=new SplitMove(dbTable,[],[])
+    //var splitMove=new SplitMove(dbTable,[],[])
     
-    splitMove=splitMoves.update(splitMove)
+    splitMove=splitMoves.add(dbTable)
     
     ///////////////////
 
 	var sentTNum = dbTable._id
 
-	clearSentMoves(sentTNum)
+	//splitMoves.clearSentMoves(sentTNum)
 
-	var index
+	//var index
     
-    var i2=0
+    // var i2=0
 		
 	while (aiTable.movesToSend.length > 0) {
 
@@ -55,14 +55,14 @@ function makeAiMove(dbTable) {
 		var sentTo = clients.sendTask(new Task('splitMove', sendThese, 'splitMove t' + sentTNum + ' sentCount: ' + sentCount)) //string
 	
 
-		index = registerSentMoves(sentTNum, sentTo, sentCount)
+		splitMoves.registerSentMoves(sentTNum, sentTo, sentCount)
         
-        splitMoves.pushToArray(splitMove,'thinkers',{sentTo:sentTo})
+        //splitMoves.pushToArray(splitMove,'thinkers',{sentTo:sentTo})
 
-			i2++
+			// i2++
 	} 
     
-	clients.publishView('board.html', sentTNum, 'busyThinkers', busyTables.splitMoves[index])
+	clients.publishView('board.html', sentTNum, 'busyThinkers', [])
 	clients.publishAddedData()
     
     
