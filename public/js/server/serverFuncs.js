@@ -531,7 +531,7 @@ var onMessageFuncs = {
 			//we must know this client already, look it up in DB!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			////console.log('known client came.......................................')
 
-			knownClientReturned(data, connection) //this will mark it online in the db
+			dbFuncs.knownClientReturned(data, connection) //this will mark it online in the db
 
 			clients.storeVal(connection, 'clientMongoId', data.clientMongoId)
 

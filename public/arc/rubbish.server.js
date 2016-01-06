@@ -1,6 +1,130 @@
 /////////////////////////server.js/////////////////////////
 
+app.get('/chat', function(req, res) {
 
+	if (req.query.c == 'miki: test') {
+		var options = {
+			host: 'localhost',
+			port: 16789,
+			path: '/test'
+		};
+		/////////
+
+		http.request(options, function(response) {
+				var resJsn = {};
+
+				//another chunk of data has been recieved, so append it to `resJsn`
+				response.on('data', function(chunk) {
+					resJsn = JSON.parse(chunk);
+				});
+
+				response.on('end', function() {
+					/////////
+
+					mongodb.connect(cn, function(err, db) {
+						db.collection("tables")
+							.findOne({
+								_id: Number(req.query.t)
+							}, function(err2, tableInDb) {
+
+								if (!(resJsn == null || tableInDb == null)) {
+
+									tableInDb.pollNum++
+										//tableInDb.moved = new Date().getTime()
+										tableInDb.chat.push(resJsn.toconsole)
+
+									//tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
+									popThem(Number(req.query.t), tableInDb, 'chat', 'chat')
+
+									db.collection("tables")
+										.save(tableInDb, function(err3, res) {})
+										//}
+								}
+								db.close()
+							});
+
+					});
+					/////////
+
+				});
+			})
+			.end();
+
+		////////
+
+		res.json({})
+	} else {
+
+		mongodb.connect(cn, function(err, db) {
+			db.collection("tables")
+				.findOne({
+					_id: Number(req.query.t)
+				}, function(err2, tableInDb) {
+
+					tableInDb.chat.push(req.query.c)
+					tableInDb.pollNum++
+
+						//var passChat = tableInDb.chat
+
+						db.collection("tables")
+						.save(tableInDb, function(err3, res) {})
+					db.close()
+					res.json({
+						chat: tableInDb.chat
+					});
+				});
+
+		});
+	}
+});
+
+
+
+app.get('/watchGame', function(req, res) {
+
+	var viewerNum = players[0].indexOf(req.query.v)
+
+	//players[6][viewerNum]=true;		//ask viewer to open game
+	players[2][viewerNum] = true; //ask viewer to open game
+
+	players[3][viewerNum] = true; //will watch w
+
+	players[4][viewerNum] = req.query.t //_id
+
+	// will have to give names
+
+	// players[7][wPNum]=req.query.b;		//give them the opponents name
+	players[5][viewerNum] = "Spectator"; //tell lobby to open spect mode
+
+	res.json({
+		none: 0
+	});
+
+});
+
+app.get('/lobbyChat', function(req, res) {
+	//////////// ////////    ////console.log(req)
+	mongodb.connect(cn, function(err, db) {
+		db.collection("tables")
+			.findOne({
+				_id: "xData"
+			}, function(err2, xData) {
+
+				xData.lobbyChat.push(req.query.c)
+
+				db.collection("tables")
+					.save(xData, function(err3, res) {})
+				db.close()
+			});
+	});
+
+	lobbyPollNum++
+
+	res.json({
+		//lobbychat: lobbyChat
+	});
+
+});
 
 // app.get('/longPollTasks', function(req, res) {
 // 	//////////// ////////    ////console.log(req)

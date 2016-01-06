@@ -33,9 +33,9 @@ var registerNewClient = function() {
 	////console.log('registerNewClient function not inited')
 }
 
-var knownClientReturned = function() {
-	////console.log('knownClientReturned function not inited')
-}
+// var knownClientReturned = function() {
+// 	////console.log('knownClientReturned function not inited')
+// }
 
 
 var registerUser = function() {
@@ -390,10 +390,9 @@ var dbFuncs = {
 
 		})
 
-	}
-}
-
-knownClientReturned = function(data, connection) {
+	},
+    
+    knownClientReturned : function(data, connection) {
 
 	data._id = new ObjectID(data.clientMongoId)
 
@@ -456,6 +455,9 @@ knownClientReturned = function(data, connection) {
 
 
 }
+}
+
+
 
 updateDbClients = function(connectionData) {
 
@@ -506,125 +508,6 @@ function pushSplitTask(splitTask) {
 
 }
 
-// var BusyTables = function() {
-
-// 	this.tables = []
-// 	this.splitMoves = []
-// 	this.pollNums = []
-// 	this.pendingPolls = []
-
-// }
-
-// var busyTables = new BusyTables()
-
-// // var getBusyTableIndex = function(tNum) {
-
-// 	var index = busyTables.tables.indexOf(tNum)
-
-// 	if (index == -1) {
-// 		//table not in array, lets push it
-
-// 		busyTables.tables.push(tNum)
-// 		busyTables.splitMoves.push([])
-// 		busyTables.pollNums.push(0)
-// 		busyTables.pendingPolls.push([])
-
-// 		return busyTables.tables.length - 1
-
-// 	} else {
-
-// 		return index
-
-// 	}
-
-// }
-
-// var clearSentMoves = function(sentTNum) {
-
-// 	var index = getBusyTableIndex(sentTNum)
-
-// 	for (var i = busyTables.splitMoves[index].length - 1; i >= 0; i--) {
-// 		busyTables.splitMoves[index][i].sentCount = 0
-// 	}
-
-// }
-
-// var getMIndex = function(index, sentTo) {
-
-// 	//var mIndex=-1
-
-// 	for (var i = busyTables.splitMoves[index].length - 1; i >= 0; i--) {
-
-// 		// busyTables.splitMoves[index][i].sentCount=0
-
-// 		if (busyTables.splitMoves[index][i].thinker == sentTo.toString()) {
-// 			return i
-// 		}
-// 	}
-
-// 	return -1
-
-// }
-
-// var registerSentMoves = function(sentTNum, sentTo, sentCount) {
-// 	//////console.log('ez',sentTo)
-// 	var index = getBusyTableIndex(sentTNum)
-
-// 	var mIndex = getMIndex(index, sentTo)
-
-// 	if (mIndex == -1) {
-
-// 		busyTables.splitMoves[index].push({
-
-// 			thinker: sentTo,
-// 			sentCount: sentCount,
-// 			done: false,
-// 			progress: 0
-
-// 		})
-
-// 	} else {
-
-// 		busyTables.splitMoves[index][mIndex] = {
-
-// 			thinker: sentTo,
-// 			sentCount: sentCount,
-// 			done: false,
-// 			progress: 0
-
-// 		}
-
-// 	}
-
-// 	return index
-
-// }
-
-// var updateSplitMoveProgress = function(sentTNum, sentTo, progress) {
-
-// 	var index = getBusyTableIndex(sentTNum)
-
-// 	var mIndex = getMIndex(index, sentTo)
-
-// 	if (busyTables.splitMoves[index][mIndex]) {
-
-// 		if (progress > busyTables.splitMoves[index][mIndex].progress) {
-
-// 			busyTables.splitMoves[index][mIndex].progress = progress
-
-// 		}
-
-// 		//busyTablesPop(index)
-// 		clients.publishView('board.html', sentTNum, 'busyThinkers', busyTables.splitMoves[index])
-
-// 	}
-
-// }
-
-// //
-
-
-//
 function getTaskIndex(tNum) {
 
 	for (var i = 0; i < splitTaskQ.length; i++) {
@@ -643,164 +526,6 @@ function postThinkerMessage(thinker, message) {
 	//adminPop();
 
 }
-
-
-// function findMIndex(tIndex, thinker) {
-
-// 	for (var i = busyTables.splitMoves[tIndex].length - 1; i >= 0; i--) {
-// 		////console.log(tIndex, busyTables.splitMoves[tIndex],busyTables.splitMoves[tIndex][i].thinker,thinker)
-// 		if (busyTables.splitMoves[tIndex][i].thinker == thinker) {
-
-// 			return i
-
-// 		}
-// 	}
-// }
-
-
-// function markSplitMoveDone(tNum, thinker) {
-
-// 	var tIndex = getBusyTableIndex(tNum)
-
-// 	var mIndex = findMIndex(tIndex, thinker.toString()) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-// 	////console.log(tIndex,mIndex,thinker)
-
-// 	busyTables.splitMoves[tIndex][mIndex].done = true
-
-// 	busyTables.splitMoves[tIndex][mIndex].progress = 100
-
-// 	//busyTablesPop(tIndex)
-// 	clients.publishView('board.html', tNum, 'busyThinkers', busyTables.splitMoves[tIndex])
-// 	clients.publishAddedData()
-
-// }
-
-app.get('/chat', function(req, res) {
-
-	if (req.query.c == 'miki: test') {
-		var options = {
-			host: 'localhost',
-			port: 16789,
-			path: '/test'
-		};
-		/////////
-
-		http.request(options, function(response) {
-				var resJsn = {};
-
-				//another chunk of data has been recieved, so append it to `resJsn`
-				response.on('data', function(chunk) {
-					resJsn = JSON.parse(chunk);
-				});
-
-				response.on('end', function() {
-					/////////
-
-					mongodb.connect(cn, function(err, db) {
-						db.collection("tables")
-							.findOne({
-								_id: Number(req.query.t)
-							}, function(err2, tableInDb) {
-
-								if (!(resJsn == null || tableInDb == null)) {
-
-									tableInDb.pollNum++
-										//tableInDb.moved = new Date().getTime()
-										tableInDb.chat.push(resJsn.toconsole)
-
-									//tableInDb.table = addMovesToTable(tableInDb.table, tableInDb.wNext)
-									popThem(Number(req.query.t), tableInDb, 'chat', 'chat')
-
-									db.collection("tables")
-										.save(tableInDb, function(err3, res) {})
-										//}
-								}
-								db.close()
-							});
-
-					});
-					/////////
-
-				});
-			})
-			.end();
-
-		////////
-
-		res.json({})
-	} else {
-
-		mongodb.connect(cn, function(err, db) {
-			db.collection("tables")
-				.findOne({
-					_id: Number(req.query.t)
-				}, function(err2, tableInDb) {
-
-					tableInDb.chat.push(req.query.c)
-					tableInDb.pollNum++
-
-						//var passChat = tableInDb.chat
-
-						db.collection("tables")
-						.save(tableInDb, function(err3, res) {})
-					db.close()
-					res.json({
-						chat: tableInDb.chat
-					});
-				});
-
-		});
-	}
-});
-
-
-app.get('/watchGame', function(req, res) {
-
-	var viewerNum = players[0].indexOf(req.query.v)
-
-	//players[6][viewerNum]=true;		//ask viewer to open game
-	players[2][viewerNum] = true; //ask viewer to open game
-
-	players[3][viewerNum] = true; //will watch w
-
-	players[4][viewerNum] = req.query.t //_id
-
-	// will have to give names
-
-	// players[7][wPNum]=req.query.b;		//give them the opponents name
-	players[5][viewerNum] = "Spectator"; //tell lobby to open spect mode
-
-	res.json({
-		none: 0
-	});
-
-});
-
-app.get('/lobbyChat', function(req, res) {
-	//////////// ////////    ////console.log(req)
-	mongodb.connect(cn, function(err, db) {
-		db.collection("tables")
-			.findOne({
-				_id: "xData"
-			}, function(err2, xData) {
-
-				xData.lobbyChat.push(req.query.c)
-
-				db.collection("tables")
-					.save(xData, function(err3, res) {})
-				db.close()
-			});
-	});
-
-	lobbyPollNum++
-
-	res.json({
-		//lobbychat: lobbyChat
-	});
-
-});
-
 
 function checkIfPending(id) {
 	for (var i = 0; i < pendingThinkerPolls.length; i++) {
