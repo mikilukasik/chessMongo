@@ -636,16 +636,11 @@ this.simpleActiveViews=function(){
 	this.fastestThinker = function(spdPct) {
 
 		var speedArray = []
-		// for (var i = 0; i < knownClients.connectedSockets.length; i++) {
-		// 	////console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
-		
-		// 	speedArray.push(~~(100 * (knownClients.connectedSockets[i].addedData.speed)))
-		// }
 		
 		knownClients.connectedSockets.forEach(function(connection){
-			////console.log(connection.addedData)
+			console.log(connection.addedData)
 			
-			if(!connection.addedData.speed)connection.addedData.speed=500//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			if(!connection.addedData.speed||isNaN(connection.addedData.speed))connection.addedData.speed=500//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			
 			speedArray.push(connection.addedData.speed)
 		})
@@ -678,7 +673,7 @@ this.simpleActiveViews=function(){
 	this.sendTask=function(task, connection) {
 		
 		//var sentTo = ''
-	
+	    
 		if (connection) {
 			
 			connection=this.fromStore(connection)
@@ -690,7 +685,7 @@ this.simpleActiveViews=function(){
 			////console.log('a')		
 			connection = this.fastestThinker()
 			////console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',connection,'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
-		
+		      console.log('(((((((((((((((((((((((',connection,')))))))))))))))))))))))')
 		}
 	
     if(connection){		
@@ -742,6 +737,7 @@ this.simpleActiveViews=function(){
         
         console.log('<<<<<<<<<<<<<<<<<<<<<<<<something really went wrong... no available connection??!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         
+        return 'bullshit'
         
     }
 

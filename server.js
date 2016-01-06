@@ -409,7 +409,7 @@ knownClientReturned = function(data, connection) {
 
 			//////console.log('found client in db:  ',doc)
 
-			db.close()
+			
 			if(doc != null){	
 				if (doc.loggedInAs) {
 					//client has saved login details in db, log it in!
@@ -441,7 +441,8 @@ knownClientReturned = function(data, connection) {
                     
                 }
 			}
-
+            
+            db.close()
 
 		})
 
