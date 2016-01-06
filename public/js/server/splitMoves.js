@@ -65,7 +65,7 @@ var SplitMoves=function(clients){
         
         for (var i=store.q.length-1;i>=0;i--){
             
-            if(gameID==store.q[i]._id)return i
+            if(gameID==store.q[i].dbTable._id)return i
             
         }
         
