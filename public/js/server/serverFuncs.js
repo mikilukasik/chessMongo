@@ -440,6 +440,7 @@ var onMessageFuncs = {
 		}
 
 	},
+    
 	thinkerMessage: function(connection, data, connectionID) {
 
 		//res.send('something')
@@ -656,7 +657,6 @@ var onMessageFuncs = {
 
 						case 'makeAiMove':
 
-							//////    //////console.log('calling makeaimove..')
 							makeAiMove(onTable)
 
 							break;

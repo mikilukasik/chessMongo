@@ -42,16 +42,24 @@ var registerUser = function() {
 	////console.log('registerUser function not inited')
 }
 
+
+//eval(fs.readFileSync('public/js/all/deepening.js') + '');
+
 eval(fs.readFileSync('public/js/all/classes.js') + '');
 eval(fs.readFileSync('public/js/all/engine.js') + '');
 eval(fs.readFileSync('public/js/all/brandNewAi.js') + '');
-//eval(fs.readFileSync('public/js/all/deepening.js') + '');
-eval(fs.readFileSync('public/js/server/serverFuncs.js') + '');
+
+
 eval(fs.readFileSync('public/js/server/clients.js') + '');
+eval(fs.readFileSync('public/js/server/splitMoves.js') + '');
+eval(fs.readFileSync('public/js/server/serverFuncs.js') + '');
+
+eval(fs.readFileSync('public/js/server/functions.js') + '');
 
 
 
 var clients = new Clients()
+var splitMoves = new SplitMoves()
 
 wsServer.on('request', function(request) {
 
@@ -648,37 +656,7 @@ var updateSplitMoveProgress = function(sentTNum, sentTo, progress) {
 
 //
 
-function makeAiMove(dbTable) {
 
-	switch (dbTable.aiType) {
-
-		case 'fastest thinker':
-
-			var moveTask = new Task('move', dbTable, 'fastest thinker move t' + dbTable._id)
-
-			sendTask(moveTask) //sends to fastest thinker
-
-			//callback handled as another post
-
-			break;
-
-		case 'thinkers':
-
-			//split between available thinkers to make it as fast as possible
-			//////    ////console.log('calling makeSplitMove..')
-			makeSplitMove(dbTable) //starts processing table in multi-thinker mode
-
-			break;
-
-		case 'server':
-
-			////////////////////////ez mikor kerul mar ide?????!!!!!!!!!!!!!!!!!!!!!!
-
-			break;
-
-	}
-
-}
 //
 function getTaskIndex(tNum) {
 
