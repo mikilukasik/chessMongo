@@ -1,32 +1,47 @@
-// function makeAiMove(dbTable) {
 
-// 	switch (dbTable.aiType) {
+function makeAiMove(dbTable) {
 
-// 		case 'fastest thinker':
+	dbTable.splitMoveStarted = new Date()
 
-// 			var moveTask = new Task('move', dbTable, 'fastest thinker move t' + dbTable._id)
+	var aiTable = new MoveTask(dbTable) //this should happen on the calling client, not on the server
 
-// 			sendTask(moveTask) //sends to fastest thinker
+	dbTable.aiTable = aiTable
 
-// 			//callback handled as another post
+	dbTable.pendingSolvedMoves = aiTable.moves.length //set it here, it will be decreased as the moves come in
 
-// 			break;
+	dbTable.returnedMoves = []
 
-// 		case 'thinkers':
+	pushSplitTask(dbTable)
 
-// 			//split between available thinkers to make it as fast as possible
-// 			//////    ////console.log('calling makeAiMove..')
-// 			makeAiMove(dbTable) //starts processing table in multi-thinker mode
+	var sentTNum = dbTable._id
 
-// 			break;
+	clearSentMoves(sentTNum)
 
-// 		case 'server':
+	var index
+		
+	while (aiTable.movesToSend.length > 0) {
 
-// 			////////////////////////ez mikor kerul mar ide?????!!!!!!!!!!!!!!!!!!!!!!
+		var tempLength = aiTable.movesToSend.length
 
-// 			break;
+		var aa = clients.fastestThinker(true)
 
-// 	}
+		// if (isNaN(aa)) {
+		// 	//////    ////console.log('hacking',aa)
+		// 	aa = 1 //quickfix!!!!!!!!!!!!!!!!!!!!!!//but doesn't work
+		// }
 
-// }
+		var sendThese = getSplitMoveTask(aiTable, aa)
 
+		var sentCount = sendThese.length
+
+		var sentTo = clients.sendTask(new Task('splitMove', sendThese, 'splitMove t' + sentTNum + ' sentCount: ' + sentCount)) //string
+	
+
+		index = registerSentMoves(sentTNum, sentTo, sentCount)
+			
+	} 
+    
+	clients.publishView('board.html', sentTNum, 'busyThinkers', busyTables.splitMoves[index])
+	clients.publishAddedData()
+
+}

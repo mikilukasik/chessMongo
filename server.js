@@ -485,60 +485,6 @@ function pushSplitTask(splitTask) {
 
 }
 
-function makeAiMove(dbTable) {
-
-	dbTable.splitMoveStarted = new Date()
-
-	var aiTable = new MoveTask(dbTable) //this should happen on the calling client, not on the server
-
-	dbTable.aiTable = aiTable
-
-	dbTable.pendingSolvedMoves = aiTable.moves.length //set it here, it will be decreased as the moves come in
-
-	dbTable.returnedMoves = []
-
-	// splitTaskQ.push(dbTable) //use this when receiving
-	pushSplitTask(dbTable)
-
-	var sentTNum = dbTable._id
-
-	clearSentMoves(sentTNum)
-
-	var index
-		//
-		//for(var i=busyTables.splitMoves[])
-
-	while (aiTable.movesToSend.length > 0) {
-
-		var tempLength = aiTable.movesToSend.length
-
-		var aa = clients.fastestThinker(true)
-
-		if (isNaN(aa)) {
-			//////    ////console.log('hacking',aa)
-			aa = 1 //quickfix!!!!!!!!!!!!!!!!!!!!!!//but doesn't work
-		}
-
-		var sendThese = getSplitMoveTask(aiTable, aa)
-
-		//////    ////console.log('calling sendTask')
-
-		var sentCount = sendThese.length
-
-		var sentTo = clients.sendTask(new Task('splitMove', sendThese, 'splitMove t' + sentTNum + ' sentCount: ' + sentCount)) //string
-			////console.log(sentTo)
-
-		index = registerSentMoves(sentTNum, sentTo, sentCount)
-			//clients.publishView()
-
-	} //
-
-	//busyTablesPop(index)
-	clients.publishView('board.html', sentTNum, 'busyThinkers', busyTables.splitMoves[index])
-	clients.publishAddedData()
-
-}
-
 var BusyTables = function() {
 
 	this.tables = []
