@@ -118,12 +118,10 @@
 				
 			</td>
 		</tr><tr>
-			<td class="atd">lastMpm</td>	
+			<td class="atd">speedStats</td>	
 			<td class="atd"  ng-repeat="x in clients track by $index">
-					
-					{{x.speedStats}}
-                    <br>
-                    3/4: {{x.speedStats[3]/x.speedStats[4]}}
+					<div ng-repeat="y in x.speedStats track by $index" ng-if="y">{{$index}}: {{y}}</div><br>
+                    <div ng-if="x.speedStats[3]/x.speedStats[4]">3/4: {{x.speedStats[3]/x.speedStats[4]}}</div>
                     
 				
 			</td>

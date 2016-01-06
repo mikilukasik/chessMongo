@@ -1283,29 +1283,12 @@
 
 			$scope.makeAMove = function(whatMove) {
 
-				if (!($scope.opponentsName == 'Server')) { // temp hack!!!!!
+				//if (!($scope.opponentsName == 'Server')) { // temp hack!!!!!
 
-					var moveStr = whatMove //levagni a kepeket...	(mi ut mit)
-						//////////////////////
-						///replace this!!!
+					var moveStr = whatMove
 
 					var dbTable = $rootScope.dbTable //{} //new Dbtable($rootScope.dbTable._id, $rootScope.wName, $rootScope.bName)
 
-					//hello Marzenka
-					// console.log($rootScope.dbTable._id)
-					// dbTable._id = $rootScope.dbTable._id
-					// dbTable.wName = $rootScope.wName
-					// dbTable.bName = $rootScope.bName
-
-
-					// dbTable.table = $rootScope.dbTable.table
-					// dbTable.wNext = $rootScope.dbTable.wNext
-					// 	//refaktor!!!!!!
-					// dbTable.moves = $rootScope.dbTable.moves
-					// dbTable.pollNum = $rootScope.pollNum
-					// dbTable.allPastTables = $rootScope.dbTable.allPastTables
-					// 	// dbTable.wName= $rootScope.wName
-					// 	// dbTable.bName= $rootScope.bName
 
                        	dbTable.command = ''
 						dbTable.aiType = ''
@@ -1320,22 +1303,10 @@
 					dbTable = moveInTable(moveStr, dbTable, false)
 
 
-
-
-					if ($scope.opponentsName == 'Fastest thinker') {
-						dbTable.command = 'makeAiMove'
-						dbTable.aiType = 'fastest thinker'
-
-
-					}
-
 					if (dbTable.wName == 'Computer' || dbTable.bName == 'Computer') {
 						dbTable.command = 'makeAiMove'
 						dbTable.aiType = 'thinkers'
 
-
-
-						// dbTable.aiTable=new MoveTask(dbTable)	
 					}
 
 
@@ -1351,12 +1322,14 @@
 
 					
 
-				} else {
+				//} 
+                
+                // else {
 
-					$http.get('/move?m=' + whatMove + '&t=' + $rootScope.dbTable._id)
+				// 	$http.get('/move?m=' + whatMove + '&t=' + $rootScope.dbTable._id)
 
 
-				}
+				// }
 
 
 			}
