@@ -548,4 +548,4 @@ function getHitScores(origTable, wNext, flipIt, wPlayer) {
 
 	return result // 65536
 
-}//
+}
