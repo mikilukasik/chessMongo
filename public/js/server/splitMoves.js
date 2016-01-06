@@ -149,7 +149,17 @@ var SplitMoves=function(clients){
         
     }
     
-    this.updateSplitMoveProgress = function(gameID, thinker, data) {
+    this.updateSplitMoveProgress = function(gameID, thinker, data, connection) {
+        
+        if(data.final){
+            data.progress=100
+            data.beBackIn=0
+            
+            clients.storeVal(connection,'lastMpm',{
+                depth:data.depth,
+                mpm:data.mpm
+                })
+        }
         
         var progress=data.progress
         

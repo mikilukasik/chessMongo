@@ -252,6 +252,7 @@ var taskReceived=function(task){
 							//mark it busy
 							
 							workingOnTableNum = task.data[0]._id
+                           // workingOnDepth=data[0].desiredDepth
                             
                            // globalCounter[0]=0
 					
@@ -509,11 +510,13 @@ onmessage = function(event) {
                                     
                                     messageTheServer('progress',{
                                         
+                                        final:true,
                                         _id: workingOnTableNum,
-                                        progress:100,
-                                        beBackIn:0,
+                                        // progress:100,
+                                        // beBackIn: 0,
                                         //totalDeeperMoves:globalCounter[0],
-                                        mpm:~~(60000*progress.splitMoves*progress.overall/(timeNow-progress.started))/100,
+                                        mpm:~~(60000*progress.splitMoves/(new Date()-progress.started)),
+                                        depth:resData.desiredDepth
                                         
                                     })
                                         
