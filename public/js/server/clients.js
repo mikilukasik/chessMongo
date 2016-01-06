@@ -455,9 +455,9 @@ var Clients=function(){
 				
 				result[i]=knownClients.connectedSockets[i].addedData
 				
-				if(!knownClients.connectedSockets[i].socket.writable){
-					result[i].speed='non-writable'
-				}
+				// if(!knownClients.connectedSockets[i].socket.writable){
+				// 	result[i].speed='non-writable'
+				// }
 				
 				
 				

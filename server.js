@@ -436,10 +436,12 @@ knownClientReturned = function(data, connection) {
                 if(doc.speed){
                     
                     connection.addedData.speed=doc.speed
-                    connection.addedData.currentState='idle'
+                   
                     connection.addedData.speedStats=doc.speedStats
                     
                 }
+                
+                 connection.addedData.currentState='idle'
 			}
             
             db.close()
