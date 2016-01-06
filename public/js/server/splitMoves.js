@@ -45,18 +45,36 @@ var SplitMoves=function(clients){
     
     var qIndexBysplitMoveID=function(splitMove){
         
-        return store.q.findIndex(function(element,index){
-            if(splitMove.splitMoveID===element.splitMoveID) {return true}else{return false}
-        })
+        for (var i=store.q.length-1;i>=0;i--){
+            
+            if(splitMove.splitMoveID===store.q[i].splitMoveID)return i
+            
+        }
+        
+        return -1
+        
+        
+        // return store.q.findIndex(function(element,index){
+        //     if(splitMove.splitMoveID===element.splitMoveID) {return true}else{return false}
+        // })
         
     }
     
     var qIndexByGameID=function(gameID){
         
-        return store.q.findIndex(function(element,index){
+        
+        for (var i=store.q.length-1;i>=0;i--){
+            
+            if(gameID==store.q[i]._id)return i
+            
+        }
+        
+        return -1
+        
+        // return store.q.findIndex(function(element,index){
               
-            if(gameID==element.dbTable._id) {return true}else{return false}
-        })
+        //     if(gameID==element.dbTable._id) {return true}else{return false}
+        // })
         
     }
     
