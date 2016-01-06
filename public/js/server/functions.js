@@ -1,9 +1,26 @@
 
 function makeAiMove(dbTable) {
+    
+    var splitMove=new SplitMove(dbTable,[],[])
+    
+    splitMove.started=new Date()
+    
+    splitMove.aiTable=dbTable.aiTable
+    //dbTable.aiTable=undefined
+    
+    
+    
+    
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	dbTable.splitMoveStarted = new Date()
 
-	var aiTable = new MoveTask(dbTable) //this should happen on the calling client, not on the server
+	// var aiTable = new MoveTask(dbTable) //this should happen on the calling client, not on the server
+
+	// dbTable.aiTable = aiTable
+
+    var aiTable = new MoveTask(dbTable) //this should happen on the calling client, not on the server
 
 	dbTable.aiTable = aiTable
 
