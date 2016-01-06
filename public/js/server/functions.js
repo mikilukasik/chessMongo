@@ -1,32 +1,32 @@
-function makeAiMove(dbTable) {
+// function makeAiMove(dbTable) {
 
-	switch (dbTable.aiType) {
+// 	switch (dbTable.aiType) {
 
-		case 'fastest thinker':
+// 		case 'fastest thinker':
 
-			var moveTask = new Task('move', dbTable, 'fastest thinker move t' + dbTable._id)
+// 			var moveTask = new Task('move', dbTable, 'fastest thinker move t' + dbTable._id)
 
-			sendTask(moveTask) //sends to fastest thinker
+// 			sendTask(moveTask) //sends to fastest thinker
 
-			//callback handled as another post
+// 			//callback handled as another post
 
-			break;
+// 			break;
 
-		case 'thinkers':
+// 		case 'thinkers':
 
-			//split between available thinkers to make it as fast as possible
-			//////    ////console.log('calling makeSplitMove..')
-			makeSplitMove(dbTable) //starts processing table in multi-thinker mode
+// 			//split between available thinkers to make it as fast as possible
+// 			//////    ////console.log('calling makeAiMove..')
+// 			makeAiMove(dbTable) //starts processing table in multi-thinker mode
 
-			break;
+// 			break;
 
-		case 'server':
+// 		case 'server':
 
-			////////////////////////ez mikor kerul mar ide?????!!!!!!!!!!!!!!!!!!!!!!
+// 			////////////////////////ez mikor kerul mar ide?????!!!!!!!!!!!!!!!!!!!!!!
 
-			break;
+// 			break;
 
-	}
+// 	}
 
-}
+// }
 

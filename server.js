@@ -485,7 +485,7 @@ function pushSplitTask(splitTask) {
 
 }
 
-function makeSplitMove(dbTable) {
+function makeAiMove(dbTable) {
 
 	dbTable.splitMoveStarted = new Date()
 

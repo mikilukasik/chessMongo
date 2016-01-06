@@ -659,7 +659,7 @@ var onMessageFuncs = {
 
 							makeAiMove(onTable)
 
-							break;
+						break;
 
 					}
 
