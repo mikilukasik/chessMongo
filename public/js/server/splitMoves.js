@@ -149,7 +149,11 @@ var SplitMoves=function(clients){
         
     }
     
-    this.updateSplitMoveProgress = function(gameID, thinker, progress) {
+    this.updateSplitMoveProgress = function(gameID, thinker, data) {
+        
+        var progress=data.progress
+        
+        var beBackIn=data.beBackIn
 
         var qIndex = qIndexByGameID(gameID)
 
@@ -160,6 +164,7 @@ var SplitMoves=function(clients){
             if (progress > store.q[qIndex].thinkers[mIndex].progress) {
 
                 store.q[qIndex].thinkers[mIndex].progress = progress
+                store.q[qIndex].thinkers[mIndex].beBackIn = beBackIn
 
             }
 

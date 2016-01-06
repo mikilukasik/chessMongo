@@ -457,7 +457,7 @@ var onMessageFuncs = {
 
 			case 'progress':
 
-				splitMoves.updateSplitMoveProgress(data.data._id, data.thinker, data.data.progress)
+				splitMoves.updateSplitMoveProgress(data.data._id, data.thinker, data.data)
 
 				break;
 

@@ -58,6 +58,7 @@ var sentSdtCount
 var pollOn = true		//we only make this false before restart			//not true
 
 var progress={
+    started:undefined,
 	splitMoves: 0,
 	oneDeeperMoves: 0,
 	doneSM: 0,
@@ -230,6 +231,8 @@ var taskReceived=function(task){
                     
                     
 					progress={
+                        
+                        started:new Date(),
                         
 						splitMoves: 0,
 						oneDeeperMoves: 0,
@@ -548,10 +551,15 @@ onmessage = function(event) {
 							
 							progress.overall= progress.doneSM * (100/progress.splitMoves)	+	(progress.doneDM * (100/progress.oneDeeperMoves))/progress.splitMoves
 							
+                                var beBackIn
+                                
+                                if(progress.overall>0)beBackIn=~~(((new Date()-progress.started)/progress.overall)*(100-progress.overall))
+                            
 								messageTheServer('progress',{
 									
 									_id: workingOnTableNum,
-									progress:progress.overall
+									progress:progress.overall,
+                                    beBackIn:beBackIn
 									
 								},'progress',function(){
 									
