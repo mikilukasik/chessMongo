@@ -51,7 +51,7 @@ var SplitMoves=function(clients){
             
         }
         
-        return -1
+        //return -1
         
         
         // return store.q.findIndex(function(element,index){
@@ -69,7 +69,7 @@ var SplitMoves=function(clients){
             
         }
         
-        return -1
+        //return 
         
         // return store.q.findIndex(function(element,index){
               
