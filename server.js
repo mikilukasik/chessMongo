@@ -450,7 +450,7 @@ knownClientReturned = function(data, connection) {
 
 	});
 
-
+//
 
 }
 
