@@ -48,12 +48,12 @@
 	<div style="width:100%;overflow-x:scroll">
 	<table class="atable">
 		<tr>
-			<th class="atd">lastUser</th>
+			<th class="atd">ref</th>
 			<th class="atd"  ng-repeat="x in clients track by $index">
 					
 					{{x.lastUser}}
 					<div ng-if="!x.lastUser">
-					<input ng-model="setLastUserTo"></input><button ng-click="adminButtons('setLastUser',x,setLastUserTo)">set</button>
+					<form ng-submit="adminButtons('setLastUser',x,setLastUserTo)"><input ng-model="setLastUserTo"></input><button>set</button></form>
 					</div> 
 					
 					
