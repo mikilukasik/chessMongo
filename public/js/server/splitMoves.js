@@ -151,16 +151,22 @@ var SplitMoves=function(clients){
     
     this.updateSplitMoveProgress = function(gameID, thinker, data, connection) {
         
+        var progress
+        var beBackIn
+        
         if(data.final){
-            data.progress=100
-            data.beBackIn=0
+            
+            progress=100
+            beBackIn=0
             
             clients.updateSpeedStats(connection,data.depth,data.mpm)
+        
+        }else{
+             
+            progress=data.progress
+            beBackIn=data.beBackIn 
         }
-        
-        var progress=data.progress
-        
-        var beBackIn=data.beBackIn 
+       
         var mpm=data.mpm 
  
         var qIndex = qIndexByGameID(gameID)
