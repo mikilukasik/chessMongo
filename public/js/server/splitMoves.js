@@ -153,8 +153,9 @@ var SplitMoves=function(clients){
         
         var progress=data.progress
         
-        var beBackIn=data.beBackIn
-
+        var beBackIn=data.beBackIn 
+        var mpm=data.mpm 
+ 
         var qIndex = qIndexByGameID(gameID)
 
         var mIndex = getThinkerIndex(qIndex, thinker)
@@ -165,6 +166,7 @@ var SplitMoves=function(clients){
 
                 store.q[qIndex].thinkers[mIndex].progress = progress
                 store.q[qIndex].thinkers[mIndex].beBackIn = beBackIn
+                store.q[qIndex].thinkers[mIndex].mpm = mpm
 
             }
 

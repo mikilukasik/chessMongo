@@ -552,14 +552,19 @@ onmessage = function(event) {
 							progress.overall= progress.doneSM * (100/progress.splitMoves)	+	(progress.doneDM * (100/progress.oneDeeperMoves))/progress.splitMoves
 							
                                 var beBackIn
+                                var mpm
                                 
-                                if(progress.overall>0)beBackIn=~~(((new Date()-progress.started)/progress.overall)*(100-progress.overall))
-                            
+                                if(progress.overall>0){
+                                    var timeNow=new Date()
+                                    beBackIn=~~(((timeNow-progress.started)/progress.overall)*(100-progress.overall))
+                                    mpm=~~(60000*progress.splitMoves*progress.overall/(timeNow-progress.started))/100
+                                }
 								messageTheServer('progress',{
 									
 									_id: workingOnTableNum,
 									progress:progress.overall,
-                                    beBackIn:beBackIn
+                                    beBackIn:beBackIn,
+                                    mpm:mpm
 									
 								},'progress',function(){
 									
