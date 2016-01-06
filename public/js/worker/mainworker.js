@@ -204,8 +204,8 @@ function speedTest(){
 
 var lastOverallProgressCalc=new Date()
 
-var globalCounter=new Uint32Array([0])
-var globalTimer
+//var globalCounter=new Uint32Array([0])
+//var globalTimer
 
 
 var taskReceived=function(task){
@@ -224,8 +224,8 @@ var taskReceived=function(task){
 				case "splitMove":
 
 					
-                    globalTimer=new Date()
-					splitMoveStarted = globalTimer//new Date().getTime()
+                    //globalTimer=new Date()
+					splitMoveStarted =new Date()// globalTimer//new Date().getTime()
 
 					//totalSolved = 0
                     
@@ -253,7 +253,7 @@ var taskReceived=function(task){
 							
 							workingOnTableNum = task.data[0]._id
                             
-                            globalCounter[0]=0
+                           // globalCounter[0]=0
 					
 								
                             var tt=task.data.length //we need this to know when we worked them all out
@@ -431,7 +431,7 @@ onmessage = function(event) {
 					
 					var tdate=new Date()
                     
-                    globalCounter[0]+=new Number(resData.counter)
+                   // globalCounter[0]++//+=new Number(resData.counter)
 					
 					var toPush = { 
 						move: resData.moveTree.slice(0, 4),
@@ -487,25 +487,40 @@ onmessage = function(event) {
 								postThis[0]._id = workingOnTableNum
 								postThis[0].sendID=sendID.toString()//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
                                 
-                                var t=globalCounter[0]// Math.sqrt(globalCounter[0])
-                                var ms=new Date()-globalTimer
-                                var ts=~~(t/ms*1000)
+                               // var t=globalCounter[0]// Math.sqrt(globalCounter[0])
+                                // var ms=new Date()-globalTimer
+                                // var ts=~~(t/ms*1000)
                                 
-                                postThis[0].speed={
-                                    t:t,
-                                    ms:ms,
-                                    ts:ts
+                                // postThis[0].speed={
+                                //     t:t,
+                                //     ms:ms,
+                                //     ts:ts
                                     
-                                    }
+                                //     }
                                 
-                                postThis[0].totalSolved=globalCounter[0]
-                                postThis[0].totalTime=new Date()-globalTimer
+                               // postThis[0].totalSolved=globalCounter[0]
+                               // postThis[0].totalTime=new Date()-globalTimer
                                 
                                 
                                 console.log('>>>>>>>>>>>>>>>>>>',postThis[0].speed)
 								
 								
-								toServer('myPartIsDone',postThis,'myPartIsDone',function(){})		
+								toServer('myPartIsDone',postThis,'myPartIsDone',function(){
+                                    
+                                    messageTheServer('progress',{
+                                        
+                                        _id: workingOnTableNum,
+                                        progress:100,
+                                        beBackIn:0,
+                                        //totalDeeperMoves:globalCounter[0],
+                                        mpm:~~(60000*progress.splitMoves*progress.overall/(timeNow-progress.started))/100,
+                                        
+                                    })
+                                        
+                                    
+                                    
+                                    
+                                })		
 							
 								
 							}else{

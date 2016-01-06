@@ -27,7 +27,7 @@ function toTypedTable(table){
 
 ///////////////////////////// below the functions that run a million times ////////////////////////
 
-function solveSmallDeepeningTask(smallDeepeningTask, resolverArray, counter) {
+function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){//, counter) {
     
 //counter[0]++
 
@@ -87,7 +87,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray, counter) {
         
         
 		
-		counter[0]++
+		//counter[0]++
 
 
 		if (sdtDepth > smallDeepeningTask.desiredDepth) { //depth +1
@@ -247,7 +247,7 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 	//will return number of smallTasks solved for testing??!!!!!!!!!!!!!!!
 	//var taskValue = deepeningTask.
 
-    var counter=new Int32Array([0])
+    //var counter=new Int32Array([0])
     
 	//var ranCount = 0
 
@@ -311,7 +311,7 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 		smallDeepeningTask.table= toTypedTable(smallDeepeningTask.table)
 		//var thisMoveValue = 0
 
-		var resultingSDTs = solveSmallDeepeningTask(smallDeepeningTask, resolverArray, counter)
+		var resultingSDTs = solveSmallDeepeningTask(smallDeepeningTask, resolverArray)
 
 		
 
@@ -345,7 +345,7 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 		timeItTook: timeItTook,
 		score: resolverArray[2][0].value,
 		moveTree: resolverArray[2][0].moveTree.join(','), //
-		counter: counter
+		//counter: counter
 			//5//			//!!!!!!!!!!!!!!!!!!!!!!!!!
 	}
 
@@ -418,7 +418,7 @@ function oneDeeper(deepeningTask) { //only takes original first level deepeningt
 
 
     
-    var counter=new Int32Array(1)
+    //var counter=new Int32Array(1)
 
 	//var newTasks = []
 
@@ -428,7 +428,7 @@ function oneDeeper(deepeningTask) { //only takes original first level deepeningt
     
   // console.log(smallDeepeningTask.wPlayer)
 
-	var tempTasks = solveSmallDeepeningTask(smallDeepeningTask, smallDeepeningTask.resolverArray, counter)
+	var tempTasks = solveSmallDeepeningTask(smallDeepeningTask, smallDeepeningTask.resolverArray)//, counter)
 
 	while (tempTasks.length > 0) {
 
@@ -453,12 +453,12 @@ function oneDeeper(deepeningTask) { //only takes original first level deepeningt
 	////console.log(deepeningTask.smallDeepeningTasks.length)
 
 	deepeningTask.resolverArray = resolverArray
-    deepeningTask.counter=counter[0]
+   // deepeningTask.counter=counter[0]
 
 }
 
 
-function resolveDepth(depth, resolverArray, counter) {
+function resolveDepth(depth, resolverArray){//, counter) {
     
     //if(counter)counter[0]+=10-depth
 	
