@@ -56,11 +56,11 @@ var userFuncs = {
 		clients.storeVal(connection, 'loggedInAs', undefined)
 		clients.storeVal(connection, 'isAdmin', undefined)
 		clients.storeVal(connection, 'stayLoggedIn', undefined)
+       
+		clients.logoff(name)      //this removes it from store.onlineUsers
         
-		clients.publishAddedData()
-
-		clients.logoff(name)      //this removes it from onlineUsers
-
+        
+        clients.publishAddedData()
 		clients.publishDisplayedGames(undefined, connection)
 
 	},
