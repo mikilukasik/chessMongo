@@ -26,7 +26,9 @@ var SplitMoves=function(){
             res.push({
                 gameNo:splitMove.dbTable._id,
                 thinkers:splitMove.thinkers,
-                moves:splitMove.moves
+                moves:splitMove.moves,
+               
+                
             })
         })
         
@@ -42,20 +44,24 @@ var SplitMoves=function(){
         
     }
     
-    var qIndexByGameID=function(splitMove){
+    var qIndexByGameID=function(gameID){
         
         return store.q.findIndex(function(element,index){
-            if(splitMove.dbTable._id===element.dbTable._id) {return true}else{return false}
+              
+            if(gameID==element.dbTable._id) {return true}else{return false}
         })
         
     }
     
     this.publishToAdmin=function(){
+     
+        publishSplitMoves(this.getNakedQ())
         //publish to admin view here
     }
     
     this.update=function(splitMove,propertyName,value){
         
+      
         var forcePublish=false
         var index
         
@@ -65,24 +71,27 @@ var SplitMoves=function(){
             
         } else {
             
+             
             splitMove.splitMoveID=Math.random()*Math.random()
 
             index = store.q.push(splitMove) -1
+            
+            forcePublish=true
 
         }
         
         if(propertyName){
             
-            eval('(store.q['+index+'].'+propertyName+'='+value+')')
+            eval('(store.q[index].'+propertyName+'=value)')
             
-            this.publishToAmin()
+            this.publishToAdmin()
             
             
         }else{
             
             if (forcePublish){
                 
-               this.publishToAmin()
+               this.publishToAdmin()
            
             }
             
@@ -94,11 +103,70 @@ var SplitMoves=function(){
         
     }
     
-    this.remove=function(splitMove){
+    this.pushToArray=function(splitMove,arrayName,value){
         
-        var index=qIndexBysplitMoveID(splitMove)
+      
+        var forcePublish=false
+        var index
         
-        if(index!==-1) return store.q.splice(index,1)[0]
+        if(splitMove.splitMoveID){
+            
+            index=qIndexBysplitMoveID(splitMove)
+            
+        } else {
+            
+             
+            splitMove.splitMoveID=Math.random()*Math.random()
+
+            index = store.q.push(splitMove) -1
+            
+            forcePublish=true
+
+        }
+        
+        if(arrayName){
+            
+            
+            
+            eval(
+                'if(store.q[index].'+arrayName+'){(store.q[index].'+arrayName+'.push(value))}else{store.q[index].'+arrayName+'=[value]}'
+                )
+            
+            this.publishToAdmin()
+            
+            
+        }else{
+            
+            if (forcePublish){
+                
+               this.publishToAdmin()
+           
+            }
+            
+        }
+        
+        
+        return splitMove
+       
+        
+    }
+    
+    this.remove=function(gameID){
+        
+        var res
+           
+        // console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+        var index=qIndexByGameID(gameID)
+        
+        if(index!==-1) {
+            
+            res=store.q.splice(index,1)[0]
+        
+            this.publishToAdmin()
+            
+        }
+        
+        return res
         
     }
     

@@ -690,7 +690,10 @@ var onMessageFuncs = {
 
 			////////////////////////////////////////////////////////////all moves solved, check best and make a move
 
-			splitTaskQ[index].returnedMoves.sort(
+			
+            splitMoves.remove(splitTaskQ[index]._id)
+            
+            splitTaskQ[index].returnedMoves.sort(
 				moveSorter
 			)
 

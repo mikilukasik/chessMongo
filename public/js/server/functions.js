@@ -1,16 +1,6 @@
 
 function makeAiMove(dbTable) {
     
-    var splitMove=new SplitMove(dbTable,[],[])
-    
-    splitMove.started=new Date()
-    
-    splitMove.aiTable=dbTable.aiTable
-    //dbTable.aiTable=undefined
-    
-    
-    
-    
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -29,19 +19,30 @@ function makeAiMove(dbTable) {
 	dbTable.returnedMoves = []
 
 	pushSplitTask(dbTable)
+    
+    /////////////////////////////////
+    
+    var splitMove=new SplitMove(dbTable,[],[])
+    
+    splitMove=splitMoves.update(splitMove)
+    
+    ///////////////////
 
 	var sentTNum = dbTable._id
 
 	clearSentMoves(sentTNum)
 
 	var index
+    
+    var i2=0
 		
 	while (aiTable.movesToSend.length > 0) {
 
 		var tempLength = aiTable.movesToSend.length
 
 		var aa = clients.fastestThinker(true)
-
+        
+        
 		// if (isNaN(aa)) {
 		// 	//////    ////console.log('hacking',aa)
 		// 	aa = 1 //quickfix!!!!!!!!!!!!!!!!!!!!!!//but doesn't work
@@ -55,10 +56,26 @@ function makeAiMove(dbTable) {
 	
 
 		index = registerSentMoves(sentTNum, sentTo, sentCount)
-			
+        
+        splitMoves.pushToArray(splitMove,'thinkers',{sentTo:sentTo})
+
+			i2++
 	} 
     
 	clients.publishView('board.html', sentTNum, 'busyThinkers', busyTables.splitMoves[index])
 	clients.publishAddedData()
+    
+    
+    
+    
+    
+    
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
+    
+    
+    
 
 }

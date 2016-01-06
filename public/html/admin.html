@@ -153,12 +153,8 @@
 					
 					<td class="atd"  ng-repeat="z in y.viewParts track by $index">
 				
-						<!--<div ng-if="$index==0">{{y}}</div>-->
 						{{z.viewPartName}}: {{z.viewers}}
-						<!--<div>
-							<li ng-repeat="z in y track by $index">{{z.viewPartName}}: {{z.viewers}}</li>
-						</div>-->
-						<!--<ul ng-if="$index==1" ng-repeat="z in y track by $index">{{z}}</ul>-->
+						
 					</td>
 							
 					
@@ -182,4 +178,30 @@
 		
 		
 	</table>
+    
+    
+    
+    
+    
+<h3>SplitMoves:</h3>
+
+	<table class="atable">
+	
+		<tr ng-repeat="x in splitMoves track by $index">
+			
+		  <td class="atd" ng-repeat="y in x track by $index">{{y}}</td>
+		
+		
+
+			
+		</tr>
+		
+		
+		
+		
+		
+	</table>
+    
+    
+    
 </div>
