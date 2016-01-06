@@ -155,10 +155,7 @@ var SplitMoves=function(clients){
             data.progress=100
             data.beBackIn=0
             
-            clients.storeVal(connection,'lastMpm',{
-                depth:data.depth,
-                mpm:data.mpm
-                })
+            clients.storeValInArray(connection,'lastMpm',data.depth,data.mpm)
         }
         
         var progress=data.progress

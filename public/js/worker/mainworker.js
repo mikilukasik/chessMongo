@@ -17,6 +17,7 @@ var pendingLongEchoes
 var longPollOnHold
 var toPostSplitMoves
 var pollingTask=-1
+var workingOnDepth
 
 var messageTheServer = function(command, data, message,cb) {
 	
@@ -240,7 +241,7 @@ var taskReceived=function(task){
 						doneDM: 0
 					}
 										
-
+                    workingOnDepth=task.data[0].desiredDepth
 
 
 					if (task.data[0] != undefined) {
@@ -516,10 +517,11 @@ onmessage = function(event) {
                                         // beBackIn: 0,
                                         //totalDeeperMoves:globalCounter[0],
                                         mpm:~~(60000*progress.splitMoves/(new Date()-progress.started)),
-                                        depth:resData.desiredDepth
+                                        depth:workingOnDepth
                                         
                                     })
                                         
+                                        console.log('(((((((((',workingOnDepth,')))))))))')
                                     
                                     
                                     

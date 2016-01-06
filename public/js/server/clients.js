@@ -358,6 +358,17 @@ var Clients=function(){
         eval("(connection.addedData."+property+"=value)")
 		
 	}
+    
+    this.storeValInArray=function(connection,arrayName,index,value){
+		
+		//connection must have .addedData.connectionID already
+		connection=this.fromStore(connection)
+        
+        eval('if(!connection.addedData.'+arrayName+')connection.addedData.'+arrayName+'=[]')
+		
+        eval("(connection.addedData."+arrayName+'['+index+']'+"=value)")
+		
+	}
 	
 	
 	
