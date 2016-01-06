@@ -43,9 +43,9 @@ var registerUser = function() {
 }
 
 
-var publishSplitMoves = function() {
-	////console.log('publishSplitMoves function not inited')
-}
+// var publishSplitMoves = function() {
+// 	////console.log('publishSplitMoves function not inited')
+// }
 
 
 //eval(fs.readFileSync('public/js/all/deepening.js') + '');
@@ -57,21 +57,22 @@ eval(fs.readFileSync('public/js/all/brandNewAi.js') + '');
 
 eval(fs.readFileSync('public/js/server/clients.js') + '');
 
-var clients = new Clients()
-
-publishSplitMoves = function(nakedQ) {
-    
-   clients.publishView('admin.html', 'default', 'splitMoves', nakedQ)//[[1,2,3],[4,5,6]])//this.getNakedQ())
-		
-	////console.log('publishSplitMoves function not inited')
-}
-
-
-
 eval(fs.readFileSync('public/js/server/splitMoves.js') + '');
 
 
-var splitMoves = new SplitMoves()
+var clients = new Clients()
+
+var splitMoves = new SplitMoves(clients)
+
+// publishSplitMoves = function(nakedQ) {
+    
+//    clients.publishView('admin.html', 'default', 'splitMoves', nakedQ)//[[1,2,3],[4,5,6]])//this.getNakedQ())
+		
+// 	////console.log('publishSplitMoves function not inited')
+// }
+
+
+
 
 
 eval(fs.readFileSync('public/js/server/serverFuncs.js') + '');

@@ -10,7 +10,7 @@ var SplitMove=function(dbTable,thinkers,moves){
  
 }
 
-var SplitMoves=function(){
+var SplitMoves=function(clients){
     
     var store={
         
@@ -54,8 +54,11 @@ var SplitMoves=function(){
     }
     
     this.publishToAdmin=function(){
+        
+        clients.publishView('admin.html', 'default', 'splitMoves', this.getNakedQ())//[[1,2,3],[4,5,6]])//this.getNakedQ())
+
      
-        publishSplitMoves(this.getNakedQ())
+        //publishSplitMoves(this.getNakedQ())
         //publish to admin view here
     }
     
