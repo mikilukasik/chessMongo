@@ -93,8 +93,6 @@
 			<td class="atd"  ng-repeat="x in clients track by $index">
 					
 					<strong>{{x.speed}}</strong>
-                    <br>
-                    3/4: {{x.speedStats[3]/x.speedStats[4]}}
                     
 				
 			</td>
@@ -124,6 +122,9 @@
 			<td class="atd"  ng-repeat="x in clients track by $index">
 					
 					{{x.speedStats}}
+                    <br>
+                    3/4: {{x.speedStats[3]/x.speedStats[4]}}
+                    
 				
 			</td>
 		</tr>
