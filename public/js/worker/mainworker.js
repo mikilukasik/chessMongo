@@ -143,48 +143,48 @@ function mwProcessDeepSplitMoves(data, thinker){//mt, modConst, looped) {
 var speedTestOn=false
 var speedTestStarted
 		
-function speedTest(){
+// function speedTest(){
 	
-	//console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx that shit was actually called..')
+// 	//console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx that shit was actually called..')
 	
-	if (workingOnTableNum == 0) {
-		workingOnTableNum = -1				//speedTest tableNum
+// 	if (workingOnTableNum == 0) {
+// 		workingOnTableNum = -1				//speedTest tableNum
 		
 		
-		speedTestStarted = new Date()
-						.getTime()
+// 		speedTestStarted = new Date()
+// 						.getTime()
 
-		totalSolved = 0
-
-		
-		var stTable= new Dbtable(-1)
-		
-		var aiTable = new MoveTask(stTable)
-		
-		aiTable.movesToSend=[aiTable.movesToSend[0],aiTable.movesToSend[1],aiTable.movesToSend[2]]
-		
-		splitMovesToProcess = aiTable.movesToSend
-		
-		totalSplitMovesReceived = splitMovesToProcess.length //we need this to know when we worked them all out
+// 		totalSolved = 0
 
 		
+// 		var stTable= new Dbtable(-1)
+		
+// 		var aiTable = new MoveTask(stTable)
+		
+// 		aiTable.movesToSend=[aiTable.movesToSend[0],aiTable.movesToSend[1],aiTable.movesToSend[2]]
+		
+// 		splitMovesToProcess = aiTable.movesToSend
+		
+// 		totalSplitMovesReceived = splitMovesToProcess.length //we need this to know when we worked them all out
+
+		
 
 
 		
-		mwProcessDeepSplitMoves(splitMovesToProcess, sendID)
+// 		mwProcessDeepSplitMoves(splitMovesToProcess, sendID)
 		
 		
 		
 		
 		
 		
-	}else{
-		sendLog("can't start speedTest, thinker is busy")
-	}
+// 	}else{
+// 		sendLog("can't start speedTest, thinker is busy")
+// 	}
 	
 	
 	
-}
+// }
 
 // var longPollTasks = function(taskNum,sendID,mySpeed) {	
 	
@@ -343,7 +343,7 @@ var taskReceived=function(task){
 					// 	longPollTasks(pollingTask,sendID,speed)
 					// }
 					
-					speedTest()
+					//speedTest()
 					
 		
 			break;
@@ -417,7 +417,7 @@ onmessage = function(event) {
 			// 			longPollTasks(1,sendID,speed)
 			// 		}
 			
-			speedTest()
+			//speedTest()
 			
 			break;
 			
@@ -530,16 +530,16 @@ onmessage = function(event) {
 								
 							}else{
 								if(workingOnTableNum==-1){
-									//initial speedTest finished
+							// 		//initial speedTest finished
 									
-									var speedTestTook= new Date().getTime()-speedTestStarted
+							// 		var speedTestTook= new Date().getTime()-speedTestStarted
 									
-									mySpeed=1000/speedTestTook
+							// 		mySpeed=1000/speedTestTook
 									
-									saveValOnServer('speed',mySpeed)
+							// 		saveValOnServer('speed',mySpeed)
 									
-									pollOn=true
-							//		longPollOnHold(mySpeed)
+							// 		pollOn=true
+							// //		longPollOnHold(mySpeed)
 									
 								}else{
 									console.log(' this should never happen, problem with tablenum in mainworker ')

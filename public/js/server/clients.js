@@ -369,6 +369,33 @@ var Clients=function(){
         eval("(connection.addedData."+arrayName+'['+index+']'+"=value)")
 		
 	}
+	this.updateSpeedStats=function(connection,index,value){
+		
+		//connection must have .addedData.connectionID already
+		connection=this.fromStore(connection)
+        
+        //eval('if(!connection.addedData.'+arrayName+')connection.addedData.'+arrayName+'=[]')
+		if(!connection.addedData.speedStats)connection.addedData.speedStats=[]
+        
+        if(connection.addedData.speedStats[index]){
+            
+            connection.addedData.speedStats[index]= (value + 9* connection.addedData.speedStats[index])/10 
+		
+            
+        }else{
+            
+            connection.addedData.speedStats[index]=value
+            
+        }
+        
+        if(index==3){
+            
+            connection.addedData.speed=connection.addedData.speedStats[3]
+            
+        }
+        
+        
+	}
 	
 	
 	
@@ -618,7 +645,7 @@ this.simpleActiveViews=function(){
 		knownClients.connectedSockets.forEach(function(connection){
 			////console.log(connection.addedData)
 			
-			if(!connection.addedData.speed)connection.addedData.speed=0.000001//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			if(!connection.addedData.speed)connection.addedData.speed=500//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			
 			speedArray.push(connection.addedData.speed)
 		})

@@ -155,7 +155,7 @@ var SplitMoves=function(clients){
             data.progress=100
             data.beBackIn=0
             
-            clients.storeValInArray(connection,'lastMpm',data.depth,data.mpm)
+            clients.updateSpeedStats(connection,data.depth,data.mpm)
         }
         
         var progress=data.progress
