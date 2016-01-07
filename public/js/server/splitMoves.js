@@ -1,18 +1,39 @@
-var SplitMove=function(dbTable){
+var SplitMove=function(dbTableWithMoveTask) {
     
-    this.gameNum=dbTable._id
-    //this.dbTable=dbTable
+    this.splitMoveID=undefined  //will be set later when adding in q
     
-    //this._id=dbTable._id
+    this.gameNum=dbTableWithMoveTask._id
     
-    this.thinkers=[]
+    
+    this.origTable=dbTableWithMoveTask.table
+    
+    this.origMoveTask = dbTableWithMoveTask.moveTask
+    
+    
+    this.moveCoords=dbTableWithMoveTask.moveTask.moveCoords
+    
+    this.desiredDepth = dbTableWithMoveTask.desiredDepth
+    
+    this.origMoveTask = dbTableWithMoveTask.moveTask
+    
     
     this.moves=[]
     
-    this.splitMoveID=undefined
+    this.thinkers=[]
+   
+   
+   
+
+	var movesToSend = []
+
+	this.moveCoords.forEach(function(moveCoord, index) {
+		
+        movesToSend.push(new SmallMoveTask(moveCoord, index, dbTableWithMoveTask))
+			
+	})
     
-    //this.pollnum=-1
- 
+    this.movesToSend=movesToSend
+
 }
 
 var SplitMoves=function(clients){

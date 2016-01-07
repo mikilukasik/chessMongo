@@ -4,13 +4,13 @@ function makeAiMove(dbTableWithMoveTask) {
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	dbTableWithMoveTask.splitMoveStarted = new Date()
+	//dbTableWithMoveTask.splitMoveStarted = new Date()
 
 	
     var aiTable = new TempMoveTask(dbTableWithMoveTask) //this should happen on the calling client, not on the server
 
 	
-    var movesToSend= new SplitMoveTask(dbTableWithMoveTask)
+    var splitMove= splitMoves.add(dbTableWithMoveTask)//new SplitMove(dbTableWithMoveTask)
     
     //dbTableWithMoveTask.aiTable = aiTable
 
@@ -24,7 +24,8 @@ function makeAiMove(dbTableWithMoveTask) {
     
     //var splitMove=new SplitMove(dbTableWithMoveTask,[],[])
     
-    splitMove=splitMoves.add(dbTableWithMoveTask)
+    //splitMove=
+    
     
     ///////////////////
 
