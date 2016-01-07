@@ -1,10 +1,12 @@
 
 function makeAiMove(dbTableWithMoveTask) {
     
+    
+     var splitMove= splitMoves.add(dbTableWithMoveTask)
+    
+   
     var aiTable = new TempMoveTask(dbTableWithMoveTask) //temp!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 	
-    var splitMove= splitMoves.add(dbTableWithMoveTask)
-    
     // console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   start    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
     // console.log(splitMove)
     // console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   end    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')

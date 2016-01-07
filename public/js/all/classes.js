@@ -109,7 +109,24 @@ var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for mai
 
 
 
-var MoveToSend = function(moveCoord, index, dbTable) {
+var MoveToSend = function(moveCoord, index, dbTableWithMoveTask) {
+    
+    var moveTask=dbTableWithMoveTask.moveTask
+    
+    this.moveIndex=index
+    
+    this.moveCoords=moveCoord       //one move only
+     
+    this.sharedData=moveTask.sharedData
+    
+    this.sharedData.origTable=dbTableWithMoveTask.table
+    
+    this.sharedData.gameNum=dbTableWithMoveTask._id
+    
+    this.sharedData.desiredDepth=moveTask.desiredDepth
+    
+    this.timer={}
+     
 }
 
 
@@ -118,23 +135,24 @@ var SmallMoveTask = function(moveCoord, index, dbTable) { //deptObj has data to 
 
 	
 	
-	this.firstDepthValue=dbTable.table[moveCoord[2]][moveCoord[3]][1]	//doesnt care about enPass!!
+	this.firstDepthValue=dbTable.table[moveCoord[2]][moveCoord[3]][1]	//doesnt care about enPass!!     //--
 	
-	if(dbTable.desiredDepth>0){
+	if(dbTable.desiredDepth>0){                                    //#
 		this.desiredDepth = dbTable.desiredDepth
 	}else{
 		this.desiredDepth=3 //should be good, on 4th we check what he could hit but not generate any tables and this should match the old styles performance
 	}
 	
 
-	this.oppKingPos = dbTable.oppKingPos //aTK will need this, should be the moved kings pos is moved!!!!
+	this.oppKingPos = dbTable.oppKingPos //aTK will need this, should be the moved kings pos is moved!!!!  //#
 
-	this._id = dbTable._id //server will need this when receiving solved moves
+	this._id = dbTable._id //server will need this when receiving solved moves //#
 
-	this.cfMoveCoords = moveCoord //4 numbers
+	this.cfMoveCoords = moveCoord //4 numbers      //##
 
-	var stepMove = coordsToMoveString(moveCoord[0], moveCoord[1], moveCoord[2], moveCoord[3])
-	this.stepMove = stepMove //4 char string
+	var stepMove = coordsToMoveString(moveCoord[0], moveCoord[1], moveCoord[2], moveCoord[3])      //-- do it on client
+    
+	this.stepMove = stepMove //4 char string       //--above
 
 	this.moveStrings = []
 
@@ -147,9 +165,9 @@ var SmallMoveTask = function(moveCoord, index, dbTable) { //deptObj has data to 
 
 	//this.value=dbTable.value
 
-	this.allPast = dbTable.allPastTables //ai needs it to avoid loop
+	this.allPast = dbTable.allPastTables //ai needs it to avoid loop  //#
 
-	this.cfTable = dbTable.table //ai needs to know original table 
+	this.cfTable = dbTable.table //ai needs to know original table             //#
 		//this.cfMoveCoords=moveCoord
 	this.moveIndex = index //who needs this??!!!!!!!
 
@@ -166,7 +184,7 @@ var SmallMoveTask = function(moveCoord, index, dbTable) { //deptObj has data to 
 	this.value = this.origData //ez meg minek is
 
 
-	this.fHitValue = [0] //initial value, should happen masutt
+	this.fHitValue = [0] //initial value, should happen masutt     //--
 
 
 
@@ -252,64 +270,28 @@ var TempMoveTask = function(dbTable) {
 
 
 
-
 var MoveTaskN = function(dbTable) {
-
-	//this.rnd=Math.random()
-	// this.created = new Date()
-	// 	.getTime()
-
-	//this.allTempTables = []
-
-	this.desiredDepth = dbTable.desiredDepth
-
-	this.oppKingPos = whereIsTheKing(dbTable.table, !dbTable.wNext)
-
+    
+    this.sharedData = {
+        
+        desiredDepth: dbTable.desiredDepth,
+        oppKingPos: whereIsTheKing(dbTable.table, !dbTable.wNext),
+        origProtect: protectTable(dbTable.table, dbTable.wNext),
+        origData: getTableData(dbTable.table, dbTable.wNext),
+        origDeepDatatt: getHitScores(dbTable.table, true, true),
+        origDeepDatatf: getHitScores(dbTable.table, true, false),
+        origDeepDataft: getHitScores(dbTable.table, false, true),
+        origDeepDataff: getHitScores(dbTable.table, false, false),
+    }
 
 	this.moveCoords = getAllMoves(dbTable.table, dbTable.wNext, false, 0, true)
 
-
-
-	this.origProtect = protectTable(dbTable.table, dbTable.wNext)
-	this.origData = getTableData(dbTable.table, dbTable.wNext)
-	
-	this.origDeepDatatt=getHitScores(dbTable.table,true,true)
-	
-	this.origDeepDatatf=getHitScores(dbTable.table,true,false)
-	
-	this.origDeepDataft=getHitScores(dbTable.table,false,true)
-	
-	this.origDeepDataff=getHitScores(dbTable.table,false,false)
-	
-
-
-	this.dontLoop = false
-
-	if (this.origData[0] > 1) {
-		this.dontLoop = true
+	var dontLoop = false
+	if (this.sharedData.origData[0] > 1) {
+		dontLoop = true
 	}
-
-
-
-
-	// var moves = []
-
-	// moveCoords.forEach(function(moveCoord, index) {
-	// 	moves.push(new SmallMoveTask(moveCoord, index, dbTable))
-	// 		//movesToSend.push(moves[moves.length-1])
-
-
-	// })
-
-	// this.movesToSend = moves.slice() //copy it, these we vill sen out
-
-
-	// this.moves = moves
-
-	
-
-
-
+    
+    this.sharedData.dontLoop=dontLoop
 
 }
 

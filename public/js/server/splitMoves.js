@@ -1,6 +1,33 @@
 var SplitMove=function(dbTableWithMoveTask) {
     
-    this.splitMoveID=undefined  //will be set later when adding in q
+    
+     var movesToSend = []
+
+	
+     
+     dbTableWithMoveTask.moveTask.moveCoords.forEach(function(moveCoord, index) {
+		
+        movesToSend.push(new MoveToSend(moveCoord, index, dbTableWithMoveTask))
+			
+	})
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+     
+     
+     
+     
+    
+    this.splitMoveID=Math.random()*Math.random() 
     
     this.gameNum=dbTableWithMoveTask._id
     
@@ -10,7 +37,7 @@ var SplitMove=function(dbTableWithMoveTask) {
     this.origMoveTask = dbTableWithMoveTask.moveTask
     
     
-    this.moveCoords=dbTableWithMoveTask.moveTask.moveCoords
+   
     
     this.desiredDepth = dbTableWithMoveTask.desiredDepth
     
@@ -21,13 +48,7 @@ var SplitMove=function(dbTableWithMoveTask) {
     
     this.thinkers=[]
    
-    var movesToSend = []
-
-	this.moveCoords.forEach(function(moveCoord, index) {
-		
-        movesToSend.push(new MoveToSend(moveCoord, index, dbTableWithMoveTask))
-			
-	})
+    
     
     this.movesToSend=movesToSend
 
@@ -110,24 +131,10 @@ var SplitMoves=function(clients){
         
         var splitMove=new SplitMove(dbTableWithMoveTask)
         
-        var index
+        var index = store.q.push(splitMove) -1
         
-         if(splitMove.splitMoveID){
-            
-            console.log('This is not new!!')
-            
-        } else {
-            
-             
-            splitMove.splitMoveID=Math.random()*Math.random()
-
-            index = store.q.push(splitMove) -1
-            
-            this.publishToAdmin()
-            
-           // forcePublish=true
-
-        }
+        this.publishToAdmin()
+    
         
          return splitMove   
         
