@@ -52,20 +52,20 @@ var sendLog = function(message) {
 			
 	}
 
-var workDeepSplitMovesStarted
-var waitingSdts
-var sentSdtCount
+//var workDeepSplitMovesStarted
+//var progress.waitingSdts
+//var progress.sentSdtCount
 
 var pollOn = true		//we only make this false before restart			//not true
 
 var progress={}
 
-var tempDTasks=[]
+//var progress.tempDTasks=[]
 
 function workerMove(smallMoveTask, thinker) { //for 1 thread, smallmovetask has one of my possible 1st moves
 
-			workDeepSplitMovesStarted = new Date()
-				.getTime()
+			// workDeepSplitMovesStarted = new Date()
+			// 	.getTime()
 
 			
 
@@ -80,13 +80,13 @@ function workerMove(smallMoveTask, thinker) { //for 1 thread, smallmovetask has 
 										
 										//!!!!!!!!!!!implement !!!!!!!!!!typedarray
 										
-			tempDTasks=deepeningTask
+			progress.tempDTasks=deepeningTask
 
-			waitingSdts = []
+			progress.waitingSdts = []
 			
-			sentSdtCount = deepeningTask.smallDeepeningTasks.length - 1
+			progress.sentSdtCount = deepeningTask.smallDeepeningTasks.length - 1
 			
-			progress.oneDeeperMoves=sentSdtCount		//set this splitmoves max
+			progress.oneDeeperMoves=progress.sentSdtCount		//set this splitmoves max
 			progress.doneDM=0							//val
 			
 			
@@ -230,15 +230,16 @@ var taskReceived=function(task){
                         
                         moves: task.data,
                         
-                        updatedMoves:[]
+                        tempDTasks:[]
+                        
+                        //updatedMoves:[]
                         
                         
 					}
 					
                     progress.moves.forEach(function(splitMove){
                         
-                        //onsole.log('@@@@@@@@@@@@@@@@@@@@@@@@@',splitMove)
-                        progress.updatedMoves[splitMove.moveIndex]={
+                        splitMove.progress={
                             
                             
                             
@@ -251,13 +252,10 @@ var taskReceived=function(task){
                             
                             expected:undefined,
                             
-                           
-                            sharedData:splitMove.sharedData,
-                            
-                            
-                            
+                         
                         }
                         
+                      
                         
                         
                         
@@ -470,9 +468,9 @@ onmessage = function(event) {
 						//counter: resData.counter
 					}
 
-					waitingSdts.push(toPush)
+					progress.waitingSdts.push(toPush)
 						
-					if (waitingSdts.length == sentSdtCount) {
+					if (progress.waitingSdts.length == progress.sentSdtCount) {
 						///////////////////////////////////////////////
 						//all SDTs returned,
 						//resolve one splitmove now:
@@ -482,7 +480,7 @@ onmessage = function(event) {
 
 						var tempResolveArray = []
 						tempResolveArray[1] = []
-						tempResolveArray[2] = waitingSdts
+						tempResolveArray[2] = progress.waitingSdts
 						tempResolveArray[3] = []
 
 						resolveDepth(2, tempResolveArray) //some hack to do 2nd level resolved deepmovetask
@@ -572,7 +570,7 @@ onmessage = function(event) {
 							
 								workingOnGameNum = 0 //available again
 								toPostSplitMoves = []
-								waitingSdts = []
+								progress.waitingSdts = []
 									
 									
 
@@ -615,11 +613,11 @@ onmessage = function(event) {
 									
 									for(var j=maxWorkerNum;j>0;j--){
 										
-										if (tempDTasks.smallDeepeningTasks.length > 1) {
+										if (progress.tempDTasks.smallDeepeningTasks.length > 1) {
 											
 											waitingForIdle++
 											
-											var deepeningTask=tempDTasks//.pop()
+											var deepeningTask=progress.tempDTasks//.pop()
 				
 											var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
 							
@@ -637,11 +635,11 @@ onmessage = function(event) {
 							
 							for(var j=maxWorkerNum;j>0;j--){
 										
-										if (tempDTasks.smallDeepeningTasks.length > 1) {
+										if (progress.tempDTasks.smallDeepeningTasks.length > 1) {
 											
 											waitingForIdle++
 											
-											var deepeningTask=tempDTasks//.pop()
+											var deepeningTask=progress.tempDTasks//.pop()
 				
 											var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
 							
