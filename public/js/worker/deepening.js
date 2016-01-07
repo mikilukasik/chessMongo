@@ -250,7 +250,9 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
     //var counter=new Int32Array([0])
     
 	//var ranCount = 0
-
+    
+    var retProgress=deepeningTask.progress
+    
 	var startedAt = new Date()
 		.getTime()
 
@@ -342,6 +344,8 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 
 	var ret = {
 		//solved: 20,		//temp hack!!!!!!!!!!!!!!!!!!!!!!
+        
+        progress:retProgress,
 		timeItTook: timeItTook,
 		score: resolverArray[2][0].value,
 		moveTree: resolverArray[2][0].moveTree.join(','), //

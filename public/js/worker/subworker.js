@@ -46,12 +46,13 @@ onmessage = function(event) {
 			case 'solveSDT':
 			
 			
-				////console.log('solveSdt in worker')
 				
 				resCommand = 'toMain'
 				resMessage = 'toMain solveSDT'
 				
+                //console.log(reqData.progress)
 				var result=solveDeepeningTask(reqData,'sdt')
+               
 				result._id=reqData._id
 				
 				

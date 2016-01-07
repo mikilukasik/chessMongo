@@ -33,7 +33,9 @@ var SmallDeepeningTask=function(table, wNext, depth, moveTree, desiredDepth, sco
 // }
 
 var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for main thread and mainWorker ???not sure..     //smallMoveTask is a smallMoveTask, to be deepend further
-
+    
+    this.progress=smallMoveTask.progress
+    
 	this.resolverArray=[]
 
     
