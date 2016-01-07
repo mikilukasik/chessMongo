@@ -11,7 +11,7 @@ var longEchoStarted
 var splitMoveStarted
 var totalSolved
 var workingOnGameNum = 0
-var totalSplitMovesReceived
+//var progress.splitMoves
 var splitMovesToProcess
 var pendingLongEchoes
 var longPollOnHold
@@ -158,7 +158,7 @@ var speedTestStarted
 		
 // 		splitMovesToProcess = aiTable.movesToSend
 		
-// 		totalSplitMovesReceived = splitMovesToProcess.length //we need this to know when we worked them all out
+// 		progress.splitMoves = splitMovesToProcess.length //we need this to know when we worked them all out
 
 		
 
@@ -233,9 +233,6 @@ var taskReceived=function(task){
                         updatedMoves:[]
                         
                         
-                        
-                        
-                        
 					}
 					
                     progress.moves.forEach(function(splitMove){
@@ -256,10 +253,6 @@ var taskReceived=function(task){
                             
                            
                             sharedData:splitMove.sharedData,
-                            
-                            
-                            
-                            
                             
                             
                             
@@ -288,11 +281,11 @@ var taskReceived=function(task){
                            // globalCounter[0]=0
 					
 								
-                            var tt=task.data.length //we need this to know when we worked them all out
+                            //var progress.splitMoves=task.data.length //we need this to know when we worked them all out
                             
-                            totalSplitMovesReceived = tt  //task.data.length //we need this to know when we worked them all out
+                           // progress.splitMoves = progress.splitMoves  //task.data.length //we need this to know when we worked them all out
                             
-                            progress.splitMoves=tt
+                            progress.splitMoves=task.data.length
                             
                             
                             splitMovesToProcess = task.data
@@ -506,7 +499,7 @@ onmessage = function(event) {
 						if(toPostSplitMoves==undefined)toPostSplitMoves=[]
 						toPostSplitMoves.push(pushAgain)
 
-						if (totalSplitMovesReceived - toPostSplitMoves.length == 0) {
+						if (progress.splitMoves - toPostSplitMoves.length == 0) {
 							//we worked out all the splitmoves
 							
 							if(workingOnGameNum>0){
