@@ -1,5 +1,7 @@
 var SplitMove=function(dbTableWithMoveTask) {
     
+    this.started= new Date()
+    
     this.splitMoveIndex=undefined
     
     this.splitMoveID=Math.random()*Math.random() 
@@ -232,7 +234,92 @@ var SplitMoves=function(clients){
                     
                     if(store.q[qIndex].pendingMoveCount==0){
                         
+                         console.log('@@@@@@@@@@@@@@@@@@@@@@@@@  all solved.')
+                        
+                        console.log(store.q[qIndex].moves)
                         console.log('@@@@@@@@@@@@@@@@@@@@@@@@@  all solved.')
+                        
+                        
+                        
+                        store.q[qIndex].moves.sort(function(a,b){
+                            if(a.result.value>b.result.value){
+                                return -1
+                            }else{
+                                return 1
+                            }
+                            //return 0
+                        })
+                        
+                        console.log('will move ',store.q[qIndex].moves[0].result.move)
+                        
+                        mongodb.connect(cn, function(err, db) {
+                            
+                            db.collection("tables").findOne({
+                                _id: store.q[qIndex].gameNum
+                            },function(err,tableInDb){
+                                
+                                moveInTable(store.q[qIndex].moves[0].result.move, tableInDb)
+
+                                tableInDb.chat = [~~((new Date() - store.q[qIndex].started) / 10) / 100 + 'sec'] //1st line in chat is timeItTook
+                    
+                                store.q[qIndex].moves.forEach(function(returnedMove) {
+                                    
+                                    
+                                    
+                                    tableInDb.chat = tableInDb.chat.concat({
+                                        //move: returnedMove.moveStr,
+                                        
+                                        hex: returnedMove.result.value.toString(16),
+                                        score: returnedMove.result.value,
+                                        
+                                        moves: returnedMove.result.moveTree
+                    
+                                    })
+                    
+                                })
+                                
+                                
+                                
+                              db.collection("tables")
+                                .save(tableInDb, function(err3, res) {
+            
+                                  
+                                    clients.publishView('board.html', tableInDb._id, 'dbTable.table', tableInDb.table)
+            
+                                    clients.publishView('board.html', tableInDb._id, 'dbTable.wNext', tableInDb.wNext)
+            
+                                    clients.publishView('board.html', tableInDb._id, 'dbTable.chat', tableInDb.chat)
+            
+                                    clients.publishView('board.html', tableInDb._id, 'dbTable.moves', tableInDb.moves)
+            
+                                    
+            
+                                    db.close()
+            
+                                    store.q.splice(qIndex,1)//[0]
+            
+                                })
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                            })
+                            
+                            
+                            
+                          
+                        })
+                            
+                            
+                            
+                            
+                        
+                        
+                        
+        
                         
                     }
                     
@@ -263,21 +350,21 @@ var SplitMoves=function(clients){
 
     }
     
-    this.markSplitMoveDone=function(gameID, thinker) {
+    // this.markSplitMoveDone=function(gameID, thinker) {
 
-        var qIndex = qIndexByGameID(gameID)
+    //     var qIndex = qIndexByGameID(gameID)
 
-        var mIndex = getThinkerIndex(qIndex, thinker)
+    //     var mIndex = getThinkerIndex(qIndex, thinker)
 
-       store.q[qIndex].thinkers[mIndex].done = true
+    //    store.q[qIndex].thinkers[mIndex].done = true
 
-       store.q[qIndex].thinkers[mIndex].progress = 100
+    //    store.q[qIndex].thinkers[mIndex].progress = 100
 
-        //busyTablesPop(tIndex)
-        clients.publishView('board.html', gameID, 'busyThinkers', store.q[qIndex].thinkers)
-        clients.publishAddedData()
+    //     //busyTablesPop(tIndex)
+    //     clients.publishView('board.html', gameID, 'busyThinkers', store.q[qIndex].thinkers)
+    //     clients.publishAddedData()
 
-    }
+    // }
         
     this.update=function(splitMove,propertyName,value){
         
@@ -366,24 +453,24 @@ var SplitMoves=function(clients){
         
     }
     
-    this.remove=function(gameID){
+    // this.remove=function(gameID){
         
-        var res
+    //     var res
            
-        // console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-        var index=qIndexByGameID(gameID)
+    //     // console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+    //     var index=qIndexByGameID(gameID)
         
-        if(index!==-1) {
+    //     if(index!==-1) {
             
-            res=store.q.splice(index,1)[0]
+    //         res=store.q.splice(index,1)[0]
         
-            this.publishToAdmin()
+    //         this.publishToAdmin()
             
-        }
+    //     }
         
-        return res
+    //     return res
         
-    }
+    // }
     
     this.qLength=function(){return store.q.length}
     
