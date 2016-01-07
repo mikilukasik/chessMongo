@@ -252,7 +252,7 @@ var taskReceived=function(task){
 							//thinker is idle
 							//mark it busy
 							
-							workingOnTableNum = task.data[0]._id
+							workingOnTableNum = task.data[0].sharedData.gameNum
                            // workingOnDepth=data[0].desiredDepth
                             
                            // globalCounter[0]=0

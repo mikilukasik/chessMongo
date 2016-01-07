@@ -36,27 +36,37 @@ var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for mai
 
 	this.resolverArray=[]
 
-	//this.smallMoveTask = smallMoveTask //kell ez????!!!!!			//we have the original object, there are approx. 30 of these per moveTask, we probably received a few of these only ((should have _id or rndID!!!!!!!!!)	
-    //console.log(smallMoveTask.cfColor,'smallMoveTask.cfColor')
-	this.initialWNext = smallMoveTask.cfColor
+    
 
-	this.moveStr = smallMoveTask.stepMove //all resulting tables relate to this movestring: deppeningtask is made of smallmovetask..
+	this.initialWNext = smallMoveTask.sharedData.origWNext
+    
+    
+	this.moveStr = coordsToMoveString( smallMoveTask.moveCoords[0],
+                                        smallMoveTask.moveCoords[1],
+                                        smallMoveTask.moveCoords[2],
+                                        smallMoveTask.moveCoords[3]
+                                      )            //smallMoveTask.stepMove //all resulting tables relate to this movestring: deppeningtask is made of smallmovetask..
 
+    
+                                     
 	this.initialTreeMoves = [this.moveStr] //to put in first smallmovetask
 
-	this.startingTable = smallMoveTask.cfTable //this was calculated in advance when getting the first moves: that resulted in this.everything
+	this.startingTable = smallMoveTask.sharedData.origTable //this was calculated in advance when getting the first moves: that resulted in this.everything
 
-	this.thisTaskTable = moveIt(this.moveStr, smallMoveTask.cfTable, true) //this is the first and should be only time calculating this!!!!!
+    
+
+	this.thisTaskTable = moveIt(this.moveStr, this.startingTable, true) //this is the first and should be only time calculating this!!!!!
 		//takes time
-	this.firstDepthValue=smallMoveTask.firstDepthValue
+	this.firstDepthValue= this.startingTable[smallMoveTask.moveCoords[2]][smallMoveTask.moveCoords[3]][1]              //smallMoveTask.firstDepthValue
 
-	this.desiredDepth = smallMoveTask.desiredDepth //we will deepen until depth reaches this number
+	this.desiredDepth = smallMoveTask.sharedData.desiredDepth //we will deepen until depth reaches this number
 
 	this.actualDepth = 1 //its 1 because we have 1st level resulting table fixed. 
 		//increase this when generating deeper tables, loop while this is smaller than desiredDepth
 
 	//this.depthsToClear = smallMoveTask.desiredDepth //we will decrease this when throwing away resulting tables, until it is 1. the last set of tables gets thrown away on the server that finishes this task
 		//this task should be sent back to the server so lets ke
+       // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',this.desiredDepth)
 
 
 	this.tableTree = [] //fill multiDIM array with resulting tables during processing
@@ -123,7 +133,7 @@ var MoveToSend = function(moveCoord, index, dbTableWithMoveTask,splitMoveId) {
     
     this.sharedData.gameNum=dbTableWithMoveTask._id
     
-    this.sharedData.desiredDepth=moveTask.desiredDepth
+    this.sharedData.desiredDepth=moveTask.sharedData.desiredDepth
     
     this.sharedData.splitMoveID=splitMoveId
     
@@ -274,7 +284,11 @@ var TempMoveTask = function(dbTable) {
 
 var MoveTaskN = function(dbTable) {
     
+    
     this.sharedData = {
+        
+        origWNext:dbTable.wNext,
+        //desiredDepth:dbTable.desiredDepth
         
         desiredDepth: dbTable.desiredDepth,
         oppKingPos: whereIsTheKing(dbTable.table, !dbTable.wNext),
