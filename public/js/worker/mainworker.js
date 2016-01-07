@@ -444,6 +444,9 @@ onmessage = function(event) {
                    //console.log('>>>>>>>>>>>>>>>>>>', postThis[0].speed)
 
                    // toServer('myPartIsDone', postThis, 'myPartIsDone', function() {
+                       
+                       var sendResults=progress.pendingResults.slice()
+                        progress.pendingResults=[]
 
                         messageTheServer('progress', {
 
