@@ -1,33 +1,16 @@
 var SplitMove=function(dbTableWithMoveTask) {
     
+    this.splitMoveID=Math.random()*Math.random() 
     
      var movesToSend = []
-
-	
-     
+ 
      dbTableWithMoveTask.moveTask.moveCoords.forEach(function(moveCoord, index) {
 		
-        movesToSend.push(new MoveToSend(moveCoord, index, dbTableWithMoveTask))
+        movesToSend.push(new MoveToSend(moveCoord, index, dbTableWithMoveTask, this.splitMoveID))
 			
 	})
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-     
-     
-     
-     
-    
-    this.splitMoveID=Math.random()*Math.random() 
+    this.movesToSend=movesToSend
     
     this.gameNum=dbTableWithMoveTask._id
     
@@ -35,12 +18,7 @@ var SplitMove=function(dbTableWithMoveTask) {
     this.origTable=dbTableWithMoveTask.table
     
     this.origMoveTask = dbTableWithMoveTask.moveTask
-    
-    
-   
-    
-    this.desiredDepth = dbTableWithMoveTask.desiredDepth
-    
+     
     this.origMoveTask = dbTableWithMoveTask.moveTask
     
     
@@ -48,10 +26,6 @@ var SplitMove=function(dbTableWithMoveTask) {
     
     this.thinkers=[]
    
-    
-    
-    this.movesToSend=movesToSend
-
 }
 
 var SplitMoves=function(clients){

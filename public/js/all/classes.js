@@ -109,7 +109,7 @@ var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for mai
 
 
 
-var MoveToSend = function(moveCoord, index, dbTableWithMoveTask) {
+var MoveToSend = function(moveCoord, index, dbTableWithMoveTask,splitMoveId) {
     
     var moveTask=dbTableWithMoveTask.moveTask
     
@@ -124,6 +124,8 @@ var MoveToSend = function(moveCoord, index, dbTableWithMoveTask) {
     this.sharedData.gameNum=dbTableWithMoveTask._id
     
     this.sharedData.desiredDepth=moveTask.desiredDepth
+    
+    this.sharedData.splitMoveID=splitMoveId
     
     this.timer={}
      
