@@ -1,22 +1,24 @@
 
 function makeAiMove(dbTableWithMoveTask) {
     
-    
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	//dbTableWithMoveTask.splitMoveStarted = new Date()
-
+    var aiTable = new TempMoveTask(dbTableWithMoveTask) //temp!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 	
-    var aiTable = new TempMoveTask(dbTableWithMoveTask) //this should happen on the calling client, not on the server
-
-	
-    var splitMove= splitMoves.add(dbTableWithMoveTask)//new SplitMove(dbTableWithMoveTask)
+    var splitMove= splitMoves.add(dbTableWithMoveTask)
     
-    //dbTableWithMoveTask.aiTable = aiTable
+    // console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   start    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+    // console.log(splitMove)
+    // console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   end    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+    
+    splitMove.pendingSolvedMoves = aiTable.moves.length
+    dbTableWithMoveTask.pendingSolvedMoves = aiTable.moves.length //temp!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11set it here, it will be decreased as the moves come in
 
-	dbTableWithMoveTask.pendingSolvedMoves = aiTable.moves.length //set it here, it will be decreased as the moves come in
 
-	dbTableWithMoveTask.returnedMoves = []
+
+
+	dbTableWithMoveTask.returnedMoves = []//temp!!!!!!!!!!!!!!!!!!!!!
+    splitMove.returnedMoves = []
+    
+    
 
 	pushSplitTask(dbTableWithMoveTask)
     
