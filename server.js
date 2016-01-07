@@ -502,11 +502,11 @@ var getSplitMoveTask = function(aiTable, percent) {
 
 }
 
-function pushSplitTask(splitTask) {
+// function pushSplitTask(splitTask) {
 
-	splitTaskQ.push(splitTask) //use this when receiving
+// 	splitTaskQ.push(splitTask) //use this when receiving
 
-}
+// }
 
 function getTaskIndex(tNum) {
 

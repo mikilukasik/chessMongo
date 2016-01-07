@@ -19,8 +19,8 @@ function makeAiMove(dbTableWithMoveTask) {
     splitMove.returnedMoves = []
     
     
-
-	pushSplitTask(dbTableWithMoveTask)
+    splitTaskQ.push(dbTableWithMoveTask)//temp!!!!!!!!!!!!!!!!!!!!!
+	//pushSplitTask(dbTableWithMoveTask)         //just pushes it to
     
     /////////////////////////////////  new splitmove
     
