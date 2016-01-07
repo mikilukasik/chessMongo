@@ -45,9 +45,11 @@ var SplitMoves=function(clients){
         
         store.q.forEach(function(splitMove){
             res.push({
-                gameNo:splitMove.gameNum,
+                gameNum:splitMove.gameNum,
                 thinkers:splitMove.thinkers,
                 moves:splitMove.moves,
+                a:splitMove.movesToSend
+                
                
                 
             })
