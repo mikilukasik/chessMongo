@@ -1291,7 +1291,7 @@
 
 
                        	dbTable.command = ''
-						dbTable.aiType = ''
+						//dbTable.aiType = ''
 
                     store.oopsStates[$rootScope.dbTable._id]=$.extend(true, {}, dbTable)
 					//$rootScope.lastState = $.extend(true, {}, dbTable) //remember so we can Oooops!!
@@ -1301,18 +1301,23 @@
 					$scope.clearHighlights(store.oopsStates[$rootScope.dbTable._id].table)
 					//console.log('dbTable', dbTable)
 					dbTable = moveInTable(moveStr, dbTable, false)
+                       
+                       
+                    dbTable._id = $rootScope.dbTable._id
+					dbTable.desiredDepth = $rootScope.depth
 
 
 					if (dbTable.wName == 'Computer' || dbTable.bName == 'Computer') {
-						dbTable.command = 'makeAiMove'
-						dbTable.aiType = 'thinkers'
+						
+                        dbTable.command = 'makeAiMove'
+                        dbTable.moveTask=new MoveTaskN(dbTable)
+                        
+						//dbTable.aiType = 'thinkers'
 
 					}
 
 
-					dbTable._id = $rootScope.dbTable._id
-					dbTable.desiredDepth = $rootScope.depth
-
+					
 					socketSend('moved', dbTable, 'moved', function() {
 
 						$rootScope.dbTable.table = dbTable.table

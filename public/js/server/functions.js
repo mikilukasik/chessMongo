@@ -1,34 +1,31 @@
 
-function makeAiMove(dbTable) {
+function makeAiMove(dbTableWithMoveTask) {
     
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	dbTable.splitMoveStarted = new Date()
+	dbTableWithMoveTask.splitMoveStarted = new Date()
 
-	// var aiTable = new MoveTask(dbTable) //this should happen on the calling client, not on the server
+	
+    var aiTable = new MoveTask(dbTableWithMoveTask) //this should happen on the calling client, not on the server
 
-	// dbTable.aiTable = aiTable
+	//dbTableWithMoveTask.aiTable = aiTable
 
-    var aiTable = new MoveTask(dbTable) //this should happen on the calling client, not on the server
+	dbTableWithMoveTask.pendingSolvedMoves = aiTable.moves.length //set it here, it will be decreased as the moves come in
 
-	dbTable.aiTable = aiTable
+	dbTableWithMoveTask.returnedMoves = []
 
-	dbTable.pendingSolvedMoves = aiTable.moves.length //set it here, it will be decreased as the moves come in
-
-	dbTable.returnedMoves = []
-
-	pushSplitTask(dbTable)
+	pushSplitTask(dbTableWithMoveTask)
     
     /////////////////////////////////  new splitmove
     
-    //var splitMove=new SplitMove(dbTable,[],[])
+    //var splitMove=new SplitMove(dbTableWithMoveTask,[],[])
     
-    splitMove=splitMoves.add(dbTable)
+    splitMove=splitMoves.add(dbTableWithMoveTask)
     
     ///////////////////
 
-	var sentTNum = dbTable._id
+	var sentTNum = dbTableWithMoveTask._id
 
 	//splitMoves.clearSentMoves(sentTNum)
 

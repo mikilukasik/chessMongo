@@ -214,13 +214,15 @@ var TriggerItem=function(depth,moveTree){		//these will be put in main deepening
 	this.moveTree=moveTree
 }
 
+
+
 var MoveTask = function(dbTable) {
 
 	//this.rnd=Math.random()
-	this.created = new Date()
-		.getTime()
+	// this.created = new Date()
+	// 	.getTime()
 
-	this.allTempTables = []
+	//this.allTempTables = []
 
 	this.desiredDepth = dbTable.desiredDepth
 
@@ -266,6 +268,68 @@ var MoveTask = function(dbTable) {
 
 
 	this.moves = moves
+
+	
+
+
+
+
+}
+
+
+
+var MoveTaskN = function(dbTable) {
+
+	//this.rnd=Math.random()
+	// this.created = new Date()
+	// 	.getTime()
+
+	//this.allTempTables = []
+
+	this.desiredDepth = dbTable.desiredDepth
+
+	this.oppKingPos = whereIsTheKing(dbTable.table, !dbTable.wNext)
+
+
+	this.moveCoords = getAllMoves(dbTable.table, dbTable.wNext, false, 0, true)
+
+
+
+	this.origProtect = protectTable(dbTable.table, dbTable.wNext)
+	this.origData = getTableData(dbTable.table, dbTable.wNext)
+	
+	this.origDeepDatatt=getHitScores(dbTable.table,true,true)
+	
+	this.origDeepDatatf=getHitScores(dbTable.table,true,false)
+	
+	this.origDeepDataft=getHitScores(dbTable.table,false,true)
+	
+	this.origDeepDataff=getHitScores(dbTable.table,false,false)
+	
+
+
+	this.dontLoop = false
+
+	if (this.origData[0] > 1) {
+		this.dontLoop = true
+	}
+
+
+
+
+	// var moves = []
+
+	// moveCoords.forEach(function(moveCoord, index) {
+	// 	moves.push(new SmallMoveTask(moveCoord, index, dbTable))
+	// 		//movesToSend.push(moves[moves.length-1])
+
+
+	// })
+
+	// this.movesToSend = moves.slice() //copy it, these we vill sen out
+
+
+	// this.moves = moves
 
 	
 
