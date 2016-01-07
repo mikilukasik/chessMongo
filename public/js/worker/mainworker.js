@@ -165,6 +165,8 @@ var speedTestStarted
 
 var lastOverallProgressCalc = new Date()
 
+var lastResultSent = new Date()
+
 //var globalCounter=new Uint32Array([0])
 //var globalTimer
 
@@ -373,9 +375,9 @@ onmessage = function(event) {
 
 			progress.doneDM++
 
-				waitingForIdle--
+            waitingForIdle--
 
-				var tdate = new Date()
+            var tdate = new Date()
 
 			// globalCounter[0]++//+=new Number(resData.counter)
 
@@ -401,14 +403,14 @@ onmessage = function(event) {
 
 				progress.doneSM++
 
-					var tempResolveArray = []
+				var tempResolveArray = []
+                
 				tempResolveArray[1] = []
 				tempResolveArray[2] = progress.waitingSdts
 				tempResolveArray[3] = []
 
 				resolveDepth(2, tempResolveArray) //some hack to do 2nd level resolved deepmovetask
-					//use tempResolveArray[1][0].value
-
+                
 				var pushAgain = tempResolveArray[1][0]
 
 				pushAgain._id = workingOnGameNum
@@ -418,72 +420,48 @@ onmessage = function(event) {
 
 				if (toPostSplitMoves == undefined) toPostSplitMoves = []
 				toPostSplitMoves.push(pushAgain)
-
+                
+                var thisResult=pushAgain
+                
+                
+                   if(progress.pendingResults){
+                            progress.pendingResults.push(thisResult)
+                        }else{
+                            progress.pendingResults=[thisResult]
+                        }
+                        
+                        
 				if (progress.splitMoves - toPostSplitMoves.length == 0) {
 					//we worked out all the splitmoves
 
-					if (workingOnGameNum > 0) {
 
-						/////////////////real splitMove(s) from server finished
+                    var postThis = toPostSplitMoves
 
-						var postThis = toPostSplitMoves
+                    postThis[0]._id = workingOnGameNum
+                    postThis[0].sendID = sendID.toString() //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 
-						postThis[0]._id = workingOnGameNum
-						postThis[0].sendID = sendID.toString() //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 
-						// var t=globalCounter[0]// Math.sqrt(globalCounter[0])
-						// var ms=new Date()-globalTimer
-						// var ts=~~(t/ms*1000)
+                   //console.log('>>>>>>>>>>>>>>>>>>', postThis[0].speed)
 
-						// postThis[0].speed={
-						//     t:t,
-						//     ms:ms,
-						//     ts:ts
+                   // toServer('myPartIsDone', postThis, 'myPartIsDone', function() {
 
-						//     }
+                        messageTheServer('progress', {
 
-						// postThis[0].totalSolved=globalCounter[0]
-						// postThis[0].totalTime=new Date()-globalTimer
+                            final: true,
+                            _id: workingOnGameNum,
+                            
+                            mpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
+                            depth: workingOnDepth,
+                            
+                            results:sendResults
 
-						console.log('>>>>>>>>>>>>>>>>>>', postThis[0].speed)
+                        })
 
-						toServer('myPartIsDone', postThis, 'myPartIsDone', function() {
+                       // console.log('(((((((((', workingOnDepth, ')))))))))')
 
-							messageTheServer('progress', {
+                  //  })
 
-								final: true,
-								_id: workingOnGameNum,
-								// progress:100,
-								// beBackIn: 0,
-								//totalDeeperMoves:globalCounter[0],
-								mpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
-								depth: workingOnDepth
-
-							})
-
-							console.log('(((((((((', workingOnDepth, ')))))))))')
-
-						})
-
-					} else {
-						if (workingOnGameNum == -1) {
-							// 		//initial speedTest finished
-
-							// 		var speedTestTook= new Date().getTime()-speedTestStarted
-
-							// 		mySpeed=1000/speedTestTook
-
-							// 		saveValOnServer('speed',mySpeed)
-
-							// 		pollOn=true
-							// //		longPollOnHold(mySpeed)
-
-						} else {
-							console.log(' this should never happen, problem with tablenum in mainworker ')
-
-						}
-					}
-
+					
 					workingOnGameNum = 0 //available again
 					toPostSplitMoves = []
 					progress.waitingSdts = []
@@ -492,6 +470,37 @@ onmessage = function(event) {
 
 				} else {
 					//still moves to work on
+                    
+                       
+                    
+                    if (tdate - lastResultSent > 256) {
+                        
+                        var sendResults=progress.pendingResults.slice()
+                        progress.pendingResults=[]
+                    
+                       messageTheServer('progress', {
+                           
+                           
+
+                            final: false,
+                            _id: workingOnGameNum,
+                            
+                            mpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
+                            depth: workingOnDepth,
+                            
+                            results:sendResults
+                            
+                            
+
+                        })
+                        
+                        lastResultSent   = tdate
+                        
+                    }else{
+                        
+                    }
+                    
+                   
 
 					mwProcessDeepSplitMoves(progress.moves, sendID, ranCount)
 
@@ -500,7 +509,7 @@ onmessage = function(event) {
 
 				if (waitingForIdle == 0) {
 
-					if (tdate - lastOverallProgressCalc > 256) {
+					if (tdate - lastOverallProgressCalc > 256&&tdate - lastResultSent >256) {
 
 						progress.overall = progress.doneSM * (100 / progress.splitMoves) + (progress.doneDM * (100 / progress.oneDeeperMoves)) / progress.splitMoves
 
