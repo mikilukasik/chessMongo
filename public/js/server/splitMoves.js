@@ -223,7 +223,7 @@ var SplitMoves=function(clients){
 
             }
 
-            //busyTablesPop(index)
+           
             clients.publishView('board.html', gameID, 'busyThinkers', store.q[qIndex].thinkers)
 
         }

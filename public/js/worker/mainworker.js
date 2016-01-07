@@ -412,7 +412,8 @@ onmessage = function(event) {
 				resolveDepth(2, tempResolveArray) //some hack to do 2nd level resolved deepmovetask
                 
 				var pushAgain = tempResolveArray[1][0]
-
+				
+				pushAgain.moveIndex=resData.progress.moveIndex
 				pushAgain._id = workingOnGameNum
 				pushAgain.score = pushAgain.value
 				pushAgain.thinker = sendID.toString() //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
@@ -451,7 +452,9 @@ onmessage = function(event) {
                         messageTheServer('progress', {
 
                             final: true,
+							//moveIndex: resData.progress.moveIndex,
                             _id: workingOnGameNum,
+							
                             
                             mpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
                             depth: workingOnDepth,
@@ -483,9 +486,11 @@ onmessage = function(event) {
                     
                        messageTheServer('progress', {
                            
-                           
+                            
 
                             final: false,
+							//moveIndex: resData.progress.moveIndex,
+                            
                             _id: workingOnGameNum,
                             
                             mpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
@@ -525,7 +530,11 @@ onmessage = function(event) {
 							mpm = ~~(60000 * progress.splitMoves * progress.overall / (timeNow - progress.started)) / 100
 						}
 						messageTheServer('progress', {
-
+							
+							final: false,
+							
+							
+							//moveIndex: undefined,//here!!!!
 							_id: workingOnGameNum,
 							progress: progress.overall,
 							beBackIn: beBackIn,
