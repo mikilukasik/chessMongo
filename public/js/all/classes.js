@@ -216,7 +216,7 @@ var TriggerItem=function(depth,moveTree){		//these will be put in main deepening
 
 
 
-var MoveTask = function(dbTable) {
+var TempMoveTask = function(dbTable) {
 
 	//this.rnd=Math.random()
 	// this.created = new Date()
@@ -273,6 +273,43 @@ var MoveTask = function(dbTable) {
 
 
 
+
+}
+
+
+
+var SplitMoveTask = function(dbTableWithMoveTask) {
+
+	this.gameNum=dbTableWithMoveTask._id
+    
+    this.origTable=dbTableWithMoveTask.table
+    
+     this.origMoveTask = dbTableWithMoveTask.moveTask
+    
+    this.moveCoords=dbTableWithMoveTask.moveTask.moveCoords
+    
+    this.desiredDepth = dbTableWithMoveTask.desiredDepth
+    
+    this.origMoveTask = dbTableWithMoveTask.moveTask
+    
+    
+    this.moves=[]
+    
+    this.thinkers=[]
+   
+    this.splitMoveID=undefined  //will be set later when adding in q
+   
+   
+
+	var movesToSend = []
+
+	this.moveCoords.forEach(function(moveCoord, index) {
+		
+        movesToSend.push(new SmallMoveTask(moveCoord, index, dbTableWithMoveTask))
+			
+	})
+    
+    this.movesToSend=movesToSend
 
 }
 

@@ -1,6 +1,7 @@
 var SplitMove=function(dbTable){
     
-    this.dbTable=dbTable
+    this.gameNum=dbTable._id
+    //this.dbTable=dbTable
     
     //this._id=dbTable._id
     
@@ -10,7 +11,7 @@ var SplitMove=function(dbTable){
     
     this.splitMoveID=undefined
     
-    this.pollnum=-1
+    //this.pollnum=-1
  
 }
 
@@ -31,7 +32,7 @@ var SplitMoves=function(clients){
         
         store.q.forEach(function(splitMove){
             res.push({
-                gameNo:splitMove.dbTable._id,
+                gameNo:splitMove.gameNum,
                 thinkers:splitMove.thinkers,
                 moves:splitMove.moves,
                
@@ -65,7 +66,7 @@ var SplitMoves=function(clients){
         
         for (var i=store.q.length-1;i>=0;i--){
             
-            if(gameID==store.q[i].dbTable._id)return i
+            if(gameID==store.q[i].gameNum)return i
             
         }
         

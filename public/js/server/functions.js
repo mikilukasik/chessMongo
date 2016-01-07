@@ -7,9 +7,12 @@ function makeAiMove(dbTableWithMoveTask) {
 	dbTableWithMoveTask.splitMoveStarted = new Date()
 
 	
-    var aiTable = new MoveTask(dbTableWithMoveTask) //this should happen on the calling client, not on the server
+    var aiTable = new TempMoveTask(dbTableWithMoveTask) //this should happen on the calling client, not on the server
 
-	//dbTableWithMoveTask.aiTable = aiTable
+	
+    var movesToSend= new SplitMoveTask(dbTableWithMoveTask)
+    
+    //dbTableWithMoveTask.aiTable = aiTable
 
 	dbTableWithMoveTask.pendingSolvedMoves = aiTable.moves.length //set it here, it will be decreased as the moves come in
 
