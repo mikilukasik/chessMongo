@@ -12,7 +12,7 @@ var splitMoveStarted
 var totalSolved
 var workingOnGameNum = 0
 //var progress.splitMoves
-var splitMovesToProcess
+//var progress.moves
 var pendingLongEchoes
 var longPollOnHold
 var toPostSplitMoves
@@ -156,15 +156,15 @@ var speedTestStarted
 		
 // 		aiTable.movesToSend=[aiTable.movesToSend[0],aiTable.movesToSend[1],aiTable.movesToSend[2]]
 		
-// 		splitMovesToProcess = aiTable.movesToSend
+// 		progress.moves = aiTable.movesToSend
 		
-// 		progress.splitMoves = splitMovesToProcess.length //we need this to know when we worked them all out
+// 		progress.splitMoves = progress.moves.length //we need this to know when we worked them all out
 
 		
 
 
 		
-// 		mwProcessDeepSplitMoves(splitMovesToProcess, sendID)
+// 		mwProcessDeepSplitMoves(progress.moves, sendID)
 		
 		
 		
@@ -285,13 +285,13 @@ var taskReceived=function(task){
                             
                            // progress.splitMoves = progress.splitMoves  //task.data.length //we need this to know when we worked them all out
                             
-                            progress.splitMoves=task.data.length
+                            progress.splitMoves=task.data.length    //count
                             
                             
-                            splitMovesToProcess = task.data
+                            //progress.moves = task.data
 
 
-                            mwProcessDeepSplitMoves(splitMovesToProcess, sendID)			//starting to process splitmove from server
+                            mwProcessDeepSplitMoves(progress.moves, sendID)			//starting to process splitmove from server
                             
 						
 						} else {
@@ -581,7 +581,7 @@ onmessage = function(event) {
 						} else {
 							//still moves to work on
 							
-							mwProcessDeepSplitMoves(splitMovesToProcess, sendID, ranCount)
+							mwProcessDeepSplitMoves(progress.moves, sendID, ranCount)
 
 
 						}
