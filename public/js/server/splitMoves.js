@@ -28,6 +28,8 @@ var SplitMove=function(dbTableWithMoveTask) {
      
     this.origMoveTask = dbTableWithMoveTask.moveTask
     
+    this.pendingMoveCount = dbTableWithMoveTask.moveTask.moveCoords.length
+    
    
 }
 
@@ -134,6 +136,7 @@ var SplitMoves=function(clients){
         while (splitMove.movesToSend.length > 0) {
 
             var itsSpeed=1
+            
             var thinker = clients.fastestThinker(itsSpeed)
             
             var sendThese = getSplitMoveTask(splitMove, itsSpeed)
@@ -206,6 +209,8 @@ var SplitMoves=function(clients){
             progress=data.progress
             beBackIn=data.beBackIn 
         }
+        
+       
        
         var mpm=data.mpm 
  
@@ -214,6 +219,34 @@ var SplitMoves=function(clients){
         var mIndex = getThinkerIndex(qIndex, thinker)
 
         if (store.q[qIndex]&&store.q[qIndex].thinkers[mIndex]) {
+            
+            
+             if(data.results){
+            
+                data.results.forEach(function(res){
+                    
+                    store.q[qIndex].moves[res.moveIndex].done=true
+                    store.q[qIndex].moves[res.moveIndex].result=res
+                   
+                    store.q[qIndex].pendingMoveCount--
+                    
+                    if(store.q[qIndex].pendingMoveCount==0){
+                        
+                        console.log('@@@@@@@@@@@@@@@@@@@@@@@@@  all solved.')
+                        
+                    }
+                    
+                })
+                
+                
+            }
+                
+                
+            //
+            
+            
+            
+            
 
             if (progress > store.q[qIndex].thinkers[mIndex].progress) {
 
