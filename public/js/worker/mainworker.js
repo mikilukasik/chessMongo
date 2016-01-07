@@ -10,7 +10,7 @@ var ranCount=0
 var longEchoStarted
 var splitMoveStarted
 var totalSolved
-var workingOnTableNum = 0
+var workingOnGameNum = 0
 var totalSplitMovesReceived
 var splitMovesToProcess
 var pendingLongEchoes
@@ -58,14 +58,7 @@ var sentSdtCount
 
 var pollOn = true		//we only make this false before restart			//not true
 
-var progress={
-    started:undefined,
-	splitMoves: 0,
-	oneDeeperMoves: 0,
-	doneSM: 0,
-	doneDM: 0,
-	overall: 0
-}
+var progress={}
 
 var tempDTasks=[]
 
@@ -147,8 +140,8 @@ var speedTestStarted
 	
 // 	//console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx that shit was actually called..')
 	
-// 	if (workingOnTableNum == 0) {
-// 		workingOnTableNum = -1				//speedTest tableNum
+// 	if (workingOnGameNum == 0) {
+// 		workingOnGameNum = -1				//speedTest tableNum
 		
 		
 // 		speedTestStarted = new Date()
@@ -223,24 +216,61 @@ var taskReceived=function(task){
 				
 				
 				case "splitMove":
-
-					
-                    //globalTimer=new Date()
+ 
 					splitMoveStarted =new Date()// globalTimer//new Date().getTime()
 
-					//totalSolved = 0
-                    
-                    
 					progress={
                         
                         started:new Date(),
                         
-						splitMoves: 0,
-						oneDeeperMoves: 0,
-						doneSM: 0,
-						doneDM: 0
+                        splitMoves: 0,          //totalcount
+						oneDeeperMoves: 0,        
+						doneSM: 0,                //donecount
+						doneDM: 0,
+                        
+                        moves: task.data,
+                        
+                        updatedMoves:[]
+                        
+                        
+                        
+                        
+                        
 					}
-										
+					
+                    progress.moves.forEach(function(splitMove){
+                        
+                        //onsole.log('@@@@@@@@@@@@@@@@@@@@@@@@@',splitMove)
+                        progress.updatedMoves[splitMove.moveIndex]={
+                            
+                            
+                            
+                            moveCoords:splitMove.moveCoords,
+                            moveIndex:splitMove.moveIndex,
+                            
+                            
+                            done:false,
+                            result:{},
+                            
+                            expected:undefined,
+                            
+                           
+                            sharedData:splitMove.sharedData,
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                        }
+                        
+                        
+                        
+                        
+                    })
+                    
+                    					
                     workingOnDepth=task.data[0].desiredDepth
 
 
@@ -248,11 +278,11 @@ var taskReceived=function(task){
 						//we received some moves
 
 
-						if (workingOnTableNum == 0) {
+						if (workingOnGameNum == 0) {
 							//thinker is idle
 							//mark it busy
 							
-							workingOnTableNum = task.data[0].sharedData.gameNum
+							workingOnGameNum = task.data[0].sharedData.gameNum
                            // workingOnDepth=data[0].desiredDepth
                             
                            // globalCounter[0]=0
@@ -441,7 +471,7 @@ onmessage = function(event) {
 						score: resData.score,
 						moveTree: resData.moveTree,
 						solved: resData.solved,
-						_id: workingOnTableNum, // resData._id,
+						_id: workingOnGameNum, // resData._id,
 						depth: resData.desiredDepth,
 						thinker: sendID,
 						//counter: resData.counter
@@ -468,7 +498,7 @@ onmessage = function(event) {
 						var pushAgain = tempResolveArray[1][0]
 							
 
-						pushAgain._id = workingOnTableNum
+						pushAgain._id = workingOnGameNum
 						pushAgain.score = pushAgain.value
 						pushAgain.thinker = sendID.toString()//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 						pushAgain.move = pushAgain.moveTree.slice(0, 4)
@@ -479,14 +509,14 @@ onmessage = function(event) {
 						if (totalSplitMovesReceived - toPostSplitMoves.length == 0) {
 							//we worked out all the splitmoves
 							
-							if(workingOnTableNum>0){
+							if(workingOnGameNum>0){
 								
 							
 								/////////////////real splitMove(s) from server finished
 								
 								var postThis = toPostSplitMoves
 	
-								postThis[0]._id = workingOnTableNum
+								postThis[0]._id = workingOnGameNum
 								postThis[0].sendID=sendID.toString()//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
                                 
                                // var t=globalCounter[0]// Math.sqrt(globalCounter[0])
@@ -512,7 +542,7 @@ onmessage = function(event) {
                                     messageTheServer('progress',{
                                         
                                         final:true,
-                                        _id: workingOnTableNum,
+                                        _id: workingOnGameNum,
                                         // progress:100,
                                         // beBackIn: 0,
                                         //totalDeeperMoves:globalCounter[0],
@@ -529,7 +559,7 @@ onmessage = function(event) {
 							
 								
 							}else{
-								if(workingOnTableNum==-1){
+								if(workingOnGameNum==-1){
 							// 		//initial speedTest finished
 									
 							// 		var speedTestTook= new Date().getTime()-speedTestStarted
@@ -547,7 +577,7 @@ onmessage = function(event) {
 								}
 							}
 							
-								workingOnTableNum = 0 //available again
+								workingOnGameNum = 0 //available again
 								toPostSplitMoves = []
 								waitingSdts = []
 									
@@ -581,7 +611,7 @@ onmessage = function(event) {
                                 }
 								messageTheServer('progress',{
 									
-									_id: workingOnTableNum,
+									_id: workingOnGameNum,
 									progress:progress.overall,
                                     beBackIn:beBackIn,
                                     mpm:mpm

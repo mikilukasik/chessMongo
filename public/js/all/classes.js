@@ -21,7 +21,7 @@ var SmallDeepeningTask=function(table, wNext, depth, moveTree, desiredDepth, sco
 		this.score= score
 
 		//this.stopped= stopped
-		
+		//
 }
 ////
 // var ResolverArray=function(depth){		
