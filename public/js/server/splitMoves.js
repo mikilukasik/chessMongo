@@ -1,5 +1,7 @@
 var SplitMove=function(dbTableWithMoveTask) {
     
+    this.splitMoveIndex=undefined
+    
     this.splitMoveID=Math.random()*Math.random() 
     
      var movesToSend = []
@@ -10,7 +12,12 @@ var SplitMove=function(dbTableWithMoveTask) {
 			
 	})
     
-    this.movesToSend=movesToSend
+    this.movesToSend=movesToSend    //this will get empty as we send the moves out for processing
+    
+    this.moves=movesToSend.slice()      //this should stay full
+    
+    this.thinkers=[]                //this will get filled with the clients working on this splitmove
+    
     
     this.gameNum=dbTableWithMoveTask._id
     
@@ -21,10 +28,6 @@ var SplitMove=function(dbTableWithMoveTask) {
      
     this.origMoveTask = dbTableWithMoveTask.moveTask
     
-    
-    this.moves=[]
-    
-    this.thinkers=[]
    
 }
 
@@ -103,19 +106,51 @@ var SplitMoves=function(clients){
         //publish to admin view here
     }
     
+    var getSplitMoveTask = function(splitMove, percent) {
+
+        var numberToSend = Math.ceil(percent * splitMove.movesToSend.length)
+           
+        var splitMoveTasks = []
+
+        for (var i = 0; i < numberToSend; i++) {
+            splitMoveTasks.push(splitMove.movesToSend.pop())
+        }
+
+        return splitMoveTasks
+
+    }
+
+    
     this.add=function(dbTableWithMoveTask){
         
         var splitMove=new SplitMove(dbTableWithMoveTask)
         
-        //var index = 
-        store.q.push(splitMove)// -1
+        var splitMoveIndex=store.q.push(splitMove)-1
+        
+        splitMove.splitMoveIndex=splitMoveIndex
         
         
+
+        while (splitMove.movesToSend.length > 0) {
+
+            var itsSpeed=1
+            var thinker = clients.fastestThinker(itsSpeed)
+            
+            var sendThese = getSplitMoveTask(splitMove, itsSpeed)
+            
+            
+            var sentCount = sendThese.length
+
+            var sentTo = clients.sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTableWithMoveTask._id + ' sentCount: ' + sentCount),thinker) //string
         
+            this.registerSentMoves(dbTableWithMoveTask._id, sentTo, sentCount)
+            
+        } 
+            
         this.publishToAdmin()
     
         
-         return splitMove   
+        return splitMove   
         
         
     }

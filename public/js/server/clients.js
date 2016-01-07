@@ -633,7 +633,7 @@ this.simpleActiveViews=function(){
 	//////////////////////// functions to manage tasks
 	
 	
-	this.fastestThinker = function(spdPct) {
+	this.fastestThinker = function(itsSpeed) {
 
 		var speedArray = []
 		
@@ -649,22 +649,23 @@ this.simpleActiveViews=function(){
 	
 		var mx = speedArray.indexOf(Math.max.apply(Math, speedArray));
 	
-		if (!spdPct) {
-			////console.log(speedArray[0], mx,speedArray.length,'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
-		
-			return knownClients.connectedSockets[mx]
-		} else { //parameter true
+		if (itsSpeed) { //parameter true
 			//hany szazalaka az osszes geperonek a fastest thinker
+            
 			if (speedArray.length == 0) {
-				//no thinkers??????????!! server move?
+				
 				return 0
+                
 			} else {
 				var totalPower = speedArray.reduce(function(a, b) {
 						return a + b
 					}) //sum
 				var maxPower = speedArray[mx]
-				return maxPower / totalPower
+                
+				itsSpeed = maxPower / totalPower
 			}
+            
+            return knownClients.connectedSockets[mx]
 	
 		}
 	

@@ -486,21 +486,21 @@ registerNewClient = function(initialData, connection) {
 
 var splitMoveTasks = [] //store ongoing splitmoves
 
-var getSplitMoveTask = function(aiTable, percent) {
+// var getSplitMoveTask = function(aiTable, percent) {
 
-	//var numberOfTasks=movesToSend.length/100
-	var numberToSend = Math.ceil(percent * aiTable.movesToSend.length)
-		//var aiTable=dbTable.aiTable
+// 	//var numberOfTasks=movesToSend.length/100
+// 	var numberToSend = Math.ceil(percent * aiTable.movesToSend.length)
+// 		//var aiTable=dbTable.aiTable
 
-	var splitMoveTask = []
+// 	var splitMoveTask = []
 
-	for (var i = 0; i < numberToSend; i++) {
-		splitMoveTask.push(aiTable.movesToSend.pop())
-	}
+// 	for (var i = 0; i < numberToSend; i++) {
+// 		splitMoveTask.push(aiTable.movesToSend.pop())
+// 	}
 
-	return splitMoveTask
+// 	return splitMoveTask
 
-}
+// }
 
 // function pushSplitTask(splitTask) {
 
