@@ -25,7 +25,7 @@ var SplitMove=function(dbTableWithMoveTask) {
 
 	this.moveCoords.forEach(function(moveCoord, index) {
 		
-        movesToSend.push(new SmallMoveTask(moveCoord, index, dbTableWithMoveTask))
+        movesToSend.push(new MoveToSend(moveCoord, index, dbTableWithMoveTask))
 			
 	})
     

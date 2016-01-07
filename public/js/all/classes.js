@@ -109,13 +109,14 @@ var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for mai
 
 
 
-
+var MoveToSend = function(moveCoord, index, dbTable) {
+}
 
 
 
 var SmallMoveTask = function(moveCoord, index, dbTable) { //deptObj has data to keep track of deepening
 
-	//this.desiredDepth=dbTable.desiredDepth
+	
 	
 	this.firstDepthValue=dbTable.table[moveCoord[2]][moveCoord[3]][1]	//doesnt care about enPass!!
 	
@@ -170,33 +171,6 @@ var SmallMoveTask = function(moveCoord, index, dbTable) { //deptObj has data to 
 
 
 }
-
-// if(depthObj==undefined){
-
-// 	depthObj=createDepthObj(dbTable._id,
-//                             dbTable.table,
-//                             dbTable.wNext,
-//                             dbTable.allPastTables,
-//                             dbTable.origData,
-//                             dbTable.origProtect,
-//                             dbTable.oppKingPos
-//         )
-
-// }
-
-// this.depthObj=depthObj
-
-
-
-
-//no need: this.dbTable=dbTable
-// if(depth==undefined){
-// 	depth=1
-// 	deepMoves=[moveCoord]
-// }
-// this.depth=depth
-
-// this.deepMoves=deepMoves
 
 var ResolverItem=function(inscore,inmoveTree){
 
