@@ -107,7 +107,10 @@ var SplitMoves=function(clients){
         
         var splitMove=new SplitMove(dbTableWithMoveTask)
         
-        var index = store.q.push(splitMove) -1
+        //var index = 
+        store.q.push(splitMove)// -1
+        
+        
         
         this.publishToAdmin()
     
