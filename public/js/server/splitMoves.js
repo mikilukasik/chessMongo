@@ -21,10 +21,7 @@ var SplitMove=function(dbTableWithMoveTask) {
     
     this.thinkers=[]
    
-   
-   
-
-	var movesToSend = []
+    var movesToSend = []
 
 	this.moveCoords.forEach(function(moveCoord, index) {
 		
@@ -109,9 +106,9 @@ var SplitMoves=function(clients){
         //publish to admin view here
     }
     
-    this.add=function(dbTable){
+    this.add=function(dbTableWithMoveTask){
         
-        var splitMove=new SplitMove(dbTable)
+        var splitMove=new SplitMove(dbTableWithMoveTask)
         
         var index
         
