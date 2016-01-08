@@ -374,7 +374,7 @@ var Clients=function(){
 		//connection must have .addedData.connectionID already
 		connection=this.fromStore(connection)
         
-        console.log('updateSpeedStats(((((((((((((((((((((((((((('+index+'))))))))))))))))))))))))))))')
+       // console.log('updateSpeedStats(((((((((((((((((((((((((((('+index+'))))))))))))))))))))))))))))')
         
         //eval('if(!connection.addedData.'+arrayName+')connection.addedData.'+arrayName+'=[]')
 		if(!connection.addedData.speedStats)connection.addedData.speedStats=[]
@@ -635,46 +635,53 @@ this.simpleActiveViews=function(){
 	//////////////////////// functions to manage tasks
 	
 	
-	this.fastestThinker = function(itsSpeed) {
+	this.fastestThinker = function() {
 
 		var speedArray = []
 		
 		knownClients.connectedSockets.forEach(function(connection){
-			console.log(connection.addedData)
+			//console.log(connection.addedData)
 			
 			if(!connection.addedData.speed||isNaN(connection.addedData.speed))connection.addedData.speed=500//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			
             if(connection.addedData.currentState=='idle'){
                 speedArray.push(connection.addedData.speed)
+                
+                
+                
             }else{
                 speedArray.push(0)
             }
 			
 		})
 		
-		
+		        
 	
 		var mx = speedArray.indexOf(Math.max.apply(Math, speedArray));
 	
-		if (itsSpeed) { //parameter true
+		//if () { //parameter true
 			//hany szazalaka az osszes geperonek a fastest thinker
+        
+        if (speedArray.length == 0) {
             
-			if (speedArray.length == 0) {
-				
-				return 0
+            return 0
+            
+        } else {
+            var totalPower = speedArray.reduce(function(a, b) {
+                    return a + b
+                }) //sum
                 
-			} else {
-				var totalPower = speedArray.reduce(function(a, b) {
-						return a + b
-					}) //sum
-				var maxPower = speedArray[mx]
-                
-				itsSpeed = maxPower / totalPower
-			}
+            var maxPower = speedArray[mx]
+            
+            knownClients.connectedSockets[mx].itsSpeed = [maxPower / totalPower]
             
             return knownClients.connectedSockets[mx]
+            
+        }
+            
+            
 	
-		}
+		//}
 	
 	};
 	//
@@ -693,7 +700,7 @@ this.simpleActiveViews=function(){
 			////console.log('a')		
 			connection = this.fastestThinker()
 			////console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',connection,'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
-		      console.log('(((((((((((((((((((((((',connection,')))))))))))))))))))))))')
+		      //console.log('(((((((((((((((((((((((',connection,')))))))))))))))))))))))')
 		}
 	
     if(connection){		
@@ -727,8 +734,8 @@ this.simpleActiveViews=function(){
 			
 		}
 		
-		if(connection.addedData.history.length>3)connection.addedData.history.shift()
-		connection.addedData.history.push(pushHistoryObject)
+		//if(connection.addedData.history.length>3)connection.addedData.history.shift()
+		//connection.addedData.history.push(pushHistoryObject)
 		
 		this.send(connection, 'task', task, 'task', function() {}, function() {})
 		

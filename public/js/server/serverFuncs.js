@@ -19,7 +19,7 @@ var userFuncs = {
 
 	removeDisplayedGame: function(connection, data) {
         
-		console.log('remove game from name:', connection.addedData.loggedInAs)
+		//console.log('remove game from name:', connection.addedData.loggedInAs)
 		mongodb.connect(cn, function(err, db2) {
 			db2.collection("users")
 				.findOne({

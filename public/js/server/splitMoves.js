@@ -137,15 +137,21 @@ var SplitMoves=function(clients){
         
         splitMove.origTable=dbTableWithMoveTask
         
-        
+        // var itsSpeed=[0.1]
 
         while (splitMove.movesToSend.length > 0) {
 
-            var itsSpeed=1
+           
             
-            var thinker = clients.fastestThinker(itsSpeed)
+            var thinker = clients.fastestThinker()
             
-            var sendThese = getSplitMoveTask(splitMove, itsSpeed)
+            console.log('============================itsSpeed:',thinker.itsSpeed)
+        
+            
+            // console.log('============================speed:',itsSpeed[0])
+        
+            
+            var sendThese = getSplitMoveTask(splitMove, thinker.itsSpeed)
             
             
             var sentCount = sendThese.length
@@ -211,6 +217,8 @@ var SplitMoves=function(clients){
             connection.addedData.currentState='idle'//'reCheck'
             
             clients.updateSpeedStats(connection,data.depth,data.dmpm)
+            
+            clients.publishAddedData()
         
         }else{
              
