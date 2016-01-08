@@ -221,7 +221,7 @@ var taskReceived = function(task) {
                 
                 progress.queuedMoves[splitMove.moveIndex]={
                     done:false,
-                    expectedIn:undefined
+                    expectedIn:undefined,
                 }
 
 			})
@@ -413,6 +413,11 @@ onmessage = function(event) {
                     progress.doit=true
                     
                 }
+                
+                
+                
+                
+                
                
 				var tempResolveArray = []
                 
@@ -493,6 +498,8 @@ onmessage = function(event) {
                             
 
                             final: false,
+                            
+                            movesLeft: progress.splitMoves-progress.doneSM,
 							//moveIndex: resData.progress.moveIndex,
                             
                             _id: workingOnGameNum,
@@ -538,6 +545,8 @@ onmessage = function(event) {
 							
 							final: false,
 							
+                            movesLeft: progress.splitMoves-progress.doneSM,
+                            
 							depth: workingOnDepth,
                             
 							_id: workingOnGameNum,

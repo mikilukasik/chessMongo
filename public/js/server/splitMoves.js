@@ -145,9 +145,6 @@ var SplitMoves = function(clients) {
 
             var thinker = clients.fastestThinker()
 
-            console.log('============================itsSpeed:', thinker.itsSpeed)
-
-
             // console.log('============================speed:',itsSpeed[0])
 
 
@@ -158,7 +155,7 @@ var SplitMoves = function(clients) {
 
             var sentTo = clients.sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTableWithMoveTask._id + ' sentCount: ' + sentCount), thinker) //string
 
-            this.registerSentMoves(dbTableWithMoveTask._id, sentTo, sentCount)
+            this.registerSentMoves(dbTableWithMoveTask._id, sentTo, sentCount, sendThese)
 
         }
 
@@ -188,7 +185,7 @@ var SplitMoves = function(clients) {
 
     }
 
-    this.registerSentMoves = function(gameID, thinker, sentCount) {
+    this.registerSentMoves = function(gameID, thinker, sentCount, sentMoves) {
 
         var qIndex = qIndexByGameID(gameID)
 
@@ -198,17 +195,53 @@ var SplitMoves = function(clients) {
             thinker: thinker,
             sentCount: sentCount,
             done: false,
-            progress: 0
+            progress: 0,
+            sentMoves:sentMoves
+            
 
         }) - 1
 
 
+    }
+    
+    var removeSentMove=function(moveArray,move){
+        
+        var index
+        
+        for (var i=moveArray.length-1;i>=0;i--){
+            
+            if(moveArray[i].moveIndex==move.moveIndex){
+                
+                index=i
+                console.log('found!!!!')
+                
+            }
+            
+        }
+        
+        if(index!=undefined){
+            
+            moveArray.splice(i,1)
+            console.log('removed!!!!')
+                
+            
+        }else{
+            
+            console.log('not found!!!!')
+            
+            console.log(move,'#########################',moveArray)
+                
+            
+            
+        }
+        
     }
 
     this.updateSplitMoveProgress = function(gameID, thinker, data, connection) {
 
         var progress
         var beBackIn
+        var movesLeft
 
         if (data.final) {
 
@@ -225,6 +258,7 @@ var SplitMoves = function(clients) {
 
             progress = data.progress
             beBackIn = data.beBackIn
+            movesLeft = data.movesLeft
             
         }
 
@@ -234,9 +268,9 @@ var SplitMoves = function(clients) {
 
         var qIndex = qIndexByGameID(gameID)
 
-        var mIndex = getThinkerIndex(qIndex, thinker)
+        var tIndex = getThinkerIndex(qIndex, thinker)
 
-        if (store.q[qIndex] && store.q[qIndex].thinkers[mIndex]) {
+        if (store.q[qIndex] && store.q[qIndex].thinkers[tIndex]) {
 
 
             if (data.results) {
@@ -247,6 +281,8 @@ var SplitMoves = function(clients) {
                     store.q[qIndex].moves[res.moveIndex].result = res
 
                     store.q[qIndex].pendingMoveCount--
+                    
+                    removeSentMove(store.q[qIndex].thinkers[tIndex].sentMoves,res)
 
 
 
@@ -329,11 +365,15 @@ var SplitMoves = function(clients) {
 
 
 
-            if (progress > store.q[qIndex].thinkers[mIndex].progress) {
+            if (progress > store.q[qIndex].thinkers[tIndex].progress) {
 
-                store.q[qIndex].thinkers[mIndex].progress = progress
-                store.q[qIndex].thinkers[mIndex].beBackIn = beBackIn
-                store.q[qIndex].thinkers[mIndex].dmpm = dmpm
+                store.q[qIndex].thinkers[tIndex].progress = progress
+                store.q[qIndex].thinkers[tIndex].beBackIn = beBackIn
+                store.q[qIndex].thinkers[tIndex].dmpm = dmpm
+                store.q[qIndex].thinkers[tIndex].movesLeft = movesLeft
+                store.q[qIndex].thinkers[tIndex].mspm = beBackIn/movesLeft
+                
+                
 
             }
 
