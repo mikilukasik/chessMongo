@@ -134,6 +134,10 @@ var SplitMoves=function(clients){
         splitMove.splitMoveIndex=splitMoveIndex
         
         
+        
+        splitMove.origTable=dbTableWithMoveTask
+        
+        
 
         while (splitMove.movesToSend.length > 0) {
 
@@ -249,8 +253,8 @@ var SplitMoves=function(clients){
                             
                             db.collection("tables").findOne({
                                 _id: store.q[qIndex].gameNum
-                            },function(err,tableInDb){
-                                
+                            },function(err,tableInDb22){
+                                var tableInDb=store.q[qIndex].origTable
                                 moveInTable(store.q[qIndex].moves[0].result.move, tableInDb)
                                 
 
@@ -272,7 +276,7 @@ var SplitMoves=function(clients){
                               
                                 tableInDb.moveTask={}  
                                 
-                                 mongodb.connect(cn, function(err2, db2) {
+                                mongodb.connect(cn, function(err2, db2) {
                                 
                               db2.collection("tables")
                                 .save(tableInDb, function(err3, res) {
@@ -287,6 +291,8 @@ var SplitMoves=function(clients){
                                     clients.publishView('board.html', tableInDb._id, 'dbTable.moves', tableInDb.moves)
             
                                     db2.close()
+                                    
+                                   // removeSM(tableInDb._id)
             
                                     store.q.splice(qIndex,1)//[0]
             
@@ -324,6 +330,8 @@ var SplitMoves=function(clients){
             clients.publishView('board.html', gameID, 'busyThinkers', store.q[qIndex].thinkers)
 
         }
+        
+        //this.publishToAdmin()
 
     }
     
@@ -426,13 +434,15 @@ var SplitMoves=function(clients){
             
     //         res=store.q.splice(index,1)[0]
         
-    //         this.publishToAdmin()
+    //        // this.publishToAdmin()
             
     //     }
         
     //     return res
         
     // }
+    
+    // var removeSM=this.remove
     
     this.qLength=function(){return store.q.length}
     
