@@ -229,18 +229,9 @@ var taskReceived = function(task) {
 					//mark it busy
 
 					workingOnGameNum = task.data[0].sharedData.gameNum
-						// workingOnDepth=data[0].desiredDepth
-
-					// globalCounter[0]=0
-
-					//var progress.splitMoves=task.data.length //we need this to know when we worked them all out
-
-					// progress.splitMoves = progress.splitMoves  //task.data.length //we need this to know when we worked them all out
-
+					
 					progress.splitMoves = task.data.length //count
 
-					//progress.moves = task.data
-                    //console.log('########################',progress.moves[0].progress)
 					mwProcessDeepSplitMoves(progress.moves, sendID) //starting to process splitmove from server
 
 				} else {
@@ -261,13 +252,6 @@ var taskReceived = function(task) {
 			//
 			longEchoStarted = new Date().getTime()
 
-			// pendingLongEchoes=maxWorkerNum
-
-			// pollOn=false
-
-			// longPollOnHold=function(){
-			// 	longPollTasks(pollingTask,sendID,mySpeed)
-			// }
 
 			for (var i = maxWorkerNum - 1; i >= 0; i--) {
 
@@ -402,6 +386,45 @@ onmessage = function(event) {
 				//////////////////////////////////////////////////
 
 				progress.doneSM++
+                if(progress.smTakes){
+                    
+                    progress.smReadings.push((tdate-progress.secondSmStarted)/progress.doneSM)
+                    
+                    if(progress.smTakes==0.000001){
+                        
+                        
+                        progress.smTakes=tdate-progress.secondSmStarted
+                        
+                    }else{
+                        
+                        
+                        
+                        var total=0
+                        var len=progress.smReadings.length
+                        
+                        for (var i=len-1;i>=0;i--){
+                            
+                            total+=progress.smReadings[i]
+                            
+                        }
+                        
+                        
+                        progress.smTakes=total/len
+                        
+                        
+                    }
+                    
+                    
+                    
+                    
+                }else{
+                    
+                    progress.secondSmStarted=tdate
+                    progress.smReadings=[]
+                    progress.smTakes=0.000001
+                    
+                }
+                //var 
 
 				var tempResolveArray = []
                 
@@ -456,10 +479,10 @@ onmessage = function(event) {
                             _id: workingOnGameNum,
 							
                             
-                            dmpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
+                            dmpm: ~~(60000 * progress.splitMoves / (tdate - progress.started)),
                             depth: workingOnDepth,
                             
-                           
+                           smTakes:progress.smTakes,
                             
                             results:sendResults
 
@@ -495,7 +518,9 @@ onmessage = function(event) {
                             
                             _id: workingOnGameNum,
                             
-                            dmpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
+                            smTakes:progress.smTakes,
+                            
+                            dmpm: ~~(60000 * progress.splitMoves / (tdate - progress.started)),
                             depth: workingOnDepth,
                             
                             results:sendResults
@@ -527,15 +552,17 @@ onmessage = function(event) {
 						var dmpm
 
 						if (progress.overall > 0) {
-							var timeNow = new Date()
-							beBackIn = ~~(((timeNow - progress.started) / progress.overall) * (100 - progress.overall))
-							dmpm = ~~(60000 * progress.splitMoves * progress.overall / (timeNow - progress.started)) / 100
+							//var timeNow = new Date()
+							beBackIn = ~~(((tdate - progress.started) / progress.overall) * (100 - progress.overall))
+							dmpm = ~~(60000 * progress.splitMoves * progress.overall / (tdate - progress.started)) / 100
 						}
 						messageTheServer('progress', {
 							
 							final: false,
 							
 							depth: workingOnDepth,
+                            
+                            //smTakes:smTakes,
                             
 							//moveIndex: undefined,//here!!!!
 							_id: workingOnGameNum,
