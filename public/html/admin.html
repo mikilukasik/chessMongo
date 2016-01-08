@@ -198,7 +198,9 @@
 	
 		<tr ng-repeat="x in splitMoves track by $index">
 			
-		  <td class="atd" ng-repeat="y in x track by $index">{{y}}</td>
+		  <td class="atd" >{{x.gameNum}}</td>
+		  <td class="atd" ><div ng-repeat="y in x.thinkers">{{y}}</div></td>
+		  <td class="atd" ><div ng-repeat="y in x.moves" ng-class="{makeGreen: y.done , makeRed: !y.done }">{{$index}}</div></td>
 		
 		
 

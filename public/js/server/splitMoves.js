@@ -208,7 +208,9 @@ var SplitMoves=function(clients){
             progress=100
             beBackIn=0
             
-            clients.updateSpeedStats(connection,data.depth,data.mpm)
+            connection.addedData.currentState='idle'//'reCheck'
+            
+            clients.updateSpeedStats(connection,data.depth,data.dmpm)
         
         }else{
              
@@ -218,7 +220,7 @@ var SplitMoves=function(clients){
         
        
        
-        var mpm=data.mpm 
+        var dmpm=data.dmpm 
  
         var qIndex = qIndexByGameID(gameID)
 
@@ -235,6 +237,8 @@ var SplitMoves=function(clients){
                     store.q[qIndex].moves[res.moveIndex].result=res
                    
                     store.q[qIndex].pendingMoveCount--
+                    
+                    
                     
                     if(store.q[qIndex].pendingMoveCount==0){
                                                 
@@ -325,6 +329,8 @@ var SplitMoves=function(clients){
                 })
                 
                 
+                clients.publishView('admin.html', 'default', 'splitMoves', getNakedQ())
+                
             }
                 
                 
@@ -338,7 +344,7 @@ var SplitMoves=function(clients){
 
                 store.q[qIndex].thinkers[mIndex].progress = progress
                 store.q[qIndex].thinkers[mIndex].beBackIn = beBackIn
-                store.q[qIndex].thinkers[mIndex].mpm = mpm
+                store.q[qIndex].thinkers[mIndex].dmpm = dmpm
 
             }
 

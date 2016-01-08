@@ -219,7 +219,7 @@ var taskReceived = function(task) {
 
 			})
 
-			workingOnDepth = task.data[0].desiredDepth
+			workingOnDepth = task.data[0].sharedData.desiredDepth
 
 			if (task.data[0] != undefined) {
 				//we received some moves
@@ -448,7 +448,7 @@ onmessage = function(event) {
                        
                        var sendResults=progress.pendingResults.slice()
                         progress.pendingResults=[]
-
+                          // console.log('(((((((((((((((((((((((((+'workingOnDepth'+)))))))))))))))))))))))))')
                         messageTheServer('progress', {
 
                             final: true,
@@ -456,8 +456,10 @@ onmessage = function(event) {
                             _id: workingOnGameNum,
 							
                             
-                            mpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
+                            dmpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
                             depth: workingOnDepth,
+                            
+                           
                             
                             results:sendResults
 
@@ -493,7 +495,7 @@ onmessage = function(event) {
                             
                             _id: workingOnGameNum,
                             
-                            mpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
+                            dmpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
                             depth: workingOnDepth,
                             
                             results:sendResults
@@ -522,23 +524,24 @@ onmessage = function(event) {
 						progress.overall = progress.doneSM * (100 / progress.splitMoves) + (progress.doneDM * (100 / progress.oneDeeperMoves)) / progress.splitMoves
 
 						var beBackIn
-						var mpm
+						var dmpm
 
 						if (progress.overall > 0) {
 							var timeNow = new Date()
 							beBackIn = ~~(((timeNow - progress.started) / progress.overall) * (100 - progress.overall))
-							mpm = ~~(60000 * progress.splitMoves * progress.overall / (timeNow - progress.started)) / 100
+							dmpm = ~~(60000 * progress.splitMoves * progress.overall / (timeNow - progress.started)) / 100
 						}
 						messageTheServer('progress', {
 							
 							final: false,
 							
-							
+							depth: workingOnDepth,
+                            
 							//moveIndex: undefined,//here!!!!
 							_id: workingOnGameNum,
 							progress: progress.overall,
 							beBackIn: beBackIn,
-							mpm: mpm
+							dmpm: dmpm
 
 						}, 'progress', function() {
 

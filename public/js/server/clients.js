@@ -374,6 +374,8 @@ var Clients=function(){
 		//connection must have .addedData.connectionID already
 		connection=this.fromStore(connection)
         
+        console.log('updateSpeedStats(((((((((((((((((((((((((((('+index+'))))))))))))))))))))))))))))')
+        
         //eval('if(!connection.addedData.'+arrayName+')connection.addedData.'+arrayName+'=[]')
 		if(!connection.addedData.speedStats)connection.addedData.speedStats=[]
         
@@ -642,7 +644,12 @@ this.simpleActiveViews=function(){
 			
 			if(!connection.addedData.speed||isNaN(connection.addedData.speed))connection.addedData.speed=500//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			
-			speedArray.push(connection.addedData.speed)
+            if(connection.addedData.currentState=='idle'){
+                speedArray.push(connection.addedData.speed)
+            }else{
+                speedArray.push(0)
+            }
+			
 		})
 		
 		
@@ -702,9 +709,9 @@ this.simpleActiveViews=function(){
 			connection.addedData.currentState={}
 		}
 	
-		if(task.command='splitMove'){
-			connection.addedData.speed=connection.addedData.speed/100
-		}
+		// if(task.command='splitMove'){
+		// 	connection.addedData.speed=connection.addedData.speed/100
+		// }
 	
 	
 		var timeNow=new Date()
