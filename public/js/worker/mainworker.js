@@ -388,10 +388,11 @@ onmessage = function(event) {
 				progress.doneSM++
                 if(progress.smTakes){
                     
-                    progress.smReadings.push((tdate-progress.secondSmStarted)/progress.doneSM)
+                    progress.smReadings.push((tdate-progress.secondSmStarted)/progress.doneSM-1)
                     
-                    if(progress.smTakes==0.000001){
+                    if(progress.doit){
                         
+                        progress.doit=false
                         
                         progress.smTakes=tdate-progress.secondSmStarted
                         
@@ -420,8 +421,11 @@ onmessage = function(event) {
                 }else{
                     
                     progress.secondSmStarted=tdate
-                    progress.smReadings=[]
-                    progress.smTakes=0.000001
+                    
+                    progress.smTakes=(tdate-progress.started)
+                    progress.smReadings=[progress.smTakes]
+                    
+                    progress.doit=true
                     
                 }
                 //var 
