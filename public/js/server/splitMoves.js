@@ -252,6 +252,7 @@ var SplitMoves=function(clients){
                             },function(err,tableInDb){
                                 
                                 moveInTable(store.q[qIndex].moves[0].result.move, tableInDb)
+                                
 
                                 tableInDb.chat = [~~((new Date() - store.q[qIndex].started) / 10) / 100 + 'sec'] //1st line in chat is timeItTook
                     
@@ -268,9 +269,12 @@ var SplitMoves=function(clients){
                     
                                 })
                                 
+                              
+                                tableInDb.moveTask={}  
                                 
+                                 mongodb.connect(cn, function(err2, db2) {
                                 
-                              db.collection("tables")
+                              db2.collection("tables")
                                 .save(tableInDb, function(err3, res) {
             
                                   
@@ -282,12 +286,14 @@ var SplitMoves=function(clients){
             
                                     clients.publishView('board.html', tableInDb._id, 'dbTable.moves', tableInDb.moves)
             
-                                    db.close()
+                                    db2.close()
             
                                     store.q.splice(qIndex,1)//[0]
             
                                 })
-                               
+                                 })
+                                 
+                                 db.close()
                             })
                           
                         })
