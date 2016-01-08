@@ -233,21 +233,14 @@ var SplitMoves=function(clients){
                     store.q[qIndex].pendingMoveCount--
                     
                     if(store.q[qIndex].pendingMoveCount==0){
-                        
-                         console.log('@@@@@@@@@@@@@@@@@@@@@@@@@  all solved.')
-                        
-                        console.log(store.q[qIndex].moves)
-                        console.log('@@@@@@@@@@@@@@@@@@@@@@@@@  all solved.')
-                        
-                        
-                        
+                                                
                         store.q[qIndex].moves.sort(function(a,b){
                             if(a.result.value>b.result.value){
                                 return -1
                             }else{
                                 return 1
                             }
-                            //return 0
+                           
                         })
                         
                         console.log('will move ',store.q[qIndex].moves[0].result.move)
@@ -263,12 +256,9 @@ var SplitMoves=function(clients){
                                 tableInDb.chat = [~~((new Date() - store.q[qIndex].started) / 10) / 100 + 'sec'] //1st line in chat is timeItTook
                     
                                 store.q[qIndex].moves.forEach(function(returnedMove) {
-                                    
-                                    
-                                    
+                                     
                                     tableInDb.chat = tableInDb.chat.concat({
-                                        //move: returnedMove.moveStr,
-                                        
+                                       
                                         hex: returnedMove.result.value.toString(16),
                                         score: returnedMove.result.value,
                                         
@@ -292,35 +282,16 @@ var SplitMoves=function(clients){
             
                                     clients.publishView('board.html', tableInDb._id, 'dbTable.moves', tableInDb.moves)
             
-                                    
-            
                                     db.close()
             
                                     store.q.splice(qIndex,1)//[0]
             
                                 })
-                                
-                                
-                                
-                                
-                                
-                                
-                                
+                               
                             })
-                            
-                            
-                            
                           
                         })
-                            
-                            
-                            
-                            
-                        
-                        
-                        
-        
-                        
+                                                    
                     }
                     
                 })
@@ -350,22 +321,7 @@ var SplitMoves=function(clients){
 
     }
     
-    // this.markSplitMoveDone=function(gameID, thinker) {
-
-    //     var qIndex = qIndexByGameID(gameID)
-
-    //     var mIndex = getThinkerIndex(qIndex, thinker)
-
-    //    store.q[qIndex].thinkers[mIndex].done = true
-
-    //    store.q[qIndex].thinkers[mIndex].progress = 100
-
-    //     //busyTablesPop(tIndex)
-    //     clients.publishView('board.html', gameID, 'busyThinkers', store.q[qIndex].thinkers)
-    //     clients.publishAddedData()
-
-    // }
-        
+    
     this.update=function(splitMove,propertyName,value){
         
       
