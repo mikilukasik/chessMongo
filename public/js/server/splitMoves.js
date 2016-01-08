@@ -46,7 +46,7 @@ var SplitMoves=function(clients){
         }
      
     
-    this.getNakedQ=function(){
+    var getNakedQ=function(){
         
         var res=[]
         
@@ -103,10 +103,10 @@ var SplitMoves=function(clients){
     
     this.publishToAdmin=function(){
         
-        clients.publishView('admin.html', 'default', 'splitMoves', this.getNakedQ())//[[1,2,3],[4,5,6]])//this.getNakedQ())
+        clients.publishView('admin.html', 'default', 'splitMoves', getNakedQ())//[[1,2,3],[4,5,6]])//getNakedQ())
 
      
-        //publishSplitMoves(this.getNakedQ())
+        //publishSplitMoves(getNakedQ())
         //publish to admin view here
     }
     
@@ -249,12 +249,14 @@ var SplitMoves=function(clients){
                         
                         console.log('will move ',store.q[qIndex].moves[0].result.move)
                         
-                        mongodb.connect(cn, function(err, db) {
+                        // mongodb.connect(cn, function(err, db) {
                             
-                            db.collection("tables").findOne({
-                                _id: store.q[qIndex].gameNum
-                            },function(err,tableInDb22){
+                        //     db.collection("tables").findOne({
+                        //         _id: store.q[qIndex].gameNum
+                        //     },function(err,tableInDb22){
+                                
                                 var tableInDb=store.q[qIndex].origTable
+                                
                                 moveInTable(store.q[qIndex].moves[0].result.move, tableInDb)
                                 
 
@@ -276,7 +278,7 @@ var SplitMoves=function(clients){
                               
                                 tableInDb.moveTask={}  
                                 
-                                mongodb.connect(cn, function(err2, db2) {
+                             mongodb.connect(cn, function(err2, db2) {
                                 
                               db2.collection("tables")
                                 .save(tableInDb, function(err3, res) {
@@ -293,16 +295,30 @@ var SplitMoves=function(clients){
                                     db2.close()
                                     
                                    // removeSM(tableInDb._id)
+                                    
+                                    //var index=qIndexByGameID(gameID)
+        
+                                  //  if(index!==-1) {
+                                        
+                                        store.q.splice(qIndex,1)//[0]
+                                    
+                                    // this.publishToAdmin()
+                                        
+                                 //   }
+                                    
+                                    //store.q.splice(qIndex,1)//[0]
+                                    
+                                    clients.publishView('admin.html', 'default', 'splitMoves', getNakedQ())
             
-                                    store.q.splice(qIndex,1)//[0]
+                                    
             
                                 })
                                  })
                                  
-                                 db.close()
-                            })
+                               //  db.close()
+                        //     })
                           
-                        })
+                        // })///////
                                                     
                     }
                     
@@ -423,24 +439,24 @@ var SplitMoves=function(clients){
         
     }
     
-    // this.remove=function(gameID){
+    this.remove=function(gameID){
         
-    //     var res
+        var res
            
-    //     // console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-    //     var index=qIndexByGameID(gameID)
+        // console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+        var index=qIndexByGameID(gameID)
         
-    //     if(index!==-1) {
+        if(index!==-1) {
             
-    //         res=store.q.splice(index,1)[0]
+            res=store.q.splice(index,1)[0]
         
-    //        // this.publishToAdmin()
+           // this.publishToAdmin()
             
-    //     }
+        }
         
-    //     return res
+        return res
         
-    // }
+    }
     
     // var removeSM=this.remove
     
