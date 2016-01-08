@@ -469,17 +469,13 @@ onmessage = function(event) {
                     postThis[0].sendID = sendID.toString() //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 
 
-                   //console.log('>>>>>>>>>>>>>>>>>>', postThis[0].speed)
-
-                   // toServer('myPartIsDone', postThis, 'myPartIsDone', function() {
-                       
                        var sendResults=progress.pendingResults.slice()
                         progress.pendingResults=[]
-                          // console.log('(((((((((((((((((((((((((+'workingOnDepth'+)))))))))))))))))))))))))')
+                         
                         messageTheServer('progress', {
 
                             final: true,
-							//moveIndex: resData.progress.moveIndex,
+							
                             _id: workingOnGameNum,
 							
                             
@@ -492,11 +488,6 @@ onmessage = function(event) {
 
                         })
 
-                       // console.log('(((((((((', workingOnDepth, ')))))))))')
-
-                  //  })
-
-					
 					workingOnGameNum = 0 //available again
 					toPostSplitMoves = []
 					progress.waitingSdts = []
@@ -529,8 +520,6 @@ onmessage = function(event) {
                             
                             results:sendResults
                             
-                            
-
                         })
                         
                         lastResultSent   = tdate
