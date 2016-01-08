@@ -197,7 +197,9 @@ var taskReceived = function(task) {
 
 				moves: task.data,
 
-				tempDTasks: []
+				tempDTasks: [],
+                
+                queuedMoves: []
 
 				//updatedMoves:[]
 
@@ -216,6 +218,11 @@ var taskReceived = function(task) {
 					expected: undefined,
 
 				}
+                
+                progress.queuedMoves[splitMove.moveIndex]={
+                    done:false,
+                    expectedIn:undefined
+                }
 
 			})
 
@@ -226,7 +233,7 @@ var taskReceived = function(task) {
 
 				if (workingOnGameNum == 0) {
 					//thinker is idle
-					//mark it busy
+					
 
 					workingOnGameNum = task.data[0].sharedData.gameNum
 					
@@ -249,7 +256,7 @@ var taskReceived = function(task) {
 			break;
 
 		case 'longEcho':
-			//
+			
 			longEchoStarted = new Date().getTime()
 
 
@@ -277,29 +284,14 @@ var taskReceived = function(task) {
 
 		case 'speedTest':
 
-			if (mySpeed == 1) mySpeed = 0.99 //at initial, temp, !!!!!!!!otherwise server would keep trying to test us
+			if (mySpeed == 1) mySpeed = 0.99 //!!!!!!!!!!!!!!!!!!!!!
 
-			//call speedtest
-
-			// pollOn=false
-
-			// longPollOnHold=function(speed){
-			// 	longPollTasks(pollingTask,sendID,speed)
-			// }
-
-			//speedTest()
-
+		
 			break;
 
 	}
 
-	// if (pollOn&&task.command!='dontCall'){
-
-	// 	//sendLog('mw: pollOn true, recalling longPollTasks (task '+(taskNum+1)+')')
-
-	// 	longPollTasks(pollingTask,sendID,mySpeed) //recall for new task, server might hold any new task until this one finishes
-
-	// } 	
+	
 }
 
 onmessage = function(event) {
@@ -343,27 +335,19 @@ onmessage = function(event) {
 			mySpeed = reqData.mySpeed
 			maxWorkerNum = reqData.maxWorkerNum
 
-			// longPollOnHold=function(speed){
-			// 			longPollTasks(1,sendID,speed)
-			// 		}
-
-			//speedTest()
-
+			
 			break;
 
 		case 'sdtSolved':
 
 			var resData = event.data.reqData
             
-            // console.log(resData.progress)
-
+            
 			progress.doneDM++
 
             waitingForIdle--
 
             var tdate = new Date()
-
-			// globalCounter[0]++//+=new Number(resData.counter)
 
 			var toPush = {
 				move: resData.moveTree.slice(0, 4),
@@ -371,10 +355,10 @@ onmessage = function(event) {
 				score: resData.score,
 				moveTree: resData.moveTree,
 				solved: resData.solved,
-				_id: workingOnGameNum, // resData._id,
+				_id: workingOnGameNum, 
 				depth: resData.desiredDepth,
 				thinker: sendID,
-				//counter: resData.counter
+				
 			}
 
 			progress.waitingSdts.push(toPush)
@@ -386,6 +370,7 @@ onmessage = function(event) {
 				//////////////////////////////////////////////////
 
 				progress.doneSM++
+                
                 if(progress.smTakes){
                     
                     progress.smReadings.push((tdate-progress.secondSmStarted)/progress.doneSM-1)
@@ -428,8 +413,7 @@ onmessage = function(event) {
                     progress.doit=true
                     
                 }
-                //var 
-
+               
 				var tempResolveArray = []
                 
 				tempResolveArray[1] = []
@@ -482,7 +466,7 @@ onmessage = function(event) {
                             dmpm: ~~(60000 * progress.splitMoves / (tdate - progress.started)),
                             depth: workingOnDepth,
                             
-                           smTakes:progress.smTakes,
+                            smTakes:progress.smTakes,
                             
                             results:sendResults
 
@@ -533,6 +517,7 @@ onmessage = function(event) {
 					mwProcessDeepSplitMoves(progress.moves, sendID, ranCount)
 
 				}
+                
 			} else {
 
 				if (waitingForIdle == 0) {
@@ -545,7 +530,7 @@ onmessage = function(event) {
 						var dmpm
 
 						if (progress.overall > 0) {
-							//var timeNow = new Date()
+							
 							beBackIn = ~~(((tdate - progress.started) / progress.overall) * (100 - progress.overall))
 							dmpm = ~~(60000 * progress.splitMoves * progress.overall / (tdate - progress.started)) / 100
 						}
@@ -555,9 +540,6 @@ onmessage = function(event) {
 							
 							depth: workingOnDepth,
                             
-                            //smTakes:smTakes,
-                            
-							//moveIndex: undefined,//here!!!!
 							_id: workingOnGameNum,
 							progress: progress.overall,
 							beBackIn: beBackIn,
