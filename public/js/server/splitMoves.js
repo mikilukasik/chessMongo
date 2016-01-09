@@ -50,10 +50,13 @@ var SplitMoves = function(clients) {
 
         var res = []
 
-        store.q.forEach(function(splitMove) {
+        store.q.forEach(function(splitMove,i) {
+            
+            var nakedT=getNakedThinkers(i)
+            
             res.push({
                 gameNum: splitMove.gameNum,
-                thinkers: splitMove.thinkers,
+                thinkers: nakedT,
                 moves: splitMove.moves,
                 a: splitMove.movesToSend
 
@@ -505,7 +508,7 @@ var SplitMoves = function(clients) {
             
 
 
-            clients.publishView('board.html', gameID, 'busyThinkers', this.getNakedThinkers(qIndex))
+            clients.publishView('board.html', gameID, 'busyThinkers', getNakedThinkers(qIndex))
 
         }
 
@@ -513,7 +516,7 @@ var SplitMoves = function(clients) {
 
     }
     
-    this.getNakedThinkers=function(qIndex){
+    var getNakedThinkers=function(qIndex){
         
         var naked=[]
         
@@ -530,10 +533,71 @@ var SplitMoves = function(clients) {
         return naked
         
     }
-
+    
+    
+    
     var assist=function(assisted,assistant){
         
-        console.log('assisted',assisted,'assistant',assistant)
+        var moves=getAssistMoves(assisted,assistant)
+        
+        //console.log('moves returned',moves)
+        
+    }
+    
+    var getAssistMoves=function(assisted,assistant){
+        
+        var result=[]
+        
+        var count=0
+        
+        var assistantSpeed=assistant.smTakes
+        
+        var assistedSpeed=assisted.accuBackIn/assisted.guessedMovesLeft
+        
+        var assistedBackIn=assisted.accuBackIn
+        
+        var maxMoves=assisted.guessedMovesLeft
+        
+        var fromMoves=assisted.sentMoves
+        
+        var more=false
+        
+        do{
+            more=false
+            if(assistantSpeed*count<assistedBackIn-(assistedBackIn*count/maxMoves)){
+               
+                console.log('add:',count)
+                
+                
+                
+                
+                count++
+                more=true
+            }
+            
+             
+            
+        }while(count<=maxMoves&&more)//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        
+        
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!count is too high, problems with measuring assistedspeed
+        
+        if (count>maxMoves/3){
+            count=Math.ceil(maxMoves/3)
+        }
+        
+        console.log('count,max:',count,maxMoves)
+        
+       // take moves, but max 1/3rd from each thinker, speedtests can be vey inaccurate, get some averages!!!!!!!!!!!!!!!!!!!!!!!!1
+        
+        //console.log(maxMoves)
+        
+        
+        result= fromMoves.splice(0,count)
+        
+        //console.log('assisted',assisted.sentMoves)
+        
+        return result
         
     }
 
