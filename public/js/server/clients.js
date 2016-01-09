@@ -381,7 +381,7 @@ var Clients=function(){
         
         if(connection.addedData.speedStats[index]){
             
-            connection.addedData.speedStats[index]= (value + 9* connection.addedData.speedStats[index])/10 
+            connection.addedData.speedStats[index]= (value + connection.addedData.speedStats[index])/2
 		
             
         }else{

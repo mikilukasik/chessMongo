@@ -473,7 +473,7 @@ onmessage = function(event) {
                         }
                         
                         
-				if (progress.splitMoves - toPostSplitMoves.length == 0) {
+				if (progress.splitMoves - toPostSplitMoves.length < 1) {
 					//we worked out all the splitmoves
 
 

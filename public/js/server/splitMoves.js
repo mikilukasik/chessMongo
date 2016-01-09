@@ -438,7 +438,7 @@ var SplitMoves = function(clients) {
 			//this.publishToAdmin()
 		} else {
             
-            if(data.final){
+            if(data.final&&store.q[qIndex]){
                 connection.addedData.currentState = 'idle'
                 store.q[qIndex].thinkers[tIndex].progress = 100//progress
 				store.q[qIndex].thinkers[tIndex].beBackIn = 0//beBackIn
