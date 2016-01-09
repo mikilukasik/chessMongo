@@ -438,14 +438,18 @@ var SplitMoves = function(clients) {
 			//this.publishToAdmin()
 		} else {
             
-            if(data.final&&store.q[qIndex]){
+            if(data.final){
+                
                 connection.addedData.currentState = 'idle'
-                store.q[qIndex].thinkers[tIndex].progress = 100//progress
-				store.q[qIndex].thinkers[tIndex].beBackIn = 0//beBackIn
-
+                if(store.q[qIndex]){
+                    store.q[qIndex].thinkers[tIndex].progress = 100//progress
+				    store.q[qIndex].thinkers[tIndex].beBackIn = 0//beBackIn
+                 }
+                
                 
                 
             }
+            
 			console.log('error: no qIndex')
 		}
 	}
