@@ -464,9 +464,13 @@ updateDbClients = function(connectionData) {
 	connectionData._id = new ObjectID(connectionData.clientMongoId)
 
 	mongodb.connect(cn, function(err, db) {
-		db.collection("clients")
-			.save(connectionData, function(err, doc) {});
-		db.close()
+		if(db)db.collection("clients")//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11
+			.save(connectionData, function(err, doc) {
+                
+                db.close()
+                
+            });
+		
 
 	});
 }
@@ -480,33 +484,12 @@ registerNewClient = function(initialData, connection) {
 				clientMongoId: initialData._id
 
 			}, 'saveYourClientMongoId', function() {})
-			//////console.log('asasasasasasasasasasasasasa',initialData._id)
+			
 	});
 }
 
 var splitMoveTasks = [] //store ongoing splitmoves
 
-// var getSplitMoveTask = function(aiTable, percent) {
-
-// 	//var numberOfTasks=movesToSend.length/100
-// 	var numberToSend = Math.ceil(percent * aiTable.movesToSend.length)
-// 		//var aiTable=dbTable.aiTable
-
-// 	var splitMoveTask = []
-
-// 	for (var i = 0; i < numberToSend; i++) {
-// 		splitMoveTask.push(aiTable.movesToSend.pop())
-// 	}
-
-// 	return splitMoveTask
-
-// }
-
-// function pushSplitTask(splitTask) {
-
-// 	splitTaskQ.push(splitTask) //use this when receiving
-
-// }
 
 function getTaskIndex(tNum) {
 

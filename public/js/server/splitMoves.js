@@ -153,9 +153,11 @@ var SplitMoves = function(clients) {
 
             var sentCount = sendThese.length
 
+            //var connection={}
+
             var sentTo = clients.sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTableWithMoveTask._id + ' sentCount: ' + sentCount), thinker) //string
 
-            this.registerSentMoves(dbTableWithMoveTask._id, sentTo, sentCount, sendThese)
+            this.registerSentMoves(dbTableWithMoveTask._id, sentTo, sentCount, sendThese,thinker)
 
         }
 
@@ -185,35 +187,35 @@ var SplitMoves = function(clients) {
 
     }
 
-    this.registerSentMoves = function(gameID, thinker, sentCount, sentMoves) {
+    this.registerSentMoves = function(gameID, thinker, sentCount, sentMoves,connection) {
 
         var qIndex = qIndexByGameID(gameID)
 
         return store.q[qIndex].thinkers.push({
 
-
             thinker: thinker,
             sentCount: sentCount,
             done: false,
             progress: 0,
-            sentMoves:sentMoves
-            
-
+            sentMoves:sentMoves,
+            movesLeft:sentCount,
+            beBackIn:100000,
+            connection:connection
+          
         }) - 1
-
 
     }
     
     var removeSentMove=function(moveArray,move){
         
-        var index
+        var index=undefined
         
         for (var i=moveArray.length-1;i>=0;i--){
             
             if(moveArray[i].moveIndex==move.moveIndex){
                 
                 index=i
-                console.log('found!!!!')
+                //console.log('found!!!!')
                 
             }
             
@@ -222,56 +224,75 @@ var SplitMoves = function(clients) {
         if(index!=undefined){
             
             moveArray.splice(i,1)
-            console.log('removed!!!!')
-                
+            //console.log('removed!!!!')
             
         }else{
             
-            console.log('not found!!!!')
-            
-            console.log(move,'#########################',moveArray)
-                
-            
-            
+            //console.log('not found!!!!')
+           
         }
         
     }
 
     this.updateSplitMoveProgress = function(gameID, thinker, data, connection) {
-
-        var progress
-        var beBackIn
-        var movesLeft
-
-        if (data.final) {
-
-            progress = 100
-            beBackIn = 0
-
-            connection.addedData.currentState = 'idle' //'reCheck'
-
-            clients.updateSpeedStats(connection, data.depth, data.dmpm)
-
-            clients.publishAddedData()
-
-        } else {
-
-            progress = data.progress
-            beBackIn = data.beBackIn
-            movesLeft = data.movesLeft
-            
-        }
-
-
-
-        var dmpm = data.dmpm
+        
+        var timeNow=new Date()
 
         var qIndex = qIndexByGameID(gameID)
 
         var tIndex = getThinkerIndex(qIndex, thinker)
 
-        if (store.q[qIndex] && store.q[qIndex].thinkers[tIndex]) {
+        var progress=undefined
+        var beBackIn=undefined
+        var beBackAt=undefined
+        //var movesLeft=undefined
+        
+        var willMove=false
 
+        if (data.final) {
+
+            progress = 100
+            beBackIn = 0
+            beBackAt = timeNow
+            
+            
+            connection.addedData.currentState = 'idle' //'reCheck'
+
+            clients.updateSpeedStats(connection, data.depth, data.dmpm)
+
+            clients.publishAddedData()
+            
+
+        } else {
+
+            progress = data.progress
+            beBackIn = data.beBackIn
+            beBackAt = Number(timeNow)+beBackIn
+            //movesLeft = data.movesLeft
+            
+        }
+
+        var dmpm = data.dmpm
+        
+        
+        if (progress > store.q[qIndex].thinkers[tIndex].progress) {
+
+                store.q[qIndex].thinkers[tIndex].progress = progress
+                store.q[qIndex].thinkers[tIndex].beBackIn = beBackIn
+                store.q[qIndex].thinkers[tIndex].beBackAt = beBackAt
+                
+                store.q[qIndex].thinkers[tIndex].dmpm = dmpm
+                //store.q[qIndex].thinkers[tIndex].movesLeft = movesLeft
+                store.q[qIndex].thinkers[tIndex].mspm = beBackIn/store.q[qIndex].thinkers[tIndex].movesLeft
+                store.q[qIndex].thinkers[tIndex].smTakes = data.smTakes
+                
+                
+
+            }
+
+       
+
+        if (store.q[qIndex] && store.q[qIndex].thinkers[tIndex]) {
 
             if (data.results) {
 
@@ -281,10 +302,9 @@ var SplitMoves = function(clients) {
                     store.q[qIndex].moves[res.moveIndex].result = res
 
                     store.q[qIndex].pendingMoveCount--
+                    store.q[qIndex].thinkers[tIndex].movesLeft--
                     
                     removeSentMove(store.q[qIndex].thinkers[tIndex].sentMoves,res)
-
-
 
                         if (store.q[qIndex].pendingMoveCount == 0) {
 
@@ -298,14 +318,15 @@ var SplitMoves = function(clients) {
                             })
 
                             console.log('will move ', store.q[qIndex].moves[0].result.move)
-
+                            
+                            willMove=true
+                            
 
                             var tableInDb = store.q[qIndex].origTable
 
                             moveInTable(store.q[qIndex].moves[0].result.move, tableInDb)
 
-
-                            tableInDb.chat = [~~((new Date() - store.q[qIndex].started) / 10) / 100 + 'sec'] //1st line in chat is timeItTook
+                            tableInDb.chat = [~~((timeNow - store.q[qIndex].started) / 10) / 100 + 'sec'] //1st line in chat is timeItTook
 
                             store.q[qIndex].moves.forEach(function(returnedMove) {
 
@@ -319,7 +340,6 @@ var SplitMoves = function(clients) {
                                 })
 
                             })
-
 
                             tableInDb.moveTask = {}
 
@@ -358,6 +378,123 @@ var SplitMoves = function(clients) {
                 clients.publishView('admin.html', 'default', 'splitMoves', getNakedQ())
 
             }
+            
+            
+            
+
+            if(data.final&&!willMove){
+                console.log('||||||||||||||||||||||||||||||||||||||')
+
+                //console.log('thinker finished, starting assist..')
+                
+                
+                var thinkerToHelp=undefined
+               
+                
+                var tempBackIn=0
+                
+                var found=false
+                
+               
+                store.q[qIndex].thinkers.forEach(function(thinkerInMove,index){
+
+
+                    if(thinkerInMove.movesLeft){//
+                        
+                        var accuBackIn=thinkerInMove.beBackAt-timeNow
+                        
+                        //console.log('accu',accuBackIn)
+                        
+                        if(accuBackIn>1000){
+                            
+                            var diff=thinkerInMove.beBackIn-accuBackIn
+                            var percDone=diff/thinkerInMove.beBackIn
+                            
+                            var guessedMovesLeft=(1-percDone)*thinkerInMove.movesLeft
+                            
+                            if(guessedMovesLeft<1){
+                                
+                                //should be done soon, check it again with settimeout from here???!!!!!!!!!!!!!!!!!!!
+                                
+                                
+                            }else{
+                                
+                                //take note of client, then help the one that needs it most
+                                
+                                if(accuBackIn>tempBackIn){
+                                    
+                                    thinkerInMove.guessedMovesLeft=guessedMovesLeft
+                                    thinkerInMove.accuBackIn=accuBackIn
+                                    
+                                    thinkerToHelp=thinkerInMove
+                                    tempBackIn=accuBackIn
+                                    
+                                }
+                                
+                               
+                                
+                                
+                                //console.log(index+': ',guessedMovesLeft,'moves, be back in ',accuBackIn,thinkerInMove.thinker)
+                                
+                                   found=true
+                                
+                            }
+                            
+                            
+                            
+                            
+                            //console.log('percDone:',percDone)
+                            
+                         
+                         
+                        }
+                        
+                        
+                        
+                        
+                        
+                        
+                    }
+
+
+
+                })
+
+
+
+                if(found) {
+                    //console.log('my smTakes',store.q[qIndex].thinkers[tIndex].smTakes)
+                    
+                    if(thinkerToHelp.thinker){
+                        //console.log('thinker to help:',thinkerToHelp.thinker.thinker)
+                        
+                        
+                        assist(thinkerToHelp,store.q[qIndex].thinkers[tIndex])
+                        
+                        
+                    }else{
+                        
+                        //hiba
+                        console.log('error:',thinkerToHelp)
+                        
+                    }
+                    
+                }
+                
+                
+                
+
+
+
+
+
+
+                console.log('-----------------------------------')
+            }
+
+
+                        
+                        
 
 
             //
@@ -365,27 +502,40 @@ var SplitMoves = function(clients) {
 
 
 
-            if (progress > store.q[qIndex].thinkers[tIndex].progress) {
-
-                store.q[qIndex].thinkers[tIndex].progress = progress
-                store.q[qIndex].thinkers[tIndex].beBackIn = beBackIn
-                store.q[qIndex].thinkers[tIndex].dmpm = dmpm
-                store.q[qIndex].thinkers[tIndex].movesLeft = movesLeft
-                store.q[qIndex].thinkers[tIndex].mspm = beBackIn/movesLeft
-                
-                
-
-            }
+            
 
 
-            clients.publishView('board.html', gameID, 'busyThinkers', store.q[qIndex].thinkers)
+            clients.publishView('board.html', gameID, 'busyThinkers', this.getNakedThinkers(qIndex))
 
         }
 
         //this.publishToAdmin()
 
     }
+    
+    this.getNakedThinkers=function(qIndex){
+        
+        var naked=[]
+        
+        store.q[qIndex].thinkers.forEach(function(thinker){
+            naked.push({
+                sentCount:thinker.sentCount,
+                done:thinker.done,
+                beBackIn:thinker.beBackIn,
+                dmpm:thinker.dmpm,
+                progress:thinker.progress,
+            })
+        })
+        
+        return naked
+        
+    }
 
+    var assist=function(assisted,assistant){
+        
+        console.log('assisted',assisted,'assistant',assistant)
+        
+    }
 
     this.update = function(splitMove, propertyName, value) {
 
