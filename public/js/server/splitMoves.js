@@ -243,6 +243,9 @@ var SplitMoves = function(clients) {
 
         var qIndex = qIndexByGameID(gameID)
 
+        //console.log(qIndex)
+        if(qIndex!=undefined){
+
         var tIndex = getThinkerIndex(qIndex, thinker)
 
         var progress=undefined
@@ -301,81 +304,98 @@ var SplitMoves = function(clients) {
 
                 data.results.forEach(function(res) {
 
-                    store.q[qIndex].moves[res.moveIndex].done = true
-                    store.q[qIndex].moves[res.moveIndex].result = res
-
-                    store.q[qIndex].pendingMoveCount--
-                    store.q[qIndex].thinkers[tIndex].movesLeft--
-                    
-                    removeSentMove(store.q[qIndex].thinkers[tIndex].sentMoves,res)
-
-                        if (store.q[qIndex].pendingMoveCount == 0) {
-
-                            store.q[qIndex].moves.sort(function(a, b) {
-                                if (a.result.value > b.result.value) {
-                                    return -1
-                                } else {
-                                    return 1
-                                }
-
-                            })
-
-                            console.log('will move ', store.q[qIndex].moves[0].result.move)
+                    if(store.q[qIndex].moves[res.moveIndex].done){
+                        console.log('error: move solved twice(or more)')
+                    }else{
+                        
+                        
                             
-                            willMove=true
-                            
+                        store.q[qIndex].moves[res.moveIndex].done = true
+                        store.q[qIndex].moves[res.moveIndex].result = res
 
-                            var tableInDb = store.q[qIndex].origTable
+                        store.q[qIndex].pendingMoveCount--
+                        store.q[qIndex].thinkers[tIndex].movesLeft--
+                        
+                        removeSentMove(store.q[qIndex].thinkers[tIndex].sentMoves,res)
 
-                            moveInTable(store.q[qIndex].moves[0].result.move, tableInDb)
+                            if (store.q[qIndex].pendingMoveCount == 0) {
 
-                            tableInDb.chat = [~~((timeNow - store.q[qIndex].started) / 10) / 100 + 'sec'] //1st line in chat is timeItTook
-
-                            store.q[qIndex].moves.forEach(function(returnedMove) {
-
-                                tableInDb.chat = tableInDb.chat.concat({
-
-                                    hex: returnedMove.result.value.toString(16),
-                                    score: returnedMove.result.value,
-
-                                    moves: returnedMove.result.moveTree
+                                store.q[qIndex].moves.sort(function(a, b) {
+                                    if (a.result.value > b.result.value) {
+                                        return -1
+                                    } else {
+                                        return 1
+                                    }
 
                                 })
 
-                            })
+                                console.log('will move ', store.q[qIndex].moves[0].result.move)
+                                
+                                willMove=true
+                                
 
-                            tableInDb.moveTask = {}
+                                var tableInDb = store.q[qIndex].origTable
 
-                            mongodb.connect(cn, function(err2, db2) {
+                                moveInTable(store.q[qIndex].moves[0].result.move, tableInDb)
 
-                                db2.collection("tables")
-                                    .save(tableInDb, function(err3, res) {
+                                tableInDb.chat = [~~((timeNow - store.q[qIndex].started) / 10) / 100 + 'sec'] //1st line in chat is timeItTook
 
+                                store.q[qIndex].moves.forEach(function(returnedMove) {
 
-                                        clients.publishView('board.html', tableInDb._id, 'dbTable.table', tableInDb.table)
+                                    tableInDb.chat = tableInDb.chat.concat({
 
-                                        clients.publishView('board.html', tableInDb._id, 'dbTable.wNext', tableInDb.wNext)
+                                        hex: returnedMove.result.value.toString(16),
+                                        score: returnedMove.result.value,
 
-                                        clients.publishView('board.html', tableInDb._id, 'dbTable.chat', tableInDb.chat)
-
-                                        clients.publishView('board.html', tableInDb._id, 'dbTable.moves', tableInDb.moves)
-
-                                        db2.close()
-
-
-                                        store.q.splice(qIndex, 1)
-
-                                        clients.publishView('admin.html', 'default', 'splitMoves', getNakedQ())
-
-
+                                        moves: returnedMove.result.moveTree
 
                                     })
-                            })
+
+                                })
+
+                                tableInDb.moveTask = {}
+
+                                mongodb.connect(cn, function(err2, db2) {
+
+                                    db2.collection("tables")
+                                        .save(tableInDb, function(err3, res) {
 
 
-                        }
+                                            clients.publishView('board.html', tableInDb._id, 'dbTable.table', tableInDb.table)
 
-                })
+                                            clients.publishView('board.html', tableInDb._id, 'dbTable.wNext', tableInDb.wNext)
+
+                                            clients.publishView('board.html', tableInDb._id, 'dbTable.chat', tableInDb.chat)
+
+                                            clients.publishView('board.html', tableInDb._id, 'dbTable.moves', tableInDb.moves)
+
+                                            db2.close()
+
+
+                                            store.q.splice(qIndex, 1)
+
+                                            clients.publishView('admin.html', 'default', 'splitMoves', getNakedQ())
+
+
+
+                                        })
+                                })
+
+
+                            }
+
+                    }
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    }
+)
 
 
                 clients.publishView('admin.html', 'default', 'splitMoves', getNakedQ())
@@ -492,7 +512,7 @@ var SplitMoves = function(clients) {
 
 
 
-                console.log('-----------------------------------')
+                //console.log('-----------------------------------')
             }
 
 
@@ -513,7 +533,9 @@ var SplitMoves = function(clients) {
         }
 
         //this.publishToAdmin()
-
+    }else{
+        console.log('error: no qIndex')
+    }
     }
     
     var getNakedThinkers=function(qIndex){
@@ -539,6 +561,8 @@ var SplitMoves = function(clients) {
     var assist=function(assisted,assistant){
         
         var moves=getAssistMoves(assisted,assistant)
+        
+        clients.sendTask(new Task('splitMove', moves, 'assist splitMove'), assistant.connection)
         
         //console.log('moves returned',moves)
         
