@@ -181,7 +181,32 @@ var taskReceived = function(task) {
 	pollingTask = task.data.tn + 1
 
 	switch (task.command) {
+        
+        case "removeSplitMove":
+        
+            task.data.forEach(function(moveToRemove){
+                
+                progress.splitMoves--
+                
+                for(var i=progress.moves.length-1;i>=0;i--){
+                    
+                    
+                    if(progress.moves[i].moveIndex==moveToRemove.moveIndex){
+                        
+                        console.log('got help, removing move',progress.moves[i].moveIndex)
+                        progress.moves.splice(i,1)
+                    }
+                    
+                }
+                
+                
+                
+            })
+        
+        
+        
 
+        break;
 		case "splitMove":
 
 			splitMoveStarted = new Date() // globalTimer//new Date().getTime()
