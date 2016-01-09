@@ -417,7 +417,7 @@ var SplitMoves = function(clients) {
 							//console.log('thinker to help:',thinkerToHelp.thinker.thinker)
 
 							assist(thinkerToHelp, store.q[qIndex].thinkers[tIndex])
-
+                            
 						} else {
 
 							//hiba
@@ -440,6 +440,11 @@ var SplitMoves = function(clients) {
             
             if(data.final){
                 connection.addedData.currentState = 'idle'
+                store.q[qIndex].thinkers[tIndex].progress = 100//progress
+				store.q[qIndex].thinkers[tIndex].beBackIn = 0//beBackIn
+
+                
+                
             }
 			console.log('error: no qIndex')
 		}
