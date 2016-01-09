@@ -132,7 +132,7 @@ var SplitMoves = function(clients) {
 
 			var thinker = clients.fastestThinker()
 
-			// console.log('============================speed:',itsSpeed[0])
+			// //console.log('============================speed:',itsSpeed[0])
 
 			var sendThese = getSplitMoveTask(splitMove, thinker.itsSpeed)
 
@@ -194,7 +194,7 @@ var SplitMoves = function(clients) {
 			if (moveArray[i].moveIndex == move.moveIndex) {
 
 				index = i
-					//console.log('found!!!!')
+					////console.log('found!!!!')
 
 			}
 
@@ -203,11 +203,11 @@ var SplitMoves = function(clients) {
 		if (index != undefined) {
 
 			moveArray.splice(i, 1)
-				//console.log('removed!!!!')
+				////console.log('removed!!!!')
 
 		} else {
 
-			//console.log('not found!!!!')
+			////console.log('not found!!!!')
 
 		}
 
@@ -219,7 +219,7 @@ var SplitMoves = function(clients) {
 
 		var qIndex = qIndexByGameID(gameID)
 
-		//console.log(qIndex)
+		////console.log(qIndex)
 		if (qIndex != undefined) {
 
 			var tIndex = getThinkerIndex(qIndex, thinker)
@@ -274,7 +274,7 @@ var SplitMoves = function(clients) {
 					data.results.forEach(function(res) {
 
 						if (store.q[qIndex].moves[res.moveIndex].done) {
-							console.log('error: move solved twice(or more)')
+							//console.log('error: move solved twice(or more)')
 						} else {
 
 							store.q[qIndex].moves[res.moveIndex].done = true
@@ -296,8 +296,16 @@ var SplitMoves = function(clients) {
 
 								})
 
-								console.log('will move ', store.q[qIndex].moves[0].result.move)
-
+								//console.log('will move ', store.q[qIndex].moves[0].result.move)
+                                
+                                store.q[qIndex].thinkers.forEach(function(thinker){
+                                    
+                                    //console.log(thinker)
+                                    thinker.progress=100    
+                                        
+                                })
+                                
+                                
 								willMove = true
 
 								var tableInDb = store.q[qIndex].origTable
@@ -355,7 +363,7 @@ var SplitMoves = function(clients) {
 
 				if (data.final && !willMove) {
 
-					//console.log('thinker finished, starting assist..')
+					////console.log('thinker finished, starting assist..')
 
 					var thinkerToHelp = undefined
 
@@ -369,7 +377,7 @@ var SplitMoves = function(clients) {
 
 							var accuBackIn = thinkerInMove.beBackAt - timeNow
 
-							//console.log('accu',accuBackIn)
+							////console.log('accu',accuBackIn)
 
 							if (accuBackIn > 1000) {
 
@@ -396,13 +404,13 @@ var SplitMoves = function(clients) {
 
 									}
 
-									//console.log(index+': ',guessedMovesLeft,'moves, be back in ',accuBackIn,thinkerInMove.thinker)
+									////console.log(index+': ',guessedMovesLeft,'moves, be back in ',accuBackIn,thinkerInMove.thinker)
 
 									found = true
 
 								}
 
-								//console.log('percDone:',percDone)
+								////console.log('percDone:',percDone)
 
 							}
 
@@ -411,17 +419,17 @@ var SplitMoves = function(clients) {
 					})
 
 					if (found) {
-						//console.log('my smTakes',store.q[qIndex].thinkers[tIndex].smTakes)
+						////console.log('my smTakes',store.q[qIndex].thinkers[tIndex].smTakes)
 
 						if (thinkerToHelp.thinker) {
-							//console.log('thinker to help:',thinkerToHelp.thinker.thinker)
+							////console.log('thinker to help:',thinkerToHelp.thinker.thinker)
 
 							assist(thinkerToHelp, store.q[qIndex].thinkers[tIndex])
                             
 						} else {
 
 							//hiba
-							console.log('error:', thinkerToHelp)
+							//console.log('error:', thinkerToHelp)
 
 						}
 
@@ -450,7 +458,7 @@ var SplitMoves = function(clients) {
                 
             }
             
-			console.log('error: no qIndex')
+			//console.log('error: no qIndex')
 		}
 	}
 
@@ -492,7 +500,7 @@ var SplitMoves = function(clients) {
         
         
 
-		//console.log('moves returned',moves)
+		////console.log('moves returned',moves)
 
 	}
 
@@ -518,7 +526,7 @@ var SplitMoves = function(clients) {
 			more = false
 			if (assistantSpeed * count < assistedBackIn - (assistedBackIn * count / maxMoves)) {
 
-				console.log('add:', count)
+				//console.log('add:', count)
 
 				count++
 				more = true
@@ -532,15 +540,15 @@ var SplitMoves = function(clients) {
 			count = Math.ceil(maxMoves / 3)
 		}
 
-		console.log('count,max:', count, maxMoves)
+		//console.log('count,max:', count, maxMoves)
 
 		// take moves, but max 1/3rd from each thinker, speedtests can be vey inaccurate, get some averages!!!!!!!!!!!!!!!!!!!!!!!!1
 
-		//console.log(maxMoves)
+		////console.log(maxMoves)
 
 		result = fromMoves.splice(0, count)
 
-		//console.log('assisted',assisted.sentMoves)
+		////console.log('assisted',assisted.sentMoves)
 
 		return result
 
@@ -557,7 +565,7 @@ var SplitMoves = function(clients) {
 
 		} else {
 
-			console.log('no id')
+			//console.log('no id')
 
 		}
 
@@ -618,7 +626,7 @@ var SplitMoves = function(clients) {
 
 		var res
 
-		// console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+		// //console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
 		var index = qIndexByGameID(gameID)
 
 		if (index !== -1) {
