@@ -469,11 +469,19 @@ var SplitMoves = function(clients) {
 
 		var moves = getAssistMoves(assisted, assistant)
         
-        assistant.progress=0
+        if(moves.length>0){
+            
+            assistant.progress=0
         
-        clients.sendTask(new Task('removeSplitMove', moves, 'remove splitMove'), assisted.connection)
+            clients.sendTask(new Task('removeSplitMove', moves, 'remove splitMove'), assisted.connection)
 
-		clients.sendTask(new Task('splitMove', moves, 'assist splitMove'), assistant.connection)
+            clients.sendTask(new Task('splitMove', moves, 'assist splitMove'), assistant.connection)
+                
+            
+            
+        }
+        
+        
 
 		//console.log('moves returned',moves)
 
