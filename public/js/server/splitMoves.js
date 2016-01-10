@@ -386,10 +386,7 @@ var SplitMoves = function(clients) {
 				    store.q[qIndex].thinkers[tIndex].beBackIn = 0
                     
                  }
-                 
-                 
-                 
-                //  console.log('here assist others 2')
+                
                         
                  this.assistOtherTables(connection)
                 
@@ -549,28 +546,16 @@ var SplitMoves = function(clients) {
                             
                             //check if we can assist other tables
                             
-                            
-                            
-                            
                             this.assistOtherTables(connection)
-                            
-                            
-                            
                             
                         }
 
                     }
 
-                    
-
                     clients.publishView('board.html', gameID, 'busyThinkers', getNakedThinkers(qIndex))
 
                 }
-                    
-                    
-                    
-                    
-                
+                  
             }
 
 			
@@ -622,8 +607,6 @@ var SplitMoves = function(clients) {
 
 								} else {
 
-									//take note of client, then help the one that needs it most
-
 									if (accuBackIn > tempBackIn) {
 
 										thinkerInMove.guessedMovesLeft = guessedMovesLeft
@@ -654,7 +637,7 @@ var SplitMoves = function(clients) {
                                 assistant: store.q[qIndex].thinkers[tIndex],
                                 assistedIndex: tHelpIndex
                             }
-							//assist(thinkerToHelp, store.q[qIndex].thinkers[tIndex])
+							
                             
 						}
 					}
