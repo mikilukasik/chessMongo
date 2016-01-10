@@ -66,7 +66,7 @@ var splitMoves = new SplitMoves(clients)
 
 eval(fs.readFileSync('public/js/server/serverFuncs.js') + '');
 
-eval(fs.readFileSync('public/js/server/functions.js') + '');
+eval(fs.readFileSync('public/js/server/onMessageFuncs.js') + '');
 
 
 
