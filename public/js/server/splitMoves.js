@@ -282,10 +282,6 @@ var SplitMoves = function(clients) {
 
     this.assistOtherTables=function(connection){
         
-        
-        
-        
-        
         var splitMove
         var splitMoveIndex=getSplitMoveIndexToAssist()
         
@@ -297,8 +293,6 @@ var SplitMoves = function(clients) {
         if(splitMove){
             
             console.log('here assist other moves')
-            
-            //connection to help splitMove here
             
             var tempBeBackIn=-1
             var tempThinker=undefined
@@ -341,27 +335,13 @@ var SplitMoves = function(clients) {
                 
                 removeSentMove(store.q[splitMoveIndex].thinkers[tempTIndex].sentMoves, moves)
             
-                
-                
                 var sentTo=clients.sendTask(new Task('splitMove', moves, 'assist another splitMove'), connection)
-                
-                
                 
                 this.registerSentMoves(moves[0].sharedData.gameNum, sentTo, count, moves, connection)
 
-                
-                //console.log(connection)
-                
                 clients.send(connection,'aa',0,'aa')
-                
-                //console.log('ezaz',moves)
-         
+               
             }
-            
-            
-            
-            
-            
             
             
         }
@@ -386,11 +366,8 @@ var SplitMoves = function(clients) {
 				    store.q[qIndex].thinkers[tIndex].beBackIn = 0
                     
                  }
-                
-                        
+                      
                  this.assistOtherTables(connection)
-                
-                
                 
             }
           
