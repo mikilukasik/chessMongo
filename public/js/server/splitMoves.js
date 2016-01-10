@@ -78,13 +78,14 @@ var SplitMoves = function(clients) {
 		store.q.forEach(function(splitMove, i) {
 
 			var nakedT = getNakedThinkers(i)
+            var nakedM = getNakedMoves(i)
 
 			store.nakedQ.push({
                 
 				gameNum: splitMove.gameNum,
 				thinkers: nakedT,
-				moves: splitMove.moves,
-				a: splitMove.movesToSend
+				moves: nakedM,
+				//a: splitMove.movesToSend
 
 			})
 		})
@@ -651,6 +652,21 @@ var SplitMoves = function(clients) {
 				beBackIn: thinker.beBackIn,
 				dmpm: thinker.dmpm,
 				progress: thinker.progress,
+			})
+		})
+
+		return naked
+
+	}
+    
+    var getNakedMoves = function(qIndex) {
+
+		var naked = []
+
+		store.q[qIndex].moves.forEach(function(move) {
+			naked.push({
+				moveIndex:move.moveIndex,
+                done:move.done
 			})
 		})
 
