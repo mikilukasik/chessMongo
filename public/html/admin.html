@@ -200,7 +200,7 @@
 			
 		  <td class="atd" >{{x.gameNum}}</td>
 		  <td class="atd" ><div ng-repeat="y in x.thinkers">{{y}}</div></td>
-		  <td class="atd" ><div ng-repeat="y in x.moves" ng-class="{makeGreen: y.done , makeRed: !y.done }">{{$index}}</div></td>
+		  <td class="atd" ><div ng-repeat="y in x.moves" ng-class="{makeGreen: y.done , makeRed: !y.done }">{{$index}}<div ng-repeat="z in y.history">{{z}}</div></div></td>
 		
 		
 

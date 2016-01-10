@@ -1,3 +1,31 @@
+
+
+var MoveToSend = function(moveCoord, index, dbTableWithMoveTask,splitMoveId) {
+    
+    var moveTask=dbTableWithMoveTask.moveTask
+    
+    this.moveIndex=index
+    
+    this.moveCoords=moveCoord       //one move only
+     
+    this.sharedData=moveTask.sharedData
+    
+    this.sharedData.origTable=dbTableWithMoveTask.table
+    
+    this.sharedData.gameNum=dbTableWithMoveTask._id
+    
+    this.sharedData.desiredDepth=moveTask.sharedData.desiredDepth
+    
+    this.sharedData.splitMoveID=splitMoveId
+    
+    this.timer={}
+    
+    this.history=[]
+     
+}
+
+
+
 var SplitMove = function(dbTableWithMoveTask) {
 
 	this.started = new Date()
@@ -29,6 +57,8 @@ var SplitMove = function(dbTableWithMoveTask) {
 	this.origMoveTask = dbTableWithMoveTask.moveTask
 
 	this.pendingMoveCount = dbTableWithMoveTask.moveTask.moveCoords.length
+    
+    
 
 }
 
@@ -40,7 +70,7 @@ var SplitMoves = function(clients) {
 
 	}
 
-	var getNakedQ = function() {
+	this.getNakedQ = function() {
 
 		var res = []
 
@@ -49,6 +79,7 @@ var SplitMoves = function(clients) {
 			var nakedT = getNakedThinkers(i)
 
 			res.push({
+                
 				gameNum: splitMove.gameNum,
 				thinkers: nakedT,
 				moves: splitMove.moves,
@@ -60,6 +91,8 @@ var SplitMoves = function(clients) {
 		return res
 
 	}
+    
+    var getNakedQ=this.getNakedQ
 
 	var qIndexBysplitMoveID = function(splitMove) {
 
@@ -83,7 +116,7 @@ var SplitMoves = function(clients) {
 
 	this.publishNakedQ = function() {
 
-		clients.publishView('admin.html', 'default', 'splitMoves', getNakedQ()) 
+		clients.publishView('admin.html', 'default', 'splitMoves', this.getNakedQ()) 
 		
 	}
 
@@ -121,11 +154,20 @@ var SplitMoves = function(clients) {
 
 			var sendThese = getSplitMoveTask(splitMove, thinker.itsSpeed)
 
+            sendThese.forEach(function(move){
+                
+                //console.log('ssss',thinker,'sssssssssss')
+                
+                move.history.push('initial: '+thinker.addedData.lastUser   )
+            })
+
 			var sentCount = sendThese.length
 
 			//var connection={}
 
 			var sentTo = clients.sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTableWithMoveTask._id + ' sentCount: ' + sentCount), thinker) //string
+            
+           
 
 			this.registerSentMoves(dbTableWithMoveTask._id, sentTo, sentCount, sendThese, thinker)
 
@@ -210,6 +252,122 @@ var SplitMoves = function(clients) {
         clients.publishAddedData()
     
     }
+    
+    var getSplitMoveIndexToAssist=function(){
+        
+        var kuszob=1000     //!!!!!!!!
+        
+        var len=store.q.length
+        
+        for(var i=0;i<len;i++){
+            
+            var tempBeBackIn=0
+            
+            for(var j=store.q[i].thinkers.length-1;j>=0;j--){//.forEach(function(thinker){
+                
+                if(store.q[i].thinkers[j].beBackIn>tempBeBackIn)tempBeBackIn=store.q[i].thinkers[j].beBackIn
+                
+                if(tempBeBackIn>kuszob)break;
+                
+            }
+            
+            
+            if(tempBeBackIn>1000)break;
+            
+        }
+        
+        if(tempBeBackIn>kuszob)return i
+        
+    }
+
+    this.assistOtherTables=function(connection){
+        
+        
+        
+        
+        
+        var splitMove
+        var splitMoveIndex=getSplitMoveIndexToAssist()
+        
+        if(splitMoveIndex!=undefined){
+            splitMove=store.q[splitMoveIndex]
+        }
+        
+        
+        if(splitMove){
+            
+            console.log('here assist other moves')
+            
+            //connection to help splitMove here
+            
+            var tempBeBackIn=-1
+            var tempThinker=undefined
+            var tempTIndex=undefined
+            
+            splitMove.thinkers.forEach(function(thinker,index){
+                
+                if(thinker.beBackIn>tempBeBackIn){
+                    tempBeBackIn=thinker.beBackIn
+                    tempThinker=thinker
+                    tempTIndex=index
+                }
+                              
+            })
+            
+            var mySpeed=connection.addedData.speed
+            var hisSpeed=tempThinker.connection.addedData.speed
+            
+            var myRatio=mySpeed/(mySpeed+hisSpeed)
+          
+            var tempMoves=tempThinker.sentMoves
+            var len=tempMoves.length
+            
+            var count=~~(len*myRatio)
+            
+            var moves=tempMoves.splice(0,count)
+            
+            if(moves&&moves.length>0){
+               
+                var qRes=[]
+               
+                moves.forEach(function(move){
+                    move.history.push('join in: '+connection.addedData.lastUser   )
+                    qRes.push(move.moveIndex)
+                })
+               
+                console.log('doing it now, count:',count,'moves:',qRes)
+               
+                clients.sendTask(new Task('removeSplitMove', moves, 'remove splitMove'), tempThinker.connection)
+                
+                removeSentMove(store.q[splitMoveIndex].thinkers[tempTIndex].sentMoves, moves)
+            
+                
+                
+                var sentTo=clients.sendTask(new Task('splitMove', moves, 'assist another splitMove'), connection)
+                
+                
+                
+                this.registerSentMoves(moves[0].sharedData.gameNum, sentTo, count, moves, connection)
+
+                
+                //console.log(connection)
+                
+                clients.send(connection,'aa',0,'aa')
+                
+                //console.log('ezaz',moves)
+         
+            }
+            
+            
+            
+            
+            
+            
+            
+        }
+        
+        
+    }
 
 	this.updateSplitMoveProgress = function(gameID, thinker, data, connection) {
 
@@ -231,177 +389,191 @@ var SplitMoves = function(clients) {
                  
                  
                  
-                 console.log('here assist others 2')
+                //  console.log('here assist others 2')
                         
+                 this.assistOtherTables(connection)
                 
                 
                 
             }
           
 		}else{
+            
+             
+            var tIndex = getThinkerIndex(qIndex, thinker)
 
-			var tIndex = getThinkerIndex(qIndex, thinker)
+            
+            if(store.q[qIndex].thinkers[tIndex]){
+                
+               
+                var progress = undefined
+                var beBackIn = undefined
+                var beBackAt = undefined
+            
 
-			var progress = undefined
-			var beBackIn = undefined
-			var beBackAt = undefined
-		
+                var willMove = false
 
-			var willMove = false
+                if (data.final) {
 
-			if (data.final) {
+                    progress = 100
+                    beBackIn = 0
+                    beBackAt = timeNow
 
-				progress = 100
-				beBackIn = 0
-				beBackAt = timeNow
+                    connection.addedData.currentState = 'idle' //'reCheck'
 
-				connection.addedData.currentState = 'idle' //'reCheck'
+                    clients.updateSpeedStats(connection, data.depth, data.dmpm)
 
-				clients.updateSpeedStats(connection, data.depth, data.dmpm)
+                    clients.publishAddedData()
 
-				clients.publishAddedData()
+                } else {
 
-			} else {
+                    progress = data.progress
+                    beBackIn = data.beBackIn
+                    beBackAt = Number(timeNow) + beBackIn
+                        
 
-				progress = data.progress
-				beBackIn = data.beBackIn
-				beBackAt = Number(timeNow) + beBackIn
-					
+                }
 
-			}
+                var dmpm = data.dmpm
 
-			var dmpm = data.dmpm
+                if (progress > store.q[qIndex].thinkers[tIndex].progress) {
 
-			if (progress > store.q[qIndex].thinkers[tIndex].progress) {
+                    store.q[qIndex].thinkers[tIndex].progress = progress
+                    store.q[qIndex].thinkers[tIndex].beBackIn = beBackIn
+                    store.q[qIndex].thinkers[tIndex].beBackAt = beBackAt
 
-				store.q[qIndex].thinkers[tIndex].progress = progress
-				store.q[qIndex].thinkers[tIndex].beBackIn = beBackIn
-				store.q[qIndex].thinkers[tIndex].beBackAt = beBackAt
+                    store.q[qIndex].thinkers[tIndex].dmpm = dmpm
+                        
+                    store.q[qIndex].thinkers[tIndex].mspm = beBackIn / store.q[qIndex].thinkers[tIndex].movesLeft
+                    store.q[qIndex].thinkers[tIndex].smTakes = data.smTakes
 
-				store.q[qIndex].thinkers[tIndex].dmpm = dmpm
-					
-				store.q[qIndex].thinkers[tIndex].mspm = beBackIn / store.q[qIndex].thinkers[tIndex].movesLeft
-				store.q[qIndex].thinkers[tIndex].smTakes = data.smTakes
+                }
 
-			}
+                if (store.q[qIndex] && store.q[qIndex].thinkers[tIndex]) {
 
-			if (store.q[qIndex] && store.q[qIndex].thinkers[tIndex]) {
+                    if (data.results) {
 
-				if (data.results) {
+                        data.results.forEach(function(res) {
 
-					data.results.forEach(function(res) {
-
-						if (store.q[qIndex].moves[res.moveIndex].done) {
-							console.log('error: move solved twice(or more)')
-                            
-						} else {
-
-							store.q[qIndex].moves[res.moveIndex].done = true
-							store.q[qIndex].moves[res.moveIndex].result = res
-
-							store.q[qIndex].pendingMoveCount--
-								store.q[qIndex].thinkers[tIndex].movesLeft--
-
-								removeSentMove(store.q[qIndex].thinkers[tIndex].sentMoves, res)
-
-							if (store.q[qIndex].pendingMoveCount == 0) {
-
-								store.q[qIndex].moves.sort(function(a, b) {
-									if (a.result.value > b.result.value) {
-										return -1
-									} else {
-										return 1
-									}
-
-								})
-
-								console.log('will move ', store.q[qIndex].moves[0].result.move)
+                            if (store.q[qIndex].moves[res.moveIndex].done) {
+                                console.log('error: move solved twice(or more)')
                                 
-                                store.q[qIndex].thinkers.forEach(function(thinker){
-                                  
-                                    thinker.progress=100    
-                                        
-                                })
-                                
-                                
-								willMove = true
+                            } else {
 
-								var tableInDb = store.q[qIndex].origTable
+                                store.q[qIndex].moves[res.moveIndex].done = true
+                                store.q[qIndex].moves[res.moveIndex].result = res
 
-								moveInTable(store.q[qIndex].moves[0].result.move, tableInDb)
+                                store.q[qIndex].pendingMoveCount--
+                                store.q[qIndex].thinkers[tIndex].movesLeft--
 
-								tableInDb.chat = [~~((timeNow - store.q[qIndex].started) / 10) / 100 + 'sec'] //1st line in chat is timeItTook
+                                removeSentMove(store.q[qIndex].thinkers[tIndex].sentMoves, res)
 
-								store.q[qIndex].moves.forEach(function(returnedMove) {
+                                if (store.q[qIndex].pendingMoveCount == 0) {
 
-									tableInDb.chat = tableInDb.chat.concat({
+                                    store.q[qIndex].moves.sort(function(a, b) {
+                                        if (a.result.value > b.result.value) {
+                                            return -1
+                                        } else {
+                                            return 1
+                                        }
 
-										hex: returnedMove.result.value.toString(16),
-										score: returnedMove.result.value,
+                                    })
 
-										moves: returnedMove.result.moveTree
-
-									})
-
-								})
-
-								tableInDb.moveTask = {}
-
-								mongodb.connect(cn, function(err2, db2) {
-
-									db2.collection("tables")
-										.save(tableInDb, function(err3, res) {
-
-											publishTable(tableInDb)
+                                    console.log('will move ', store.q[qIndex].moves[0].result.move)
+                                    
+                                    store.q[qIndex].thinkers.forEach(function(thinker){
+                                    
+                                        thinker.progress=100    
                                             
-											db2.close()
+                                    })
+                                    
+                                    
+                                    willMove = true
 
-											store.q.splice(qIndex, 1)
+                                    var tableInDb = store.q[qIndex].origTable
 
-											clients.publishView('admin.html', 'default', 'splitMoves', getNakedQ())
+                                    moveInTable(store.q[qIndex].moves[0].result.move, tableInDb)
 
-										})
-								})
+                                    tableInDb.chat = [~~((timeNow - store.q[qIndex].started) / 10) / 100 + 'sec'] //1st line in chat is timeItTook
 
-							}
+                                    store.q[qIndex].moves.forEach(function(returnedMove) {
 
-						}
+                                        tableInDb.chat = tableInDb.chat.concat({
 
-					})
+                                            hex: returnedMove.result.value.toString(16),
+                                            score: returnedMove.result.value,
 
-					clients.publishView('admin.html', 'default', 'splitMoves', getNakedQ())
+                                            moves: returnedMove.result.moveTree
 
-				}
+                                        })
 
-				if (data.final) {
-                    
-                    var assistData=getAssistData(qIndex,tIndex,timeNow)
-                    
-                    if(assistData&&!willMove){
-                        
-                        assist(assistData.assisted,assistData.assistant)
-                        
-                    }else{
-                        
-                        //check if we can assist other tables
-                        
-                        
-                        console.log('here assist others')
-                        
-                        
-                        
-                        
-                        
-                        
+                                    })
+
+                                    tableInDb.moveTask = {}
+
+                                    mongodb.connect(cn, function(err2, db2) {
+
+                                        db2.collection("tables")
+                                            .save(tableInDb, function(err3, res) {
+
+                                                publishTable(tableInDb)
+                                                
+                                                db2.close()
+
+                                                store.q.splice(qIndex, 1)
+
+                                                clients.publishView('admin.html', 'default', 'splitMoves', getNakedQ())
+
+                                            })
+                                    })
+
+                                }
+
+                            }
+
+                        })
+
+                        clients.publishView('admin.html', 'default', 'splitMoves', this.getNakedQ())
+
                     }
 
-				}
+                    if (data.final) {
+                        
+                        var assistData=getAssistData(qIndex,tIndex,timeNow)
+                        
+                        if(assistData&&!willMove){
+                            
+                            this.assist(assistData.assisted,assistData.assistant,qIndex,assistData.assistedIndex)
+                            
+                        }else{
+                            
+                            //check if we can assist other tables
+                            
+                            
+                            
+                            
+                            this.assistOtherTables(connection)
+                            
+                            
+                            
+                            
+                        }
 
-				
+                    }
 
-				clients.publishView('board.html', gameID, 'busyThinkers', getNakedThinkers(qIndex))
+                    
 
-			}
+                    clients.publishView('board.html', gameID, 'busyThinkers', getNakedThinkers(qIndex))
+
+                }
+                    
+                    
+                    
+                    
+                
+            }
+
+			
 
 		} 
 	}
@@ -426,6 +598,7 @@ var SplitMoves = function(clients) {
 					var thinkerToHelp = undefined
 
 					var tempBackIn = 0
+                    var tHelpIndex
 
 					var found = false
 
@@ -457,6 +630,7 @@ var SplitMoves = function(clients) {
 										thinkerInMove.accuBackIn = accuBackIn
 
 										thinkerToHelp = thinkerInMove
+                                        tHelpIndex=index
 										tempBackIn = accuBackIn
 
 									}
@@ -477,7 +651,8 @@ var SplitMoves = function(clients) {
 							
                             return{
                                 assisted: thinkerToHelp,
-                                assistant: store.q[qIndex].thinkers[tIndex]
+                                assistant: store.q[qIndex].thinkers[tIndex],
+                                assistedIndex: tHelpIndex
                             }
 							//assist(thinkerToHelp, store.q[qIndex].thinkers[tIndex])
                             
@@ -503,7 +678,7 @@ var SplitMoves = function(clients) {
 
 	}
 
-	var assist = function(assisted, assistant) {
+	this.assist = function(assisted, assistant, qIndex, tIndex) {
         
         
 
@@ -511,11 +686,21 @@ var SplitMoves = function(clients) {
         
         if(moves.length>0){
             
+            moves.forEach(function(move){
+                    move.history.push('assist: '+assistant.connection.addedData.lastUser   )
+                })
+            
             assistant.progress=0
         
             clients.sendTask(new Task('removeSplitMove', moves, 'remove splitMove'), assisted.connection)
+            
+            removeSentMove(store.q[qIndex].thinkers[tIndex].sentMoves, moves)
+            
 
-            clients.sendTask(new Task('splitMove', moves, 'assist splitMove'), assistant.connection)
+            var sentTo=clients.sendTask(new Task('splitMove', moves, 'assist splitMove'), assistant.connection)
+            
+            //this.registerSentMoves(moves[0].sharedData.gameNum, sentTo, moves.length, moves, assistant.connection)
+
             
         }
         
@@ -530,32 +715,39 @@ var SplitMoves = function(clients) {
 		var assistantSpeed = assistant.smTakes
 
 		var assistedSpeed = assisted.accuBackIn / assisted.guessedMovesLeft
-
+        
+        
 		var assistedBackIn = assisted.accuBackIn
+        
+        console.log('assist stat...     assistantSpeed',assistantSpeed,' assistedSpeed',assistedSpeed,'assistedBackIn',assistedBackIn)
 
 		var maxMoves = assisted.guessedMovesLeft
 
 		var fromMoves = assisted.sentMoves
 
-		var more = false
+		//var more = false
 
-		do {
-			more = false
-			if (assistantSpeed * count < assistedBackIn - (assistedBackIn * count / maxMoves)) {
+		while(assistantSpeed * count < assistedBackIn - (assistedSpeed * count)){
+        
+			
 
 				count++
-				more = true
-			}
+			
 
-		} while (count <= maxMoves && more) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		}
+        
+        count--
+
+        console.log('assist resulted in...     maxMoves',maxMoves,' count',count)
+
 
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!count is too high, problems with measuring assistedspeed
 
-		if (count > maxMoves / 3) {
-			count = Math.ceil(maxMoves / 3)
+		if (count > maxMoves / 2) {
+			count = Math.ceil(maxMoves / 2)
 		}
 
-		// take moves, but max 1/3rd from each thinker, speedtests can be vey inaccurate, get some averages!!!!!!!!!!!!!!!!!!!!!!!!1
+		// take moves, but max 1/2 from each thinker, speedtests can be vey inaccurate, get some averages!!!!!!!!!!!!!!!!!!!!!!!!1
 
 		result = fromMoves.splice(0, count)
 

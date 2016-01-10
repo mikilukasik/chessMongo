@@ -320,7 +320,19 @@ var onMessageFuncs = {
 
 				})
 
-				break;
+			break;
+            
+            
+            case 'admin.html':
+                
+                clients.send(connection,'updateView',{
+                    viewName:'admin.html',
+                    subViewName:'default',
+                    viewPart: 'splitMoves',
+                    data: splitMoves.getNakedQ()   
+                })
+                
+            break;
 				//clients.send(connection,'updateDbTable',)
 				//	
 		}
