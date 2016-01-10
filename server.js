@@ -21,7 +21,7 @@ var server = httpServ.listen(3000, function() {
 
 var wsServer = new WebSocketServer({
 	httpServer: httpServ,
-	//port: 3000,
+	
 	path: '/sockets/'
 });
 
@@ -33,22 +33,10 @@ var registerNewClient = function() {
 	////console.log('registerNewClient function not inited')
 }
 
-// var knownClientReturned = function() {
-// 	////console.log('knownClientReturned function not inited')
-// }
-
-
 var registerUser = function() {
 	////console.log('registerUser function not inited')
 }
 
-
-// var publishSplitMoves = function() {
-// 	////console.log('publishSplitMoves function not inited')
-// }
-
-
-//eval(fs.readFileSync('public/js/all/deepening.js') + '');
 
 eval(fs.readFileSync('public/js/all/classes.js') + '');
 eval(fs.readFileSync('public/js/all/engine.js') + '');
