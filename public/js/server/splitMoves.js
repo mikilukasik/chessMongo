@@ -217,15 +217,35 @@ var SplitMoves = function(clients) {
 
 		var qIndex = qIndexByGameID(gameID)
 
-		////console.log(qIndex)
-		if (qIndex != undefined) {
+		if (qIndex == undefined)  {
+            
+            if(data.final){
+                
+                connection.addedData.currentState = 'idle'
+                if(store.q[qIndex]){
+                    
+                    store.q[qIndex].thinkers[tIndex].progress = 100
+				    store.q[qIndex].thinkers[tIndex].beBackIn = 0
+                    
+                 }
+                 
+                 
+                 
+                 console.log('here assist others 2')
+                        
+                
+                
+                
+            }
+          
+		}else{
 
 			var tIndex = getThinkerIndex(qIndex, thinker)
 
 			var progress = undefined
 			var beBackIn = undefined
 			var beBackAt = undefined
-				//var movesLeft=undefined
+		
 
 			var willMove = false
 
@@ -246,7 +266,7 @@ var SplitMoves = function(clients) {
 				progress = data.progress
 				beBackIn = data.beBackIn
 				beBackAt = Number(timeNow) + beBackIn
-					//movesLeft = data.movesLeft
+					
 
 			}
 
@@ -259,7 +279,7 @@ var SplitMoves = function(clients) {
 				store.q[qIndex].thinkers[tIndex].beBackAt = beBackAt
 
 				store.q[qIndex].thinkers[tIndex].dmpm = dmpm
-					//store.q[qIndex].thinkers[tIndex].movesLeft = movesLeft
+					
 				store.q[qIndex].thinkers[tIndex].mspm = beBackIn / store.q[qIndex].thinkers[tIndex].movesLeft
 				store.q[qIndex].thinkers[tIndex].smTakes = data.smTakes
 
@@ -272,7 +292,8 @@ var SplitMoves = function(clients) {
 					data.results.forEach(function(res) {
 
 						if (store.q[qIndex].moves[res.moveIndex].done) {
-							//console.log('error: move solved twice(or more)')
+							console.log('error: move solved twice(or more)')
+                            
 						} else {
 
 							store.q[qIndex].moves[res.moveIndex].done = true
@@ -294,11 +315,10 @@ var SplitMoves = function(clients) {
 
 								})
 
-								//console.log('will move ', store.q[qIndex].moves[0].result.move)
+								console.log('will move ', store.q[qIndex].moves[0].result.move)
                                 
                                 store.q[qIndex].thinkers.forEach(function(thinker){
-                                    
-                                    //console.log(thinker)
+                                  
                                     thinker.progress=100    
                                         
                                 })
@@ -332,14 +352,8 @@ var SplitMoves = function(clients) {
 									db2.collection("tables")
 										.save(tableInDb, function(err3, res) {
 
-											clients.publishView('board.html', tableInDb._id, 'dbTable.table', tableInDb.table)
-
-											clients.publishView('board.html', tableInDb._id, 'dbTable.wNext', tableInDb.wNext)
-
-											clients.publishView('board.html', tableInDb._id, 'dbTable.chat', tableInDb.chat)
-
-											clients.publishView('board.html', tableInDb._id, 'dbTable.moves', tableInDb.moves)
-
+											publishTable(tableInDb)
+                                            
 											db2.close()
 
 											store.q.splice(qIndex, 1)
@@ -359,8 +373,54 @@ var SplitMoves = function(clients) {
 
 				}
 
-				if (data.final && !willMove) {
+				if (data.final) {
+                    
+                    var assistData=getAssistData(qIndex,tIndex,timeNow)
+                    
+                    if(assistData&&!willMove){
+                        
+                        assist(assistData.assisted,assistData.assistant)
+                        
+                    }else{
+                        
+                        //check if we can assist other tables
+                        
+                        
+                        console.log('here assist others')
+                        
+                        
+                        
+                        
+                        
+                        
+                    }
 
+				}
+
+				
+
+				clients.publishView('board.html', gameID, 'busyThinkers', getNakedThinkers(qIndex))
+
+			}
+
+		} 
+	}
+    
+    var publishTable=function(dbTable){
+        
+        clients.publishView('board.html', dbTable._id, 'dbTable.table', dbTable.table)
+
+        clients.publishView('board.html', dbTable._id, 'dbTable.wNext', dbTable.wNext)
+
+        clients.publishView('board.html', dbTable._id, 'dbTable.chat', dbTable.chat)
+
+        clients.publishView('board.html', dbTable._id, 'dbTable.moves', dbTable.moves)
+
+        
+    }
+
+    var getAssistData=function(qIndex,tIndex,timeNow){
+        
 					////console.log('thinker finished, starting assist..')
 
 					var thinkerToHelp = undefined
@@ -375,7 +435,6 @@ var SplitMoves = function(clients) {
 
 							var accuBackIn = thinkerInMove.beBackAt - timeNow
 
-							////console.log('accu',accuBackIn)
 
 							if (accuBackIn > 1000) {
 
@@ -402,7 +461,6 @@ var SplitMoves = function(clients) {
 
 									}
 
-
 									found = true
 
 								}
@@ -414,48 +472,18 @@ var SplitMoves = function(clients) {
 					})
 
 					if (found) {
-						////console.log('my smTakes',store.q[qIndex].thinkers[tIndex].smTakes)
-
+						
 						if (thinkerToHelp.thinker) {
-							////console.log('thinker to help:',thinkerToHelp.thinker.thinker)
-
-							assist(thinkerToHelp, store.q[qIndex].thinkers[tIndex])
+							
+                            return{
+                                assisted: thinkerToHelp,
+                                assistant: store.q[qIndex].thinkers[tIndex]
+                            }
+							//assist(thinkerToHelp, store.q[qIndex].thinkers[tIndex])
                             
-						} else {
-
-							//hiba
-							//console.log('error:', thinkerToHelp)
-
 						}
-
 					}
-
-				}
-
-				//
-
-				clients.publishView('board.html', gameID, 'busyThinkers', getNakedThinkers(qIndex))
-
-			}
-
-		} else {
-            
-            if(data.final){
-                
-                connection.addedData.currentState = 'idle'
-                if(store.q[qIndex]){
-                    
-                    store.q[qIndex].thinkers[tIndex].progress = 100
-				    store.q[qIndex].thinkers[tIndex].beBackIn = 0
-                    
-                 }
-                
-                
-                
-            }
-          
-		}
-	}
+    }
 
 	var getNakedThinkers = function(qIndex) {
 

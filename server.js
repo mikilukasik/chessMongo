@@ -61,26 +61,13 @@ eval(fs.readFileSync('public/js/server/onMessageFuncs.js') + '');
 
 wsServer.on('request', function(request) {
 
-
-	//console.log('++++++++++++++++++++++++++++++++++++++++++')
-	//console.log(request.key)
-	//console.log('++++++++++++++++++++++++++++++++++++++++++')
-
-
-
-
 	var connection = request.accept(null, request.origin);
 
-	var newConnectionID = request.key //Math.random()*Math.random()
+	var newConnectionID = request.key 
 
 	connection.addedData = {
 		connectionID: newConnectionID.toString()
 	}
-
-
-
-	////console.log('new connection, id:',newConnectionID)// connectionIndex())
-
 
 	// This is the most important callback for us, we'll handle
 	// all messages from users here.
@@ -88,9 +75,7 @@ wsServer.on('request', function(request) {
 		if (message.type === 'utf8') {
 			// process WebSocket message
 			var received = eval("(" + message.utf8Data + ")")
-
-			////console.log('received:', received.message)
-
+            
 			eval("(onMessageFuncs." + received.command + "(connection,received.data,newConnectionID))") //this is in serverfuncs.js
 
 		}
