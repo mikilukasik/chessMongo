@@ -199,9 +199,37 @@
 		<tr ng-repeat="x in splitMoves track by $index">
 			
 		  <td class="atd" >{{x.gameNum}}</td>
-		  <td class="atd" ><div ng-repeat="y in x.thinkers">{{y}}</div></td>
-		  <td class="atd" ><div ng-repeat="y in x.moves" ng-class="{makeGreen: y.done , makeRed: !y.done }">{{$index}}<div ng-repeat="z in y.history">{{z}}</div></div></td>
+          
+          <td>
+              
+              <div>
+                  
+                  <span ng-repeat="y in x.moves" ng-class="{makeGreen: y.done , makeRed: !y.done }"><strong>x</strong></span>
+                  
+              </div>
+              
+              <div>
+                  
+                  <table>
+                      <tr ng-repeat="y in x.thinkers">
+                          <td ng-repeat="z in y">{{z}}
+                            </td>
+                    </tr>
+                  
+              </div>
+              
+              
+              
+              
+          </td>
+<!--          
+          <td class="atd" ><div ng-repeat="y in x.moves" ng-class="{makeGreen: y.done , makeRed: !y.done }"><span>{{$index}}</span><span><div ng-repeat="z in y.history">{{z}}</div></span></div></td>
 		
+		  <td class="atd" ><div ng-repeat="y in x.thinkers">
+              {{y}}
+              
+              </div></td>-->
+		  
 		
 
 			

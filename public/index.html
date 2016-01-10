@@ -821,6 +821,8 @@
 					inOrOut: 'Login',
 					viewName: 'login.html'
 				}
+                
+                $rootScope.depth = 3
 			}
 
 			if (!socketOn) sockets($rootScope, $scope)
@@ -1168,7 +1170,7 @@
 
 			$rootScope.pollNum = -2 //just in case
 
-			$rootScope.depth = 3
+			
 
 
 			$scope.askToStart = function(opponentsName) {

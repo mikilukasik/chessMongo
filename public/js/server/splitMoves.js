@@ -70,15 +70,16 @@ var SplitMoves = function(clients) {
 
 	}
 
-	this.getNakedQ = function() {
+	this.nakedQ = function() {
 
-		var res = []
+		//var res = []
+        store.nakedQ=[]
 
 		store.q.forEach(function(splitMove, i) {
 
 			var nakedT = getNakedThinkers(i)
 
-			res.push({
+			store.nakedQ.push({
                 
 				gameNum: splitMove.gameNum,
 				thinkers: nakedT,
@@ -88,11 +89,13 @@ var SplitMoves = function(clients) {
 			})
 		})
 
-		return res
+		//return res
 
 	}
     
-    var getNakedQ=this.getNakedQ
+    //var nakedQ=this.nakedQ
+    
+    //var getNakedQ=this.getNakedQ
 
 	var qIndexBysplitMoveID = function(splitMove) {
 
@@ -116,7 +119,8 @@ var SplitMoves = function(clients) {
 
 	this.publishNakedQ = function() {
 
-		clients.publishView('admin.html', 'default', 'splitMoves', this.getNakedQ()) 
+        //this.nakedQ()
+		clients.publishView('admin.html', 'default', 'splitMoves', store.nakedQ) 
 		
 	}
 
@@ -173,6 +177,7 @@ var SplitMoves = function(clients) {
 
 		}
 
+        this.nakedQ()
 		this.publishNakedQ()
 
 		return splitMove
@@ -348,6 +353,10 @@ var SplitMoves = function(clients) {
         
         
     }
+    
+    this.getNakedQ=function(){
+        return store.nakedQ
+    }
 
 	this.updateSplitMoveProgress = function(gameID, thinker, data, connection) {
 
@@ -441,6 +450,8 @@ var SplitMoves = function(clients) {
                                 store.q[qIndex].thinkers[tIndex].movesLeft--
 
                                 removeSentMove(store.q[qIndex].thinkers[tIndex].sentMoves, res)
+                                
+                                // this.nakedQ()
 
                                 if (store.q[qIndex].pendingMoveCount == 0) {
 
@@ -484,6 +495,8 @@ var SplitMoves = function(clients) {
                                     })
 
                                     tableInDb.moveTask = {}
+                                    
+                                    //this.nakedQ()
 
                                     mongodb.connect(cn, function(err2, db2) {
 
@@ -493,10 +506,12 @@ var SplitMoves = function(clients) {
                                                 publishTable(tableInDb)
                                                 
                                                 db2.close()
+                                                
+                                                
 
                                                 store.q.splice(qIndex, 1)
 
-                                                clients.publishView('admin.html', 'default', 'splitMoves', getNakedQ())
+                                                //clients.publishView('admin.html', 'default', 'splitMoves', store.nakedQ)
 
                                             })
                                     })
@@ -506,8 +521,11 @@ var SplitMoves = function(clients) {
                             }
 
                         })
+                        
+                        this.nakedQ()
 
-                        clients.publishView('admin.html', 'default', 'splitMoves', this.getNakedQ())
+                        //this.publishNakedQ()
+                        //clients.publishView('admin.html', 'default', 'splitMoves', this.store.nakedQ())
 
                     }
 
@@ -530,7 +548,9 @@ var SplitMoves = function(clients) {
                     }
 
                     clients.publishView('board.html', gameID, 'busyThinkers', getNakedThinkers(qIndex))
-
+                    
+                    this.publishNakedQ()
+                    
                 }
                   
             }
@@ -734,7 +754,7 @@ var SplitMoves = function(clients) {
 
 			eval('(store.q[index].' + propertyName + '=value)')
 
-			this.publishNakedQ()
+			this.nakedQ()
 
 		}
         
@@ -767,13 +787,13 @@ var SplitMoves = function(clients) {
 				'if(store.q[index].' + arrayName + '){(store.q[index].' + arrayName + '.push(value))}else{store.q[index].' + arrayName + '=[value]}'
 			)
 
-			this.publishNakedQ()
+			this.nakedQ()
 
 		} else {
 
 			if (forcePublish) {
 
-				this.publishNakedQ()
+				this.nakedQ()
 
 			}
 
