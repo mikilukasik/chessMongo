@@ -69,12 +69,6 @@ var SplitMoves = function(clients) {
 
 		}
 
-		//return -1
-
-		// return store.q.findIndex(function(element,index){
-		//     if(splitMove.splitMoveID===element.splitMoveID) {return true}else{return false}
-		// })
-
 	}
 
 	var qIndexByGameID = function(gameID) {
@@ -85,21 +79,12 @@ var SplitMoves = function(clients) {
 
 		}
 
-		//return 
-
-		// return store.q.findIndex(function(element,index){
-
-		//     if(gameID==element.dbTable._id) {return true}else{return false}
-		// })
-
 	}
 
-	this.publishToAdmin = function() {
+	this.publishNakedQ = function() {
 
-		clients.publishView('admin.html', 'default', 'splitMoves', getNakedQ()) //[[1,2,3],[4,5,6]])//getNakedQ())
-
-		//publishSplitMoves(getNakedQ())
-		//publish to admin view here
+		clients.publishView('admin.html', 'default', 'splitMoves', getNakedQ()) 
+		
 	}
 
 	var getSplitMoveTask = function(splitMove, percent) {
@@ -146,7 +131,7 @@ var SplitMoves = function(clients) {
 
 		}
 
-		this.publishToAdmin()
+		this.publishNakedQ()
 
 		return splitMove
 
@@ -212,6 +197,19 @@ var SplitMoves = function(clients) {
 		}
 
 	}
+    
+    this.makeAiMove=function(dbTableWithMoveTask) {
+    
+        var splitMove= this.add(dbTableWithMoveTask)
+        
+        splitMove.pendingSolvedMoves = splitMove.moves.length
+    
+        splitMove.returnedMoves = []
+
+        clients.publishView('board.html', dbTableWithMoveTask._id, 'busyThinkers', [])
+        clients.publishAddedData()
+    
+    }
 
 	this.updateSplitMoveProgress = function(gameID, thinker, data, connection) {
 
@@ -404,13 +402,10 @@ var SplitMoves = function(clients) {
 
 									}
 
-									////console.log(index+': ',guessedMovesLeft,'moves, be back in ',accuBackIn,thinkerInMove.thinker)
 
 									found = true
 
 								}
-
-								////console.log('percDone:',percDone)
 
 							}
 
@@ -443,22 +438,22 @@ var SplitMoves = function(clients) {
 
 			}
 
-			//this.publishToAdmin()
 		} else {
             
             if(data.final){
                 
                 connection.addedData.currentState = 'idle'
                 if(store.q[qIndex]){
-                    store.q[qIndex].thinkers[tIndex].progress = 100//progress
-				    store.q[qIndex].thinkers[tIndex].beBackIn = 0//beBackIn
+                    
+                    store.q[qIndex].thinkers[tIndex].progress = 100
+				    store.q[qIndex].thinkers[tIndex].beBackIn = 0
+                    
                  }
                 
                 
                 
             }
-            
-			//console.log('error: no qIndex')
+          
 		}
 	}
 
@@ -493,15 +488,9 @@ var SplitMoves = function(clients) {
             clients.sendTask(new Task('removeSplitMove', moves, 'remove splitMove'), assisted.connection)
 
             clients.sendTask(new Task('splitMove', moves, 'assist splitMove'), assistant.connection)
-                
-            
             
         }
         
-        
-
-		////console.log('moves returned',moves)
-
 	}
 
 	var getAssistMoves = function(assisted, assistant) {
@@ -526,8 +515,6 @@ var SplitMoves = function(clients) {
 			more = false
 			if (assistantSpeed * count < assistedBackIn - (assistedBackIn * count / maxMoves)) {
 
-				//console.log('add:', count)
-
 				count++
 				more = true
 			}
@@ -540,15 +527,9 @@ var SplitMoves = function(clients) {
 			count = Math.ceil(maxMoves / 3)
 		}
 
-		//console.log('count,max:', count, maxMoves)
-
 		// take moves, but max 1/3rd from each thinker, speedtests can be vey inaccurate, get some averages!!!!!!!!!!!!!!!!!!!!!!!!1
 
-		////console.log(maxMoves)
-
 		result = fromMoves.splice(0, count)
-
-		////console.log('assisted',assisted.sentMoves)
 
 		return result
 
@@ -573,7 +554,7 @@ var SplitMoves = function(clients) {
 
 			eval('(store.q[index].' + propertyName + '=value)')
 
-			this.publishToAdmin()
+			this.publishNakedQ()
 
 		}
         
@@ -606,13 +587,13 @@ var SplitMoves = function(clients) {
 				'if(store.q[index].' + arrayName + '){(store.q[index].' + arrayName + '.push(value))}else{store.q[index].' + arrayName + '=[value]}'
 			)
 
-			this.publishToAdmin()
+			this.publishNakedQ()
 
 		} else {
 
 			if (forcePublish) {
 
-				this.publishToAdmin()
+				this.publishNakedQ()
 
 			}
 
@@ -626,22 +607,17 @@ var SplitMoves = function(clients) {
 
 		var res
 
-		// //console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
 		var index = qIndexByGameID(gameID)
 
 		if (index !== -1) {
 
 			res = store.q.splice(index, 1)[0]
 
-			// this.publishToAdmin()
-
 		}
 
 		return res
 
 	}
-
-	// var removeSM=this.remove
 
 	this.qLength = function() {
 		return store.q.length

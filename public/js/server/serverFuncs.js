@@ -657,7 +657,7 @@ var onMessageFuncs = {
 
 						case 'makeAiMove':
 
-							makeAiMove(onTable)
+							splitMoves.makeAiMove(onTable)
 
 						break;
 
