@@ -25,7 +25,6 @@ var MoveToSend = function(moveCoord, index, dbTableWithMoveTask,splitMoveId) {
 }
 
 
-
 var SplitMove = function(dbTableWithMoveTask) {
 
 	this.started = new Date()
@@ -62,13 +61,52 @@ var SplitMove = function(dbTableWithMoveTask) {
 
 }
 
+
+
 var SplitMoves = function(clients) {
+    
+    
+    
 
 	var store = {
 
 		q: [],
 
 	}
+    
+    
+        
+    this.intervalFunc=function(){
+        if(store.q.length>0){
+            
+            var idleClientConnections=clients.getIdleClientConnections()
+           
+            var until=idleClientConnections.length
+            
+            console.log('idle connections:',until)
+            
+            
+            
+            for(var i=0; i<until; i++){
+                
+                
+                assistOtherTables(idleClientConnections[i])
+                
+                
+                
+            }
+        }
+        
+        
+        
+    }
+
+    setInterval(this.intervalFunc,2000)
+
+
+    
+    
+    
 
 	this.nakedQ = function() {
 
@@ -94,7 +132,7 @@ var SplitMoves = function(clients) {
 
 	}
     
-    //var nakedQ=this.nakedQ
+    var nakedQ=this.nakedQ
     
     //var getNakedQ=this.getNakedQ
 
@@ -154,15 +192,23 @@ var SplitMoves = function(clients) {
 		while (splitMove.movesToSend.length > 0) {
 
 			var thinker = clients.fastestThinker()
+            
+            
+            if(thinker.addedData.currentState=='busy'){
+                
+                console.log('============================all busy, storing..')
 
-			// //console.log('============================speed:',itsSpeed[0])
+                break;
+                
+            }
 
+			
 			var sendThese = getSplitMoveTask(splitMove, thinker.itsSpeed)
 
             sendThese.forEach(function(move){
                 
                 //console.log('ssss',thinker,'sssssssssss')
-                
+                move.sentToName=thinker.addedData.lastUser
                 move.history.push('initial: '+thinker.addedData.lastUser   )
             })
 
@@ -174,7 +220,7 @@ var SplitMoves = function(clients) {
             
            
 
-			this.registerSentMoves(dbTableWithMoveTask._id, sentTo, sentCount, sendThese, thinker)
+			registerSentMoves(dbTableWithMoveTask._id, sentTo, sentCount, sendThese, thinker)
 
 		}
 
@@ -221,7 +267,9 @@ var SplitMoves = function(clients) {
                 movesLeft: sentCount,
                 beBackIn: 100000,
                 connection: connection,
-                lastSeen:timeNow
+                lastSeen:timeNow,
+                addProgress: 0,
+                
                 
 
             }) - 1
@@ -232,10 +280,13 @@ var SplitMoves = function(clients) {
             
             //console.log('jeeeeeeeeee',thinker)
             
+            thinker.addProgress=Number( thinker.sentCount/(thinker.sentCount+sentCount))
             
             thinker.sentCount+=sentCount
             
             //deal with progress here??
+            
+            thinker.progress=6
             
             thinker.sentMoves=thinker.sentMoves.concat(sentMoves)
             
@@ -254,6 +305,8 @@ var SplitMoves = function(clients) {
         }
 
 	}
+    
+    registerSentMoves=this.registerSentMoves
 
 	var removeSentMove = function(thinker, move, timeNow) {
         
@@ -329,6 +382,8 @@ var SplitMoves = function(clients) {
 
     this.assistOtherTables=function(connection){
         
+        var lastSeenConst=2000
+        
         var timeNow=new Date()
         
         var splitMove
@@ -349,9 +404,9 @@ var SplitMoves = function(clients) {
             
             splitMove.thinkers.forEach(function(thinker,index){
                 
-                console.log('xxxxxxxxxxx innen:',thinker.lastSeen,'idaig')
+                console.log('xxxxxxxxxxx innen:',timeNow - thinker.lastSeen,'idaig')
                 
-                if(thinker.beBackIn>tempBeBackIn||thinker.lastSeen>2000   ){       //!!!!!!!!!!!!!!!!!!!!!
+                if(thinker.beBackIn>tempBeBackIn||timeNow - thinker.lastSeen>lastSeenConst   ){       //!!!!!!!!!!!!!!!!!!!!!
                     tempBeBackIn=thinker.beBackIn
                     tempThinker=thinker
                     tempTIndex=index
@@ -362,7 +417,11 @@ var SplitMoves = function(clients) {
             var mySpeed=connection.addedData.speed
             var hisSpeed=tempThinker.connection.addedData.speed
             
-            var myRatio=mySpeed/(mySpeed+hisSpeed)
+            var  myRatio=mySpeed/(mySpeed+hisSpeed)
+            
+            if(timeNow - tempThinker.lastSeen > lastSeenConst&&myRatio<0.8)myRatio=0.8
+            
+            
           
             var tempMoves=tempThinker.sentMoves
             var len=tempMoves.length
@@ -399,7 +458,7 @@ var SplitMoves = function(clients) {
                 
                 
                 
-                this.registerSentMoves(moves[0].sharedData.gameNum, sentTo, count, moves, connection)
+                registerSentMoves(moves[0].sharedData.gameNum, sentTo, count, moves, connection)
 
                 clients.send(connection,'aa',0,'aa')
                
@@ -410,6 +469,8 @@ var SplitMoves = function(clients) {
         
         
     }
+    
+    assistOtherTables=this.assistOtherTables
     
     this.getNakedQ=function(){
         return store.nakedQ
@@ -496,6 +557,8 @@ var SplitMoves = function(clients) {
                 if (store.q[qIndex] && store.q[qIndex].thinkers[tIndex]) {
 
                     if (data.results) {
+                        
+                        var noNaked=false
 
                         data.results.forEach(function(res) {
 
@@ -516,7 +579,13 @@ var SplitMoves = function(clients) {
                                 // this.nakedQ()
 
                                 if (store.q[qIndex].pendingMoveCount == 0) {
-
+                                    
+                                    noNaked=true
+                                    
+                                    nakedQ()
+                                    
+                                    
+                                    
                                     store.q[qIndex].moves.sort(function(a, b) {
                                         if (a.result.value > b.result.value) {
                                             return -1
@@ -527,6 +596,8 @@ var SplitMoves = function(clients) {
                                     })
 
                                     console.log('will move ', store.q[qIndex].moves[0].result.move)
+                                    
+                                    
                                     
                                     store.q[qIndex].thinkers.forEach(function(thinker){
                                     
@@ -586,10 +657,7 @@ var SplitMoves = function(clients) {
 
                         })
                         
-                        this.nakedQ()
-
-                        //this.publishNakedQ()
-                        //clients.publishView('admin.html', 'default', 'splitMoves', this.store.nakedQ())
+                        if(!noNaked)this.nakedQ()
 
                     }
 
@@ -605,7 +673,7 @@ var SplitMoves = function(clients) {
                             
                             //check if we can assist other tables
                             
-                            this.assistOtherTables(connection)
+                            this.assistOtherTables(connection)    //done already
                             
                         }
 
@@ -617,6 +685,8 @@ var SplitMoves = function(clients) {
                     
                 }
                   
+            }else{
+                this.assistOtherTables(connection)
             }
 
 			
@@ -715,6 +785,7 @@ var SplitMoves = function(clients) {
 				beBackIn: thinker.beBackIn,
 				dmpm: thinker.dmpm,
 				progress: thinker.progress,
+                addProgress: thinker.addProgress,
                 lastUser: thinker.connection.addedData.lastUser,
 			})
 		})
@@ -730,7 +801,9 @@ var SplitMoves = function(clients) {
 		store.q[qIndex].moves.forEach(function(move) {
 			naked.push({
 				moveIndex:move.moveIndex,
-                done:move.done
+                done:move.done,
+                doneBy:move.doneBy,//.result.thinker
+                startedBy:move.sentToName
 			})
 		})
 
@@ -767,7 +840,7 @@ var SplitMoves = function(clients) {
 
             var sentTo=clients.sendTask(new Task('splitMove', moves, 'assist splitMove'), assistant.connection)
             
-            this.registerSentMoves(moves[0].sharedData.gameNum, sentTo, moves.length, moves, assistant.connection)
+            registerSentMoves(moves[0].sharedData.gameNum, sentTo, moves.length, moves, assistant.connection)
 
             
         }

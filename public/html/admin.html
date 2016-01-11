@@ -204,7 +204,11 @@
               
               <div>
                   
-                  <span ng-repeat="y in x.moves" ng-class="{makeGreen: y.done , makeRed: !y.done }"><strong>x</strong></span>
+                  <span style="display:inline-block;border:1px solid grey" ng-repeat="y in x.moves" ng-class="{makeGreen: y.done , makeRed: !y.done }">
+                      <div>{{y.moveIndex}}</div>
+                      <div style="font-size:0.7em">{{y.startedBy}}</div>
+                      <div style="font-size:0.7em">{{y.doneBy}}</div>
+                  </span>
                   
               </div>
               

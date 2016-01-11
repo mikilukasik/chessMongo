@@ -244,7 +244,21 @@ var Clients=function(){
 		this.publishView('admin.html','default','clients',this.addedData())
 	}
 		
-		
+    this.getIdleClientConnections=function(){
+        
+        var res=[]
+        
+        for (var i=knownClients.connectedSockets.length-1;i>=0;i--){
+            
+            if(knownClients.connectedSockets[i].addedData.currentState=='idle'){
+                res.push(knownClients.connectedSockets[i])
+            }
+            
+        }
+        
+        return res
+        
+    }
 	
 	this.publishView = function(viewName,subViewName,viewPart,data) {
 		////console.log('viewPop called',viewName,viewPart)
