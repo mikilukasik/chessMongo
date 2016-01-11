@@ -193,18 +193,22 @@ var SplitMoves = function(clients) {
 
 			var thinker = clients.fastestThinker()
             
+            var sendAll=false
             
             if(thinker.addedData.currentState=='busy'){
                 
-                console.log('============================all busy, storing..')
-
-                break;
+                console.log('============================all busy, storing into busy thinker..')
+                sendAll=true
+                //break;
                 
             }
 
-			
-			var sendThese = getSplitMoveTask(splitMove, thinker.itsSpeed)
-
+			var sendThese=[]
+			if(sendAll){
+                sendThese = getSplitMoveTask(splitMove, 1)
+            }else{
+                sendThese = getSplitMoveTask(splitMove, thinker.itsSpeed)
+            }
             sendThese.forEach(function(move){
                 
                 //console.log('ssss',thinker,'sssssssssss')
@@ -215,9 +219,17 @@ var SplitMoves = function(clients) {
 			var sentCount = sendThese.length
 
 			//var connection={}
-
-			var sentTo = clients.sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTableWithMoveTask._id + ' sentCount: ' + sentCount), thinker) //string
             
+            var sentTo
+            
+            if(sendAll){
+                sentTo = 'pending'// thinker.addedData.connectionID//clients.sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTableWithMoveTask._id + ' sentCount: ' + sentCount), thinker) //string
+            
+            }else{
+                sentTo = clients.sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTableWithMoveTask._id + ' sentCount: ' + sentCount), thinker) //string
+                //console.log('sentTo',sentTo,'thinker',thinker)
+            }
+			//var 
            
 
 			registerSentMoves(dbTableWithMoveTask._id, sentTo, sentCount, sendThese, thinker)
@@ -377,7 +389,9 @@ var SplitMoves = function(clients) {
             
             for(var j=store.q[i].thinkers.length-1;j>=0;j--){//.forEach(function(thinker){
                 
-                if(store.q[i].thinkers[j].beBackIn>tempBeBackIn)tempBeBackIn=store.q[i].thinkers[j].beBackIn
+                console.log('store.q[i].thinkers[j].beBackIn',store.q[i].thinkers[j].beBackIn,'tempBeBackIn',tempBeBackIn)
+                
+                if(store.q[i].thinkers[j].beBackIn>=tempBeBackIn)tempBeBackIn=store.q[i].thinkers[j].beBackIn
                 
                 if(tempBeBackIn>kuszob)break;
                 
@@ -399,6 +413,7 @@ var SplitMoves = function(clients) {
         var timeNow=new Date()
         
         var splitMove
+        
         var splitMoveIndex=getSplitMoveIndexToAssist()
         
         if(splitMoveIndex!=undefined){
@@ -434,6 +449,8 @@ var SplitMoves = function(clients) {
             
             //var hisSpeed
             
+            //console.log(tempBeBackIn,'tempBeBackIn')
+            
             if(tempBeBackIn>500) {
                 
               
@@ -443,7 +460,7 @@ var SplitMoves = function(clients) {
                 
                 if(timeNow - tempThinker.lastSeen > lastSeenConst&&myRatio<0.8)myRatio=0.8
                 
-                console.log('myRatio',myRatio)
+                
             
                 var tempMoves=tempThinker.sentMoves
                 var len=tempMoves.length
@@ -451,6 +468,8 @@ var SplitMoves = function(clients) {
                 var count=Math.round(len*myRatio)
                 
                 var moves=tempMoves.splice(0,count)
+                
+                console.log('moves',moves)
                 
                 if(moves&&moves.length>0){
                 
@@ -494,7 +513,7 @@ var SplitMoves = function(clients) {
                 // console.log('disconnect???')
              
             
-                console.log('disconnect???')
+                console.log('disconnect???',tempBeBackIn)
              
             
                 
