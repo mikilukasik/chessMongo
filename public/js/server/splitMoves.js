@@ -199,27 +199,68 @@ var SplitMoves = function(clients) {
 
 	}
 
-	this.registerSentMoves = function(gameID, thinker, sentCount, sentMoves, connection) {
+	this.registerSentMoves = function(gameID, thinkerID, sentCount, sentMoves, connection) {
 
 		var qIndex = qIndexByGameID(gameID)
+        
+        var tIndex = getThinkerIndex(qIndex, thinkerID)
+        
+        var timeNow=new Date()
+        
+        //console.log('herererere: ',tIndex)
+        //console.log('tIndex',tIndex)
+        if(tIndex==-1){
+            
+       		return store.q[qIndex].thinkers.push({
 
-		return store.q[qIndex].thinkers.push({
+                thinker: thinkerID,
+                sentCount: sentCount,
+                done: false,
+                progress: 0,
+                sentMoves: sentMoves,
+                movesLeft: sentCount,
+                beBackIn: 100000,
+                connection: connection,
+                lastSeen:timeNow
+                
 
-			thinker: thinker,
-			sentCount: sentCount,
-			done: false,
-			progress: 0,
-			sentMoves: sentMoves,
-			movesLeft: sentCount,
-			beBackIn: 100000,
-			connection: connection
-
-		}) - 1
+            }) - 1
+        }else{
+            
+            var thinker=store.q[qIndex].thinkers[tIndex]
+            
+            
+            //console.log('jeeeeeeeeee',thinker)
+            
+            
+            thinker.sentCount+=sentCount
+            
+            //deal with progress here??
+            
+            thinker.sentMoves=thinker.sentMoves.concat(sentMoves)
+            
+            //console.log('thinker.movesLeft: ',thinker.movesLeft)
+            
+            thinker.movesLeft=sentCount
+            
+            thinker.beBackIn=100000
+            
+            thinker.lastSeen=timeNow
+            
+            
+            return tIndex
+            
+            
+        }
 
 	}
 
-	var removeSentMove = function(moveArray, move) {
+	var removeSentMove = function(thinker, move, timeNow) {
+        
+        thinker.lastSeen=timeNow
 
+        var moveArray=thinker.sentMoves
+        
 		var index = undefined
 
 		for (var i = moveArray.length - 1; i >= 0; i--) {
@@ -254,7 +295,7 @@ var SplitMoves = function(clients) {
     
         splitMove.returnedMoves = []
 
-        clients.publishView('board.html', dbTableWithMoveTask._id, 'busyThinkers', [])
+        //clients.publishView('board.html', dbTableWithMoveTask._id, 'busyThinkers', [])
         clients.publishAddedData()
     
     }
@@ -288,6 +329,8 @@ var SplitMoves = function(clients) {
 
     this.assistOtherTables=function(connection){
         
+        var timeNow=new Date()
+        
         var splitMove
         var splitMoveIndex=getSplitMoveIndexToAssist()
         
@@ -306,7 +349,9 @@ var SplitMoves = function(clients) {
             
             splitMove.thinkers.forEach(function(thinker,index){
                 
-                if(thinker.beBackIn>tempBeBackIn){
+                console.log('xxxxxxxxxxx innen:',thinker.lastSeen,'idaig')
+                
+                if(thinker.beBackIn>tempBeBackIn||thinker.lastSeen>2000   ){       //!!!!!!!!!!!!!!!!!!!!!
                     tempBeBackIn=thinker.beBackIn
                     tempThinker=thinker
                     tempTIndex=index
@@ -339,9 +384,20 @@ var SplitMoves = function(clients) {
                
                 clients.sendTask(new Task('removeSplitMove', moves, 'remove splitMove'), tempThinker.connection)
                 
-                removeSentMove(store.q[splitMoveIndex].thinkers[tempTIndex].sentMoves, moves)
+                
+                store.q[splitMoveIndex].thinkers[tempTIndex].sentCount-=moves.length
+                //store.q[splitMoveIndex].thinkers[].sentCount+=moves.length
+                
+                
+                removeSentMove(store.q[splitMoveIndex].thinkers[tempTIndex], moves, timeNow)
             
+                
                 var sentTo=clients.sendTask(new Task('splitMove', moves, 'assist another splitMove'), connection)
+                
+                
+                
+                
+                
                 
                 this.registerSentMoves(moves[0].sharedData.gameNum, sentTo, count, moves, connection)
 
@@ -393,6 +449,7 @@ var SplitMoves = function(clients) {
                 var progress = undefined
                 var beBackIn = undefined
                 var beBackAt = undefined
+                //var lastSeen = 1
             
 
                 var willMove = false
@@ -402,6 +459,7 @@ var SplitMoves = function(clients) {
                     progress = 100
                     beBackIn = 0
                     beBackAt = timeNow
+                    
 
                     connection.addedData.currentState = 'idle' //'reCheck'
 
@@ -425,6 +483,8 @@ var SplitMoves = function(clients) {
                     store.q[qIndex].thinkers[tIndex].progress = progress
                     store.q[qIndex].thinkers[tIndex].beBackIn = beBackIn
                     store.q[qIndex].thinkers[tIndex].beBackAt = beBackAt
+                    store.q[qIndex].thinkers[tIndex].lastSeen = timeNow
+                    
 
                     store.q[qIndex].thinkers[tIndex].dmpm = dmpm
                         
@@ -446,11 +506,12 @@ var SplitMoves = function(clients) {
 
                                 store.q[qIndex].moves[res.moveIndex].done = true
                                 store.q[qIndex].moves[res.moveIndex].result = res
+                                store.q[qIndex].moves[res.moveIndex].doneBy = connection.addedData.lastUser//.lastUser
 
                                 store.q[qIndex].pendingMoveCount--
                                 store.q[qIndex].thinkers[tIndex].movesLeft--
 
-                                removeSentMove(store.q[qIndex].thinkers[tIndex].sentMoves, res)
+                                removeSentMove(store.q[qIndex].thinkers[tIndex], res, timeNow)
                                 
                                 // this.nakedQ()
 
@@ -486,10 +547,12 @@ var SplitMoves = function(clients) {
 
                                         tableInDb.chat = tableInDb.chat.concat({
 
-                                            hex: returnedMove.result.value.toString(16),
+                                            // hex: returnedMove.result.value.toString(16),
                                             score: returnedMove.result.value,
 
-                                            moves: returnedMove.result.moveTree
+                                            moves: returnedMove.result.moveTree,
+                                            
+                                            thinker: returnedMove.doneBy
 
                                         })
 
@@ -536,7 +599,7 @@ var SplitMoves = function(clients) {
                         
                         if(assistData&&!willMove){
                             
-                            this.assist(assistData.assisted,assistData.assistant,qIndex,assistData.assistedIndex)
+                            this.assist(assistData.assisted,assistData.assistant,qIndex,assistData.assistedIndex,timeNow)
                             
                         }else{
                             
@@ -652,6 +715,7 @@ var SplitMoves = function(clients) {
 				beBackIn: thinker.beBackIn,
 				dmpm: thinker.dmpm,
 				progress: thinker.progress,
+                lastUser: thinker.connection.addedData.lastUser,
 			})
 		})
 
@@ -674,13 +738,15 @@ var SplitMoves = function(clients) {
 
 	}
 
-	this.assist = function(assisted, assistant, qIndex, tIndex) {
+	this.assist = function(assisted, assistant, qIndex, tIndex, timeNow) {
         
         
 
 		var moves = getAssistMoves(assisted, assistant)
         
         if(moves.length>0){
+            
+            
             
             moves.forEach(function(move){
                     move.history.push('assist: '+assistant.connection.addedData.lastUser   )
@@ -690,12 +756,18 @@ var SplitMoves = function(clients) {
         
             clients.sendTask(new Task('removeSplitMove', moves, 'remove splitMove'), assisted.connection)
             
-            removeSentMove(store.q[qIndex].thinkers[tIndex].sentMoves, moves)
+            
+            //console.log('joez??',tIndex)
+            
+            store.q[qIndex].thinkers[tIndex].sentCount-=moves.length
+            
+            removeSentMove(store.q[qIndex].thinkers[tIndex], moves, timeNow)
+            
             
 
             var sentTo=clients.sendTask(new Task('splitMove', moves, 'assist splitMove'), assistant.connection)
             
-            //this.registerSentMoves(moves[0].sharedData.gameNum, sentTo, moves.length, moves, assistant.connection)
+            this.registerSentMoves(moves[0].sharedData.gameNum, sentTo, moves.length, moves, assistant.connection)
 
             
         }
@@ -725,11 +797,8 @@ var SplitMoves = function(clients) {
 
 		while(assistantSpeed * count < assistedBackIn - (assistedSpeed * count)){
         
-			
-
 				count++
 			
-
 		}
         
         count--
@@ -739,11 +808,11 @@ var SplitMoves = function(clients) {
 
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!count is too high, problems with measuring assistedspeed
 
-		if (count > maxMoves / 2) {
-			count = Math.ceil(maxMoves / 2)
+		if (count > maxMoves / 1.8) {
+			count = Math.ceil(maxMoves / 1.8)
 		}
 
-		// take moves, but max 1/2 from each thinker, speedtests can be vey inaccurate, get some averages!!!!!!!!!!!!!!!!!!!!!!!!1
+		// take moves, but max 1/1.8 from each thinker, speedtests can be vey inaccurate?????? not anymore , get some averages!!!!!!!!!!!!!!!!!!!!!!!!1
 
 		result = fromMoves.splice(0, count)
 

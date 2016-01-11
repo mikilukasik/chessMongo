@@ -211,9 +211,46 @@
               <div>
                   
                   <table>
-                      <tr ng-repeat="y in x.thinkers">
-                          <td ng-repeat="z in y">{{z}}
-                            </td>
+                      <tr>
+                           <td>
+                              
+                                lastUser
+                          </td>
+                          <td>
+                             
+                                sentCount
+                          </td>
+                          <td>
+                             
+                                progress
+                          </td>
+                          <td>
+                             
+                                beBackIn
+                          </td>
+                          
+                      </tr>
+                      <tr ng-repeat="y in x.thinkers" ng-style="{makeGreen:y.done}">
+                          
+                          <td>
+                              
+                              {{y.lastUser}}
+                          </td>
+                          <td>
+                             
+                              {{y.sentCount}}
+                          </td>
+                          <td>
+                             
+                              {{y.progress}}
+                          </td>
+                          <td>
+                             
+                              {{y.beBackIn}}
+                          </td>
+                          
+                          <!--<td ng-repeat="z in y">{{z}}
+                            </td>-->
                     </tr>
                   
               </div>
