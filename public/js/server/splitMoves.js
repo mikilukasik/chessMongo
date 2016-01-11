@@ -431,55 +431,76 @@ var SplitMoves = function(clients) {
             console.log('chosen:',tempTIndex)
             
             var mySpeed=connection.addedData.speed
-            var hisSpeed=tempThinker.connection.addedData.speed
             
-            var  myRatio=mySpeed/(mySpeed+hisSpeed)
+            //var hisSpeed
             
-            if(timeNow - tempThinker.lastSeen > lastSeenConst&&myRatio<0.8)myRatio=0.8
+            if(tempThinker) {
+                
+                console.log('disconnect???')
+                
+                // tempThinker={
+                //     connection:{
+                //         addedData:{
+                //             speed:1
+                //         }
+                // }
+                
+            }else{
+                
+                            
+                var hisSpeed=tempThinker.connection.addedData.speed
+                var  myRatio=mySpeed/(mySpeed+hisSpeed)
+                
+                if(timeNow - tempThinker.lastSeen > lastSeenConst&&myRatio<0.8)myRatio=0.8
+                
+                console.log('myRatio',myRatio)
             
-            console.log('myRatio',myRatio)
-          
-            var tempMoves=tempThinker.sentMoves
-            var len=tempMoves.length
-            
-            var count=Math.round(len*myRatio)
-            
-            var moves=tempMoves.splice(0,count)
-            
-            if(moves&&moves.length>0){
-               
-                var qRes=[]
-               
-                moves.forEach(function(move){
-                    move.history.push('join in: '+connection.addedData.lastUser   )
-                    qRes.push(move.moveIndex)
-                })
-               
-                console.log('doing it now, count:',count,'moves:',qRes)
-               
-                clients.sendTask(new Task('removeSplitMove', moves, 'remove splitMove'), tempThinker.connection)
+                var tempMoves=tempThinker.sentMoves
+                var len=tempMoves.length
                 
+                var count=Math.round(len*myRatio)
                 
-                store.q[splitMoveIndex].thinkers[tempTIndex].sentCount-=moves.length
-                //store.q[splitMoveIndex].thinkers[].sentCount+=moves.length
+                var moves=tempMoves.splice(0,count)
                 
+                if(moves&&moves.length>0){
                 
-                removeSentMove(store.q[splitMoveIndex].thinkers[tempTIndex], moves, timeNow)
-            
+                    var qRes=[]
                 
-                var sentTo=clients.sendTask(new Task('splitMove', moves, 'assist another splitMove'), connection)
+                    moves.forEach(function(move){
+                        move.history.push('join in: '+connection.addedData.lastUser   )
+                        qRes.push(move.moveIndex)
+                    })
                 
+                    console.log('doing it now, count:',count,'moves:',qRes)
                 
+                    clients.sendTask(new Task('removeSplitMove', moves, 'remove splitMove'), tempThinker.connection)
+                    
+                    
+                    store.q[splitMoveIndex].thinkers[tempTIndex].sentCount-=moves.length
+                    //store.q[splitMoveIndex].thinkers[].sentCount+=moves.length
+                    
+                    
+                    removeSentMove(store.q[splitMoveIndex].thinkers[tempTIndex], moves, timeNow)
                 
-                
-                
-                
-                registerSentMoves(moves[0].sharedData.gameNum, sentTo, count, moves, connection)
+                    
+                    var sentTo=clients.sendTask(new Task('splitMove', moves, 'assist another splitMove'), connection)
+                    
+                    
+                    
+                    
+                    
+                    
+                    registerSentMoves(moves[0].sharedData.gameNum, sentTo, count, moves, connection)
 
-                clients.send(connection,'aa',0,'aa')
-               
-            }
+                    clients.send(connection,'aa',0,'aa')
+                
+                }
             
+                
+                
+                
+            }
+
             
         }
         
