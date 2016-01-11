@@ -269,6 +269,7 @@ var SplitMoves = function(clients) {
                 connection: connection,
                 lastSeen:timeNow,
                 addProgress: 0,
+                history:[]
                 
                 
 
@@ -297,6 +298,17 @@ var SplitMoves = function(clients) {
             thinker.beBackIn=100000
             
             thinker.lastSeen=timeNow
+            
+            thinker.done=false
+            
+            sentMoves.forEach(function(move){
+                if(move.history){
+                    move.history.push(thinker.lastUser)
+                }else(
+                    move.history=[]
+                )
+            })
+            //thinker.history.push()
             
             
             return tIndex
@@ -404,15 +416,19 @@ var SplitMoves = function(clients) {
             
             splitMove.thinkers.forEach(function(thinker,index){
                 
-                console.log('xxxxxxxxxxx innen:',timeNow - thinker.lastSeen,'idaig')
+               
                 
-                if(thinker.beBackIn>tempBeBackIn||timeNow - thinker.lastSeen>lastSeenConst   ){       //!!!!!!!!!!!!!!!!!!!!!
+                if(((thinker.beBackIn>tempBeBackIn&&thinker.beBackIn>lastSeenConst)||timeNow - thinker.lastSeen>lastSeenConst)&&(!thinker.done)   ){       //!!!!!!!!!!!!!!!!!!!!!
                     tempBeBackIn=thinker.beBackIn
                     tempThinker=thinker
                     tempTIndex=index
+                    
+                    console.log('xxxxxxxxxxx innen:',timeNow - thinker.lastSeen,thinker.done,thinker.lastUser,'idaig')
                 }
                               
             })
+            
+            console.log('chosen:',tempTIndex)
             
             var mySpeed=connection.addedData.speed
             var hisSpeed=tempThinker.connection.addedData.speed
@@ -421,12 +437,12 @@ var SplitMoves = function(clients) {
             
             if(timeNow - tempThinker.lastSeen > lastSeenConst&&myRatio<0.8)myRatio=0.8
             
-            
+            console.log('myRatio',myRatio)
           
             var tempMoves=tempThinker.sentMoves
             var len=tempMoves.length
             
-            var count=~~(len*myRatio)
+            var count=Math.round(len*myRatio)
             
             var moves=tempMoves.splice(0,count)
             
@@ -481,18 +497,21 @@ var SplitMoves = function(clients) {
 		var timeNow = new Date()
 
 		var qIndex = qIndexByGameID(gameID)
+        
+        
 
 		if (qIndex == undefined)  {
             
             if(data.final){
                 
                 connection.addedData.currentState = 'idle'
-                if(store.q[qIndex]){
+                // if(store.q[qIndex]){
                     
-                    store.q[qIndex].thinkers[tIndex].progress = 100
-				    store.q[qIndex].thinkers[tIndex].beBackIn = 0
+                //     store.q[qIndex].thinkers[tIndex].progress = 100 
+                //     store.q[qIndex].thinkers[tIndex].done = true
+				//     store.q[qIndex].thinkers[tIndex].beBackIn = 0
                     
-                 }
+                //  }
                       
                  this.assistOtherTables(connection)
                 
@@ -500,13 +519,13 @@ var SplitMoves = function(clients) {
           
 		}else{
             
-             
-            var tIndex = getThinkerIndex(qIndex, thinker)
+             var tIndex = getThinkerIndex(qIndex, thinker)
+            
 
             
             if(store.q[qIndex].thinkers[tIndex]){
                 
-               
+                var isDone = false
                 var progress = undefined
                 var beBackIn = undefined
                 var beBackAt = undefined
@@ -520,6 +539,7 @@ var SplitMoves = function(clients) {
                     progress = 100
                     beBackIn = 0
                     beBackAt = timeNow
+                    isDone=true
                     
 
                     connection.addedData.currentState = 'idle' //'reCheck'
@@ -545,6 +565,7 @@ var SplitMoves = function(clients) {
                     store.q[qIndex].thinkers[tIndex].beBackIn = beBackIn
                     store.q[qIndex].thinkers[tIndex].beBackAt = beBackAt
                     store.q[qIndex].thinkers[tIndex].lastSeen = timeNow
+                    store.q[qIndex].thinkers[tIndex].done = isDone
                     
 
                     store.q[qIndex].thinkers[tIndex].dmpm = dmpm
@@ -803,7 +824,8 @@ var SplitMoves = function(clients) {
 				moveIndex:move.moveIndex,
                 done:move.done,
                 doneBy:move.doneBy,//.result.thinker
-                startedBy:move.sentToName
+                startedBy:move.sentToName,
+                history:move.history,
 			})
 		})
 

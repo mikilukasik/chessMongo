@@ -207,6 +207,10 @@
                   <span style="display:inline-block;border:1px solid grey" ng-repeat="y in x.moves" ng-class="{makeGreen: y.done , makeRed: !y.done }">
                       <div>{{y.moveIndex}}</div>
                       <div style="font-size:0.7em">{{y.startedBy}}</div>
+                      <br>
+                      <div style="font-size:0.7em" ng-repeat="z in y.history track by $index">{{z}}</div>
+                      <br>
+                      
                       <div style="font-size:0.7em">{{y.doneBy}}</div>
                   </span>
                   
