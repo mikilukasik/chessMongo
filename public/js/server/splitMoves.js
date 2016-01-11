@@ -418,7 +418,7 @@ var SplitMoves = function(clients) {
                 
                
                 
-                if(((thinker.beBackIn>tempBeBackIn&&thinker.beBackIn>lastSeenConst)||timeNow - thinker.lastSeen>lastSeenConst)&&(!thinker.done)   ){       //!!!!!!!!!!!!!!!!!!!!!
+                if(((thinker.beBackIn>tempBeBackIn)||timeNow - thinker.lastSeen>lastSeenConst)&&(!thinker.done)   ){       //!!!!!!!!!!!!!!!!!!!!!
                     tempBeBackIn=thinker.beBackIn
                     tempThinker=thinker
                     tempTIndex=index
@@ -434,20 +434,10 @@ var SplitMoves = function(clients) {
             
             //var hisSpeed
             
-            if(tempThinker) {
+            if(tempBeBackIn>500) {
                 
-                console.log('disconnect???')
+              
                 
-                // tempThinker={
-                //     connection:{
-                //         addedData:{
-                //             speed:1
-                //         }
-                // }
-                
-            }else{
-                
-                            
                 var hisSpeed=tempThinker.connection.addedData.speed
                 var  myRatio=mySpeed/(mySpeed+hisSpeed)
                 
@@ -495,6 +485,17 @@ var SplitMoves = function(clients) {
                     clients.send(connection,'aa',0,'aa')
                 
                 }
+            
+                
+               
+                
+            }else{
+                
+                // console.log('disconnect???')
+             
+            
+                console.log('disconnect???')
+             
             
                 
                 
