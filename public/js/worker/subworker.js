@@ -53,12 +53,13 @@ onmessage = function(event) {
                 //console.log(reqData.progress)
 				var result=solveDeepeningTask(reqData,'sdt')
                
-				result._id=reqData._id
+				result.gameNum=reqData.gameNum
 				
 				
 				resData = {
 					command: 'sdtSolved',
 					data: result,
+                    
 					
 				}
 				

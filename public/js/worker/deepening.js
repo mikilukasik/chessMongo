@@ -30,7 +30,7 @@ function toTypedTable(table){
 function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){//, counter) {
     
 //counter[0]++
-
+    //console.log('temp2',smallDeepeningTask.gameNum)
 	//this is the function that runs a million times
 	
 	var sdtDepth=smallDeepeningTask.depth
@@ -54,7 +54,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){//, counter)
 		if(captured(sdtTable,newWNext)){
 			//invalid move, sakkban maradt
 			
-			result=[new SmallDeepeningTask(sdtTable,newWNext,sdtDepth+1,smallDeepeningTask.moveTree,smallDeepeningTask.desiredDepth,100,smallDeepeningTask.wPlayer)]
+			result=[new SmallDeepeningTask(sdtTable,newWNext,sdtDepth+1,smallDeepeningTask.moveTree,smallDeepeningTask.desiredDepth,100,smallDeepeningTask.wPlayer,false,smallDeepeningTask.gameNum)]
 			
 			
 			
@@ -129,7 +129,11 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){//, counter)
 						newScore[0], //sdtScore + thisValue
 
 						
-                        smallDeepeningTask.wPlayer
+                        smallDeepeningTask.wPlayer,
+                        
+                        false,
+                        
+                        smallDeepeningTask.gameNum
 
 					)
 
@@ -215,7 +219,11 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){//, counter)
 						valueToSave ,//sdtScore + thisValue
 
 						
-                        smallDeepeningTask.wPlayer
+                        smallDeepeningTask.wPlayer,
+                        
+                        false,
+                        
+                        smallDeepeningTask.gameNum
 
 
 					)
@@ -344,7 +352,7 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 
 	var ret = {
 		//solved: 20,		//temp hack!!!!!!!!!!!!!!!!!!!!!!
-        
+        gameNum:deepeningTask.gameNum,
         progress:retProgress,
 		timeItTook: timeItTook,
 		score: resolverArray[2][0].value,

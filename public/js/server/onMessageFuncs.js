@@ -166,6 +166,10 @@ var onMessageFuncs = {
 				splitMoves.updateSplitMoveProgress(data.data._id, data.thinker, data.data, connection)
 
 				break;
+                
+            case 'forceIdle':
+            
+                splitMoves.forceIdle(connection)
 
 			case 'saveVal':
 

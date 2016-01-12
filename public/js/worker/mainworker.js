@@ -163,9 +163,12 @@ var taskReceived = function(task) {
         
             console.log('forgetting moves on table',task.data.gameID)
             
-            throwAwayGame=task.data.gameID
+            
         
             if(task.data.gameID==workingOnGameNum){
+                
+                throwAwayGame=task.data.gameID
+                
                 workingOnGameNum = 0
                 progress = {
 
@@ -180,11 +183,15 @@ var taskReceived = function(task) {
 
                     tempDTasks: [],
                     
-                    queuedMoves: []
+                    queuedMoves: [],
+                    
+                    
 
                     //updatedMoves:[]
 
                 }
+                
+                messageTheServer('forceIdle',{})
                     
             }
         
@@ -350,11 +357,17 @@ onmessage = function(event) {
 
 		case 'sdtSolved':
         
-        //if(throwAwayGame!=)
        
+        
 			var resData = event.data.reqData
             
-
+             if(throwAwayGame!=resData.gameNum){
+                 
+                 
+                 
+                 
+            //console.log(resData.gameNum)
+       
             
 			progress.doneDM++
 
@@ -581,7 +594,7 @@ onmessage = function(event) {
                                     
                                     smallDeepeningTask.progress=deepeningTask.progress
                                     
-                                     console.log('temp',deepeningTask)
+                                    //console.log('temp',smallDeepeningTask)
                                     
 									toSub('solveSDT', smallDeepeningTask)
 
@@ -617,6 +630,25 @@ onmessage = function(event) {
 				}
 
 			}
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+             }
+            
 
 			break;
 

@@ -32,6 +32,8 @@ var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for mai
     
     this.gameNum=smallMoveTask.sharedData.gameNum
     
+    //console.log(this.gameNum)
+    
     this.progress=smallMoveTask.progress
     
 	this.resolverArray=[]
@@ -102,7 +104,7 @@ var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for mai
 	this.smallDeepeningTaskCounts = [0, 1] //this will be an array of the total created smalldeepeningtasks per depth, depth 0 has 0, depth 1 has one in this splitmove
 
 
-	var initialSmallDeepeningTask = new SmallDeepeningTask(this.thisTaskTable, !this.initialWNext, this.actualDepth, this.initialTreeMoves, this.desiredDepth, this.firstDepthValue,smallMoveTask.cfColor,this.gameNum)
+	var initialSmallDeepeningTask = new SmallDeepeningTask(this.thisTaskTable, !this.initialWNext, this.actualDepth, this.initialTreeMoves, this.desiredDepth, this.firstDepthValue,smallMoveTask.cfColor, false, this.gameNum)
 	
 	//this.value=initialSmallDeepeningTask.score
 

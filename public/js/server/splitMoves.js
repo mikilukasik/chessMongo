@@ -649,6 +649,10 @@ var SplitMoves = function(clients) {
 	this.getNakedQ = function() {
 		return store.nakedQ
 	}
+    
+    this.forceIdle=function(connection){
+        console.log('forceIdle',connection.addedData)
+    }
 
 	this.updateSplitMoveProgress = function(gameID, thinker, data, connection) {
 
