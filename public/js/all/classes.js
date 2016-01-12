@@ -1,27 +1,23 @@
 /////////////////////////		Classes		/////////////////////////////////////////////////
 //console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx classes loaded xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-var SmallDeepeningTask=function(table, wNext, depth, moveTree, desiredDepth, score, wPlayer, stopped){
+var SmallDeepeningTask=function(table, wNext, depth, moveTree, desiredDepth, score, wPlayer, stopped, gameNum){
 	
-		//this.sdt=true
+        this.gameNum=gameNum
         
         this.wPlayer=wPlayer
 	
-		this.table= table,
+		this.table= table
 
-		this.wNext= wNext,
+		this.wNext= wNext
 
-		this.depth= depth,
-
-		//this.treeMoves= treeMoves,
+		this.depth= depth
 		
-		this.moveTree=moveTree//treeMoves[depth],			//is this accureate??  !!!!!!!!!!!!!!!!!!
+		this.moveTree=moveTree
 
-		this.desiredDepth= desiredDepth,
+		this.desiredDepth= desiredDepth
 
 		this.score= score
 
-		//this.stopped= stopped
-		//
 }
 ////
 // var ResolverArray=function(depth){		
@@ -33,6 +29,8 @@ var SmallDeepeningTask=function(table, wNext, depth, moveTree, desiredDepth, sco
 // }
 
 var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for main thread and mainWorker ???not sure..     //smallMoveTask is a smallMoveTask, to be deepend further
+    
+    this.gameNum=smallMoveTask.sharedData.gameNum
     
     this.progress=smallMoveTask.progress
     
@@ -104,7 +102,7 @@ var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for mai
 	this.smallDeepeningTaskCounts = [0, 1] //this will be an array of the total created smalldeepeningtasks per depth, depth 0 has 0, depth 1 has one in this splitmove
 
 
-	var initialSmallDeepeningTask = new SmallDeepeningTask(this.thisTaskTable, !this.initialWNext, this.actualDepth, this.initialTreeMoves, this.desiredDepth, this.firstDepthValue,smallMoveTask.cfColor)
+	var initialSmallDeepeningTask = new SmallDeepeningTask(this.thisTaskTable, !this.initialWNext, this.actualDepth, this.initialTreeMoves, this.desiredDepth, this.firstDepthValue,smallMoveTask.cfColor,this.gameNum)
 	
 	//this.value=initialSmallDeepeningTask.score
 

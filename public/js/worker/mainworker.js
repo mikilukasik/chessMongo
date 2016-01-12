@@ -19,6 +19,8 @@ var toPostSplitMoves
 var pollingTask = -1
 var workingOnDepth
 
+var throwAwayGame=-1
+
 var messageTheServer = function(command, data, message, cb) {
 
 	var postThis = {
@@ -64,6 +66,7 @@ var progress = {}
 
 function workerMove(smallMoveTask, thinker) { //for 1 thread, smallmovetask has one of my possible 1st moves
 
+    //console.log('temp',smallMoveTask.sharedData.gameNum)
 	
 	var deepeningTask = new DeepeningTask(smallMoveTask)
 
@@ -120,62 +123,14 @@ function mwProcessDeepSplitMoves(data, thinker) { //mt, modConst, looped) {
 var speedTestOn = false
 var speedTestStarted
 
-// function speedTest(){
-
-// 	//console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx that shit was actually called..')
-
-// 	if (workingOnGameNum == 0) {
-// 		workingOnGameNum = -1				//speedTest tableNum
-
-// 		speedTestStarted = new Date()
-// 						.getTime()
-
-// 		totalSolved = 0
-
-// 		var stTable= new Dbtable(-1)
-
-// 		var aiTable = new MoveTask(stTable)
-
-// 		aiTable.movesToSend=[aiTable.movesToSend[0],aiTable.movesToSend[1],aiTable.movesToSend[2]]
-
-// 		progress.moves = aiTable.movesToSend
-
-// 		progress.splitMoves = progress.moves.length //we need this to know when we worked them all out
-
-// 		mwProcessDeepSplitMoves(progress.moves, sendID)
-
-// 	}else{
-// 		sendLog("can't start speedTest, thinker is busy")
-// 	}
-
-// }
-
-// var longPollTasks = function(taskNum,sendID,mySpeed) {	
-
-// 	var speedTestNum = 1 //temp
-
-// 	toServer('longPollTasks',{
-// 		id:sendID,
-// 		tn: taskNum,
-// 		spd: mySpeed,
-// 		stn:speedTestNum
-// 	})
-
-// }
 
 var lastOverallProgressCalc = new Date()
 
 var lastResultSent = new Date()
 
-//var globalCounter=new Uint32Array([0])
-//var globalTimer
-
 var taskReceived = function(task) {
 	// 1 task received
-	//var task=eval("(" + res.response + ')')		//http://stackoverflow.com/questions/45015/safely-turning-a-json-string-into-an-object
-
-	//sendLog('mw: command received: '+ task.command)
-
+	
 	console.log('received', task)
 
 	pollingTask = task.data.tn + 1
@@ -203,10 +158,40 @@ var taskReceived = function(task) {
                 
             })
         
-        
-        
-
         break;
+        case 'forgetSplitMoves':
+        
+            console.log('forgetting moves on table',task.data.gameID)
+            
+            throwAwayGame=task.data.gameID
+        
+            if(task.data.gameID==workingOnGameNum){
+                workingOnGameNum = 0
+                progress = {
+
+                    started: new Date(),
+
+                    splitMoves: 0, //totalcount
+                    oneDeeperMoves: 0,
+                    doneSM: 0, //donecount
+                    doneDM: 0,
+
+                    moves: [],
+
+                    tempDTasks: [],
+                    
+                    queuedMoves: []
+
+                    //updatedMoves:[]
+
+                }
+                    
+            }
+        
+            
+        
+        break;
+        
 		case "splitMove":
 
 			splitMoveStarted = new Date() // globalTimer//new Date().getTime()
@@ -364,9 +349,12 @@ onmessage = function(event) {
 			break;
 
 		case 'sdtSolved':
-
+        
+        //if(throwAwayGame!=)
+       
 			var resData = event.data.reqData
             
+
             
 			progress.doneDM++
 
@@ -592,6 +580,8 @@ onmessage = function(event) {
 									var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
                                     
                                     smallDeepeningTask.progress=deepeningTask.progress
+                                    
+                                     console.log('temp',deepeningTask)
                                     
 									toSub('solveSDT', smallDeepeningTask)
 
