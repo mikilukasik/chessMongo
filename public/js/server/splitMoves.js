@@ -391,7 +391,7 @@ var SplitMoves = function(clients) {
                 
                 console.log('store.q[i].thinkers[j].beBackIn',store.q[i].thinkers[j].beBackIn,'tempBeBackIn',tempBeBackIn)
                 
-                if(store.q[i].thinkers[j].beBackIn>=tempBeBackIn)tempBeBackIn=store.q[i].thinkers[j].beBackIn
+                if(store.q[i].thinkers[j].beBackIn>=tempBeBackIn&&(!store.q[i].thinkers[j].done))tempBeBackIn=store.q[i].thinkers[j].beBackIn
                 
                 if(tempBeBackIn>kuszob)break;
                 
@@ -402,7 +402,7 @@ var SplitMoves = function(clients) {
             
         }
         
-        if(tempBeBackIn>kuszob)return i
+        if(tempBeBackIn>kuszob||tempBeBackIn==0)return i
         
     }
 
@@ -417,6 +417,7 @@ var SplitMoves = function(clients) {
         var splitMoveIndex=getSplitMoveIndexToAssist()
         
         if(splitMoveIndex!=undefined){
+            console.log('van index:',splitMoveIndex)
             splitMove=store.q[splitMoveIndex]
         }
         
@@ -453,7 +454,7 @@ var SplitMoves = function(clients) {
             
             if(tempBeBackIn>500) {
                 
-              
+                
                 
                 var hisSpeed=tempThinker.connection.addedData.speed
                 var  myRatio=mySpeed/(mySpeed+hisSpeed)
@@ -469,7 +470,7 @@ var SplitMoves = function(clients) {
                 
                 var moves=tempMoves.splice(0,count)
                 
-                console.log('moves',moves)
+                console.log('tempThinker',tempThinker,'count',count,'len',len,'myRatio',myRatio)
                 
                 if(moves&&moves.length>0){
                 
@@ -522,6 +523,8 @@ var SplitMoves = function(clients) {
             }
 
             
+        }else{
+            console.log('no splitmove')
         }
         
         
