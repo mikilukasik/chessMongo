@@ -75,7 +75,7 @@ var SplitMoves = function(clients) {
 
 			for (var i = 0; i < until; i++) {
 
-				assistOtherTables(idleClientConnections[i])
+				assistOtherTables(idleClientConnections[i],-1)//-1 for no justFinishedOnTable
 
 			}
 		}
@@ -152,6 +152,8 @@ var SplitMoves = function(clients) {
 		return splitMoveTasks
 
 	}
+    
+    
 
 	this.add = function(dbTableWithMoveTask) {
 
@@ -163,7 +165,7 @@ var SplitMoves = function(clients) {
 
 		splitMove.origTable = dbTableWithMoveTask
 
-		// var itsSpeed=[0.1]
+		
 
 		while (splitMove.movesToSend.length > 0) {
 
@@ -174,17 +176,21 @@ var SplitMoves = function(clients) {
 			if (thinker.addedData.currentState == 'busy') {
 
 				console.log('============================all busy, storing into busy thinker..')
+                
+                thinker=new PendingThinker()
 				sendAll = true
 					//break;
 
 			}
+            
+            
 
 			var sendThese = []
-			if (sendAll) {
-				sendThese = getSplitMoveTask(splitMove, 1)
-			} else {
+			// if (sendAll) {
+			// 	sendThese = getSplitMoveTask(splitMove, 1)
+			// } else {
 				sendThese = getSplitMoveTask(splitMove, thinker.itsSpeed)
-			}
+			//}
 			sendThese.forEach(function(move) {
 
 				//console.log('ssss',thinker,'sssssssssss')
@@ -198,13 +204,14 @@ var SplitMoves = function(clients) {
 
 			var sentTo
 
-			if (sendAll) {
-				sentTo = 'pending' // thinker.addedData.connectionID//clients.sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTableWithMoveTask._id + ' sentCount: ' + sentCount), thinker) //string
-
-			} else {
+			// if (sendAll) {
+			// 	sentTo = 'pending' // thinker.addedData.connectionID//clients.sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTableWithMoveTask._id + ' sentCount: ' + sentCount), thinker) //string
+                
+                
+			// } else {
 				sentTo = clients.sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTableWithMoveTask._id + ' sentCount: ' + sentCount), thinker) //string
 					//console.log('sentTo',sentTo,'thinker',thinker)
-			}
+			//}
 			//var 
 
 			registerSentMoves(dbTableWithMoveTask._id, sentTo, sentCount, sendThese, thinker)
@@ -219,6 +226,10 @@ var SplitMoves = function(clients) {
 	}
 
 	this.processAnswer = function(data, timeNow, qIndex, tIndex, gameID, connection) {
+        
+        // var gameID=store.q[qIndex].origTable._id
+
+        // console.log(gameID)
 
 		var isDone = false
 		var progress = data.progress
@@ -376,7 +387,7 @@ var SplitMoves = function(clients) {
 
 				//check if we can assist other tables
 
-				this.assistOtherTables(connection) //done already
+				this.assistOtherTables(connection,gameID) //done already
 
 			}
 
@@ -441,7 +452,7 @@ var SplitMoves = function(clients) {
 
 			//deal with progress here??
 
-			thinker.progress = 6
+			thinker.progress = 0
 
 			thinker.sentMoves = thinker.sentMoves.concat(sentMoves)
 
@@ -454,6 +465,8 @@ var SplitMoves = function(clients) {
 			thinker.lastSeen = timeNow
 
 			thinker.done = false
+            
+      // var 
 
 			sentMoves.forEach(function(move) {
 					if (move.history) {
@@ -517,35 +530,44 @@ var SplitMoves = function(clients) {
 
 	}
 
-	var getSplitMoveIndexToAssist = function() {
+	var getSplitMoveIndexToAssist = function(ignoreGameNum) {
 
 		var kuszob = 1000 //!!!!!!!!
 
 		var len = store.q.length
 
 		for (var i = 0; i < len; i++) {
+            
+            //console.log('@@@@@@@@@here:',store.q[i].gameNum)
+            
+            if(ignoreGameNum!=store.q[i].gameNum){
+    
+                var tempBeBackIn = 0
 
-			var tempBeBackIn = 0
+                for (var j = store.q[i].thinkers.length - 1; j >= 0; j--) { //.forEach(function(thinker){
 
-			for (var j = store.q[i].thinkers.length - 1; j >= 0; j--) { //.forEach(function(thinker){
+                    //console.log('store.q[i].thinkers[j].beBackIn',store.q[i].thinkers[j].beBackIn,'tempBeBackIn',tempBeBackIn)
 
-				//console.log('store.q[i].thinkers[j].beBackIn',store.q[i].thinkers[j].beBackIn,'tempBeBackIn',tempBeBackIn)
+                    if (store.q[i].thinkers[j].beBackIn >= tempBeBackIn && (!store.q[i].thinkers[j].done)) tempBeBackIn = store.q[i].thinkers[j].beBackIn
 
-				if (store.q[i].thinkers[j].beBackIn >= tempBeBackIn && (!store.q[i].thinkers[j].done)) tempBeBackIn = store.q[i].thinkers[j].beBackIn
+                    if (tempBeBackIn > kuszob) break;
 
-				if (tempBeBackIn > kuszob) break;
+                }
 
-			}
+                if (tempBeBackIn > 1000) break;
 
-			if (tempBeBackIn > 1000) break;
+            }else{
+                console.log('game ignored')
+            }
 
+			
 		}
 
 		if (tempBeBackIn > kuszob || tempBeBackIn == 0) return i
 
 	}
 
-	this.assistOtherTables = function(connection) {
+	this.assistOtherTables = function(connection,ignoreGameNum) {
 
 		var lastSeenConst = 2000
 
@@ -553,7 +575,7 @@ var SplitMoves = function(clients) {
 
 		var splitMove
 
-		var splitMoveIndex = getSplitMoveIndexToAssist()
+		var splitMoveIndex = getSplitMoveIndexToAssist(ignoreGameNum)
 
 		if (splitMoveIndex != undefined) {
 			//console.log('van index:',splitMoveIndex)
@@ -639,7 +661,7 @@ var SplitMoves = function(clients) {
 			}
 
 		} else {
-			//console.log('no splitmove')
+			 //console.log('no splitmove')
 		}
 
 	}
@@ -674,7 +696,7 @@ var SplitMoves = function(clients) {
 
 				connection.addedData.currentState = 'idle'
 
-				this.assistOtherTables(connection)
+				this.assistOtherTables(connection,gameID)
 
 			}
 
@@ -687,7 +709,7 @@ var SplitMoves = function(clients) {
 
 				console.log('FORBIDDEN progress received: move exists but thinker is not in it')
 
-				this.assistOtherTables(connection)
+				this.assistOtherTables(connection,gameID)
 
 			} else {
 

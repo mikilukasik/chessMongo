@@ -1,9 +1,26 @@
+var PendingThinker=function(){
+        
+        this.pending=true
+        
+        this.itsSpeed=1
+        
+        this.addedData={
+            
+            connectionID:'pending',
+            lastUser:'pending..',
+            currentState:'busy',
+            
+            }
+            
+        
+    }
+
 var Clients=function(){
 	
 	////////  main store
 	var knownClients={
 		
-		connectedSockets:[],		//sockets will have extra data added to them
+		connectedSockets:[new PendingThinker()],		//sockets will have extra data added to them
 		offlineSockets:[],
 		views:[],
 		onlineUsers:[]
@@ -186,7 +203,7 @@ var Clients=function(){
 		
 		for (var i=knownClients.connectedSockets.length-1;i>=0;i--){
 			
-			if(knownClients.connectedSockets[i].socket.writable) {
+			if(knownClients.connectedSockets[i].socket) {
 			
 			
 				knownClients.connectedSockets[i].sendUTF(JSON.stringify({
