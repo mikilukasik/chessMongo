@@ -62,7 +62,7 @@ var SplitMoves = function(clients,timeNow) {
 
 		q: [],
 
-	}
+	}//
 
 	this.intervalFunc = function() {
 		if (store.q.length > 0) {
