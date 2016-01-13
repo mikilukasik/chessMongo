@@ -353,12 +353,27 @@ var onMessageFuncs = {
 		var command = onTable.command
 
 		onTable.command = ''
+        
+        //onTable._id=new ObjectID(onTable._id)
 
 		mongodb.connect(cn, function(err, db) {
 			db.collection("tables")
-				.save(onTable, function(err3, res) {
+            
+            .findOne({
+                _id:onTable._id
+            },function(err2,dat){
+                
+                //console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',dat._id)
+                var tempID=dat._id
+                dat=onTable
+                dat.id=tempID
+                
+                db.collection("tables").save(dat, function(err3, res) {
 					//table moved and saved, let's check what to do
 					db.close()
+                    
+                    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',err3)
+                
 
 					clients.publishView('board.html', onTable._id, 'dbTable.table', onTable.table)
 
@@ -377,6 +392,15 @@ var onMessageFuncs = {
 					}
 
 				})
+                
+                
+                
+                
+            })
+            
+            
+            
+				
 
 		});
 

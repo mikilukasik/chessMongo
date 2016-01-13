@@ -56,7 +56,7 @@ var SplitMove = function(dbTableWithMoveTask) {
 
 }
 
-var SplitMoves = function(clients) {
+var SplitMoves = function(clients,timeNow) {
 
 	var store = {
 
@@ -75,7 +75,7 @@ var SplitMoves = function(clients) {
 
 			for (var i = 0; i < until; i++) {
 
-				assistOtherTables(idleClientConnections[i],-1)//-1 for no justFinishedOnTable
+				assistOtherTables(idleClientConnections[i],-2,timeNow)//-1 for no justFinishedOnTable
 
 			}
 		}
@@ -387,7 +387,7 @@ var SplitMoves = function(clients) {
 
 				//check if we can assist other tables
 
-				this.assistOtherTables(connection,gameID) //done already
+				this.assistOtherTables(connection,gameID,timeNow) //done already
 
 			}
 
@@ -567,7 +567,7 @@ var SplitMoves = function(clients) {
 
 	}
 
-	this.assistOtherTables = function(connection,ignoreGameNum) {
+	this.assistOtherTables = function(connection,ignoreGameNum,timeNow) {
 
 		var lastSeenConst = 2000
 
@@ -597,7 +597,7 @@ var SplitMoves = function(clients) {
 					tempThinker = thinker
 					tempTIndex = index
 
-					console.log('xxxxxxxxxxx innen:', timeNow - thinker.lastSeen, thinker.done, thinker.lastUser, 'idaig')
+					console.log('xxxxxxxxxxx innen:',thinker, 'idaig')
 				}
 
 			})
@@ -696,7 +696,7 @@ var SplitMoves = function(clients) {
 
 				connection.addedData.currentState = 'idle'
 
-				this.assistOtherTables(connection,gameID)
+				this.assistOtherTables(connection,gameID,timeNow)
 
 			}
 
@@ -709,7 +709,7 @@ var SplitMoves = function(clients) {
 
 				console.log('FORBIDDEN progress received: move exists but thinker is not in it')
 
-				this.assistOtherTables(connection,gameID)
+				this.assistOtherTables(connection,gameID,timeNow)
 
 			} else {
 

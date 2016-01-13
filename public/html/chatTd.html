@@ -1,5 +1,5 @@
 <div class="chatCell">
-					<div ng-repeat="x in dbTable.chat">{{x}}</div>
+					<div ng-repeat="x in dbTable.chat track by $index">{{x}}</div>
 				</div>
 				<form class="chatInput" ng-submit="sendChat()">
 					<input class="chatInpt" type="text" ng-model="sendThis"></input>
