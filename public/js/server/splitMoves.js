@@ -663,7 +663,7 @@ var SplitMoves = function(clients,timeNow) {
                     splitMove.thinkers.splice(tempTIndex,1)
                     
                 }
-
+//
 			} else {
 
 				// console.log('disconnect???')
