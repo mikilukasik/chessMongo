@@ -321,7 +321,10 @@
 						break;
 						
 						case 'refreshBrowser':
-
+                            
+                            ws.onclose = function () {}; // disable onclose handler first
+                            ws.close()
+                            
 							location.reload(true)
 
 							break;
