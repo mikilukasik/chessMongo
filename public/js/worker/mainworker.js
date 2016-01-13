@@ -186,12 +186,30 @@ var taskReceived = function(task) {
                     queuedMoves: [],
                     
                     
+                    
+                    
 
                     //updatedMoves:[]
 
                 }
                 
-                messageTheServer('forceIdle',{})
+                //messageTheServer('forceIdle',{})
+               
+                 messageTheServer('progress', {
+
+                    final: true,
+                    
+                    _id: workingOnGameNum,
+                    
+                    
+                    dmpm: ~~(60000 * progress.splitMoves / (tdate - progress.started)),
+                    depth: workingOnDepth,
+                    
+                    smTakes:progress.smTakes,
+                    
+                    //results:sendResults
+
+                })
                     
             }
         
