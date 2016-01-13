@@ -200,7 +200,7 @@ var taskReceived = function(task) {
                     queuedMoves: [],
                     
                     
-                    
+                    waitingSdts:[]
                     
 
                     //updatedMoves:[]
