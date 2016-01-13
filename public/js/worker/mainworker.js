@@ -170,7 +170,7 @@ var taskReceived = function(task) {
                     _id: workingOnGameNum,
                     
                     
-                    dmpm: ~~(60000 * progress.splitMoves / (tdate - progress.started)),
+                    dmpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
                     depth: workingOnDepth,
                     
                     smTakes:progress.smTakes,
