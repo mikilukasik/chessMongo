@@ -410,7 +410,7 @@ var SplitMoves = function(clients,timeNow) {
 		if (store.q[qIndex])
 			for (var i = store.q[qIndex].thinkers.length - 1; i >= 0; i--) {
 
-				if (store.q[qIndex].thinkers[i].thinker == thinker.toString()) {
+				if (store.q[qIndex].thinkers[i].thinker == thinker) {
 					return i
 				}
 			}
@@ -725,7 +725,7 @@ var SplitMoves = function(clients,timeNow) {
             
             clients.sendTask(new Task('forgetSplitMoves', {
                 gameID:gameID
-            }, 'forgetSplitMoves'), connection)
+            }, 'move is solved already'), connection)
 
             connection.addedData.currentState='idle'
             
@@ -740,7 +740,7 @@ var SplitMoves = function(clients,timeNow) {
 
 				clients.sendTask(new Task('forgetSplitMoves', {
                     gameID:gameID
-                }, 'forgetSplitMoves'), connection)
+                }, 'thinker not in q'), connection)
                 
                 connection.addedData.currentState='idle'
 
