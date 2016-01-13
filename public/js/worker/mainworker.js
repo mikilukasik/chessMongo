@@ -163,9 +163,23 @@ var taskReceived = function(task) {
         
             console.log('forgetting moves on table',task.data.gameID)
             
-            
+             messageTheServer('progress', {
+
+                    final: true,
+                    
+                    _id: workingOnGameNum,
+                    
+                    
+                    dmpm: ~~(60000 * progress.splitMoves / (tdate - progress.started)),
+                    depth: workingOnDepth,
+                    
+                    smTakes:progress.smTakes,
+                    
+                    //results:sendResults
+
+                })
         
-            if(task.data.gameID==workingOnGameNum){
+          //  if(task.data.gameID==workingOnGameNum){
                 
                 throwAwayGame=task.data.gameID
                 
@@ -195,23 +209,9 @@ var taskReceived = function(task) {
                 
                 //messageTheServer('forceIdle',{})
                
-                 messageTheServer('progress', {
-
-                    final: true,
+                
                     
-                    _id: workingOnGameNum,
-                    
-                    
-                    dmpm: ~~(60000 * progress.splitMoves / (tdate - progress.started)),
-                    depth: workingOnDepth,
-                    
-                    smTakes:progress.smTakes,
-                    
-                    //results:sendResults
-
-                })
-                    
-            }
+         //   }
         
             
         
