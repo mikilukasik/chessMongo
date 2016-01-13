@@ -232,11 +232,9 @@ var SplitMoves = function(clients,timeNow) {
 
 	this.processAnswer = function(data, timeNow, qIndex, tIndex, gameID, connection) {
         
-        // var gameID=store.q[qIndex].origTable._id
-
-        // console.log(gameID)
-
-		var isDone = false
+        
+        
+    	var isDone = false
 		var progress = data.progress
 		var beBackIn = data.beBackIn
 		var beBackAt = undefined
@@ -252,11 +250,11 @@ var SplitMoves = function(clients,timeNow) {
 			beBackAt = timeNow
 			isDone = true
 
-			connection.addedData.currentState = 'idle' //'reCheck'
-
 			clients.updateSpeedStats(connection, data.depth, data.dmpm)
 
 			clients.publishAddedData()
+            
+            connection.addedData.currentState='idle'
 
 		} else {
 
@@ -279,121 +277,19 @@ var SplitMoves = function(clients,timeNow) {
 
 		}
 
-		if (data.results) {
+		if (data.results) this.processResults(data,qIndex,tIndex,connection)
 
-			var noNaked = false
-
-			data.results.forEach(function(res) {
-
-				if (store.q[qIndex].moves[res.moveIndex].done) {
-					console.log('error: move solved twice(or more)')
-
-				} else {
-
-					store.q[qIndex].moves[res.moveIndex].done = true
-					store.q[qIndex].moves[res.moveIndex].result = res
-					store.q[qIndex].moves[res.moveIndex].doneBy = connection.addedData.lastUser //.lastUser
-
-					store.q[qIndex].pendingMoveCount--
-						store.q[qIndex].thinkers[tIndex].movesLeft--
-
-						removeSentMove(store.q[qIndex].thinkers[tIndex], res, timeNow)
-
-					// this.nakedQ()
-
-					if (store.q[qIndex].pendingMoveCount == 0) {
-
-						noNaked = true
-
-						nakedQ()
-
-						store.q[qIndex].moves.sort(function(a, b) {
-							if (a.result.value > b.result.value) {
-								return -1
-							} else {
-								return 1
-							}
-
-						})
-
-						console.log('will move ', store.q[qIndex].moves[0].result.move)
-
-						store.q[qIndex].thinkers.forEach(function(thinker) {
-
-							thinker.progress = 100
-
-						})
-
-						willMove = true
-
-						var tableInDb = store.q[qIndex].origTable
-
-						moveInTable(store.q[qIndex].moves[0].result.move, tableInDb)
-
-						tableInDb.chat = [~~((timeNow - store.q[qIndex].started) / 10) / 100 + 'sec'] //1st line in chat is timeItTook
-
-						store.q[qIndex].moves.forEach(function(returnedMove) {
-
-							tableInDb.chat = tableInDb.chat.concat({
-
-								// hex: returnedMove.result.value.toString(16),
-								score: returnedMove.result.value,
-
-								moves: returnedMove.result.moveTree,
-
-								thinker: returnedMove.doneBy
-
-							})
-
-						})
-
-						tableInDb.moveTask = {}
-
-						//this.nakedQ()
-
-						mongodb.connect(cn, function(err2, db2) {
-
-							db2.collection("tables")
-								.save(tableInDb, function(err3, res) {
-
-									publishTable(tableInDb)
-
-									db2.close()
-
-									store.q.splice(qIndex, 1)
-
-									//clients.publishView('admin.html', 'default', 'splitMoves', store.nakedQ)
-
-								})
-						})
-
-					}
-
-				}
-
-			})
-
-			if (!noNaked) this.nakedQ()
-
-		} else {
-			//received only progress update, no solved moves
-
-		}
-
-		if (data.final) {
+        if (data.final) {
 
 			var assistData = getAssistData(qIndex, tIndex, timeNow)
 
-			if (assistData && !willMove) {
-
+			if (assistData){
+                
 				this.assist(assistData.assisted, assistData.assistant, qIndex, assistData.assistedIndex, timeNow)
 
 			} else {
 
-				//check if we can assist other tables
-
-				this.assistOtherTables(connection,gameID,timeNow) //done already
-
+                this.assistOtherTables(connection,gameID,timeNow) 
 			}
 
 		}
@@ -403,6 +299,111 @@ var SplitMoves = function(clients,timeNow) {
 		this.publishNakedQ()
 
 	}
+    
+    this.processResults=function(data,qIndex,tIndex,connection){
+
+        var noNaked = false
+        
+
+        data.results.forEach(function(res) {
+
+            if (store.q[qIndex].moves[res.moveIndex].done) {
+                console.log('error: move solved twice(or more)')
+                forgetThis=true
+
+            } else {
+
+                store.q[qIndex].moves[res.moveIndex].done = true
+                store.q[qIndex].moves[res.moveIndex].result = res
+                store.q[qIndex].moves[res.moveIndex].doneBy = connection.addedData.lastUser //.lastUser
+
+                store.q[qIndex].pendingMoveCount--
+                    store.q[qIndex].thinkers[tIndex].movesLeft--
+
+                    removeSentMove(store.q[qIndex].thinkers[tIndex], res, timeNow)
+
+                // this.nakedQ()
+
+                if (store.q[qIndex].pendingMoveCount == 0) {
+
+                    noNaked = true
+
+                    nakedQ()
+
+                    store.q[qIndex].moves.sort(function(a, b) {
+                        if (a.result.value > b.result.value) {
+                            return -1
+                        } else {
+                            return 1
+                        }
+
+                    })
+
+                    console.log('will move ', store.q[qIndex].moves[0].result.move)
+
+                    store.q[qIndex].thinkers.forEach(function(thinker) {
+
+                        thinker.progress = 100
+
+                    })
+
+                    willMove = true
+
+                    var tableInDb = store.q[qIndex].origTable
+
+                    moveInTable(store.q[qIndex].moves[0].result.move, tableInDb)
+
+                    tableInDb.chat = [~~((timeNow - store.q[qIndex].started) / 10) / 100 + 'sec'] //1st line in chat is timeItTook
+
+                    store.q[qIndex].moves.forEach(function(returnedMove) {
+
+                        tableInDb.chat = tableInDb.chat.concat({
+
+                            // hex: returnedMove.result.value.toString(16),
+                            score: returnedMove.result.value,
+
+                            moves: returnedMove.result.moveTree,
+
+                            thinker: returnedMove.doneBy
+
+                        })
+
+                    })
+
+                    tableInDb.moveTask = {}
+
+                    //this.nakedQ()
+
+                    mongodb.connect(cn, function(err2, db2) {
+
+                        db2.collection("tables")
+                            .save(tableInDb, function(err3, res) {
+
+                                publishTable(tableInDb)
+
+                                db2.close()
+
+                                store.q.splice(qIndex, 1)
+
+                                //clients.publishView('admin.html', 'default', 'splitMoves', store.nakedQ)
+
+                            })
+                    })
+
+                }
+
+            }
+            // if(forgetThis){
+                
+            // }
+
+        })
+
+        if (!noNaked) this.nakedQ()
+
+
+
+    }
 
 	var getThinkerIndex = function(qIndex, thinker) {
 
@@ -586,7 +587,8 @@ var SplitMoves = function(clients,timeNow) {
 			//console.log('van index:',splitMoveIndex)
 			splitMove = store.q[splitMoveIndex]
 		}else{
-            console.log('error: splitMoveIndex undefined')
+            console.log('no splitmove to assist.')
+            connection.addedData.currentState='idle'
         }
 
 		if (splitMove) {
@@ -608,7 +610,7 @@ var SplitMoves = function(clients,timeNow) {
 
 			})
 
-			console.log('moves to join:', splitMove.thinkers[tempTIndex])
+			//console.log('moves to join:', splitMove.thinkers[tempTIndex])
 
 			var mySpeed = connection.addedData.speed
 
@@ -664,17 +666,31 @@ var SplitMoves = function(clients,timeNow) {
                     
                 }
 //
+                return true
+
 			} else {
 
 				// console.log('disconnect???')
 
 				console.log('disconnect???', tempBeBackIn)
+                
+                connection.addedData.currentState = 'idle'
+                 
+                return false
 
 			}
+            
+            
 
 		} else {
+            
+            connection.addedData.currentState = 'idle'
+            
+            return false
 			 //console.log('no splitmove')
 		}
+        
+        
 
 	}
 
@@ -686,6 +702,14 @@ var SplitMoves = function(clients,timeNow) {
     
     this.forceIdle=function(connection){
         console.log('forceIdle',connection.addedData)
+        
+        
+        this.assistOtherTables(connection,-2,new Date())//){
+        //     //assisting
+        // }else{
+        //     connection.addedData.currentState = 'idle'
+        // }
+        
     }
 
 	this.updateSplitMoveProgress = function(gameID, thinker, data, connection) {
@@ -703,17 +727,6 @@ var SplitMoves = function(clients,timeNow) {
                 gameID:gameID
             }, 'forgetSplitMoves'), connection)
 
-           // clients.send(connection,'forgetSplitMoves',)
-            
-            
-
-			// if (data.final) { //move this to the end
-
-				//connection.addedData.currentState = 'idle'
-
-				this.assistOtherTables(connection,gameID,timeNow)
-
-			// }
 
 		} else {
 			//move exists in q
@@ -724,7 +737,9 @@ var SplitMoves = function(clients,timeNow) {
 
 				console.log('FORBIDDEN progress received: move exists but thinker is not in it')
 
-				this.assistOtherTables(connection,gameID,timeNow)
+				clients.sendTask(new Task('forgetSplitMoves', {
+                    gameID:gameID
+                }, 'forgetSplitMoves'), connection)
 
 			} else {
 

@@ -169,6 +169,7 @@ var onMessageFuncs = {
                 
             case 'forceIdle':
             
+                console.log('forceidle received from',connection.addedData.lastUser)
                 splitMoves.forceIdle(connection)
 
 			case 'saveVal':

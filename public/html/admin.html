@@ -249,8 +249,10 @@
                               {{y.sentCount}}
                           </td>
                           <td>
+                              <progress  max='100' value="{{y.progress*(1-y.addProgress)+(100*y.addProgress)}}">
+								
                              
-                              {{y.progress}}
+                              <!--{{y.progress}}-->
                           </td>
                           <td>
                              

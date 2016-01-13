@@ -248,7 +248,7 @@ var taskReceived = function(task) {
 			if (task.data[0] != undefined) {
 				//we received some moves
 
-				if (workingOnGameNum == 0) {
+				//if (workingOnGameNum == 0) {
 					//thinker is idle
 					
 
@@ -258,12 +258,12 @@ var taskReceived = function(task) {
 
 					mwProcessDeepSplitMoves(progress.moves, sendID) //starting to process splitmove from server
 
-				} else {
-					//thinker is already calculating something
+				// } else {
+				// 	//thinker is already calculating something
 
-					sendLog('thinker is busy')
+				// 	sendLog('thinker is busy')
 
-				}
+				// }
 
 			} else {
 				//error in receiving task

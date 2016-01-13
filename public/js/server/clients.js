@@ -490,7 +490,13 @@ var Clients=function(){
 			
 			for (var i=knownClients.connectedSockets.length-1;i>=0;i--){
 				
-				result[i]=knownClients.connectedSockets[i].addedData
+                if(knownClients.connectedSockets[i].addedData.lastUser=='pending..'){
+                    knownClients.connectedSockets.splice(i,1)
+                }else{
+                    result.push(knownClients.connectedSockets[i].addedData)
+				
+                }
+                
 				
 				// if(!knownClients.connectedSockets[i].socket.writable){
 				// 	result[i].speed='non-writable'
