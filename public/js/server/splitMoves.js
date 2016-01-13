@@ -68,14 +68,15 @@ var SplitMoves = function(clients,timeNow) {
 		if (store.q.length > 0) {
 
 			var idleClientConnections = clients.getIdleClientConnections()
-
+            
+           
 			var until = idleClientConnections.length
 
 			//console.log('idle connections:',until)
 
 			for (var i = 0; i < until; i++) {
 
-				assistOtherTables(idleClientConnections[i],-2,timeNow)//-1 for no justFinishedOnTable
+				assistOtherTables(idleClientConnections[i],-2,new Date())//-1 for no justFinishedOnTable
 
 			}
 		}
@@ -571,7 +572,7 @@ var SplitMoves = function(clients,timeNow) {
 
 		var lastSeenConst = 2000
 
-		var timeNow = new Date()
+		//var timeNow = new Date()
 
 		var splitMove
 
@@ -580,7 +581,9 @@ var SplitMoves = function(clients,timeNow) {
 		if (splitMoveIndex != undefined) {
 			//console.log('van index:',splitMoveIndex)
 			splitMove = store.q[splitMoveIndex]
-		}
+		}else{
+            console.log('error: splitMoveIndex undefined')
+        }
 
 		if (splitMove) {
 
@@ -597,7 +600,7 @@ var SplitMoves = function(clients,timeNow) {
 					tempThinker = thinker
 					tempTIndex = index
 
-					console.log('xxxxxxxxxxx innen:',thinker, 'idaig')
+					console.log('xxxxxxxxxxx innen:',thinker.connection.addedData, 'idaig')
 				}
 
 			})
@@ -686,19 +689,22 @@ var SplitMoves = function(clients,timeNow) {
 
 			console.log("error: received progress for splitmove that doesn't exist, final:", data.final)
             
-            clients.send(connection,'forgetSplitMoves',{
+            
+            clients.sendTask(new Task('forgetSplitMoves', {
                 gameID:gameID
-            })
+            }, 'forgetSplitMoves'), connection)
+
+           // clients.send(connection,'forgetSplitMoves',)
             
             
 
-			if (data.final) { //move this to the end
+			// if (data.final) { //move this to the end
 
-				connection.addedData.currentState = 'idle'
+				//connection.addedData.currentState = 'idle'
 
 				this.assistOtherTables(connection,gameID,timeNow)
 
-			}
+			// }
 
 		} else {
 			//move exists in q

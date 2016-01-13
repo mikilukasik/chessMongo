@@ -9,6 +9,7 @@ var PendingThinker=function(){
             connectionID:'pending',
             lastUser:'pending..',
             currentState:'busy',
+            speed:1
             
             }
             
