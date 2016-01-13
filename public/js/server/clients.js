@@ -1,4 +1,7 @@
 var PendingThinker=function(){
+    
+        this.sentMoves=[]
+        this.sentCount=0
         
         this.pending=true
         
@@ -6,7 +9,7 @@ var PendingThinker=function(){
         
         this.addedData={
             
-            connectionID:'pending',
+            connectionID:Math.random(),
             lastUser:'pending..',
             currentState:'busy',
             speed:1

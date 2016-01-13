@@ -141,8 +141,12 @@ var SplitMoves = function(clients,timeNow) {
 	}
 
 	var getSplitMoveTask = function(splitMove, percent) {
-
+        
+        console.log('#######################################')
+        
 		var numberToSend = Math.ceil(percent * splitMove.movesToSend.length)
+
+        console.log('numberToSend',numberToSend)
 
 		var splitMoveTasks = []
 
@@ -190,7 +194,7 @@ var SplitMoves = function(clients,timeNow) {
 			// if (sendAll) {
 			// 	sendThese = getSplitMoveTask(splitMove, 1)
 			// } else {
-				sendThese = getSplitMoveTask(splitMove, thinker.itsSpeed)
+			sendThese = getSplitMoveTask(splitMove, thinker.itsSpeed)
 			//}
 			sendThese.forEach(function(move) {
 
@@ -587,7 +591,7 @@ var SplitMoves = function(clients,timeNow) {
 
 		if (splitMove) {
 
-			console.log('here assist other moves')
+			console.log(connection.addedData.lastUser,'to assist other moves')
 
 			var tempBeBackIn = -1
 			var tempThinker = undefined
@@ -600,20 +604,15 @@ var SplitMoves = function(clients,timeNow) {
 					tempThinker = thinker
 					tempTIndex = index
 
-					console.log('xxxxxxxxxxx innen:',thinker.connection.addedData, 'idaig')
 				}
 
 			})
 
-			console.log('chosen:', tempTIndex)
+			console.log('moves to join:', splitMove.thinkers[tempTIndex])
 
 			var mySpeed = connection.addedData.speed
 
-			//var hisSpeed
-
-			//console.log(tempBeBackIn,'tempBeBackIn')
-
-			if (tempBeBackIn > 500) {
+			if (tempBeBackIn > 500||tempBeBackIn==0) {
 
 				var hisSpeed = tempThinker.connection.addedData.speed
 				var myRatio = mySpeed / (mySpeed + hisSpeed)
@@ -625,8 +624,12 @@ var SplitMoves = function(clients,timeNow) {
 
 				var count = Math.round(len * myRatio)
 
-				var moves = tempMoves.splice(0, count)
+                var removeThinker=false
+                if (tempMoves.length==count)removeThinker=true
 
+				var moves = tempMoves.splice(0, count)
+                
+                
 				//console.log('tempThinker',tempThinker,'count',count,'len',len,'myRatio',myRatio)
 
 				if (moves && moves.length > 0) {
@@ -654,6 +657,12 @@ var SplitMoves = function(clients,timeNow) {
 					clients.send(connection, 'aa', 0, 'aa')
 
 				}
+                
+                if(removeThinker){
+                    
+                    splitMove.thinkers.splice(tempTIndex,1)
+                    
+                }
 
 			} else {
 
