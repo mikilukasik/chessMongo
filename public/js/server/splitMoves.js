@@ -727,7 +727,7 @@ var SplitMoves = function(clients,timeNow) {
                 gameID:gameID
             }, 'forgetSplitMoves'), connection)
 
-
+            connection.addedData.currentState='idle'
 		} else {
 			//move exists in q
 
@@ -740,6 +740,8 @@ var SplitMoves = function(clients,timeNow) {
 				clients.sendTask(new Task('forgetSplitMoves', {
                     gameID:gameID
                 }, 'forgetSplitMoves'), connection)
+                
+                connection.addedData.currentState='idle'
 
 			} else {
 
