@@ -184,28 +184,28 @@ var taskReceived = function(task) {
                 throwAwayGame=task.data.gameID
                 
                 workingOnGameNum = 0
-                progress = {
+                // progress = {
 
-                    started: new Date(),
+                //     started: new Date(),
 
-                    splitMoves: 0, //totalcount
-                    oneDeeperMoves: 0,
-                    doneSM: 0, //donecount
-                    doneDM: 0,
+                //     splitMoves: 0, //totalcount
+                //     oneDeeperMoves: 0,
+                //     doneSM: 0, //donecount
+                //     doneDM: 0,
 
-                    moves: [],
+                //     moves: [],
 
-                    tempDTasks: [],
+                //     tempDTasks: [],
                     
-                    queuedMoves: [],
+                //     queuedMoves: [],
                     
                     
-                    waitingSdts:[]
+                //     waitingSdts:[]
                     
 
-                    //updatedMoves:[]
+                //     //updatedMoves:[]
 
-                }
+                // }
                 
                 //messageTheServer('forceIdle',{})
                
