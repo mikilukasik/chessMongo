@@ -728,6 +728,7 @@ var SplitMoves = function(clients,timeNow) {
             }, 'forgetSplitMoves'), connection)
 
             connection.addedData.currentState='idle'
+            
 		} else {
 			//move exists in q
 
