@@ -808,7 +808,7 @@ var SplitMoves = function(clients,timeNow) {
         adminLog('forceIdle',connection.addedData)
         
         
-        if(! this.assistOtherTables(connection,-2,timeNow,)){
+        if(! this.assistOtherTables(connection,-2,timeNow)){
             
                     adminLog('No other move to assist.')
                     connection.addedData.currentState='idle'
