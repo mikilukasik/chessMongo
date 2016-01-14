@@ -656,7 +656,7 @@ var SplitMoves = function(clients,timeNow) {
 
 			var mySpeed = connection.addedData.speed
 
-			if (tempBeBackIn > 500||tempBeBackIn==0) {
+			if (tempBeBackIn > 500||tempBeBackIn<=-100) {                //!!!!!!!!!!!!!!!!!
 
 				var hisSpeed = tempThinker.connection.addedData.speed
 				var myRatio = mySpeed / (mySpeed + hisSpeed)
