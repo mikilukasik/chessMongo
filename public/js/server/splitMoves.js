@@ -806,6 +806,9 @@ var SplitMoves = function(clients,timeNow) {
                     gameID:gameID
                 }, 'thinker not in q'), connection)
                 
+                this.assistOtherTables(connection,gameID,timeNow)
+            
+                
                 //connection.addedData.currentState='idle'
 
 			} else {
