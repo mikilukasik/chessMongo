@@ -207,7 +207,7 @@ var SplitMoves = function(clients,timeNow) {
 			sendThese.forEach(function(move) {
 
 				//adminLog('ssss',thinker,'sssssssssss')
-				move.sentToName = thinker.addedData.lastUser
+				if(move)move.sentToName = thinker.addedData.lastUser
 					//move.history.push('initial: '+thinker.addedData.lastUser   )
 			})
 
