@@ -244,6 +244,7 @@ var SplitMoves = function(clients,timeNow) {
     	var isDone = false
 		var progress = data.progress
 		var beBackIn = data.beBackIn
+        if (beBackIn<0)beBackIn=0
 		var beBackAt = undefined
 
 		var dmpm = data.dmpm
@@ -484,7 +485,7 @@ var SplitMoves = function(clients,timeNow) {
 				progress: 0,
 				sentMoves: sentMoves,
 				movesLeft: sentCount,
-				beBackIn: 100000,
+				beBackIn: 10000000,
 				connection: connection,
 				lastSeen: timeNow,
 				addProgress: 0,
@@ -511,7 +512,7 @@ var SplitMoves = function(clients,timeNow) {
 
 			thinker.movesLeft = sentCount
 
-			thinker.beBackIn = 100000
+			thinker.beBackIn = 10000000
 
 			thinker.lastSeen = timeNow
 
