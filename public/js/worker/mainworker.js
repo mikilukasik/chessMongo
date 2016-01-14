@@ -187,7 +187,7 @@ var taskReceived = function(task) {
             console.log('should be forgetting moves on table',task.data.gameID)
             
             
-            forgetItAll=true
+            
             
             if(workingOnGameNum==0){
                 
@@ -208,6 +208,8 @@ var taskReceived = function(task) {
                 })
         
                 
+            }else{
+                forgetItAll=true
             }
               
         
