@@ -643,7 +643,7 @@ var SplitMoves = function(clients,timeNow) {
 
 			splitMove.thinkers.forEach(function(thinker, index) {
 
-				if (((thinker.beBackIn > tempBeBackIn) || timeNow - thinker.lastSeen > lastSeenConst) && (!thinker.done)) { //!!!!!!!!!!!!!!!!!!!!!
+				if (((thinker.beBackIn > tempBeBackIn) || (timeNow - thinker.lastSeen > lastSeenConst) && (!thinker.done))) { //!!!!!!!!!!!!!!!!!!!!!
 					tempBeBackIn = thinker.beBackIn
 					tempThinker = thinker
 					tempTIndex = index
