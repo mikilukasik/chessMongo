@@ -611,6 +611,8 @@ onmessage = function(event) {
 
                         }
                         
+                        workingOnGameNum=0
+                        
                         messageTheServer('progress', {
 
                             final: true,
