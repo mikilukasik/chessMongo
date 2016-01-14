@@ -162,6 +162,8 @@ var SplitMoves = function(clients,timeNow) {
     
 
 	this.add = function(dbTableWithMoveTask) {
+        
+        adminLog('######################new move, game ',dbTableWithMoveTask._id,'#########################################')
 
 		var splitMove = new SplitMove(dbTableWithMoveTask)
 
@@ -181,7 +183,7 @@ var SplitMoves = function(clients,timeNow) {
 
 			if (thinker.addedData.currentState == 'busy') {
 
-				adminLog('============================all busy, storing into busy thinker..')
+				adminLog('============================all busy, storing in new PendingThinker()')
                 
                 thinker=new PendingThinker()
 				sendAll = true
@@ -226,6 +228,9 @@ var SplitMoves = function(clients,timeNow) {
 
 		this.nakedQ()
 		this.publishNakedQ()
+        
+        adminLog('######################new move for game ',dbTableWithMoveTask._id,'added.')
+
 
 		return splitMove
 
