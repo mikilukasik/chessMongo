@@ -316,6 +316,7 @@ var SplitMoves = function(clients,timeNow) {
                 }else{
                     
                     console.log('No other move to assist.')
+                    connection.addedData.currentState='idle'
 
                     
                 }
@@ -726,7 +727,7 @@ var SplitMoves = function(clients,timeNow) {
 
 		} else {
             
-            connection.addedData.currentState = 'cidle'
+            //connection.addedData.currentState = 'cidle'
             
             return false
 			 //console.log('no splitmove')
@@ -809,7 +810,7 @@ var SplitMoves = function(clients,timeNow) {
 			}
 		}
         
-        if( (data.final &&  connection.addedData.lastUser!='pending..')    &&  setIdle  )connection.addedData.currentState='idle'
+        //if( (data.final &&  connection.addedData.lastUser!='pending..')    &&  setIdle  )connection.addedData.currentState='idle'
         
         if(data.final) console.log('--------------------------END--------------------------------')
 	}
