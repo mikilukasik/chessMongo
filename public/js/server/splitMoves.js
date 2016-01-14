@@ -842,15 +842,14 @@ var SplitMoves = function(clients,timeNow) {
             
             if(data.forced){
                 
-                adminLog('forced final received, calling assistOtherTables')
+                adminLog('forced final received.')
                 
-                if(! this.assistOtherTables(connection,-2,timeNow)){
+               
             
-                    adminLog('No other move to assist.')
+                  
                     connection.addedData.currentState='idle'
             
-                }
-                
+               
             }else{
                 
                 clients.sendTask(new Task('forgetSplitMoves', {
