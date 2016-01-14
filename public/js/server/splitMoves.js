@@ -339,8 +339,10 @@ var SplitMoves = function(clients,timeNow) {
         
 
         data.results.forEach(function(res) {
-
-            if (store.q[qIndex].moves[res.moveIndex].done) {
+            
+            if(store.q[qIndex]&&store.q[qIndex].moves[res.moveIndex]){
+                
+                           if (store.q[qIndex].moves[res.moveIndex].done) {
                 console.log('error: move solved twice(or more)')
                 forgetThis=true
 
@@ -428,6 +430,10 @@ var SplitMoves = function(clients,timeNow) {
             }
             // if(forgetThis){
                 
+                
+            }
+            
+ 
             // }
 
         })
