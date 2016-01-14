@@ -82,6 +82,7 @@ var SplitMoves = function(clients,timeNow) {
 		}
 
 	}
+//
 
 	setInterval(this.intervalFunc, 2000)
 
