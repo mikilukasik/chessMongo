@@ -980,6 +980,8 @@ var SplitMoves = function(clients,timeNow) {
 
 		var moves = getAssistMoves(assisted, assistant)
 
+        adminLog('moves to pass:',moves.length)
+
 		if (moves.length > 0) {
 
 			moves.forEach(function(move) {
