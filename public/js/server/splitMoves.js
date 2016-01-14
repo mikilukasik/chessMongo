@@ -83,7 +83,7 @@ var SplitMoves = function(clients,timeNow) {
 
 	}
 
-	//setInterval(this.intervalFunc, 2000)
+	setInterval(this.intervalFunc, 2000)
 
 	this.nakedQ = function() {
 
