@@ -240,7 +240,7 @@
                           </td>
                           
                       </tr>
-                      <tr ng-repeat="y in x.thinkers" ng-style="{makeGreen:y.done}">
+                      <tr ng-repeat="y in x.thinkers" ng-if="y.sentCount>0" ng-style="{makeGreen:y.done}">
                           
                           <td>
                               
