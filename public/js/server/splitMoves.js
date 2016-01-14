@@ -1000,6 +1000,10 @@ var SplitMoves = function(clients,timeNow) {
 		var assistantSpeed = assistant.smTakes
 
 		var assistedSpeed = assisted.accuBackIn / assisted.guessedMovesLeft
+        
+        if(isNaN(assistedSpeed)||assistedSpeed==0){
+            assistedSpeed=30000 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!hack
+        }
 
 		var assistedBackIn = assisted.accuBackIn
 
