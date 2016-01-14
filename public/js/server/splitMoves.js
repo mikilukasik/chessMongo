@@ -808,12 +808,12 @@ var SplitMoves = function(clients,timeNow) {
         adminLog('forceIdle',connection.addedData)
         
         
-        if(! this.assistOtherTables(connection,-2,timeNow)){
+        // if(! this.assistOtherTables(connection,-2,timeNow)){
             
-                    adminLog('No other move to assist.')
+        //             adminLog('No other move to assist.')
                     connection.addedData.currentState='idle'
             
-        }//){
+    //   /  }//){
         //     //assisting
         // }else{
         //     connection.addedData.currentState = 'idle'
@@ -878,12 +878,12 @@ var SplitMoves = function(clients,timeNow) {
                     gameID:gameID
                 }, 'thinker not in q'), connection)
                 
-               if(! this.assistOtherTables(connection,-2,new Date())){
+            //    if(! this.assistOtherTables(connection,-2,new Date())){
             
-                    adminLog('No other move to assist.')
+            //         adminLog('No other move to assist.')
                     connection.addedData.currentState='idle'
             
-        }
+        //}
                 
                 //connection.addedData.currentState='idle'
 
