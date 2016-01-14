@@ -829,7 +829,9 @@ var SplitMoves = function(clients,timeNow) {
 
 			adminLog("error: received progress from",connection.addedData.lastUser," for game that doesn't exist:",gameID," final:", data.final)
             
-            if(gameID==undefined||data.forced){
+            if(data.forced){
+                
+                adminLog('forced final received, calling assistOtherTables')
                 
                 this.assistOtherTables(connection,gameID,timeNow)
                 
