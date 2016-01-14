@@ -817,7 +817,7 @@ var SplitMoves = function(clients,timeNow) {
 
 		if (qIndex == undefined) {
 
-			adminLog("error: received progress from",connection.addedData.lastUser," that doesn't exist, final:", data.final)
+			adminLog("error: received progress from",connection.addedData.lastUser," for game that doesn't exist:",gameID," final:", data.final)
             
             
             clients.sendTask(new Task('forgetSplitMoves', {
