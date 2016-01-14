@@ -833,7 +833,7 @@ var SplitMoves = function(clients,timeNow) {
                 
                 adminLog('forced final received, calling assistOtherTables')
                 
-                this.assistOtherTables(connection,gameID,timeNow)
+                this.assistOtherTables(connection,-2,timeNow)
                 
             }else{
                 
