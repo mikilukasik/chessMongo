@@ -188,42 +188,28 @@ var taskReceived = function(task) {
             
             
             forgetItAll=true
-        
-        //   //  if(task.data.gameID==workingOnGameNum){
-                
-        //         throwAwayGame=task.data.gameID
-                
-        //         workingOnGameNum = 0
-        //         // progress = {
-
-        //         //     started: new Date(),
-
-        //         //     splitMoves: 0, //totalcount
-        //         //     oneDeeperMoves: 0,
-        //         //     doneSM: 0, //donecount
-        //         //     doneDM: 0,
-
-        //         //     moves: [],
-
-        //         //     tempDTasks: [],
-                    
-        //         //     queuedMoves: [],
-                    
-                    
-        //         //     waitingSdts:[]
-                    
-
-        //         //     //updatedMoves:[]
-
-        //         // }
-                
-        //         //messageTheServer('forceIdle',{})
-               
-                
-                    
-        //  //   }
-        
             
+            if(workingOnGameNum==0){
+                
+                 messageTheServer('progress', {
+
+                    final: true,
+                    
+                    forced: true,
+                    
+                    
+                    //dmpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
+                    //depth: workingOnDepth,
+                    
+                    //smTakes:progress.smTakes,
+                    
+                    //results:sendResults
+
+                })
+        
+                
+            }
+              
         
         break;
         
