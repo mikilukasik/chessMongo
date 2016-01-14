@@ -274,28 +274,53 @@ var SplitMoves = function(clients,timeNow) {
 			store.q[qIndex].thinkers[tIndex].dmpm = dmpm
 
 			store.q[qIndex].thinkers[tIndex].mspm = beBackIn / store.q[qIndex].thinkers[tIndex].movesLeft
-			store.q[qIndex].thinkers[tIndex].smTakes = data.smTakes
+            
+            if(data.smTakes){
+                store.q[qIndex].thinkers[tIndex].smTakes = data.smTakes
+                console.log('smTakes stored:',data.smTakes)
 
+            }
+            
+			
 		}
 
 		if (data.results) this.processResults(data,qIndex,tIndex,connection)
 
         if (data.final) {
+            
+            var tryOthers=false
 
 			var assistData = getAssistData(qIndex, tIndex, timeNow)
 
 			if (assistData){
                 
-				this.assist(assistData.assisted, assistData.assistant, qIndex, assistData.assistedIndex, timeNow)
+                console.log('Assisting in current move')
+                
+				if(!(this.assist(assistData.assisted, assistData.assistant, qIndex, assistData.assistedIndex, timeNow))) tryOthers=true
 
 			} else {
                 
-
-               if( this.assistOtherTables(connection,gameID,timeNow) )sentSomething=true
-                
+                tryOthers=true
                 
                 
 			}
+            
+            if(tryOthers){
+                
+                console.log('Attempting to assist other moves..')
+
+                if( this.assistOtherTables(connection,gameID,timeNow) ){
+                    console.log('Assisting in other move')
+
+                    sentSomething=true
+                }else{
+                    
+                    console.log('No other move to assist.')
+
+                    
+                }
+                
+            }
 
 		}
 
@@ -676,7 +701,10 @@ var SplitMoves = function(clients,timeNow) {
                 
                 if(removeThinker){
                     
-                    splitMove.thinkers.splice(tempTIndex,1)
+                    //splitMove.thinkers.splice(tempTIndex,1)
+                    splitMove.thinkers[tempTIndex].progress=100
+                    splitMove.thinkers[tempTIndex].beBackIn=0
+                    
                     
                 }
 //
@@ -729,7 +757,13 @@ var SplitMoves = function(clients,timeNow) {
     }
 
 	this.updateSplitMoveProgress = function(gameID, thinker, data, connection) {
-
+        
+       
+        
+        if(data.final){
+            console.log('--------------------------START--------------------------------')
+            console.log('final returned from',connection.addedData.lastUser)
+        }
 		var timeNow = new Date()
 
 		var qIndex = qIndexByGameID(gameID)
@@ -741,9 +775,13 @@ var SplitMoves = function(clients,timeNow) {
 			console.log("error: received progress for splitmove that doesn't exist, final:", data.final)
             
             
-            clients.sendTask(new Task('forgetSplitMoves', {
-                gameID:gameID
-            }, 'move is solved already'), connection)
+            // clients.sendTask(new Task('forgetSplitMoves', {
+            //     gameID:gameID
+            // }, 'move is solved already'), connection)
+            
+            
+             this.assistOtherTables(connection,gameID,timeNow)
+            
 
             //connection.addedData.currentState='idle'//
             
@@ -772,6 +810,8 @@ var SplitMoves = function(clients,timeNow) {
 		}
         
         if( (data.final &&  connection.addedData.lastUser!='pending..')    &&  setIdle  )connection.addedData.currentState='idle'
+        
+        if(data.final) console.log('--------------------------END--------------------------------')
 	}
 
 	var publishTable = function(dbTable) {
@@ -891,6 +931,8 @@ var SplitMoves = function(clients,timeNow) {
 
 	this.assist = function(assisted, assistant, qIndex, tIndex, timeNow) {
 
+        var res=false
+
 		var moves = getAssistMoves(assisted, assistant)
 
 		if (moves.length > 0) {
@@ -906,20 +948,29 @@ var SplitMoves = function(clients,timeNow) {
             
 			//console.log('joez??',tIndex)
 
+            console.log('before',store.q[qIndex].thinkers[tIndex].sentCount)
 			store.q[qIndex].thinkers[tIndex].sentCount -= moves.length
+            console.log('after',store.q[qIndex].thinkers[tIndex].sentCount)
             
-            if(store.q[qIndex].thinkers[tIndex].sentCount==0){
-                        assisted.connection.addedData.currentState='eidle'
-                    }
-
 
 			removeSentMove(store.q[qIndex].thinkers[tIndex], moves, timeNow)
+            
+            
+            if(store.q[qIndex].thinkers[tIndex].sentCount==0){
+                //assisted.connection.addedData.currentState='idle'
+            }
 
 			var sentTo = clients.sendTask(new Task('splitMove', moves, 'assist splitMove'), assistant.connection)
+            
+
 
 			registerSentMoves(moves[0].sharedData.gameNum, sentTo, moves.length, moves, assistant.connection)
+            
+            res=true
 
 		}
+        
+        return res
 
 	}
 
@@ -935,7 +986,7 @@ var SplitMoves = function(clients,timeNow) {
 
 		var assistedBackIn = assisted.accuBackIn
 
-		console.log('assist stat...     assistantSpeed', assistantSpeed, ' assistedSpeed', assistedSpeed, 'assistedBackIn', assistedBackIn)
+		console.log('stat:    assistantSpeed', assistantSpeed, ' assistedSpeed', assistedSpeed, 'assistedBackIn', assistedBackIn)
 
 		var maxMoves = assisted.guessedMovesLeft
 

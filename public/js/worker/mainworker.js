@@ -415,48 +415,48 @@ onmessage = function(event) {
 
 				progress.doneSM++
                 
-                if(progress.smTakes){
+                // if(progress.smTakes){
                     
-                    progress.smReadings.push((tdate-progress.secondSmStarted)/progress.doneSM-1)
+                //     progress.smReadings.push((tdate-progress.secondSmStarted)/progress.doneSM-1)
                     
-                    if(progress.doit){
+                //     if(progress.doit){
                         
-                        progress.doit=false
+                //         progress.doit=false
                         
-                        progress.smTakes=tdate-progress.secondSmStarted
+                //         progress.smTakes=tdate-progress.secondSmStarted
                         
-                    }else{
+                //     }else{
                         
                         
                         
-                        var total=0
-                        var len=progress.smReadings.length
+                //         var total=0
+                //         var len=progress.smReadings.length
                         
-                        for (var i=len-1;i>=0;i--){
+                //         for (var i=len-1;i>=0;i--){
                             
-                            total+=progress.smReadings[i]
+                //             total+=progress.smReadings[i]
                             
-                        }
+                //         }
                         
                         
-                        progress.smTakes=total/len
+                //         progress.smTakes=total/len
                         
                         
-                    }
+                //     }
                     
                     
                     
                     
-                }else{
+                // }else{
                     
-                    progress.secondSmStarted=tdate
+                //     progress.secondSmStarted=tdate
                     
-                    progress.smTakes=(tdate-progress.started)
-                    progress.smReadings=[progress.smTakes]
+                //     progress.smTakes=(tdate-progress.started)
+                //     progress.smReadings=[progress.smTakes]
                     
-                    progress.doit=true
+                //     progress.doit=true
                     
-                }
+                // }
                 
                 
                 
@@ -515,10 +515,12 @@ onmessage = function(event) {
                             dmpm: ~~(60000 * progress.splitMoves / (tdate - progress.started)),
                             depth: workingOnDepth,
                             
-                            smTakes:progress.smTakes,
+                            smTakes:(tdate-progress.started)/progress.splitMoves,
                             
                             results:sendResults
 
+                        },'',function(){
+                            console.log('splitmove task done')
                         })
 
 					workingOnGameNum = 0 //available again
@@ -548,7 +550,7 @@ onmessage = function(event) {
                             
                             _id: workingOnGameNum,
                             
-                            smTakes:progress.smTakes,
+                            //smTakes:progress.smTakes,
                             
                             dmpm: ~~(60000 * progress.splitMoves / (tdate - progress.started)),
                             depth: workingOnDepth,
