@@ -648,6 +648,9 @@ var SplitMoves = function(clients,timeNow) {
 					clients.sendTask(new Task('removeSplitMove', moves, 'remove splitMove'), tempThinker.connection)
 
 					store.q[splitMoveIndex].thinkers[tempTIndex].sentCount -= moves.length
+                    if(store.q[splitMoveIndex].thinkers[tempTIndex].sentCount==0){
+                        tempThinker.connection.addedData.currentState='idle'
+                    }
 						//store.q[splitMoveIndex].thinkers[].sentCount+=moves.length
 
 					removeSentMove(store.q[splitMoveIndex].thinkers[tempTIndex], moves, timeNow)
@@ -882,10 +885,16 @@ var SplitMoves = function(clients,timeNow) {
 			assistant.progress = 0
 
 			clients.sendTask(new Task('removeSplitMove', moves, 'remove splitMove'), assisted.connection)
-
+            
+            
 			//console.log('joez??',tIndex)
 
 			store.q[qIndex].thinkers[tIndex].sentCount -= moves.length
+            
+            if(store.q[qIndex].thinkers[tIndex].sentCount==0){
+                        assisted.connection.addedData.currentState='idle'
+                    }
+
 
 			removeSentMove(store.q[qIndex].thinkers[tIndex], moves, timeNow)
 
