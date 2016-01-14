@@ -252,6 +252,7 @@ var SplitMoves = function(clients,timeNow) {
 		if(data.dmpm) {
             dmpm = data.dmpm
             clients.updateSpeedStats(connection, data.depth, data.dmpm)
+            progress = 100
         }
 
 		var willMove = false
