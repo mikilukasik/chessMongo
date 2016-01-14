@@ -143,7 +143,7 @@ var SplitMoves = function(clients,timeNow) {
 
 	var getSplitMoveTask = function(splitMove, percent) {
         
-        adminLog('#######################################')
+        //adminLog('#######################################')
         
 		var numberToSend = Math.ceil(percent * splitMove.movesToSend.length)
 
