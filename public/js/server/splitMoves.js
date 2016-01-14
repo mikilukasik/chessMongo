@@ -641,6 +641,11 @@ var SplitMoves = function(clients,timeNow) {
 			var tempThinker = undefined
 			var tempTIndex = undefined
 
+
+            var tempBeBackIn2 = -1
+			var tempThinker2 = undefined
+			var tempTIndex2 = undefined
+
 			splitMove.thinkers.forEach(function(thinker, index) {
 
 				if (((thinker.beBackIn > tempBeBackIn)  && (!thinker.done))) { //!!!!!!!!!!!!!!!!!!!!!      || (timeNow - thinker.lastSeen > lastSeenConst)
@@ -649,8 +654,27 @@ var SplitMoves = function(clients,timeNow) {
 					tempTIndex = index
 
 				}
+                
+                if(timeNow - thinker.lastSeen > lastSeenConst){
+                    
+                    tempBeBackIn2 = thinker.beBackIn
+					tempThinker2 = thinker
+					tempTIndex2 = index
+                   
+                    
+                }
 
 			})
+            
+            if(!tempThinker){
+                
+                tempThinker=tempThinker2
+                tempBeBackIn=tempBeBackIn2
+                tempTIndex=tempTIndex2
+                
+                
+                
+            }
 
 			//adminLog('moves to join:', splitMove.thinkers[tempTIndex])
 
