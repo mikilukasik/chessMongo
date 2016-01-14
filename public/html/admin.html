@@ -298,7 +298,7 @@
 <td style="vertical-align:top;border-left:1px solid grey">
     <div>
         <h3>adminLog:</h3>
-        <button ng-click="clearAdminLog()">Clear</button>
+        <button ng-click="startAdminLog()">Start</button><button ng-click="stopAdminLog()">Stop</button><button ng-click="clearAdminLog()">Clear</button>
         <div ng-repeat="x in adminLog track by $index">{{x}}</div>
     </div>
 </td>

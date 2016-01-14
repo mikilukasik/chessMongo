@@ -1689,6 +1689,12 @@
 
 			}
             
+            $scope.startAdminLog=function(){
+                socketSend('startAdminLog')
+            }
+            $scope.stopAdminLog=function(){
+                socketSend('stopAdminLog')
+            }
             $scope.clearAdminLog=function(){
                 socketSend('clearAdminLog')
             }

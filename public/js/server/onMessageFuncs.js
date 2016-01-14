@@ -18,6 +18,13 @@ var onMessageFuncs = {
         clients.publishView('admin.html','default','adminLog',adminLogStore)
     },
     
+    startAdminLog: function(){
+        adminLogging=true
+    },
+    stopAdminLog: function(){
+        adminLogging=false
+    },
+    
 	setLastUser:function(connection,data){
 		
 		//console.log('setLastUser',data)

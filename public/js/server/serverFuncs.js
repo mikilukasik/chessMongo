@@ -6,6 +6,7 @@ var admins=[
 			'a-pc'
 		]
 
+var adminLogging=true
 
 var findUsersGameIndex = function(gameNo, games) {
 
@@ -18,7 +19,8 @@ var findUsersGameIndex = function(gameNo, games) {
 var adminLogStore=[]
 
 var adminLog=function(){
-    var addLine=''
+   if(adminlogging){
+        var addLine=''
     for(var i=0;i<arguments.length;i++){
     
         addLine=addLine.concat(arguments[i]+' ')
@@ -28,8 +30,11 @@ var adminLog=function(){
         
   
     adminLogStore.push(addLine)
-    console.log(addLine)
+   
     clients.publishView('admin.html','default','adminLog',adminLogStore)
+    
+   }
+     console.log(addLine)
 }
 
 var userFuncs = {
