@@ -587,6 +587,7 @@ onmessage = function(event) {
                             
                     if (forgetItAll){
                                     
+                        forgetItAll=false
                                     
                         progress = {
 
