@@ -13,6 +13,11 @@ var onMessageFuncs = {
 		
 	},
 	
+    clearAdminLog: function(){
+        adminLogStore=[]
+        clients.publishView('admin.html','default','adminLog',adminLogStore)
+    },
+    
 	setLastUser:function(connection,data){
 		
 		//console.log('setLastUser',data)
@@ -335,6 +340,13 @@ var onMessageFuncs = {
                     subViewName:'default',
                     viewPart: 'splitMoves',
                     data: splitMoves.getNakedQ()   
+                })
+                
+                clients.send(connection,'updateView',{
+                    viewName:'admin.html',
+                    subViewName:'default',
+                    viewPart: 'adminLog',
+                    data: adminLogStore   
                 })
                 
             break;

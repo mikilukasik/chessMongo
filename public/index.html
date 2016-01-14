@@ -1621,7 +1621,8 @@
 						newViewParts = [
 							'clients',
 							'activeViews',
-                            'splitMoves'
+                            'splitMoves',
+                            'adminLog'
 						]
 
 						//
@@ -1687,6 +1688,10 @@
 				
 
 			}
+            
+            $scope.clearAdminLog=function(){
+                socketSend('clearAdminLog')
+            }
 
 			$scope.clickedIt = function(clickedField, clickedString) {
 

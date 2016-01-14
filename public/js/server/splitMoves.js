@@ -72,7 +72,7 @@ var SplitMoves = function(clients,timeNow) {
            
 			var until = idleClientConnections.length
 
-			//console.log('idle connections:',until)
+			//adminLog('idle connections:',until)
 
 			for (var i = 0; i < until; i++) {
 
@@ -143,11 +143,11 @@ var SplitMoves = function(clients,timeNow) {
 
 	var getSplitMoveTask = function(splitMove, percent) {
         
-        console.log('#######################################')
+        adminLog('#######################################')
         
 		var numberToSend = Math.ceil(percent * splitMove.movesToSend.length)
 
-        console.log('numberToSend',numberToSend)
+        adminLog('numberToSend',numberToSend)
 
 		var splitMoveTasks = []
 
@@ -181,7 +181,7 @@ var SplitMoves = function(clients,timeNow) {
 
 			if (thinker.addedData.currentState == 'busy') {
 
-				console.log('============================all busy, storing into busy thinker..')
+				adminLog('============================all busy, storing into busy thinker..')
                 
                 thinker=new PendingThinker()
 				sendAll = true
@@ -199,7 +199,7 @@ var SplitMoves = function(clients,timeNow) {
 			//}
 			sendThese.forEach(function(move) {
 
-				//console.log('ssss',thinker,'sssssssssss')
+				//adminLog('ssss',thinker,'sssssssssss')
 				move.sentToName = thinker.addedData.lastUser
 					//move.history.push('initial: '+thinker.addedData.lastUser   )
 			})
@@ -216,7 +216,7 @@ var SplitMoves = function(clients,timeNow) {
                 
 			// } else {
 				sentTo = clients.sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTableWithMoveTask._id + ' sentCount: ' + sentCount), thinker) //string
-					//console.log('sentTo',sentTo,'thinker',thinker)
+					//adminLog('sentTo',sentTo,'thinker',thinker)
 			//}
 			//var 
 
@@ -278,7 +278,7 @@ var SplitMoves = function(clients,timeNow) {
             
             if(data.smTakes){
                 store.q[qIndex].thinkers[tIndex].smTakes = data.smTakes
-                console.log('smTakes stored:',data.smTakes)
+                adminLog('smTakes stored:',data.smTakes)
 
             }
             
@@ -295,7 +295,7 @@ var SplitMoves = function(clients,timeNow) {
 
 			if (assistData){
                 
-                console.log('Assisting in current move')
+                adminLog('Assisting in current move')
                 
 				if(!(this.assist(assistData.assisted, assistData.assistant, qIndex, assistData.assistedIndex, timeNow))) tryOthers=true
 
@@ -308,15 +308,15 @@ var SplitMoves = function(clients,timeNow) {
             
             if(tryOthers){
                 
-                console.log('Attempting to assist other moves..')
+                adminLog('Attempting to assist other moves..')
 
                 if( this.assistOtherTables(connection,gameID,timeNow) ){
-                    console.log('Assisting in other move')
+                    adminLog('Assisting in other move')
 
                     sentSomething=true
                 }else{
                     
-                    console.log('No other move to assist.')
+                    adminLog('No other move to assist.')
                     connection.addedData.currentState='idle'
 
                     
@@ -344,7 +344,7 @@ var SplitMoves = function(clients,timeNow) {
             if(store.q[qIndex]&&store.q[qIndex].moves[res.moveIndex]){
                 
                            if (store.q[qIndex].moves[res.moveIndex].done) {
-                console.log('error: move solved twice(or more)')
+                adminLog('error: move solved twice(or more)')
                 forgetThis=true
 
             } else {
@@ -375,7 +375,7 @@ var SplitMoves = function(clients,timeNow) {
 
                     })
 
-                    console.log('will move ', store.q[qIndex].moves[0].result.move)
+                    adminLog('will move ', store.q[qIndex].moves[0].result.move)
 
                     store.q[qIndex].thinkers.forEach(function(thinker) {
 
@@ -467,8 +467,8 @@ var SplitMoves = function(clients,timeNow) {
 
 		var timeNow = new Date()
 
-		//console.log('herererere: ',tIndex)
-		//console.log('tIndex',tIndex)
+		//adminLog('herererere: ',tIndex)
+		//adminLog('tIndex',tIndex)
 		if (tIndex == -1) {
 
 			return store.q[qIndex].thinkers.push({
@@ -490,7 +490,7 @@ var SplitMoves = function(clients,timeNow) {
 
 			var thinker = store.q[qIndex].thinkers[tIndex]
 
-			//console.log('jeeeeeeeeee',thinker)
+			//adminLog('jeeeeeeeeee',thinker)
 
 			thinker.addProgress = Number(thinker.sentCount / (thinker.sentCount + sentCount))
 
@@ -502,7 +502,7 @@ var SplitMoves = function(clients,timeNow) {
 
 			thinker.sentMoves = thinker.sentMoves.concat(sentMoves)
 
-			//console.log('thinker.movesLeft: ',thinker.movesLeft)
+			//adminLog('thinker.movesLeft: ',thinker.movesLeft)
 
 			thinker.movesLeft = sentCount
 
@@ -544,7 +544,7 @@ var SplitMoves = function(clients,timeNow) {
 			if (moveArray[i].moveIndex == move.moveIndex) {
 
 				index = i
-					////console.log('found!!!!')
+					////adminLog('found!!!!')
 
 			}
 
@@ -553,11 +553,11 @@ var SplitMoves = function(clients,timeNow) {
 		if (index != undefined) {
 
 			moveArray.splice(i, 1)
-				////console.log('removed!!!!')
+				////adminLog('removed!!!!')
 
 		} else {
 
-			////console.log('not found!!!!')
+			////adminLog('not found!!!!')
 
 		}
 
@@ -584,7 +584,7 @@ var SplitMoves = function(clients,timeNow) {
 
 		for (var i = 0; i < len; i++) {
             
-            //console.log('@@@@@@@@@here:',store.q[i].gameNum)
+            //adminLog('@@@@@@@@@here:',store.q[i].gameNum)
             
             if(ignoreGameNum!=store.q[i].gameNum){
     
@@ -592,7 +592,7 @@ var SplitMoves = function(clients,timeNow) {
 
                 for (var j = store.q[i].thinkers.length - 1; j >= 0; j--) { //.forEach(function(thinker){
 
-                    //console.log('store.q[i].thinkers[j].beBackIn',store.q[i].thinkers[j].beBackIn,'tempBeBackIn',tempBeBackIn)
+                    //adminLog('store.q[i].thinkers[j].beBackIn',store.q[i].thinkers[j].beBackIn,'tempBeBackIn',tempBeBackIn)
 
                     if (store.q[i].thinkers[j].beBackIn >= tempBeBackIn && (!store.q[i].thinkers[j].done)) tempBeBackIn = store.q[i].thinkers[j].beBackIn
 
@@ -603,7 +603,7 @@ var SplitMoves = function(clients,timeNow) {
                 if (tempBeBackIn > 1000) break;
 
             }else{
-                console.log('game ignored')
+                adminLog('game ignored')
             }
 
 			
@@ -626,16 +626,16 @@ var SplitMoves = function(clients,timeNow) {
 		var splitMoveIndex = getSplitMoveIndexToAssist(ignoreGameNum)
 
 		if (splitMoveIndex != undefined) {
-			//console.log('van index:',splitMoveIndex)
+			//adminLog('van index:',splitMoveIndex)
 			splitMove = store.q[splitMoveIndex]
 		}else{
-            console.log('no splitmove to assist.')
+            adminLog('no splitmove to assist.')
             //connection.addedData.currentState='aidle'
         }
 
 		if (splitMove) {
 
-			console.log(connection.addedData.lastUser,'to assist other moves')
+			adminLog(connection.addedData.lastUser,'to assist other moves')
 
 			var tempBeBackIn = -1
 			var tempThinker = undefined
@@ -652,7 +652,7 @@ var SplitMoves = function(clients,timeNow) {
 
 			})
 
-			//console.log('moves to join:', splitMove.thinkers[tempTIndex])
+			//adminLog('moves to join:', splitMove.thinkers[tempTIndex])
 
 			var mySpeed = connection.addedData.speed
 
@@ -674,7 +674,7 @@ var SplitMoves = function(clients,timeNow) {
 				var moves = tempMoves.splice(0, count)
                 
                 
-				//console.log('tempThinker',tempThinker,'count',count,'len',len,'myRatio',myRatio)
+				//adminLog('tempThinker',tempThinker,'count',count,'len',len,'myRatio',myRatio)
 
 				if (moves && moves.length > 0) {
                     
@@ -687,7 +687,7 @@ var SplitMoves = function(clients,timeNow) {
 						qRes.push(move.moveIndex)
 					})
 
-					console.log('doing it now, count:', count, 'moves:', qRes)
+					adminLog('doing it now, count:', count, 'moves:', qRes)
 
 					clients.sendTask(new Task('removeSplitMove', moves, 'remove splitMove'), tempThinker.connection)
 
@@ -720,9 +720,9 @@ var SplitMoves = function(clients,timeNow) {
 
 			} else {
 
-				// console.log('disconnect???')
+				// adminLog('disconnect???')
 
-				console.log('disconnect???', tempBeBackIn)
+				adminLog('disconnect???', tempBeBackIn)
                 
                 //connection.addedData.currentState = 'bidle'
                  
@@ -737,7 +737,7 @@ var SplitMoves = function(clients,timeNow) {
             //connection.addedData.currentState = 'cidle'
             
             return false
-			 //console.log('no splitmove')
+			 //adminLog('no splitmove')
 		}
         
         
@@ -753,7 +753,7 @@ var SplitMoves = function(clients,timeNow) {
 	}
     
     this.forceIdle=function(connection){
-        console.log('forceIdle',connection.addedData)
+        adminLog('forceIdle',connection.addedData)
         
         
         this.assistOtherTables(connection,-2,new Date())//){
@@ -769,8 +769,8 @@ var SplitMoves = function(clients,timeNow) {
        
         
         if(data.final){
-            console.log('--------------------------START--------------------------------')
-            console.log('final returned from',connection.addedData.lastUser)
+            adminLog('--------------------------START--------------------------------')
+            adminLog('final returned from',connection.addedData.lastUser)
         }
 		var timeNow = new Date()
 
@@ -780,7 +780,7 @@ var SplitMoves = function(clients,timeNow) {
 
 		if (qIndex == undefined) {
 
-			console.log("error: received progress for splitmove that doesn't exist, final:", data.final)
+			adminLog("error: received progress for splitmove that doesn't exist, final:", data.final)
             
             
             // clients.sendTask(new Task('forgetSplitMoves', {
@@ -800,7 +800,7 @@ var SplitMoves = function(clients,timeNow) {
 
 			if (tIndex == -1) {
 
-				console.log('FORBIDDEN progress received: move exists but thinker is not in it')
+				adminLog('FORBIDDEN progress received: move exists but thinker is not in it')
 
 				clients.sendTask(new Task('forgetSplitMoves', {
                     gameID:gameID
@@ -822,7 +822,7 @@ var SplitMoves = function(clients,timeNow) {
         
         //if( (data.final &&  connection.addedData.lastUser!='pending..')    &&  setIdle  )connection.addedData.currentState='idle'
         
-        if(data.final) console.log('--------------------------END--------------------------------')
+        if(data.final) adminLog('--------------------------END--------------------------------')
 	}
 
 	var publishTable = function(dbTable) {
@@ -839,7 +839,7 @@ var SplitMoves = function(clients,timeNow) {
 
 	var getAssistData = function(qIndex, tIndex, timeNow) {
 
-		////console.log('thinker finished, starting assist..')
+		////adminLog('thinker finished, starting assist..')
 
 		var thinkerToHelp = undefined
 
@@ -957,11 +957,11 @@ var SplitMoves = function(clients,timeNow) {
 			clients.sendTask(new Task('removeSplitMove', moves, 'remove splitMove'), assisted.connection)
             
             
-			//console.log('joez??',tIndex)
+			//adminLog('joez??',tIndex)
 
-            console.log('before',store.q[qIndex].thinkers[tIndex].sentCount)
+            adminLog('before',store.q[qIndex].thinkers[tIndex].sentCount)
 			store.q[qIndex].thinkers[tIndex].sentCount -= moves.length
-            console.log('after',store.q[qIndex].thinkers[tIndex].sentCount)
+            adminLog('after',store.q[qIndex].thinkers[tIndex].sentCount)
             
 
 			removeSentMove(store.q[qIndex].thinkers[tIndex], moves, timeNow)
@@ -999,7 +999,7 @@ var SplitMoves = function(clients,timeNow) {
 
 		var assistedBackIn = assisted.accuBackIn
 
-		console.log('stat:    assistantSpeed', assistantSpeed, ' assistedSpeed', assistedSpeed, 'assistedBackIn', assistedBackIn)
+		adminLog('stat:    assistantSpeed', assistantSpeed, ' assistedSpeed', assistedSpeed, 'assistedBackIn', assistedBackIn)
 
 		var maxMoves = assisted.guessedMovesLeft
 
@@ -1015,7 +1015,7 @@ var SplitMoves = function(clients,timeNow) {
 
 		count--
 
-		console.log('assist resulted in...     maxMoves', maxMoves, ' count', count)
+		adminLog('assist resulted in...     maxMoves', maxMoves, ' count', count)
 
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!count is too high, problems with measuring assistedspeed
 
@@ -1042,7 +1042,7 @@ var SplitMoves = function(clients,timeNow) {
 
 		} else {
 
-			//console.log('no id')
+			//adminLog('no id')
 
 		}
 

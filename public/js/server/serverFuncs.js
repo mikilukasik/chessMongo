@@ -15,6 +15,23 @@ var findUsersGameIndex = function(gameNo, games) {
 	return -1
 }
 
+var adminLogStore=[]
+
+var adminLog=function(){
+    var addLine=''
+    for(var i=0;i<arguments.length;i++){
+    
+        addLine=addLine.concat(arguments[i]+' ')
+    
+    }
+   
+        
+  
+    adminLogStore.push(addLine)
+    console.log(addLine)
+    clients.publishView('admin.html','default','adminLog',adminLogStore)
+}
+
 var userFuncs = {
 
 	removeDisplayedGame: function(connection, data) {
