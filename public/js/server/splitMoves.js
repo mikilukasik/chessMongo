@@ -621,7 +621,7 @@ var SplitMoves = function(clients,timeNow) {
 
 		//var timeNow = new Date()
 
-		var splitMove
+		var splitMove=undefined
 
 		var splitMoveIndex = getSplitMoveIndexToAssist(ignoreGameNum)
 
@@ -716,7 +716,7 @@ var SplitMoves = function(clients,timeNow) {
                     
                 }
 //
-                return true
+                //return true
 
 			} else {
 
@@ -726,7 +726,7 @@ var SplitMoves = function(clients,timeNow) {
                 
                 //connection.addedData.currentState = 'bidle'
                  
-                return false
+                //return false
 
 			}
             
@@ -736,7 +736,7 @@ var SplitMoves = function(clients,timeNow) {
             
             //connection.addedData.currentState = 'cidle'
             
-            return false
+            //return false
 			 //adminLog('no splitmove')
 		}
         
