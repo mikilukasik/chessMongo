@@ -233,6 +233,7 @@ var SplitMoves = function(clients,timeNow) {
 	this.processAnswer = function(data, timeNow, qIndex, tIndex, gameID, connection) {
         
         
+        var sentSomething=false
         
     	var isDone = false
 		var progress = data.progress
@@ -254,7 +255,7 @@ var SplitMoves = function(clients,timeNow) {
 
 			clients.publishAddedData()
             
-            connection.addedData.currentState='idle'
+            //connection.addedData.currentState='fidle'
 
 		} else {
 
@@ -288,8 +289,12 @@ var SplitMoves = function(clients,timeNow) {
 				this.assist(assistData.assisted, assistData.assistant, qIndex, assistData.assistedIndex, timeNow)
 
 			} else {
+                
 
-                this.assistOtherTables(connection,gameID,timeNow) 
+               if( this.assistOtherTables(connection,gameID,timeNow) )sentSomething=true
+                
+                
+                
 			}
 
 		}
@@ -297,6 +302,8 @@ var SplitMoves = function(clients,timeNow) {
 		clients.publishView('board.html', gameID, 'busyThinkers', getNakedThinkers(qIndex))
 
 		this.publishNakedQ()
+        
+        return sentSomething
 
 	}
     
@@ -574,6 +581,8 @@ var SplitMoves = function(clients,timeNow) {
 	}
 
 	this.assistOtherTables = function(connection,ignoreGameNum,timeNow) {
+        
+        var sentSomeMoves=false
 
 		var lastSeenConst = 2000
 
@@ -588,7 +597,7 @@ var SplitMoves = function(clients,timeNow) {
 			splitMove = store.q[splitMoveIndex]
 		}else{
             console.log('no splitmove to assist.')
-            connection.addedData.currentState='idle'
+            connection.addedData.currentState='aidle'
         }
 
 		if (splitMove) {
@@ -635,6 +644,8 @@ var SplitMoves = function(clients,timeNow) {
 				//console.log('tempThinker',tempThinker,'count',count,'len',len,'myRatio',myRatio)
 
 				if (moves && moves.length > 0) {
+                    
+                    sentSomeMoves=true
 
 					var qRes = []
 
@@ -649,7 +660,7 @@ var SplitMoves = function(clients,timeNow) {
 
 					store.q[splitMoveIndex].thinkers[tempTIndex].sentCount -= moves.length
                     if(store.q[splitMoveIndex].thinkers[tempTIndex].sentCount==0){
-                        tempThinker.connection.addedData.currentState='idle'
+                        //tempThinker.connection.addedData.currentState='idle'
                     }
 						//store.q[splitMoveIndex].thinkers[].sentCount+=moves.length
 
@@ -677,7 +688,7 @@ var SplitMoves = function(clients,timeNow) {
 
 				console.log('disconnect???', tempBeBackIn)
                 
-                connection.addedData.currentState = 'idle'
+                connection.addedData.currentState = 'bidle'
                  
                 return false
 
@@ -687,12 +698,14 @@ var SplitMoves = function(clients,timeNow) {
 
 		} else {
             
-            connection.addedData.currentState = 'idle'
+            connection.addedData.currentState = 'cidle'
             
             return false
 			 //console.log('no splitmove')
 		}
         
+        
+        return sentSomeMoves
         
 
 	}
@@ -720,6 +733,8 @@ var SplitMoves = function(clients,timeNow) {
 		var timeNow = new Date()
 
 		var qIndex = qIndexByGameID(gameID)
+        
+        var setIdle=true
 
 		if (qIndex == undefined) {
 
@@ -751,12 +766,12 @@ var SplitMoves = function(clients,timeNow) {
 
 				//move exists, thinker is registered in move
 
-				this.processAnswer(data, timeNow, qIndex, tIndex, gameID, connection)
+				if( this.processAnswer(data, timeNow, qIndex, tIndex, gameID, connection)   )   setIdle=false
 
 			}
 		}
         
-        if(data.final&&connection.addedData.lastUser!='pending..')connection.addedData.currentState='idle'
+        if( (data.final &&  connection.addedData.lastUser!='pending..')    &&  setIdle  )connection.addedData.currentState='idle'
 	}
 
 	var publishTable = function(dbTable) {
@@ -894,7 +909,7 @@ var SplitMoves = function(clients,timeNow) {
 			store.q[qIndex].thinkers[tIndex].sentCount -= moves.length
             
             if(store.q[qIndex].thinkers[tIndex].sentCount==0){
-                        assisted.connection.addedData.currentState='idle'
+                        assisted.connection.addedData.currentState='eidle'
                     }
 
 
