@@ -161,57 +161,57 @@ var taskReceived = function(task) {
         break;
         case 'forgetSplitMoves':
         
-            console.log('forgetting moves on table',task.data.gameID)
+            console.log('should be forgetting moves on table',task.data.gameID)
             
-             messageTheServer('progress', {
+        //      messageTheServer('progress', {
 
-                    final: true,
+        //             final: true,
                     
-                    _id: workingOnGameNum,
+        //             _id: workingOnGameNum,
                     
                     
-                    dmpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
-                    depth: workingOnDepth,
+        //             dmpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
+        //             depth: workingOnDepth,
                     
-                    smTakes:progress.smTakes,
+        //             smTakes:progress.smTakes,
                     
-                    //results:sendResults
+        //             //results:sendResults
 
-                })
+        //         })
         
-          //  if(task.data.gameID==workingOnGameNum){
+        //   //  if(task.data.gameID==workingOnGameNum){
                 
-                throwAwayGame=task.data.gameID
+        //         throwAwayGame=task.data.gameID
                 
-                workingOnGameNum = 0
-                // progress = {
+        //         workingOnGameNum = 0
+        //         // progress = {
 
-                //     started: new Date(),
+        //         //     started: new Date(),
 
-                //     splitMoves: 0, //totalcount
-                //     oneDeeperMoves: 0,
-                //     doneSM: 0, //donecount
-                //     doneDM: 0,
+        //         //     splitMoves: 0, //totalcount
+        //         //     oneDeeperMoves: 0,
+        //         //     doneSM: 0, //donecount
+        //         //     doneDM: 0,
 
-                //     moves: [],
+        //         //     moves: [],
 
-                //     tempDTasks: [],
+        //         //     tempDTasks: [],
                     
-                //     queuedMoves: [],
+        //         //     queuedMoves: [],
                     
                     
-                //     waitingSdts:[]
+        //         //     waitingSdts:[]
                     
 
-                //     //updatedMoves:[]
+        //         //     //updatedMoves:[]
 
-                // }
+        //         // }
                 
-                //messageTheServer('forceIdle',{})
+        //         //messageTheServer('forceIdle',{})
                
                 
                     
-         //   }
+        //  //   }
         
             
         

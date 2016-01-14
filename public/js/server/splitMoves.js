@@ -730,7 +730,7 @@ var SplitMoves = function(clients,timeNow) {
                 gameID:gameID
             }, 'move is solved already'), connection)
 
-            connection.addedData.currentState='idle'
+            //connection.addedData.currentState='idle'
             
 		} else {
 			//move exists in q
@@ -745,7 +745,7 @@ var SplitMoves = function(clients,timeNow) {
                     gameID:gameID
                 }, 'thinker not in q'), connection)
                 
-                connection.addedData.currentState='idle'
+                //connection.addedData.currentState='idle'
 
 			} else {
 
