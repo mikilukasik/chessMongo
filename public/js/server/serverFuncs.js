@@ -6,7 +6,7 @@ var admins=[
 			'a-pc'
 		]
 
-var adminLogging=true
+var adminLogging=false
 
 var findUsersGameIndex = function(gameNo, games) {
 
