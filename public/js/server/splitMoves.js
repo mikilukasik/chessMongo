@@ -788,7 +788,7 @@ var SplitMoves = function(clients,timeNow) {
             // }, 'move is solved already'), connection)
             
             
-             this.assistOtherTables(connection,gameID,timeNow)
+             //this.assistOtherTables(connection,gameID,timeNow)
             
 
             //connection.addedData.currentState='idle'//
