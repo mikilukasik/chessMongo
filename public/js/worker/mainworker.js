@@ -551,6 +551,10 @@ onmessage = function(event) {
                         
                         var sendResults=progress.pendingResults.slice()
                         progress.pendingResults=[]
+                        
+                        var dmpm=~~(60000 * progress.splitMoves / (tdate - progress.started))
+                        
+                         console.log('dmpm calc:',dmpm)
                     
                        messageTheServer('progress', {
                            
@@ -565,7 +569,10 @@ onmessage = function(event) {
                             
                             //smTakes:progress.smTakes,
                             
-                            dmpm: ~~(60000 * progress.splitMoves / (tdate - progress.started)),
+                            dmpm: dmpm,
+                            
+                           
+                            
                             depth: workingOnDepth,
                             
                             results:sendResults
@@ -617,7 +624,7 @@ onmessage = function(event) {
 
                             final: true,
                             
-                            fored: true,
+                            forced: true,
                             
                             
                             //dmpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),

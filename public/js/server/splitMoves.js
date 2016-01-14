@@ -246,8 +246,13 @@ var SplitMoves = function(clients,timeNow) {
 		var beBackIn = data.beBackIn
         if (beBackIn<0)beBackIn=0
 		var beBackAt = undefined
+        
+        var dmpm
 
-		var dmpm = data.dmpm
+		if(data.dmpm) {
+            dmpm = data.dmpm
+            clients.updateSpeedStats(connection, data.depth, data.dmpm)
+        }
 
 		var willMove = false
 
@@ -258,7 +263,7 @@ var SplitMoves = function(clients,timeNow) {
 			beBackAt = timeNow
 			isDone = true
 
-			clients.updateSpeedStats(connection, data.depth, data.dmpm)
+			
 
 			clients.publishAddedData()
             
