@@ -1051,7 +1051,7 @@ var SplitMoves = function(clients,timeNow) {
 
 		}
 
-		count--
+		if(count>0)count--
 
 		adminLog('assist resulted in...     maxMoves', maxMoves, ' count', count)
 
