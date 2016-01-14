@@ -755,6 +755,8 @@ var SplitMoves = function(clients,timeNow) {
 
 			}
 		}
+        
+        if(data.final)connection.addedData.currentState='idle'
 	}
 
 	var publishTable = function(dbTable) {
