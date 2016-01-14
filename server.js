@@ -25,6 +25,8 @@ var wsServer = new WebSocketServer({
 	path: '/sockets/'
 });
 
+
+
 var updateDbClients = function() {
 	////console.log('updateDbClients function not inited')
 }

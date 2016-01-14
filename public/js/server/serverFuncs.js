@@ -19,7 +19,7 @@ var findUsersGameIndex = function(gameNo, games) {
 var adminLogStore=[]
 
 var adminLog=function(){
-   if(adminlogging){
+   if(adminLogging){
         var addLine=''
     for(var i=0;i<arguments.length;i++){
     
