@@ -723,7 +723,7 @@ var SplitMoves = function(clients,timeNow) {
 
 			}
             
-            
+            //
 
 		} else {
             
