@@ -612,7 +612,7 @@ onmessage = function(event) {
 
                             final: true,
                             
-                            _id: -1,
+                            fored: true,
                             
                             
                             //dmpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),

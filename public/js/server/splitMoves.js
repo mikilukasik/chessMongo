@@ -807,6 +807,7 @@ var SplitMoves = function(clients,timeNow) {
         if(data.final){
             adminLog('--------------------------START--------------------------------')
             adminLog('final returned from',connection.addedData.lastUser)
+            if(data.forced)adminLog('FORCED!!')
         }
 		var timeNow = new Date()
 
