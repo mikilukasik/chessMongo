@@ -265,6 +265,14 @@ var SplitMoves = function(clients,timeNow) {
             //connection.addedData.currentState='fidle'
 
 		} else {
+            
+            if(data.smTakes){
+                store.q[qIndex].thinkers[tIndex].smTakes = data.smTakes
+                adminLog('smTakes stored:',data.smTakes)
+
+            }else{
+                //adminLog('no smTakes received.',1)
+            }
 
 			beBackAt = Number(timeNow) + beBackIn
 
@@ -282,11 +290,7 @@ var SplitMoves = function(clients,timeNow) {
 
 			store.q[qIndex].thinkers[tIndex].mspm = beBackIn / store.q[qIndex].thinkers[tIndex].movesLeft
             
-            if(data.smTakes){
-                store.q[qIndex].thinkers[tIndex].smTakes = data.smTakes
-                adminLog('smTakes stored:',data.smTakes)
-
-            }
+            
             
 			
 		}

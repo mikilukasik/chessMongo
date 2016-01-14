@@ -515,6 +515,8 @@ onmessage = function(event) {
                        var sendResults=progress.pendingResults.slice()
                         progress.pendingResults=[]
                          
+                         
+                        console.log('smTakesCalc:',(tdate-progress.started)/progress.splitMoves,tdate,progress.started,progress.splitMoves)
                         messageTheServer('progress', {
 
                             final: true,
@@ -526,6 +528,7 @@ onmessage = function(event) {
                             depth: workingOnDepth,
                             
                             smTakes:(tdate-progress.started)/progress.splitMoves,
+                            
                             
                             results:sendResults
 
