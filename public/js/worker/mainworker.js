@@ -157,6 +157,29 @@ var taskReceived = function(task) {
                 
                 
             })
+            
+            if (progress.splitMoves<=0){
+                
+                messageTheServer('progress', {
+
+                            final: true,
+							
+                            _id: workingOnGameNum,
+							
+                            
+                            dmpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
+                            depth: workingOnDepth,
+                            
+                            smTakes:10000,
+                            
+                            //results:sendResults
+
+                        },'',function(){
+                            console.log('splitmove task done')
+                        })
+                
+                
+            }
         
         break;
         case 'forgetSplitMoves':

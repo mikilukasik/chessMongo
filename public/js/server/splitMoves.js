@@ -965,7 +965,7 @@ var SplitMoves = function(clients,timeNow) {
             
             if(store.q[qIndex].thinkers[tIndex].sentCount==0){
                 //assisted.connection.addedData.currentState='idle'
-                assistOtherTables(assisted.connection,-2,timeNow)
+                //assistOtherTables(assisted.connection,-2,timeNow)
                 
             }
 
