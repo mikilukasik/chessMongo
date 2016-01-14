@@ -314,7 +314,7 @@ var SplitMoves = function(clients,timeNow) {
             
             if(tryOthers){
                 
-                adminLog('Attempting to assist other moves..')
+                // adminLog('Attempting to assist other moves..')
 
                 if( this.assistOtherTables(connection,gameID,timeNow) ){
                     adminLog('Assisting in other move')
@@ -620,6 +620,8 @@ var SplitMoves = function(clients,timeNow) {
 	}
 
 	this.assistOtherTables = function(connection,ignoreGameNum,timeNow) {
+        adminLog('Attempting to assist other moves..')
+        
         
         var sentSomeMoves=false
 
@@ -814,7 +816,7 @@ var SplitMoves = function(clients,timeNow) {
 
 		if (qIndex == undefined) {
 
-			adminLog("error: received progress for splitmove that doesn't exist, final:", data.final)
+			adminLog("error: received progress from",connection.addedData.lastUser," that doesn't exist, final:", data.final)
             
             
             // clients.sendTask(new Task('forgetSplitMoves', {
@@ -822,7 +824,12 @@ var SplitMoves = function(clients,timeNow) {
             // }, 'move is solved already'), connection)
             
             
-             //this.assistOtherTables(connection,gameID,timeNow)
+             if(data.final){
+                 
+                 
+                 this.assistOtherTables(connection,gameID,timeNow)
+                 
+             }
             
 
             //connection.addedData.currentState='idle'//
