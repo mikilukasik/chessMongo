@@ -623,7 +623,7 @@ var SplitMoves = function(clients,timeNow) {
 			splitMove = store.q[splitMoveIndex]
 		}else{
             console.log('no splitmove to assist.')
-            connection.addedData.currentState='aidle'
+            //connection.addedData.currentState='aidle'
         }
 
 		if (splitMove) {
@@ -717,7 +717,7 @@ var SplitMoves = function(clients,timeNow) {
 
 				console.log('disconnect???', tempBeBackIn)
                 
-                connection.addedData.currentState = 'bidle'
+                //connection.addedData.currentState = 'bidle'
                  
                 return false
 
