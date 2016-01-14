@@ -965,6 +965,8 @@ var SplitMoves = function(clients,timeNow) {
             
             if(store.q[qIndex].thinkers[tIndex].sentCount==0){
                 //assisted.connection.addedData.currentState='idle'
+                assistOtherTables(assisted.connection,-2,timeNow)
+                
             }
 
 			var sentTo = clients.sendTask(new Task('splitMove', moves, 'assist splitMove'), assistant.connection)
