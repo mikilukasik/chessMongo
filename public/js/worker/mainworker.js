@@ -598,7 +598,7 @@ onmessage = function(event) {
                             doneSM: 0, //donecount
                             doneDM: 0,
 
-                            moves: task.data,
+                            moves: [],
 
                             tempDTasks: [],
                             
