@@ -76,7 +76,12 @@ var SplitMoves = function(clients,timeNow) {
 
 			for (var i = 0; i < until; i++) {
 
-				assistOtherTables(idleClientConnections[i],-2,new Date())//-1 for no justFinishedOnTable
+				if(! this.assistOtherTables(idleClientConnections[i],-2,timeNow)){
+            
+                    adminLog('No other move to assist.')
+                    connection.addedData.currentState='idle'
+            
+        }//-1 for no justFinishedOnTable
 
 			}
 		}
@@ -648,6 +653,7 @@ var SplitMoves = function(clients,timeNow) {
 			splitMove = store.q[splitMoveIndex]
 		}else{
             adminLog('no splitmove to assist.')
+            splitMove=false
             //connection.addedData.currentState='aidle'
         }
 
@@ -802,7 +808,12 @@ var SplitMoves = function(clients,timeNow) {
         adminLog('forceIdle',connection.addedData)
         
         
-        this.assistOtherTables(connection,-2,new Date())//){
+        if(! this.assistOtherTables(connection,-2,timeNow,)){
+            
+                    adminLog('No other move to assist.')
+                    connection.addedData.currentState='idle'
+            
+        }//){
         //     //assisting
         // }else{
         //     connection.addedData.currentState = 'idle'
@@ -833,7 +844,12 @@ var SplitMoves = function(clients,timeNow) {
                 
                 adminLog('forced final received, calling assistOtherTables')
                 
-                this.assistOtherTables(connection,-2,timeNow)
+                if(! this.assistOtherTables(connection,-2,timeNow)){
+            
+                    adminLog('No other move to assist.')
+                    connection.addedData.currentState='idle'
+            
+                }
                 
             }else{
                 
@@ -863,8 +879,12 @@ var SplitMoves = function(clients,timeNow) {
                     gameID:gameID
                 }, 'thinker not in q'), connection)
                 
-                this.assistOtherTables(connection,gameID,timeNow)
+               if(! this.assistOtherTables(connection,-2,new Date())){
             
+                    adminLog('No other move to assist.')
+                    connection.addedData.currentState='idle'
+            
+        }
                 
                 //connection.addedData.currentState='idle'
 
