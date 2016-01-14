@@ -12,7 +12,7 @@ var PendingThinker=function(){
             connectionID:Math.random(),
             lastUser:'pending..',
             currentState:'busy',
-            speed:1
+            speed:0.00000001
             
             }
             
