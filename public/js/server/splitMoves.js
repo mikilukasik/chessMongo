@@ -83,7 +83,7 @@ var SplitMoves = function(clients,timeNow) {
 
 	}
 
-	setInterval(this.intervalFunc, 2000)
+	//setInterval(this.intervalFunc, 2000)
 
 	this.nakedQ = function() {
 
@@ -730,7 +730,7 @@ var SplitMoves = function(clients,timeNow) {
                 gameID:gameID
             }, 'move is solved already'), connection)
 
-            //connection.addedData.currentState='idle'
+            //connection.addedData.currentState='idle'//
             
 		} else {
 			//move exists in q
@@ -756,7 +756,7 @@ var SplitMoves = function(clients,timeNow) {
 			}
 		}
         
-        if(data.final)connection.addedData.currentState='idle'
+        if(data.final&&connection.addedData.lastUser!='pending..')connection.addedData.currentState='idle'
 	}
 
 	var publishTable = function(dbTable) {
