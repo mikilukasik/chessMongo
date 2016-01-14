@@ -251,7 +251,7 @@ var SplitMoves = function(clients,timeNow) {
 
 		var willMove = false
 
-		if (data.final) {
+		if (false){//data.final) {
 
 			progress = 100
 			beBackIn = 0
@@ -701,7 +701,7 @@ var SplitMoves = function(clients,timeNow) {
 				var count = Math.round(len * myRatio)
 
                 var removeThinker=false
-                if (tempMoves.length==count)removeThinker=true
+                if (len==count)removeThinker=true
 
 				var moves = tempMoves.splice(0, count)
                 
