@@ -674,7 +674,7 @@ var SplitMoves = function(clients,timeNow) {
 				var moves = tempMoves.splice(0, count)
                 
                 
-				//adminLog('tempThinker',tempThinker,'count',count,'len',len,'myRatio',myRatio)
+				adminLog('get moves from ',tempThinker.connection.addedData.lastUser,', count',count,'len',len,'myRatio',myRatio)
 
 				if (moves && moves.length > 0) {
                     
@@ -705,7 +705,11 @@ var SplitMoves = function(clients,timeNow) {
 
 					clients.send(connection, 'aa', 0, 'aa')
 
-				}
+				}else{
+                    //miert kerul ide??????
+                    
+                    
+                }
                 
                 if(removeThinker){
                     
