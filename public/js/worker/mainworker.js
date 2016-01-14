@@ -18,7 +18,7 @@ var longPollOnHold
 var toPostSplitMoves
 var pollingTask = -1
 var workingOnDepth
-
+var forgetItAll=false
 var throwAwayGame=-1
 
 var messageTheServer = function(command, data, message, cb) {
@@ -186,21 +186,8 @@ var taskReceived = function(task) {
         
             console.log('should be forgetting moves on table',task.data.gameID)
             
-        //      messageTheServer('progress', {
-
-        //             final: true,
-                    
-        //             _id: workingOnGameNum,
-                    
-                    
-        //             dmpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
-        //             depth: workingOnDepth,
-                    
-        //             smTakes:progress.smTakes,
-                    
-        //             //results:sendResults
-
-        //         })
+            
+            forgetItAll=true
         
         //   //  if(task.data.gameID==workingOnGameNum){
                 
@@ -597,78 +584,125 @@ onmessage = function(event) {
 			} else {
 
 				if (waitingForIdle == 0) {
-
-					if (tdate - lastOverallProgressCalc > 256&&tdate - lastResultSent >256) {
-
-						progress.overall = progress.doneSM * (100 / progress.splitMoves) + (progress.doneDM * (100 / progress.oneDeeperMoves)) / progress.splitMoves
-
-						var beBackIn
-						var dmpm
-
-						if (progress.overall > 0) {
-							
-							beBackIn = ~~(((tdate - progress.started) / progress.overall) * (100 - progress.overall))
-							dmpm = ~~(60000 * progress.splitMoves * progress.overall / (tdate - progress.started)) / 100
-						}
-						messageTheServer('progress', {
-							
-							final: false,
-							
-                            movesLeft: progress.splitMoves-progress.doneSM,
                             
-							depth: workingOnDepth,
+                    if (forgetItAll){
+                                    
+                                    
+                        progress = {
+
+                            started: new Date(),
+
+                            splitMoves: 0, //totalcount
+                            oneDeeperMoves: 0,
+                            doneSM: 0, //donecount
+                            doneDM: 0,
+
+                            moves: task.data,
+
+                            tempDTasks: [],
                             
-							_id: workingOnGameNum,
-							progress: progress.overall,
-							beBackIn: beBackIn,
-							dmpm: dmpm
+                            queuedMoves: []
 
-						}, 'progress', function() {
+                            //updatedMoves:[]
 
-							for (var j = maxWorkerNum; j > 0; j--) {
+                        }
+                        
+                        messageTheServer('progress', {
 
-								if (progress.tempDTasks.smallDeepeningTasks.length > 1) {
+                            final: true,
+                            
+                            _id: -1,
+                            
+                            
+                            //dmpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
+                            //depth: workingOnDepth,
+                            
+                            //smTakes:progress.smTakes,
+                            
+                            //results:sendResults
 
-									waitingForIdle++
+                        })
+                                
+                            
+                        
+                        
+                    }else{
+                        
+                            
+                        if (tdate - lastOverallProgressCalc > 256&&tdate - lastResultSent >256) {
 
-									var deepeningTask = progress.tempDTasks //.pop()
+                            progress.overall = progress.doneSM * (100 / progress.splitMoves) + (progress.doneDM * (100 / progress.oneDeeperMoves)) / progress.splitMoves
 
-									var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
+                            var beBackIn
+                            var dmpm
+
+                            if (progress.overall > 0) {
+                                
+                                beBackIn = ~~(((tdate - progress.started) / progress.overall) * (100 - progress.overall))
+                                dmpm = ~~(60000 * progress.splitMoves * progress.overall / (tdate - progress.started)) / 100
+                            }
+                            messageTheServer('progress', {
+                                
+                                final: false,
+                                
+                                movesLeft: progress.splitMoves-progress.doneSM,
+                                
+                                depth: workingOnDepth,
+                                
+                                _id: workingOnGameNum,
+                                progress: progress.overall,
+                                beBackIn: beBackIn,
+                                dmpm: dmpm
+
+                            }, 'progress', function() {
+
+                                for (var j = maxWorkerNum; j > 0; j--) {
+
+                                    if (progress.tempDTasks.smallDeepeningTasks.length > 1) {
+
+                                        waitingForIdle++
+
+                                        var deepeningTask = progress.tempDTasks //.pop()
+
+                                        var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
+                                        
+                                        smallDeepeningTask.progress=deepeningTask.progress
+                                        
+                                        //console.log('temp',smallDeepeningTask)
+                                        
+                                        toSub('solveSDT', smallDeepeningTask)
+
+                                    }
+
+                                }
+
+                            })
+
+                            lastOverallProgressCalc = tdate
+                        } else {
+
+                            for (var j = maxWorkerNum; j > 0; j--) {
+
+                                if (progress.tempDTasks.smallDeepeningTasks.length > 1) {
+
+                                    waitingForIdle++
+
+                                    var deepeningTask = progress.tempDTasks //.pop()
+
+                                    var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
                                     
                                     smallDeepeningTask.progress=deepeningTask.progress
-                                    
-                                    //console.log('temp',smallDeepeningTask)
-                                    
-									toSub('solveSDT', smallDeepeningTask)
 
-								}
+                                    toSub('solveSDT', smallDeepeningTask)
 
-							}
+                                }
 
-						})
+                            }
 
-						lastOverallProgressCalc = tdate
-					} else {
+                        }
+                        
+                    }
 
-						for (var j = maxWorkerNum; j > 0; j--) {
-
-							if (progress.tempDTasks.smallDeepeningTasks.length > 1) {
-
-								waitingForIdle++
-
-								var deepeningTask = progress.tempDTasks //.pop()
-
-								var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
-                                
-                                smallDeepeningTask.progress=deepeningTask.progress
-
-								toSub('solveSDT', smallDeepeningTask)
-
-							}
-
-						}
-
-					}
 
 				}
 

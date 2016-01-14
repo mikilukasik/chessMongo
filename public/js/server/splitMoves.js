@@ -819,17 +819,12 @@ var SplitMoves = function(clients,timeNow) {
 			adminLog("error: received progress from",connection.addedData.lastUser," that doesn't exist, final:", data.final)
             
             
-            // clients.sendTask(new Task('forgetSplitMoves', {
-            //     gameID:gameID
-            // }, 'move is solved already'), connection)
+            clients.sendTask(new Task('forgetSplitMoves', {
+                gameID:gameID
+            }, 'move is solved already'), connection)
             
             
-             if(data.final){
-                 
-                 
-                 this.assistOtherTables(connection,gameID,timeNow)
-                 
-             }
+            
             
 
             //connection.addedData.currentState='idle'//
