@@ -491,7 +491,7 @@ var SplitMoves = function(clients,timeNow) {
 
 		var tIndex = getThinkerIndex(qIndex, thinkerID)
 
-		var timeNow = new Date()
+		var timeNow = Number(new Date())
 
 		//adminLog('herererere: ',tIndex)
 		//adminLog('tIndex',tIndex)
@@ -835,7 +835,7 @@ var SplitMoves = function(clients,timeNow) {
             adminLog('final returned from',connection.addedData.lastUser)
             if(data.forced)adminLog('FORCED!!')
         }
-		var timeNow = new Date()
+		var timeNow = Number(new Date())
 
 		var qIndex = qIndexByGameID(gameID)
         
