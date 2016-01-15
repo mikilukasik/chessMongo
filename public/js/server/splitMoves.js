@@ -291,6 +291,7 @@ var SplitMoves = function(clients,timeNow) {
             }
 
 			beBackAt = Number(timeNow) + beBackIn
+            adminLog('bebackat:::',beBackAt)
 
 		}
 
@@ -506,6 +507,7 @@ var SplitMoves = function(clients,timeNow) {
 				sentMoves: sentMoves,
 				movesLeft: sentCount,
 				beBackIn: 10000000,
+                beBackAt:Number(new Date())+100000,
 				connection: connection,
 				lastSeen: timeNow,
 				addProgress: 0,
