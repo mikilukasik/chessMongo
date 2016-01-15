@@ -392,7 +392,7 @@ var Clients=function(){
 		
         eval("(connection.addedData."+property+"=value)")
 		
-	}
+	}//
     
     this.storeValInArray=function(connection,arrayName,index,value){
 		
