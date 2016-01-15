@@ -416,7 +416,7 @@ var Clients=function(){
         
         if(connection.addedData.speedStats[index]){
             
-            connection.addedData.speedStats[index]= (value + connection.addedData.speedStats[index])/2
+            connection.addedData.speedStats[index]= (value + connection.addedData.speedStats[index]*5)/6
 		
             
         }else{
