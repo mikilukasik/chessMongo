@@ -248,7 +248,12 @@ var SplitMoves = function(clients,timeNow) {
         
     	var isDone = false
 		var progress = data.progress
-		var beBackIn = data.beBackIn
+		var beBackIn
+        if(data.beBackIn){
+            beBackIn = data.beBackIn
+        } else {
+            beBackIn = 100000
+        }
         if (beBackIn<0)beBackIn=0
 		var beBackAt = undefined
         
@@ -929,6 +934,8 @@ var SplitMoves = function(clients,timeNow) {
 			if (thinkerInMove.movesLeft) { //
 
 				var accuBackIn = thinkerInMove.beBackAt - timeNow
+                
+                adminLog('accubackin',accuBackIn,'timeNow',timeNow,'thinkerInMove.beBackAt',thinkerInMove.beBackAt)
 
 				if (accuBackIn > 1000) {
 
