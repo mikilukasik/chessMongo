@@ -303,7 +303,7 @@ var SplitMoves = function(clients,timeNow) {
 			store.q[qIndex].thinkers[tIndex].lastSeen = timeNow
 			store.q[qIndex].thinkers[tIndex].done = isDone
 
-			store.q[qIndex].thinkers[tIndex].dmpm = dmpm
+			if(data.dmpm)store.q[qIndex].thinkers[tIndex].dmpm = dmpm
 
 			store.q[qIndex].thinkers[tIndex].mspm = beBackIn / store.q[qIndex].thinkers[tIndex].movesLeft
             

@@ -21,6 +21,10 @@ var workingOnDepth
 var forgetItAll=false
 var throwAwayGame=-1
 
+var sendSpeedStats=false
+
+
+
 var messageTheServer = function(command, data, message, cb) {
 
 	var postThis = {
@@ -86,6 +90,8 @@ function workerMove(smallMoveTask, thinker) { //for 1 thread, smallmovetask has 
 	progress.oneDeeperMoves = progress.sentSdtCount //set this splitmoves max
     
 	progress.doneDM = 0 //val
+    progress.doneDMtotal = 0 //val
+    
 
 	
     for (var j = maxWorkerNum; j > 0; j--) {
@@ -134,10 +140,16 @@ var taskReceived = function(task) {
 	console.log('received', task)
 
 	pollingTask = task.data.tn + 1
+    
+    
 
 	switch (task.command) {
         
+        
+        
         case "removeSplitMove":
+        
+            sendSpeedStats=false
         
             task.data.forEach(function(moveToRemove){
                 
@@ -160,21 +172,31 @@ var taskReceived = function(task) {
             
             if (progress.splitMoves<=0){
                 
-                messageTheServer('progress', {
+                var sendThis={
 
                             final: true,
 							
                             _id: workingOnGameNum,
 							
                             
-                            dmpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
+                           // dmpm:,
                             depth: workingOnDepth,
                             
                             smTakes:10000,
                             
                             //results:sendResults
 
-                        },'',function(){
+                        }
+                        
+                if(sendSpeedStats){
+                    sendThis.dmpm= ~~(60000 * progress.splitMoves * progress.overall / (tdate - progress.started))
+                    
+                    console.log('dmpm calc:',sendThis.dmpm,tdate)
+                            
+                            
+                }
+                
+                messageTheServer('progress',sendThis,'',function(){
                             console.log('splitmove task done')
                         })
                 
@@ -184,9 +206,10 @@ var taskReceived = function(task) {
         break;
         case 'forgetSplitMoves':
         
+        
             console.log('should be forgetting moves on table',task.data.gameID)
             
-            
+            sendSpeedStats=false
             
             
             if(workingOnGameNum==0){
@@ -216,6 +239,8 @@ var taskReceived = function(task) {
         break;
         
 		case "splitMove":
+        
+            sendSpeedStats=true
 
 			splitMoveStarted = new Date() // globalTimer//new Date().getTime()
 
@@ -227,6 +252,7 @@ var taskReceived = function(task) {
 				oneDeeperMoves: 0,
 				doneSM: 0, //donecount
 				doneDM: 0,
+                doneDmtotal: 0,
 
 				moves: task.data,
 
@@ -328,6 +354,8 @@ var taskReceived = function(task) {
 }
 
 onmessage = function(event) {
+    
+    var tdate = Number(new Date())
 
 	var reqCommand = event.data.reqCommand
 	var reqData = event.data.reqData;
@@ -386,10 +414,11 @@ onmessage = function(event) {
        
             
 			progress.doneDM++
+            progress.doneDMtotal++
 
             waitingForIdle--
 
-            var tdate = new Date()
+            //tdate = Number(new Date())
 
 			var toPush = {
 				move: resData.moveTree.slice(0, 4),
@@ -412,54 +441,7 @@ onmessage = function(event) {
 				//////////////////////////////////////////////////
 
 				progress.doneSM++
-                
-                // if(progress.smTakes){
-                    
-                //     progress.smReadings.push((tdate-progress.secondSmStarted)/progress.doneSM-1)
-                    
-                //     if(progress.doit){
-                        
-                //         progress.doit=false
-                        
-                //         progress.smTakes=tdate-progress.secondSmStarted
-                        
-                //     }else{
-                        
-                        
-                        
-                //         var total=0
-                //         var len=progress.smReadings.length
-                        
-                //         for (var i=len-1;i>=0;i--){
-                            
-                //             total+=progress.smReadings[i]
-                            
-                //         }
-                        
-                        
-                //         progress.smTakes=total/len
-                        
-                        
-                //     }
-                    
-                    
-                    
-                    
-                // }else{
-                    
-                //     progress.secondSmStarted=tdate
-                    
-                //     progress.smTakes=(tdate-progress.started)
-                //     progress.smReadings=[progress.smTakes]
-                    
-                //     progress.doit=true
-                    
-                // }
-                
-                
-                
-                
-                
+             
                
 				var tempResolveArray = []
                 
@@ -504,15 +486,14 @@ onmessage = function(event) {
                         progress.pendingResults=[]
                          
                          
-                        console.log('smTakesCalc:',(tdate-progress.started)/progress.splitMoves,tdate,progress.started,progress.splitMoves)
-                        messageTheServer('progress', {
+                       var sendThis=  {
 
                             final: true,
 							
                             _id: workingOnGameNum,
 							
                             
-                            dmpm: ~~(60000 * progress.splitMoves / (tdate - progress.started)),
+                            
                             depth: workingOnDepth,
                             
                             smTakes:(tdate-progress.started)/progress.splitMoves,
@@ -520,7 +501,17 @@ onmessage = function(event) {
                             
                             results:sendResults
 
-                        },'',function(){
+                        }
+                        
+                        if(sendSpeedStats){
+                           sendThis.dmpm= ~~(60000 * progress.splitMoves / (tdate - progress.started))
+                           
+                           console.log('dmpm',sendThis.dmpm,tdate)
+                        }
+                         
+                         
+                        console.log('smTakesCalc:',(tdate-progress.started)/progress.splitMoves,tdate,progress.started,progress.splitMoves)
+                        messageTheServer('progress',sendThis,'',function(){
                             console.log('splitmove task done')
                         })
 
@@ -540,11 +531,7 @@ onmessage = function(event) {
                         var sendResults=progress.pendingResults.slice()
                         progress.pendingResults=[]
                         
-                        var dmpm=~~(60000 * progress.splitMoves / (tdate - progress.started))
-                        
-                         console.log('dmpm calc:',dmpm)
-                    
-                       messageTheServer('progress', {
+                        var sendThis={
                            
                             
 
@@ -557,7 +544,7 @@ onmessage = function(event) {
                             
                             //smTakes:progress.smTakes,
                             
-                            dmpm: dmpm,
+                           
                             
                            
                             
@@ -565,7 +552,19 @@ onmessage = function(event) {
                             
                             results:sendResults
                             
-                        })
+                        }
+                        
+                        // if(sendSpeedStats){
+                        //     var dmpm=~~(60000 * progress.doneDMtotal / (tdate - progress.started))
+                        
+                        //     console.log('dmpm calc:',dmpm,tdate,progress.doneDMtotal)
+                            
+                        //     sendThis.dmpm=dmpm
+                            
+                        // }
+                        
+                    
+                       messageTheServer('progress', sendThis)
                         
                         lastResultSent   = tdate
                         
@@ -595,6 +594,7 @@ onmessage = function(event) {
                             oneDeeperMoves: 0,
                             doneSM: 0, //donecount
                             doneDM: 0,
+                            //doneDMtotal: 0,
 
                             moves: [],
 
@@ -635,14 +635,9 @@ onmessage = function(event) {
                             progress.overall = progress.doneSM * (100 / progress.splitMoves) + (progress.doneDM * (100 / progress.oneDeeperMoves)) / progress.splitMoves
 
                             var beBackIn
-                            var dmpm
-
-                            if (progress.overall > 0) {
-                                
-                                beBackIn = ~~(((tdate - progress.started) / progress.overall) * (100 - progress.overall))
-                                dmpm = ~~(60000 * progress.splitMoves * progress.overall / (tdate - progress.started)) / 100
-                            }
-                            messageTheServer('progress', {
+                            var dmpm=undefined
+                            
+                            var sendThis={
                                 
                                 final: false,
                                 
@@ -653,9 +648,24 @@ onmessage = function(event) {
                                 _id: workingOnGameNum,
                                 progress: progress.overall,
                                 beBackIn: beBackIn,
-                                dmpm: dmpm
+                              //  dmpm: dmpm
 
-                            }, 'progress', function() {
+                            }
+                            
+                            beBackIn = ~~(((tdate - progress.started) / progress.overall) * (100 - progress.overall))
+
+                            if (sendSpeedStats) {
+                                
+                                
+                                sendThis.dmpm = ~~(60000 * progress.splitMoves * progress.overall / (tdate - progress.started)) / 100
+                                
+                                
+                                console.log('dmpm',sendThis.dmpm,tdate)
+                                
+                            }
+                            
+                            
+                            messageTheServer('progress',sendThis, 'progress', function() {
 
                                 for (var j = maxWorkerNum; j > 0; j--) {
 
