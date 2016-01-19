@@ -858,10 +858,10 @@ var SplitMoves = function(clients,timeNow) {
             
                
             }else{
-                
-                clients.sendTask(new Task('forgetSplitMoves', {
-                    gameID:gameID
-                }, 'move is solved already'), connection)
+                //buggy
+                // clients.sendTask(new Task('forgetSplitMoves', {
+                //     gameID:gameID
+                // }, 'move is solved already'), connection)
             
                 
             }
