@@ -1,7 +1,18 @@
-<div class="chatCell">
-					<div ng-repeat="x in dbTable.chat track by $index">{{x}}</div>
-				</div>
-				<form class="chatInput" ng-submit="sendChat()">
-					<input class="chatInpt" type="text" ng-model="sendThis"></input>
-					<button class="chatButton">Send</button>
-				</form>
+<table>
+    <tr class="chatCell">
+        <td>
+            <div ng-repeat="x in dbTable.chat track by $index">{{x}}</div>
+        </td>   
+    </tr>
+    <tr class="chatInputRow">
+        <td nowrap>
+				
+					<form class="chatInput" ng-submit="sendChat(temp1.chatInput)">
+                        
+                        <input type="text" style="width:90%" ng-model="temp1.chatInput"><button style="width:10%">Send</button>
+  
+                    </form>
+        </td>
+    </tr>
+</table>
+    

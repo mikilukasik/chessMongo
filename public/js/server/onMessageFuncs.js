@@ -59,6 +59,64 @@ var onMessageFuncs = {
       clients.publishView('lobby.html', 'default', 'lobbyChat', mainStore.lobbyChat) //nownClients.views.length)
   
     },
+    
+    boardChat: function(connection,data){
+        
+        //console.log(data.gameNum)
+        
+      var toPush=  connection.addedData.loggedInAs+': '+data.chatLine
+        
+      
+      
+      
+      mongodb.connect(cn, function(err, db) {
+                    
+                    
+            
+					db.collection("tables")
+						.findOne({
+							_id: data.gameNum
+						}, function(err2, tableInDb){
+                            
+                            tableInDb.chat.push(toPush)
+                            
+                            db.collection("tables").save(tableInDb,function(e,r){})
+                            
+                            clients.publishView('board.html', data.gameNum, 'dbTable.chat', tableInDb.chat)
+
+                            
+                        })
+      })
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      mainStore.lobbyChat.push(toPush)
+      
+      //console.log('lobbyChat: ',mainStore.lobbyChat)
+      
+      
+      clients.publishView('lobby.html', 'default', 'lobbyChat', mainStore.lobbyChat) //nownClients.views.length)
+  
+    },
 	
 	refreshBrowser:function(connection,data){
 		//console.log('clientSpeedTest',data)

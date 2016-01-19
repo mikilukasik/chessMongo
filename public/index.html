@@ -1746,14 +1746,18 @@
 					}
 				}
 			}
-			$scope.sendChat = function() {
+			$scope.sendChat = function(chatLine) {
 
-				$http.get('/chat?t=' + $rootScope.dbTable._id + '&c=' + $rootScope.loginName + ": " + $scope.sendThis)
-
-
-
-
-				$scope.sendThis = ""
+                console.log('sending chat:',chatLine,$rootScope.dbTable._id)
+                
+				socketSend('boardChat',{
+                    chatLine:chatLine,
+                    gameNum:$rootScope.dbTable._id
+                },'boardChat: '+chatLine,function(){
+                    
+                    $rootScope.temp1.chatInput=''
+                    
+                })
 
 			}
 
