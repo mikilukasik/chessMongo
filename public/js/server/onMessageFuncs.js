@@ -45,6 +45,20 @@ var onMessageFuncs = {
 		//clients.send(sendToConnection,'setLastUser',data.setLastUserTo)
 		
 	},
+    
+    lobbyChat: function(connection,data){
+        
+      var toPush=  connection.addedData.loggedInAs+': '+data.chatLine
+        
+      
+      mainStore.lobbyChat.push(toPush)
+      
+      //console.log('lobbyChat: ',mainStore.lobbyChat)
+      
+      
+      clients.publishView('lobby.html', 'default', 'lobbyChat', mainStore.lobbyChat) //nownClients.views.length)
+  
+    },
 	
 	refreshBrowser:function(connection,data){
 		//console.log('clientSpeedTest',data)

@@ -629,46 +629,14 @@
 		}
 
 
-
-
-		// ifWorkers(startWorkers)
-
-		//var activeViewParts=[]
-
-
-
-
 		var appModule = angular.module("appModule", []);
 
 		appModule.controller("ApplicationController", ApplicationController)	
-			// .directive('customAutofocus', function() {
-			// 	return{
-			// 			restrict: 'A',
-				
-			// 			link: function(scope, element, attrs){
-			// 			scope.$watch(function(){
-			// 				return scope.$eval(attrs.customAutofocus);
-			// 				},function (newValue){
-			// 				if (newValue === true){
-			// 					element[0].focus();//use focus function instead of autofocus attribute to avoid cross browser problem. And autofocus should only be used to mark an element to be focused when page loads.
-			// 				}
-			// 			});
-			// 			}
-			// 		};
-			// 	})
-								
+			
 
 		function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
 			
-			// $scope.isAdmin=function(name){
-				
-			// 	return (admins.indexOf(name)!=-1)
-				
-			// }
-
-			//if($rootScope.dbTable==undefined)$rootScope.dbTable={}
-
-			//$rootScope.activeViewParts=activeViewParts
+			$rootScope.temp1={}
 			
 			$rootScope.alertButton=function(thisCase,passData){
 				console.log('$rootScope.alertButton',thisCase,passData)
@@ -1786,6 +1754,22 @@
 
 
 				$scope.sendThis = ""
+
+			}
+
+            $scope.sendLobbyChat = function(chatLine) {
+                
+                //console.log('sending chat:',chatLine)
+
+				socketSend('lobbyChat',{
+                    chatLine:chatLine
+                },'lobbyChat: '+chatLine,function(){
+                    
+                    $rootScope.temp1.lobbyChatInput=''
+                    
+                })
+                
+                
 
 			}
 

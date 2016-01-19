@@ -1,8 +1,8 @@
 
 <!--<div style="background-color: #f3f3f3">-->
-	<table class="frame-table" style="width: 100%; background-color: #f3f3f3">
-		<tr>
-			<td>
+	<table class="frame-table" style="width: 100%; height:90%; background-color: #f3f3f3">
+		<tr style="height:100%">
+			<td style="height:100%; vertical-align:top">
 				Below you can see the online users. <br>Click on someone to start a game against.<br>
 				<br>
 				<!--<p class="putPlayersHere"></p>-->
@@ -16,7 +16,7 @@
 			</td>
 			
 			
-			<td>
+			<td style="height:100%; vertical-align:top">
 				Below you can see the active tables. <br>Click on a game to watch it.<br>
 				<br>
 				<!--<p class="putGamesHere"></p>-->
@@ -24,18 +24,23 @@
 			</td>
 			
 			
-			<td>
+			<td style="height:100%; vertical-align:bottom">
 				<table>
-				<tr class="chatTextTr">
-					<!--<td class="chatCell"></td>-->
-					<div nd-repeat="x in lobbyChatLines">{{x}}</div>
+				<tr>
+					<td style="height:90%">
+					   <div ng-repeat="x in lobbyChat track by $index">{{x}}</div>
+					</td>
 				</tr>
 				<tr class="chatInputRow"><td>
-					<input type="text" class="chatInput" onkeydown="if (event.keyCode == 13) sendLobbyChat()">
+                    <form ng-submit="sendLobbyChat(temp1.lobbyChatInput)">
+                        
+                        <input type="text" class="chatInput" ng-model="temp1.lobbyChatInput"><button class="chatButton">Send</button>
+  
+                    </form>
+					
 
 
-
-					<button class="chatButton" onclick="sendLobbyChat()">Send</button>
+					
 				</td></tr>
 
 				</table>

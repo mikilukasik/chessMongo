@@ -54,6 +54,10 @@ var clients = new Clients()
 
 var splitMoves = new SplitMoves(clients)
 
+var mainStore={
+    lobbyChat:[]
+}
+
 eval(fs.readFileSync('public/js/server/serverFuncs.js') + '');
 
 eval(fs.readFileSync('public/js/server/onMessageFuncs.js') + '');
