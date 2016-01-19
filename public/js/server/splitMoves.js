@@ -834,6 +834,7 @@ var SplitMoves = function(clients,timeNow) {
         
         if(data.final){
             adminLog('--------------------------START--------------------------------')
+            thinker.progress=100
             adminLog('final returned from',connection.addedData.lastUser)
             if(data.forced)adminLog('FORCED!!')
         }

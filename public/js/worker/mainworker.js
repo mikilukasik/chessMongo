@@ -642,8 +642,10 @@ onmessage = function(event) {
 
                             progress.overall = progress.doneSM * (100 / progress.splitMoves) + (progress.doneDM * (100 / progress.oneDeeperMoves)) / progress.splitMoves
 
-                            var beBackIn
+                            var beBackIn = ~~(((tdate - progress.started) / progress.overall) * (100 - progress.overall))
                             var dmpm=undefined
+                            
+                          
                             
                             var sendThis={
                                 
@@ -660,7 +662,7 @@ onmessage = function(event) {
 
                             }
                             
-                            beBackIn = ~~(((tdate - progress.started) / progress.overall) * (100 - progress.overall))
+                            
 
                             if (sendSpeedStats) {
                                 
