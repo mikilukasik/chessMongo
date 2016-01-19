@@ -232,7 +232,7 @@ var taskReceived = function(task) {
         
                 
             }else{
-               // forgetItAll=true          //buggy!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+               forgetItAll=true          //buggy!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
             }
               
         
@@ -589,16 +589,24 @@ onmessage = function(event) {
                         progress = {
 
                            // started: new Date(),
+                           
+                           tempDTasks : [],
+
+	                       waitingSdts : [],
+
+	                       sentSdtCount :0,
+
+	
+    
 
                             splitMoves: 0, //totalcount
                             oneDeeperMoves: 0,
                             doneSM: 0, //donecount
                             doneDM: 0,
-                            //doneDMtotal: 0,
+                            doneDMtotal: 0,
 
                             moves: [],
 
-                            tempDTasks: [],
                             
                             queuedMoves: []
 
