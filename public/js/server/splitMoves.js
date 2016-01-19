@@ -858,6 +858,8 @@ var SplitMoves = function(clients,timeNow) {
             
                
             }else{
+                
+                connection.addedData.currentState='idle'
                 //buggy
                 // clients.sendTask(new Task('forgetSplitMoves', {
                 //     gameID:gameID
