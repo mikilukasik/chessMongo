@@ -83,7 +83,8 @@ var onMessageFuncs = {
                             db.collection("tables").save(tableInDb,function(e,r){})
                             
                             clients.publishView('board.html', data.gameNum, 'dbTable.chat', tableInDb.chat)
-
+                            
+                            db.close()
                             
                         })
       })
