@@ -214,25 +214,25 @@ var taskReceived = function(task) {
             
             if(workingOnGameNum==0){
                 
-                 messageTheServer('progress', {
+                //  messageTheServer('progress', {
 
-                    final: true,
+                //     final: true,
                     
-                    forced: true,
+                //     forced: true,
                     
                     
-                    //dmpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
-                    //depth: workingOnDepth,
+                //     //dmpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
+                //     //depth: workingOnDepth,
                     
-                    //smTakes:progress.smTakes,
+                //     //smTakes:progress.smTakes,
                     
-                    //results:sendResults
+                //     //results:sendResults
 
-                })
+                // })
         
                 
             }else{
-                forgetItAll=true
+               // forgetItAll=true          //buggy!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
             }
               
         
@@ -588,7 +588,7 @@ onmessage = function(event) {
                                     
                         progress = {
 
-                            started: new Date(),
+                           // started: new Date(),
 
                             splitMoves: 0, //totalcount
                             oneDeeperMoves: 0,
