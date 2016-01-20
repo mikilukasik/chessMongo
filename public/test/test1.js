@@ -15,8 +15,8 @@ eval(fs.readFileSync('../js/all/engine.js') + '');
 
 var vals={}
 
-describe('ai',function(){
-    describe('single thread calc works',function(){
+describe('test ai /',function(){
+    describe('test single thread calc /',function(){
         
         it('generate inited table',function(){
             
@@ -25,16 +25,24 @@ describe('ai',function(){
             
         })
         
-        // it('has singleThreadAi function',function(){
+        it('get l3 move on table',function(){
             
-        //     assert(singleThreadAi)
+            vals.firstResult=singleThreadAi(vals.initedTable,3)
+            console.log('vals.firstResult:',vals.firstResult)
             
-        // })
+        })
         
-        
-        
-        
-        
+        describe('analyze 1st result /',function(){
+            
+            it('has winning move',function(){
+                
+                console.log('vals.firstResult.winningMove:',vals.firstResult.winningMove)
+                assert(vals.firstResult.winningMove)
+                
+                
+            })
+            
+        })
         
     })
 })

@@ -470,7 +470,11 @@ function oneDeeper(deepeningTask) { //only takes original first level deepeningt
 }
 
 function singleThreadAi(){
-    return 2
+    return {
+    
+        winningMove:'temp'
+    
+    }
 }
 
 
