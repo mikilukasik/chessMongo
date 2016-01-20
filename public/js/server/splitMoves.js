@@ -812,20 +812,10 @@ var SplitMoves = function(clients,timeNow) {
 	}
     
     this.forceIdle=function(connection){
+        
         adminLog('forceIdle',connection.addedData)
-        
-        
-        // if(! this.assistOtherTables(connection,-2,timeNow)){
-            
-        //             adminLog('No other move to assist.')
-                    connection.addedData.currentState='idle'
-            
-    //   /  }//){
-        //     //assisting
-        // }else{
-        //     connection.addedData.currentState = 'idle'
-        // }
-        
+        connection.addedData.currentState='idle'
+      
     }
 
 	this.updateSplitMoveProgress = function(gameID, thinker, data, connection) {
@@ -838,26 +828,21 @@ var SplitMoves = function(clients,timeNow) {
             adminLog('final returned from',connection.addedData.lastUser)
             if(data.forced)adminLog('FORCED!!')
         }
+        
+        var setIdle=true
+        
 		var timeNow = Number(new Date())
 
 		var qIndex = qIndexByGameID(gameID)
         
-        var setIdle=true
-
 		if (qIndex == undefined) {
 
 			adminLog("error: received progress from",connection.addedData.lastUser," for game that doesn't exist:",gameID," final:", data.final)
             
             if(data.forced){
                 
-                adminLog('forced final received.')
-                
-               
+                connection.addedData.currentState='idle'
             
-                  
-                    connection.addedData.currentState='idle'
-            
-               
             }else{
                 
                 connection.addedData.currentState='idle'
@@ -866,14 +851,7 @@ var SplitMoves = function(clients,timeNow) {
                 //     gameID:gameID
                 // }, 'move is solved already'), connection)
             
-                
             }
-            
-            
-            
-            
-
-            //connection.addedData.currentState='idle'//
             
 		} else {
 			//move exists in q
@@ -888,16 +866,9 @@ var SplitMoves = function(clients,timeNow) {
                     gameID:gameID
                 }, 'thinker not in q'), connection)
                 
-            //    if(! this.assistOtherTables(connection,-2,new Date())){
-            
-            //         adminLog('No other move to assist.')
                     connection.addedData.currentState='idle'
             
-        //}
-                
-                //connection.addedData.currentState='idle'
-
-			} else {
+       		} else {
 
 				//move exists, thinker is registered in move
 
@@ -906,10 +877,10 @@ var SplitMoves = function(clients,timeNow) {
 			}
 		}
         
-        //if( (data.final &&  connection.addedData.lastUser!='pending..')    &&  setIdle  )connection.addedData.currentState='idle'
-        
+       
         if(data.final) adminLog('--------------------------END--------------------------------')
-	}
+	
+    }
 
 	var publishTable = function(dbTable) {
 

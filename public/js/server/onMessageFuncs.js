@@ -90,33 +90,6 @@ var onMessageFuncs = {
       })
       
       
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      mainStore.lobbyChat.push(toPush)
-      
-      //console.log('lobbyChat: ',mainStore.lobbyChat)
-      
-      
-      clients.publishView('lobby.html', 'default', 'lobbyChat', mainStore.lobbyChat) //nownClients.views.length)
-  
     },
 	
 	refreshBrowser:function(connection,data){
@@ -407,6 +380,15 @@ var onMessageFuncs = {
 					subViewName: 'default',
 					viewPart: 'onlineUsers',
 					data: clients.getOnlineUsers()
+
+				})
+                
+                clients.send(connection, 'updateView', {
+
+					viewName: 'lobby.html',
+					subViewName: 'default',
+					viewPart: 'lobbyChat',
+					data: mainStore.lobbyChat
 
 				})
 
