@@ -1241,38 +1241,28 @@
 
 
 			$scope.clickedItTrans = function(i, j) {
-				//alert("called")
-				////console.log([i,j,$rootScope.tempMoveString])
-
+				
 				var clickedField = [j, 8 - i]
 				var clickedString = dletters[j] + (9 - i)
 
 				if (!($scope.opponentsName == "Spectator")) {
 					$scope.clickedIt(clickedField, clickedString)
 				}
-				//	////console.log(clickedField,clickedString)
-
+				
 			}
 
 			$scope.makeAMove = function(whatMove) {
 
-				//if (!($scope.opponentsName == 'Server')) { // temp hack!!!!!
-
 					var moveStr = whatMove
 
-					var dbTable = $rootScope.dbTable //{} //new Dbtable($rootScope.dbTable._id, $rootScope.wName, $rootScope.bName)
-
-
-                       	dbTable.command = ''
-						//dbTable.aiType = ''
-
+					var dbTable = $rootScope.dbTable 
+                       	
+                    dbTable.command = ''
+						
                     store.oopsStates[$rootScope.dbTable._id]=$.extend(true, {}, dbTable)
-					//$rootScope.lastState = $.extend(true, {}, dbTable) //remember so we can Oooops!!
-
-
-
+					
 					$scope.clearHighlights(store.oopsStates[$rootScope.dbTable._id].table)
-					//console.log('dbTable', dbTable)
+					
 					dbTable = moveInTable(moveStr, dbTable, false)
                        
                        
@@ -1286,9 +1276,7 @@
 						
                         dbTable.command = 'makeAiMove'
                         dbTable.moveTask=new MoveTaskN(dbTable)
-                        
-						//dbTable.aiType = 'thinkers'
-
+                      
 					}
 
 
@@ -1298,33 +1286,17 @@
 						$rootScope.dbTable.table = dbTable.table
 						$rootScope.dbTable.wNext = dbTable.wNext
 						$rootScope.dbTable.moves = dbTable.moves
+                        
 					})
-
-					
-
-				//} 
-                
-                // else {
-
-				// 	$http.get('/move?m=' + whatMove + '&t=' + $rootScope.dbTable._id)
-
-
-				// }
-
 
 			}
 
 			$rootScope.takeItBack = function() {
 				socketSend('moved', store.oopsStates[$rootScope.dbTable._id], 'moved', function() {
                     
-                    console.log('wNext will be',store.oopsStates[$rootScope.dbTable._id].wNext)
-                    
-                    
 					$rootScope.dbTable.table = store.oopsStates[$rootScope.dbTable._id].table
 					$rootScope.dbTable.wNext = store.oopsStates[$rootScope.dbTable._id].wNext
 					$rootScope.dbTable.moves = store.oopsStates[$rootScope.dbTable._id].moves
-
-					//$scope.clearHighlights($rootScope.dbTable.table)
 
 				})
 			}
@@ -1333,8 +1305,8 @@
 
 				$http.get('/getTPollNum?t=' + $rootScope.dbTable._id)
 					.success(function(response) {
-						////console.log('getting board pollnum: '+response.tablepollnum+" vs "+$rootScope.pollNum)
-						if (!(response.tablepollnum == $rootScope.pollNum)) {
+						
+                        if (!(response.tablepollnum == $rootScope.pollNum)) {
 							$rootScope.pollNum = response.tablepollnum
 								////console.log('calling getandshow')
 							$rootScope.longPollTable()

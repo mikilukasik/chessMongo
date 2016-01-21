@@ -68,13 +68,9 @@ var progress = {}
 
 //var progress.tempDTasks=[]
 
-function workerMove(smallMoveTask, thinker) { //for 1 thread, smallmovetask has one of my possible 1st moves
+function workerMove(smallMoveTask, thinker) { // smallmovetask has one of my possible 1st moves
 
-    //console.log('temp',smallMoveTask.sharedData.gameNum)
-	
 	var deepeningTask = new DeepeningTask(smallMoveTask)
-
-    //console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~',deepeningTask.progress)
 
 	oneDeeper(deepeningTask) //this will make about 30 smalldeepeningtasks from the initial 1 and create deepeningtask.resolverarray
 		//first item in deepeningtask.smalldeepeningtasks is trigger
@@ -214,25 +210,8 @@ var taskReceived = function(task) {
             
             if(workingOnGameNum==0){
                 
-                //  messageTheServer('progress', {
-
-                //     final: true,
-                    
-                //     forced: true,
-                    
-                    
-                //     //dmpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
-                //     //depth: workingOnDepth,
-                    
-                //     //smTakes:progress.smTakes,
-                    
-                //     //results:sendResults
-
-                // })
-        
-                
             }else{
-               forgetItAll=true          //buggy!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+               forgetItAll=true          //buggy??????????????!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
             }
               
         
@@ -242,7 +221,7 @@ var taskReceived = function(task) {
         
             sendSpeedStats=true
 
-			splitMoveStarted = new Date() // globalTimer//new Date().getTime()
+			splitMoveStarted = new Date() // remove this!!!!!!!!!!!!!!!!!!!!
 
 			progress = {
 
@@ -290,22 +269,12 @@ var taskReceived = function(task) {
 			if (task.data[0] != undefined) {
 				//we received some moves
 
-				//if (workingOnGameNum == 0) {
-					//thinker is idle
-					
-
 					workingOnGameNum = task.data[0].sharedData.gameNum
 					
 					progress.splitMoves = task.data.length //count
 
 					mwProcessDeepSplitMoves(progress.moves, sendID) //starting to process splitmove from server
 
-				// } else {
-				// 	//thinker is already calculating something
-
-				// 	sendLog('thinker is busy')
-
-				// }
 
 			} else {
 				//error in receiving task
@@ -621,15 +590,7 @@ onmessage = function(event) {
                             final: true,
                             
                             forced: true,
-                            
-                            
-                            //dmpm: ~~(60000 * progress.splitMoves / (new Date() - progress.started)),
-                            //depth: workingOnDepth,
-                            
-                            //smTakes:progress.smTakes,
-                            
-                            //results:sendResults
-
+                           
                         })
                                 
                             

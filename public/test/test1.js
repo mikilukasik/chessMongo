@@ -5,12 +5,16 @@ var path = '../js/worker/deepening.js';
 var fs = require('fs');
 var vm = require('vm');
 
-var code = fs.readFileSync(path);
-vm.runInThisContext(code);
-
-
 eval(fs.readFileSync('../js/all/classes.js') + '');
+eval(fs.readFileSync('../js/server/splitMoves.js') + '');
 eval(fs.readFileSync('../js/all/engine.js') + '');
+eval(fs.readFileSync(path) + '');
+
+
+// var code = fs.readFileSync(path);
+// vm.runInThisContext(code);
+
+
 
 
 var vals={}

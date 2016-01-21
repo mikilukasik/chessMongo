@@ -19,20 +19,10 @@ var SmallDeepeningTask=function(table, wNext, depth, moveTree, desiredDepth, sco
 		this.score= score
 
 }
-////
-// var ResolverArray=function(depth){		
-	
-// 	this.=[]			//results will be validated tables on the next level
-	
-// 	this.depth=depth,
-// 	this.pendingCount=pendingCount	//this will be lowered to 0		//do i need this???!!!!!!!!!!!!!!!!!!
-// }
 
 var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for main thread and mainWorker ???not sure..     //smallMoveTask is a smallMoveTask, to be deepend further
     
     this.gameNum=smallMoveTask.sharedData.gameNum
-    
-    //console.log(this.gameNum)
     
     this.progress=smallMoveTask.progress
     
@@ -66,10 +56,8 @@ var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for mai
 	this.actualDepth = 1 //its 1 because we have 1st level resulting table fixed. 
 		//increase this when generating deeper tables, loop while this is smaller than desiredDepth
 
-	//this.depthsToClear = smallMoveTask.desiredDepth //we will decrease this when throwing away resulting tables, until it is 1. the last set of tables gets thrown away on the server that finishes this task
-		//this task should be sent back to the server so lets ke
-       // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',this.desiredDepth)
-
+	   //this task should be sent back to the server so lets ke
+       
 
 	this.tableTree = [] //fill multiDIM array with resulting tables during processing
 	this.moveStrTree = [] //twin array with movesString
@@ -258,36 +246,6 @@ var TempMoveTask = function(dbTable) {
 
 }
 
-
-
-var MoveTaskN = function(dbTable) {
-    
-    
-    this.sharedData = {
-        
-        origWNext:dbTable.wNext,
-        //desiredDepth:dbTable.desiredDepth
-        
-        desiredDepth: dbTable.desiredDepth,
-        oppKingPos: whereIsTheKing(dbTable.table, !dbTable.wNext),
-        origProtect: protectTable(dbTable.table, dbTable.wNext),
-        origData: getTableData(dbTable.table, dbTable.wNext),
-        origDeepDatatt: getHitScores(dbTable.table, true, true),
-        origDeepDatatf: getHitScores(dbTable.table, true, false),
-        origDeepDataft: getHitScores(dbTable.table, false, true),
-        origDeepDataff: getHitScores(dbTable.table, false, false),
-    }
-
-	this.moveCoords = getAllMoves(dbTable.table, dbTable.wNext, false, 0, true)
-
-	var dontLoop = false
-	if (this.sharedData.origData[0] > 1) {
-		dontLoop = true
-	}
-    
-    this.sharedData.dontLoop=dontLoop
-
-}
 
 
 var Task = function(command, data, message, taskNum) {

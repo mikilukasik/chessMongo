@@ -1,3 +1,82 @@
+////////////////http://stackoverflow.com/questions/728360/most-elegant-way-to-clone-a-javascript-object
+
+
+function clone(obj) {
+    var copy;
+
+    // Handle the 3 simple types, and null or undefined
+    if (null == obj || "object" != typeof obj) return obj;
+
+    // Handle Date
+    if (obj instanceof Date) {
+        copy = new Date();
+        copy.setTime(obj.getTime());
+        return copy;
+    }
+
+    // Handle Array
+    if (obj instanceof Array) {
+        copy = [];
+        for (var i = 0, len = obj.length; i < len; i++) {
+            copy[i] = clone(obj[i]);
+        }
+        return copy;
+    }
+
+    // Handle Object
+    if (obj instanceof Object) {
+        copy = {};
+        for (var attr in obj) {
+            if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
+        }
+        return copy;
+    }
+
+    throw new Error("Unable to copy obj! Its type isn't supported.");
+}
+
+////////////////////http://stackoverflow.com/questions/728360/most-elegant-way-to-clone-a-javascript-object end
+
+
+
+
+var MoveTaskN = function(dbTable) {
+    
+    
+    this.sharedData = {
+        
+        origWNext:dbTable.wNext,
+      
+        
+        desiredDepth: dbTable.desiredDepth,
+        oppKingPos: whereIsTheKing(dbTable.table, !dbTable.wNext),
+        origProtect: protectTable(dbTable.table, dbTable.wNext),
+        origData: getTableData(dbTable.table, dbTable.wNext),
+        origDeepDatatt: getHitScores(dbTable.table, true, true),
+        origDeepDatatf: getHitScores(dbTable.table, true, false),
+        origDeepDataft: getHitScores(dbTable.table, false, true),
+        origDeepDataff: getHitScores(dbTable.table, false, false),
+    }
+
+	this.moveCoords = getAllMoves(dbTable.table, dbTable.wNext, false, 0, true)
+
+	var dontLoop = false
+	if (this.sharedData.origData[0] > 1) {
+		dontLoop = true
+	}
+    
+    this.sharedData.dontLoop=dontLoop
+
+}
+
+
+
+
+
+
+
+
+
 function toTypedTable(table){
 	
 	var result=new Array(8)
@@ -27,10 +106,8 @@ function toTypedTable(table){
 
 ///////////////////////////// below the functions that run a million times ////////////////////////
 
-function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){//, counter) {
-    
-//counter[0]++
-    //console.log('temp2',smallDeepeningTask.gameNum)
+function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){
+  
 	//this is the function that runs a million times
 	
 	var sdtDepth=smallDeepeningTask.depth
@@ -40,8 +117,6 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){//, counter)
 	var sdtScore=new Int32Array(1)
 	sdtScore[0]=smallDeepeningTask.score
 
-//console.log(smallDeepeningTask.wPlayer)
-	
 	//gets one task, produces an array of more tasks
 	//or empty array when done
 
@@ -49,14 +124,11 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){//, counter)
 	
 	var newWNext = !smallDeepeningTask.wNext
 	
-	
 	if(sdtDepth==2){								//on 2nd level remove invalids
 		if(captured(sdtTable,newWNext)){
 			//invalid move, sakkban maradt
 			
 			result=[new SmallDeepeningTask(sdtTable,newWNext,sdtDepth+1,smallDeepeningTask.moveTree,smallDeepeningTask.desiredDepth,100,smallDeepeningTask.wPlayer,false,smallDeepeningTask.gameNum)]
-			
-			
 			
 		}
 		
@@ -84,12 +156,6 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){//, counter)
 
 	} else {
         
-        
-        
-		
-		//counter[0]++
-
-
 		if (sdtDepth > smallDeepeningTask.desiredDepth) { //depth +1
 			
 			resolverArray[sdtDepth].push(new ResolverItem(sdtScore[0], smallDeepeningTask.moveTree)) //this will fill in and then gets reduced to best movevalue only
@@ -97,15 +163,11 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){//, counter)
 			
 		} else {
 			
-			//counter[0]++
 			
-			//var noNegative = (sdtDepth / 2 == Math.floor(sdtDepth / 2))
 			var isNegative = (sdtDepth & 1)
 			
 			if(sdtDepth == smallDeepeningTask.desiredDepth){
 				//////depth reached, eval table
-				
-				//console.log(smallDeepeningTask.wPlayer)
 				
 				var newScore=new Int32Array(1)
 				
@@ -140,16 +202,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){//, counter)
 				)
 
 				
-				
-				
-					
-				
-				
 			}else{
-				//desireddepth not reached
-				
-				
-	
 			
 			//depth not solved, lets solve it further
 
@@ -164,12 +217,6 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){//, counter)
 			//keep illegal			//we will remove them later when backward processing the tree
 
 			//here we have possiblemoves filled in with good, bad and illegal moves
-
-
-			
-
-			
-			
 
 			
 			for (var i = possibleMoves.length - 1; i > -1; i--) {
@@ -186,30 +233,22 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){//, counter)
 
 				var thisValue = whatGetsHit[1] //piece value, should ++ when en-pass
 
-				//var noKingHit = true
-
-				//if (thisValue == 9) noKingHit = false
-
+				
 				var valueToSave
 
 				if (isNegative) { //does this work???!!!!!!!!!!!
 				
-							valueToSave = sdtScore[0] - thisValue// + thisValue2//every second level has negative values: opponent moved
-				
-					 
+							valueToSave = sdtScore[0] - thisValue
 				} else {
 
 			
 					
-						valueToSave = sdtScore[0] + thisValue// - thisValue2 //every second level has negative values: opponent moved
-
+						valueToSave = sdtScore[0] + thisValue
 				}
 
 				var newMoveTree = smallDeepeningTask.moveTree.concat(moveStr,valueToSave)
-
-                //console.log(smallDeepeningTask.wPlayer)
-
-				result.push(new SmallDeepeningTask(
+                
+                result.push(new SmallDeepeningTask(
 						movedTable,
 						newWNext,
 						sdtDepth + 1,
@@ -430,15 +469,11 @@ function oneDeeper(deepeningTask) { //only takes original first level deepeningt
 
 
     
-    //var counter=new Int32Array(1)
+   
 
-	//var newTasks = []
-
-	var resolverArray = [] //deepeningTask.resolverArray //multidim, for each depth the results, will be updated a million times
-
+	var resolverArray = [] 
 	var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
-    
-  // console.log(smallDeepeningTask.wPlayer)
+ 
 
 	var tempTasks = solveSmallDeepeningTask(smallDeepeningTask, smallDeepeningTask.resolverArray)//, counter)
 
@@ -446,15 +481,10 @@ function oneDeeper(deepeningTask) { //only takes original first level deepeningt
 
 		var tempTask = tempTasks.pop()
 
-		//console.log(tempTask)
-
-		// if(tempTask.tabl!=undefined && captured(tempTask.table,!tempTask.wNext)){
-		// 	//rossz lepes
-		// }else{
-            
+		
          
 		deepeningTask.smallDeepeningTasks.push(tempTask)
-			//}
+			
 
 
 
@@ -462,25 +492,37 @@ function oneDeeper(deepeningTask) { //only takes original first level deepeningt
 
 	deepeningTask.smallDeepeningTasksCopy = deepeningTask.smallDeepeningTasks.slice()
 
-	////console.log(deepeningTask.smallDeepeningTasks.length)
-
+	
 	deepeningTask.resolverArray = resolverArray
-   // deepeningTask.counter=counter[0]
-
-}
-
-function singleThreadAi(){
-    return {
-    
-        winningMove:'temp'
-    
-    }
+ 
 }
 
 
-function resolveDepth(depth, resolverArray){//, counter) {
+
+function singleThreadAi(tempDbTable,depth){
     
-    //if(counter)counter[0]+=10-depth
+    var dbTable=clone(tempDbTable)
+    
+    dbTable.moveTask=new MoveTaskN(dbTable)
+    
+    dbTable.moveTask.sharedData.desiredDepth=depth
+    
+    var tempMoves=new SplitMove(dbTable).movesToSend
+    
+    var res=[]
+    
+    tempMoves.forEach(function(smallMoveTask,index){
+        var dTask=new DeepeningTask(smallMoveTask)
+        
+        res[index]=solveDeepeningTask(dTask)
+        
+    })
+    
+    return res
+}
+
+
+function resolveDepth(depth, resolverArray){
 	
     if (resolverArray[depth].length > 0) {
 		if (depth & 1) {

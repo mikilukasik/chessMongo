@@ -50,8 +50,6 @@ var SplitMove = function(dbTableWithMoveTask) {
 
 	this.origMoveTask = dbTableWithMoveTask.moveTask
 
-	this.origMoveTask = dbTableWithMoveTask.moveTask
-
 	this.pendingMoveCount = dbTableWithMoveTask.moveTask.moveCoords.length
 
 }
@@ -198,35 +196,20 @@ var SplitMoves = function(clients,timeNow) {
             
             
 
-			var sendThese = []
-			// if (sendAll) {
-			// 	sendThese = getSplitMoveTask(splitMove, 1)
-			// } else {
-			sendThese = getSplitMoveTask(splitMove, thinker.itsSpeed)
-			//}
+			var sendThese = getSplitMoveTask(splitMove, thinker.itsSpeed)
+			
 			sendThese.forEach(function(move) {
 
-				//adminLog('ssss',thinker,'sssssssssss')
+				
 				if(move)move.sentToName = thinker.addedData.lastUser
-					//move.history.push('initial: '+thinker.addedData.lastUser   )
+					
 			})
 
 			var sentCount = sendThese.length
 
-			//var connection={}
 
-			var sentTo
-
-			// if (sendAll) {
-			// 	sentTo = 'pending' // thinker.addedData.connectionID//clients.sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTableWithMoveTask._id + ' sentCount: ' + sentCount), thinker) //string
-                
-                
-			// } else {
-				sentTo = clients.sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTableWithMoveTask._id + ' sentCount: ' + sentCount), thinker) //string
-					//adminLog('sentTo',sentTo,'thinker',thinker)
-			//}
-			//var 
-
+			var sentTo = clients.sendTask(new Task('splitMove', sendThese, 'splitMove t' + dbTableWithMoveTask._id + ' sentCount: ' + sentCount), thinker) //string
+			
 			registerSentMoves(dbTableWithMoveTask._id, sentTo, sentCount, sendThese, thinker)
 
 		}
@@ -234,7 +217,7 @@ var SplitMoves = function(clients,timeNow) {
 		this.nakedQ()
 		this.publishNakedQ()
         
-        adminLog('######################new move for game ',dbTableWithMoveTask._id,'added.')
+        adminLog('New splitMove for game',dbTableWithMoveTask._id,'added.')
 
 
 		return splitMove
