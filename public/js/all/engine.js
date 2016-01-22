@@ -789,7 +789,98 @@ function horseCanMove(k, l, isWhite, moveTable, hitSummm) {
 
 }
 
+function createState(table) {
+    
+    // make this string and concat!!!!!!!!!!!!!!!!!!!!
+	
+	var stateToRemember = []
 
+	for (var i = 0; i < 8; i++) {
+		for (var j = 0; j < 8; j++) {
+
+			var x = 10 * Number(table[i][j][0]) + Number(table[i][j][1]) + 55 //  B vagy nagyobb
+			if (x < 65) x = 65 // ez egy nagy A
+
+
+			stateToRemember[8 * i + j] = String.fromCharCode(x)
+
+
+
+			if (table[i][j][5] && //mozdulhat
+				(table[i][j][1] == 1 || table[i][j][1] == 9)) { //paraszt v kiraly
+
+				table[i][j][5].forEach(function(canmov) {
+					stateToRemember[8 * i + j] = stateToRemember[8 * i + j] + canmov[0] + canmov[1]
+				})
+			}
+
+		}
+	}
+	return stateToRemember.join('')
+
+}
+
+
+
+function getPushString(table, moveStr) {
+	
+	var cWhatMoves = String(table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][0]) //color of whats moving
+	var pWhatMoves = String(table[dletters.indexOf(moveStr[0])][moveStr[1] - 1][1]) //piece
+
+
+	var whatsHit = String(table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][0]) + //color of whats hit
+		table[dletters.indexOf(moveStr[2])][moveStr[3] - 1][1] //piece
+
+	if (pWhatMoves == "1" && //paraszt
+		moveStr[0] != moveStr[2] && //keresztbe
+		whatsHit == '00' //uresre
+	) { //akkor tuti enpass
+		if (cWhatMoves == '1') { //fekete
+			whatsHit = '21' //akkor feher parasztot ut
+		} else {
+			whatsHit = '11'
+		}
+
+	}
+
+	return cWhatMoves + pWhatMoves + moveStr + whatsHit
+
+}
+
+function moveInTable(moveStr, dbTable, isLearner) {
+
+	var toPush = getPushString(dbTable.table, moveStr) //piece
+
+	// +new String(new Date()
+	// 	.getTime())
+
+	dbTable.moves.push(toPush)
+
+	dbTable.table = moveIt(moveStr, dbTable.table) //	<----moves it
+
+	dbTable.wNext = !dbTable.wNext
+
+	dbTable.pollNum++
+
+		
+	dbTable.table = addMovesToTable(dbTable.table, dbTable.wNext) 
+    
+	//remember this state for 3fold rule
+	var pushThis = createState(dbTable.table)
+
+
+	dbTable.allPastTables.push(pushThis)
+
+	
+	//if (!isLearner) evalGame(dbTable) //true should tell it was learnergame, not yet
+
+
+
+	return dbTable
+
+
+
+}
 
 
 function captured(table, color) {

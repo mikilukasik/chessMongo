@@ -24,31 +24,43 @@ describe('test ai /',function(){
             
         })
         
-        it('use singleThreadAi function',function(){
+        it('make e2e4 move',function(){
+            
+            moveInTable('e2e4',vals.initedTable)
+            
+        })
+        
+        it('use singleThreadAi function (depth 3)',function(){
             
             vals.firstResult=singleThreadAi(vals.initedTable,3)
-            
             
             
         })
         
         describe('analyze 1st result /',function(){
             
+            
+            
             it('has winning move',function(){
                 
                 assert(vals.firstResult.winningMove)
-                console.log(vals.firstResult.moveStr)
                 
               
             })
             
-            it(".moveTree is 'g1f3,e7e5,0,f3e5,1'",function(){
-                assert(vals.firstResult.winningMove.moveTree=='g1f3,e7e5,0,f3e5,1')
+            it(".moveTree is 'b8c6,f2f3,0,g8f6,0'",function(){      //why??
+                assert(vals.firstResult.winningMove.moveTree=='b8c6,f2f3,0,g8f6,0')
             })
             
             
-            it(".score is 53440",function(){
-                assert(vals.firstResult.winningMove.score==53440)
+            it(".score is -12832",function(){
+                assert(vals.firstResult.winningMove.score==-12832)
+            })
+            
+            console.log()
+            
+            it(".result.length is 20",function(){
+                assert(vals.firstResult.result.length==20)
             })
             
         })

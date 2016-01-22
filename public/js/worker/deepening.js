@@ -530,7 +530,7 @@ function singleThreadAi(tempDbTable,depth){
       
     })
 
-    var res=[]
+    var result=[]
     
     tempMoves.forEach(function(smallMoveTask,index){
         var dTask=new DeepeningTask(smallMoveTask)
@@ -542,21 +542,51 @@ function singleThreadAi(tempDbTable,depth){
 
         //!!!!!!!!!!!implement !!!!!!!!!!typedarray
 
+        var res=[]
       
             while (deepeningTask.smallDeepeningTasks.length > 1) {
 
                 var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
                 
-////////////////from subworker              
-                res.push(solveDeepeningTask(smallDeepeningTask,'sdt'))
+                smallDeepeningTask.progress=deepeningTask.progress
+                
+////////////////from subworker
+
+                var res2=solveDeepeningTask(smallDeepeningTask,'sdt')
+                
+                res2.value=res2.score
+              
+                res.push(res2)
                 
             }
 
+            var tempResolveArray = []
+                
+                tempResolveArray[1] = []
+                tempResolveArray[2] = res
+                tempResolveArray[3] = []
+                
+
+            resolveDepth(2, tempResolveArray)
+
+            
+            
+            
+            var pushAgain = tempResolveArray[1][0]
+				
+				//pushAgain.moveIndex=resData.progress.moveIndex
+				//pushAgain._id = workingOnGameNum
+				pushAgain.score = pushAgain.value
+				//pushAgain.thinker = sendID.toString() //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+				pushAgain.move = pushAgain.moveTree.slice(0, 4)
+                   
         
+           result.push(pushAgain)
+    
     })
     
-    //return res
-    res.sort(function(a,b){
+    
+    result.sort(function(a,b){
         
         if(a.score<b.score){
             return 1
@@ -570,14 +600,14 @@ function singleThreadAi(tempDbTable,depth){
         
     })
     
-    var result={
-        array:res,
-        winningMove:res[0],
-        moveStr:res[0].moveTree.slice(0,4)
+    var finalResult={
+        result:result,
+        winningMove:result[0],
+        moveStr:result[0].moveTree.slice(0,4)
     }
     //res.winningMove=res[0]
     
-    return result
+    return finalResult
     
 }
 
