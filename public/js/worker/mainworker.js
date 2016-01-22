@@ -264,7 +264,7 @@ var taskReceived = function(task) {
 
 			})
 
-			workingOnDepth = task.data[0].sharedData.desiredDepth
+			workingOnDepth = task.data[0].sharedData.desiredDepth        //global??!!!!!!!!!!!!
 
 			if (task.data[0] != undefined) {
 				//we received some moves

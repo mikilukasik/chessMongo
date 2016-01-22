@@ -302,6 +302,8 @@ function canIMove(winTable, winColor) {
 }
 
 function createState(table) {
+    
+    // make this string and concat!!!!!!!!!!!!!!!!!!!!
 	
 	var stateToRemember = []
 

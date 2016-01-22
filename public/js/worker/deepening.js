@@ -501,24 +501,84 @@ function oneDeeper(deepeningTask) { //only takes original first level deepeningt
 
 function singleThreadAi(tempDbTable,depth){
     
+   
     var dbTable=clone(tempDbTable)
-    
+   
+    //from index 
     dbTable.moveTask=new MoveTaskN(dbTable)
     
     dbTable.moveTask.sharedData.desiredDepth=depth
     
+    //from server
     var tempMoves=new SplitMove(dbTable).movesToSend
     
+    
+    //////////from mainworker
+    tempMoves.forEach(function(splitMove) {
+
+        splitMove.progress = {
+
+            moveCoords: splitMove.moveCoords,
+            moveIndex: splitMove.moveIndex,
+
+            done: false,
+            result: {},
+
+            expected: undefined,
+
+        }
+      
+    })
+
     var res=[]
     
     tempMoves.forEach(function(smallMoveTask,index){
         var dTask=new DeepeningTask(smallMoveTask)
-        
-        res[index]=solveDeepeningTask(dTask)
+      
+        var deepeningTask = new DeepeningTask(smallMoveTask)
+
+        oneDeeper(deepeningTask) //this will make about 30 smalldeepeningtasks from the initial 1 and create deepeningtask.resolverarray
+            //first item in deepeningtask.smalldeepeningtasks is trigger
+
+        //!!!!!!!!!!!implement !!!!!!!!!!typedarray
+
+      
+            while (deepeningTask.smallDeepeningTasks.length > 1) {
+
+                var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
+                
+////////////////from subworker              
+                res.push(solveDeepeningTask(smallDeepeningTask,'sdt'))
+                
+            }
+
         
     })
     
-    return res
+    //return res
+    res.sort(function(a,b){
+        
+        if(a.score<b.score){
+            return 1
+        }else{
+            if(a.score==b.score){
+                return 0
+            }else{
+                return -1
+            }
+        }
+        
+    })
+    
+    var result={
+        array:res,
+        winningMove:res[0],
+        moveStr:res[0].moveTree.slice(0,4)
+    }
+    //res.winningMove=res[0]
+    
+    return result
+    
 }
 
 

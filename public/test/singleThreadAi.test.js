@@ -3,24 +3,19 @@ var path = '../js/worker/deepening.js';
 
 
 var fs = require('fs');
-var vm = require('vm');
+//var vm = require('vm');
 
 eval(fs.readFileSync('../js/all/classes.js') + '');
 eval(fs.readFileSync('../js/server/splitMoves.js') + '');
 eval(fs.readFileSync('../js/all/engine.js') + '');
+
 eval(fs.readFileSync(path) + '');
-
-
-// var code = fs.readFileSync(path);
-// vm.runInThisContext(code);
-
-
-
 
 var vals={}
 
 describe('test ai /',function(){
     describe('test single thread calc /',function(){
+        this.timeout(15000);
         
         it('generate inited table',function(){
             
@@ -29,10 +24,11 @@ describe('test ai /',function(){
             
         })
         
-        it('get l3 move on table',function(){
+        it('use singleThreadAi function',function(){
             
             vals.firstResult=singleThreadAi(vals.initedTable,3)
-            console.log('vals.firstResult:',vals.firstResult)
+            
+            
             
         })
         
@@ -40,13 +36,24 @@ describe('test ai /',function(){
             
             it('has winning move',function(){
                 
-                console.log('vals.firstResult.winningMove:',vals.firstResult.winningMove)
                 assert(vals.firstResult.winningMove)
+                console.log(vals.firstResult.moveStr)
                 
-                
+              
+            })
+            
+            it(".moveTree is 'g1f3,e7e5,0,f3e5,1'",function(){
+                assert(vals.firstResult.winningMove.moveTree=='g1f3,e7e5,0,f3e5,1')
+            })
+            
+            
+            it(".score is 53440",function(){
+                assert(vals.firstResult.winningMove.score==53440)
             })
             
         })
+        
+       //done()
         
     })
 })
