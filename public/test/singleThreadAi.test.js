@@ -39,23 +39,16 @@ describe('test ai /',function(){
         
         describe('analyze 1st result /',function(){
             
-            it("result.length is 20",function(){
+            it(".result.length is 20",function(){
                 assert(vals.firstResult.result.length==20)
             })
-            
-            it('has winning move',function(){
-                
-                assert(vals.firstResult.winningMove)
-                
-              
-            })
-            
-            it("winningMove.moveTree is 'b8c6,f2f3,0,g8f6,0'",function(){      //why??
+           
+            it(".winningMove.moveTree is 'b8c6,f2f3,0,g8f6,0'",function(){      //why??
                 assert(vals.firstResult.winningMove.moveTree=='b8c6,f2f3,0,g8f6,0')
             })
             
             
-            it("winningMove.score is -12832",function(){
+            it(".winningMove.score is -12832",function(){
                 assert(vals.firstResult.winningMove.score==-12832)
             })
             
