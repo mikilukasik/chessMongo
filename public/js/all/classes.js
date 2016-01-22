@@ -19,7 +19,64 @@ var SmallDeepeningTask=function(table, wNext, depth, moveTree, desiredDepth, sco
 		this.score= score
 
 }
+var MoveToSend = function(moveCoord, index, dbTableWithMoveTask, splitMoveId) {
 
+	var moveTask = dbTableWithMoveTask.moveTask
+
+	this.moveIndex = index
+
+	this.moveCoords = moveCoord //one move only
+
+	this.sharedData = moveTask.sharedData
+
+	this.sharedData.origTable = dbTableWithMoveTask.table
+
+	this.sharedData.gameNum = dbTableWithMoveTask._id
+
+	this.sharedData.desiredDepth = moveTask.sharedData.desiredDepth
+
+	this.sharedData.splitMoveID = splitMoveId
+
+	this.timer = {}
+
+	this.history = []
+
+}
+
+
+
+
+var SplitMove = function(dbTableWithMoveTask) {
+
+	this.started = new Date()
+
+	this.splitMoveIndex = undefined
+
+	this.splitMoveID = Math.random() * Math.random()
+
+	var movesToSend = []
+
+	dbTableWithMoveTask.moveTask.moveCoords.forEach(function(moveCoord, index) {
+
+		movesToSend.push(new MoveToSend(moveCoord, index, dbTableWithMoveTask, this.splitMoveID))
+
+	})
+
+	this.movesToSend = movesToSend //this will get empty as we send the moves out for processing
+
+	this.moves = movesToSend.slice() //this should stay full
+
+	this.thinkers = [] //this will get filled with the clients working on this splitmove
+
+	this.gameNum = dbTableWithMoveTask._id
+
+	this.origTable = dbTableWithMoveTask.table
+
+	this.origMoveTask = dbTableWithMoveTask.moveTask
+
+	this.pendingMoveCount = dbTableWithMoveTask.moveTask.moveCoords.length
+
+}
 var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for main thread and mainWorker ???not sure..     //smallMoveTask is a smallMoveTask, to be deepend further
     
     this.gameNum=smallMoveTask.sharedData.gameNum
