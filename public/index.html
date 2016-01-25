@@ -333,9 +333,7 @@
 				};
 
 				ws.onmessage = function(evt) {
-					var received = eval("(" + evt.data + ")");
-
-					// console.log("socketMessage received:",received.message,received.data);
+					var received = JSON.parse(evt.data)// evt.data + ")");
 
 					switch (received.command) {
 						
