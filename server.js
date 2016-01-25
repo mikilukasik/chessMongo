@@ -82,7 +82,7 @@ wsServer.on('request', function(request) {
 			// process WebSocket message
 			var received = eval("(" + message.utf8Data + ")")
             
-			eval("(onMessageFuncs." + received.command + "(connection,received.data,newConnectionID))") //this is in serverfuncs.js
+			onMessageFuncs[received.command](connection,received.data,newConnectionID)//)") //this is in serverfuncs.js
 
 		}
 	});
