@@ -130,16 +130,20 @@ describe('test singleThreadAi /',function(){
         describe('analyze 1st modded result /',function(){
             
             it(".result.length is 20",function(){
+
+                
                 assert(vals.firstResult.result.length==20)
             })
            
             it(".winningMove.moveTree is 'b8c6,f2f3,0,g8f6,0'",function(){      
+
                 assert(vals.firstResult.winningMove.moveTree=='b8c6,f2f3,0,g8f6,0')
             })
             
             
-            it(".winningMove.score is -12832",function(){
-                assert(vals.firstResult.winningMove.score==-12832)
+            it(".winningMove.score is -20256",function(){
+
+                assert(vals.firstResult.winningMove.score==-20256)
             })
            
             
@@ -170,19 +174,21 @@ describe('test singleThreadAi /',function(){
         describe('analyze 2nd modded result /',function(){
             
             it(".result.length is 30",function(){
+
                 
                 assert(vals.secondResult.result.length==30)
             })
            
             it(".winningMove.moveTree is 'b1c3,a7a6,0,g1e2,0'",function(){      
+
                 
                 assert(vals.secondResult.winningMove.moveTree=='b1c3,a7a6,0,g1e2,0')
             })
             
             
-            it(".winningMove.score is -14080",function(){
-                //console.log(vals.secondResult.winningMove.score)
-                assert(vals.secondResult.winningMove.score==-14080)
+            it(".winningMove.score is -21248",function(){
+
+                assert(vals.secondResult.winningMove.score==-21248)
             })
            
             

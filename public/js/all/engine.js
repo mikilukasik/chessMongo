@@ -1531,10 +1531,15 @@ function newCanMove(k, l, c, moveTable, protectedArray, iHitMoves, protectScore)
 
 }
 
-function getHitScores(origTable, wNext, flipIt, wPlayer) {
+function getHitScores(origTable, wNext, flipIt, wPlayer, mod) {
 	
 	// if(counter)counter[0]++
+    var fwV=1
     
+    if(mod&&mod.modType==='fwV'){
+        fwV=mod.modVal
+        //console.log(mod.modType)
+    }
     
     var pawnVal=0
 
@@ -1588,14 +1593,15 @@ function getHitScores(origTable, wNext, flipIt, wPlayer) {
 			if (origTable[lookI][lookJ][0] == c) {
 				////////found my piece/////////
 				////////get all my moves and places i protect
-            if(origTable[lookI][lookJ][1]==1)pawnVal+=lookJ        
-					newCanMove(lookI, lookJ, c, origTable, protectedArray, iHitCoords, myprotectScore) //newCanMove will protect the table
-					//and append all my hits to iHitCoords
-					//will increase myprotectscore, inaccurate!!!!!!!				
+                if(origTable[lookI][lookJ][1]==1)pawnVal+= lookJ * fwV
+                  
+                newCanMove(lookI, lookJ, c, origTable, protectedArray, iHitCoords, myprotectScore) //newCanMove will protect the table
+                //and append all my hits to iHitCoords
+                //will increase myprotectscore, inaccurate!!!!!!!				
 			} else {
 
 				if (origTable[lookI][lookJ][0] != 0) { ////////found opponent's piece/////////												
-					if(origTable[lookI][lookJ][1]==1)pawnVal+=lookJ
+					if(origTable[lookI][lookJ][1]==1)pawnVal+=lookJ * fwV
                     newCanMove(lookI, lookJ, nc, origTable, protectedArray, heHitsCoords, hisprotectScore)
 				}
 			}

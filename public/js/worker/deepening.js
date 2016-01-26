@@ -108,7 +108,8 @@ function toTypedTable(table){
 ///////////////////////////// below the functions that run a million times ////////////////////////
 
 function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){
-  
+    
+    
 	//this is the function that runs a million times
 	
 	var sdtDepth=smallDeepeningTask.depth
@@ -170,15 +171,18 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){
 			if(sdtDepth == smallDeepeningTask.desiredDepth){
 				//////depth reached, eval table
 				
+                //console.log(smallDeepeningTask.mod)
+  
+                
 				var newScore=new Int32Array(1)
 				
 				if(isNegative){
 					
-					newScore[0]=(sdtScore[0] << 16) - getHitScores(sdtTable,smallDeepeningTask.wNext,false,smallDeepeningTask.wPlayer)[0]
+					newScore[0]=(sdtScore[0] << 16) - getHitScores(sdtTable,smallDeepeningTask.wNext,false,smallDeepeningTask.wPlayer,smallDeepeningTask.mod)[0]
 					
 				}else{
 				
-					newScore[0]=(sdtScore[0] << 16) + getHitScores(sdtTable,smallDeepeningTask.wNext,true,smallDeepeningTask.wPlayer)[0]
+					newScore[0]=(sdtScore[0] << 16) + getHitScores(sdtTable,smallDeepeningTask.wNext,true,smallDeepeningTask.wPlayer,smallDeepeningTask.mod)[0]
 				}
 				
 				
@@ -299,11 +303,7 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 	//will return number of smallTasks solved for testing??!!!!!!!!!!!!!!!
 	//var taskValue = deepeningTask.
 
-    //var counter=new Int32Array([0])
-    
-	//var ranCount = 0
-    
-    console.log(deepeningTask.mod)
+   
     
     var retProgress=deepeningTask.progress
     
@@ -317,22 +317,17 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 		//not filtered move, could be that we can hit the king now
 		//if we can, then this is a wrong move, need to throw away the whole lot!!!!!!!!!!!!!!!!!
 
-    //counter[0]=deepeningTask.counter
-
+    
 		var tempDeepeningTask = {
 			desiredDepth: deepeningTask.desiredDepth,
 			smallDeepeningTasks: [deepeningTask],
-            wPlayer: deepeningTask.wPlayer
+            wPlayer: deepeningTask.wPlayer,
+            mod:deepeningTask.mod
 		}
 		deepeningTask = tempDeepeningTask
 	}
 
-	//var solved = 
-    
-
-	//var averageVal = 0 //will add then divide
-
-	//var totalVal=0
+	
 
 	var resolverArray = [] //multidim, for each depth the results, will be updated a million times
 
@@ -346,71 +341,49 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 	while (deepeningTask.smallDeepeningTasks.length != 0) {
 
 
-		//if (deepeningTask.smallDeepeningTasks.length <= 0)console.log(deepeningTask.smallDeepeningTasks,[],[]==deepeningTask.smallDeepeningTasks,typeof(deepeningTask.smallDeepeningTasks),typeof([]))
-
 
 		//length is 1 at first, then just grows until all has reached the level. evetually there will be nothing to do and this loop exists
 
 
-		//solved++
-
 		var smallDeepeningTask = deepeningTask.smallDeepeningTasks.pop()
-        
-        // if(smallDeepeningTask.wPlayer!=undefined){
-        //     console.log(smallDeepeningTask.wPlayer)
-        // }else{
-        //     console.log(smallDeepeningTask)
-        // }
-        
-
+     
 		
 		smallDeepeningTask.table= toTypedTable(smallDeepeningTask.table)
-		//var thisMoveValue = 0
-
+		
 		var resultingSDTs = solveSmallDeepeningTask(smallDeepeningTask, resolverArray)
 
 		
 
 		while (resultingSDTs.length > 0) {
-			//ranCount++
+			
 			deepeningTask.smallDeepeningTasks.push(resultingSDTs.pop()) //at the beginning the unsent array is just growing but then we run out
 				//designed to run on single threaded full deepening
 		}
 
-		//}
+		
 		//resultingstds is now an empty array, unsent is probably full of tasks again
 
 		//call it again if there are tasks
 	}
 
-	////console.log(ranCount)
-
-	//////////console.log(resolverArray)
 
 	var timeItTook = new Date()
 		.getTime() - startedAt
 
 
-
-    //console.log('>>>>>>>>>>>>>>>>>>>counter:',counter)    
-        
-//console.log(resolverArray)
-
 	var ret = {
-		//solved: 20,		//temp hack!!!!!!!!!!!!!!!!!!!!!!
+		
         gameNum:deepeningTask.gameNum,
         progress:retProgress,
 		timeItTook: timeItTook,
 		score: resolverArray[2][0].value,
-		moveTree: resolverArray[2][0].moveTree.join(','), //
-		//counter: counter
-			//5//			//!!!!!!!!!!!!!!!!!!!!!!!!!
+		moveTree: resolverArray[2][0].moveTree.join(',')
+			
 	}
 
 	if (someCommand != 'sdt') {
 		ret.score = resolverArray[1][0].value
-			//moveTree= resolverArray[1][0].moveTree.join(',')
-
+			
 	}
 
 	return ret
