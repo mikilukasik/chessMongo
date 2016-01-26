@@ -80,7 +80,7 @@ wsServer.on('request', function(request) {
 	connection.on('message', function(message) {
 		if (message.type === 'utf8') {
 			// process WebSocket message
-			var received = eval("(" + message.utf8Data + ")")
+			var received = JSON.parse( message.utf8Data )//+ ")")
             
 			onMessageFuncs[received.command](connection,received.data,newConnectionID)//)") //this is in serverfuncs.js
 
