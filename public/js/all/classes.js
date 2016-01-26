@@ -1,6 +1,6 @@
 /////////////////////////		Classes		/////////////////////////////////////////////////
 //console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx classes loaded xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-var SmallDeepeningTask=function(table, wNext, depth, moveTree, desiredDepth, score, wPlayer, stopped, gameNum){
+var SmallDeepeningTask=function(table, wNext, depth, moveTree, desiredDepth, score, wPlayer, stopped, gameNum, mod){
 	
         this.gameNum=gameNum
         
@@ -17,11 +17,15 @@ var SmallDeepeningTask=function(table, wNext, depth, moveTree, desiredDepth, sco
 		this.desiredDepth= desiredDepth
 
 		this.score= score
+        
+        this.mod=mod
 
 }
 var MoveToSend = function(moveCoord, index, dbTableWithMoveTask, splitMoveId) {
 
 	var moveTask = dbTableWithMoveTask.moveTask
+    
+    this.mod=moveTask.mod
 
 	this.moveIndex = index
 
@@ -78,6 +82,8 @@ var SplitMove = function(dbTableWithMoveTask) {
 
 }
 var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for main thread and mainWorker ???not sure..     //smallMoveTask is a smallMoveTask, to be deepend further
+    
+    this.mod=smallMoveTask.mod
     
     this.gameNum=smallMoveTask.sharedData.gameNum
     
@@ -149,7 +155,7 @@ var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for mai
 	this.smallDeepeningTaskCounts = [0, 1] //this will be an array of the total created smalldeepeningtasks per depth, depth 0 has 0, depth 1 has one in this splitmove
 
 
-	var initialSmallDeepeningTask = new SmallDeepeningTask(this.thisTaskTable, !this.initialWNext, this.actualDepth, this.initialTreeMoves, this.desiredDepth, this.firstDepthValue,smallMoveTask.cfColor, false, this.gameNum)
+	var initialSmallDeepeningTask = new SmallDeepeningTask(this.thisTaskTable, !this.initialWNext, this.actualDepth, this.initialTreeMoves, this.desiredDepth, this.firstDepthValue,smallMoveTask.cfColor, false, this.gameNum, this.mod)
 	
 	//this.value=initialSmallDeepeningTask.score
 

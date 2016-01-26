@@ -40,8 +40,9 @@ function clone(obj) {
 
 
 
-var MoveTaskN = function(dbTable) {
+var MoveTaskN = function(dbTable,mod) {
     
+    if(mod)this.mod=mod
     
     this.sharedData = {
         
@@ -128,7 +129,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){
 		if(captured(sdtTable,newWNext)){
 			//invalid move, sakkban maradt
 			
-			result=[new SmallDeepeningTask(sdtTable,newWNext,sdtDepth+1,smallDeepeningTask.moveTree,smallDeepeningTask.desiredDepth,100,smallDeepeningTask.wPlayer,false,smallDeepeningTask.gameNum)]
+			result=[new SmallDeepeningTask(sdtTable,newWNext,sdtDepth+1,smallDeepeningTask.moveTree,smallDeepeningTask.desiredDepth,100,smallDeepeningTask.wPlayer,false,smallDeepeningTask.gameNum,smallDeepeningTask.mod)]
 			
 		}
 		
@@ -195,7 +196,9 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){
                         
                         false,
                         
-                        smallDeepeningTask.gameNum
+                        smallDeepeningTask.gameNum,
+                        
+                        smallDeepeningTask.mod
 
 					)
 
@@ -262,7 +265,9 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){
                         
                         false,
                         
-                        smallDeepeningTask.gameNum
+                        smallDeepeningTask.gameNum,
+                        
+                        smallDeepeningTask.mod
 
 
 					)
@@ -297,6 +302,8 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
     //var counter=new Int32Array([0])
     
 	//var ranCount = 0
+    
+    console.log(deepeningTask.mod)
     
     var retProgress=deepeningTask.progress
     
@@ -499,13 +506,13 @@ function oneDeeper(deepeningTask) { //only takes original first level deepeningt
 
 
 
-function singleThreadAi(tempDbTable,depth,cb){
+function singleThreadAi(tempDbTable,depth,cb,mod){
     
    
     var dbTable=clone(tempDbTable)
    
     //from index 
-    dbTable.moveTask=new MoveTaskN(dbTable)
+    dbTable.moveTask=new MoveTaskN(dbTable,mod)
     
     dbTable.moveTask.sharedData.desiredDepth=depth
     
@@ -533,7 +540,7 @@ function singleThreadAi(tempDbTable,depth,cb){
     var result=[]
     
     tempMoves.forEach(function(smallMoveTask,index){
-        var dTask=new DeepeningTask(smallMoveTask)
+        //var dTask=new DeepeningTask(smallMoveTask)
       
         var deepeningTask = new DeepeningTask(smallMoveTask)
 
