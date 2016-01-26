@@ -499,7 +499,7 @@ function oneDeeper(deepeningTask) { //only takes original first level deepeningt
 
 
 
-function singleThreadAi(tempDbTable,depth){
+function singleThreadAi(tempDbTable,depth,cb){
     
    
     var dbTable=clone(tempDbTable)
@@ -606,6 +606,8 @@ function singleThreadAi(tempDbTable,depth){
         moveStr:result[0].moveTree.slice(0,4)
     }
     //res.winningMove=res[0]
+    
+    if(cb)cb(finalResult)
     
     return finalResult
     

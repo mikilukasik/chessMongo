@@ -3,7 +3,6 @@ var path = '../js/worker/deepening.js';
 
 
 var fs = require('fs');
-//var vm = require('vm');
 
 eval(fs.readFileSync('../js/all/classes.js') + '');
 eval(fs.readFileSync('../js/server/splitMoves.js') + '');
@@ -15,7 +14,7 @@ var vals={}
 
 describe('test ai /',function(){
     describe('test single thread calc /',function(){
-        this.timeout(15000);
+        //this.timeout(15000);
         
         it('generate inited table',function(){
             
@@ -30,9 +29,13 @@ describe('test ai /',function(){
             
         })
         
-        it('use singleThreadAi function (depth 3)',function(){
+        it('use singleThreadAi function (depth 3)',function(done){
             
             vals.firstResult=singleThreadAi(vals.initedTable,3)
+            
+            setTimeout(function() {
+                done()
+            }, 10000);
             
             
         })
@@ -51,14 +54,10 @@ describe('test ai /',function(){
             it(".winningMove.score is -12832",function(){
                 assert(vals.firstResult.winningMove.score==-12832)
             })
-            
-            //console.log()
-            
-            
+           
             
         })
         
-       //done()
-        
+     
     })
 })
