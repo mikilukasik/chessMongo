@@ -1533,12 +1533,12 @@ function newCanMove(k, l, c, moveTable, protectedArray, iHitMoves, protectScore)
 
 function getHitScores(origTable, wNext, flipIt, wPlayer, mod) {
 	
-	// if(counter)counter[0]++
+	
     var fwV=1
     
     if(mod&&mod.modType==='fwV'){
         fwV=mod.modVal
-        //console.log(mod.modType)
+        
     }
     
     var pawnVal=0
@@ -1556,7 +1556,7 @@ function getHitScores(origTable, wNext, flipIt, wPlayer, mod) {
 	var hisBestHit = 0
 
 	var myBestHitCoords = []
-		//var hisBestHitCoords=[]
+		
 
 	var protectedArray=[//new Array(8)
 	
@@ -1572,9 +1572,6 @@ function getHitScores(origTable, wNext, flipIt, wPlayer, mod) {
 		
 	]
 	
-	
-	
-
 	var c = 1
 	var nc = 1
 	if (wNext) {
@@ -1585,10 +1582,6 @@ function getHitScores(origTable, wNext, flipIt, wPlayer, mod) {
 
 	for (var lookI = 0; lookI < 8; lookI++) {
 		for (var lookJ = 0; lookJ < 8; lookJ++) { //look through the table
-
-
-            
-
 
 			if (origTable[lookI][lookJ][0] == c) {
 				////////found my piece/////////
@@ -1633,12 +1626,7 @@ function getHitScores(origTable, wNext, flipIt, wPlayer, mod) {
 
 	})
 
-	// }
-
-	// if(heHitsCoords==[]){
-	// 	//i can't hit
-	// 	hisBestHit=0
-	// }else{
+	
 
 	heHitsCoords.forEach(function(hitCoords) {
 
@@ -1667,21 +1655,16 @@ function getHitScores(origTable, wNext, flipIt, wPlayer, mod) {
 	var allhitScore=myAllHit-hisAllHit
     
     if(wPlayer)pawnVal*=-1
-	//var bHitScore=myBestHit-hisBestHit
 	
 	var result = new Int32Array(1)
 	result[0] = (myBestHit * 65536) - (hisBestHit * 4096)
-	
-	//var scndScore=protecScore*16+allhitScore
-	
 	
 	if(flipIt){
 		result[0]-=   (protecScore << 8) + (allhitScore << 4) + (pawnVal << 8) //*1633333
 	}else{
 		result[0]+=   (protecScore << 8) + (allhitScore << 4) + (pawnVal << 8) //*1633333
 	}
-	//return myBestHit - hisBestHit / 16 //+(myAllHit-hisAllHit-hisBestHit*128+myprotectScore-hisprotectScore)/8192//-(hisBestHit/16)+(myprotectScore[0]-(hisprotectScore[0]+hisAllHit)/16+myAllHit)/256//,myBestHitCoords] //, hisTempPieces, rtnMyHitSum[0], rtnHisHitSum[0], rtnMyMovesCount] 
-
+	
 	return result // 65536
 
 }//
