@@ -1,4 +1,46 @@
+var registerUser = function(name, pwd, connection) {
+
+        mongodb.connect(cn, function(err, db) {
+            //db.collection("users")
+
+            db.collection("users")
+                .findOne({
+                    name: name
+                }, function(err, thing) {
+                    if (thing == null) {
+
+                        //register this user
+                        var user = new Dbuser(name, pwd)
+
+
+                        db.collection("users")
+                            .insert(user, function(err, doc) {
+
+                                clients.send(connection, 'userRegistered', {
+                                    name: name
+                                })
+
+                            });
+
+                    } else {
+                        clients.send(connection, 'userExists', {
+                            name: name
+                        })
+                    }
+                    db.close()
+
+                })
+
+        });
+
+
+
+    }
+
 var onMessageFuncs = {
+    
+        
+    
 	
 	clientSpeedTest:function(connection,data){
 		//console.log('clientSpeedTest',data)
