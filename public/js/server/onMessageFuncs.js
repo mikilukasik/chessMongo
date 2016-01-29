@@ -209,13 +209,13 @@ var onMessageFuncs = {
 
 		
 
-		var thinker = knownThinkers[doIKnow(data.thinker)]
+		//var thinker = knownThinkers[doIKnow(data.thinker)]
 
 		switch (data.command) {
 
 			case 'log':
 
-				postThinkerMessage(thinker, data.message)
+				//postThinkerMessage(thinker, data.message)
 
 				break;
 
