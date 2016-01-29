@@ -5,6 +5,7 @@ var fs = require('fs');
 var mongodb = require('mongodb');
 var http = require('http')
 var WebSocketServer = require('websocket').server;
+
 var SplitMoves = require('./public/js/server/splitMoves.js')
 var Engine=require('./public/js/all/engine.js')
 
@@ -33,8 +34,6 @@ eval(fs.readFileSync('public/js/all/brandNewAi.js') + '');
 
 
 eval(fs.readFileSync('public/js/server/clients.js') + '');
-
-//eval(fs.readFileSync('public/js/server/splitMoves.js') + '');
 
 
 var clients = new Clients()
