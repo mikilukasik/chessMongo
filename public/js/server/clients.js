@@ -18,9 +18,45 @@ var PendingThinker=function(){
             
         
     }
+    
+
+
+
+var findUsersGameIndex = function(gameNo, games) {
+
+	for (var i = games.length - 1; i >= 0; i--) {
+		if (games[i].gameNo == gameNo) return i
+	}
+	return -1
+}
+
 
 var Clients=function(){
 	
+    this.adminLogging=false
+    
+    this.adminLogStore=[]
+
+    this.adminLog=function(){
+    if(this.adminLogging){
+            var addLine=''
+        for(var i=0;i<arguments.length;i++){
+        
+            addLine=addLine.concat(arguments[i]+' ')
+        
+        }
+    
+            
+    
+        this.adminLogStore.push(addLine)
+    
+        this.publishView('admin.html','default','adminLog',adminLogStore)
+        
+    }
+        console.log(addLine)
+    }
+
+
 	////////  main store
 	var knownClients={
 		

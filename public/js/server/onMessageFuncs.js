@@ -14,15 +14,15 @@ var onMessageFuncs = {
 	},
 	
     clearAdminLog: function(){
-        adminLogStore=[]
-        clients.publishView('admin.html','default','adminLog',adminLogStore)
+        clients.adminLogStore=[]
+        clients.publishView('admin.html','default','adminLog',clients.adminLogStore)
     },
     
     startAdminLog: function(){
-        adminLogging=true
+        clients.adminLogging=true
     },
     stopAdminLog: function(){
-        adminLogging=false
+        clients.adminLogging=false
     },
     
 	setLastUser:function(connection,data){
@@ -408,7 +408,7 @@ var onMessageFuncs = {
                     viewName:'admin.html',
                     subViewName:'default',
                     viewPart: 'adminLog',
-                    data: adminLogStore   
+                    data: clients.adminLogStore   
                 })
                 
             break;

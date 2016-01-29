@@ -1,5 +1,105 @@
 
-var SplitMoves = function(clients,timeNow) {
+
+var SplitMoves = function(clients,timeNow,Engine,mongo) {
+    
+    var mongodb=mongo.mongodb
+    var cn=mongo.cn
+    
+    var moveInTable=Engine.moveInTable
+
+
+    
+    var MoveToSend = function(moveCoord, index, dbTableWithMoveTask, splitMoveId) {
+
+        var moveTask = dbTableWithMoveTask.moveTask
+        
+        this.mod=moveTask.mod
+
+        this.moveIndex = index
+
+        this.moveCoords = moveCoord //one move only
+
+        this.sharedData = moveTask.sharedData
+
+        this.sharedData.origTable = dbTableWithMoveTask.table
+
+        this.sharedData.gameNum = dbTableWithMoveTask._id
+
+        this.sharedData.desiredDepth = moveTask.sharedData.desiredDepth
+
+        this.sharedData.splitMoveID = splitMoveId
+
+        this.timer = {}
+
+        this.history = []
+
+    }
+    
+        
+    var Task = function(command, data, message, taskNum) {
+
+        var rnd = Math.random()
+        this.rnd = rnd
+
+        if (taskNum) {
+            this.taskNum = taskNum
+        }
+        else {
+            this.taskNum = rnd
+        }
+
+
+
+        this.command = command
+        this.message = message
+        this.data = data
+        this.response = {}
+
+        var fstTime = new Date()
+            .getTime()
+
+        this.created = fstTime
+        this.called = fstTime
+
+
+
+
+    }
+        
+
+    var SplitMove = function(dbTableWithMoveTask) {
+
+        this.started = new Date()
+
+        this.splitMoveIndex = undefined
+
+        this.splitMoveID = Math.random() * Math.random()
+
+        var movesToSend = []
+
+        dbTableWithMoveTask.moveTask.moveCoords.forEach(function(moveCoord, index) {
+
+            movesToSend.push(new MoveToSend(moveCoord, index, dbTableWithMoveTask, this.splitMoveID))
+
+        })
+
+        this.movesToSend = movesToSend //this will get empty as we send the moves out for processing
+
+        this.moves = movesToSend.slice() //this should stay full
+
+        this.thinkers = [] //this will get filled with the clients working on this splitmove
+
+        this.gameNum = dbTableWithMoveTask._id
+
+        this.origTable = dbTableWithMoveTask.table
+
+        this.origMoveTask = dbTableWithMoveTask.moveTask
+
+        this.pendingMoveCount = dbTableWithMoveTask.moveTask.moveCoords.length
+
+    }
+
+    var adminLog=clients.adminLog
 
 	var store = {
 
@@ -1112,4 +1212,8 @@ var SplitMoves = function(clients,timeNow) {
 		return store.q.length
 	}
 
+}
+
+module.exports={
+    withClient:SplitMoves
 }

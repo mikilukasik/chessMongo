@@ -6,37 +6,6 @@ var admins=[
 			'a-pc'
 		]
 
-var adminLogging=false
-
-var findUsersGameIndex = function(gameNo, games) {
-
-	for (var i = games.length - 1; i >= 0; i--) {
-		if (games[i].gameNo == gameNo) return i
-	}
-	return -1
-}
-
-var adminLogStore=[]
-
-var adminLog=function(){
-   if(adminLogging){
-        var addLine=''
-    for(var i=0;i<arguments.length;i++){
-    
-        addLine=addLine.concat(arguments[i]+' ')
-    
-    }
-   
-        
-  
-    adminLogStore.push(addLine)
-   
-    clients.publishView('admin.html','default','adminLog',adminLogStore)
-    
-   }
-     console.log(addLine)
-}
-
 var userFuncs = {
 
 	removeDisplayedGame: function(connection, data) {

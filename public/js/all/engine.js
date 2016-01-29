@@ -1668,3 +1668,7 @@ function getHitScores(origTable, wNext, flipIt, wPlayer, mod) {
 	return result // 65536
 
 }//
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined')module.exports={
+    moveInTable:moveInTable
+}

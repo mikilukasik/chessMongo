@@ -5,6 +5,8 @@ var fs = require('fs');
 var mongodb = require('mongodb');
 var http = require('http')
 var WebSocketServer = require('websocket').server;
+var SplitMoves = require('./public/js/server/splitMoves.js')
+var Engine=require('./public/js/all/engine.js')
 
 var ObjectID = mongodb.ObjectID
 
@@ -25,21 +27,6 @@ var wsServer = new WebSocketServer({
 	path: '/sockets/'
 });
 
-
-
-var updateDbClients = function() {
-
-}
-
-var registerNewClient = function() {
-
-}
-
-var registerUser = function() {
-
-}
-
-
 eval(fs.readFileSync('public/js/all/classes.js') + '');
 eval(fs.readFileSync('public/js/all/engine.js') + '');
 eval(fs.readFileSync('public/js/all/brandNewAi.js') + '');
@@ -47,12 +34,13 @@ eval(fs.readFileSync('public/js/all/brandNewAi.js') + '');
 
 eval(fs.readFileSync('public/js/server/clients.js') + '');
 
-eval(fs.readFileSync('public/js/server/splitMoves.js') + '');
+//eval(fs.readFileSync('public/js/server/splitMoves.js') + '');
 
 
 var clients = new Clients()
+var cn = 'mongodb://localhost:17890/chessdb'
 
-var splitMoves = new SplitMoves(clients)
+var splitMoves = new SplitMoves.withClient(clients,new Date(),Engine,{mongodb:mongodb,cn:cn})
 
 var mainStore={
     lobbyChat:[]
@@ -103,7 +91,6 @@ app.use(bodyParser.urlencoded({
 app.use(express.static('public'))
 app.use(morgan("combined"))
 
-var cn = 'mongodb://localhost:17890/chessdb'
 
 var t1const = 11
 var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
