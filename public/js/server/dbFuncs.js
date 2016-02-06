@@ -66,6 +66,15 @@ var dbFuncs = {
                     connection.addedData.speedStats=doc.speedStats
                     
                 }
+				
+				if(doc.learnerCount){
+					
+					connection.addedData.learnerCount=doc.learnerCount
+					clients.send(connection,'setLearnerCount',doc.learnerCount)
+					
+				}
+				
+				
                 
                  connection.addedData.currentState='idle'
 			}

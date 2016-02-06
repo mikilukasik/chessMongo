@@ -13,7 +13,7 @@ var PendingThinker=function(){
             lastUser:'pending..',
             currentState:'busy',
             speed:0.00000001,
-			learnerCount:0
+			//learnerCount:0
             
             }
             
@@ -98,8 +98,6 @@ var Clients=function(){
 			connection:connection
 		})
 		
-		
-		//console.log('after login',knownClients.onlineUsers)
 		this.publishOnlineUsers()
 	}
 	

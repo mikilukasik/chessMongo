@@ -96,6 +96,8 @@ var onMessageFuncs = {
 		}
 		var sendToConnection=clients.fromStore(fakeConnection)
 		
+		sendToConnection.addedData.learnerCount=data.learnerCount
+		
 		clients.send(sendToConnection,'setLearnerCount',data.learnerCount)
 		
 		
