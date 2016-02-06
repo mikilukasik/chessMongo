@@ -70,26 +70,19 @@
 					
 					<button ng-click="adminButtons('runClientSpeedTest',x)">speedTest</button>
 					<button ng-click="adminButtons('refreshBrowser',x)">refreshBrowser</button>
+					<br>
+					<label>Learners:</label><select ng-init="selectTemp=x.learnerCount" ng-model="selectTemp" ng-change="adminButtons('learnerCount',x,selectTemp)">
+							<option value="0">0</option>
+							
+							<option value="1">1</option>
+							<option value="2">2</option>
+							
+						</select>
+						
 					
 			</td>
 		</tr>
-		<!--<tr>
-			<td class="atd">connectionID</td>
-			<td class="atd"  ng-repeat="x in clients track by $index">
-					
-					{{x.connectionID}}
-				
-			</td>
-			
-		</tr><tr>
-			<td class="atd">clientMongoId</td>
-			<td class="atd"  ng-repeat="x in clients track by $index">
-					
-					{{x.clientMongoId}}
-				
-			</td>
-			
-		</tr>-->
+		
 		<tr>
 			<td class="atd">speed</td>
 			<td class="atd"  ng-repeat="x in clients track by $index">

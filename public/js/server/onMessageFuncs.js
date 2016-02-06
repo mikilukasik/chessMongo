@@ -87,6 +87,19 @@ var onMessageFuncs = {
 		//clients.send(sendToConnection,'setLastUser',data.setLastUserTo)
 		
 	},
+	
+	learnerCount:function(connection,data){
+		var fakeConnection={
+			addedData:{
+				connectionID:data.connectionID
+			}
+		}
+		var sendToConnection=clients.fromStore(fakeConnection)
+		
+		clients.send(sendToConnection,'setLearnerCount',data.learnerCount)
+		
+		
+	},
     
     lobbyChat: function(connection,data){
         

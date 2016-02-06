@@ -12,7 +12,8 @@ var PendingThinker=function(){
             connectionID:Math.random(),
             lastUser:'pending..',
             currentState:'busy',
-            speed:0.00000001
+            speed:0.00000001,
+			learnerCount:0
             
             }
             
@@ -149,13 +150,11 @@ var Clients=function(){
 	}
 	
 	this.publishOnlineUsers=function(){
-		//console.log('engem hivtak',this.getOnlineUsers())
+		
 		this.publishView('lobby.html','default','onlineUsers',this.getOnlineUsers())
 	}
 	
-	// this.getOnlineUsers=function(){
-	// 	return knownClients.onlineUsers
-	// }
+	
 	
 	var findOnlineUserIndex=function(name){
 		
@@ -190,6 +189,7 @@ var Clients=function(){
 		if(dontPush){
 			//for when destroying
 		}else{
+			connection.addedData.learnerCount=0				//client just connected, isn't learning
 			knownClients.connectedSockets.push(connection)
 			return csLen
 		}	
@@ -207,10 +207,6 @@ var Clients=function(){
 		
 	this.send = function(connection, command, data, message, cb ,err) {
 	
-		////console.log('ittagond:<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<',connection)
-	
-		////console.log('connection writable:',connection.socket.writable)
-		// this.publishView('admin.html','default','clients',this.addedData())			//loops it!!!!!!!!!!!!!!!
 		
 		if(connection.socket&&connection.socket.writable) {
 			
@@ -238,8 +234,6 @@ var Clients=function(){
 	
 	this.sendToAll = function(command, data, message, cb ,err) {
 	
-		////console.log('connection writable:',connection.socket.writable)
-		// this.publishView('admin.html','default','clients',this.addedData())			//loops it!!!!!!!!!!!!!!!
 		
 		for (var i=knownClients.connectedSockets.length-1;i>=0;i--){
 			
@@ -297,7 +291,7 @@ var Clients=function(){
 	
 	
 	this.publishAddedData=function(){
-		////console.log('3333333333333333333333333333333333333333333333333333333333333333333333333333')
+		
 		this.publishView('admin.html','default','clients',this.addedData())
 	}
 		
@@ -318,7 +312,7 @@ var Clients=function(){
     }
 	
 	this.publishView = function(viewName,subViewName,viewPart,data) {
-		////console.log('viewPop called',viewName,viewPart)
+
 		var viewIndex= findViewIndex(viewName)
 		
 		var subViewIndex= findSubViewIndex(viewIndex,subViewName)
@@ -386,8 +380,6 @@ var Clients=function(){
 	
 	this.addViewer=function(viewName, subViewName, viewParts, connection){
 		
-		//connection must have .addedData.connectionID already
-		//////console.log(knownClients)
 		
 		connection = this.fromStore(connection)
 		//knownClients.connectedSockets[findConnectionIndex(connection)]		//will push it if has to, will return the stored one with local vars in it
@@ -445,9 +437,7 @@ var Clients=function(){
 		//connection must have .addedData.connectionID already
 		connection=this.fromStore(connection)
         
-       // console.log('updateSpeedStats(((((((((((((((((((((((((((('+index+'))))))))))))))))))))))))))))')
-        
-        //eval('if(!connection.addedData.'+arrayName+')connection.addedData.'+arrayName+'=[]')
+
 		if(!connection.addedData.speedStats)connection.addedData.speedStats=[]
         
         if(connection.addedData.speedStats[index]){
@@ -482,7 +472,7 @@ var Clients=function(){
 		var connectionIndex=findConnectionIndex(connection,true)	//true for destroying, no push
 		
 		connection = knownClients.connectedSockets.splice(connectionIndex,1)[0]//knownClients.connectedSockets[connectionIndex]		//will push it if has to, will return the stored one with local vars in it
-		////console.log('---------------->>>',connectionIndex,connection.addedData,'<<<----------------')
+
 		if(connection){
 			if(connection.addedData.viewing)removeViewer(connection.addedData.viewing.viewName,connection.addedData.viewing.subViewName,connection.addedData.viewing.viewParts,connection)
 		
@@ -492,14 +482,7 @@ var Clients=function(){
 				
 				connectionData.currentState='offline'
 		
-				//knownClients.offlineSockets.push(connectionData)
-				
-				//below function is from another file loaded before this script
-				
-				////console.log()
-				
 				if(!connectionData.stayLoggedIn){
-					//console.log('user disconnected, stayLoggedIn was oped out. Clearing login details for client.')
 					
 					connectionData.loggedInAs=undefined
 					
@@ -532,29 +515,20 @@ var Clients=function(){
                     result.push(knownClients.connectedSockets[i].addedData)
 				
                 }
-                
-				
-				// if(!knownClients.connectedSockets[i].socket.writable){
-				// 	result[i].speed='non-writable'
-				// }
-				
-				
-				
+               
 			}
 			
 		}
 		
 		result=result.concat(knownClients.offlineSockets)
-		
-		//console.log('ccccccccccccccccccccccccccccc::::::',knownClients.offlineSockets)
-		
+	
 		return result
 		
 		
 	}
 		
 	this.simpleKnownClients=function(){
-		////console.log('oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo	')
+		
 		var result=[]
 		
 		knownClients.views.forEach(function(view){
@@ -584,10 +558,6 @@ var Clients=function(){
 				
 				
 			})
-			
-			
-			
-			//var tempResult=
 			
 			result.push({
 					viewName:view.viewName,
@@ -717,7 +687,7 @@ this.simpleActiveViews=function(){
 		var speedArray = []
 		
 		knownClients.connectedSockets.forEach(function(connection){
-			//console.log(connection.addedData)
+			
 			
 			if(!connection.addedData.speed||isNaN(connection.addedData.speed))connection.addedData.speed=500//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			
@@ -736,7 +706,7 @@ this.simpleActiveViews=function(){
 	
 		var mx = speedArray.indexOf(Math.max.apply(Math, speedArray));
 	
-		//if () { //parameter true
+		
 			//hany szazalaka az osszes geperonek a fastest thinker
         
         if (speedArray.length == 0) {
@@ -758,14 +728,10 @@ this.simpleActiveViews=function(){
             
             
 	
-		//}
-	
 	};
 	//
 	this.sendTask=function(task, connection) {
 		
-		//var sentTo = ''
-	    
 		if (connection) {
 			
 			connection=this.fromStore(connection)
@@ -773,11 +739,9 @@ this.simpleActiveViews=function(){
 		}else{
 	
 			//get fastest available connection
-			
-			////console.log('a')		
+				
 			connection = this.fastestThinker()
-			////console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',connection,'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
-		      //console.log('(((((((((((((((((((((((',connection,')))))))))))))))))))))))')
+			
 		}
 	
     if(connection){		
@@ -793,15 +757,9 @@ this.simpleActiveViews=function(){
 			connection.addedData.currentState={}
 		}
 	
-		// if(task.command='splitMove'){
-		// 	connection.addedData.speed=connection.addedData.speed/100
-		// }
-	
-	
 		var timeNow=new Date()
 		
 		connection.addedData.currentState='busy'
-		//connection.addedData.currentState.lastSeen=timeNow
 		
 		var pushHistoryObject={
 			
@@ -811,14 +769,9 @@ this.simpleActiveViews=function(){
 			
 		}
 		
-		//if(connection.addedData.history.length>3)connection.addedData.history.shift()
-		//connection.addedData.history.push(pushHistoryObject)
 		
 		this.send(connection, 'task', task, 'task', function() {}, function() {})
 		
-	
-			//adminPop()!!!!!!!!!!!!!!!!!!!!!!!!!
-		////console.log('this ID:',connection.addedData.connectionID)
 		return connection.addedData.connectionID
 	
 	}else{
