@@ -11,7 +11,9 @@ var learnerFuncs={
             while(stopCount--){
                 console.log('stop a learner')
                 
+                var workerToStop=learnerGlobals.learnerWorkers.pop()
                 
+                workerToStop.terminate()
                 
                 //then
                 learnerGlobals.learnerCount--
@@ -29,7 +31,7 @@ var learnerFuncs={
                 
                 console.log('start a learner')
                 
-                
+                learnerGlobals.learnerWorkers.push(new Worker('js/worker/learnerWorker.js'))
                 
                 
                 learnerGlobals.learnerCount++
