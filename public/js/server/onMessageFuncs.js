@@ -99,6 +99,7 @@ var onMessageFuncs = {
 		sendToConnection.addedData.learnerCount=data.learnerCount
 		
 		clients.send(sendToConnection,'setLearnerCount',data.learnerCount)
+        clients.publishAddedData()
 		
 		
 	},

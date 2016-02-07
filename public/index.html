@@ -628,7 +628,6 @@
 
 							if (!($scope.lobbyPollNum == received.data.lobbypollnum)) {
 
-								//////console.log('polling lobby')
 
 								$scope.lobbyChatLines = received.data.lobbychat
 								$scope.players = received.data.players
@@ -642,11 +641,7 @@
 									return a.toLowerCase().localeCompare(b.toLowerCase());
 								});
 								$scope.lobbyPollNum = received.data.lobbyPollNum
-									//showLobby(lobbyChatLines, players, games, $scope.lobbyPollNum)
-									// 	if(!$scope.$$phase) {
-									// 	$scope.$apply()
-									// }
-
+									
 							}
 
 
@@ -695,7 +690,7 @@
                 if(!depth)depth=3
                 return singleThreadAi(testing.getDbTable(),depth)
             }
-            //testing.
+            
 			$rootScope.temp1={}
 			
 			$rootScope.alertButton=function(thisCase,passData){
@@ -764,17 +759,11 @@
 						})
 						console.log('jooo')
 					break;
-					// case 'Challenge player+Cancel':
-					// 	// $rootScope.alertData=undefined
-					// break;
-					
 					
 					
 				}
 				
 				$rootScope.alertData=undefined
-				//$scope.$destroy()
-					// console.log(thisCase)
 				
 			}
 			
@@ -785,20 +774,15 @@
 				if($rootScope.alertData&&$rootScope.alertData.alertID==alertID){
 					
 					if(countDown>0){
-						//console.log(countDown)
+						
 						$rootScope.alertCountDown=countDown
 						$timeout(function(){
 							$rootScope.autoButtonOnCountDown(alertID,countDown-1,callWithText)
 						},1000)
 					}else{
-						//if($rootScope.alertData&&$rootScope.alertData.alertID==alertID){
-							//t0, alert is still there
-							
+						
 							$rootScope.alertButton(callWithText)
-							
-						// }else{
-						// 	//alert is not there on t0
-						// }
+						
 					}
 				}
 			}
@@ -808,11 +792,10 @@
 				var alertID=Math.random()
 				
 				$rootScope.alertData={
-					// html:'html/alerts/challenging.html',
+					
 					h:heading,
 					p:paragraph,
-					
-					// li:[1,2,3],
+				
 					buttons:buttons,
 					passData:passData,
 					
@@ -822,34 +805,20 @@
 					
 				}
 				
-				$timeout(function(){
-					// console.log( "Handler for .focus() called." );
+				$timeout(function(){        //this should be some onload!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+					
 					 $( "#autoFoc" ).focus();
 				
 				},100) 
 				
 				$rootScope.autoButtonOnCountDown(alertID,countDown,heading+'+'+defaultButton)
-				
-				
-				
+			
 			}
 			
 	
 			
-			// $rootScope.alertData={
-			// 	// html:'html/alerts/challenging.html',
-			// 	h:'Challenge player',
-			// 	p:"You're about to challenge a player. Choose your color:",
-				
-			// 	// li:[1,2,3],
-			// 	button:['White','Black',"Opponent's choice","Random color",'Cancel']
-				
-			// }
-			//$rootScope.alertBox='html/alerts/challenging.html'
-			
-
 			if (!$rootScope.ran) {
-				console.log('egyszer?')
+				
 				$rootScope.loginVals = {
 					inOrOut: 'Login',
 					viewName: 'login.html'
@@ -889,25 +858,7 @@
 
 			}
 
-			//var poller={}
-
-			// ifWorkers(function(){
-
-			// 	// poller=new Worker('js/poller.js')
-			// 	// poller.onmessage = pollerMessage
-
-
-
-			// },function(){
-			// 	//no worker support
-
-
-
-			// })
-
-
-
-
+			
 			$rootScope.cookieId = cookieId
 
 			$rootScope.setID = function(id) {
@@ -1157,10 +1108,10 @@
 						break;
 
 				}
-				//console.log('a')
+				
 				if (cb) {
-					// console.log('a')
-					// cb()
+					
+					cb()
 				}
 
 			}
@@ -1186,19 +1137,16 @@
 
 			var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
 
-			//$rootScope.loggedIn = false
 			$scope.lobbyPollNum = 0
 
-			$rootScope.pollNum = -2 //just in case
-
+			$rootScope.pollNum = -2 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			
 
 
 			$scope.askToStart = function(opponentsName) {
-				//console.log('asktostart')
+				
 				if (opponentsName != $rootScope.loginName) {
-					
-					// console.log('asktostart')
+				
 					$rootScope.alertUser('Challenge player',"You're about to challenge "+opponentsName+". Choose your color:",['White','Black',"Opponent's choice","Random color",'Cancel'],{
 						opponentsName:opponentsName
 					},10,'Cancel')
@@ -1227,27 +1175,16 @@
 					console.log('does apply')
 					$scope.$apply()
 
-				} //else{
-
-				// 	console.log('apply: try again in 3s')
-				// 	$interval($rootScope.applyIt(),3000)
-
-				// }
+				} 
 
 			}
 
 			$scope.quickGame = function(w,b) {
 
 
-				//$rootScope.showView('board.html',)
-
-				//$http.get('/startGame?w=' + $rootScope.loginName + "&b=" + 'Computer')
-
-				// $scope.opponentsName = 'Computer'
-
 				socketSend('quickGame', {
-					w: w,//$rootScope.loginName,
-					b: b//'Computer'
+					w: w,
+					b: b
 				}, 'startQuickGame for w:' + w +' b:'+b, function() {
 					console.log("'startGame' callback")
 				})
@@ -1266,28 +1203,7 @@
 
 			}
 
-			// $scope.pollLobby = function() {
-
-			// 	$scope.lobbyPromise = $interval(function() {
-
-			// 		//refreshLobby()
-			// 		if($rootScope.loginVals.viewName == 'lobby.html') {
-
-			// 			console.log("'getLobby'??")
-
-			// 		} else {
-
-
-			// 		}
-			// 	}, 1000); //setinterval stuff ends here
-
-			// }
-
-			// $scope.pollLobby()			//replaced with socketSend
-
-
-
-
+			
 			$scope.clickedItTrans = function(i, j) {
 				
 				var clickedField = [j, 8 - i]
@@ -1369,22 +1285,7 @@
 
 			$rootScope.showTable = function(cb) { //this will update the displayed table from the array
 
-				//shit i need to rotate it first
-
-				// for(var i=0;i<8;i++){
-				// 					for (var j=0;j<8;j++){
-				// 						var theSame=($rootScope.table[i][j][0]!=response.table[i][j][0])
-
-				// 						$rootScope.table[i][j]=response.table[i][j]
-
-				// 						if(theSame){
-
-				// 							$rootScope.table[i][j][15]=true
-				// 							//changed=true
-				// 						}
-				// 					}
-				// 				}
-
+				
 				var tt
 				if ($rootScope.sTable) {
 					tt = $rootScope.sTable
@@ -1394,9 +1295,6 @@
 					tt = new Dbtable(1, 2, 3).table
 				}
 
-
-				//if(!($rootScope.dbTable))$rootScope.dbTable={table:[]}
-				//console.log()
 				if ($rootScope.wPlayer) {
 
 					for (var i = 0; i < 8; i++) {
