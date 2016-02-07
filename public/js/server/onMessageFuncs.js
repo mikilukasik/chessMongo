@@ -88,6 +88,48 @@ var onMessageFuncs = {
 		
 	},
 	
+    addMod:function(connection,data){
+        
+        var fakeConnection={
+			addedData:{
+				connectionID:data.connectionID
+			}
+		}
+		var sendToConnection=clients.fromStore(fakeConnection)
+		
+        if(sendToConnection.addedData.mod){
+            sendToConnection.addedData.mod.push(data.addMod)
+        }else{
+            sendToConnection.addedData.mod=[data.addMod]
+        }
+		
+        clients.publishAddedData()
+      
+      
+        
+    },
+    
+    removeMod:function(connection,data){
+        
+         var fakeConnection={
+			addedData:{
+				connectionID:data.connectionID
+			}
+		}
+		var sendToConnection=clients.fromStore(fakeConnection)
+		
+        sendToConnection.addedData.mod.splice(data.removeModIndex,1)
+		
+        clients.publishAddedData()
+      
+        
+        
+        
+        
+        
+    },
+    
+    
 	learnerCount:function(connection,data){
 		var fakeConnection={
 			addedData:{

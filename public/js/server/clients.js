@@ -203,7 +203,10 @@ var Clients=function(){
 			//for when destroying
 		}else{
 			connection.addedData.learnerCount=0				//client just connected, isn't learning
-			knownClients.connectedSockets.push(connection)
+			connection.addedData.mod=[]
+            
+            
+            knownClients.connectedSockets.push(connection)
 			return csLen
 		}	
 		

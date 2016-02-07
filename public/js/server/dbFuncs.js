@@ -73,6 +73,13 @@ var dbFuncs = {
 					clients.send(connection,'setLearnerCount',doc.learnerCount)
 					
 				}
+                
+                if(doc.mod){
+					
+					connection.addedData.mod=doc.mod
+					//clients.send(connection,'setLearnerCount',doc.learnerCount)
+					
+				}
 				
 				
                 

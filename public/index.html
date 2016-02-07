@@ -355,6 +355,7 @@
             }
             
 			$rootScope.temp1={}
+            $scope.temp2={}
 			
 			$rootScope.alertButton=function(thisCase,passData){
 				
@@ -1042,6 +1043,7 @@
 			
 			
 			$scope.adminButtons=function(func,client,data){
+                
 				switch(func){
 					
 					case 'runClientSpeedTest':
@@ -1071,6 +1073,24 @@
 					
 					break;
 					
+                    case 'addMod':
+                    
+                        if(data!=''&&data!=undefined){
+                            client.addMod=data
+                            socketSend('addMod',client)
+                            data=''
+                        }
+                        
+                        // $rootScope.modToAdd=''
+                        
+                    break;
+                    
+                    case 'removeMod':
+                    
+                        client.removeModIndex=data
+                        socketSend('removeMod',client)
+                    
+                    break;
 					
 					
 					
