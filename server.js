@@ -12,6 +12,7 @@ var Engine=require('./public/js/all/engine.js')
 var ObjectID = mongodb.ObjectID
 
 var app = express()
+
 var httpServ = http.createServer(app)
 
 var server = httpServ.listen(3000, function() {
@@ -23,20 +24,31 @@ var server = httpServ.listen(3000, function() {
 });
 
 var wsServer = new WebSocketServer({
+    
 	httpServer: httpServ,
 	
 	path: '/sockets/'
+    
 });
 
+
+//change the below to require!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 eval(fs.readFileSync('public/js/all/classes.js') + '');
 eval(fs.readFileSync('public/js/all/engine.js') + '');
-eval(fs.readFileSync('public/js/all/brandNewAi.js') + '');
-
 
 eval(fs.readFileSync('public/js/server/clients.js') + '');
 
 
+
+//get rid of brandnewai !!!!!!!!!!!!!!!!!!!!
+eval(fs.readFileSync('public/js/all/brandNewAi.js') + '');
+
+
+
 var clients = new Clients()
+
+
+
 var cn = 'mongodb://localhost:17890/chessdb'
 
 var splitMoves = new SplitMoves.withClient(clients,new Date(),Engine,{mongodb:mongodb,cn:cn})
@@ -91,11 +103,11 @@ app.use(express.static('public'))
 app.use(morgan("combined"))
 
 
-var t1const = 11
+//var t1const = 11
 var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
 
-var lobbyPollNum = 0
-var lobbyChat = []
+// var lobbyPollNum = 0
+// var lobbyChat = []
 
 function createXData() {
 	
