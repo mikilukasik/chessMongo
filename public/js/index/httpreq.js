@@ -19,10 +19,10 @@ var getXhr = function(){
 			 	"Microsoft.XmlHttp"]
 
 		for(var i = 0, len = versions.length; i < len; i++) {
-		try {
-			xhr = new ActiveXObject(versions[i]);
-			break;
-		}
+            try {
+                xhr = new ActiveXObject(versions[i]);
+                break;
+            }
 			catch(e){}
 		} // end for
 	}
