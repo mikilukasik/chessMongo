@@ -33,10 +33,15 @@ var wsServer = new WebSocketServer({
 
 
 //change the below to require!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+eval(fs.readFileSync('public/js/server/clients.js') + '');
+
+var clients = new Clients()
+
+
 eval(fs.readFileSync('public/js/all/classes.js') + '');
 eval(fs.readFileSync('public/js/all/engine.js') + '');
 
-eval(fs.readFileSync('public/js/server/clients.js') + '');
 
 
 
@@ -45,7 +50,7 @@ eval(fs.readFileSync('public/js/all/brandNewAi.js') + '');
 
 
 
-var clients = new Clients()
+
 
 
 

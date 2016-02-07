@@ -38,23 +38,26 @@ var Clients=function(){
     
     this.adminLogStore=[]
 
+    var c=this
+
     this.adminLog=function(){
-    if(this.adminLogging){
-            var addLine=''
-        for(var i=0;i<arguments.length;i++){
         
-            addLine=addLine.concat(arguments[i]+' ')
-        
-        }
-    
+        if(c.adminLogging){
+                var addLine=''
+            for(var i=0;i<arguments.length;i++){
             
-    
-        this.adminLogStore.push(addLine)
-    
-        this.publishView('admin.html','default','adminLog',adminLogStore)
+                addLine=addLine.concat(arguments[i]+' ')
+            
+            }
         
-    }
-        console.log(addLine)
+                
+        
+            c.adminLogStore.push(addLine)
+        
+            c.publishView('admin.html','default','adminLog',c.adminLogStore)
+            console.log(addLine)
+        }
+        
     }
 
 
@@ -98,7 +101,7 @@ var Clients=function(){
 			connection:connection
 		})
 		
-		this.publishOnlineUsers()
+		c.publishOnlineUsers()
 	}
 	
 	this.getOnlineUsers=function(){
@@ -130,7 +133,7 @@ var Clients=function(){
 		var userIndex=findOnlineUserIndex(name)
 		if(userIndex!=-1){
 			knownClients.onlineUsers.splice(userIndex,1)
-			this.publishOnlineUsers()		
+			c.publishOnlineUsers()		
 		}
 		
 	
@@ -149,7 +152,7 @@ var Clients=function(){
 	
 	this.publishOnlineUsers=function(){
 		
-		this.publishView('lobby.html','default','onlineUsers',this.getOnlineUsers())
+		c.publishView('lobby.html','default','onlineUsers',c.getOnlineUsers())
 	}
 	
 	
@@ -197,10 +200,10 @@ var Clients=function(){
 	
 	this.sendByName= function(name, command, data, message, cb ,err) {
 	
-		var connection=this.getConnectionByName(name)
+		var connection=c.getConnectionByName(name)
 		//console.log('ittagond:<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<',name)
 	
-		this.send(connection, command, data, message, cb ,err)
+		c.send(connection, command, data, message, cb ,err)
 	}
 		
 	this.send = function(connection, command, data, message, cb ,err) {
@@ -290,7 +293,7 @@ var Clients=function(){
 	
 	this.publishAddedData=function(){
 		
-		this.publishView('admin.html','default','clients',this.addedData())
+		c.publishView('admin.html','default','clients',c.addedData())
 	}
 		
     this.getIdleClientConnections=function(){
@@ -379,7 +382,7 @@ var Clients=function(){
 	this.addViewer=function(viewName, subViewName, viewParts, connection){
 		
 		
-		connection = this.fromStore(connection)
+		connection = c.fromStore(connection)
 		//knownClients.connectedSockets[findConnectionIndex(connection)]		//will push it if has to, will return the stored one with local vars in it
 		
 		var viewIndex= findViewIndex(viewName)
@@ -414,7 +417,7 @@ var Clients=function(){
 	this.storeVal=function(connection,property,value){
 		
 		//connection must have .addedData.connectionID already
-		connection=this.fromStore(connection)
+		connection=c.fromStore(connection)
 		
         eval("(connection.addedData."+property+"=value)")
 		
@@ -423,7 +426,7 @@ var Clients=function(){
     this.storeValInArray=function(connection,arrayName,index,value){
 		
 		//connection must have .addedData.connectionID already
-		connection=this.fromStore(connection)
+		connection=c.fromStore(connection)
         
         eval('if(!connection.addedData.'+arrayName+')connection.addedData.'+arrayName+'=[]')
 		
@@ -433,7 +436,7 @@ var Clients=function(){
 	this.updateSpeedStats=function(connection,index,value){
 		
 		//connection must have .addedData.connectionID already
-		connection=this.fromStore(connection)
+		connection=c.fromStore(connection)
         
 
 		if(!connection.addedData.speedStats)connection.addedData.speedStats=[]
@@ -465,7 +468,7 @@ var Clients=function(){
 		
 		//connection must have .addedData.connectionID already
 		
-		this.logoff(connection)
+		c.logoff(connection)
 		
 		var connectionIndex=findConnectionIndex(connection,true)	//true for destroying, no push
 		
@@ -732,13 +735,13 @@ this.simpleActiveViews=function(){
 		
 		if (connection) {
 			
-			connection=this.fromStore(connection)
+			connection=c.fromStore(connection)
 			
 		}else{
 	
 			//get fastest available connection
 				
-			connection = this.fastestThinker()
+			connection = c.fastestThinker()
 			
 		}
 	
@@ -768,7 +771,7 @@ this.simpleActiveViews=function(){
 		}
 		
 		
-		this.send(connection, 'task', task, 'task', function() {}, function() {})
+		c.send(connection, 'task', task, 'task', function() {}, function() {})
 		
 		return connection.addedData.connectionID
 	
