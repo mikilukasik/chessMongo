@@ -32,6 +32,14 @@ var getXhr = function(){
 
 function simpleGet(url, callback, ecb) {
 	
+    if(!callback){
+        callback=function(){}
+    }
+    
+    if(!ecb){
+        ecb=function(){}
+    }
+    
 	var xhr=getXhr();
 
 	xhr.onreadystatechange = ensureReadiness;

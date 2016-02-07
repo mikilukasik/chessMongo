@@ -34,8 +34,14 @@ var learnerFuncs={
                 var workerToPush=new Worker('js/worker/learnerWorker.js')
                 
                 //set onmessage
+                workerToPush.onmessage=function(event){
+                    
+                }
                 
-                
+                workerToPush.postMessage({
+                    command:'start',
+                    host:document.location.host
+                }) 
                 
                 
                 

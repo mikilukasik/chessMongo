@@ -72,7 +72,7 @@
 					<button ng-click="adminButtons('refreshBrowser',x)">refreshBrowser</button><br>
 					<br>
 					<label>Learners:</label>{{x.learnerCount}} 
-                        <button ng-click="adminButtons('learnerCount',x,x.learnerCount+1)">+</button><button ng-click="adminButtons('learnerCount',x,x.learnerCount-1)">-</button><button ng-click="adminButtons('learnerCount',x,0)">Stop</button>
+                        <button ng-click="adminButtons('learnerCount',x,x.learnerCount+1)">+</button><button ng-if="x.learnerCount>0" ng-click="adminButtons('learnerCount',x,x.learnerCount-1)">-</button><button ng-if="x.learnerCount>0" ng-click="adminButtons('learnerCount',x,0)">Stop</button>
 						
 						
 					
@@ -122,7 +122,15 @@
 	</div>
 
 
+<h3>Learners:</h3>
 
+    <table class="atable">
+        <tr ng-repeat="x in learners">
+            <td ng-repeat="y in x">
+                {{y}}
+            </td>
+        </tr>
+    </table>
 
 <h3>Views:</h3>
 

@@ -27,9 +27,11 @@ var wsServer = new WebSocketServer({
     
 	httpServer: httpServ,
 	
-	path: '/sockets/'
+	//path: '/sockets/'
     
 });
+
+
 
 
 //change the below to require!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
