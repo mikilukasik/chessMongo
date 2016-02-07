@@ -591,9 +591,11 @@
 
 
 								$rootScope.$on('$includeContentLoaded', function() {
-									$rootScope.updateSizes(function() {
-										console.log('updatesizes lefutott')
-									})
+									$rootScope.updateSizes(
+										function() {
+											console.log('updatesizes lefutott')
+										}
+									)
 								});
 											
 								
@@ -929,15 +931,11 @@
 
 			$rootScope.updateSizes = function(cb) {
 
-				// var docuWidth=~~($(document).width()/1)
+				
 
 				console.log('updateSizes')
 
-				//$('a').css({'font-size':docuWidth});
-				//set nav sizes here!!!!!!!!!!!!!!!!!!!!!
-
-
-
+				
 				var sw = window.innerWidth
 				var sh = window.innerHeight
 
@@ -1015,9 +1013,6 @@
 							'height': (sh - sbh - 75) + 'px'
 						});
 
-						// $('.dtext').css({
-						// 	'font-size': '1em'
-						// });
 
 						break;
 
@@ -1066,10 +1061,7 @@
 							'height': (sh - sbh + 112) + 'px'
 						});
 
-						// $('.dtext').css({
-						// 	'font-size': '1em'
-						// });
-
+						
 
 						break;
 
@@ -1117,9 +1109,7 @@
 							'height': (sh - sbh - 82) + 'px'
 						});
 
-						// $('.dtext').css({
-						// 	'font-size': '1.2em'
-						// });
+						
 
 						break;
 
@@ -1163,15 +1153,15 @@
 						});
 
 
-						// $('.dtext').css({
-						// 	'font-size': '1.5em'
-						// });
 
 						break;
 
 				}
-
-				if (cb) cb()
+				//console.log('a')
+				if (cb) {
+					// console.log('a')
+					// cb()
+				}
 
 			}
 
@@ -1219,11 +1209,9 @@
 					
 					
 				}
-					//$http.get('/startGame?w=' + $rootScope.loginName + "&b=" + opponentsName)
-
+					
 			}
-
-			/// 
+ 
 
 			$scope.askToWatch = function(gameID) {
 

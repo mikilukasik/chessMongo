@@ -71,13 +71,17 @@
 					<button ng-click="adminButtons('runClientSpeedTest',x)">speedTest</button>
 					<button ng-click="adminButtons('refreshBrowser',x)">refreshBrowser</button>
 					<br>
-					<label>Learners:</label><select ng-init="selectTemp=x.learnerCount" ng-model="selectTemp" ng-change="adminButtons('learnerCount',x,selectTemp)">
-							<option value="0">0</option>
-							
-							<option value="1">1</option>
-							<option value="2">2</option>
-							
-						</select>
+					<label>Learners:</label>
+					
+					<select ng-model="selectTemp" ng-change="adminButtons('learnerCount',x,selectTemp)">
+						<option value="0" ng-selected="{{x.learnerCount==0}}">0</option>
+						
+						<option value="1" ng-selected="{{x.learnerCount==1}}">1</option>
+						<option value="2" ng-selected="{{x.learnerCount==2}}">2</option>
+						
+					</select><br>
+					<label>Active learners:</label>{{x.learnerCount}}
+						
 						
 					
 			</td>
