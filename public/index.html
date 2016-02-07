@@ -1502,8 +1502,11 @@
 					break;
 					
 					case 'learnerCount':
-						client.learnerCount=data
-						socketSend('learnerCount',client)
+                        if(data>=0){
+                           client.learnerCount=Number(data)
+					   	   socketSend('learnerCount',client)
+                        }
+						
 					
 					break;
 					

@@ -69,18 +69,10 @@
 			<td class="atd"  ng-repeat="x in clients track by $index">
 					
 					<button ng-click="adminButtons('runClientSpeedTest',x)">speedTest</button>
-					<button ng-click="adminButtons('refreshBrowser',x)">refreshBrowser</button>
+					<button ng-click="adminButtons('refreshBrowser',x)">refreshBrowser</button><br>
 					<br>
-					<label>Learners:</label>
-					
-					<select ng-model="selectTemp" ng-change="adminButtons('learnerCount',x,selectTemp)">
-						<option value="0" ng-selected="{{x.learnerCount==0}}">0</option>
-						
-						<option value="1" ng-selected="{{x.learnerCount==1}}">1</option>
-						<option value="2" ng-selected="{{x.learnerCount==2}}">2</option>
-						
-					</select><br>
-					<label>Active learners:</label>{{x.learnerCount}}
+					<label>Learners:</label>{{x.learnerCount}} 
+                        <button ng-click="adminButtons('learnerCount',x,x.learnerCount+1)">+</button><button ng-click="adminButtons('learnerCount',x,x.learnerCount-1)">-</button><button ng-click="adminButtons('learnerCount',x,0)">Stop</button>
 						
 						
 					
@@ -125,15 +117,7 @@
 				
 			</td>
 		</tr>
-		<!--<tr>
-			<td class="atd">history</td>	
-			<td class="atd"  ng-repeat="x in clients track by $index">
-					
-					{{x.history}}
-				
-			</td>
-		</tr>
-		-->
+		
 	</table>
 	</div>
 
@@ -249,17 +233,13 @@
                           </td>
                           <td>
                               <progress  max='100' value="{{y.progress*(1-y.addProgress)+(100*y.addProgress)}}">
-								
-                             
-                              <!--{{y.progress}}-->
+							
                           </td>
                           <td>
                              
                               {{y.beBackIn}}
                           </td>
-                          
-                          <!--<td ng-repeat="z in y">{{z}}
-                            </td>-->
+                       
                     </tr>
                     </table>
                   
@@ -269,16 +249,6 @@
               
               
           </td>
-<!--          
-          <td class="atd" ><div ng-repeat="y in x.moves" ng-class="{makeGreen: y.done , makeRed: !y.done }"><span>{{$index}}</span><span><div ng-repeat="z in y.history">{{z}}</div></span></div></td>
-		
-		  <td class="atd" ><div ng-repeat="y in x.thinkers">
-              {{y}}
-              
-              </div></td>-->
-		  
-		
-
 			
 		</tr>
 		
