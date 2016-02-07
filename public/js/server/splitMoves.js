@@ -211,7 +211,7 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
 
 	this.add = function(dbTableWithMoveTask) {
         
-        adminLog('######################new move, game ',dbTableWithMoveTask._id,'#########################################')
+        adminLog('----->   new splitmove, game ',dbTableWithMoveTask._id)
 
 		var splitMove = new SplitMove(dbTableWithMoveTask)
 
@@ -231,11 +231,12 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
 
 			if (thinker.addedData.currentState == 'busy') {
 
-				adminLog('============================all busy, storing in new PendingThinker()')
+				adminLog('NO AVAILABLE THINKER: all busy, storing in new PendingThinker()')
                 
                 thinker=new PendingThinker()
+                
 				sendAll = true
-					//break;
+				
 
 			}
             
@@ -293,7 +294,7 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
             //progress = 100
         }
 
-		var willMove = false
+		
 
 		if (false){//data.final) {
 
@@ -390,6 +391,8 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
 	}
     
     this.processResults=function(data,qIndex,tIndex,connection){
+        
+        //var willMove = false
 
         var noNaked = false
         
@@ -438,19 +441,18 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
 
                     })
 
-                    willMove = true
+                    //willMove = true
 
                     var tableInDb = store.q[qIndex].origTable
 
                     moveInTable(store.q[qIndex].moves[0].result.move, tableInDb)
 
-                    tableInDb.chat = [~~((timeNow - store.q[qIndex].started) / 10) / 100 + 'sec'] //1st line in chat is timeItTook
+                    tableInDb.chat = [~~((timeNow - store.q[qIndex].started) / 10) / 100 + 'sec'+Number(timeNow) +' '+Number(store.q[qIndex].started)] //1st line in chat is timeItTook
 
                     store.q[qIndex].moves.forEach(function(returnedMove) {
 
                         tableInDb.chat = tableInDb.chat.concat({
 
-                            // hex: returnedMove.result.value.toString(16),
                             score: returnedMove.result.value,
 
                             moves: returnedMove.result.moveTree,
@@ -462,8 +464,6 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
                     })
 
                     tableInDb.moveTask = {}
-
-                    //this.nakedQ()
 
                     mongodb.connect(cn, function(err2, db2) {
 
@@ -627,7 +627,7 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
 
 		splitMove.returnedMoves = []
 
-		//clients.publishView('board.html', dbTableWithMoveTask._id, 'busyThinkers', [])
+		
 		clients.publishAddedData()
 
 	}
