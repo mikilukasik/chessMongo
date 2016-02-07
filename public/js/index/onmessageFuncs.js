@@ -297,9 +297,11 @@ var wsOnmessageFunc= function(evt,$rootScope,$scope,ws) {
 
 								$scope.lobbyChatLines = received.data.lobbychat
 								$scope.players = received.data.players
-								$scope.players.unshift("Fastest thinker")
-								$scope.players.unshift("Computer")
-								$scope.players.unshift("Server")
+								// $scope.players.unshift("Fastest thinker")
+								// $scope.players.unshift("Computer")
+								// $scope.players.unshift("Server")
+
+                                //probably i don't need any of this!!!!!!!!!!!!!!!!!!!
 
 
 								$scope.games = received.data.games
