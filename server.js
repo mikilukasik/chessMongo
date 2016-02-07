@@ -31,7 +31,10 @@ var wsServer = new WebSocketServer({
     
 });
 
-
+var currentMod={
+    modType:'',
+    modVal:1
+}
 
 
 //change the below to require!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -103,11 +106,35 @@ wsServer.on('request', function(request) {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-	extended: false
+	extended: true
 }));
 
 app.use(express.static('public'))
 app.use(morgan("combined"))
+
+
+var router=express.Router()
+
+router.use(function(req, res, next) {
+    // do logging
+    console.log('Something is happening.');
+    next(); // make sure we go to the next routes and don't stop here
+});
+
+router.route('/mod').get(function(req,res){
+    console.log('get/mod')
+    res.json(currentMod)
+})
+
+router.get('/', function(req, res) {
+    res.json({ message: 'hooray! welcome to our api!' });   
+});
+
+// more routes for our API will happen here
+
+// REGISTER OUR ROUTES -------------------------------
+// all of our routes will be prefixed with /api
+app.use('/api', router);
 
 
 //var t1const = 11

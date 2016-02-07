@@ -40,7 +40,8 @@ var learnerFuncs={
                 
                 workerToPush.postMessage({
                     command:'start',
-                    host:document.location.host
+                    //host:document.location.host,
+                    myID:socketID
                 }) 
                 
                 

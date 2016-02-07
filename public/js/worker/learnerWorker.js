@@ -4,9 +4,19 @@ importScripts('../all/brandNewAi.js')
 importScripts('../worker/deepening.js')
 importScripts('../index/httpreq.js')
 
-var getModData=function(){
-    simpleGet('/modData',function(ret){
-        console.log('ret:',ret)
+//var modData={}
+
+var myID=''
+
+var playModGame=function(mod){
+    console.log('Starting modded game:',mod)
+}
+
+var play=function(){
+    simpleGet('/api/mod?id='+myID,function(ret){
+        
+        playModGame(ret.response)
+        
     })
 }
 
@@ -25,7 +35,8 @@ onmessage = function(event){
             
             console.log('starting learner')
             
-            getModData()
+            myID=event.data.myID
+            play()
             
             //sockets(event.data.host)
         
