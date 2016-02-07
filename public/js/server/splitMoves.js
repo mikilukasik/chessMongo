@@ -393,6 +393,8 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
     this.processResults=function(data,qIndex,tIndex,connection){
         
         //var willMove = false
+        
+        var timeNow=new Date();
 
         var noNaked = false
         
