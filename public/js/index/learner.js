@@ -31,7 +31,16 @@ var learnerFuncs={
                 
                 console.log('start a learner')
                 
-                learnerGlobals.learnerWorkers.push(new Worker('js/worker/learnerWorker.js'))
+                var workerToPush=new Worker('js/worker/learnerWorker.js')
+                
+                //set onmessage
+                
+                
+                
+                
+                
+                
+                learnerGlobals.learnerWorkers.push(workerToPush)
                 
                 
                 learnerGlobals.learnerCount++
