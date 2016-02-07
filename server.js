@@ -123,7 +123,10 @@ router.use(function(req, res, next) {
 
 router.route('/mod').get(function(req,res){
     console.log('get/mod')
-    res.json(currentMod)
+    
+    var sendMod=clients.getMod(req.query.id)
+    
+    res.json(sendMod)
 })
 
 router.get('/', function(req, res) {

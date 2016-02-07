@@ -104,6 +104,18 @@ var Clients=function(){
 		c.publishOnlineUsers()
 	}
 	
+    this.getMod=function(connectionID){
+        
+        var connection=c.fromStore({
+            addedData:{connectionID:connectionID}
+        })
+        
+        
+        return{
+            a:connection.addedData.mod
+        }
+    }
+    
 	this.getOnlineUsers=function(){
 		//console.log('meghivtak.')
 		var result=[]
