@@ -49,14 +49,16 @@ var initRouter=function(router,app){
         if(req.body._id==-1){
             //new game
             
-            
+            startGame(req.body.wName, req.body.bName, {}, true,function(initedTable){
+                res.json({_id:initedTable._id})
+            })
             
             
             
         }
         
         
-        res.json({ok:1})
+        
         
         
     })
