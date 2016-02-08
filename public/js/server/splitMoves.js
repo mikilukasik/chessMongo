@@ -449,7 +449,7 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
 
                     moveInTable(store.q[qIndex].moves[0].result.move, tableInDb)
 
-                    tableInDb.chat = [~~((timeNow - store.q[qIndex].started) / 10) / 100 + 'sec'+Number(timeNow) +' '+Number(store.q[qIndex].started)] //1st line in chat is timeItTook
+                    tableInDb.chat = [~~((timeNow - store.q[qIndex].started) / 10) / 100 + 'sec'] //1st line in chat is timeItTook
 
                     store.q[qIndex].moves.forEach(function(returnedMove) {
 
