@@ -166,9 +166,9 @@
         </tr>   
         <tr ng-repeat="z in allMods track by $index">
             
-            <td>{{z.modName}}</td>
-            <td><form><input ng-model="z.min"><button>Set</button></form></td>
-            <td><form><input ng-model="z.max"><button>Set</button></form></td>
+            <td>{{z.modType}}</td>
+            <td><form ng-submit="adminButtons('setModValMin',{},{min:z.min,index:$index})"><input ng-model="z.min"><button>Set</button></form></td>
+            <td><form ng-submit="adminButtons('setModValMax',{},{max:z.max,index:$index})"><input ng-model="z.max"><button>Set</button></form></td>
             <td><button ng-click="adminButtons('removeFromAllMods',{},$index)">Remove</button></td>
         
         </tr>

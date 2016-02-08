@@ -9,7 +9,7 @@ serverGlobals.findInAllMods=function(what){
     
     while(counter--){
         
-        if(serverGlobals.allMods[counter].modName==what)return counter
+        if(serverGlobals.allMods[counter].modType==what)return counter
         
     }
     
@@ -20,6 +20,14 @@ serverGlobals.findInAllMods=function(what){
 serverGlobals.getModLimits=function(modType){
     
     var index=serverGlobals.findInAllMods(modType)
+    
+    if(index<0){
+        return {
+            modType:modType,
+            min:0,
+            max:100
+        }
+    }
     
     return(serverGlobals.allMods[index])
     

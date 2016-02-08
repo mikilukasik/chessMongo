@@ -1087,6 +1087,18 @@
                     
                     break;
                     
+                    case 'setModValMin':
+                        client.setModValMin=data
+                        socketSend('setModValMin',client)
+                    
+                    break;
+                    
+                    case 'setModValMax':
+                        client.setModValMax=data
+                        socketSend('setModValMax',client)
+                    
+                    break;
+                    
                     case 'addMod':
                     
                         if(data!=''&&data!=undefined){

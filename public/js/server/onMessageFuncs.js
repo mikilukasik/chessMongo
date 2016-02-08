@@ -100,7 +100,7 @@ var onMessageFuncs = {
             
             console.log(index)
             
-            serverGlobals.allMods.push({modName:data.addMod,min:0,max:100})
+            serverGlobals.allMods.push({modType:data.addMod,min:0,max:100})
             clients.publishView('admin.html','default','allMods',serverGlobals.allMods)
             
         }
@@ -153,6 +153,35 @@ var onMessageFuncs = {
     removeFromAllMods:function(connection,data){
         serverGlobals.allMods.splice(data,1)
         clients.publishView('admin.html','default','allMods',serverGlobals.allMods)
+        
+    },
+    
+    setModValMin:function(connection,data){
+      
+      console.log('modvalmin',data.setModValMin)
+      
+      var index=data.setModValMin.index
+      var min=data.setModValMin.min
+      
+      serverGlobals.allMods[index].min=min
+      
+      clients.publishView('admin.html','default','allMods',serverGlobals.allMods)
+      
+      
+        
+    },
+    setModValMax:function(connection,data){
+      
+      console.log('modvalmax',data.setModValMax)
+      
+      var index=data.setModValMax.index
+      var max=data.setModValMax.max
+      
+      serverGlobals.allMods[index].max=max
+      
+      clients.publishView('admin.html','default','allMods',serverGlobals.allMods)
+      
+      
         
     },
     
