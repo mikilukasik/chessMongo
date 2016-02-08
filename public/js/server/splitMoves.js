@@ -320,7 +320,7 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
             }
 
 			beBackAt = Number(timeNow) + beBackIn
-            adminLog('bebackat:::',beBackAt)
+            //adminLog('bebackat:::',beBackAt)
 
 		}
 
@@ -852,7 +852,7 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
         
        
         
-        if(data.final){
+        if(data.final&&thinker){
             adminLog('--------------------------START--------------------------------')
             thinker.progress=100
             adminLog('final returned from',connection.addedData.lastUser)
@@ -923,6 +923,8 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
 		clients.publishView('board.html', dbTable._id, 'dbTable.moves', dbTable.moves)
 
 	}
+    
+    
 
 	var getAssistData = function(qIndex, tIndex, timeNow) {
 
@@ -941,14 +943,28 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
 
 				var accuBackIn = thinkerInMove.beBackAt - timeNow
                 
-                adminLog('accubackin',accuBackIn,'timeNow',timeNow,'thinkerInMove.beBackAt',thinkerInMove.beBackAt)
+                
+                
+               
+                if(thinkerInMove.sentMoves[0])adminLog('assistData for',thinkerInMove.sentMoves[0].sentToName ,'accubackin',accuBackIn,'timeNow',timeNow,'thinkerInMove.beBackAt',thinkerInMove.beBackAt)
 
 				if (accuBackIn > 1000) {
 
 					var diff = thinkerInMove.beBackIn - accuBackIn
-					var percDone = diff / thinkerInMove.beBackIn
+                    
+                    adminLog('diff: ',diff,'tinmove.bbin',thinkerInMove.beBackIn)
+                    
+					var percDone
+                    
+                    if(thinkerInMove.beBackIn==10000000){
+                        percDone = 0
+                    }else{
+                        percDone = diff / thinkerInMove.beBackIn
+                    }
 
 					var guessedMovesLeft = (1 - percDone) * thinkerInMove.movesLeft
+                    adminLog('gmovesleft',guessedMovesLeft,'(1 - percDone)',(1 - percDone))
+
 
 					if (guessedMovesLeft < 1) {
 
