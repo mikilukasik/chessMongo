@@ -41,6 +41,7 @@ var currentMod={
 
 //change the below to require!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+eval(fs.readFileSync('public/js/server/routerFuncs.js') + '');
 eval(fs.readFileSync('public/js/server/clients.js') + '');
 
 var clients = new Clients()
@@ -119,44 +120,10 @@ app.use(morgan("combined"))
 
 var router=express.Router()
 
-router.use(function(req, res, next) {
-    // do logging
-    //console.log('Something is happening.');
-    next(); // make sure we go to the next routes and don't stop here
-});
+
+initRouter(router,app);
 
 
-
-router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });   
-});
-
-app.use('/api', router);
-
-router.route('/mod/type').get(function(req,res){
-    
-    var sendMod=clients.getMod(req.query.id)
-    
-    if(sendMod=='default'){
-        res.json(serverGlobals.defaultMod)
-    }else{
-        res.json(sendMod)
-    }
-    
-    
-    
-})
-
-router.route('/mod/limits').get(function(req,res){
-    
-    var modLimits=serverGlobals.getModLimits(req.query.mod)
-    
-    
-    
-    res.json(modLimits)
-    
-    
-})
 
 //var t1const = 11
 var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
