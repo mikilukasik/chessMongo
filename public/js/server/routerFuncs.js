@@ -44,8 +44,16 @@ var initRouter=function(router,app){
         
     router.route('/modGame').post(function(req,res){
         
-        console.log('modGame in router:',req.body)
+        console.log('modGame post in router:',req.body._id)
         
+        if(req.body._id==-1){
+            //new game
+            
+            
+            
+            
+            
+        }
         
         
         res.json({ok:1})

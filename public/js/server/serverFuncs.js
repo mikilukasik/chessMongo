@@ -114,7 +114,9 @@ var userFuncs = {
 
 }
 
-var startGame = function(w, b, connection, aiGame) {
+var startGame = function(w, b, connection, aiGame, idCb) {
+    
+    if(!idCb)idCb=function(){}
 
 	var wConnection = clients.getConnectionByName(w)
 	var bConnection = clients.getConnectionByName(b)
@@ -139,7 +141,7 @@ var startGame = function(w, b, connection, aiGame) {
 					.save(xData, function(err, doc) {
 
 						var initedTable = new Dbtable(firstFreeTable, w, b)
-
+                        
 						//console.log(w,b,'----------------------  ----------------------  ----------------------  ')
 
 						// //console.log(initedTable)
@@ -187,6 +189,8 @@ var startGame = function(w, b, connection, aiGame) {
 
 										db.collection("tables")
 											.insert(initedTable, function(err, doc) {
+                                                
+                                                idCb(initedTable)
 
 												if (w && w != 'Computer') {
 

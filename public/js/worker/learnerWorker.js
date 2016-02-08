@@ -62,10 +62,10 @@ var playModGamePair=function(mod,scndGame){
     
     if (wModded) { //this tells us if wmodded
 				
-        initedTable = new Dbtable(1, mod.modType + " mod: " + mod.modVal, "standard")
+        initedTable = new Dbtable(-1, mod.modType + " mod: " + mod.modVal, "standard")
     } else {
         
-        initedTable = new Dbtable(1, "standard", mod.modType + " mod: " + mod.modVal)
+        initedTable = new Dbtable(-1, "standard", mod.modType + " mod: " + mod.modVal)
 
 
     }
@@ -74,7 +74,7 @@ var playModGamePair=function(mod,scndGame){
     initedTable.learnedOn = learnerGlobals.myID
     
     
-    		simplePost('/api/modGame?w=' + initedTable.wName + "&b=" + initedTable.bName,{},function(response) {
+    		simplePost('/api/modGame',initedTable,function(response) {
                     
                     
                     //console.log('response:',response)
