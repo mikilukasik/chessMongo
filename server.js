@@ -125,7 +125,7 @@ router.use(function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
 });
 
-router.route('/mod').get(function(req,res){
+router.route('/mod/type').get(function(req,res){
     
     var sendMod=clients.getMod(req.query.id)
     
@@ -135,6 +135,15 @@ router.route('/mod').get(function(req,res){
         res.json(sendMod)
     }
     
+    
+    
+})
+
+router.route('/mod/limits').get(function(req,res){
+    
+    var modLimits=serverGlobals.getModLimits(req.query.mod)
+    
+    res.json(modLimits)
     
     
 })

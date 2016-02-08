@@ -17,5 +17,12 @@ serverGlobals.findInAllMods=function(what){
     
 }
     
-
+serverGlobals.getModLimits=function(modType){
+    
+    var index=serverGlobals.findInAllMods(modType)
+    
+    return(serverGlobals.allMods[index])
+    
+}
+    
     

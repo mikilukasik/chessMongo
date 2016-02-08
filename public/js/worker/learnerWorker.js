@@ -13,9 +13,18 @@ var playModGame=function(mod){
 }
 
 var play=function(){
-    simpleGet('/api/mod?id='+myID,function(ret){
+    simpleGet('/api/mod/type?id='+myID,function(ret){
         
-        playModGame(ret.response)
+        var resp=JSON.parse( ret.response)
+        
+        var modType=resp[~~(resp.length*Math.random())]
+        simpleGet('/api/mod/limits?mod='+modType,function(ret2){
+            var mod=JSON.parse(ret2.response)
+            
+            playModGame(mod)
+        })
+        
+        
         
     })
 }
