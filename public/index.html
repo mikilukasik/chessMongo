@@ -1079,6 +1079,12 @@
 					
 					break;
 					
+                    case 'removeFromAllMods':
+                    
+                        socketSend('removeFromAllMods',data)
+                    
+                    break;
+                    
                     case 'addMod':
                     
                         if(data!=''&&data!=undefined){

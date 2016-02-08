@@ -150,6 +150,12 @@ var onMessageFuncs = {
         
     },
     
+    removeFromAllMods:function(connection,data){
+        serverGlobals.allMods.splice(data,1)
+        clients.publishView('admin.html','default','allMods',serverGlobals.allMods)
+        
+    },
+    
     removeMod:function(connection,data){
         
         if(data.connectionID=='default'){

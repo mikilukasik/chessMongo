@@ -108,13 +108,17 @@ var Clients=function(){
         
         var connection=c.fromStore({
             addedData:{connectionID:connectionID}
-        },true) //true means nopush
-        
-        if(!connection.addedData.customModCheckbox)return 'default'
-        
-        return {
-            mod:connection.addedData.mod
+        },true)
+        if(connection){
+            if(!connection.addedData.customModCheckbox)return 'default'
+            
+            return {
+                mod:connection.addedData.mod
+            }
+        }else{
+            return 'default'
         }
+            
     }
     
 	this.getOnlineUsers=function(){
