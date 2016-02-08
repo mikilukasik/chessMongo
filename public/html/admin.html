@@ -134,7 +134,29 @@
 
 <h3>Learners:</h3>
     
-    <label>all mods:</label><span ng-repeat="z in allMods track by $index"><span ng-if="$index!=0">,</span>{{z}}</span>
+    <label>all mods:</label>
+    <table class="atable">
+        <tr>
+            <td>
+                mod
+            </td>
+            <td>
+                min
+            </td>
+            <td>
+                max
+            </td>
+        </tr>   
+        <tr ng-repeat="z in allMods track by $index">
+            
+            <td>{{z.modName}}</td>
+            <td><form><input ng-model="z.min"><button>Set</button></form></td>
+            <td><form><input ng-model="z.max"><button>Set</button></form></td>
+            
+        
+        </tr>
+    
+    </table>
     <br>
     <label>default mods:</label><span ng-repeat="z in defaultMod track by $index"><span ng-if="$index!=0">,</span>{{z}}<button ng-click="adminButtons('removeMod',{connectionID:'default'},$index)">-</button></span>
 					<br>
