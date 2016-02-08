@@ -1,6 +1,22 @@
 var globals={
-    defaultMod:[]
+    defaultMod:[],
+    allMods:[],
+    
 }
+
+var findInAllMods=function(what){
+    var counter=globals.allMods.length
+    
+    while(counter--){
+        
+        if(globals.allMods[counter].modName==what)return counter
+        
+    }
+    
+    return counter
+    
+}
+
 
 var express = require('express');
 var morgan = require('morgan');

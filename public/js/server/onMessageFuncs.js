@@ -94,12 +94,30 @@ var onMessageFuncs = {
 	
     addMod:function(connection,data){
         
+        var index=findInAllMods(data.addMod)
+        
+        if(index<0){
+            
+            console.log(index)
+            
+            globals.allMods.push({modName:data.addMod,min:0,max:100})
+            clients.publishView('admin.html','default','allMods',globals.allMods)
+            
+        }
+        
+        
+        
         if(data.connectionID=='default'){
             
-            globals.defaultMod.push(data.addMod)
+            if(globals.defaultMod.indexOf(data.addMod)<0){
+                
+                 globals.defaultMod.push(data.addMod)
+                
+                clients.publishView('admin.html','default','defaultMod',globals.defaultMod)
+                           
+            }
             
-            clients.publishView('admin.html','default','defaultMod',globals.defaultMod)
-            
+           
         }else{
             
             var fakeConnection={
@@ -110,12 +128,19 @@ var onMessageFuncs = {
             var sendToConnection=clients.fromStore(fakeConnection)
 
             if(sendToConnection.addedData.mod){
-                sendToConnection.addedData.mod.push(data.addMod)
+                
+                if(sendToConnection.addedData.mod.indexOf(data.addMod)<0){
+                    sendToConnection.addedData.mod.push(data.addMod)
+                    clients.publishAddedData()
+                }
+                
+                
             }else{
                 sendToConnection.addedData.mod=[data.addMod]
+                clients.publishAddedData()
             }
 
-            clients.publishAddedData()
+            
 
             
         }
@@ -568,6 +593,13 @@ var onMessageFuncs = {
                     subViewName:'default',
                     viewPart: 'defaultMod',
                     data: globals.defaultMod   
+                })
+                
+                clients.send(connection,'updateView',{
+                    viewName:'admin.html',
+                    subViewName:'default',
+                    viewPart: 'allMods',
+                    data: globals.allMods   
                 })
                 
             break;
