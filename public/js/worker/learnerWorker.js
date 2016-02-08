@@ -77,7 +77,7 @@ var playModGamePair=function(mod,scndGame){
     		simplePost('/api/modGame',initedTable,function(response) {
                     
                     
-                    console.log('response:',response.response)
+                    console.log('starting modded game _id:',JSON.parse( response.response)._id)
 
 
 					initedTable._id = response.response._id

@@ -46,11 +46,15 @@ var initRouter=function(router,app){
         
         console.log('modGame post in router:',req.body._id)
         
-        if(req.body._id==-1){
+        var dbTable=req.body
+        
+        if(dbTable._id==-1){
             //new game
             
-            startGame(req.body.wName, req.body.bName, {}, true,function(initedTable){
-                res.json({_id:initedTable._id})
+            startGame(dbTable.wName, dbTable.bName, {}, true,function(initedTable){
+                dbTable=initedTable
+                res.json({_id:dbTable._id})
+                
             })
             
             
