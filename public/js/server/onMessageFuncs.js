@@ -94,14 +94,14 @@ var onMessageFuncs = {
 	
     addMod:function(connection,data){
         
-        var index=findInAllMods(data.addMod)
+        var index= serverGlobals.findInAllMods(data.addMod)
         
         if(index<0){
             
             console.log(index)
             
-            globals.allMods.push({modName:data.addMod,min:0,max:100})
-            clients.publishView('admin.html','default','allMods',globals.allMods)
+            serverGlobals.allMods.push({modName:data.addMod,min:0,max:100})
+            clients.publishView('admin.html','default','allMods',serverGlobals.allMods)
             
         }
         
@@ -109,11 +109,11 @@ var onMessageFuncs = {
         
         if(data.connectionID=='default'){
             
-            if(globals.defaultMod.indexOf(data.addMod)<0){
+            if(serverGlobals.defaultMod.indexOf(data.addMod)<0){
                 
-                 globals.defaultMod.push(data.addMod)
+                 serverGlobals.defaultMod.push(data.addMod)
                 
-                clients.publishView('admin.html','default','defaultMod',globals.defaultMod)
+                clients.publishView('admin.html','default','defaultMod',serverGlobals.defaultMod)
                            
             }
             
@@ -154,9 +154,9 @@ var onMessageFuncs = {
         
         if(data.connectionID=='default'){
             
-            globals.defaultMod.splice(data.removeModIndex,1)
+            serverGlobals.defaultMod.splice(data.removeModIndex,1)
             
-            clients.publishView('admin.html','default','defaultMod',globals.defaultMod)
+            clients.publishView('admin.html','default','defaultMod',serverGlobals.defaultMod)
             
         }else{
             
@@ -592,14 +592,14 @@ var onMessageFuncs = {
                     viewName:'admin.html',
                     subViewName:'default',
                     viewPart: 'defaultMod',
-                    data: globals.defaultMod   
+                    data: serverGlobals.defaultMod   
                 })
                 
                 clients.send(connection,'updateView',{
                     viewName:'admin.html',
                     subViewName:'default',
                     viewPart: 'allMods',
-                    data: globals.allMods   
+                    data: serverGlobals.allMods   
                 })
                 
             break;

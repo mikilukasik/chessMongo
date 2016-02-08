@@ -1,21 +1,3 @@
-var globals={
-    defaultMod:[],
-    allMods:[],
-    
-}
-
-var findInAllMods=function(what){
-    var counter=globals.allMods.length
-    
-    while(counter--){
-        
-        if(globals.allMods[counter].modName==what)return counter
-        
-    }
-    
-    return counter
-    
-}
 
 
 var express = require('express');
@@ -66,6 +48,7 @@ var clients = new Clients()
 
 eval(fs.readFileSync('public/js/all/classes.js') + '');
 eval(fs.readFileSync('public/js/all/engine.js') + '');
+eval(fs.readFileSync('public/js/server/serverGlobals.js') + '');
 
 
 
@@ -116,6 +99,7 @@ wsServer.on('request', function(request) {
 	
 	connection.on('close', function(connection2) {
 		
+        
 		clients.destroy(connection)
 
 		clients.publishView('admin.html', 'default', 'activeViews', clients.simpleKnownClients())
@@ -146,7 +130,7 @@ router.route('/mod').get(function(req,res){
     var sendMod=clients.getMod(req.query.id)
     
     if(sendMod=='default'){
-        res.json(globals.defaultMod)
+        res.json(serverGlobals.defaultMod)
     }else{
         res.json(sendMod)
     }

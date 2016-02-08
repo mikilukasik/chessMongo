@@ -342,7 +342,13 @@
 
 		appModule.controller("ApplicationController", ApplicationController)	
 			
-
+        appModule.filter('reverse', function() {
+            return function(items) {
+                return items.slice().reverse();
+            };
+        });
+        
+        
 		function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
 			
             testing.getDbTable=function(){

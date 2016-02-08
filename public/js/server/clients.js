@@ -108,7 +108,7 @@ var Clients=function(){
         
         var connection=c.fromStore({
             addedData:{connectionID:connectionID}
-        })
+        },true) //true means nopush
         
         if(!connection.addedData.customModCheckbox)return 'default'
         
@@ -389,9 +389,9 @@ var Clients=function(){
 		return len
 	}
 	
-	this.fromStore=function(connection){
+	this.fromStore=function(connection,dontPush){
 		
-		return knownClients.connectedSockets[findConnectionIndex(connection)]
+		return knownClients.connectedSockets[findConnectionIndex(connection,dontPush)]
 		
 	}
 	
@@ -488,15 +488,23 @@ var Clients=function(){
 		
 		var connectionIndex=findConnectionIndex(connection,true)	//true for destroying, no push
 		
+        
 		connection = knownClients.connectedSockets.splice(connectionIndex,1)[0]//knownClients.connectedSockets[connectionIndex]		//will push it if has to, will return the stored one with local vars in it
 
+        
+
 		if(connection){
+            
+            
 			if(connection.addedData.viewing)removeViewer(connection.addedData.viewing.viewName,connection.addedData.viewing.subViewName,connection.addedData.viewing.viewParts,connection)
-		
+		 
 			var connectionData=connection.addedData
 			
 			if(connectionData){
 				
+                console.log('destroying connection',connection.addedData)
+        
+                
 				connectionData.currentState='offline'
 		
 				if(!connectionData.stayLoggedIn){
