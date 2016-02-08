@@ -81,7 +81,7 @@ var dbFuncs = {
 					
 				}
 				
-				
+				connection.addedData.customModCheckbox=doc.customModCheckbox
                 
                  connection.addedData.currentState='idle'
 			}

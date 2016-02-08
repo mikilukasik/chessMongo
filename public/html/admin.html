@@ -76,15 +76,16 @@
         
         <tr>
 			<td class="atd">learners</td>
+            
 			<td nowrap class="atd"  ng-repeat="x in clients track by $index">
 					
 					
 					<label>active:</label>{{x.learnerCount}} 
                         <button ng-click="adminButtons('learnerCount',x,x.learnerCount+1)">+</button><button ng-if="x.learnerCount>0" ng-click="adminButtons('learnerCount',x,x.learnerCount-1)">-</button><button ng-if="x.learnerCount>0" ng-click="adminButtons('learnerCount',x,0)">Stop</button>
 						<hr>
-                    <label>mods:</label><span ng-repeat="z in x.mod track by $index">{{z}}<button ng-click="adminButtons('removeMod',x,$index)">-</button>,</span>
+                    <input type="checkbox" ng-model="x.customModCheckbox" ng-change="adminButtons('customModCheckbox',x,x.customModCheckbox)"><label>custom mods</label><span ng-if="x.customModCheckbox">:<span ng-repeat="z in x.mod track by $index"><span ng-if="$index!=0">,</span>{{z}}<button ng-click="adminButtons('removeMod',x,$index)">-</button></span>
 					<br>
-                    <form ng-submit="adminButtons('addMod',x,x.modToAdd)"><input ng-model="x.modToAdd"><button>Add mod</button></form>
+                    <form ng-submit="adminButtons('addMod',x,x.modToAdd)"><input ng-model="x.modToAdd"><button>Add mod</button></form></span>
 			</td>
 		</tr>
 		
@@ -132,6 +133,10 @@
 
 
 <h3>Learners:</h3>
+    
+    <label>default mods:</label><span ng-repeat="z in defaultMod track by $index"><span ng-if="$index!=0">,</span>{{z}}<button ng-click="adminButtons('removeMod',{connectionID:'default'},$index)">-</button></span>
+					<br>
+                    <form ng-submit="adminButtons('addMod',{connectionID:'default'},temp1.modToAdd)"><input ng-model="temp1.modToAdd"><button>Add mod</button></form>
 
     <table class="atable">
         <tr ng-repeat="x in learners">

@@ -1,3 +1,5 @@
+
+
 var registerUser = function(name, pwd, connection) {
 
         mongodb.connect(cn, function(err, db) {
@@ -36,6 +38,8 @@ var registerUser = function(name, pwd, connection) {
 
 
     }
+
+
 
 var onMessageFuncs = {
     
@@ -90,6 +94,74 @@ var onMessageFuncs = {
 	
     addMod:function(connection,data){
         
+        if(data.connectionID=='default'){
+            
+            globals.defaultMod.push(data.addMod)
+            
+            clients.publishView('admin.html','default','defaultMod',globals.defaultMod)
+            
+        }else{
+            
+            var fakeConnection={
+                addedData:{
+                    connectionID:data.connectionID
+                }
+            }
+            var sendToConnection=clients.fromStore(fakeConnection)
+
+            if(sendToConnection.addedData.mod){
+                sendToConnection.addedData.mod.push(data.addMod)
+            }else{
+                sendToConnection.addedData.mod=[data.addMod]
+            }
+
+            clients.publishAddedData()
+
+            
+        }
+        
+       
+      
+        
+    },
+    
+    removeMod:function(connection,data){
+        
+        if(data.connectionID=='default'){
+            
+            globals.defaultMod.splice(data.removeModIndex,1)
+            
+            clients.publishView('admin.html','default','defaultMod',globals.defaultMod)
+            
+        }else{
+            
+            
+            var fakeConnection={
+                addedData:{
+                    connectionID:data.connectionID
+                }
+            }
+            var sendToConnection=clients.fromStore(fakeConnection)
+            
+            sendToConnection.addedData.mod.splice(data.removeModIndex,1)
+            
+            clients.publishAddedData()
+      
+        
+        
+        
+        
+            
+        }
+        
+        
+        
+        
+    },
+    
+    customModCheckbox:function(connection,data){
+        
+        
         var fakeConnection={
 			addedData:{
 				connectionID:data.connectionID
@@ -97,32 +169,12 @@ var onMessageFuncs = {
 		}
 		var sendToConnection=clients.fromStore(fakeConnection)
 		
-        if(sendToConnection.addedData.mod){
-            sendToConnection.addedData.mod.push(data.addMod)
-        }else{
-            sendToConnection.addedData.mod=[data.addMod]
-        }
+            //console.log('@@@@@@@@@@@@@',data.customModCheckbox)
+            sendToConnection.addedData.customModCheckbox=data.customModCheckbox
+        
 		
         clients.publishAddedData()
       
-      
-        
-    },
-    
-    removeMod:function(connection,data){
-        
-         var fakeConnection={
-			addedData:{
-				connectionID:data.connectionID
-			}
-		}
-		var sendToConnection=clients.fromStore(fakeConnection)
-		
-        sendToConnection.addedData.mod.splice(data.removeModIndex,1)
-		
-        clients.publishAddedData()
-      
-        
         
         
         
@@ -509,6 +561,13 @@ var onMessageFuncs = {
                     subViewName:'default',
                     viewPart: 'adminLog',
                     data: clients.adminLogStore   
+                })
+                
+                clients.send(connection,'updateView',{
+                    viewName:'admin.html',
+                    subViewName:'default',
+                    viewPart: 'defaultMod',
+                    data: globals.defaultMod   
                 })
                 
             break;

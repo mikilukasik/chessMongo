@@ -110,9 +110,10 @@ var Clients=function(){
             addedData:{connectionID:connectionID}
         })
         
+        if(!connection.addedData.customModCheckbox)return 'default'
         
-        return{
-            a:connection.addedData.mod
+        return {
+            mod:connection.addedData.mod
         }
     }
     

@@ -1,3 +1,7 @@
+var globals={
+    defaultMod:[]
+}
+
 var express = require('express');
 var morgan = require('morgan');
 var bodyParser = require("body-parser");
@@ -122,11 +126,17 @@ router.use(function(req, res, next) {
 });
 
 router.route('/mod').get(function(req,res){
-    console.log('get/mod')
     
     var sendMod=clients.getMod(req.query.id)
     
-    res.json(sendMod)
+    if(sendMod=='default'){
+        res.json(globals.defaultMod)
+    }else{
+        res.json(sendMod)
+    }
+    
+    
+    
 })
 
 router.get('/', function(req, res) {
