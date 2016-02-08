@@ -876,10 +876,7 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
             }else{
                 
                 connection.addedData.currentState='idle'
-                //buggy
-                // clients.sendTask(new Task('forgetSplitMoves', {
-                //     gameID:gameID
-                // }, 'move is solved already'), connection)
+                
             
             }
             
@@ -896,7 +893,7 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
                     gameID:gameID
                 }, 'thinker not in q'), connection)
                 
-                    connection.addedData.currentState='idle'
+                connection.addedData.currentState='idle'
             
        		} else {
 
