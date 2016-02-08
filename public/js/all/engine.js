@@ -1569,9 +1569,9 @@ function getHitScores(origTable, wNext, flipIt, wPlayer, mod) {
 	
 	
     var fwV=1
-    
+    //console.log(mod)
     if(mod&&mod.modType==='fwV'){
-        fwV=mod.modVal
+        fwV=mod.modConst
         
     }
     
@@ -1631,10 +1631,11 @@ function getHitScores(origTable, wNext, flipIt, wPlayer, mod) {
 				////////found my piece/////////
 				////////get all my moves and places i protect
                 if(origTable[lookI][lookJ][1]==1){
-                    var fvWmp=lookJ
-                    
-                    if(wPlayer)fvWmp=7-fvWmp
-                    pawnVal+= fvWmp * fwV//*myCMplyer
+                   if(c==1){
+                       pawnVal+=7-lookJ
+                   }else{
+                       pawnVal+=lookJ
+                   }
                 }
                 newCanMove(lookI, lookJ, c, origTable, protectedArray, iHitCoords, myprotectScore) //newCanMove will protect the table
                 //and append all my hits to iHitCoords
@@ -1643,11 +1644,12 @@ function getHitScores(origTable, wNext, flipIt, wPlayer, mod) {
 
 				if (origTable[lookI][lookJ][0] != 0) { ////////found opponent's piece/////////												
 					if(origTable[lookI][lookJ][1]==1){
-                        
-                        var fvWmp=lookJ
-                    
-                        if(wPlayer)fvWmp=7-fvWmp
-                        pawnVal+= fvWmp * fwV//*myCMplyer
+                        if(nc==1){
+                            pawnVal-=7-lookJ
+                        }else{
+                            pawnVal-=lookJ
+                        }
+                            
                     }//pawnVal+=lookJ * fwV //*myCMplyer
                     newCanMove(lookI, lookJ, nc, origTable, protectedArray, heHitsCoords, hisprotectScore)
 				}
@@ -1708,10 +1710,12 @@ function getHitScores(origTable, wNext, flipIt, wPlayer, mod) {
 	var protecScore=myprotectScore[0]-hisprotectScore[0]
 	var allhitScore=myAllHit-hisAllHit
     //console.log(wPlayer)
-    if(wPlayer){
+    // if(wPlayer){
         
-        pawnVal*=-1
-    }
+    //     pawnVal*=-1
+    // }
+    
+    pawnVal*=fwV
 	
 	var result = new Int32Array(1)
 	result[0] = (myBestHit * 65536) - (hisBestHit * 4096)

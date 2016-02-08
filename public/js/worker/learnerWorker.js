@@ -10,7 +10,7 @@ var learnerGlobals={
 }
 
 
-var playGame=function(myGame, mod, wNx, wMod, modConst){
+var playGame=function(myGame, mod, wNx, wMod){
     console.log('playGame called with args:',arguments)
     
     var result = []
@@ -42,10 +42,10 @@ var playGame=function(myGame, mod, wNx, wMod, modConst){
     
 }
 
-var prePlayGame = function(myGame, mod, wNx, wMod, modConst) {
+var prePlayGame = function(myGame, mod, wNx, wMod) {
 
 			if (learnerGlobals.playing) {
-				playGame(myGame, mod, wNx, wMod, modConst)
+				playGame(myGame, mod, wNx, wMod)
 			}
 		}
 
@@ -77,14 +77,14 @@ var playModGamePair=function(mod,scndGame){
     		simplePost('/api/modGame?w=' + initedTable.wName + "&b=" + initedTable.bName,{},function(response) {
                     
                     
-                    console.log('response:',response)
+                    //console.log('response:',response)
 
 
 					initedTable._id = response.response._id
 
 					//$scope.sendMessage('learning ' + modType + ' on t' + initedTable._id + ", wModded: " + wModded)
 				
-					var modConst = getMcFromMv(mod.modVal)
+					mod.modConst = getMcFromMv(mod.modVal)
 
 					// $http.get('/learnerPoll?n=' + $scope.sendID +
 					// 	'&t=' + initedTable._id +
@@ -93,9 +93,9 @@ var playModGamePair=function(mod,scndGame){
 						
 					// )
 
-					initedTable.modConst = modConst
+					//initedTable.modConst = mod.modConst
 
-					prePlayGame(initedTable, mod, true, wModded,modConst) //true stands for wNext
+					prePlayGame(initedTable, mod, true, wModded) //true stands for wNext
 				
                 }, function(data) {
                     
