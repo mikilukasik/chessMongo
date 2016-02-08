@@ -5,19 +5,39 @@ importScripts('../worker/deepening.js')
 importScripts('../index/httpreq.js')
 
 var learnerGlobals={
-    playing:false
+    playing:false,
+    myID:undefined
 }
 
 
-var playModGamePair=function(mod,secondGame){
+var playModGamePair=function(mod,scndGame){
     
-    console.log('Starting modded game:',mod,'isSecond:',secondGame)
-    
-    
+    console.log('Starting modded game:',mod,'isSecond:',scndGame)
     
     
     
+    /////////////////////////copied from old thinker
     
+    var initedTable = {}
+
+    var wModded = !scndGame// true
+    //if (scndGame) wModded = false
+    
+    if (wModded) { //this tells us if wmodded
+				
+        initedTable = new Dbtable(1, mod.modType + " mod: " + mod.modVal, "standard")
+    } else {
+        
+        initedTable = new Dbtable(1, "standard", mod.modType + " mod: " + mod.modVal)
+
+
+    }
+
+    initedTable.learnerGame = true
+    initedTable.learnedOn = learnerGlobals.myID
+    
+    
+
     
 
     
