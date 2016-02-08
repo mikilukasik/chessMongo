@@ -1699,7 +1699,7 @@ function getHitScores(origTable, wNext, flipIt, wPlayer, mod) {
 		if (thisValue > hisBestHit) { //remember best
 
 			hisBestHit = thisValue
-
+//
 		}
 		
 		hisAllHit+=thisValue
