@@ -75,6 +75,10 @@ function simpleGet(url, callback, ecb) {
 	
 	
 function simplePost(url, postThis, callback, ecb) {
+    
+    if(!ecb){
+        ecb=function(){}
+    }
 	
 	var xhr=getXhr();
 
@@ -86,6 +90,7 @@ function simplePost(url, postThis, callback, ecb) {
 		}
 			
 		if(xhr.status !== 200) {
+            console.log('error with status')
 			ecb(xhr);
 		}else{
 
@@ -97,6 +102,7 @@ function simplePost(url, postThis, callback, ecb) {
 				
 			}else{
 				
+                console.log('error with readystate')
 				ecb(xhr);
 				
 			}	

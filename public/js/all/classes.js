@@ -231,20 +231,22 @@ var SmallMoveTask = function(moveCoord, index, dbTable) { //deptObj has data to 
 
 }
 
-var ResolverItem=function(inscore,inmoveTree){
-
+var ResolverItem=function(inscore,inmoveTree,wPlayer){
 	this.value= inscore,
 	this.moveTree= inmoveTree
+    
+    this.wPlayer=wPlayer
 
 }
 
-var TriggerItem=function(depth,moveTree){		//these will be put in main deepeningTaskArray to trigger calculation of totals for each level
+var TriggerItem=function(depth,moveTree,wPlayer){		//these will be put in main deepeningTaskArray to trigger calculation of totals for each level
 	this.trItm=true
 	
 	
 	this.depth=depth
 	//this.parentMove=parentMoveStr			//4 char string
 	this.moveTree=moveTree
+    this.wPlayer=wPlayer
 }
 
 

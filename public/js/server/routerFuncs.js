@@ -2,8 +2,7 @@ var initRouter=function(router,app){
         
         
     router.use(function(req, res, next) {
-        // do logging
-        //console.log('Something is happening.');
+       
         next(); // make sure we go to the next routes and don't stop here
     });
 
@@ -15,6 +14,8 @@ var initRouter=function(router,app){
 
     app.use('/api', router);
 
+
+    
 
     router.route('/mod/type').get(function(req,res){
         
@@ -41,6 +42,15 @@ var initRouter=function(router,app){
         
     })
         
-    
+    router.route('/modGame').post(function(req,res){
+        
+        console.log('modGame in router:',req.body)
+        
+        
+        
+        res.json({ok:1})
+        
+        
+    })
     
 }

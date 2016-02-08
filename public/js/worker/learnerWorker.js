@@ -10,18 +10,55 @@ var learnerGlobals={
 }
 
 
+var playGame=function(myGame, mod, wNx, wMod, modConst){
+    console.log('playGame called with args:',arguments)
+    
+    var result = []
+    
+    
+    if (wNx == wMod) {
+        // result = singleThreadAi(myGame, modType, modConst, $scope.sendID) 
+        result = singleThreadAi(myGame,3,function(){},mod) 
+    } else {
+        result = singleThreadAi(myGame,3,function(){})
+    }
+    
+    console.log('result',result)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+}
+
+var prePlayGame = function(myGame, mod, wNx, wMod, modConst) {
+
+			if (learnerGlobals.playing) {
+				playGame(myGame, mod, wNx, wMod, modConst)
+			}
+		}
+
 var playModGamePair=function(mod,scndGame){
     
-    console.log('Starting modded game:',mod,'isSecond:',scndGame)
-    
-    
+   
     
     /////////////////////////copied from old thinker
     
     var initedTable = {}
 
-    var wModded = !scndGame// true
-    //if (scndGame) wModded = false
+    var wModded = !scndGame
+  
     
     if (wModded) { //this tells us if wmodded
 				
@@ -37,7 +74,39 @@ var playModGamePair=function(mod,scndGame){
     initedTable.learnedOn = learnerGlobals.myID
     
     
+    		simplePost('/api/modGame?w=' + initedTable.wName + "&b=" + initedTable.bName,{},function(response) {
+                    
+                    
+                    console.log('response:',response)
 
+
+					initedTable._id = response.response._id
+
+					//$scope.sendMessage('learning ' + modType + ' on t' + initedTable._id + ", wModded: " + wModded)
+				
+					var modConst = getMcFromMv(mod.modVal)
+
+					// $http.get('/learnerPoll?n=' + $scope.sendID +
+					// 	'&t=' + initedTable._id +
+					// 	'&modType=' + modType +
+					// 	'&modVal=' + modVal + '&p=' + modConst + '&a=' + $scope.mainThreadSpeed
+						
+					// )
+
+					initedTable.modConst = modConst
+
+					prePlayGame(initedTable, mod, true, wModded,modConst) //true stands for wNext
+				
+                }, function(data) {
+                    
+                    console.log('error:',data)
+
+                    
+					// $scope.headMessage = 'Connection error, refreshing'
+
+					// $scope.refreshWhenUp()
+
+				})
     
 
     

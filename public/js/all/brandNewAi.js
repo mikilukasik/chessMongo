@@ -840,20 +840,7 @@ var newAi = function(dbTable, modType, modConst, thinker) {
 
 }
 
-function getMcFromMv(modVal) {
-	//var modConst=getMcFromMv(modVal)  
 
-	var modConst = 1
-
-	if (modVal <= 50) {
-		modConst = modVal / 50
-	} else {
-		modConst = 1 / ((100 - modVal) / 50)
-	}
-	modConst = modConst * modConst * modConst
-
-	return modConst
-}
 
 function moveSorter(a, b) {
 	if (Number(b.score) > Number(a.score)) {

@@ -20,6 +20,20 @@ var objectToString=function(obj){
 
 /////////////////////// from old ai //////////////////////////
 
+function getMcFromMv(modVal) {
+	//var modConst=getMcFromMv(modVal)  
+
+	var modConst = 1
+
+	if (modVal <= 50) {
+		modConst = modVal / 50
+	} else {
+		modConst = 1 / ((100 - modVal) / 50)
+	}
+	modConst = modConst * modConst * modConst
+
+	return modConst
+}
 
 var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
 
@@ -1594,8 +1608,18 @@ function getHitScores(origTable, wNext, flipIt, wPlayer, mod) {
 	
 	var c = 1
 	var nc = 1
+    
+    // var myCMplyer=1
+    
+    // //console.log(wPlayer)
+    
+    // if(wPlayer){
+    //     console.log('wp')
+    //     myCMplyer=-1
+    // }
 	if (wNext) {
 		c++
+        //myCMplyer=-1
 	} else {
 		nc++
 	}
@@ -1606,15 +1630,25 @@ function getHitScores(origTable, wNext, flipIt, wPlayer, mod) {
 			if (origTable[lookI][lookJ][0] == c) {
 				////////found my piece/////////
 				////////get all my moves and places i protect
-                if(origTable[lookI][lookJ][1]==1)pawnVal+= lookJ * fwV
-                  
+                if(origTable[lookI][lookJ][1]==1){
+                    var fvWmp=lookJ
+                    
+                    if(wPlayer)fvWmp=7-fvWmp
+                    pawnVal+= fvWmp * fwV//*myCMplyer
+                }
                 newCanMove(lookI, lookJ, c, origTable, protectedArray, iHitCoords, myprotectScore) //newCanMove will protect the table
                 //and append all my hits to iHitCoords
                 //will increase myprotectscore, inaccurate!!!!!!!				
 			} else {
 
 				if (origTable[lookI][lookJ][0] != 0) { ////////found opponent's piece/////////												
-					if(origTable[lookI][lookJ][1]==1)pawnVal+=lookJ * fwV
+					if(origTable[lookI][lookJ][1]==1){
+                        
+                        var fvWmp=lookJ
+                    
+                        if(wPlayer)fvWmp=7-fvWmp
+                        pawnVal+= fvWmp * fwV//*myCMplyer
+                    }//pawnVal+=lookJ * fwV //*myCMplyer
                     newCanMove(lookI, lookJ, nc, origTable, protectedArray, heHitsCoords, hisprotectScore)
 				}
 			}
@@ -1673,8 +1707,11 @@ function getHitScores(origTable, wNext, flipIt, wPlayer, mod) {
 	
 	var protecScore=myprotectScore[0]-hisprotectScore[0]
 	var allhitScore=myAllHit-hisAllHit
-    
-    if(wPlayer)pawnVal*=-1
+    //console.log(wPlayer)
+    if(wPlayer){
+        
+        pawnVal*=-1
+    }
 	
 	var result = new Int32Array(1)
 	result[0] = (myBestHit * 65536) - (hisBestHit * 4096)

@@ -53,10 +53,10 @@ var MoveTaskN = function(dbTable,mod) {
         oppKingPos: whereIsTheKing(dbTable.table, !dbTable.wNext),
         origProtect: protectTable(dbTable.table, dbTable.wNext),
         origData: getTableData(dbTable.table, dbTable.wNext),
-        origDeepDatatt: getHitScores(dbTable.table, true, true),
-        origDeepDatatf: getHitScores(dbTable.table, true, false),
-        origDeepDataft: getHitScores(dbTable.table, false, true),
-        origDeepDataff: getHitScores(dbTable.table, false, false),
+        origDeepDatatt: getHitScores(dbTable.table, true, true,dbTable.wNext,mod),
+        origDeepDatatf: getHitScores(dbTable.table, true, false,dbTable.wNext,mod),
+        origDeepDataft: getHitScores(dbTable.table, false, true,dbTable.wNext,mod),
+        origDeepDataff: getHitScores(dbTable.table, false, false,dbTable.wNext,mod),
     }
 
 	this.moveCoords = getAllMoves(dbTable.table, dbTable.wNext, false, 0, true)
@@ -109,6 +109,7 @@ function toTypedTable(table){
 
 function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){
     
+    //console.log(smallDeepeningTask.wPlayer)
     
 	//this is the function that runs a million times
 	
@@ -160,7 +161,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){
         
 		if (sdtDepth > smallDeepeningTask.desiredDepth) { //depth +1
 			
-			resolverArray[sdtDepth].push(new ResolverItem(sdtScore[0], smallDeepeningTask.moveTree)) //this will fill in and then gets reduced to best movevalue only
+			resolverArray[sdtDepth].push(new ResolverItem(sdtScore[0], smallDeepeningTask.moveTree,smallDeepeningTask.wPlayer)) //this will fill in and then gets reduced to best movevalue only
 			
 			
 		} else {
@@ -283,7 +284,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){
 	
 			}
 			
-			result.push(new TriggerItem(sdtDepth + 1, smallDeepeningTask.moveTree))
+			result.push(new TriggerItem(sdtDepth + 1, smallDeepeningTask.moveTree,smallDeepeningTask.wPlayer))
 				//this will trigger move calc when processing array (will be placed before each set of smalltasks)
 			
 	
