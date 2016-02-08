@@ -5,6 +5,7 @@ var serverGlobals={
 }
 
 serverGlobals.findInAllMods=function(what){
+    
     var counter=serverGlobals.allMods.length
     
     while(counter--){

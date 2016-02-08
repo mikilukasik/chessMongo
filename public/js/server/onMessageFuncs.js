@@ -161,7 +161,7 @@ var onMessageFuncs = {
       console.log('modvalmin',data.setModValMin)
       
       var index=data.setModValMin.index
-      var min=data.setModValMin.min
+      var min=Number(data.setModValMin.min)
       
       serverGlobals.allMods[index].min=min
       
@@ -175,7 +175,7 @@ var onMessageFuncs = {
       console.log('modvalmax',data.setModValMax)
       
       var index=data.setModValMax.index
-      var max=data.setModValMax.max
+      var max=Number(data.setModValMax.max)
       
       serverGlobals.allMods[index].max=max
       

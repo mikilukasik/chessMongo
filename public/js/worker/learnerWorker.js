@@ -4,12 +4,11 @@ importScripts('../all/brandNewAi.js')
 importScripts('../worker/deepening.js')
 importScripts('../index/httpreq.js')
 
-//var modData={}
-
 var myID=''
 
-var playModGame=function(mod){
-    console.log('Starting modded game:',mod)
+var playModGamePair=function(mod){
+    mod.modVal=mod.min+(mod.max-mod.min)*Math.random()
+    console.log('Starting modded gamePair:',mod)
 }
 
 var play=function(){
@@ -21,7 +20,7 @@ var play=function(){
         simpleGet('/api/mod/limits?mod='+modType,function(ret2){
             var mod=JSON.parse(ret2.response)
             
-            playModGame(mod)
+            playModGamePair(mod)
         })
         
         
