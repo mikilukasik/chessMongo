@@ -267,11 +267,13 @@ var wsOnmessageFunc= function(evt,$rootScope,$scope,ws,indexGlobals) {
 
 
 								$rootScope.$on('$includeContentLoaded', function() {
-									$rootScope.updateSizes(
-										function() {
-										//	console.log('updatesizes lefutott')
-										}
-									)
+									setTimeout(function() {
+                
+                                        $rootScope.updateSizes(function(){
+                                            ////console.log('rootScope.updateSizes ran from global updateView')
+                                        })
+                                        
+                                    }, 500);
 								});
 											
 								

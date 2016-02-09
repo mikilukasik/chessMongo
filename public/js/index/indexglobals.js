@@ -195,9 +195,14 @@ function updateView(rootScope, scope, data) {
 			}
 
 			rootScope.$apply()
-            rootScope.updateSizes(function(){
-                ////console.log('rootScope.updateSizes ran from global updateView')
-            })
+            setTimeout(function() {
+                
+                rootScope.updateSizes(function(){
+                    ////console.log('rootScope.updateSizes ran from global updateView')
+                })
+                
+            }, 500);
+            
             
             
 		}
