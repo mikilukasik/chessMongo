@@ -425,6 +425,8 @@
                 
         //     }
         // })
+        
+        var origtable=undefined
 		
 		appModule.directive('wtable', [function() {
 			return {
@@ -435,35 +437,79 @@
 					'myclass': '=',
 					'imgh': '=',
 					'imgv': '=',
-					// imgPathStr1:'@',
-					// imgPathStr2:'@'
+                    'origtable': '='
+					
 				},
                 link: function(scope, element, attrs) {
-                   
-                    //console.log(scope.input)
-                   
+                  
                     scope.$watch('input',function(oldValue,newValue){
+                       
+                        var changed=false
                         
-                        // console.log('oldValue',oldValue)
-                        // console.log('newValue',newValue)
-                        
-                        scope.outTable=new Array(8)
-                    
-                        for (var i = 0; i < 8; i++) {
+                         for (var i = 0; i < 8; i++) {
                             
-                            scope.outTable[i]=new Array(8)
+                           
                             
                             for (var j = 0; j < 8; j++) {
-
-                                scope.outTable[i][j] = new Array(8)
-                                scope.outTable[i][j] = scope.input[j][7 - i]
-                                //outTable[i][j][1] = inTable[j][7 - i][1]
-
-                                if ((i + j) & 1) scope.outTable[i][j][7] = true
                                 
+                                if(origtable==undefined || oldValue[i][j][0]!=newValue[i][j][0])changed=true
+                        
                             }
+                            
+                         }
+                        
+                        if(changed){
+                            
+                            scope.outTable=new Array(8)
+                        
+                            for (var i = 0; i < 8; i++) {
+                                
+                                scope.outTable[i]=new Array(8)
+                                
+                                for (var j = 0; j < 8; j++) {
+                                    
+                                    if(oldValue[i][j][0] != newValue[i][j][0]) scope.input[i][j][15] = true       //highlight moved
+                                    
+
+                                    scope.outTable[i][j] = new Array(8)
+                                    scope.outTable[i][j] = scope.input[j][7 - i]
+                                   
+
+                                    if ((i + j) & 1) scope.outTable[i][j][7] = true     //grey fields
+                                    
+                                    
+                                }
+                            }
+                            
+                            origtable = scope.outTable
+                          
+                            
+                        }else{
+                            
+                            scope.outTable=new Array(8)
+                        
+                            for (var i = 0; i < 8; i++) {
+                                
+                                scope.outTable[i]=new Array(8)
+                                
+                                for (var j = 0; j < 8; j++) {
+                                    
+                                    if(origtable[i][j]&&origtable[i][j][15]) scope.input[j][7-i][15] = true       //highlight the old one
+                                    
+
+                                    scope.outTable[i][j] = new Array(8)
+                                    scope.outTable[i][j] = scope.input[j][7 - i]
+                                    
+
+                                    if ((i + j) & 1) scope.outTable[i][j][7] = true     //grey fields
+                                    
+                                    
+                                }
+                            }
+                         
                         }
-                    
+                        
+                                
                         console.log(scope.outTable)
                         
                         
@@ -510,38 +556,83 @@
 					'myclass': '=',
 					'imgh': '=',
 					'imgv': '=',
-					// imgPathStr1:'@',
-					// imgPathStr2:'@'
+					'origtable': '='
 				},
                 link: function(scope, element, attrs) {
                    
-                    //console.log(scope.input)
-                   
                     scope.$watch('input',function(oldValue,newValue){
                         
-                        // console.log('oldValue',oldValue)
-                        // console.log('newValue',newValue)
+                         var changed=false
                         
-                        scope.outTable=new Array(8)
-                    
-                        for (var i = 0; i < 8; i++) {
+                         for (var i = 0; i < 8; i++) {
                             
-                            scope.outTable[i]=new Array(8)
+                           
                             
                             for (var j = 0; j < 8; j++) {
                                 
-                                
-                                
-
-                                scope.outTable[i][j] = new Array(8)
-                                scope.outTable[i][j] = scope.input[7-j][i]
-                                
-
-                                if ((i + j) & 1) scope.outTable[i][j][7] = true     //makes grey fields grey
-                                
+                                if(origtable==undefined || oldValue[i][j][0]!=newValue[i][j][0])changed=true
+                        
                             }
+                            
+                         }
+                         
+                         
+                        if(changed){
+                        
+                            scope.outTable=new Array(8)
+                        
+                            for (var i = 0; i < 8; i++) {
+                                
+                                scope.outTable[i]=new Array(8)
+                                
+                                for (var j = 0; j < 8; j++) {
+                                    
+                                    if(oldValue[i][j][0] != newValue[i][j][0]) scope.input[i][j][15] = true       //highlight moved
+                                    
+                                    
+
+                                    scope.outTable[i][j] = new Array(8)
+                                    scope.outTable[i][j] = scope.input[7-j][i]
+                                    
+
+                                    if ((i + j) & 1) scope.outTable[i][j][7] = true     //makes grey fields grey
+                                    
+                                }
+                            }
+                            
+                            origtable = scope.outTable
+                            
+                            
+                            
+                        }else{
+                            
+                            scope.outTable=new Array(8)
+                        
+                            for (var i = 0; i < 8; i++) {
+                                
+                                scope.outTable[i]=new Array(8)
+                                
+                                for (var j = 0; j < 8; j++) {
+                                    
+                                    if(origtable[i][j]&&origtable[i][j][15]) scope.input[7-j][i][15] = true       //highlight the old one
+                                    
+                                    
+
+                                    scope.outTable[i][j] = new Array(8)
+                                    scope.outTable[i][j] = scope.input[7-j][i]
+                                    
+
+                                    if ((i + j) & 1) scope.outTable[i][j][7] = true     //makes grey fields grey
+                                    
+                                }
+                            }
+                            
+                            
+                            
+                            
                         }
-                    
+                        
+                        
                         console.log(scope.outTable)
                         
                         
@@ -1209,11 +1300,11 @@
 
 						for (var j = 0; j < 8; j++) {
 
-							var theSame = (tt[i][j][0] == $rootScope.dbTable.table[i][j][0])
+							//var theSame = (tt[i][j][0] == $rootScope.dbTable.table[i][j][0])
 
 							tt[i][j] = $rootScope.dbTable.table[i][j]
 
-							if (!theSame) tt[i][j][15] = true
+							//if (!theSame) tt[i][j][15] = true
 
 							//if ((i + j) & 1) tt[i][j][7] = true
 						}
@@ -1225,11 +1316,11 @@
 
 						for (var j = 0; j < 8; j++) {
 
-							var theSame = (tt[i][j][0] == $rootScope.dbTable.table[i][j][0])
+							//var theSame = (tt[i][j][0] == $rootScope.dbTable.table[i][j][0])
 
 							tt[i][j] = $rootScope.dbTable.table[i][j]
 
-							if (!theSame) tt[i][j][15] = true
+							//if (!theSame) tt[i][j][15] = true
 
 							//if ((i + j) & 1) tt[i][j][7] = true
 
