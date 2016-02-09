@@ -230,16 +230,20 @@
 					//we're on the right view
 
 					
-					eval("($rootScope." + data.viewPart + "=data.data)") 
-
+					//$rootScope[data.viewPart]=data.data
+                    eval("($rootScope." + data.viewPart + "=data.data)")
 
 					switch(data.viewPart){
 						
 						case 'dbTable.table':
-						
-							showTable(function() {
-								$rootScope.$apply
-							})
+						    console.log('table received')
+                            
+							$rootScope.showTable();
+											
+								
+
+								// $rootScope.$apply
+							//})
 								
 						break;
 						
@@ -272,7 +276,7 @@
 
 			}
 
-			$scope.$apply()
+			$rootScope.$apply()
 
 		}
 
@@ -422,7 +426,7 @@
             }
         })
 		
-		appModule.directive('wtable', [function() {
+		appModule.directive('wtable', ['$rootScope',function($rootScope) {
 			return {
 				restrict: 'E',
 				scope: {
@@ -434,7 +438,44 @@
 					// imgPathStr1:'@',
 					// imgPathStr2:'@'
 				},
-				template: '<table class="{{myclass}}" ng-init="thing= (input | wrotate)" onload="updateSizes()" style="width:{{sizempl}}%">\
+                link: function(scope, element, attrs) {
+                   
+                    //console.log(scope.input)
+                   
+                    $rootScope.$watch('stable',function(oldValue,newValue){
+                        
+                        console.log('oldValue',oldValue)
+                        console.log('newValue',newValue)
+                        
+                        scope.outTable=new Array(8)
+                    
+                        for (var i = 0; i < 8; i++) {
+                            
+                            scope.outTable[i]=new Array(8)
+                            
+                            for (var j = 0; j < 8; j++) {
+
+                                scope.outTable[i][j] = new Array(8)
+                                scope.outTable[i][j] = scope.input[j][7 - i]
+                                //outTable[i][j][1] = inTable[j][7 - i][1]
+
+                                if ((i + j) & 1) scope.outTable[i][j][7] = true
+                                
+                            }
+                        }
+                    
+                        console.log(scope.outTable)
+                        
+                        
+                    },true)
+                   
+                    
+                   
+                   
+                   
+                   
+                },
+				template: '<table class="{{myclass}}" onload="updateSizes()" style="width:{{sizempl}}%">\
 							<tr class="heading row0">\
 								<td class="left-column"></td>\
 								<td>A</td>\
@@ -446,7 +487,7 @@
 								<td>G</td>\
 								<td>H</td>\
 							</tr>\
-							<tr ng-repeat="(xIndex, x) in thing">\
+							<tr ng-repeat="(xIndex, x) in outTable">\
 								<td class="left-column">{{8-$index}}</td>\
 								<td ng-repeat="(yIndex, y) in x" ng-click="clickfunc(xIndex+1,yIndex)" ng-class="{ darker: y[7], square: !y[7]}">\
 									<div ng-class="divAroundIt">\
@@ -1114,8 +1155,8 @@
 
 				
 				var tt
-				if ($rootScope.sTable) {
-					tt = $rootScope.sTable
+				if ($rootScope.stable) {
+					tt = $rootScope.stable
 					console.log('got prev. table')
 				} else {
 					console.log('else called')
@@ -1128,13 +1169,13 @@
 
 						for (var j = 0; j < 8; j++) {
 
-							var theSame = (tt[i][j][0] == $rootScope.dbTable.table[j][7 - i][0])
+							var theSame = (tt[i][j][0] == $rootScope.dbTable.table[i][j][0])
 
-							tt[i][j] = $rootScope.dbTable.table[j][7 - i]
+							tt[i][j] = $rootScope.dbTable.table[i][j]
 
 							if (!theSame) tt[i][j][15] = true
 
-							if ((i + j) & 1) tt[i][j][7] = true
+							//if ((i + j) & 1) tt[i][j][7] = true
 						}
 					}
 
@@ -1144,13 +1185,13 @@
 
 						for (var j = 0; j < 8; j++) {
 
-							var theSame = (tt[i][j][0] == $rootScope.dbTable.table[7 - j][i][0])
+							var theSame = (tt[i][j][0] == $rootScope.dbTable.table[i][j][0])
 
-							tt[i][j] = $rootScope.dbTable.table[7 - j][i]
+							tt[i][j] = $rootScope.dbTable.table[i][j]
 
 							if (!theSame) tt[i][j][15] = true
 
-							if ((i + j) & 1) tt[i][j][7] = true
+							//if ((i + j) & 1) tt[i][j][7] = true
 
 						}
 					}
@@ -1163,13 +1204,23 @@
 
 
 
-				$rootScope.sTable = tt
+				$rootScope.stable = tt
+                
+                //$rootScope.$apply()    
+
+                console.log('showTable lefutott')
+
 
 				//consoleTable=$rootScope.dbTable.table
+                // if(!$scope.$$phase) {
+                //     $scope.$apply()
+                // }
+				
 
-				//$scope.$apply()
-
-				if (cb) cb()
+				if (cb) {
+                    cb()
+                    console.log('showTable had cb',cb)
+                }
 
 			}
 
