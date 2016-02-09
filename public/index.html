@@ -1213,75 +1213,14 @@
 
 			}
 
-			$rootScope.showTable = function(cb) { //this will update the displayed table from the array
+			$rootScope.showTable = function(cb) { //this will update the displayed table
 
-				
-				var tt
-				if ($rootScope.stable) {
-					tt = $rootScope.stable
-					console.log('got prev. table')
-				} else {
-					console.log('else called')
-					tt = new Dbtable(1, 2, 3).table
-				}
-
-				if ($rootScope.wPlayer) {
-
-					for (var i = 0; i < 8; i++) {
-
-						for (var j = 0; j < 8; j++) {
-
-							//var theSame = (tt[i][j][0] == $rootScope.dbTable.table[i][j][0])
-
-							tt[i][j] = $rootScope.dbTable.table[i][j]
-
-							//if (!theSame) tt[i][j][15] = true
-
-							//if ((i + j) & 1) tt[i][j][7] = true
-						}
-					}
-
-				} else {
-
-					for (var i = 0; i < 8; i++) {
-
-						for (var j = 0; j < 8; j++) {
-
-							//var theSame = (tt[i][j][0] == $rootScope.dbTable.table[i][j][0])
-
-							tt[i][j] = $rootScope.dbTable.table[i][j]
-
-							//if (!theSame) tt[i][j][15] = true
-
-							//if ((i + j) & 1) tt[i][j][7] = true
-
-						}
-					}
-
-
-
-
-				}
-
-
-
-
-				$rootScope.stable = tt
-                
-                //$rootScope.$apply()    
-
-                console.log('showTable lefutott')
-
-
-				//consoleTable=$rootScope.dbTable.table
-                // if(!$scope.$$phase) {
-                //     $scope.$apply()
-                // }
-				
-
+				$rootScope.stable = $rootScope.dbTable.table
+               
+              
 				if (cb) {
                     cb()
-                    console.log('showTable had cb',cb)
+                   
                 }
 
 			}
