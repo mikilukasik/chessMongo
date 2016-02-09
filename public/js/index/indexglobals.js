@@ -136,3 +136,64 @@ function focusOnLogin() {
 
 		}
 
+
+function updateView($rootScope, $scope, data) {
+
+			//console.log('updateview called',data)
+
+			if ($rootScope.loginVals.viewName == data.viewName) {
+
+
+				if ($rootScope.subViewName == data.subViewName) {
+					//we're on the right view
+
+					
+					//$rootScope[data.viewPart]=data.data
+                    eval("($rootScope." + data.viewPart + "=data.data)")
+
+					switch(data.viewPart){
+						
+						case 'dbTable.table':
+						    console.log('table received')
+                            
+							$rootScope.showTable();
+											
+								
+
+								// $rootScope.$apply
+							//})
+								
+						break;
+						
+						case 'wPlayer':
+						
+							if($rootScope.wPlayer){
+								
+								$rootScope.draTable='wtable.html'
+								
+								
+							}else{
+								
+								$rootScope.draTable='btable.html'
+								
+								
+							}
+						
+						break;
+						
+					}
+
+
+				} else {
+					//view must have changed, let the server know maybe...
+					
+				}
+
+			} else {
+				//view must have changed, let the server know maybe...
+
+			}
+
+			$rootScope.$apply()
+
+		}

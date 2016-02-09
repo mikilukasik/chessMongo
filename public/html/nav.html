@@ -1,0 +1,32 @@
+				<tr valign="bottom" style="padding-bottom:0px;border-spacing:0px;border-collapse: merge">
+					
+					<td nowrap>
+						<button class="dtext" ng-click="instantGame(loginName,'Computer')">Instant Game</button>
+					</td>
+					
+<!--indening the below leaves spaces between tabs on nav-->
+					
+<td nowrap style="padding-bottom:0px;border-spacing:0px;border-collapse: merge" valign="bottom"><div style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px"><div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'cv.html', activeTab: loginVals.viewName == 'cv.html' }">
+&nbsp
+<span ng-attr-title="About the author" class="dtext pointed" ng-click="showView('cv.html')">Author</span>
+&nbsp
+</div></div><div style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px"><div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'login.html', activeTab: loginVals.viewName == 'login.html' }">
+&nbsp
+<span ng-attr-title="Click here to {{loginVals.inOrOut}}" class="dtext pointed" ng-click="showView('login.html')">{{loginVals.inOrOut}}</span>
+&nbsp
+</div></div><div ng-if="loggedIn" style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px"><div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'lobby.html', activeTab: loginVals.viewName == 'lobby.html' }">
+&nbsp
+<span title="Click here to view the lobby" class="dtext pointed" ng-click="showView('lobby.html')">Lobby</span>
+&nbsp
+</div></div><div  ng-if="isAdmin" style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px"><div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'admin.html', activeTab: loginVals.viewName == 'admin.html' }">
+&nbsp
+<span title="Hello admin, please click here!" class="dtext pointed" ng-click="showView('admin.html')">Admin</span>
+&nbsp
+</div></div></td><td nowrap style="width: 100%;padding-bottom:0px;border-spacing:0px;border-collapse: merge" valign="bottom"><div ng-repeat="x in displayedGames" style="display: inline-block;white-space: nowrap;padding-bottom:0px;border-spacing:0px"><div style="display: inline-block;white-space: nowrap;" ng-class="{ passiveTab: loginVals.viewName != 'board.html' || subViewName != x.gameNo, activeTab: loginVals.viewName == 'board.html' && subViewName == x.gameNo }">
+&nbsp
+<span ng-attr-title="playing {{x.wPlayer&&('white')||('black')}} against {{x.opponentsName}}" class="dtext pointed" ng-click="showView('board.html',x.gameNo,true)">Game {{x.gameNo}}</span><span style="position:relative;top:-1px;background-position: 0px -0.5pt;"ng-click="removeDisplayedGame(x.gameNo)" class="pointed dtext radial">X</span>
+</div></div></td>
+
+<td class="dtext" nowrap align="right">{{greetUser}}</td>
+				</tr>
+			</table>
