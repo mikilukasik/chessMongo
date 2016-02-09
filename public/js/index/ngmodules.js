@@ -48,7 +48,7 @@
                                 
                                 for (var j = 0; j < 8; j++) {
                                     
-                                    if(oldValue[i][j][0] != newValue[i][j][0]) scope.input[i][j][15] = true       //highlight moved
+                                    if(oldValue[i]&&oldValue[i][j][0] != newValue[i][j][0]) scope.input[i][j][15] = true       //highlight moved
                                     
 
                                     scope.outTable[i][j] = new Array(8)
