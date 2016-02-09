@@ -46,7 +46,7 @@ serverGlobals.learning={
     
     setReporter:function(data){
         
-        if(data.reporting){
+        if(data&&data.reporting){
             //set new reporter
             
             serverGlobals.learningGames.forEach(function(learningGame){

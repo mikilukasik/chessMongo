@@ -60,7 +60,18 @@
   */
   
 }
-
+.small-table {
+		height: 100px;
+		width: 100px;
+    overflow: scroll;
+		/*text-align: center;*/
+		border: 1px solid black;
+		/*height: 100%;*/
+		/*width: 70%;
+		height: 0;
+		padding-bottom: 70%;
+	*/
+	}
 .prog {
 }
 

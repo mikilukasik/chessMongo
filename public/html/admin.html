@@ -188,24 +188,30 @@
     </table>
 	
 	<h4>active learning games:</h4>
-	
-	<table class="atable">
-        <tr>
-            <!--<td ng-repeat="(key,val) in learningGames[0]">{{key}}</td>-->
-            <td>_id</td>
-            <td>reporting</td>
-            
-        </tr>   
-        <tr ng-repeat="x in learningGames">
+	<table>
+        <tr><td>
+        <table class="atable">
+            <tr>
+                <!--<td ng-repeat="(key,val) in learningGames[0]">{{key}}</td>-->
+                <td>_id</td>
+                <td>reporting</td>
+                
+            </tr>   
+            <tr ng-repeat="x in learningGames">
+                <td>
+                    {{x._id}}
+                </td>
+                <td>
+                    <input type="checkbox" ng-model="x.reporting" ng-change="adminButtons('reporting')"/>
+                </td>
+            </tr>
+        </table>
+        </td>
             <td>
-                {{x._id}}
-            </td>
-            <td>
-                <input type="checkbox" ng-model="x.reporting" ng-change="adminButtons('reporting',x,x.reporting)"/>
+                <wtable input="sTable" imgh='20' imgw='20'/>
             </td>
         </tr>
-    </table>
-	
+	</table>
 	
 
 <h3>Views:</h3>
