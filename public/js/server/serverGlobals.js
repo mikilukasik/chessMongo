@@ -37,7 +37,10 @@ serverGlobals.getModLimits=function(modType){
 
 serverGlobals.learning={
     add:function(game){
-        serverGlobals.learningGames.push({_id:game._id})
+        serverGlobals.learningGames.push({
+            _id:game._id,
+            reporting:false
+        })
         clients.publishView('admin.html','default','learningGames',serverGlobals.learningGames)
     }
 }
