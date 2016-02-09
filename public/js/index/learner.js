@@ -3,7 +3,7 @@ var learnerGlobals={
     learnerWorkers:[]
 }
 var learnerFuncs={
-    setLearnerCount:function(count){
+    setLearnerCount:function(count,myLastUser){
         if(learnerGlobals.learnerCount>count){
             //stop some learners
             var stopCount=learnerGlobals.learnerCount-count

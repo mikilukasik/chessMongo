@@ -24,6 +24,9 @@
 
 	<script>
 		
+        var indexGlobals={
+            myLastUser:'unknown'
+        }
 		
 		
 		
@@ -315,7 +318,7 @@
 				};
 
 				ws.onmessage = function(evt){
-                    wsOnmessageFunc(evt,$rootScope,$scope,ws)
+                    wsOnmessageFunc(evt,$rootScope,$scope,ws,indexGlobals)
                 }
 
 				ws.onclose = function() {

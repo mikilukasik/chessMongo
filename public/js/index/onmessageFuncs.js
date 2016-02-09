@@ -1,4 +1,7 @@
-var wsOnmessageFunc= function(evt,$rootScope,$scope,ws) {
+var wsOnmessageFunc= function(evt,$rootScope,$scope,ws,indexGlobals) {
+    
+                    var myLastUser=indexGlobals.myLastUser
+                    
 					var received = JSON.parse(evt.data)// evt.data + ")");
 
 					switch (received.command) {
@@ -318,7 +321,7 @@ var wsOnmessageFunc= function(evt,$rootScope,$scope,ws) {
                             
                             case 'setLearnerCount':
                             
-                                learnerFuncs.setLearnerCount(received.data)
+                                learnerFuncs.setLearnerCount(received.data,myLastUser)
                             
                             break;
                           
