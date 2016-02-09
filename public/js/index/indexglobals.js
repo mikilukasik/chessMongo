@@ -137,44 +137,44 @@ function focusOnLogin() {
 		}
 
 
-function updateView($rootScope, $scope, data) {
+function updateView(rootScope, scope, data) {
 
 			//console.log('updateview called',data)
 
-			if ($rootScope.loginVals.viewName == data.viewName) {
+			if (rootScope.loginVals.viewName == data.viewName) {
 
 
-				if ($rootScope.subViewName == data.subViewName) {
+				if (rootScope.subViewName == data.subViewName) {
 					//we're on the right view
 
 					
-					//$rootScope[data.viewPart]=data.data
-                    eval("($rootScope." + data.viewPart + "=data.data)")
+					//rootScope[data.viewPart]=data.data
+                    eval("(rootScope." + data.viewPart + "=data.data)")
 
 					switch(data.viewPart){
 						
 						case 'dbTable.table':
 						    console.log('table received')
                             
-							$rootScope.showTable();
+							rootScope.showTable();
 											
 								
 
-								// $rootScope.$apply
+								// rootScope.$apply
 							//})
 								
 						break;
 						
 						case 'wPlayer':
 						
-							if($rootScope.wPlayer){
+							if(rootScope.wPlayer){
 								
-								$rootScope.draTable='wtable.html'
+								rootScope.draTable='wtable.html'
 								
 								
 							}else{
 								
-								$rootScope.draTable='btable.html'
+								rootScope.draTable='btable.html'
 								
 								
 							}
@@ -194,9 +194,9 @@ function updateView($rootScope, $scope, data) {
 
 			}
 
-			$rootScope.$apply()
-            $rootScope.updateSizes(function(){
-                console.log('$rootScope.updateSizes ran from global updateView')
+			rootScope.$apply()
+            rootScope.updateSizes(function(){
+                //console.log('rootScope.updateSizes ran from global updateView')
             })
             
             
