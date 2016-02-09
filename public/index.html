@@ -1215,8 +1215,9 @@
 					
 					case 'reporting':
                     
-                    
-                        //console.log(data)
+                    	client.connectionID=socketID
+						client.learningOn=myLastUser
+                        console.log('reporting',client)
                         //client.customModCheckbox=data
                         socketSend('reporting',client)
                     

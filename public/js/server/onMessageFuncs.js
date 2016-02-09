@@ -515,16 +515,21 @@ var onMessageFuncs = {
 			//we must know this client already, look it up in DB!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			////console.log('known client came.......................................')
 
-			dbFuncs.knownClientReturned(data, connection) //this will mark it online in the db
+			dbFuncs.knownClientReturned(data, connection,function(lastUser){
+				clients.send(connection, 'reHello', {
+					
+					connectionID: connectionID,
+					lastUser:lastUser
+					//lastUser:lastUser
+	
+				}, 'reHello', function() {})
+			}) //this will mark it online in the db
 
 			clients.storeVal(connection, 'clientMongoId', data.clientMongoId)
 
 			clients.publishAddedData()
 
-			clients.send(connection, 'reHello', {
-				connectionID: connectionID
-
-			}, 'reHello', function() {})
+			
 
 		}
 

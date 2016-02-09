@@ -197,6 +197,8 @@
                 <td>reporting</td>
                 <td>modStr</td>
                 <td>wModded</td>
+                <td>learningOn</td>
+                <td>connectionID</td>
                 
             </tr>   
             <tr ng-repeat="x in learningGames">
@@ -211,6 +213,12 @@
                 </td>
                 <td>
                     {{x.wModded}}
+                </td>
+                <td>
+                    {{x.learningOn}}
+                </td>
+                <td>
+                    {{x.connectionID}}
                 </td>
             </tr>
         </table>

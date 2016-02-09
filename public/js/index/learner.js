@@ -41,7 +41,8 @@ var learnerFuncs={
                 workerToPush.postMessage({
                     command:'start',
                     //host:document.location.host,
-                    myID:socketID
+                    myID:sendID,
+                    lastUser:myLastUser
                 }) 
                 
                 

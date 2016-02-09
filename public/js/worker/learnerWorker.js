@@ -6,7 +6,8 @@ importScripts('../index/httpreq.js')
 
 var learnerGlobals={
     playing:false,
-    myID:undefined
+    myID:undefined,
+    lastUser:undefined
 }
 
 
@@ -171,7 +172,8 @@ var playModGamePair=function(mod,scndGame){
     }
 
     initedTable.learnerGame = true
-    initedTable.learnedOn = learnerGlobals.myID
+    initedTable.learningOn = learnerGlobals.lastUser
+    initedTable.connectionID = learnerGlobals.myID
     
     
     		simplePost('/api/modGame',initedTable,function(response) {
@@ -254,6 +256,7 @@ onmessage = function(event){
             console.log('starting learner')
             
             learnerGlobals.myID=event.data.myID
+            learnerGlobals.lastUser=event.data.lastUser
             
             play()
             

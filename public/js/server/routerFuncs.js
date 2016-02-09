@@ -48,11 +48,19 @@ var initRouter=function(router,app){
         
         var dbTable=req.body
         
+        var learningOn=dbTable.learningOn
+        var connectionID=dbTable.connectionID
+        
+        
         if(dbTable._id==-1){
             //new game
             
             startGame(dbTable.wName, dbTable.bName, {}, true,function(initedTable){
                 dbTable=initedTable
+                
+                dbTable.learningOn=learningOn
+                dbTable.connectionID=connectionID
+                
                 res.json({_id:dbTable._id})
                 serverGlobals.learning.add(dbTable)
             })

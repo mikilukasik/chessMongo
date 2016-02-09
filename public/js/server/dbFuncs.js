@@ -29,8 +29,10 @@ var dbFuncs = {
 
 	},
     
-    knownClientReturned : function(data, connection) {
-
+    knownClientReturned : function(data, connection,cback) {
+		
+	if(!cback)cback=function(){}
+	
 	data._id = new ObjectID(data.clientMongoId)
 
 	mongodb.connect(cn, function(err, db) {
@@ -51,6 +53,7 @@ var dbFuncs = {
 					if(doc.lastUser){
 						
 						connection.addedData.lastUser=doc.lastUser
+						
 						
 						
 					}
@@ -85,6 +88,8 @@ var dbFuncs = {
                 
                  connection.addedData.currentState='idle'
 			}
+			
+			cback(doc.lastUser)
             
             db.close()
 

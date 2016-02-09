@@ -1,7 +1,9 @@
 var serverGlobals={
     defaultMod:[],
     allMods:[],
-    learningGames:[]
+    learningGames:[],
+    gameToReport:-1,
+    reportedGame:{}
     
 }
 
@@ -53,7 +55,10 @@ serverGlobals.learning={
             // wName:game.wName,
             // bName:game.bName
             modStr:modStr,
-            wModded:wModded
+            wModded:wModded,
+            
+            learningOn:game.learningOn,
+            connectionID:game.connectionID
         })
         clients.publishView('admin.html','default','learningGames',serverGlobals.learningGames)
     },
@@ -65,6 +70,7 @@ serverGlobals.learning={
         
         if(data.reporting){
             //set new reporter
+            serverGlobals.gameToReport=data._id
             
             serverGlobals.learningGames.forEach(function(learningGame){
                 

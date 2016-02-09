@@ -97,7 +97,8 @@ var wsOnmessageFunc= function(evt,$rootScope,$scope,ws) {
 						case 'reHello':
 
 
-							socketID = received.data.connectionID
+							//socketID = received.data.connectionID
+							myLastUser = received.data.lastUser
 
 							console.log('received connectionID', received.data.connectionID)
 
