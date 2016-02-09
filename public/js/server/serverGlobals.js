@@ -3,7 +3,8 @@ var serverGlobals={
     allMods:[],
     learningGames:[],
     gameToReport:-1,
-    reportedGame:{}
+    reportedGame:{},
+    learnerTable:{}
     
 }
 

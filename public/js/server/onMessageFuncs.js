@@ -661,6 +661,13 @@ var onMessageFuncs = {
                     data: serverGlobals.learningGames   
                 })
                 
+                clients.send(connection,'updateView',{
+                    viewName:'admin.html',
+                    subViewName:'default',
+                    viewPart: 'learnerTable',
+                    data: serverGlobals.learnerTable   
+                })
+                
             break;
 				//clients.send(connection,'updateDbTable',)
 				//	
