@@ -1,0 +1,26 @@
+<table class="main-table unselectable" onload="updateSizes()">
+	<tr class="heading row0">
+		<td class="left-column"></td>
+		<td>H</td>
+		<td>G</td>
+		<td>F</td>
+		<td>E</td>
+		<td>D</td>
+		<td>C</td>
+		<td>B</td>
+		<td>A</td>
+	</tr>
+	<tr ng-repeat="(xIndex, x) in sTable track by $index">
+		<td class="left-column">{{1+$index}}</td>
+		
+		<td ng-repeat="(yIndex, y) in x track by $index" ng-click="clickedItTrans(8-xIndex,7-yIndex)" ng-class="{ darker: y[7], square: !y[7]}">
+			
+			<div ng-class="divAroundIt">
+				<img ng-src="{{'cPiecesPng/'+y[0]+y[1]+'.png'}}" ng-class="{ selected: y[8]||y[9], selected2: y[15]}">
+			</div>
+		
+		</td>
+		
+		
+	</tr>
+</table>
