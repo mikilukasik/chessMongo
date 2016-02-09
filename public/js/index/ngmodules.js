@@ -19,6 +19,8 @@
 					
 				},
                 link: function(scope, element, attrs) {
+                    
+                    var origtable=undefined	
                   
                     scope.$watch('input',function(oldValue,newValue){
                        
@@ -137,6 +139,8 @@
 					
 				},
                 link: function(scope, element, attrs) {
+                    
+                    var origtable=undefined	
                    
                     scope.$watch('input',function(oldValue,newValue){
                         
