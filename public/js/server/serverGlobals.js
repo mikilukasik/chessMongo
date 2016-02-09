@@ -42,6 +42,59 @@ serverGlobals.learning={
             reporting:false
         })
         clients.publishView('admin.html','default','learningGames',serverGlobals.learningGames)
+    },
+    
+    setReporter:function(data){
+        
+        if(data.reporting){
+            //set new reporter
+            
+            serverGlobals.learningGames.forEach(function(learningGame){
+                
+                if(learningGame._id==data._id){
+                    
+                    learningGame.reporting=true
+                    
+                }else{
+                    
+                    if(learningGame.reporting){
+                        learningGame.reporting=false
+                        //tell client to stop reporting implement!!!!!!!
+                        
+                    }
+                
+                    
+                }
+            
+                   
+            })
+            
+            
+            
+        }else{
+            
+            //just clear reporter
+            
+            var i=serverGlobals.learningGames.length
+            while(i--){
+                
+                if(serverGlobals.learningGames[i]._id==data._id){
+                    
+                    serverGlobals.learningGames[i].reporting=false
+                    
+                }
+                
+                
+            }
+            
+            
+            
+            
+            
+        }
+        
+        
+        
     }
 }
     

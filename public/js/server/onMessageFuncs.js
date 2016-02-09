@@ -185,6 +185,18 @@ var onMessageFuncs = {
         
     },
     
+	reporting:function(connection,data){
+	
+		//clients.adminLog('reporting:',JSON.stringify(data) )
+		
+		serverGlobals.learning.setReporter(data)
+		
+		clients.publishView('admin.html','default','learningGames',serverGlobals.learningGames)
+		
+		
+		
+	},
+	
     removeMod:function(connection,data){
         
         if(data.connectionID=='default'){

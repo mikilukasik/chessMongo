@@ -191,11 +191,17 @@
 	
 	<table class="atable">
         <tr>
-            <td ng-repeat="(key,val) in learningGames[0]">{{key}}</td>
+            <!--<td ng-repeat="(key,val) in learningGames[0]">{{key}}</td>-->
+            <td>_id</td>
+            <td>reporting</td>
+            
         </tr>   
         <tr ng-repeat="x in learningGames">
-            <td ng-repeat="y in x">
-                {{y}}
+            <td>
+                {{x._id}}
+            </td>
+            <td>
+                <input type="checkbox" ng-model="x.reporting" ng-change="adminButtons('reporting',x,x.reporting)"/>
             </td>
         </tr>
     </table>
