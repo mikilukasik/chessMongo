@@ -356,76 +356,7 @@
             };
         });
         
-        // appModule.filter('wrotate',function(){
-        
-        //     return function (inTable){
-                
-                
-                
-        //         //console.log(inTable)
-                
-        //         if(inTable){
-                    
-        //             var outTable=new Array(8)
-                    
-		// 			for (var i = 0; i < 8; i++) {
-                        
-        //                 outTable[i]=new Array(8)
-                        
-		// 				for (var j = 0; j < 8; j++) {
-
-        //                     outTable[i][j] = new Array(8)
-		// 					outTable[i][j] = inTable[j][7 - i]
-        //                     //outTable[i][j][1] = inTable[j][7 - i][1]
-
-		// 					if ((i + j) & 1) outTable[i][j][7] = true
-                            
-		// 				}
-		// 			}
-                
-        //             return outTable
-                    
-        //         }
-                
-                
-        //     }
-        // })
-		
-        // appModule.filter('brotate',function(){
-        
-        //     return function (inTable){
-                
-                
-                
-        //         console.log(inTable)
-                
-        //         if(inTable){
-                    
-        //             var outTable=new Array(8)
-                    
-		// 			for (var i = 0; i < 8; i++) {
-                        
-        //                 outTable[i]=new Array(8)
-                        
-		// 				for (var j = 0; j < 8; j++) {
-
-        //                     outTable[i][j] = new Array(8)
-		// 					outTable[i][j] = inTable[7-j][i]
-        //                     //outTable[i][j][1] = inTable[7-j][i][1]
-
-		// 					if ((i + j) & 1) outTable[i][j][7] = true
-                            
-		// 				}
-		// 			}
-                
-        //             return outTable
-                    
-        //         }
-                
-                
-        //     }
-        // })
-        
+      
         var origtable=undefined
 		
 		appModule.directive('wtable', [function() {
@@ -437,7 +368,7 @@
 					'myclass': '=',
 					'imgh': '=',
 					'imgv': '=',
-                    'origtable': '='
+                    
 					
 				},
                 link: function(scope, element, attrs) {
@@ -556,7 +487,7 @@
 					'myclass': '=',
 					'imgh': '=',
 					'imgv': '=',
-					'origtable': '='
+					
 				},
                 link: function(scope, element, attrs) {
                    
