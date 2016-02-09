@@ -195,6 +195,8 @@
                 <!--<td ng-repeat="(key,val) in learningGames[0]">{{key}}</td>-->
                 <td>_id</td>
                 <td>reporting</td>
+                <td>modStr</td>
+                <td>wModded</td>
                 
             </tr>   
             <tr ng-repeat="x in learningGames">
@@ -202,7 +204,13 @@
                     {{x._id}}
                 </td>
                 <td>
-                    <input type="checkbox" ng-model="x.reporting" ng-change="adminButtons('reporting')"/>
+                    <input type="checkbox" ng-model="x.reporting" ng-change="adminButtons('reporting',x,x.reporting)"/>
+                </td>
+                <td>
+                    {{x.modStr}}
+                </td>
+                <td>
+                    {{x.wModded}}
                 </td>
             </tr>
         </table>

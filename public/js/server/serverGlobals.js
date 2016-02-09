@@ -37,16 +37,33 @@ serverGlobals.getModLimits=function(modType){
 
 serverGlobals.learning={
     add:function(game){
+        
+        var wModded=true
+        var modStr=game.wName
+        
+        if(game.wName=='standard'){
+            wModded=false
+            modStr=game.bName
+        }
+        
+        
         serverGlobals.learningGames.push({
             _id:game._id,
-            reporting:false
+            reporting:false,
+            // wName:game.wName,
+            // bName:game.bName
+            modStr:modStr,
+            wModded:wModded
         })
         clients.publishView('admin.html','default','learningGames',serverGlobals.learningGames)
     },
     
     setReporter:function(data){
         
-        if(data&&data.reporting){
+        console.log('setreporter data',data)
+        if(data){
+        
+        if(data.reporting){
             //set new reporter
             
             serverGlobals.learningGames.forEach(function(learningGame){
@@ -54,6 +71,7 @@ serverGlobals.learning={
                 if(learningGame._id==data._id){
                     
                     learningGame.reporting=true
+                    //tell client to start reporting implement!!!!!!!
                     
                 }else{
                     
@@ -92,7 +110,7 @@ serverGlobals.learning={
             
             
         }
-        
+    }
         
         
     }
