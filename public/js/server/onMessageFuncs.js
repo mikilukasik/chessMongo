@@ -636,6 +636,13 @@ var onMessageFuncs = {
                     viewPart: 'allMods',
                     data: serverGlobals.allMods   
                 })
+				
+				clients.send(connection,'updateView',{
+                    viewName:'admin.html',
+                    subViewName:'default',
+                    viewPart: 'learningGames',
+                    data: serverGlobals.learningGames   
+                })
                 
             break;
 				//clients.send(connection,'updateDbTable',)

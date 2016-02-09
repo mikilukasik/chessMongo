@@ -148,7 +148,7 @@
 
 <h3>Learners:</h3>
     
-    <label>modVal custom limits:</label>
+    <h4>modVal custom limits:</h4>
     <table class="atable">
         <tr>
             <td>
@@ -175,7 +175,7 @@
     
     </table>
     <br>
-    <label>default mods:</label><span ng-repeat="z in defaultMod track by $index"><span ng-if="$index!=0">,</span>{{z}}<button ng-click="adminButtons('removeMod',{connectionID:'default'},$index)">-</button></span>
+    <h4>default mods:</h4><span ng-repeat="z in defaultMod track by $index"><span ng-if="$index!=0">,</span>{{z}}<button ng-click="adminButtons('removeMod',{connectionID:'default'},$index)">-</button></span>
 					<br>
                     <form ng-submit="adminButtons('addMod',{connectionID:'default'},temp1.modToAdd)"><input ng-model="temp1.modToAdd"><button>Add mod</button></form>
 
@@ -186,6 +186,18 @@
             </td>
         </tr>
     </table>
+	
+	<h4>active learning games:</h4>
+	
+	<table class="atable">
+        <tr ng-repeat="x in learningGames">
+            <td ng-repeat="y in x">
+                {{y}}
+            </td>
+        </tr>
+    </table>
+	
+	
 
 <h3>Views:</h3>
 
