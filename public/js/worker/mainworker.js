@@ -479,7 +479,7 @@ onmessage = function(event) {
                         }
                          
                          
-                        console.log('smTakesCalc:',(tdate-progress.started)/progress.splitMoves,tdate,progress.started,progress.splitMoves)
+                        //console.log('smTakesCalc:',(tdate-progress.started)/progress.splitMoves,tdate,progress.started,progress.splitMoves)
                         messageTheServer('progress',sendThis,'',function(){
                             console.log('splitmove task done')
                         })

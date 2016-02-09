@@ -70,7 +70,7 @@
 			setCookie("rndId", cookieIdRnd, 365)
 		}
 
-		console.log('cookieIdRnd', cookieIdRnd)
+		//console.log('cookieIdRnd', cookieIdRnd)
 
 		if (workerSpeed == "" || isNaN(workerSpeed)) {
 
@@ -139,7 +139,7 @@ function focusOnLogin() {
 
 function updateView(rootScope, scope, data) {
 
-			//console.log('updateview called',data)
+			////console.log('updateview called',data)
 
 			if (rootScope.loginVals.viewName == data.viewName) {
 
@@ -154,7 +154,7 @@ function updateView(rootScope, scope, data) {
 					switch(data.viewPart){
 						
 						case 'dbTable.table':
-						    console.log('table received')
+						    //console.log('table received')
                             
 							rootScope.showTable();
 											
@@ -196,7 +196,7 @@ function updateView(rootScope, scope, data) {
 
 			rootScope.$apply()
             rootScope.updateSizes(function(){
-                //console.log('rootScope.updateSizes ran from global updateView')
+                ////console.log('rootScope.updateSizes ran from global updateView')
             })
             
             

@@ -47,7 +47,7 @@
 					
 					case 'Challenge player+White':
 					
-						console.log('challenging '+passData.opponentsName+' with white.')
+						//console.log('challenging '+passData.opponentsName+' with white.')
 						
 						socketSend('challenge',{
 							opponentsName:passData.opponentsName,
@@ -59,7 +59,7 @@
 					break;
 					case 'Challenge player+Black':
 					
-						console.log('challenging '+passData.opponentsName+' with black.')
+						//console.log('challenging '+passData.opponentsName+' with black.')
 						socketSend('challenge',{
 							opponentsName:passData.opponentsName,
 							wPlayer:false
@@ -68,7 +68,7 @@
 					break;
 					case "Challenge player+Opponent's choice":
 						
-						console.log('challenging '+passData.opponentsName+", who get's to chose color.")
+						//console.log('challenging '+passData.opponentsName+", who get's to chose color.")
 					socketSend('challenge',{
 							opponentsName:passData.opponentsName,
 							opponentsChoice:true
@@ -80,7 +80,7 @@
 							opponentsName:passData.opponentsName,
 							wPlayer:(Math.random()>0.5)
 						})
-						console.log('jooo')
+						//console.log('jooo')
 					break;
 					
 					
@@ -157,7 +157,7 @@
 
 			var pollerMessage = function(event) {
 
-				//console.log('something')
+				////console.log('something')
 
 				switch (event.data.resCommand) {
 
@@ -167,7 +167,7 @@
 
 					case 'updateBusyThinkers':
 
-						//		console.log(event.data.resData.busyThinkers)
+						//		//console.log(event.data.resData.busyThinkers)
 
 						$rootScope.busyThinkers = event.data.resData.busyThinkers
 						$scope.$apply()
@@ -207,7 +207,7 @@
 
 				
 
-				console.log('updateSizes')
+				//console.log('updateSizes')
 
 				
 				var sw = window.innerWidth
@@ -493,11 +493,11 @@
 			}
 			$rootScope.applyIt = function() {
 
-				console.log('should apply')
+				//console.log('should apply')
 
 				if (!$scope.$$phase) {
 
-					console.log('does apply')
+					//console.log('does apply')
 					$scope.$apply()
 
 				} 
@@ -511,7 +511,7 @@
 					w: w,
 					b: b
 				}, 'startQuickGame for w:' + w +' b:'+b, function() {
-					console.log("'startGame' callback")
+					//console.log("'startGame' callback")
 				})
 
 			}
@@ -531,7 +531,7 @@
 			
 			$scope.clickedItTrans = function(i, j) {
 				
-				console.log('clickedItTrans',i,j)
+				//console.log('clickedItTrans',i,j)
 				
 				var clickedField = [j, 8 - i]
 				var clickedString = dletters[j] + (9 - i)
@@ -599,7 +599,7 @@
 						
                         if (!(response.tablepollnum == $rootScope.pollNum)) {
 							$rootScope.pollNum = response.tablepollnum
-								////console.log('calling getandshow')
+								//////console.log('calling getandshow')
 							$rootScope.longPollTable()
 							if (!$scope.$$phase) {
 								$scope.$apply()
@@ -730,7 +730,7 @@
                     case 'customModCheckbox':
                     
                     
-                        //console.log(data)
+                        ////console.log(data)
                         client.customModCheckbox=data
                         socketSend('customModCheckbox',client)
                     
@@ -740,7 +740,7 @@
                     
                     	client.connectionID=socketID
 						client.learningOn=indexGlobals.myLastUser
-                        console.log('reporting',client)
+                        //console.log('reporting',client)
                         //client.customModCheckbox=data
                         socketSend('reporting',client)
                     
@@ -806,7 +806,7 @@
 				var newViewParts = []
 					//var oldViewParts=$rootScope.activeViewParts
 
-				console.log('test', viewName, $rootScope.loginVals.inOrOut)
+				//console.log('test', viewName, $rootScope.loginVals.inOrOut)
 
 				switch (viewName) {
 					case 'login.html':
@@ -816,7 +816,7 @@
 						]
 
 
-						//console.log('inorout',$rootScope.inOrOut)
+						////console.log('inorout',$rootScope.inOrOut)
 						if ($rootScope.loginVals.inOrOut == 'Logoff') {
 
 							socketSend('logoff', {
@@ -898,7 +898,7 @@
 
 				}, 'showView', function() {
 
-					console.log('showView socketSend callback ran')
+					//console.log('showView socketSend callback ran')
 
 					$rootScope.loginVals.viewName = viewName;
 					$rootScope.subViewName = subViewName;
@@ -910,7 +910,7 @@
 	
 						// })
 	
-						console.log('here would be "updateMe"')
+						//console.log('here would be "updateMe"')
 	
 						$rootScope.applyIt()
 					} else {
@@ -942,9 +942,9 @@
 				var y = clickedField[1]
 				var clickedColor = false
 
-				//console.log('testing',$rootScope.dbTable.table[x][y][5] , $rootScope.tempMoveString.length ,$rootScope.dbTable.wNext , $rootScope.wPlayer)	
+				////console.log('testing',$rootScope.dbTable.table[x][y][5] , $rootScope.tempMoveString.length ,$rootScope.dbTable.wNext , $rootScope.wPlayer)	
 				if ((!($rootScope.dbTable.table[x][y][5] == []) || $rootScope.tempMoveString.length > 0) && $rootScope.dbTable.wNext == $rootScope.wPlayer) {
-					console.log('clickeit called', clickedField, clickedString)
+					//console.log('clickeit called', clickedField, clickedString)
 
 					if (clickedString == $rootScope.tempMoveString) {
 						$rootScope.dbTable.table[x][y][8] = false
@@ -954,7 +954,7 @@
 					} else {
 
 						if ($rootScope.dbTable.table[x][y][0] > 0 && $rootScope.tempMoveString == "") {
-							//console.log('testtesttesttesttesttesttesttest')
+							////console.log('testtesttesttesttesttesttesttest')
 
 							for (var i = 0; i < 8; i++) {
 								for (var j = 0; j < 8; j++) {
@@ -1001,7 +1001,7 @@
 			}
 
 			$scope.removeDisplayedGame = function(gameNo) {
-				//console.log('removeGame',gameNo)
+				////console.log('removeGame',gameNo)
 				socketSend('removeDisplayedGame', gameNo)
 			}
 
@@ -1016,7 +1016,7 @@
 			}
 			$scope.sendChat = function(chatLine) {
 
-                console.log('sending chat:',chatLine,$rootScope.dbTable._id)
+                //console.log('sending chat:',chatLine,$rootScope.dbTable._id)
                 
 				socketSend('boardChat',{
                     chatLine:chatLine,
@@ -1031,7 +1031,7 @@
 
             $scope.sendLobbyChat = function(chatLine) {
                 
-                //console.log('sending chat:',chatLine)
+                ////console.log('sending chat:',chatLine)
 
 				socketSend('lobbyChat',{
                     chatLine:chatLine
@@ -1048,7 +1048,7 @@
 
 
 			$rootScope.updateSizes()
-			console.log('appcontr ran')
+			//console.log('appcontr ran')
 			
 			$scope.instantGame = function(w,b) {
 
@@ -1059,7 +1059,7 @@
 					w: $rootScope.loginName,
 					b: 'Computer'
 				}, 'startQuickGame for w:' + w +' b:'+b, function() {
-					console.log("'startGame' callback")
+					//console.log("'startGame' callback")
 				})
 
 			}

@@ -269,7 +269,7 @@ var wsOnmessageFunc= function(evt,$rootScope,$scope,ws,indexGlobals) {
 								$rootScope.$on('$includeContentLoaded', function() {
 									$rootScope.updateSizes(
 										function() {
-											console.log('updatesizes lefutott')
+										//	console.log('updatesizes lefutott')
 										}
 									)
 								});
