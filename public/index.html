@@ -426,7 +426,7 @@
         //     }
         // })
 		
-		appModule.directive('wtable', ['$rootScope',function($rootScope) {
+		appModule.directive('wtable', [function() {
 			return {
 				restrict: 'E',
 				scope: {
@@ -442,7 +442,7 @@
                    
                     //console.log(scope.input)
                    
-                    $rootScope.$watch('stable',function(oldValue,newValue){
+                    scope.$watch('input',function(oldValue,newValue){
                         
                         // console.log('oldValue',oldValue)
                         // console.log('newValue',newValue)
@@ -501,7 +501,7 @@
 		}])
 		
 		
-		appModule.directive('btable', ['$rootScope',function($rootScope) {
+		appModule.directive('btable', [function() {
 			return {
 				restrict: 'E',
 				scope: {
@@ -517,7 +517,7 @@
                    
                     //console.log(scope.input)
                    
-                    $rootScope.$watch('stable',function(oldValue,newValue){
+                    scope.$watch('input',function(oldValue,newValue){
                         
                         // console.log('oldValue',oldValue)
                         // console.log('newValue',newValue)
@@ -529,12 +529,15 @@
                             scope.outTable[i]=new Array(8)
                             
                             for (var j = 0; j < 8; j++) {
+                                
+                                
+                                
 
                                 scope.outTable[i][j] = new Array(8)
                                 scope.outTable[i][j] = scope.input[7-j][i]
                                 
 
-                                if ((i + j) & 1) scope.outTable[i][j][7] = true
+                                if ((i + j) & 1) scope.outTable[i][j][7] = true     //makes grey fields grey
                                 
                             }
                         }
