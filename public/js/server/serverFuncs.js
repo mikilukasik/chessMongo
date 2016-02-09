@@ -142,12 +142,7 @@ var startGame = function(w, b, connection, aiGame, idCb) {
 
 						var initedTable = new Dbtable(firstFreeTable, w, b)
                         
-						//console.log(w,b,'----------------------  ----------------------  ----------------------  ')
-
-						// //console.log(initedTable)
-
-						// //console.log('----------------------  ----------------------  ----------------------  ')
-
+						
 						initedTable._id = firstFreeTable
 
 						db.collection("users")
@@ -155,7 +150,7 @@ var startGame = function(w, b, connection, aiGame, idCb) {
 								name: w
 							}, function(err2, userInDb) {
 
-								//		if (!(userInDb == null)) {
+								
 								userInDb && userInDb.games.unshift({
 									wPlayer: true,
 									gameNo: initedTable._id,
@@ -205,7 +200,7 @@ var startGame = function(w, b, connection, aiGame, idCb) {
 														wPlayer: true,
 														opponentsName: b
 
-													}, 'openGamemmmmmmmmmmmmmmmmmmmmmmmmmmmmm', function() {})
+													}, '', function() {})
 
 													if (b) {
 
@@ -232,7 +227,7 @@ var startGame = function(w, b, connection, aiGame, idCb) {
 																wPlayer: false,
 																opponentsName: w
 
-															}, 'openGamemmmmmmmmmmmmmmmmmmmmmmmmmmmmm', function() {})
+															}, '', function() {})
 
 														}
 
@@ -246,15 +241,15 @@ var startGame = function(w, b, connection, aiGame, idCb) {
 															wPlayer: false,
 															opponentsName: w
 
-														}, 'openGamemmmmmmmmmmmmmmmmmmmmmmmmmmmmm', function() {})
+														}, '', function() {})
 													} else {
 														//against multiple, not logged in
-														clients.send(connection, 'openGame', {
-															_id: firstFreeTable,
-															wPlayer: true,
-															opponentsName: b
+														// clients.send(connection, 'openGame', {
+														// 	_id: firstFreeTable,
+														// 	wPlayer: true,
+														// 	opponentsName: b
 
-														}, 'openGamemmmmmmmmmmmmmmmmmmmmmmmmmmmmm', function() {})
+														// }, '', function() {})
 
 													}
 
