@@ -356,75 +356,75 @@
             };
         });
         
-        appModule.filter('wrotate',function(){
+        // appModule.filter('wrotate',function(){
         
-            return function (inTable){
+        //     return function (inTable){
                 
                 
                 
-                //console.log(inTable)
+        //         //console.log(inTable)
                 
-                if(inTable){
+        //         if(inTable){
                     
-                    var outTable=new Array(8)
+        //             var outTable=new Array(8)
                     
-					for (var i = 0; i < 8; i++) {
+		// 			for (var i = 0; i < 8; i++) {
                         
-                        outTable[i]=new Array(8)
+        //                 outTable[i]=new Array(8)
                         
-						for (var j = 0; j < 8; j++) {
+		// 				for (var j = 0; j < 8; j++) {
 
-                            outTable[i][j] = new Array(8)
-							outTable[i][j] = inTable[j][7 - i]
-                            //outTable[i][j][1] = inTable[j][7 - i][1]
+        //                     outTable[i][j] = new Array(8)
+		// 					outTable[i][j] = inTable[j][7 - i]
+        //                     //outTable[i][j][1] = inTable[j][7 - i][1]
 
-							if ((i + j) & 1) outTable[i][j][7] = true
+		// 					if ((i + j) & 1) outTable[i][j][7] = true
                             
-						}
-					}
+		// 				}
+		// 			}
                 
-                    return outTable
+        //             return outTable
                     
-                }
+        //         }
                 
                 
-            }
-        })
+        //     }
+        // })
 		
-        appModule.filter('brotate',function(){
+        // appModule.filter('brotate',function(){
         
-            return function (inTable){
+        //     return function (inTable){
                 
                 
                 
-                console.log(inTable)
+        //         console.log(inTable)
                 
-                if(inTable){
+        //         if(inTable){
                     
-                    var outTable=new Array(8)
+        //             var outTable=new Array(8)
                     
-					for (var i = 0; i < 8; i++) {
+		// 			for (var i = 0; i < 8; i++) {
                         
-                        outTable[i]=new Array(8)
+        //                 outTable[i]=new Array(8)
                         
-						for (var j = 0; j < 8; j++) {
+		// 				for (var j = 0; j < 8; j++) {
 
-                            outTable[i][j] = new Array(8)
-							outTable[i][j] = inTable[7-j][i]
-                            //outTable[i][j][1] = inTable[7-j][i][1]
+        //                     outTable[i][j] = new Array(8)
+		// 					outTable[i][j] = inTable[7-j][i]
+        //                     //outTable[i][j][1] = inTable[7-j][i][1]
 
-							if ((i + j) & 1) outTable[i][j][7] = true
+		// 					if ((i + j) & 1) outTable[i][j][7] = true
                             
-						}
-					}
+		// 				}
+		// 			}
                 
-                    return outTable
+        //             return outTable
                     
-                }
+        //         }
                 
                 
-            }
-        })
+        //     }
+        // })
 		
 		appModule.directive('wtable', ['$rootScope',function($rootScope) {
 			return {
@@ -444,8 +444,8 @@
                    
                     $rootScope.$watch('stable',function(oldValue,newValue){
                         
-                        console.log('oldValue',oldValue)
-                        console.log('newValue',newValue)
+                        // console.log('oldValue',oldValue)
+                        // console.log('newValue',newValue)
                         
                         scope.outTable=new Array(8)
                     
@@ -501,7 +501,7 @@
 		}])
 		
 		
-		appModule.directive('btable', [function() {
+		appModule.directive('btable', ['$rootScope',function($rootScope) {
 			return {
 				restrict: 'E',
 				scope: {
@@ -513,7 +513,44 @@
 					// imgPathStr1:'@',
 					// imgPathStr2:'@'
 				},
-				template: '<table class="{{myclass}}" ng-init="thing= (input | brotate)" onload="updateSizes()"">\
+                link: function(scope, element, attrs) {
+                   
+                    //console.log(scope.input)
+                   
+                    $rootScope.$watch('stable',function(oldValue,newValue){
+                        
+                        // console.log('oldValue',oldValue)
+                        // console.log('newValue',newValue)
+                        
+                        scope.outTable=new Array(8)
+                    
+                        for (var i = 0; i < 8; i++) {
+                            
+                            scope.outTable[i]=new Array(8)
+                            
+                            for (var j = 0; j < 8; j++) {
+
+                                scope.outTable[i][j] = new Array(8)
+                                scope.outTable[i][j] = scope.input[7-j][i]
+                                
+
+                                if ((i + j) & 1) scope.outTable[i][j][7] = true
+                                
+                            }
+                        }
+                    
+                        console.log(scope.outTable)
+                        
+                        
+                    },true)
+                   
+                    
+                   
+                   
+                   
+                   
+                },
+				template: '<table class="{{myclass}}" onload="updateSizes()"">\
 							<tr class="heading row0">\
 								<td class="left-column"></td>\
 								<td>H</td>\
@@ -525,7 +562,7 @@
 								<td>B</td>\
 								<td>A</td>\
 							</tr>\
-							<tr ng-repeat="(xIndex, x) in thing">\
+							<tr ng-repeat="(xIndex, x) in outTable">\
 								<td class="left-column">{{1+$index}}</td>\
 								<td ng-repeat="(yIndex, y) in x" ng-click="clickfunc(8-xIndex,7-yIndex)" ng-class="{ darker: y[7], square: !y[7]}">\
 									<div ng-class="divAroundIt">\
