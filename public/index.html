@@ -25,7 +25,8 @@
 	<script>
 		
         var indexGlobals={
-            myLastUser:'unknown'
+            myLastUser:'Computer',
+            pendingLearners:0
         }
 		
 		
@@ -350,6 +351,76 @@
                 return items.slice().reverse();
             };
         });
+        
+        appModule.filter('wrotate',function(){
+        
+            return function (inTable){
+                
+                
+                
+                //console.log(inTable)
+                
+                if(inTable){
+                    
+                    var outTable=new Array(8)
+                    
+					for (var i = 0; i < 8; i++) {
+                        
+                        outTable[i]=new Array(8)
+                        
+						for (var j = 0; j < 8; j++) {
+
+                            outTable[i][j] = new Array(8)
+							outTable[i][j] = inTable[j][7 - i]
+                            //outTable[i][j][1] = inTable[j][7 - i][1]
+
+							if ((i + j) & 1) outTable[i][j][7] = true
+                            
+						}
+					}
+                
+                    return outTable
+                    
+                }
+                
+                
+            }
+        })
+		
+        appModule.filter('brotate',function(){
+        
+            return function (inTable){
+                
+                
+                
+                console.log(inTable)
+                
+                if(inTable){
+                    
+                    var outTable=new Array(8)
+                    
+					for (var i = 0; i < 8; i++) {
+                        
+                        outTable[i]=new Array(8)
+                        
+						for (var j = 0; j < 8; j++) {
+
+                            outTable[i][j] = new Array(8)
+							outTable[i][j] = inTable[7-j][i]
+                            //outTable[i][j][1] = inTable[7-j][i][1]
+
+							if ((i + j) & 1) outTable[i][j][7] = true
+                            
+						}
+					}
+                
+                    return outTable
+                    
+                }
+                
+                
+            }
+        })
 		
 		appModule.directive('wtable', [function() {
 			return {
@@ -363,7 +434,7 @@
 					// imgPathStr1:'@',
 					// imgPathStr2:'@'
 				},
-				template: '<table class="{{myclass}}" onload="updateSizes()" style="width:{{sizempl}}%">\
+				template: '<table class="{{myclass}}" ng-init="thing= (input | wrotate)" onload="updateSizes()" style="width:{{sizempl}}%">\
 							<tr class="heading row0">\
 								<td class="left-column"></td>\
 								<td>A</td>\
@@ -375,9 +446,9 @@
 								<td>G</td>\
 								<td>H</td>\
 							</tr>\
-							<tr ng-repeat="(xIndex, x) in input track by $index">\
+							<tr ng-repeat="(xIndex, x) in thing">\
 								<td class="left-column">{{8-$index}}</td>\
-								<td ng-repeat="(yIndex, y) in x track by $index" ng-click="clickfunc(xIndex+1,yIndex)" ng-class="{ darker: y[7], square: !y[7]}">\
+								<td ng-repeat="(yIndex, y) in x" ng-click="clickfunc(xIndex+1,yIndex)" ng-class="{ darker: y[7], square: !y[7]}">\
 									<div ng-class="divAroundIt">\
 										<img ng-src="{{\'cPiecesPng/\'+y[0]+y[1]+\'.png\'}}" height="{{imgh}}" width="{{imgw}}" ng-class="{ selected: y[8]||y[9], selected2: y[15]}">\
 									</div>\
@@ -401,7 +472,7 @@
 					// imgPathStr1:'@',
 					// imgPathStr2:'@'
 				},
-				template: '<table class="{{myclass}}" onload="updateSizes()"">\
+				template: '<table class="{{myclass}}" ng-init="thing= (input | brotate)" onload="updateSizes()"">\
 							<tr class="heading row0">\
 								<td class="left-column"></td>\
 								<td>H</td>\
@@ -413,9 +484,9 @@
 								<td>B</td>\
 								<td>A</td>\
 							</tr>\
-							<tr ng-repeat="(xIndex, x) in input track by $index">\
+							<tr ng-repeat="(xIndex, x) in thing">\
 								<td class="left-column">{{1+$index}}</td>\
-								<td ng-repeat="(yIndex, y) in x track by $index" ng-click="clickfunc(8-xIndex,7-yIndex)" ng-class="{ darker: y[7], square: !y[7]}">\
+								<td ng-repeat="(yIndex, y) in x" ng-click="clickfunc(8-xIndex,7-yIndex)" ng-class="{ darker: y[7], square: !y[7]}">\
 									<div ng-class="divAroundIt">\
 										<img ng-src="{{\'cPiecesPng/\'+y[0]+y[1]+\'.png\'}}" height="{{imgh}}" width="{{imgw}}" ng-class="{ selected: y[8]||y[9], selected2: y[15]}">\
 									</div>\
@@ -1219,7 +1290,7 @@
 					case 'reporting':
                     
                     	client.connectionID=socketID
-						client.learningOn=myLastUser
+						client.learningOn=indexGlobals.myLastUser
                         console.log('reporting',client)
                         //client.customModCheckbox=data
                         socketSend('reporting',client)

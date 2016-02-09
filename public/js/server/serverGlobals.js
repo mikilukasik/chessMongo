@@ -4,7 +4,7 @@ var serverGlobals={
     learningGames:[],
     gameToReport:-1,
     reportedGame:{},
-    learnerTable:{}
+    learnerTable:new Dbtable('pre-init','pre-init','pre-init')
     
 }
 

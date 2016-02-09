@@ -4,59 +4,72 @@ var learnerGlobals={
 }
 var learnerFuncs={
     setLearnerCount:function(count,myLastUser){
-        if(learnerGlobals.learnerCount>count){
-            //stop some learners
-            var stopCount=learnerGlobals.learnerCount-count
+        
+        if(myLastUser=='Computer'){
             
-            while(stopCount--){
-                console.log('stop a learner')
-                
-                var workerToStop=learnerGlobals.learnerWorkers.pop()
-                
-                workerToStop.terminate()
-                
-                //then
-                learnerGlobals.learnerCount--
-            }
-            
-            
-            
+            indexGlobals.pendingLearners=count
             
             
         }else{
-            //start some learners or do nothing it equal
-            var startCount=count-learnerGlobals.learnerCount
             
-            while(startCount--){
+            
+            if(learnerGlobals.learnerCount>count){
+                //stop some learners
+                var stopCount=learnerGlobals.learnerCount-count
                 
-                console.log('start a learner')
-                
-                var workerToPush=new Worker('js/worker/learnerWorker.js')
-                
-                //set onmessage
-                workerToPush.onmessage=function(event){
+                while(stopCount--){
+                    console.log('stop a learner')
                     
+                    var workerToStop=learnerGlobals.learnerWorkers.pop()
+                    
+                    workerToStop.terminate()
+                    
+                    //then
+                    learnerGlobals.learnerCount--
                 }
                 
-                workerToPush.postMessage({
-                    command:'start',
-                    //host:document.location.host,
-                    myID:sendID,
-                    lastUser:myLastUser
-                }) 
                 
                 
                 
                 
-                learnerGlobals.learnerWorkers.push(workerToPush)
+            }else{
+                //start some learners or do nothing it equal
+                var startCount=count-learnerGlobals.learnerCount
+                
+                while(startCount--){
+                    
+                    console.log('start a learner')
+                    
+                    var workerToPush=new Worker('js/worker/learnerWorker.js')
+                    
+                    //set onmessage
+                    workerToPush.onmessage=function(event){
+                        
+                    }
+                    
+                    workerToPush.postMessage({
+                        command:'start',
+                        //host:document.location.host,
+                        myID:sendID,
+                        lastUser:myLastUser
+                    }) 
+                    
+                    
+                    
+                    
+                    learnerGlobals.learnerWorkers.push(workerToPush)
+                    
+                    
+                    learnerGlobals.learnerCount++
+                }
                 
                 
-                learnerGlobals.learnerCount++
+                
+                
             }
             
-            
-            
-            
         }
+        
+      
     }
 }

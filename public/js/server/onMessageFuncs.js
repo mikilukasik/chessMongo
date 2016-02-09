@@ -669,8 +669,7 @@ var onMessageFuncs = {
                 })
                 
             break;
-				//clients.send(connection,'updateDbTable',)
-				//	
+				
 		}
 
 	},

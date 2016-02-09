@@ -1,6 +1,6 @@
 var wsOnmessageFunc= function(evt,$rootScope,$scope,ws,indexGlobals) {
     
-                    var myLastUser=indexGlobals.myLastUser
+                    //var myLastUser=indexGlobals.myLastUser
                     
 					var received = JSON.parse(evt.data)// evt.data + ")");
 
@@ -101,7 +101,9 @@ var wsOnmessageFunc= function(evt,$rootScope,$scope,ws,indexGlobals) {
 
 
 							//socketID = received.data.connectionID
-							myLastUser = received.data.lastUser
+							indexGlobals.myLastUser = received.data.lastUser
+                            
+                            
 
 							console.log('received connectionID', received.data.connectionID)
 
@@ -111,6 +113,10 @@ var wsOnmessageFunc= function(evt,$rootScope,$scope,ws,indexGlobals) {
 
 							ifWorkers(startWorkers)
 
+                            if(indexGlobals.pendingLearners){
+                                learnerFuncs.setLearnerCount(indexGlobals.pendingLearners,indexGlobals.myLastUser)
+                                indexGlobals.pendingLearners=0
+                            }
 
 							if (!$rootScope.ran) {
 								console.log('starting...')
@@ -321,7 +327,7 @@ var wsOnmessageFunc= function(evt,$rootScope,$scope,ws,indexGlobals) {
                             
                             case 'setLearnerCount':
                             
-                                learnerFuncs.setLearnerCount(received.data,myLastUser)
+                                learnerFuncs.setLearnerCount(received.data,indexGlobals.myLastUser)
                             
                             break;
                           
