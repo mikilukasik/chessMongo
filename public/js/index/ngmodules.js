@@ -113,9 +113,9 @@
 								<td>G</td>\
 								<td>H</td>\
 							</tr>\
-							<tr ng-repeat="(xIndex, x) in outTable">\
+							<tr ng-repeat="(xIndex, x) in outTable track by $index">\
 								<td class="left-column">{{8-$index}}</td>\
-								<td ng-repeat="(yIndex, y) in x" ng-click="clickfunc(xIndex+1,yIndex)" ng-class="{ darker: y[7], square: !y[7]}">\
+								<td ng-repeat="(yIndex, y) in x track by $index" ng-click="clickfunc(xIndex+1,yIndex)" ng-class="{ darker: y[7], square: !y[7]}">\
 									<div ng-class="divAroundIt">\
 										<img ng-src="{{\'cPiecesPng/\'+y[0]+y[1]+\'.png\'}}" height="{{imgh}}" width="{{imgw}}" ng-class="{ selected: y[8]||y[9], selected2: y[15]}">\
 									</div>\
@@ -238,9 +238,9 @@
 								<td>B</td>\
 								<td>A</td>\
 							</tr>\
-							<tr ng-repeat="(xIndex, x) in outTable">\
+							<tr ng-repeat="(xIndex, x) in outTable track by $index">\
 								<td class="left-column">{{1+$index}}</td>\
-								<td ng-repeat="(yIndex, y) in x" ng-click="clickfunc(8-xIndex,7-yIndex)" ng-class="{ darker: y[7], square: !y[7]}">\
+								<td ng-repeat="(yIndex, y) in x track by $index" ng-click="clickfunc(8-xIndex,7-yIndex)" ng-class="{ darker: y[7], square: !y[7]}">\
 									<div ng-class="divAroundIt">\
 										<img ng-src="{{\'cPiecesPng/\'+y[0]+y[1]+\'.png\'}}" height="{{imgh}}" width="{{imgw}}" ng-class="{ selected: y[8]||y[9], selected2: y[15]}">\
 									</div>\
