@@ -89,7 +89,11 @@ var dbFuncs = {
                  connection.addedData.currentState='idle'
 			}
 			
-			cback(doc.lastUser)
+			if(doc&&doc.lastUser){
+				cback(doc.lastUser)
+			}else{
+				cback('new client')
+			}
             
             db.close()
 
