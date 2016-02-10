@@ -699,8 +699,7 @@ var onMessageFuncs = {
 
 	moved: function(connection, onTable) {
 
-		//var onTable = received.data// req.body
-
+		
 		onTable.moved = new Date()
 			.getTime()
 
@@ -708,8 +707,6 @@ var onMessageFuncs = {
 
 		onTable.command = ''
         
-        //onTable._id=new ObjectID(onTable._id)
-
 		mongodb.connect(cn, function(err, db) {
 			db.collection("tables")
             

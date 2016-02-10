@@ -1,6 +1,6 @@
 /////////////////////////		Classes		/////////////////////////////////////////////////
 //console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx classes loaded xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-var SmallDeepeningTask=function(table, wNext, depth, moveTree, desiredDepth, score, wPlayer, stopped, gameNum, mod){
+var SmallDeepeningTask=function(table, wNext, depth, moveTree, desiredDepth, score, wPlayer, stopped, gameNum, mod, shouldIDraw){
 	
         this.gameNum=gameNum
         
@@ -19,11 +19,17 @@ var SmallDeepeningTask=function(table, wNext, depth, moveTree, desiredDepth, sco
 		this.score= score
         
         this.mod=mod
+        
+        this.shouldIDraw=shouldIDraw
+        
+        //if(shouldIDraw!=undefined)console.log(shouldIDraw)
 
 }
 var MoveToSend = function(moveCoord, index, dbTableWithMoveTask, splitMoveId) {
 
 	var moveTask = dbTableWithMoveTask.moveTask
+    
+    this.shouldIDraw=moveTask.shouldIDraw
     
     this.mod=moveTask.mod
 
@@ -51,6 +57,10 @@ var MoveToSend = function(moveCoord, index, dbTableWithMoveTask, splitMoveId) {
 
 
 var SplitMove = function(dbTableWithMoveTask) {
+    
+    //console.log(JSON.stringify(dbTableWithMoveTask.moveTask))
+    
+    this.shouldIDraw=dbTableWithMoveTask.moveTask.shouldIDraw
 
 	this.started = new Date()
 
@@ -82,6 +92,8 @@ var SplitMove = function(dbTableWithMoveTask) {
 
 }
 var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for main thread and mainWorker ???not sure..     //smallMoveTask is a smallMoveTask, to be deepend further
+    
+    this.shouldIDraw = smallMoveTask.sharedData.shouldIDraw
     
     this.mod=smallMoveTask.mod
     
@@ -155,7 +167,7 @@ var DeepeningTask = function(smallMoveTask) { //keep this fast, designed for mai
 	this.smallDeepeningTaskCounts = [0, 1] //this will be an array of the total created smalldeepeningtasks per depth, depth 0 has 0, depth 1 has one in this splitmove
 
 
-	var initialSmallDeepeningTask = new SmallDeepeningTask(this.thisTaskTable, !this.initialWNext, this.actualDepth, this.initialTreeMoves, this.desiredDepth, this.firstDepthValue,smallMoveTask.cfColor, false, this.gameNum, this.mod)
+	var initialSmallDeepeningTask = new SmallDeepeningTask(this.thisTaskTable, !this.initialWNext, this.actualDepth, this.initialTreeMoves, this.desiredDepth, this.firstDepthValue,smallMoveTask.cfColor, false, this.gameNum, this.mod, this.shouldIDraw)
 	
 	//this.value=initialSmallDeepeningTask.score
 

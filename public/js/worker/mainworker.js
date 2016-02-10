@@ -222,8 +222,7 @@ var taskReceived = function(task) {
             sendSpeedStats=true
 
 			splitMoveStarted = new Date() // remove this!!!!!!!!!!!!!!!!!!!!
-
-			progress = {
+            progress = {
 
 				started: new Date(),
 
@@ -237,7 +236,12 @@ var taskReceived = function(task) {
 
 				tempDTasks: [],
                 
-                queuedMoves: []
+                queuedMoves: [],
+                
+                shouldIDraw:task.data[0].sharedData.shouldIDraw,
+                
+                origAllPastTables:task.data[0].sharedData.origAllPastTables,
+                origTable:task.data[0].sharedData.origTable
 
 				//updatedMoves:[]
 
@@ -420,13 +424,26 @@ onmessage = function(event) {
 
 				resolveDepth(2, tempResolveArray) //some hack to do 2nd level resolved deepmovetask
                 
+                
+                
 				var pushAgain = tempResolveArray[1][0]
-				
+				var moveStr=pushAgain.moveTree.slice(0, 4)
+                
+                if(!progress.shouldIDraw){
+                    
+                    var movedTable=moveIt(moveStr,progress.origTable)
+                    console.log(movedTable)
+                    var wouldLoop=evalFuncs.checkIfLooped(movedTable,progress.origAllPastTables)
+                    console.log(wouldLoop)
+                    
+                    
+                }
+                
 				pushAgain.moveIndex=resData.progress.moveIndex
 				pushAgain._id = workingOnGameNum
 				pushAgain.score = pushAgain.value
 				pushAgain.thinker = sendID.toString() //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-				pushAgain.move = pushAgain.moveTree.slice(0, 4)
+				pushAgain.move = moveStr
 
 				if (toPostSplitMoves == undefined) toPostSplitMoves = []
 				toPostSplitMoves.push(pushAgain)
@@ -631,7 +648,7 @@ onmessage = function(event) {
                                 sendThis.dmpm = ~~(60000 * progress.splitMoves * progress.overall / (tdate - progress.started)) / 100
                                 
                                 
-                                console.log('dmpm',sendThis.dmpm,tdate)
+                                //console.log('dmpm',sendThis.dmpm,tdate)
                                 
                             }
                             

@@ -20,8 +20,13 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
         this.moveCoords = moveCoord //one move only
 
         this.sharedData = moveTask.sharedData
+        
 
         this.sharedData.origTable = dbTableWithMoveTask.table
+        
+        this.sharedData.origAllPastTables = dbTableWithMoveTask.allPastTables
+        
+        
 
         this.sharedData.gameNum = dbTableWithMoveTask._id
 
@@ -68,36 +73,40 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
         
 
     var SplitMove = function(dbTableWithMoveTask) {
+    
+    //console.log(JSON.stringify(dbTableWithMoveTask.moveTask))
+    
+    this.shouldIDraw=dbTableWithMoveTask.moveTask.shouldIDraw
 
-        this.started = new Date()
+	this.started = new Date()
 
-        this.splitMoveIndex = undefined
+	this.splitMoveIndex = undefined
 
-        this.splitMoveID = Math.random() * Math.random()
+	this.splitMoveID = Math.random() * Math.random()
 
-        var movesToSend = []
+	var movesToSend = []
 
-        dbTableWithMoveTask.moveTask.moveCoords.forEach(function(moveCoord, index) {
+	dbTableWithMoveTask.moveTask.moveCoords.forEach(function(moveCoord, index) {
 
-            movesToSend.push(new MoveToSend(moveCoord, index, dbTableWithMoveTask, this.splitMoveID))
+		movesToSend.push(new MoveToSend(moveCoord, index, dbTableWithMoveTask, this.splitMoveID))
 
-        })
+	})
 
-        this.movesToSend = movesToSend //this will get empty as we send the moves out for processing
+	this.movesToSend = movesToSend //this will get empty as we send the moves out for processing
 
-        this.moves = movesToSend.slice() //this should stay full
+	this.moves = movesToSend.slice() //this should stay full
 
-        this.thinkers = [] //this will get filled with the clients working on this splitmove
+	this.thinkers = [] //this will get filled with the clients working on this splitmove
 
-        this.gameNum = dbTableWithMoveTask._id
+	this.gameNum = dbTableWithMoveTask._id
 
-        this.origTable = dbTableWithMoveTask.table
+	this.origTable = dbTableWithMoveTask.table
 
-        this.origMoveTask = dbTableWithMoveTask.moveTask
+	this.origMoveTask = dbTableWithMoveTask.moveTask
 
-        this.pendingMoveCount = dbTableWithMoveTask.moveTask.moveCoords.length
+	this.pendingMoveCount = dbTableWithMoveTask.moveTask.moveCoords.length
 
-    }
+}
 
     var adminLog=clients.adminLog
 
@@ -213,10 +222,14 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
         
         adminLog('----->   new splitmove, game ',dbTableWithMoveTask._id)
 
+        //adminLog(JSON.stringify(dbTableWithMoveTask))
+
+
 		var splitMove = new SplitMove(dbTableWithMoveTask)
 
 		var splitMoveIndex = store.q.push(splitMove) - 1
-
+        
+        
 		splitMove.splitMoveIndex = splitMoveIndex
 
 		splitMove.origTable = dbTableWithMoveTask
@@ -247,6 +260,11 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
 			sendThese.forEach(function(move) {
 
 				
+                //adminLog(JSON.stringify(move))
+
+
+
+                
 				if(move)move.sentToName = thinker.addedData.lastUser
 					
 			})

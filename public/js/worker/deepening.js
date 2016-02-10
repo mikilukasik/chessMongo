@@ -42,9 +42,14 @@ function clone(obj) {
 
 var MoveTaskN = function(dbTable,mod) {
     
+    var shouldIDraw=evalFuncs.shouldIDraw(dbTable)
+    this.shouldIDraw=shouldIDraw
+    
     if(mod)this.mod=mod
     
     this.sharedData = {
+        
+        shouldIDraw:shouldIDraw,
         
         origWNext:dbTable.wNext,
       
@@ -131,7 +136,7 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){
 		if(captured(sdtTable,newWNext)){
 			//invalid move, sakkban maradt
 			
-			result=[new SmallDeepeningTask(sdtTable,newWNext,sdtDepth+1,smallDeepeningTask.moveTree,smallDeepeningTask.desiredDepth,100,smallDeepeningTask.wPlayer,false,smallDeepeningTask.gameNum,smallDeepeningTask.mod)]
+			result=[new SmallDeepeningTask(sdtTable,newWNext,sdtDepth+1,smallDeepeningTask.moveTree,smallDeepeningTask.desiredDepth,100,smallDeepeningTask.wPlayer,false,smallDeepeningTask.gameNum,smallDeepeningTask.mod, smallDeepeningTask.shouldIDraw)]
 			
 		}
 		
@@ -172,18 +177,26 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){
 			if(sdtDepth == smallDeepeningTask.desiredDepth){
 				//////depth reached, eval table
 				
-                //console.log(smallDeepeningTask.mod)
-  
                 
 				var newScore=new Int32Array(1)
+                
+                
+                
+               //console.log(smallDeepeningTask.shouldIDraw)
+                
+                
+                
+                
 				
 				if(isNegative){
+                    
+                    
 					
-					newScore[0]=(sdtScore[0] << 16) - getHitScores(sdtTable,smallDeepeningTask.wNext,false,smallDeepeningTask.wPlayer,smallDeepeningTask.mod)[0]
+					newScore[0]=(sdtScore[0] << 16) - getHitScores(sdtTable,smallDeepeningTask.wNext,false,smallDeepeningTask.wPlayer,smallDeepeningTask.mod, smallDeepeningTask.shouldIDraw)[0]
 					
 				}else{
 				
-					newScore[0]=(sdtScore[0] << 16) + getHitScores(sdtTable,smallDeepeningTask.wNext,true,smallDeepeningTask.wPlayer,smallDeepeningTask.mod)[0]
+					newScore[0]=(sdtScore[0] << 16) + getHitScores(sdtTable,smallDeepeningTask.wNext,true,smallDeepeningTask.wPlayer,smallDeepeningTask.mod, smallDeepeningTask.shouldIDraw)[0]
 				}
 				
 				
@@ -203,7 +216,9 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){
                         
                         smallDeepeningTask.gameNum,
                         
-                        smallDeepeningTask.mod
+                        smallDeepeningTask.mod,
+                        
+                        smallDeepeningTask.shouldIDraw
 
 					)
 
@@ -272,7 +287,9 @@ function solveSmallDeepeningTask(smallDeepeningTask, resolverArray){
                         
                         smallDeepeningTask.gameNum,
                         
-                        smallDeepeningTask.mod
+                        smallDeepeningTask.mod,
+                        
+                        smallDeepeningTask.shouldIDraw
 
 
 					)
@@ -323,7 +340,8 @@ function solveDeepeningTask(deepeningTask, someCommand) { //designed to solve th
 			desiredDepth: deepeningTask.desiredDepth,
 			smallDeepeningTasks: [deepeningTask],
             wPlayer: deepeningTask.wPlayer,
-            mod:deepeningTask.mod
+            mod:deepeningTask.mod,
+            shouldIDraw:deepeningTask.shouldIDraw
 		}
 		deepeningTask = tempDeepeningTask
 	}
@@ -485,7 +503,6 @@ function singleThreadAi(tempDbTable,depth,cb,mod){
    
     var dbTable=clone(tempDbTable)
    
-    //from index 
     dbTable.moveTask=new MoveTaskN(dbTable,mod)
     
     dbTable.moveTask.sharedData.desiredDepth=depth

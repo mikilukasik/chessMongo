@@ -63,7 +63,17 @@ var evalFuncs={
         }
         
         return false
-    }
+    },
+    
+    checkIfLooped:function(newTable,allPastTables){
+        
+      allPastTables.forEach(function(pastTable){
+          console.log(pastTable)
+      })  
+      
+      return 'shit'  
+        
+    },
 }
 
 function checkIfFinished(dbTable) {
@@ -131,8 +141,7 @@ function checkIfFinished(dbTable) {
 /////////////////////// from old ai //////////////////////////
 
 function getMcFromMv(modVal) {
-	//var modConst=getMcFromMv(modVal)  
-
+	
 	var modConst = 1
 
 	if (modVal <= 50) {
