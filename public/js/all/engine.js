@@ -51,8 +51,18 @@ var evalFuncs={
         
         return result
         
+    },
+    
+    shouldIDraw:function(dbTable){
+        var pieceVals=this.getPieceValues(dbTable)
         
+        if(dbTable.wNext){
+            if(pieceVals.wVal<pieceVals.bVal) return true
+        }else{
+            if(pieceVals.wVal>pieceVals.bVal) return true
+        }
         
+        return false
     }
 }
 
