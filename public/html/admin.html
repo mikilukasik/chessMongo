@@ -224,8 +224,8 @@
         </table>
         </td>
             <td>
-                <wtable input="learnerTable.table" imgh='20' imgw='20' ng-class="{selected:learnerTable.wNext}"/>
-                <btable input="learnerTable.table" imgh='20' imgw='20' ng-class="{selected:!learnerTable.wNext}/>
+                <div class="noborder" ng-class="{bordered:learnerTable.wNext,noborder:!learnerTable.wNext}"><wtable input="learnerTable.table" imgh='20' imgw='20'/></div>
+                <div class="noborder" ng-class="{bordered:!learnerTable.wNext,noborder:learnerTable.wNext}"><btable input="learnerTable.table" imgh='20' imgw='20'/></div>
             </td>
         </tr>
 	</table>

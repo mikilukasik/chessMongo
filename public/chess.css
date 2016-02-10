@@ -300,6 +300,14 @@
   border: 1px solid lightblue;
 }
 
+.bordered {
+  border: 5px solid orange;
+}
+.noborder {
+  border: 5px solid rgba(0,0,0,0) ;
+  
+}
+
 .wBorder {
   border: none;
   border-bottom: 2px solid white;
