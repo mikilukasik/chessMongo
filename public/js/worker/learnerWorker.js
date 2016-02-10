@@ -158,6 +158,7 @@ var play=function(){
         
         var resp=JSON.parse(ret.response)
         
+      
         var modType=resp[~~(resp.length*Math.random())]
         
         simpleGet('/api/mod/limits?mod='+modType,function(ret2){
