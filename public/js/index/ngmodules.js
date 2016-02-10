@@ -24,7 +24,7 @@
                   
                     scope.$watch('input',function(oldValue,newValue){
                         
-                        console.log('si',scope.input,'o',oldValue,'n',newValue)
+                        //console.log('si',scope.input,'o',oldValue,'n',newValue)
                        
                         if(scope.input&&oldValue&&newValue){
                        
@@ -94,7 +94,7 @@
                         }
                         
                                 
-                        //console.log(scope.outTable)
+                        ////console.log(scope.outTable)
                     }
                         
                     },true)
@@ -152,7 +152,7 @@
                         
                         if(scope.input&&oldValue&&newValue){
                         
-                         console.log('si',scope.input,'o',oldValue,'n',newValue)
+                         //console.log('si',scope.input,'o',oldValue,'n',newValue)
                         
                          var changed=false
                         
@@ -225,7 +225,7 @@
                         }
                         
                         
-                        //console.log(scope.outTable)
+                        ////console.log(scope.outTable)
                         
                     }
                     },true)

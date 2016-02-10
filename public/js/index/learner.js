@@ -45,6 +45,20 @@ var learnerFuncs={
                     //set onmessage
                     workerToPush.onmessage=function(event){
                         
+                        switch(event.data.command){
+                            
+                            case 'toServer':
+                            
+                                //console.log('toserver in learner.js')
+                                
+                                socketSend(event.data.data.command,event.data.data.data,event.data.data.message)
+                            
+                            break;
+                            
+                            
+                            
+                        }
+                        
                     }
                     
                     workerToPush.postMessage({

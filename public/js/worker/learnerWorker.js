@@ -8,7 +8,8 @@ var learnerGlobals={
     playing:false,
     myID:undefined,
     lastUser:undefined,
-    gameNum:undefined
+    gameNum:undefined,
+    reporting:false
 }
 
 
@@ -58,8 +59,18 @@ var playGame=function(myGame, mod, wNx, wMod){
         //var toConsole = [] //to chat?
          moveInTable(aiMoveString, myGame, true) //true means learnerGame,no need to eval within moveintable
 
+         
+
+
          setTimeout(function() {
-    
+             
+             if (learnerGlobals.reporting){
+        
+                learnerToServer('learnerReport',myGame)
+                
+                
+            }
+        
             playGame(myGame, mod, !wNx, wMod)
 
         }, 100)
@@ -74,74 +85,19 @@ var playGame=function(myGame, mod, wNx, wMod){
         
         
         if (wMod) {
-            //////////console.log('Starting rematch (play black)')
-            //console.log('Starting rematch (play black)')
+            
             setTimeout(playModGamePair(mod,true), 500)
+            
         } else {
-            //////////console.log('gamepair done, starting again with white')
-            //console.log('gamepair done, starting again with white')
+           
             setTimeout(play(), 500)
 
-
-
-
-				}
-
-
+		}
 
     }
     
     
-    // if (myGame.gameIsOn) {
-				
-
-    //     // moveInTable(aiMoveString, myGame, true) //true means learnerGame,no need to eval within moveintable
-
-
-    // } else {
-        
-    //     //evalGame(myGame, true)
-
-    //     // myGame.pollNum++
-
-    //     //     $http.post('/moved', myGame, function(req, res) {})
-
-
-
-    // }
-    
-    
-    // if (myGame.pollNum / 15 == Math.floor(myGame.pollNum / 15)) {
-    // 	$http.post('/moved', myGame, function(req, res) {})
-
-    // 	$scope.sendMessage('playing on t' + myGame._id + ', p' + myGame.pollNum)
-
-    // }
-
-    //if (myGame.pollNum / 250 == Math.floor(myGame.pollNum / 250)) { // !!!!!!!!!
-				
-    // 	var tableTotal = getTableTotal(myGame.table)
-
-
-
-    // 	if ($scope.lastTotal == tableTotal) {
-    // 		myGame.gameIsOn = false
-    // 		evalGame(myGame, true)
-    // 		myGame.gameIsOn = false
-    // 	} else {
-    // 		$scope.lastTotal = tableTotal
-    // 	}
-
-    // }
-
-
-    
-    
-    
-    
-    
-    
-    
+       
 }
 
 var prePlayGame = function(myGame, mod, wNx, wMod) {
@@ -254,7 +210,9 @@ onmessage = function(event){
         
             if(event.data.data==learnerGlobals.gameNum){
                 
-                //console.log('learner starts reporting')
+                console.log('learner starts reporting')
+                
+                learnerGlobals.reporting=true
                 
             }else{
                 //console.log('@@@',event.data.data,learnerGlobals.gameNum)
@@ -266,7 +224,9 @@ onmessage = function(event){
         
             if(event.data.data==learnerGlobals.gameNum){
                 
-                //console.log('learner stops reporting')
+                console.log('learner stops reporting')
+                learnerGlobals.reporting=false
+                
                 
             }else{
                 //console.log('@@@',event.data.data,learnerGlobals.gameNum)
@@ -285,5 +245,25 @@ onmessage = function(event){
     
     
 }
+
+
+function learnerToServer(command, data, message, cb) {
+
+	postMessage({
+		'command': 'toServer',
+		'message': 'toServer',
+		'data': {
+			command: command,
+			data: data,
+			message: message,
+
+		}
+
+	})
+
+	if (cb) cb()
+
+}
+
 
 

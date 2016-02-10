@@ -197,6 +197,29 @@ var onMessageFuncs = {
 		
 	},
 	
+	learnerReport:function(connection,data){
+	
+		
+	
+		if(serverGlobals.gameToReport==data._id){
+			
+			console.log('learner report received.')
+			
+			serverGlobals.learnerTable=data
+			
+			clients.publishView('admin.html','default','learnerTable',data)
+			
+			
+			
+		}else{
+			console.log('learner report has wrong ID',serverGlobals.gameToReport,data._id)
+		}
+	
+	
+	
+		
+	},
+	
     removeMod:function(connection,data){
         
         if(data.connectionID=='default'){

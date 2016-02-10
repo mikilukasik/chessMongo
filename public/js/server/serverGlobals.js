@@ -3,7 +3,7 @@ var serverGlobals={
     allMods:[],
     learningGames:[],
     gameToReport:-1,
-    reportedGame:{},
+    //reportedGame:{},
     learnerTable:new Dbtable('pre-init','pre-init','pre-init')
     
 }
