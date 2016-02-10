@@ -1,31 +1,27 @@
 <table class="collapsed">
-				
-					
-					<tr>
-						<td nowrap class="wBorder statusBox" style="height:20vw;vertical-align:top"> 
-							<form ng-submit="setDepth(depth)">
-								Depth:
-								<input ng-model="depth" style="width:40px">
-								<button>Set</button>
-							</form>
-							<br>
-							<button ng-if="dbTable.wName=='Computer'||dbTable.bName=='Computer'" ng-click="takeItBack()">Oooops!!</button>
-							
-							<br>
-							<span ng-if="dbTable.wNext==wPlayer">Your turn.</span> 
-							<span ng-if="dbTable.wNext!=wPlayer">Please wait..</span> 
-							<br>
-							<br>
-							<busythinkers input='busyThinkers'/>
-							
-							
-							
-							
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<moves input="dbTable.moves" imgsize='20'/>
-						</td>
-					</tr>
-				</table>
+    <tr>
+        <td nowrap class="wBorder statusBox" style="height:20vw;vertical-align:top"> 
+            <form ng-submit="setDepth(depth)">
+                Depth:
+                <input ng-model="depth" style="width:40px">
+                <button>Set</button>
+            </form>
+            <br>
+            <button ng-if="dbTable.wName=='Computer'||dbTable.bName=='Computer'" ng-click="takeItBack()">Oooops!!</button>
+            
+            <br>
+            <span ng-if="dbTable.wNext==wPlayer">Your turn.</span> 
+            <span ng-if="dbTable.wNext!=wPlayer">Please wait..</span> 
+            <br>
+            <br>
+            
+            <busythinkers input='busyThinkers'/>
+        
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <moves input="dbTable.moves" imgsize='20'/>
+        </td>
+    </tr>
+</table>
