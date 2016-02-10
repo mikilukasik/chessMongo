@@ -554,9 +554,12 @@
 					
 					$scope.clearHighlights(store.oopsStates[$rootScope.dbTable._id].table)
 					
+                    
+                    console.log('before adding pastState:',dbTable.allPastTables.length)
 					dbTable = moveInTable(moveStr, dbTable, false)
                        
-                       
+                     console.log('after adding pastState:',dbTable.allPastTables.length)
+					   
                     dbTable._id = $rootScope.dbTable._id
 					dbTable.desiredDepth = $rootScope.depth
                     
@@ -875,7 +878,8 @@
 							'dbTable.moves',
 							'busyThinkers',
 							'dbTable.wNext',
-							'wPlayer'
+							'wPlayer',
+                            'dbTable.allPastTables'
 
 						]
 

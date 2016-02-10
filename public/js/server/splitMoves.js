@@ -489,10 +489,12 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
 
                         db2.collection("tables")
                             .save(tableInDb, function(err3, res) {
+                                
+                                db2.close()
 
                                 publishTable(tableInDb)
 
-                                db2.close()
+                                
 
                                 store.q.splice(qIndex, 1)
 
@@ -935,7 +937,11 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
 
 		clients.publishView('board.html', dbTable._id, 'dbTable.chat', dbTable.chat)
 
-		clients.publishView('board.html', dbTable._id, 'dbTable.moves', dbTable.moves)
+		clients.publishView('board.html', dbTable._id, 'dbTable.allPastTables', dbTable.allPastTables)
+        
+        clients.publishView('board.html', dbTable._id, 'dbTable.moves', dbTable.moves)
+        
+        
 
 	}
     

@@ -717,7 +717,7 @@ var onMessageFuncs = {
                 //console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',dat._id)
                 var tempID=dat._id
                 dat=onTable
-                dat.id=tempID
+                dat._id=tempID
                 
                 db.collection("tables").save(dat, function(err3, res) {
 					//table moved and saved, let's check what to do
