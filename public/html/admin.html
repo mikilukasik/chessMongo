@@ -1,28 +1,31 @@
 <style>
-
-.atable, .atd  {
-  border: 1px solid grey;
-  border-collapse: collapse;
-  padding: 5px;
-  
+.atable,
+.atd {
+	border: 1px solid grey;
+	border-collapse: collapse;
+	padding: 5px;
 }
+
 .btd {
-	 border: none;
+	border: none;
 	border-collapse: collapse;
 	padding: 5px;
 	width: 100px;
 }
-.atable tr:nth-child(odd)	{
-  background-color: #f1f1f1;
-}
-.atable tr:nth-child(even) {
-  background-color: #ffffff;
+
+.atable tr:nth-child(odd) {
+	background-color: #f1f1f1;
 }
 
-.msgs{
-	vertical-align:bottom;
-	height:80%
+.atable tr:nth-child(even) {
+	background-color: #ffffff;
 }
+
+.msgs {
+	vertical-align: bottom;
+	height: 80%
+}
+
 .makeGreen {
 	color: green
 }
@@ -37,264 +40,255 @@
 
 </style>
 <table style="background-color: #f3f3f3" class="frame-table">
-    <tr>
-        <td style="vertical-align:top">
-<div>
+	<tr>
+		<td style="vertical-align:top">
+			<div>
 
-<h3>Clients:</h3>
+				<h3>Clients:</h3>
 
-	<button ng-click="refreshAllBrowsers()">Refresh all browsers</button>
+				<button ng-click="refreshAllBrowsers()">Refresh all browsers</button>
 
+				<br><br>
+				<div style="width:100%;overflow-x:scroll">
+					<table class="atable">
+						<tr>
+							<th class="atd">ref</th>
+							<th class="atd" ng-repeat="x in clients | reverse track by $index">
 
-	<br><br>
-	<div style="width:100%;overflow-x:scroll">
-	<table class="atable">
-		<tr>
-			<th class="atd">ref</th>
-			<th class="atd"  ng-repeat="x in clients | reverse track by $index">
-					
-					{{x.lastUser}}
-					<div ng-if="!x.lastUser">
-					<form ng-submit="adminButtons('setLastUser',x,setLastUserTo)"><input ng-model="setLastUserTo"></input><button>set</button></form>
-					</div> 
-					
-					
-				
-			</th>
-		</tr>
-		
-		
-		<tr>
-			<td class="atd">commands</td>
-			<td nowrap class="atd"  ng-repeat="x in clients | reverse track by $index">
-					
-					<button ng-click="adminButtons('runClientSpeedTest',x)">speedTest</button>
-					<button ng-click="adminButtons('refreshBrowser',x)">refreshBrowser</button><br>
-					
-			</td>
-		</tr>
-        
-        <tr>
-			<td class="atd">learners</td>
-            
-			<td nowrap class="atd"  ng-repeat="x in clients | reverse track by $index">
-					
-					
-					<label>active:</label>{{x.learnerCount}} 
-                        <button ng-click="adminButtons('learnerCount',x,x.learnerCount+1)">+</button><button ng-if="x.learnerCount>0" ng-click="adminButtons('learnerCount',x,x.learnerCount-1)">-</button><button ng-if="x.learnerCount>0" ng-click="adminButtons('learnerCount',x,0)">Stop</button>
-						<hr>
-                    <input type="checkbox" ng-model="x.customModCheckbox" ng-change="adminButtons('customModCheckbox',x,x.customModCheckbox)"><label>custom mods</label><span ng-if="x.customModCheckbox">:<span ng-repeat="z in x.mod track by $index"><span ng-if="$index!=0">,</span>{{z}}<button ng-click="adminButtons('removeMod',x,$index)">-</button></span>
-					<br>
-                    <form ng-submit="adminButtons('addMod',x,x.modToAdd)"><input ng-model="x.modToAdd"><button>Add mod</button></form></span>
-			</td>
-		</tr>
-		
-		<tr>
-			<td class="atd">speed</td>
-			<td class="atd"  ng-repeat="x in clients | reverse track by $index">
-					
-					<strong>{{x.speed}}</strong>
-                    
-				
-			</td>
-		</tr><tr>
-			<td class="atd">loggedInAs</td>
-			<td class="atd"  ng-repeat="x in clients | reverse track by $index">
-					
-					{{x.loggedInAs}}<span ng-if="x.stayLoggedIn">*</span><span ng-if="x.isAdmin"> (Admin)</span>
-				
-			</td>
-		</tr><tr>
-			<td class="atd">currentState</td>	
-			<td class="atd"  ng-repeat="x in clients | reverse track by $index">
-					
-					{{x.currentState}}
-				
-			</td>
-		</tr><tr>
-			<td class="atd">viewing</td>	
-			<td class="atd"  ng-repeat="x in clients | reverse track by $index">
-					
-					{{x.viewing.viewName}} / {{x.viewing.subViewName}}
-				
-			</td>
-		</tr><tr>
-			<td class="atd">connectionID</td>	
-			<td class="atd"  ng-repeat="x in clients | reverse track by $index">
-					
-					{{x.connectionID}}
-				
-			</td>
-		</tr><tr>
-			<td class="atd">writable</td>	
-			<td class="atd"  ng-repeat="x in clients | reverse track by $index">
-					
-					{{x.writable}}
-				
-			</td>
-		</tr><tr>
-			<td class="atd">speedStats</td>	
-			<td class="atd"  ng-repeat="x in clients | reverse track by $index">
-					<div ng-repeat="y in x.speedStats track by $index" ng-if="y">{{$index}}: {{y}}</div><br>
-                    <div ng-if="x.speedStats[3]/x.speedStats[4]">3/4: {{x.speedStats[3]/x.speedStats[4]}}</div>
-                    
-				
-			</td>
-		</tr>
-		
-	</table>
-	</div>
+								{{x.lastUser}}
+								<div ng-if="!x.lastUser">
+									<form ng-submit="adminButtons('setLastUser',x,setLastUserTo)"><input ng-model="setLastUserTo"></input><button>set</button></form>
+								</div>
 
+							</th>
+						</tr>
 
-<h3>Learners:</h3>
-    
-    <h4>modVal custom limits:</h4>
-    <table class="atable">
-        <tr>
-            <td>
-                mod
-            </td>
-            <td>
-                min
-            </td>
-            <td>
-                max
-            </td>
-            <td>
-                remove
-            </td>
-        </tr>   
-        <tr ng-repeat="z in allMods track by $index">
-            
-            <td>{{z.modType}}</td>
-            <td><form ng-submit="adminButtons('setModValMin',{},{min:z.min,index:$index})"><input ng-model="z.min"><button>Set</button></form></td>
-            <td><form ng-submit="adminButtons('setModValMax',{},{max:z.max,index:$index})"><input ng-model="z.max"><button>Set</button></form></td>
-            <td><button ng-click="adminButtons('removeFromAllMods',{},$index)">Remove</button></td>
-        
-        </tr>
-    
-    </table>
-    <br>
-    <h4>default mods:</h4><span ng-repeat="z in defaultMod track by $index"><span ng-if="$index!=0">,</span>{{z}}<button ng-click="adminButtons('removeMod',{connectionID:'default'},$index)">-</button></span>
-					<br>
-                    <form ng-submit="adminButtons('addMod',{connectionID:'default'},temp1.modToAdd)"><input ng-model="temp1.modToAdd"><button>Add mod</button></form>
+						<tr>
+							<td class="atd">commands</td>
+							<td nowrap class="atd" ng-repeat="x in clients | reverse track by $index">
 
-    <table class="atable">
-        <tr ng-repeat="x in learners">
-            <td ng-repeat="y in x">
-                {{y}}
-            </td>
-        </tr>
-    </table>
-	
-	<h4>active learning games:</h4>
-	<table>
-        <tr><td>
-        <table class="atable">
-            <tr>
-                <!--<td ng-repeat="(key,val) in learningGames[0]">{{key}}</td>-->
-                <td>_id</td>
-                <td>reporting</td>
-                <td>modStr</td>
-                <td>wModded</td>
-                <td>learningOn</td>
-                <td>connectionID</td>
-                
-            </tr>   
-            <tr ng-repeat="x in learningGames">
-                <td>
-                    {{x._id}}
-                </td>
-                <td>
-                    <input type="checkbox" ng-model="x.reporting" ng-change="adminButtons('reporting',x,x.reporting)"/>
-                </td>
-                <td>
-                    {{x.modStr}}
-                </td>
-                <td>
-                    {{x.wModded}}
-                </td>
-                <td>
-                    {{x.learningOn}}
-                </td>
-                <td>
-                    {{x.connectionID}}
-                </td>
-            </tr>
-        </table>
-        </td>
-            <td>
-                <div class="noborder" ng-class="{bordered:learnerTable.wNext,noborder:!learnerTable.wNext}"><wtable input="learnerTable.table" imgh='20' imgw='20'/></div>
-                <div class="noborder" ng-class="{bordered:!learnerTable.wNext,noborder:learnerTable.wNext}"><btable input="learnerTable.table" imgh='20' imgw='20'/></div>
-            </td>
-        </tr>
-	</table>
-	
+								<button ng-click="adminButtons('runClientSpeedTest',x)">speedTest</button>
+								<button ng-click="adminButtons('refreshBrowser',x)">refreshBrowser</button><br>
 
-<h3>Views:</h3>
+							</td>
+						</tr>
 
-	<table class="atable">
-	
-		<tr ng-repeat="x in activeViews track by $index">
-			
-		<td class="atd">{{x.viewName}}</td>
-		
-		<td class="atd">
-			
-			<table>
-				
-				<tr ng-repeat="y in x.subViews track by $index">
-					
-					<td class="atd">
-						{{y.subViewName}}
-					</td>
-					
-					
-					<td class="atd"  ng-repeat="z in y.viewParts track by $index">
-				
-						{{z.viewPartName}}: {{z.viewers}}
-						
-					</td>
-							
-					
-					
-				</tr>
-				
-				
-				
-				
-			</table>
-					
-			
-		</td>
-				
+						<tr>
+							<td class="atd">learners</td>
 
-			
-		</tr>
-		
-		
-		
-		
-		
-	</table>
-    
-    
-    
-    
-    
-<h3>SplitMoves:</h3>
+							<td nowrap class="atd" ng-repeat="x in clients | reverse track by $index">
 
-	<table class="atable">
-	
-		<tr ng-repeat="x in splitMoves track by $index">
-			
-		  <td class="atd" >{{x.gameNum}}</td>
-          
-          <td>
-              
-              <div>
-                  
-                  <span style="display:inline-block;border:1px solid grey" ng-repeat="y in x.moves" ng-class="{makeGreen: y.done , makeRed: !y.done }">
+								<label>active:</label>{{x.learnerCount}}
+								<button ng-click="adminButtons('learnerCount',x,x.learnerCount+1)">+</button><button ng-if="x.learnerCount>0" ng-click="adminButtons('learnerCount',x,x.learnerCount-1)">-</button><button ng-if="x.learnerCount>0" ng-click="adminButtons('learnerCount',x,0)">Stop</button>
+								<hr>
+								<input type="checkbox" ng-model="x.customModCheckbox" ng-change="adminButtons('customModCheckbox',x,x.customModCheckbox)"><label>custom mods</label><span ng-if="x.customModCheckbox">:<span ng-repeat="z in x.mod track by $index"><span ng-if="$index!=0">,</span>{{z}}<button ng-click="adminButtons('removeMod',x,$index)">-</button></span>
+								<br>
+								<form ng-submit="adminButtons('addMod',x,x.modToAdd)"><input ng-model="x.modToAdd"><button>Add mod</button></form>
+								</span>
+							</td>
+						</tr>
+
+						<tr>
+							<td class="atd">speed</td>
+							<td class="atd" ng-repeat="x in clients | reverse track by $index">
+
+								<strong>{{x.speed}}</strong>
+
+							</td>
+						</tr>
+						<tr>
+							<td class="atd">loggedInAs</td>
+							<td class="atd" ng-repeat="x in clients | reverse track by $index">
+
+								{{x.loggedInAs}}<span ng-if="x.stayLoggedIn">*</span><span ng-if="x.isAdmin"> (Admin)</span>
+
+							</td>
+						</tr>
+						<tr>
+							<td class="atd">currentState</td>
+							<td class="atd" ng-repeat="x in clients | reverse track by $index">
+
+								{{x.currentState}}
+
+							</td>
+						</tr>
+						<tr>
+							<td class="atd">viewing</td>
+							<td class="atd" ng-repeat="x in clients | reverse track by $index">
+
+								{{x.viewing.viewName}} / {{x.viewing.subViewName}}
+
+							</td>
+						</tr>
+						<tr>
+							<td class="atd">connectionID</td>
+							<td class="atd" ng-repeat="x in clients | reverse track by $index">
+
+								{{x.connectionID}}
+
+							</td>
+						</tr>
+						<tr>
+							<td class="atd">writable</td>
+							<td class="atd" ng-repeat="x in clients | reverse track by $index">
+
+								{{x.writable}}
+
+							</td>
+						</tr>
+						<tr>
+							<td class="atd">speedStats</td>
+							<td class="atd" ng-repeat="x in clients | reverse track by $index">
+								<div ng-repeat="y in x.speedStats track by $index" ng-if="y">{{$index}}: {{y}}</div><br>
+								<div ng-if="x.speedStats[3]/x.speedStats[4]">3/4: {{x.speedStats[3]/x.speedStats[4]}}</div>
+
+							</td>
+						</tr>
+
+					</table>
+				</div>
+
+				<h3>Learners:</h3>
+
+				<h4>modVal custom limits:</h4>
+				<table class="atable">
+					<tr>
+						<td>
+							mod
+						</td>
+						<td>
+							min
+						</td>
+						<td>
+							max
+						</td>
+						<td>
+							remove
+						</td>
+					</tr>
+					<tr ng-repeat="z in allMods track by $index">
+
+						<td>{{z.modType}}</td>
+						<td>
+							<form ng-submit="adminButtons('setModValMin',{},{min:z.min,index:$index})"><input ng-model="z.min"><button>Set</button></form>
+						</td>
+						<td>
+							<form ng-submit="adminButtons('setModValMax',{},{max:z.max,index:$index})"><input ng-model="z.max"><button>Set</button></form>
+						</td>
+						<td><button ng-click="adminButtons('removeFromAllMods',{},$index)">Remove</button></td>
+
+					</tr>
+
+				</table>
+				<br>
+				<h4>default mods:</h4><span ng-repeat="z in defaultMod track by $index"><span ng-if="$index!=0">,</span>{{z}}<button ng-click="adminButtons('removeMod',{connectionID:'default'},$index)">-</button></span>
+				<br>
+				<form ng-submit="adminButtons('addMod',{connectionID:'default'},temp1.modToAdd)"><input ng-model="temp1.modToAdd"><button>Add mod</button></form>
+
+				<table class="atable">
+					<tr ng-repeat="x in learners">
+						<td ng-repeat="y in x">
+							{{y}}
+						</td>
+					</tr>
+				</table>
+
+				<h4>active learning games:</h4>
+				<table>
+					<tr>
+						<td>
+							<div class="noborder" ng-class="{bordered:learnerTable.wNext,noborder:!learnerTable.wNext}">
+								<wtable input="learnerTable.table" imgh='20' imgw='20' />
+							</div>
+							<div class="noborder" ng-class="{bordered:!learnerTable.wNext,noborder:learnerTable.wNext}">
+								<btable input="learnerTable.table" imgh='20' imgw='20' />
+							</div>
+						</td>
+						<td>
+							<table class="atable">
+								<tr>
+									
+									<td>_id</td>
+									<td>reporting</td>
+									<td>modStr</td>
+									<td>wModded</td>
+									<td>learningOn</td>
+									<td>connectionID</td>
+
+								</tr>
+								<tr ng-repeat="x in learningGames">
+									<td>
+										{{x._id}}
+									</td>
+									<td>
+										<input type="checkbox" ng-model="x.reporting" ng-change="adminButtons('reporting',x,x.reporting)" />
+									</td>
+									<td>
+										{{x.modStr}}
+									</td>
+									<td>
+										{{x.wModded}}
+									</td>
+									<td>
+										{{x.learningOn}}
+									</td>
+									<td>
+										{{x.connectionID}}
+									</td>
+								</tr>
+							</table>
+						</td>
+
+					</tr>
+				</table>
+
+				<h3>Views:</h3>
+
+				<table class="atable">
+
+					<tr ng-repeat="x in activeViews track by $index">
+
+						<td class="atd">{{x.viewName}}</td>
+
+						<td class="atd">
+
+							<table>
+
+								<tr ng-repeat="y in x.subViews track by $index">
+
+									<td class="atd">
+										{{y.subViewName}}
+									</td>
+
+									<td class="atd" ng-repeat="z in y.viewParts track by $index">
+
+										{{z.viewPartName}}: {{z.viewers}}
+
+									</td>
+
+								</tr>
+
+							</table>
+
+						</td>
+
+					</tr>
+
+				</table>
+
+				<h3>SplitMoves:</h3>
+
+				<table class="atable">
+
+					<tr ng-repeat="x in splitMoves track by $index">
+
+						<td class="atd">{{x.gameNum}}</td>
+
+						<td>
+
+							<div>
+
+								<span style="display:inline-block;border:1px solid grey" ng-repeat="y in x.moves" ng-class="{makeGreen: y.done , makeRed: !y.done }">
                       <div>{{y.moveIndex}}</div>
                       <div style="font-size:0.7em">init: {{y.startedBy}}</div>
                       <!--<br>-->
@@ -303,43 +297,43 @@
                       
                       <div style="font-size:0.7em">result: {{y.doneBy}}</div>
                   </span>
-                  
-              </div>
-              
-              <div>
-                  
-                  <table>
-                      <tr>
-                           <td>
-                              
-                                lastUser
-                          </td>
-                          <td>
-                             
-                                sentCount
-                          </td>
-                          <td>
-                             
-                                progress
-                          </td>
-                          <td>
-                             
-                                beBackIn
-                          </td>
-                          
-                      </tr>
-                      <tr ng-repeat="y in x.thinkers" ng-if="y.sentCount>0" ng-style="{makeGreen:y.done}">
-                          
-                          <td>
-                              
-                              {{y.lastUser}}
-                          </td>
-                          <td>
-                             
-                              {{y.sentCount}}
-                          </td>
-                          <td>
-                              <progress  max='100' value="{{y.progress*(1-y.addProgress)+(100*y.addProgress)}}">
+
+							</div>
+
+							<div>
+
+								<table>
+									<tr>
+										<td>
+
+											lastUser
+										</td>
+										<td>
+
+											sentCount
+										</td>
+										<td>
+
+											progress
+										</td>
+										<td>
+
+											beBackIn
+										</td>
+
+									</tr>
+									<tr ng-repeat="y in x.thinkers" ng-if="y.sentCount>0" ng-style="{makeGreen:y.done}">
+
+										<td>
+
+											{{y.lastUser}}
+										</td>
+										<td>
+
+											{{y.sentCount}}
+										</td>
+										<td>
+											<progress max='100' value="{{y.progress*(1-y.addProgress)+(100*y.addProgress)}}">
 							
                           </td>
                           <td>

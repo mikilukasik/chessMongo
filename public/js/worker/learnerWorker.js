@@ -26,76 +26,67 @@ var playGame=function(myGame, mod, wNx, wMod){
         result = singleThreadAi(myGame,3,function(){})
     }
     
-    //console.log('result',result)
+    
     
     
     if (result.looped) {
         
-        //console.log('looped')
-        
-        // //looped implement!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // myGame.gameIsOn = false //looped
-        // evalGame(myGame, true)
-        // myGame.looped = true
-            
-        // $http.post('/moved', myGame, function(req, res) {})
-
-
-        // $http.get('/forceStop?t=' + $scope._id)
-        //     .then(function(response) {
-                
-        //     }, function(data) {
-        //         $scope.headMessage = 'Connection error, refreshing'
-
-        //         $scope.refreshWhenUp()
-
-        // })
+       
     }
+    
+    
     
     if (result.result.length > 0) { //if there are any moves
 
         var aiMoveString = result.winningMove.move // the winning movestring
 
-        //var toConsole = [] //to chat?
          moveInTable(aiMoveString, myGame, true) //true means learnerGame,no need to eval within moveintable
 
-         
+         var gameStatus=checkIfFinished(myGame)
 
-
-         setTimeout(function() {
+         if(gameStatus.goOn){
              
-             if (learnerGlobals.reporting){
-        
-                learnerToServer('learnerReport',myGame)
+            setTimeout(function() {
                 
+                if (learnerGlobals.reporting){
+            
+                    learnerToServer('learnerReport',myGame)
+                    
+                    
+                }
+            
+                playGame(myGame, mod, !wNx, wMod)
+
+            }, 100)
+
+             
+         }else{
+             
+             //eval and report finished game here
+             
+             console.log('learnerGame finished',gameStatus.result)
+             
+             
+             
+             
+             
+            if (wMod) {
+            
+                setTimeout(playModGamePair(mod,true), 500)
                 
+            } else {
+            
+                setTimeout(play(), 500)
+
             }
-        
-            playGame(myGame, mod, !wNx, wMod)
-
-        }, 100)
-
-
-
-        //$scope.whatToDo = 'idle'
-    } else { //can't move
-
-        myGame.gameIsOn = false
-        evalGame(myGame, true)
-        
-        
-        if (wMod) {
             
-            setTimeout(playModGamePair(mod,true), 500)
-            
-        } else {
-           
-            setTimeout(play(), 500)
-
-		}
-
+         }
+       
+    } else{
+        
+        console.log('ERROR: singleThreadAi returned empty result..')
+        
     }
-    
     
        
 }

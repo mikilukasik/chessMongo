@@ -1,4 +1,4 @@
-///////////// general 
+/////////////general////////////////////// 
 
 var objectToString=function(obj){
         var cache = [];
@@ -16,6 +16,56 @@ var objectToString=function(obj){
     }
 
 
+///////////////////evalgame////////////////
+function checkIfFinished(dbTable) {
+    
+    var result={
+        goOn:true,
+        result:{}
+        
+    }
+
+
+	if (!canIMove(dbTable.table, dbTable.wNext)) {
+        
+        result.goOn = false
+        
+		dbTable.gameIsOn = false
+        dbTable.result={
+            
+            blackWon:false,
+            whiteWon:false,
+            isDraw:false,
+            
+            whiteValue:0,
+            blackValue:0,
+            
+            totalMoves:0,
+            
+        }
+		
+
+
+		if (captured(dbTable.table, dbTable.wNext)) {
+
+			if (dbTable.wNext) {
+
+				dbTable.result.blackWon = true
+				
+			} else {
+				dbTable.result.whiteWon = true
+				
+			}
+		} else {
+			dbTable.result.isDraw = true
+		}
+	}
+    
+    result.result=dbTable.result
+
+	return result
+
+}
 
 
 /////////////////////// from old ai //////////////////////////
