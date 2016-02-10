@@ -488,6 +488,8 @@ var Clients=function(){
 		
 		//connection must have .addedData.connectionID already
 		
+        serverGlobals.learning.markGamesInactive.byConnectionID(connection.addedData.connectionID)
+        
 		c.logoff(connection)
 		
 		var connectionIndex=findConnectionIndex(connection,true)	//true for destroying, no push

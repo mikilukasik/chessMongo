@@ -38,7 +38,26 @@ serverGlobals.getModLimits=function(modType){
     
 }
 
+
+
 serverGlobals.learning={
+    markGamesInactive:{
+        byConnectionID:function(id){
+            
+            var i=serverGlobals.learningGames.length
+            while(i--){
+                
+                if(serverGlobals.learningGames[i].connectionID==id){
+                    serverGlobals.learningGames.splice(i,1)
+                }
+                
+                
+            }
+            
+            
+            
+        }
+    },
     add:function(game){
         
         var wModded=true
