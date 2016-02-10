@@ -439,6 +439,7 @@ var FakeDbTable = function(_id, wName, bName) { //used for speed testing only
 
 var Dbtable = function(_id, wName, bName) { //class
 
+    this.moveCount=0
 
 	this.pendingMoveCount = 0
 	this.desiredDepth=0	//will set after creating, at each move step

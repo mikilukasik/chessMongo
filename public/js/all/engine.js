@@ -17,6 +17,45 @@ var objectToString=function(obj){
 
 
 ///////////////////evalgame////////////////
+var evalFuncs={
+    getPieceValues:function(dbTable){
+        
+        var result={
+            wVal:0,
+            bVal:0
+        }
+        
+        var table=dbTable.table
+    
+        table.forEach(function(x){
+            x.forEach(function(y){
+                switch (y[0]) {
+                    case 1:
+                        
+                        result.bVal+=y[1]
+                        
+                        break;
+                
+                    case 2:
+                        
+                        result.wVal+=y[1]
+                        
+                        break;
+                    
+                    
+                    default:
+                        break;
+                }
+            })
+        })
+        
+        return result
+        
+        
+        
+    }
+}
+
 function checkIfFinished(dbTable) {
     
     var result={
@@ -41,6 +80,7 @@ function checkIfFinished(dbTable) {
             blackValue:0,
             
             totalMoves:0,
+            moveLog:dbTable.moves
             
         }
 		
@@ -56,9 +96,19 @@ function checkIfFinished(dbTable) {
 				dbTable.result.whiteWon = true
 				
 			}
+            
 		} else {
 			dbTable.result.isDraw = true
 		}
+        
+        
+        var pieceVals=evalFuncs.getPieceValues(dbTable)
+        
+        dbTable.result.whiteValue=pieceVals.wVal
+        dbTable.result.blackValue=pieceVals.bVal
+        
+        dbTable.result.totalMoves=dbTable.moveCount
+        
 	}
     
     result.result=dbTable.result
@@ -935,9 +985,6 @@ function moveInTable(moveStr, dbTable, isLearner) {
 
 	var toPush = getPushString(dbTable.table, moveStr) //piece
 
-	// +new String(new Date()
-	// 	.getTime())
-
 	dbTable.moves.push(toPush)
 
 	dbTable.table = moveIt(moveStr, dbTable.table) //	<----moves it
@@ -945,20 +992,16 @@ function moveInTable(moveStr, dbTable, isLearner) {
 	dbTable.wNext = !dbTable.wNext
 
 	dbTable.pollNum++
+    
+    dbTable.moveCount++
 
 		
 	dbTable.table = addMovesToTable(dbTable.table, dbTable.wNext) 
-    
-	//remember this state for 3fold rule
+   
 	var pushThis = createState(dbTable.table)
 
 
 	dbTable.allPastTables.push(pushThis)
-
-	
-	//if (!isLearner) evalGame(dbTable) //true should tell it was learnergame, not yet
-
-
 
 	return dbTable
 
