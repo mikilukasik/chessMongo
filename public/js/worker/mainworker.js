@@ -432,7 +432,7 @@ onmessage = function(event) {
                 if(!progress.shouldIDraw){
                     
                     var movedTable=moveIt(moveStr,progress.origTable)
-                    console.log(movedTable)
+                    //console.log(movedTable)
                     var wouldLoop=evalFuncs.checkIfLooped(movedTable,progress.origAllPastTables)
                     console.log(wouldLoop)
                     

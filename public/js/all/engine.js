@@ -67,9 +67,14 @@ var evalFuncs={
     
     checkIfLooped:function(newTable,allPastTables){
         
+      var seenCount=0  
+      var thisState=createState(newTable)
+        
       allPastTables.forEach(function(pastTable){
-          console.log(pastTable)
+          if(pastTable==thisState)seenCount++
       })  
+      
+      console.log(seenCount)
       
       return 'shit'  
         
