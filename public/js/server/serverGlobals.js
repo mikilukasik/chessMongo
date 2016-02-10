@@ -78,6 +78,12 @@ serverGlobals.learning={
                 if(learningGame._id==data._id){
                     
                     learningGame.reporting=true
+                    
+                    console.log('set to report:',learningGame)
+                    
+                    var connection=clients.fromStore({addedData:{connectionID:learningGame.connectionID}})
+                    
+                     clients.send(connection,'startReporting',learningGame._id)
                     //tell client to start reporting implement!!!!!!!
                     
                 }else{
@@ -85,6 +91,12 @@ serverGlobals.learning={
                     if(learningGame.reporting){
                         learningGame.reporting=false
                         //tell client to stop reporting implement!!!!!!!
+                        console.log('set to stop reporting:',learningGame)
+                        
+                        var connection=clients.fromStore({addedData:{connectionID:learningGame.connectionID}})
+                        
+                        clients.send(connection,'stopReporting',learningGame._id)
+                        
                         
                     }
                 
@@ -106,6 +118,12 @@ serverGlobals.learning={
                 if(serverGlobals.learningGames[i]._id==data._id){
                     
                     serverGlobals.learningGames[i].reporting=false
+                    
+                    console.log('set to stop reporting:',serverGlobals.learningGames[i])
+                        
+                    var connection=clients.fromStore({addedData:{connectionID:serverGlobals.learningGames[i].connectionID}})
+                    
+                    clients.send(connection,'stopReporting',serverGlobals.learningGames[i]._id)
                     
                 }
                 

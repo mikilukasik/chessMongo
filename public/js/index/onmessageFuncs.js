@@ -167,6 +167,21 @@ var wsOnmessageFunc= function(evt,$rootScope,$scope,ws,indexGlobals) {
 
 
 							break;
+							
+						case 'startReporting':
+						
+							console.log('start reporting learnerGame',received.data)
+						
+						break;
+						
+						case 'stopReporting':
+						
+							console.log('stop reporting learnerGame',received.data)
+						
+						
+						break;
+						
+						
 
 						case 'openGame':
 
