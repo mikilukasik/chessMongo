@@ -259,4 +259,59 @@
 						</table>'
 	
 			}
+		}  
+        
+        
+        
+              
+        var movesDtv=function() {
+			return {
+				restrict: 'E',
+				scope: {
+					'input': '=',
+                    'imgsize': '='
+					
+				},
+                link: function(scope, element, attrs) {
+                    
+                    
+        
+                   
+                },
+				template: '<td class="scrollThis">\
+							<div class="lbborder scrollThis moves" style="overflow-y:scroll">\
+								<div ng-repeat="x in input track by $index">\
+									<img ng-src="{{\'cPiecesPng/\'+x[0]+x[1]+\'.png\'}}"  height="{{imgsize}}" width="{{imgsize}}">\
+									<div style="display:inline-block;position:relative;top:-5px">{{x[2]+x[3]+x[4]+x[5]}}</div>\
+									<img ng-src="{{\'cPiecesPng/\'+x[6]+x[7]+\'.png\'}}"  class="rotate90" height="{{imgsize}}" width="{{imgsize}}">\
+								</div>\
+							</div>\
+						</td>'
+	
+			}
 		}
+        
+        
+        var busyThinkersDtv=function() {
+			return {
+				restrict: 'E',
+				scope: {
+					'input': '=',
+                    // 'imgsize': '='
+					
+				},
+                link: function(scope, element, attrs) {
+                    
+                    
+        
+                   
+                },
+				template: '<div ng-repeat="x in input track by $index">\
+								<div ng-if="x.sentCount!=0" style="font-size: 0.75em;text-align: center;" ng-class="{ makeGreen: x.done , makeRed: !x.done , makeGrey: x.sentCount==0 }">{{x.lastUser}}: {{x.sentCount}} <span ng-if="x.sentCount!=1">moves</span><span\ ng-if="x.sentCount==1">move</span><span><br>eta:{{x.beBackIn/1000}}s</span></div>\
+								<progress  ng-if="x.sentCount!=0" class="prog" max="100" style="width:100%; height:4px; color:blue" value="{{x.progress*(1-x.addProgress)+(100*x.addProgress)}}">\
+						  </div>'
+	
+			}
+		}
+        
+        

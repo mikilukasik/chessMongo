@@ -74,7 +74,7 @@ var evalFuncs={
           if(pastTable==thisState)seenCount++
       })  
       
-      console.log(seenCount)
+      console.log('seenCount',seenCount)
       
       return 'shit'  
         
