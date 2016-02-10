@@ -227,7 +227,7 @@ var play=function(){
         simpleGet('/api/mod/limits?mod='+modType,function(ret2){
             var mod=JSON.parse(ret2.response)
             
-            mod.modVal=~~(mod.min+(mod.max-mod.min)*Math.random()*1000)/1000
+            mod.modVal=mod.min+(~~(mod.max-mod.min)*Math.random()*1000)/1000
             
             learnerGlobals.playing=true
             

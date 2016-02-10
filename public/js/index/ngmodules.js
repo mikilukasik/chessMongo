@@ -6,17 +6,6 @@
             };
         }
         
-        var Empty3DArray=function(){
-            this.array3d=new Array(8)
-            this.array3d.forEach(function(item1){
-                item1=new Array(8)
-                item1.forEach(function(item2){
-                    item2=[]
-                })
-            })
-            
-        }
-        
         var wtable=function() {
 			return {
 				restrict: 'E',
@@ -33,15 +22,11 @@
                     
                     var origtable=undefined	
                   
-                    scope.$watch('input',function(oldValue2,newValue){
+                    scope.$watch('input',function(oldValue,newValue){
+                        
+                        console.log('si',scope.input,'o',oldValue,'n',newValue)
                        
-                       var oldValue
-                       
-                       if(oldValue2){
-                           oldValue=oldValue2
-                       }else{
-                           oldValue=new Empty3DArray().array3d
-                       }
+                        if(scope.input&&oldValue&&newValue){
                        
                         var changed=false
                         
@@ -110,7 +95,7 @@
                         
                                 
                         //console.log(scope.outTable)
-                        
+                    }
                         
                     },true)
                    
@@ -159,18 +144,15 @@
 				},
                 link: function(scope, element, attrs) {
                     
+                    
+                    
                     var origtable=undefined	
                    
-                    scope.$watch('input',function(oldValue2,newValue){
+                    scope.$watch('input',function(oldValue,newValue){
                         
-                        var oldValue
-                       
-                       if(oldValue2){
-                           oldValue=oldValue2
-                       }else{
-                           oldValue=new Empty3DArray().array3d
-                       }
-                       
+                        if(scope.input&&oldValue&&newValue){
+                        
+                         console.log('si',scope.input,'o',oldValue,'n',newValue)
                         
                          var changed=false
                         
@@ -245,7 +227,7 @@
                         
                         //console.log(scope.outTable)
                         
-                        
+                    }
                     },true)
                    
                     
