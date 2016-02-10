@@ -6,6 +6,17 @@
             };
         }
         
+        var Empty3DArray=function(){
+            this.array3d=new Array(8)
+            this.array3d.forEach(function(item1){
+                item1=new Array(8)
+                item1.forEach(function(item2){
+                    item2=[]
+                })
+            })
+            
+        }
+        
         var wtable=function() {
 			return {
 				restrict: 'E',
@@ -22,7 +33,15 @@
                     
                     var origtable=undefined	
                   
-                    scope.$watch('input',function(oldValue,newValue){
+                    scope.$watch('input',function(oldValue2,newValue){
+                       
+                       var oldValue
+                       
+                       if(oldValue2){
+                           oldValue=oldValue2
+                       }else{
+                           oldValue=new Empty3DArray().array3d
+                       }
                        
                         var changed=false
                         
@@ -142,7 +161,16 @@
                     
                     var origtable=undefined	
                    
-                    scope.$watch('input',function(oldValue,newValue){
+                    scope.$watch('input',function(oldValue2,newValue){
+                        
+                        var oldValue
+                       
+                       if(oldValue2){
+                           oldValue=oldValue2
+                       }else{
+                           oldValue=new Empty3DArray().array3d
+                       }
+                       
                         
                          var changed=false
                         
