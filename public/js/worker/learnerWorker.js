@@ -7,12 +7,13 @@ importScripts('../index/httpreq.js')
 var learnerGlobals={
     playing:false,
     myID:undefined,
-    lastUser:undefined
+    lastUser:undefined,
+    gameNum:undefined
 }
 
 
 var playGame=function(myGame, mod, wNx, wMod){
-    console.log('playGame called with args:',arguments)
+    //console.log('playGame called with args:',arguments)
     
     var result = []
     
@@ -24,12 +25,12 @@ var playGame=function(myGame, mod, wNx, wMod){
         result = singleThreadAi(myGame,3,function(){})
     }
     
-    console.log('result',result)
+    //console.log('result',result)
     
     
     if (result.looped) {
         
-        console.log('looped')
+        //console.log('looped')
         
         // //looped implement!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // myGame.gameIsOn = false //looped
@@ -73,12 +74,12 @@ var playGame=function(myGame, mod, wNx, wMod){
         
         
         if (wMod) {
-            ////////console.log('Starting rematch (play black)')
-            console.log('Starting rematch (play black)')
+            //////////console.log('Starting rematch (play black)')
+            //console.log('Starting rematch (play black)')
             setTimeout(playModGamePair(mod,true), 500)
         } else {
-            ////////console.log('gamepair done, starting again with white')
-            console.log('gamepair done, starting again with white')
+            //////////console.log('gamepair done, starting again with white')
+            //console.log('gamepair done, starting again with white')
             setTimeout(play(), 500)
 
 
@@ -146,6 +147,8 @@ var playGame=function(myGame, mod, wNx, wMod){
 var prePlayGame = function(myGame, mod, wNx, wMod) {
 
 			if (learnerGlobals.playing) {
+                learnerGlobals.gameNum=myGame._id
+                //console.log('###',myGame)
 				playGame(myGame, mod, wNx, wMod)
 			}
 		}
@@ -178,35 +181,21 @@ var playModGamePair=function(mod,scndGame){
     
     		simplePost('/api/modGame',initedTable,function(response) {
                     
+                    var resp=JSON.parse( response.response)
                     
-                    console.log('starting modded game _id:',JSON.parse( response.response)._id)
+                    //console.log('starting modded game _id:',resp._id)
 
 
-					initedTable._id = response.response._id
+					initedTable._id = resp._id
 
-					//$scope.sendMessage('learning ' + modType + ' on t' + initedTable._id + ", wModded: " + wModded)
-				
 					mod.modConst = getMcFromMv(mod.modVal)
-
-					// $http.get('/learnerPoll?n=' + $scope.sendID +
-					// 	'&t=' + initedTable._id +
-					// 	'&modType=' + modType +
-					// 	'&modVal=' + modVal + '&p=' + modConst + '&a=' + $scope.mainThreadSpeed
-						
-					// )
-
-					//initedTable.modConst = mod.modConst
 
 					prePlayGame(initedTable, mod, true, wModded) //true stands for wNext
 				
                 }, function(data) {
                     
-                    console.log('error:',data)
+                    //console.log('error:',data)
 
-                    
-					// $scope.headMessage = 'Connection error, refreshing'
-
-					// $scope.refreshWhenUp()
 
 				})
     
@@ -234,8 +223,6 @@ var play=function(){
             playModGamePair(mod)
         })
         
-        
-        
     })
 }
 
@@ -253,7 +240,7 @@ onmessage = function(event){
         
         case 'start':
             
-            console.log('starting learner')
+            //console.log('starting learner')
             
             learnerGlobals.myID=event.data.myID
             learnerGlobals.lastUser=event.data.lastUser
@@ -262,6 +249,34 @@ onmessage = function(event){
             
         
         break;
+        
+        case 'startReporting':
+        
+            if(event.data.data==learnerGlobals.gameNum){
+                
+                //console.log('learner starts reporting')
+                
+            }else{
+                //console.log('@@@',event.data.data,learnerGlobals.gameNum)
+            }
+        
+        break;
+        
+        case 'stopReporting':
+        
+            if(event.data.data==learnerGlobals.gameNum){
+                
+                //console.log('learner stops reporting')
+                
+            }else{
+                //console.log('@@@',event.data.data,learnerGlobals.gameNum)
+                
+            }
+        
+        
+        break;
+        
+        
         
     }
 

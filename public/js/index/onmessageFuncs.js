@@ -171,12 +171,30 @@ var wsOnmessageFunc= function(evt,$rootScope,$scope,ws,indexGlobals) {
 						case 'startReporting':
 						
 							console.log('start reporting learnerGame',received.data)
+							
+							learnerGlobals.learnerWorkers.forEach(function(learnerWorker){
+								
+								learnerWorker.postMessage({
+									command:'startReporting',
+									data:received.data
+								})
+								
+							})
 						
 						break;
 						
 						case 'stopReporting':
 						
 							console.log('stop reporting learnerGame',received.data)
+							
+							learnerGlobals.learnerWorkers.forEach(function(learnerWorker){
+								
+								learnerWorker.postMessage({
+									command:'stopReporting',
+									data:received.data
+								})
+								
+							})
 						
 						
 						break;
