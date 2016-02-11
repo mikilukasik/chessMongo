@@ -1,47 +1,5 @@
 ///////classes/////////////////
-var LearningStat=function(modStr,modConst,initCb,dbCb,idCb){
-    
-    this._id=-1     //idCb will receive _id
-    
-    var modType=modStr.slice(0,3)
-    var modVal=Number(modStr.slice(9))
-       
-    if(!modConst)modConst=getMcFromMv(modVal)
-    
-    this.modStr=modStr
-    
-    this.finalResult={
-        
-    }
-    
-    this.wModGame={
-        _id:-1,
-        learnedOn:'',
-        connectionID:'',
-        result:{}
-        
-    }
-    this.bModGame={
-        _id:-1,
-        learnedOn:'',
-        connectionID:'',
-        result:{}
-        
-    }
-    
-    this.modType=modType
-    this.modVal=modVal
-    this.modConst=modConst
-    
-    if(initCb)initCb(this)
-    
-    if(dbCb&&idCb){
-        
-        dbCb(this,idCb)
-        
-    }
-    
-}
+
 
 
 ////////////////////////global vars/////////////////////////////////
@@ -54,7 +12,80 @@ var serverGlobals={
     gameToReport:-1,
     //reportedGame:{},
     learnerTable:new Dbtable('pre-init','pre-init','pre-init'),
-    learningStats:[]
+    learningStats:[],
+    
+    
+    
+    
+    LearningStat:function(modStr,modConst,initCb,dbCb,idCb){
+        
+        var modType=modStr.slice(0,3)
+        var modVal=Number(modStr.slice(9))
+        
+        if(!modConst)modConst=getMcFromMv(modVal)
+    
+        this._id=-1     //idCb will receive and update _id
+        
+        this.modStr=modStr
+        
+        this.modType=modType
+        this.modVal=modVal
+        this.modConst=modConst
+        
+        this.finalResult={
+            
+        }
+        
+        this.wModGame={
+            _id:-1,
+            learnedOn:'',
+            connectionID:'',
+            result:{}
+            
+        }
+        this.bModGame={
+            _id:-1,
+            learnedOn:'',
+            connectionID:'',
+            result:{}
+            
+        }
+        
+        
+        
+        if(initCb)initCb(this)
+        
+        if(dbCb&&idCb){
+            
+            dbCb(this,idCb)
+            
+        }
+        
+    },
+    
+}
+
+serverGlobals.updateLearningStat=function(savedDoc,cb){
+    
+     var i=serverGlobals.learningStats.length
+     
+     while(i--){
+         
+         if(serverGlobals.learningStats[i].modStr==savedDoc.modStr){
+             
+             console.log('erre vartal@@@@@@@@@@@@@')
+             
+             serverGlobals.learningStats[i]=savedDoc
+             
+             
+             if (cb)cb(serverGlobals.learningStats)
+             
+             
+             break;
+         }
+         
+         
+     }
     
 }
 
@@ -122,8 +153,8 @@ serverGlobals.learning={
         }
         
         if (wModded){
-            
-            new LearningStat(modStr,undefined,function(statBeforeSaving){
+            //wmodded started
+            new serverGlobals.LearningStat(modStr,undefined,function(statBeforeSaving){
                 
                 statBeforeSaving.wModGame._id=game._id
                 statBeforeSaving.wModGame.learnedOn=game.learningOn
@@ -138,8 +169,23 @@ serverGlobals.learning={
             })
              
         }else{
-            
-            //secondLearningStat()
+            //bmodded started
+            dbFuncs.updateLearningStat(modStr,function(foundDoc){
+                
+                foundDoc.bModGame._id=game._id
+                foundDoc.bModGame.learnedOn=game.learningOn
+                foundDoc.bModGame.connectionID=game.connectionID
+                
+            },function(savedDoc){
+
+                serverGlobals.updateLearningStat(savedDoc,function(learningStats){
+                    
+                    clients.publishView('admin.html','default','learningStats',learningStats)
+                
+                })
+                
+                
+            })
             
         }
         

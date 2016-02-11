@@ -8,6 +8,9 @@ var dbFuncs = {
 			db.collection("learnerResults")
 				.save(data,function(err,res){
                     
+                    
+                    db.close()
+                    
                 });
 
 
@@ -33,7 +36,41 @@ var dbFuncs = {
                     
                     if(cb)cb(data)
                     
+                    db.close()
+                    
                 });
+
+
+
+
+		})
+
+	},
+    updateLearningStat: function(modStr,foundCb,savedCb) {
+       
+        
+		mongodb.connect(cn, function(err, db) {
+            db.collection("learningStats")
+                .findOne({
+                    modStr:modStr
+                },function(err,doc){
+                    
+                    foundCb(doc)
+                    
+                    db.collection("learningStats").save(doc,function(err,savedDoc){
+                        
+                        savedCb(doc)
+                        
+                        db.close()
+                        
+                    })
+                    
+                    
+                    
+                    
+                    
+                })
+				
 
 
 
