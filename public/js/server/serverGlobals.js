@@ -120,7 +120,7 @@ serverGlobals.learning={
         
         if (wModded){
             
-            var a=new LearningStat(modStr,undefined,function(statBeforeSaving){
+            new LearningStat(modStr,undefined,function(statBeforeSaving){
                 
                 statBeforeSaving.wModGame._id=game._id
                 statBeforeSaving.wModGame.learnedOn=game.learningOn
@@ -131,14 +131,12 @@ serverGlobals.learning={
                 serverGlobals.learningStats.push(statWithId)
                 clients.publishView('admin.html','default','learningStats',serverGlobals.learningStats)
                 console.log(statWithId)
+                
             })
+             
+        }else{
             
-            
-            
-            
-            
-            
-            
+            //secondLearningStat()
             
         }
         

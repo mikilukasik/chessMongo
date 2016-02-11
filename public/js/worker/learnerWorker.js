@@ -130,9 +130,6 @@ var playModGamePair=function(mod,scndGame){
                     
                     var resp=JSON.parse( response.response)
                     
-                    //console.log('starting modded game _id:',resp._id)
-
-
 					initedTable._id = resp._id
 
 					mod.modConst = getMcFromMv(mod.modVal)
@@ -140,10 +137,7 @@ var playModGamePair=function(mod,scndGame){
 					prePlayGame(initedTable, mod, true, wModded) //true stands for wNext
 				
                 }, function(data) {
-                    
-                    //console.log('error:',data)
-
-
+                   
 				})
     
 
