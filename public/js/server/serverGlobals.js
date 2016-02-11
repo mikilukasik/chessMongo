@@ -40,14 +40,18 @@ var serverGlobals={
             _id:-1,
             learnedOn:'',
             connectionID:'',
-            result:{}
+            result:{},
+            status:'pending',
+            moves:[]
             
         }
         this.bModGame={
             _id:-1,
             learnedOn:'',
             connectionID:'',
-            result:{}
+            result:{},
+            status:'pending',
+            moves:[]
             
         }
         
@@ -65,6 +69,49 @@ var serverGlobals={
     
 }
 
+serverGlobals.learnerSmallReport=function(data){
+    
+    var modStr=data.wName
+    var wModded=true
+        
+    if(data.wName=='standard'){
+        wModded=false
+        modStr=data.bName
+    }
+    
+   dbFuncs.updateLearningStat(modStr,function(foundDoc){
+       
+       if(foundDoc){
+           
+           if(wModded){
+            
+                foundDoc.wModGame.moves=data.moves
+                
+            }else{
+                
+                foundDoc.bModGame.moves=data.moves
+            
+          }
+                
+       }
+       
+            
+                
+                
+        
+    },function(savedDoc){
+
+        serverGlobals.updateLearningStat(savedDoc,function(learningStats){
+            
+            clients.publishView('admin.html','default','learningStats',learningStats)
+        
+        })
+        
+        
+    })
+    
+}
+
 serverGlobals.updateLearningStat=function(savedDoc,cb){
     
      var i=serverGlobals.learningStats.length
@@ -73,7 +120,7 @@ serverGlobals.updateLearningStat=function(savedDoc,cb){
          
          if(serverGlobals.learningStats[i].modStr==savedDoc.modStr){
              
-             console.log('erre vartal@@@@@@@@@@@@@')
+             
              
              serverGlobals.learningStats[i]=savedDoc
              
@@ -159,6 +206,7 @@ serverGlobals.learning={
                 statBeforeSaving.wModGame._id=game._id
                 statBeforeSaving.wModGame.learnedOn=game.learningOn
                 statBeforeSaving.wModGame.connectionID=game.connectionID
+                statBeforeSaving.wModGame.status='in progress'
                 
             },dbFuncs.newLearningStat,function(statWithId){
 
@@ -175,6 +223,8 @@ serverGlobals.learning={
                 foundDoc.bModGame._id=game._id
                 foundDoc.bModGame.learnedOn=game.learningOn
                 foundDoc.bModGame.connectionID=game.connectionID
+                foundDoc.bModGame.status='in progress'
+                
                 
             },function(savedDoc){
 

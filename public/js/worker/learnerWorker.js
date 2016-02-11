@@ -9,9 +9,9 @@ var learnerGlobals={
     myID:undefined,
     lastUser:undefined,
     gameNum:undefined,
-    reporting:false
+    reporting:false,
+    reportedAt:new Date()
 }
-
 
 var playGame=function(myGame, mod, wNx, wMod){
     //console.log('playGame called with args:',arguments)
@@ -54,6 +54,24 @@ var playGame=function(myGame, mod, wNx, wMod){
                     
                     
                 }
+                
+                var timeNow=new Date()
+                
+                if(timeNow-learnerGlobals.reportedAt>30000){
+                    
+                    learnerGlobals.reportedAt=timeNow
+                    
+                    learnerToServer('learnerSmallReport',{
+                        _id:myGame._id,
+                        moves:myGame.moves,
+                        wName:myGame.wName,
+                        bName:myGame.bName
+                        
+                    })
+                    
+                    
+                }
+                
             
                 playGame(myGame, mod, !wNx, wMod)
 

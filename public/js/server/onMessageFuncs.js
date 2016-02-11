@@ -220,6 +220,12 @@ var onMessageFuncs = {
 		
 	},
     
+    learnerSmallReport:function(connection,data){
+	
+	   serverGlobals.learnerSmallReport(data)
+		
+	},
+    
     learnerResult:function(connection,data){
 	
         serverGlobals.learningGames.forEach(function(learningGame){
