@@ -91,6 +91,8 @@ serverGlobals.getModLimits=function(modType){
 
 
 serverGlobals.learning={
+    
+    
     markGamesInactive:{
         byConnectionID:function(id){
             
@@ -110,9 +112,10 @@ serverGlobals.learning={
     },
     add:function(game){
         
-        var wModded=true
+       
         var modStr=game.wName
-        
+        var wModded=true
+          
         if(game.wName=='standard'){
             wModded=false
             modStr=game.bName
