@@ -589,7 +589,7 @@ function singleThreadAi(tempDbTable,depth,cb,mod){
             }else{
                 //console.log('i can draw')
             }
-				pushAgain.value-=wouldLoop*wouldLoop*1000
+				if(wouldLoop)pushAgain.value-=wouldLoop*wouldLoop*16384
 				//pushAgain.moveIndex=resData.progress.moveIndex
 				//pushAgain._id = workingOnGameNum
 				pushAgain.score = pushAgain.value
