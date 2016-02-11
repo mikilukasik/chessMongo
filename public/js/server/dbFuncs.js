@@ -46,8 +46,16 @@ var dbFuncs = {
 		})
 
 	},
+    
+    // learningGameResult=function(){
+        
+        
+        
+    // },
+    
     updateLearningStat: function(modStr,foundCb,savedCb) {
        
+       console.log('updateLearningStat called with modStr',modStr)
         
 		mongodb.connect(cn, function(err, db) {
             db.collection("learningStats")

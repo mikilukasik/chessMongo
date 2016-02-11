@@ -228,14 +228,31 @@ var onMessageFuncs = {
     
     learnerResult:function(connection,data){
 	
-        serverGlobals.learningGames.forEach(function(learningGame){
-            if(learningGame._id==data._id){
-                learningGame.result=data
-                clients.publishView('admin.html','default','learningGames',serverGlobals.learningGames)
-                dbFuncs.saveLearnerResult(learningGame)
-                //console.log('ez lesz az',learningGame)
+        serverGlobals.learningStats.forEach(function(learningStat){
+            if(learningStat._id==data._id){
+                learningStat.result=data
+                
+                dbFuncs.saveLearnerResult(learningStat)
+                
+                dbFuncs.updateLearningStat(learningStat.modStr,function(foundData){
+                    
+                    console.log('@@@foundData',foundData)
+                    
+                    if(data.wModded){
+                        foundData.wModGame.result={data:data,learningStat:learningStat}    
+                    }else{
+                        foundData.bModGame.result={data:data,learningStat:learningStat}
+                    }
+                    
+                },function(learningStats){
+                    
+                    console.log('@@@savedData',learningStats)
+                    clients.publishView('admin.html','default','learningStats',learningStats)
+                    
+                })
+                
             }else{
-                //console.log('nem ez')
+                
             }
         })
 		
@@ -285,7 +302,7 @@ var onMessageFuncs = {
 		}
 		var sendToConnection=clients.fromStore(fakeConnection)
 		
-            //console.log('@@@@@@@@@@@@@',data.customModCheckbox)
+            
             sendToConnection.addedData.customModCheckbox=data.customModCheckbox
         
 		

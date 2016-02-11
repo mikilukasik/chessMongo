@@ -42,7 +42,8 @@ var serverGlobals={
             connectionID:'',
             result:{},
             status:'pending',
-            moves:[]
+            moves:[],
+            modStr:modStr
             
         }
         this.bModGame={
@@ -51,7 +52,8 @@ var serverGlobals={
             connectionID:'',
             result:{},
             status:'pending',
-            moves:[]
+            moves:[],
+            modStr:modStr
             
         }
         
