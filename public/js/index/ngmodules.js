@@ -153,8 +153,7 @@
                     scope.$watch('input',function(oldValue,newValue){
                         
                         if(scope.input&&oldValue&&newValue){
-                        
-                         //console.log('si',scope.input,'o',oldValue,'n',newValue)
+                          
                         
                          var changed=false
                         
@@ -226,8 +225,6 @@
                             
                         }
                         
-                        
-                        ////console.log(scope.outTable)
                         
                     }
                     },true)
