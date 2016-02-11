@@ -316,4 +316,94 @@
 			}
 		}
         
+        var learnerResultsDtv=function() {
+			return {
+				restrict: 'E',
+				scope: {
+					'input': '=',
+                    'selectreporterfunc': '=',
+                   
+					
+				},
+                link: function(scope, element, attrs) {
+                    
+                    
+        
+                   
+                },
+				template: '<table class="atable">\
+								<tr>\
+									<td>_id</td>\
+									<td>reporting</td>\
+									<td>modStr</td>\
+									<td>wModded</td>\
+									<td>learningOn</td>\
+									<td>result</td>\
+								</tr>\
+								<tr ng-repeat="x in input">\
+									<td>\
+										{{x._id}}\
+									</td>\
+									<td>\
+										<input type="checkbox" ng-model="x.reporting" ng-change="selectreporterfunc(\'reporting\',x,x.reporting)" />\
+									</td>\
+									<td>\
+										{{x.modStr}}\
+									</td>\
+									<td>\
+										{{x.wModded}}\
+									</td>\
+									<td>\
+										{{x.learningOn}}\
+									</td>\
+									<td>\
+                                        <table>\
+                                            <tr ng-if="x.result" style="font-size:0.6em">\
+                                                <td>\
+                                                    whiteWon\
+                                                </td>\
+                                                <td>\
+                                                    blackWon\
+                                                </td>\
+                                                <td>\
+                                                    isDraw\
+                                                </td>\
+                                                <td>\
+                                                    whiteValue\
+                                                </td>\
+                                                <td>\
+                                                    blackValue\
+                                                </td>\
+                                                <td>\
+                                                    totalMoves\
+                                                </td>\
+                                            </tr>\
+                                            <tr>\
+                                                <td>\
+                                                    {{x.result.whiteWon}}\
+                                                </td>\
+                                                <td>\
+                                                    {{x.result.blackWon}}\
+                                                </td>\
+                                                <td>\
+                                                    {{x.result.isDraw}}\
+                                                </td>\
+                                                <td>\
+                                                    {{x.result.whiteValue}}\
+                                                </td>\
+                                                <td>\
+                                                    {{x.result.blackValue}}\
+                                                </td>\
+                                                <td>\
+                                                    {{x.result.totalMoves}}\
+                                                </td>\
+                                            </tr>\
+                                        </table>\
+									</td>\
+								</tr>\
+							</table>'
+	
+			}
+		}
+        
         
