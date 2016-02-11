@@ -219,6 +219,20 @@ var onMessageFuncs = {
 	
 		
 	},
+    
+    learnerResult:function(connection,data){
+	
+        serverGlobals.learningGames.forEach(function(learningGame){
+            if(learningGame._id==data._id){
+                learningGame.result=data
+                clients.publishView('admin.html','default','learningGames',serverGlobals.learningGames)
+                console.log('ez lesz az',learningGame)
+            }else{
+                console.log('nem ez')
+            }
+        })
+		
+	},
 	
     removeMod:function(connection,data){
         

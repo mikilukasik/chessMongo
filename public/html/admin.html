@@ -217,7 +217,7 @@
 									<td>modStr</td>
 									<td>wModded</td>
 									<td>learningOn</td>
-									<td>connectionID</td>
+									<td>result</td>
 
 								</tr>
 								<tr ng-repeat="x in learningGames">
@@ -237,7 +237,8 @@
 										{{x.learningOn}}
 									</td>
 									<td>
-										{{x.connectionID}}
+										<span ng-repeat="y in x.result track by $index">{{y}}</span>
+                                        
 									</td>
 								</tr>
 							</table>

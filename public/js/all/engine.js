@@ -113,7 +113,9 @@ function checkIfFinished(dbTable) {
             blackValue:0,
             
             totalMoves:0,
-            moveLog:dbTable.moves
+            moveLog:dbTable.moves,
+            
+            _id:dbTable._id
             
         }
 		

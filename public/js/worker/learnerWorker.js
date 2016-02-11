@@ -66,7 +66,7 @@ var playGame=function(myGame, mod, wNx, wMod){
              
              console.log('learnerGame finished',gameStatus.result)
              
-             
+             learnerToServer('learnerResult',gameStatus.result)
              
              
              
