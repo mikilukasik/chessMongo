@@ -237,7 +237,51 @@
 										{{x.learningOn}}
 									</td>
 									<td>
-										<span ng-repeat="y in x.result track by $index">{{y}}</span>
+                                        <table>
+                                            <tr ng-if="x.result" style="font-size:0.6em">
+                                                <td>
+                                                    whiteWon
+                                                </td>
+                                                <td>
+                                                    blackWon
+                                                </td>
+                                                <td>
+                                                    isDraw
+                                                </td>
+                                                <td>
+                                                    whiteValue
+                                                </td>
+                                                <td>
+                                                    blackValue
+                                                </td>
+                                                <td>
+                                                    totalMoves
+                                                </td>
+                                                    
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    {{x.result.whiteWon}}
+                                                </td>
+                                                <td>
+                                                    {{x.result.blackWon}}
+                                                </td>
+                                                <td>
+                                                    {{x.result.isDraw}}
+                                                </td>
+                                                <td>
+                                                    {{x.result.whiteValue}}
+                                                </td>
+                                                <td>
+                                                    {{x.result.blackValue}}
+                                                </td>
+                                                <td>
+                                                    {{x.result.totalMoves}}
+                                                </td>
+                                                
+                                            </tr>
+                                        </table>
+										
                                         
 									</td>
 								</tr>

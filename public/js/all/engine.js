@@ -1701,7 +1701,7 @@ function getHitScores(origTable, wNext, flipIt, wPlayer, mod) {
         fwV=mod.modConst
         
     }
-    
+    //console.log(fwV)
     var pawnVal=0
 
 	var iHitCoords = [] //[who k,l where to x,y, who, hits]
@@ -1736,17 +1736,9 @@ function getHitScores(origTable, wNext, flipIt, wPlayer, mod) {
 	var c = 1
 	var nc = 1
     
-    // var myCMplyer=1
-    
-    // //console.log(wPlayer)
-    
-    // if(wPlayer){
-    //     console.log('wp')
-    //     myCMplyer=-1
-    // }
 	if (wNext) {
 		c++
-        //myCMplyer=-1
+       
 	} else {
 		nc++
 	}
@@ -1759,7 +1751,7 @@ function getHitScores(origTable, wNext, flipIt, wPlayer, mod) {
 				////////get all my moves and places i protect
                 if(origTable[lookI][lookJ][1]==1){
                    if(c==1){
-                       pawnVal+=7-lookJ
+                       pawnVal+=(7-lookJ)
                    }else{
                        pawnVal+=lookJ
                    }
@@ -1772,7 +1764,7 @@ function getHitScores(origTable, wNext, flipIt, wPlayer, mod) {
 				if (origTable[lookI][lookJ][0] != 0) { ////////found opponent's piece/////////												
 					if(origTable[lookI][lookJ][1]==1){
                         if(nc==1){
-                            pawnVal-=7-lookJ
+                            pawnVal-=(7-lookJ)
                         }else{
                             pawnVal-=lookJ
                         }
