@@ -1,11 +1,18 @@
 ///////classes/////////////////
-var LearningStat=function(modType,modVal,modConst){
-                
+var LearningStat=function(modStr,modConst,dbCb,idCb){
+    
+    this._id=-1     //idCb will receive _id
+    
+    var modType=modStr.slice(0,3)
+    var modVal=Number(modStr.slice(9))
+       
     if(!modConst)modConst=getMcFromMv(modVal)
     
-    this.modType=modType
-    this.modVal=modVal
-    this.modConst=modConst
+    this.modStr=modStr
+    
+    this.finalResult={
+        
+    }
     
     this.wModGame={
         _id:-1,
@@ -21,7 +28,14 @@ var LearningStat=function(modType,modVal,modConst){
         result:{}
         
     }
-    this.finalResult={
+    
+    this.modType=modType
+    this.modVal=modVal
+    this.modConst=modConst
+    
+    if(dbCb&&idCb){
+        
+        dbCb(this,idCb(this._id))
         
     }
     
@@ -104,7 +118,22 @@ serverGlobals.learning={
         
         if (wModded){
             
-            var newStat=new LearningStat(modStr.slice(0,3),Number(modStr.slice(10)))
+            var newStat=new LearningStat(modStr,undefined,function(tempStat,idCb){
+                
+                dbFuncs.newLearningStat(tempStat,idCb)
+                
+                
+                
+            },function(err,res,data){
+                
+                console.log('@@@err,res,data',err,res,data)
+                
+                
+            })
+            
+            newStat.wModGame._id=game._id
+            newStat.wModGame.learnedOn=game.learningOn
+            newStat.wModGame.connectionID=game.connectionID
             
             serverGlobals.learningStats.push(newStat)
             

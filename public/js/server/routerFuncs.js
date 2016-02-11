@@ -60,6 +60,7 @@ var initRouter=function(router,app){
                 dbTable.connectionID=connectionID
                 
                 res.json({_id:dbTable._id})
+                
                 serverGlobals.learning.add(dbTable)
             })
           

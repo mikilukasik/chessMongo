@@ -1,4 +1,5 @@
 var dbFuncs = {
+    
 	saveLearnerResult: function(data) {
 
 		mongodb.connect(cn, function(err, db) {
@@ -15,6 +16,35 @@ var dbFuncs = {
 		})
 
 	},
+    
+    
+    
+    newLearningStat: function(data,cb) {
+        
+        console.log(data)
+        
+        if(data._id==-1)data._id=undefined
+
+		mongodb.connect(cn, function(err, db) {
+
+
+			db.collection("learningStats")
+				.save(data,function(err,res){
+                    
+                    if(cb)cb(err,res,data)
+                });
+
+
+
+
+		})
+
+	},
+    
+    
+    
+    
+    
     publishDisplayedGames: function(loginName, connection) {
 
 		mongodb.connect(cn, function(err, db) {
