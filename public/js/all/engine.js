@@ -70,13 +70,21 @@ var evalFuncs={
       var seenCount=0  
       var thisState=createState(newTable)
         
+      //console.log('-------------thisState',thisState)  
+        
+        
       allPastTables.forEach(function(pastTable){
+          
+          //console.log('pastTable',pastTable)  
+        
+     
+          
           if(pastTable==thisState)seenCount++
       })  
       
       //console.log('seenCount',seenCount)
       
-      return (seenCount>0) ? 'seenCount: '+seenCount : undefined
+      return seenCount
         
     },
 }
@@ -964,13 +972,13 @@ function createState(table) {
 
 
 
-			if (table[i][j][5] && //mozdulhat
-				(table[i][j][1] == 1 || table[i][j][1] == 9)) { //paraszt v kiraly
+			// if (table[i][j][5] && //mozdulhat
+			// 	(table[i][j][1] == 1 || table[i][j][1] == 9)) { //paraszt v kiraly
 
-				table[i][j][5].forEach(function(canmov) {
-					stateToRemember[8 * i + j] = stateToRemember[8 * i + j] + canmov[0] + canmov[1]
-				})
-			}
+			// 	table[i][j][5].forEach(function(canmov) {
+			// 		stateToRemember[8 * i + j] = stateToRemember[8 * i + j] + canmov[0] + canmov[1]
+			// 	})
+			// }
 
 		}
 	}

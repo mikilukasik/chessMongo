@@ -574,16 +574,22 @@ function singleThreadAi(tempDbTable,depth,cb,mod){
             
             var moveStr=pushAgain.moveTree.slice(0, 4)
                 
+            var wouldLoop
+            
             if(!dbTable.moveTask.shouldIDraw){
+                
+                //console.log('i shouldn\'t draw')
                 
                 var movedTable=moveIt(moveStr,dbTable.table)
                 //console.log(movedTable)
-                var wouldLoop=evalFuncs.checkIfLooped(movedTable,dbTable.allPastTables)
-                if(wouldLoop)console.log(wouldLoop)
+                wouldLoop=evalFuncs.checkIfLooped(movedTable,dbTable.allPastTables)
+                //console.log(wouldLoop)
                 
                 
+            }else{
+                //console.log('i can draw')
             }
-				
+				pushAgain.value-=wouldLoop*wouldLoop*1000
 				//pushAgain.moveIndex=resData.progress.moveIndex
 				//pushAgain._id = workingOnGameNum
 				pushAgain.score = pushAgain.value
