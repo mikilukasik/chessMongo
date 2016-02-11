@@ -1,5 +1,5 @@
 ///////classes/////////////////
-var LearningStat=function(modStr,modConst,dbCb,idCb){
+var LearningStat=function(modStr,modConst,initCb,dbCb,idCb){
     
     this._id=-1     //idCb will receive _id
     
@@ -32,6 +32,8 @@ var LearningStat=function(modStr,modConst,dbCb,idCb){
     this.modType=modType
     this.modVal=modVal
     this.modConst=modConst
+    
+    if(initCb)initCb(this)
     
     if(dbCb&&idCb){
         
@@ -118,20 +120,22 @@ serverGlobals.learning={
         
         if (wModded){
             
-            var newStat=new LearningStat(modStr,undefined,dbFuncs.newLearningStat,function(statWithId){
+            var a=new LearningStat(modStr,undefined,function(statBeforeSaving){
                 
-                //stat has _id already in this callback
+                statBeforeSaving.wModGame._id=game._id
+                statBeforeSaving.wModGame.learnedOn=game.learningOn
+                statBeforeSaving.wModGame.connectionID=game.connectionID
+                
+            },dbFuncs.newLearningStat,function(statWithId){
+
+                serverGlobals.learningStats.push(statWithId)
                 clients.publishView('admin.html','default','learningStats',serverGlobals.learningStats)
-            
-                
-                
+                console.log(statWithId)
             })
             
-            newStat.wModGame._id=game._id
-            newStat.wModGame.learnedOn=game.learningOn
-            newStat.wModGame.connectionID=game.connectionID
             
-            serverGlobals.learningStats.push(newStat)
+            
+            
             
             
             

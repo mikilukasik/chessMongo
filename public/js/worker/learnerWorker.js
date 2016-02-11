@@ -161,6 +161,8 @@ var play=function(){
       
         var modType=resp[~~(resp.length*Math.random())]
         
+        if (modType==undefined)modType='---'
+        
         simpleGet('/api/mod/limits?mod='+modType,function(ret2){
             var mod=JSON.parse(ret2.response)
             

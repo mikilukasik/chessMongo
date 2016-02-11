@@ -154,14 +154,34 @@
 					
                     <tr>
 
-						<th ng-repeat="(key,val) in learningStats[0] track by $index">{{key}}</th>
 						
+                        <th>modType
+                            modVal
+                            modConst</th>
+                        <th>finalResult</th>
+                        <th>wModGame</th>
+                        <th>bModGame</th>
+                        
 
+
+                                
 					</tr>
 					<tr ng-repeat="x in learningStats track by $index">
 
-						<td ng-repeat="y in x track by $index">{{y}}</td>
-						
+						<td>
+                            <div>modType: {{x.modType}}</div>
+                            <div>modVal: {{x.modVal}}</div>
+                            <div>modConst: {{x.modConst}}</div>
+                        </td>
+						<td>
+                            <div ng-repeat="(key,val) in x.finalResult">{{key}}: {{val}}</div>
+						</td>
+                        <td>
+                            <div ng-repeat="(key,val) in x.wModGame">{{key}}: {{val}}</div>
+						</td>
+                        <td>
+                            <div ng-repeat="(key,val) in x.bModGame">{{key}}: {{val}}</div>
+						</td>
 
 					</tr>
 
