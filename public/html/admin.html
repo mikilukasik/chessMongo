@@ -147,8 +147,29 @@
 
 					</table>
 				</div>
+                
+				<h3>LearningStats:</h3>
+                
+                <table class="atable">
+					
+                    <tr>
 
-				<h3>Learners:</h3>
+						<th ng-repeat="(key,val) in learningStats[0] track by $index">{{key}}</th>
+						
+
+					</tr>
+					<tr ng-repeat="x in learningStats track by $index">
+
+						<td ng-repeat="y in x track by $index">{{y}}</td>
+						
+
+					</tr>
+
+				</table>
+                
+                
+                
+                <h3>Learners:</h3>
 
 				<h4>modVal custom limits:</h4>
 				<table class="atable">

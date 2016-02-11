@@ -44,8 +44,6 @@ var initRouter=function(router,app){
         
     router.route('/modGame').post(function(req,res){
         
-        console.log('modGame post in router:',req.body._id)
-        
         var dbTable=req.body
         
         var learningOn=dbTable.learningOn
@@ -64,18 +62,14 @@ var initRouter=function(router,app){
                 res.json({_id:dbTable._id})
                 serverGlobals.learning.add(dbTable)
             })
+          
+        }else{
             
-            
-            
-            
+            //could update game here
             
             
         }
-        
-        
-        
-        
-        
+      
     })
     
 }

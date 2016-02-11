@@ -861,6 +861,7 @@
                             'defaultMod',
                             'allMods',
 							'learningGames',
+                            'learningStats',
                             'learnerTable'
 						]
 

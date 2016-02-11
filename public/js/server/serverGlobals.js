@@ -1,10 +1,44 @@
+///////classes/////////////////
+var LearningStat=function(modType,modVal,modConst){
+                
+    if(!modConst)modConst=getMcFromMv(modVal)
+    
+    this.modType=modType
+    this.modVal=modVal
+    this.modConst=modConst
+    
+    this.wModGame={
+        _id:-1,
+        learnedOn:'',
+        connectionID:'',
+        result:{}
+        
+    }
+    this.bModGame={
+        _id:-1,
+        learnedOn:'',
+        connectionID:'',
+        result:{}
+        
+    }
+    this.finalResult={
+        
+    }
+    
+}
+
+
+////////////////////////global vars/////////////////////////////////
+
+
 var serverGlobals={
     defaultMod:[],
     allMods:[],
     learningGames:[],
     gameToReport:-1,
     //reportedGame:{},
-    learnerTable:new Dbtable('pre-init','pre-init','pre-init')
+    learnerTable:new Dbtable('pre-init','pre-init','pre-init'),
+    learningStats:[]
     
 }
 
@@ -68,12 +102,23 @@ serverGlobals.learning={
             modStr=game.bName
         }
         
+        if (wModded){
+            
+            var newStat=new LearningStat(modStr.slice(0,3),Number(modStr.slice(10)))
+            
+            serverGlobals.learningStats.push(newStat)
+            
+            clients.publishView('admin.html','default','learningStats',serverGlobals.learningStats)
+            
+            
+            
+        }
+        
         
         serverGlobals.learningGames.push({
             _id:game._id,
             reporting:false,
-            // wName:game.wName,
-            // bName:game.bName
+           
             modStr:modStr,
             wModded:wModded,
             

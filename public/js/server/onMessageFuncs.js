@@ -702,6 +702,13 @@ var onMessageFuncs = {
                 clients.send(connection,'updateView',{
                     viewName:'admin.html',
                     subViewName:'default',
+                    viewPart: 'learningStats',
+                    data: serverGlobals.learningStats   
+                })
+                
+                clients.send(connection,'updateView',{
+                    viewName:'admin.html',
+                    subViewName:'default',
                     viewPart: 'learnerTable',
                     data: serverGlobals.learnerTable   
                 })
