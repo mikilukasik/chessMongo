@@ -226,9 +226,10 @@ var onMessageFuncs = {
             if(learningGame._id==data._id){
                 learningGame.result=data
                 clients.publishView('admin.html','default','learningGames',serverGlobals.learningGames)
-                console.log('ez lesz az',learningGame)
+                dbFuncs.saveLearnerResult(learningGame)
+                //console.log('ez lesz az',learningGame)
             }else{
-                console.log('nem ez')
+                //console.log('nem ez')
             }
         })
 		

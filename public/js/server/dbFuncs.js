@@ -1,5 +1,21 @@
 var dbFuncs = {
-	publishDisplayedGames: function(loginName, connection) {
+	saveLearnerResult: function(data) {
+
+		mongodb.connect(cn, function(err, db) {
+
+
+			db.collection("learnerResults")
+				.save(data,function(err,res){
+                    
+                });
+
+
+
+
+		})
+
+	},
+    publishDisplayedGames: function(loginName, connection) {
 
 		mongodb.connect(cn, function(err, db) {
 
