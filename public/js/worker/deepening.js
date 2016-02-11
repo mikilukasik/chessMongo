@@ -571,12 +571,24 @@ function singleThreadAi(tempDbTable,depth,cb,mod){
             
             
             var pushAgain = tempResolveArray[1][0]
+            
+            var moveStr=pushAgain.moveTree.slice(0, 4)
+                
+            if(!dbTable.moveTask.shouldIDraw){
+                
+                var movedTable=moveIt(moveStr,dbTable.table)
+                //console.log(movedTable)
+                var wouldLoop=evalFuncs.checkIfLooped(movedTable,dbTable.allPastTables)
+                if(wouldLoop)console.log(wouldLoop)
+                
+                
+            }
 				
 				//pushAgain.moveIndex=resData.progress.moveIndex
 				//pushAgain._id = workingOnGameNum
 				pushAgain.score = pushAgain.value
 				//pushAgain.thinker = sendID.toString() //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-				pushAgain.move = pushAgain.moveTree.slice(0, 4)
+				pushAgain.move = moveStr
                    
         
            result.push(pushAgain)
