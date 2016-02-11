@@ -35,7 +35,7 @@ var LearningStat=function(modStr,modConst,dbCb,idCb){
     
     if(dbCb&&idCb){
         
-        dbCb(this,idCb(this._id))
+        dbCb(this,idCb)
         
     }
     
@@ -118,15 +118,11 @@ serverGlobals.learning={
         
         if (wModded){
             
-            var newStat=new LearningStat(modStr,undefined,function(tempStat,idCb){
+            var newStat=new LearningStat(modStr,undefined,dbFuncs.newLearningStat,function(statWithId){
                 
-                dbFuncs.newLearningStat(tempStat,idCb)
-                
-                
-                
-            },function(err,res,data){
-                
-                console.log('@@@err,res,data',err,res,data)
+                //stat has _id already in this callback
+                clients.publishView('admin.html','default','learningStats',serverGlobals.learningStats)
+            
                 
                 
             })
@@ -137,7 +133,6 @@ serverGlobals.learning={
             
             serverGlobals.learningStats.push(newStat)
             
-            clients.publishView('admin.html','default','learningStats',serverGlobals.learningStats)
             
             
             

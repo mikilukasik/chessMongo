@@ -29,9 +29,10 @@ var dbFuncs = {
 
 
 			db.collection("learningStats")
-				.save(data,function(err,res){
+				.save(data,function(res){
                     
-                    if(cb)cb(err,res,data)
+                    if(cb)cb(data)
+                    
                 });
 
 
