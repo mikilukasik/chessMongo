@@ -140,7 +140,7 @@ var playGame=function(myGame, mod, wNx, wMod){
                  
                  
                  
-                 var pieceScore=wResult.whiteValue-wResult.blackValue+bResult.blackValue-bResult.whiteVale
+                 var pieceScore=wResult.whiteValue-wResult.blackValue+bResult.blackValue-bResult.whiteValue
                  
                  var finalStat={
                      
@@ -159,6 +159,8 @@ var playGame=function(myGame, mod, wNx, wMod){
                      
                      
                  }
+                 
+                 learnerToServer('learnerFinalResult',finalStat)
                  
                  console.log('gamePair finished, results:',finalStat)
                  

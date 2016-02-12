@@ -77,42 +77,68 @@ serverGlobals.learnerResult=function(data){
             var wMod=data.wMod
                 
            
-        
-            serverGlobals.learningStats.forEach(function(learningStat){
+           serverGlobals.learningStats.forEach(function(learningStat){
             
             if(learningStat.modStr==modStr){
                 
-                learningStat.result=data.result
+                if(wMod){
+                
+                    learningStat.wModGame.result=data.result
+                                    
+                }else{
+                    
+                    learningStat.bModGame.result=data.result
+                    
+                }
+                
                 
                 dbFuncs.saveLearnerResult(learningStat)
                 
-                //console.log('saving finished learnerGame',learningStat)
-                
                 dbFuncs.updateLearningStat(modStr,function(foundData){
-                    
-                    console.log('@@@serverGlobals.learnerResult foundData',foundData)
                     
                     if(wMod){
                         foundData.wModGame.result=data.result 
                     }else{
                         foundData.bModGame.result=data.result
                         
-                        //gamepair finished, learnerWorker should send stats too
-                        
-                        
-                        
-                        
-                        
                     }
                 },function(learningStats){
                     
-                    console.log('@@@serverGlobals.learnerResult savedData',learningStats)
                     clients.publishView('admin.html','default','learningStats',learningStats)
                     
                 })
                 
-            }else{
-                console.log('noGood:',learningStat.modStr,modStr)
+            }
+        })
+        
+    }
+    
+    
+    
+
+serverGlobals.learnerFinalResult=function(data){
+    
+            var modStr=data.modStr
+            
+           
+           serverGlobals.learningStats.forEach(function(learningStat){
+            
+            if(learningStat.modStr==modStr){
+                
+                learningStat.finalResult=data
+                
+                dbFuncs.saveLearnerResult(learningStat)
+                
+                dbFuncs.updateLearningStat(modStr,function(foundData){
+                    
+                        foundData.finalResult=data
+                  
+                },function(learningStats){
+                    
+                    clients.publishView('admin.html','default','learningStats',learningStats)
+                    
+                })
+                
             }
         })
         

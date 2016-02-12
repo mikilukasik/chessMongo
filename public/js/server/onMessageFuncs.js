@@ -232,6 +232,12 @@ var onMessageFuncs = {
 		
 	},
 	
+	learnerFinalResult:function(connection,data){
+		
+		serverGlobals.learnerFinalResult(data)
+		
+	},
+	
     removeMod:function(connection,data){
         
         if(data.connectionID=='default'){
