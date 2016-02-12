@@ -51,11 +51,11 @@ var initRouter=function(router,app){
             
             learningStats.forEach(function(stat){
                 
-               // if(stat.finalResult.isDraw!=undefined){
+               if(stat.finalResult.modType){
                     
                     toSend.push(stat.finalResult)
                     
-              //  }
+               }
                 
                 
                 
