@@ -227,19 +227,26 @@ var onMessageFuncs = {
 	},
     
     learnerResult:function(connection,data){
+        
+        
+        console.log('learnerGame finished.')
 	
         serverGlobals.learningStats.forEach(function(learningStat){
+            
             if(learningStat._id==data._id){
-                learningStat.result=data
+                
+                learningStat.result=data.result
                 
                 dbFuncs.saveLearnerResult(learningStat)
                 
-                dbFuncs.updateLearningStat(learningStat.modStr,function(foundData){
+                console.log('saving finished learnerGame',learningStat)
+                
+                dbFuncs.updateLearningStat(learningStat,function(foundData){
                     
                     console.log('@@@foundData',foundData)
                     
                     if(data.wModded){
-                        foundData.wModGame.result={data:data,learningStat:learningStat}    
+                        foundData.wModGame.result={result:data.result,learningStat:learningStat}    
                     }else{
                         foundData.bModGame.result={data:data,learningStat:learningStat}
                     }
