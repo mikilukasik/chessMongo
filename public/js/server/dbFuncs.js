@@ -86,6 +86,22 @@ var dbFuncs = {
 	},
     
     
+    getCollection: function(collectionName,cb) {
+       
+		mongodb.connect(cn, function(err, db) {
+            
+            db.collection(collectionName).find().toArray(function(err,items){
+                
+                cb(items)
+                db.close()
+            
+            })
+			
+		})
+
+	},
+    
+    
     
     
     

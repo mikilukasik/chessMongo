@@ -41,6 +41,39 @@ var initRouter=function(router,app){
         
         
     })
+    
+    
+    router.route('/mod/stats').get(function(req,res){
+        
+        dbFuncs.getCollection('learningStats',function(learningStats){
+            
+            var toSend=[]
+            
+            learningStats.forEach(function(stat){
+                
+                if(stat.finalResult.isDraw!=undefined){
+                    
+                    toSend.push(stat.finalResult)
+                    
+                }
+                
+                
+                
+            })
+            
+            
+            res.send(toSend)
+            
+        })
+        
+    })
+    
+    
+    
+    
+    
+    
+    
         
     router.route('/modGame').post(function(req,res){
         
