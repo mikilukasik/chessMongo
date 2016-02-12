@@ -73,19 +73,10 @@ var serverGlobals={
 
 serverGlobals.learnerResult=function(data){
     
-            //console.log('serverGlobals.learnerResult called',data)
-            
-            
-            var modStr=data.wName
-            var wModded=true
+            var modStr=data.modStr
+            var wMod=data.wMod
                 
-            if(data.wName=='standard'){
-                wModded=false
-                modStr=data.bName
-            }
-            
-            
-            
+           
         
             serverGlobals.learningStats.forEach(function(learningStat){
             
@@ -101,10 +92,17 @@ serverGlobals.learnerResult=function(data){
                     
                     console.log('@@@serverGlobals.learnerResult foundData',foundData)
                     
-                    if(wModded){
+                    if(wMod){
                         foundData.wModGame.result=data.result 
                     }else{
                         foundData.bModGame.result=data.result
+                        
+                        //gamepair finished, learnerWorker should send stats too
+                        
+                        
+                        
+                        
+                        
                     }
                 },function(learningStats){
                     

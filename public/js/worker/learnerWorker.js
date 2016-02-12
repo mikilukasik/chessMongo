@@ -4,23 +4,24 @@ importScripts('../all/brandNewAi.js')
 importScripts('../worker/deepening.js')
 importScripts('../index/httpreq.js')
 
-var learnerGlobals={
+var learnerWorkerGlobals={
     playing:false,
     myID:undefined,
     lastUser:undefined,
     gameNum:undefined,
     reporting:false,
-    reportedAt:new Date()
+    reportedAt:new Date(),
+    sentWResult:{}  
 }
 
 var playGame=function(myGame, mod, wNx, wMod){
     //console.log('playGame called with args:',arguments)
     
-    var result = []
+    var result = {}
     
     
     if (wNx == wMod) {
-        // result = singleThreadAi(myGame, modType, modConst, $scope.sendID) 
+        
         result = singleThreadAi(myGame,3,function(){},mod) 
     } else {
         result = singleThreadAi(myGame,3,function(){})
@@ -48,7 +49,7 @@ var playGame=function(myGame, mod, wNx, wMod){
              
             setTimeout(function() {
                 
-                if (learnerGlobals.reporting){
+                if (learnerWorkerGlobals.reporting){
             
                     learnerToServer('learnerReport',myGame)
                     
@@ -57,9 +58,9 @@ var playGame=function(myGame, mod, wNx, wMod){
                 
                 var timeNow=new Date()
                 
-                if(timeNow-learnerGlobals.reportedAt>30000){
+                if(timeNow-learnerWorkerGlobals.reportedAt>30000){
                     
-                    learnerGlobals.reportedAt=timeNow
+                    learnerWorkerGlobals.reportedAt=timeNow
                     
                     learnerToServer('learnerSmallReport',{
                         _id:myGame._id,
@@ -82,21 +83,98 @@ var playGame=function(myGame, mod, wNx, wMod){
              
              //eval and report finished game here
              
-             console.log('learnerGame finished',gameStatus.result)
              
-             var modStr=myGame.wName
              
-             if(modStr=='standard')modStr=myGame.bName
+             console.log('learnerGame finished',(wMod)?'white':'black')
              
-             learnerToServer('learnerResult',{
+             var modStr= (wMod) ? myGame.wName : myGame.bName
+             
+             var toSend={
+                 
                         _id:myGame._id,
                         moves:myGame.moves,
                         wName:myGame.wName,
                         bName:myGame.bName,
                         result:gameStatus.result,
-                        modStr:modStr
+                        modStr:modStr,
+                        wMod:wMod
                         
-                    })
+                    }
+                    
+             learnerToServer('learnerResult',toSend)
+             
+             if(wMod){
+                 
+                 //store stats somewhere
+                 
+                 learnerWorkerGlobals.sentWResult=toSend
+                 
+                 
+                 
+             }else{
+                 
+                 //compare with wstats and send final result
+                 
+                 var wResult=learnerWorkerGlobals.sentWResult.result
+                 var bResult=toSend.result
+                 
+                 var winScore=0
+                 
+                 var moveCountScore=winScore*512
+                 
+                 if(wResult.whiteWon){
+                     winScore++
+                     moveCountScore-=wResult.totalMoves
+                 }else{
+                     if(wResult.blackWon)winScore--
+                     moveCountScore+=wResult.totalMoves
+                 }
+                 
+                 if(bResult.blackWon){
+                     winScore++
+                     moveCountScore-=bResult.totalMoves
+                 }else{
+                     if(bResult.whiteWon)winScore--
+                     moveCountScore+=bResult.totalMoves
+                 }
+                 
+                 
+                 
+                 var pieceScore=wResult.whiteValue-wResult.blackValue+bResult.blackValue-bResult.whiteVale
+                 
+                 var finalStat={
+                     
+                     modType:mod.modType,
+                     modConst:mod.modConst,
+                     modVal:mod.modVal,
+                     
+                     winScore:winScore,
+                     pieceScore:pieceScore,
+                     
+                     moveCountScore:moveCountScore,
+                     
+                     
+                     modStr:modStr
+                     
+                     
+                     
+                 }
+                 
+                 console.log('gamePair finished, results:',finalStat)
+                 
+                 
+                 
+                 
+             }
+             
+             
+             
+             
+             
+             
+             
+             
+             
              
              
              
@@ -123,8 +201,8 @@ var playGame=function(myGame, mod, wNx, wMod){
 
 var prePlayGame = function(myGame, mod, wNx, wMod) {
 
-			if (learnerGlobals.playing) {
-                learnerGlobals.gameNum=myGame._id
+			if (learnerWorkerGlobals.playing) {
+                learnerWorkerGlobals.gameNum=myGame._id
                 //console.log('###',myGame)
 				playGame(myGame, mod, wNx, wMod)
 			}
@@ -152,8 +230,8 @@ var playModGamePair=function(mod,scndGame){
     }
 
     initedTable.learnerGame = true
-    initedTable.learningOn = learnerGlobals.lastUser
-    initedTable.connectionID = learnerGlobals.myID
+    initedTable.learningOn = learnerWorkerGlobals.lastUser
+    initedTable.connectionID = learnerWorkerGlobals.myID
     
     
     		simplePost('/api/modGame',initedTable,function(response) {
@@ -178,7 +256,7 @@ var playModGamePair=function(mod,scndGame){
 }
 
 var play=function(){
-    simpleGet('/api/mod/type?id='+learnerGlobals.myID,function(ret){
+    simpleGet('/api/mod/type?id='+learnerWorkerGlobals.myID,function(ret){
         
         var resp=JSON.parse(ret.response)
         
@@ -192,7 +270,7 @@ var play=function(){
             
             mod.modVal=mod.min+(~~(mod.max-mod.min)*Math.random()*1000)/1000
             
-            learnerGlobals.playing=true
+            learnerWorkerGlobals.playing=true
             
             playModGamePair(mod)
         })
@@ -216,8 +294,8 @@ onmessage = function(event){
             
             //console.log('starting learner')
             
-            learnerGlobals.myID=event.data.myID
-            learnerGlobals.lastUser=event.data.lastUser
+            learnerWorkerGlobals.myID=event.data.myID
+            learnerWorkerGlobals.lastUser=event.data.lastUser
             
             play()
             
@@ -226,28 +304,28 @@ onmessage = function(event){
         
         case 'startReporting':
         
-            if(event.data.data==learnerGlobals.gameNum){
+            if(event.data.data==learnerWorkerGlobals.gameNum){
                 
                 console.log('learner starts reporting')
                 
-                learnerGlobals.reporting=true
+                learnerWorkerGlobals.reporting=true
                 
             }else{
-                //console.log('@@@',event.data.data,learnerGlobals.gameNum)
+                //console.log('@@@',event.data.data,learnerWorkerGlobals.gameNum)
             }
         
         break;
         
         case 'stopReporting':
         
-            if(event.data.data==learnerGlobals.gameNum){
+            if(event.data.data==learnerWorkerGlobals.gameNum){
                 
                 console.log('learner stops reporting')
-                learnerGlobals.reporting=false
+                learnerWorkerGlobals.reporting=false
                 
                 
             }else{
-                //console.log('@@@',event.data.data,learnerGlobals.gameNum)
+                //console.log('@@@',event.data.data,learnerWorkerGlobals.gameNum)
                 
             }
         

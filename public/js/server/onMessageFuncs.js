@@ -228,9 +228,6 @@ var onMessageFuncs = {
     
     learnerResult:function(connection,data){
         
-        
-        //console.log('learnerGame finished.')
-	
 		serverGlobals.learnerResult(data)
 		
 	},
