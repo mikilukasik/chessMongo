@@ -231,37 +231,7 @@ var onMessageFuncs = {
         
         console.log('learnerGame finished.')
 	
-        serverGlobals.learningStats.forEach(function(learningStat){
-            
-            if(learningStat._id==data._id){
-                
-                learningStat.result=data.result
-                
-                dbFuncs.saveLearnerResult(learningStat)
-                
-                console.log('saving finished learnerGame',learningStat)
-                
-                dbFuncs.updateLearningStat(learningStat,function(foundData){
-                    
-                    console.log('@@@foundData',foundData)
-                    
-                    if(data.wModded){
-                        foundData.wModGame.result={result:data.result,learningStat:learningStat}    
-                    }else{
-                        foundData.bModGame.result={data:data,learningStat:learningStat}
-                    }
-                    
-                },function(learningStats){
-                    
-                    console.log('@@@savedData',learningStats)
-                    clients.publishView('admin.html','default','learningStats',learningStats)
-                    
-                })
-                
-            }else{
-                
-            }
-        })
+		serverGlobals.learnerResult(data)
 		
 	},
 	

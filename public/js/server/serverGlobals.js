@@ -15,7 +15,7 @@ var serverGlobals={
     learningStats:[],
     
     
-    
+   
     
     LearningStat:function(modStr,modConst,initCb,dbCb,idCb){
         
@@ -71,6 +71,55 @@ var serverGlobals={
     
 }
 
+serverGlobals.learnerResult=function(data){
+    
+            console.log('serverGlobals.learnerResult called',data)
+            
+            
+            var modStr=data.wName
+            var wModded=true
+                
+            if(data.wName=='standard'){
+                wModded=false
+                modStr=data.bName
+            }
+            
+            
+            
+        
+            serverGlobals.learningStats.forEach(function(learningStat){
+            
+            if(learningStat.modStr==modStr){
+                
+                learningStat.result=data.result
+                
+                dbFuncs.saveLearnerResult(learningStat)
+                
+                console.log('saving finished learnerGame',learningStat)
+                
+                dbFuncs.updateLearningStat(modStr,function(foundData){
+                    
+                    console.log('@@@foundData',foundData)
+                    
+                    if(wModded){
+                        foundData.wModGame.result=data.result 
+                    }else{
+                        foundData.bModGame.result=data.result
+                    }
+                },function(learningStats){
+                    
+                    console.log('@@@savedData',learningStats)
+                    clients.publishView('admin.html','default','learningStats',learningStats)
+                    
+                })
+                
+            }else{
+                console.log('noGood:',learningStat.modStr,modStr)
+            }
+        })
+        
+    }
+
 serverGlobals.learnerSmallReport=function(data){
     
     var modStr=data.wName
@@ -81,7 +130,11 @@ serverGlobals.learnerSmallReport=function(data){
         modStr=data.bName
     }
     
+    // console.log('------------------',modStr)
+    
    dbFuncs.updateLearningStat(modStr,function(foundDoc){
+       
+       
        
        if(foundDoc){
            

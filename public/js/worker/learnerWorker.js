@@ -84,7 +84,14 @@ var playGame=function(myGame, mod, wNx, wMod){
              
              console.log('learnerGame finished',gameStatus.result)
              
-             learnerToServer('learnerResult',gameStatus)
+             learnerToServer('learnerResult',{
+                        _id:myGame._id,
+                        moves:myGame.moves,
+                        wName:myGame.wName,
+                        bName:myGame.bName,
+                        result:gameStatus.result
+                        
+                    })
              
              
              

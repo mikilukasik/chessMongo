@@ -53,19 +53,19 @@ var dbFuncs = {
         
     // },
     
-    updateLearningStat: function(learningStat,foundCb,savedCb) {
+    updateLearningStat: function(modStr,foundCb,savedCb) {
        
        
        
-       console.log('updateLearningStat called with learningStat',learningStat)
+       console.log('updateLearningStat called with modStr',modStr)
         
 		mongodb.connect(cn, function(err, db) {
             db.collection("learningStats")
                 .findOne({
-                    modStr:learningStat.modStr
+                    modStr:modStr
                 },function(err,doc){
                     
-                    foundCb(doc)//
+                    if(doc)foundCb(doc)//
                     
                     if(doc)db.collection("learningStats").save(doc,function(err,savedDoc){
                         

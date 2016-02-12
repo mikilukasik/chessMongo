@@ -177,10 +177,12 @@
                             <div ng-repeat="(key,val) in x.finalResult">{{key}}: {{val}}</div>
 						</td>
                         <td>
-                            <div ng-repeat="(key,val) in x.wModGame">{{key}}: {{val}}</div>
+                            <div ng-repeat="(key,val) in x.wModGame" ng-if="key!='moves'">{{key}}: {{val}}</div>
+							<div ng-repeat="(key,val) in x.wModGame" ng-if="key=='moves'">{{key}}.length: {{val.length}}</div>
 						</td>
                         <td>
-                            <div ng-repeat="(key,val) in x.bModGame">{{key}}: {{val}}</div>
+                            <div ng-repeat="(key,val) in x.bModGame" ng-if="key!='moves'">{{key}}: {{val}}</div>
+							<div ng-repeat="(key,val) in x.bModGame" ng-if="key=='moves'">{{key}}.length: {{val.length}}</div>
 						</td>
 
 					</tr>
