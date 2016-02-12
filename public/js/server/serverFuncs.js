@@ -143,8 +143,11 @@ var startGame = function(w, b, connection, aiGame, idCb) {
 						var initedTable = new Dbtable(firstFreeTable, w, b)
                         
 						
+						
 						initedTable._id = firstFreeTable
 
+						idCb(initedTable)
+						
 						db.collection("users")
 							.findOne({
 								name: w
@@ -185,7 +188,7 @@ var startGame = function(w, b, connection, aiGame, idCb) {
 										db.collection("tables")
 											.insert(initedTable, function(err, doc) {
                                                 
-                                                idCb(initedTable)
+                                                // idCb(initedTable)
 
 												if (w && w != 'Computer') {
 

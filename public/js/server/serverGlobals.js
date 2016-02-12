@@ -73,7 +73,7 @@ var serverGlobals={
 
 serverGlobals.learnerResult=function(data){
     
-            console.log('serverGlobals.learnerResult called',data)
+            //console.log('serverGlobals.learnerResult called',data)
             
             
             var modStr=data.wName
@@ -95,11 +95,11 @@ serverGlobals.learnerResult=function(data){
                 
                 dbFuncs.saveLearnerResult(learningStat)
                 
-                console.log('saving finished learnerGame',learningStat)
+                //console.log('saving finished learnerGame',learningStat)
                 
                 dbFuncs.updateLearningStat(modStr,function(foundData){
                     
-                    console.log('@@@foundData',foundData)
+                    console.log('@@@serverGlobals.learnerResult foundData',foundData)
                     
                     if(wModded){
                         foundData.wModGame.result=data.result 
@@ -108,7 +108,7 @@ serverGlobals.learnerResult=function(data){
                     }
                 },function(learningStats){
                     
-                    console.log('@@@savedData',learningStats)
+                    console.log('@@@serverGlobals.learnerResult savedData',learningStats)
                     clients.publishView('admin.html','default','learningStats',learningStats)
                     
                 })
@@ -267,7 +267,7 @@ serverGlobals.learning={
 
                 serverGlobals.learningStats.push(statWithId)
                 clients.publishView('admin.html','default','learningStats',serverGlobals.learningStats)
-                console.log(statWithId)
+                //console.log(statWithId)
                 
             })
              
@@ -310,7 +310,7 @@ serverGlobals.learning={
     
     setReporter:function(data){
         
-        console.log('setreporter data',data)
+        //console.log('setreporter data',data)
         if(data){
         
         if(data.reporting){
@@ -323,7 +323,7 @@ serverGlobals.learning={
                     
                     learningGame.reporting=true
                     
-                    console.log('set to report:',learningGame)
+                    //console.log('set to report:',learningGame)
                     
                     var connection=clients.fromStore({addedData:{connectionID:learningGame.connectionID}})
                     
@@ -363,7 +363,7 @@ serverGlobals.learning={
                     
                     serverGlobals.learningGames[i].reporting=false
                     
-                    console.log('set to stop reporting:',serverGlobals.learningGames[i])
+                    //console.log('set to stop reporting:',serverGlobals.learningGames[i])
                         
                     var connection=clients.fromStore({addedData:{connectionID:serverGlobals.learningGames[i].connectionID}})
                     

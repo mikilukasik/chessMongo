@@ -24,7 +24,7 @@ var dbFuncs = {
     
     newLearningStat: function(data,cb) {
         
-        console.log(data)
+        //console.log(data)
         
         if(data._id==-1)data._id=undefined
 
@@ -47,17 +47,13 @@ var dbFuncs = {
 
 	},
     
-    // learningGameResult=function(){
-        
-        
-        
-    // },
+    
     
     updateLearningStat: function(modStr,foundCb,savedCb) {
        
        
        
-       console.log('updateLearningStat called with modStr',modStr)
+       //console.log('updateLearningStat called with modStr',modStr)
         
 		mongodb.connect(cn, function(err, db) {
             db.collection("learningStats")
