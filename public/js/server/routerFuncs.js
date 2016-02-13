@@ -47,13 +47,20 @@ var initRouter=function(router,app){
         
         dbFuncs.getCollection('learningStats',function(learningStats){
             
-            var toSend=[]
+            var toSend=''
             
             learningStats.forEach(function(stat){
                 
                if(stat.finalResult.modType){
                     
-                    toSend.push(stat.finalResult)
+                    var tempStr=stat.finalResult.modType + String.fromCharCode(9)
+                                stat.finalResult.modVal +String.fromCharCode(9)
+                                stat.finalResult.modConst +String.fromCharCode(9)
+                                stat.finalResult.winScore +String.fromCharCode(9)
+                                stat.finalResult.pieceScore +String.fromCharCode(9)
+                                stat.finalResult.moveCountScore +String.fromCharCode(13)
+                    
+                    toSend=toSend.concat(tempStr)
                     
                }
                 
