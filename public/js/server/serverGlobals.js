@@ -70,7 +70,7 @@ var serverGlobals={
     },
     
 }
-
+//
 serverGlobals.learnerResult=function(data){
     
             var modStr=data.modStr
