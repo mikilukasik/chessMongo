@@ -52,7 +52,7 @@ var initRouter=function(router,app){
                 
                 learningStats.forEach(function(stat){
                     
-                if(stat.finalResult.modType){
+                    if(stat.finalResult.modType){
                         
                         var tempStr=stat.finalResult.modType + String.fromCharCode(9)+
                                     stat.finalResult.modVal +String.fromCharCode(9)+
@@ -67,15 +67,15 @@ var initRouter=function(router,app){
                 }
                     
                     
-                    
-                })
-                
-                
-                res.end()
                 
             })
-         
+            
+            
+            res.end()
+            
+        })
         
+    
     })
     
     
@@ -83,8 +83,34 @@ var initRouter=function(router,app){
         
         var modType=req.params.modType
         
-        res.send(modType)
-      
+        dbFuncs.query('learningStats',{modType:modType},function(learningStats){
+                
+            var toSend=''
+            
+            learningStats.forEach(function(stat){
+                    
+                if(stat.finalResult.modType){
+                        
+                        var tempStr=stat.finalResult.modType + String.fromCharCode(9)+
+                                    stat.finalResult.modVal +String.fromCharCode(9)+
+                                    stat.finalResult.modConst +String.fromCharCode(9)+
+                                    stat.finalResult.winScore +String.fromCharCode(9)+
+                                    stat.finalResult.pieceScore +String.fromCharCode(9)+
+                                    stat.finalResult.moveCountScore +String.fromCharCode(13)
+                        
+                        res.write(tempStr)
+                        
+                }
+                    
+                    
+                    
+            })
+            
+            
+            res.end()
+            
+        })
+    
       
         
         

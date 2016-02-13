@@ -101,6 +101,21 @@ var dbFuncs = {
 
 	},
     
+    query: function(collectionName,query,cb) {
+       
+		mongodb.connect(cn, function(err, db) {
+            
+            db.collection(collectionName).find(query).toArray(function(err,items){
+                
+                cb(items)
+                db.close()
+            
+            })
+			
+		})
+
+	},
+    
     
     
     
