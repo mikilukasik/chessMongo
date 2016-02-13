@@ -43,16 +43,8 @@ var initRouter=function(router,app){
     })
     
     
-    router.route('/mod/stats/:modType').get(function(req,res){
+    router.route('/mod/stats').get(function(req,res){
         
-        var modType=req.params.modType
-        
-        if(modType){
-            
-            res.send(modType)
-            
-        }else{
-            
         
             dbFuncs.getCollection('learningStats',function(learningStats){
                 
@@ -82,10 +74,18 @@ var initRouter=function(router,app){
                 res.end()
                 
             })
-            
+         
         
-            
-        }
+    })
+    
+    
+    router.route('/mod/stats/:modType').get(function(req,res){
+        
+        var modType=req.params.modType
+        
+        res.send(modType)
+      
+      
         
         
     })
