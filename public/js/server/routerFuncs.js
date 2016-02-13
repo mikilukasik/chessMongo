@@ -43,36 +43,50 @@ var initRouter=function(router,app){
     })
     
     
-    router.route('/mod/stats').get(function(req,res){
+    router.route('/mod/stats/:modType').get(function(req,res){
         
-        dbFuncs.getCollection('learningStats',function(learningStats){
+        var modType=req.params.modType
+        
+        if(modType){
             
-            var toSend=''
+            res.send(modType)
             
-            learningStats.forEach(function(stat){
+        }else{
+            
+        
+            dbFuncs.getCollection('learningStats',function(learningStats){
                 
-               if(stat.finalResult.modType){
+                var toSend=''
+                
+                learningStats.forEach(function(stat){
                     
-                    var tempStr=stat.finalResult.modType + String.fromCharCode(9)+
-                                stat.finalResult.modVal +String.fromCharCode(9)+
-                                stat.finalResult.modConst +String.fromCharCode(9)+
-                                stat.finalResult.winScore +String.fromCharCode(9)+
-                                stat.finalResult.pieceScore +String.fromCharCode(9)+
-                                stat.finalResult.moveCountScore +String.fromCharCode(13)
+                if(stat.finalResult.modType){
+                        
+                        var tempStr=stat.finalResult.modType + String.fromCharCode(9)+
+                                    stat.finalResult.modVal +String.fromCharCode(9)+
+                                    stat.finalResult.modConst +String.fromCharCode(9)+
+                                    stat.finalResult.winScore +String.fromCharCode(9)+
+                                    stat.finalResult.pieceScore +String.fromCharCode(9)+
+                                    stat.finalResult.moveCountScore +String.fromCharCode(13)
+                        
+                        //toSend=toSend.concat(tempStr)
+                        res.write(tempStr)
+                        
+                }
                     
-                    //toSend=toSend.concat(tempStr)
-                    res.write(tempStr)
                     
-               }
+                    
+                })
                 
                 
+                res.end()
                 
             })
             
+        
             
-            res.end()
-            
-        })
+        }
+        
         
     })
     
