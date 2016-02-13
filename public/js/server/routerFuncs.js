@@ -85,8 +85,7 @@ var initRouter=function(router,app){
         
         dbFuncs.query('learningStats',{modType:modType},function(learningStats){
                 
-            var toSend=''
-            
+                        
             learningStats.forEach(function(stat){
                     
                 if(stat.finalResult.modType){
