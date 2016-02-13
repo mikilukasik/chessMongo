@@ -53,11 +53,11 @@ var initRouter=function(router,app){
                 
                if(stat.finalResult.modType){
                     
-                    var tempStr=stat.finalResult.modType + String.fromCharCode(9)
-                                stat.finalResult.modVal +String.fromCharCode(9)
-                                stat.finalResult.modConst +String.fromCharCode(9)
-                                stat.finalResult.winScore +String.fromCharCode(9)
-                                stat.finalResult.pieceScore +String.fromCharCode(9)
+                    var tempStr=stat.finalResult.modType + String.fromCharCode(9)+
+                                stat.finalResult.modVal +String.fromCharCode(9)+
+                                stat.finalResult.modConst +String.fromCharCode(9)+
+                                stat.finalResult.winScore +String.fromCharCode(9)+
+                                stat.finalResult.pieceScore +String.fromCharCode(9)+
                                 stat.finalResult.moveCountScore +String.fromCharCode(13)
                     
                     toSend=toSend.concat(tempStr)
