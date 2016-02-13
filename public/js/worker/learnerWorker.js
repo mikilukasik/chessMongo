@@ -120,7 +120,7 @@ var playGame=function(myGame, mod, wNx, wMod){
                  
                  var winScore=0
                  
-                 var moveCountScore=winScore*512
+                 var moveCountScore=0//winScore*512
                  
                  if(wResult.whiteWon){
                      winScore++
@@ -138,6 +138,7 @@ var playGame=function(myGame, mod, wNx, wMod){
                      moveCountScore+=bResult.totalMoves
                  }
                  
+                 moveCountScore+=winScore*512
                  
                  
                  var pieceScore=wResult.whiteValue-wResult.blackValue+bResult.blackValue-bResult.whiteValue
