@@ -334,25 +334,24 @@ var onMessageFuncs = {
       
       
       
-      mongodb.connect(cn, function(err, db) {
-                    
-                    
-            
-					db.collection("tables")
-						.findOne({
+      dbFuncs.update("tables",{
 							_id: data.gameNum
-						}, function(err2, tableInDb){
+						}, function(tableInDb){
                             
                             tableInDb.chat.push(toPush)
                             
-                            db.collection("tables").save(tableInDb,function(e,r){})
+                            
+                            
+                            
+                            //db.close()
+                            
+                        },function (tableInDb) {
                             
                             clients.publishView('board.html', data.gameNum, 'dbTable.chat', tableInDb.chat)
                             
-                            db.close()
                             
                         })
-      })
+      //})
       
       
     },
@@ -395,80 +394,80 @@ var onMessageFuncs = {
 
 	},
 
-	getLobby: function(connection, data) {
+	// getLobby: function(connection, data) {
 
-		clearDisconnectedPlayers() //nemide!!!!!!!!!!!!
+	// 	clearDisconnectedPlayers() //nemide!!!!!!!!!!!!
 
-		if (players[0].indexOf(data.p) == -1) {
-			players[0].push(data.p)
-			players[1].push((new Date())
-				.getTime())
+	// 	if (players[0].indexOf(data.p) == -1) {
+	// 		players[0].push(data.p)
+	// 		players[1].push((new Date())
+	// 			.getTime())
 
-			lobbyPollNum++
+	// 		lobbyPollNum++
 
-		} else {
-			players[1][players[0].indexOf(data.p)] = (new Date())
-				.getTime()
-		}
+	// 	} else {
+	// 		players[1][players[0].indexOf(data.p)] = (new Date())
+	// 			.getTime()
+	// 	}
 
-		var playerIndex = players[0].indexOf(data.p)
-		if (players[2][playerIndex]) {
-			//var askToOpen=true;
-			lobbyPollNum++
-			var openTableNum = players[4][playerIndex]
-			var openTableColor = players[3][playerIndex]
-			var opponentsName = players[5][playerIndex]
+	// 	var playerIndex = players[0].indexOf(data.p)
+	// 	if (players[2][playerIndex]) {
+	// 		//var askToOpen=true;
+	// 		lobbyPollNum++
+	// 		var openTableNum = players[4][playerIndex]
+	// 		var openTableColor = players[3][playerIndex]
+	// 		var opponentsName = players[5][playerIndex]
 
-			players[2][playerIndex] = false
+	// 		players[2][playerIndex] = false
 
-			clients.send(connection, 'lobbyState', {
-				players: players[0],
-				games: [], //[activeGames],
-				lobbypollnum: lobbyPollNum,
-				lobbychat: [], //lobbyChat,
-				asktoopen: true,
-				opentablenum: openTableNum,
-				opentablecolor: openTableColor,
-				opponentsname: opponentsName
-			}, 'lobbyState', function() {});
+	// 		clients.send(connection, 'lobbyState', {
+	// 			players: players[0],
+	// 			games: [], //[activeGames],
+	// 			lobbypollnum: lobbyPollNum,
+	// 			lobbychat: [], //lobbyChat,
+	// 			asktoopen: true,
+	// 			opentablenum: openTableNum,
+	// 			opentablecolor: openTableColor,
+	// 			opponentsname: opponentsName
+	// 		}, 'lobbyState', function() {});
 
-		} else {
+	// 	} else {
 
-			mongodb.connect(cn, function(err, db) {
-				if (!(db == null)) {
-					db.collection("tables")
-						.findOne({
-							_id: "xData"
-						}, function(err2, xData) {
-							if (xData == null) {
+	// 		mongodb.connect(cn, function(err, db) {
+	// 			if (!(db == null)) {
+	// 				db.collection("tables")
+	// 					.findOne({
+	// 						_id: "xData"
+	// 					}, function(err2, xData) {
+	// 						if (xData == null) {
 
-								createXData()
+	// 							createXData()
 
-								var resLChat = []
-								var resAGames = []
+	// 							var resLChat = []
+	// 							var resAGames = []
 
-							} else {
+	// 						} else {
 
-								var resLChat = xData.lobbyChat
-								var resAGames = xData.activeTables
-							}
-							db.close()
+	// 							var resLChat = xData.lobbyChat
+	// 							var resAGames = xData.activeTables
+	// 						}
+	// 						db.close()
 
-							clients.send(connection, 'lobbyState', {
-								players: players[0],
-								games: resAGames,
-								lobbypollnum: lobbyPollNum,
-								lobbychat: resLChat,
-								asktoopen: false
-							}, 'lobbyState', function() {});
+	// 						clients.send(connection, 'lobbyState', {
+	// 							players: players[0],
+	// 							games: resAGames,
+	// 							lobbypollnum: lobbyPollNum,
+	// 							lobbychat: resLChat,
+	// 							asktoopen: false
+	// 						}, 'lobbyState', function() {});
 
-						});
-				}
-			});
+	// 					});
+	// 			}
+	// 		});
 
-		}
+	// 	}
 
-	},
+	// },
     
 	thinkerMessage: function(connection, data, connectionID) {
 
