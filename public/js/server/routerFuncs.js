@@ -46,7 +46,7 @@ var initRouter=function(router,app){
     router.route('/mod/stats').get(function(req,res){
         
         
-            dbFuncs.getCollection('learningStats',function(learningStats){
+            dbFuncs.query('learningStats',{},function(learningStats){
                 
                 var toSend=''
                 
