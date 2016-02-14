@@ -1,6 +1,8 @@
 
 
-var SplitMoves = function(clients,timeNow,Engine,mongo) {
+var SplitMoves = function(clients,dbFuncs,Engine,mongo) {
+    
+    var timeNow=new Date()
     
     var mongodb=mongo.mongodb
     var cn=mongo.cn
@@ -485,12 +487,9 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
 
                     tableInDb.moveTask = {}
 
-                    mongodb.connect(cn, function(err2, db2) {
-
-                        db2.collection("tables")
-                            .save(tableInDb, function(err3, res) {
+                    dbFuncs.insert("tables",tableInDb, function(err3, res) {
                                 
-                                db2.close()
+                                //db2.close()
 
                                 publishTable(tableInDb)
 
@@ -501,7 +500,7 @@ var SplitMoves = function(clients,timeNow,Engine,mongo) {
                                 //clients.publishView('admin.html', 'default', 'splitMoves', store.nakedQ)
 
                             })
-                    })
+                   // })
 
                 }
 

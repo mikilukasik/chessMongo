@@ -73,7 +73,7 @@ eval(fs.readFileSync('public/js/all/brandNewAi.js') + '');
 
 
 
-var splitMoves = new SplitMoves.withClient(clients,new Date(),Engine,{mongodb:dbFuncs.mongodb,cn:dbFuncs.cn,dbFuncs:dbFuncs})
+var splitMoves = new SplitMoves.withClient(clients,dbFuncs,Engine,{mongodb:dbFuncs.mongodb,cn:dbFuncs.cn,dbFuncs:dbFuncs})
 
 var mainStore={
     lobbyChat:[]
@@ -172,23 +172,6 @@ dbFuncs.findOne('tables',{_id:'xData'},function (doc) {
         createXData();
     }
 })
-
-// dbFuncs.mongodb.connect(dbFuncs.cn, function(err, db) {
-// 	db.collection("tables")
-// 		.findOne({
-// 			_id: "xData"
-// 		}, function(err2, xData) {
-// 			if (xData == null) {
-
-// 				createXData();
-
-// 			}
-
-// 			db.close()
-
-// 		});
-// });
-
 
 
 updateDbClients = function(connectionData) {

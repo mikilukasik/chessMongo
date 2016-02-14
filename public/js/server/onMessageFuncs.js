@@ -731,7 +731,7 @@ var onMessageFuncs = {
 
 	},
 
-	moved: function(connection, onTable) {
+	movedtemp: function(connection, onTable) {
 
 		
 		onTable.moved = new Date()
@@ -788,6 +788,63 @@ var onMessageFuncs = {
 				
 
 		});
+
+	},
+    
+    
+    
+	moved: function(connection, onTable) {
+
+		
+		onTable.moved = new Date()
+			.getTime()
+
+		var command = onTable.command
+
+		onTable.command = ''
+        
+		dbFuncs.update("tables",{
+                _id:onTable._id
+            },function(dat){
+                
+                
+                var tempID=dat._id
+                dat=onTable
+                dat._id=tempID
+                
+                // db.collection("tables").save(dat, function(err3, res) {
+				// 	//table moved and saved, let's check what to do
+				// 	db.close()
+                    
+                //     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',err3)
+                
+
+					
+
+				// })
+                
+                
+                
+                
+            },function(savedDoc){
+                
+                clients.publishView('board.html', onTable._id, 'dbTable.table', onTable.table)
+
+                clients.publishView('board.html', onTable._id, 'dbTable.wNext', onTable.wNext)
+
+                switch (command) {
+
+                    case 'makeAiMove':
+
+                        splitMoves.makeAiMove(onTable)
+
+                    break;
+
+                }
+            
+                
+            })
+        
 
 	},
 	//var 
