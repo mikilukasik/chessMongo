@@ -107,6 +107,13 @@ wsServer.on('request', function(request) {
 	});
 	
 	connection.on('close', function(connection2) {
+        
+        //var newConnectionID2 = request.key 
+
+        // connection2.addedData = {
+        //     connectionID: newConnectionID.toString()
+        // }
+
 		
         
 		clients.destroy(connection)
