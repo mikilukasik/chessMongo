@@ -167,21 +167,27 @@ function createXData() {
 	});
 }
 
-dbFuncs.mongodb.connect(dbFuncs.cn, function(err, db) {
-	db.collection("tables")
-		.findOne({
-			_id: "xData"
-		}, function(err2, xData) {
-			if (xData == null) {
+dbFuncs.findOne('tables',{_id:'xData'},function (doc) {
+    if(doc==null){
+        createXData();
+    }
+})
 
-				createXData();
+// dbFuncs.mongodb.connect(dbFuncs.cn, function(err, db) {
+// 	db.collection("tables")
+// 		.findOne({
+// 			_id: "xData"
+// 		}, function(err2, xData) {
+// 			if (xData == null) {
 
-			}
+// 				createXData();
 
-			db.close()
+// 			}
 
-		});
-});
+// 			db.close()
+
+// 		});
+// });
 
 
 

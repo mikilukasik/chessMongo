@@ -9,8 +9,8 @@ module.exports = {
     
     ///////////////temp
     
-    mongodb:mongodb,
-    cn:cn,
+    //mongodb:mongodb,
+    //cn:cn,
     ObjectID:ObjectID,
     
     
