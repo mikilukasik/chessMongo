@@ -4,14 +4,20 @@ var express = require('express');
 var morgan = require('morgan');
 var bodyParser = require("body-parser");
 var fs = require('fs');
-var mongodb = require('mongodb');
+
 var http = require('http')
 var WebSocketServer = require('websocket').server;
 
 var SplitMoves = require('./public/js/server/splitMoves.js')
 var Engine=require('./public/js/all/engine.js')
 
-var ObjectID = mongodb.ObjectID
+var dbFuncs = require('./public/js/server/dbFuncs.js')
+
+var Clients = require('./public/js/server/clients.js')//new Clients()
+
+var clients=new Clients(dbFuncs)
+
+//console.log(dbFuncs)
 
 var app = express()
 
@@ -42,9 +48,11 @@ var currentMod={
 //change the below to require!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 eval(fs.readFileSync('public/js/server/routerFuncs.js') + '');
-eval(fs.readFileSync('public/js/server/clients.js') + '');
 
-var clients = new Clients()
+
+//eval(fs.readFileSync('public/js/server/clients.js') + '');
+
+
 
 
 eval(fs.readFileSync('public/js/all/classes.js') + '');
@@ -63,16 +71,16 @@ eval(fs.readFileSync('public/js/all/brandNewAi.js') + '');
 
 
 
-var cn = 'mongodb://localhost:17890/chessdb'
 
-var splitMoves = new SplitMoves.withClient(clients,new Date(),Engine,{mongodb:mongodb,cn:cn})
+
+var splitMoves = new SplitMoves.withClient(clients,new Date(),Engine,{mongodb:dbFuncs.mongodb,cn:dbFuncs.cn,dbFuncs:dbFuncs})
 
 var mainStore={
     lobbyChat:[]
 }
 
 eval(fs.readFileSync('public/js/server/serverFuncs.js') + '');
-eval(fs.readFileSync('public/js/server/dbFuncs.js') + '');
+//eval(fs.readFileSync('public/js/server/dbFuncs.js') + '');
 
 eval(fs.readFileSync('public/js/server/onMessageFuncs.js') + '');
 
@@ -150,7 +158,7 @@ function createXData() {
 	});
 }
 
-mongodb.connect(cn, function(err, db) {
+dbFuncs.mongodb.connect(dbFuncs.cn, function(err, db) {
 	db.collection("tables")
 		.findOne({
 			_id: "xData"

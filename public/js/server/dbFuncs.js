@@ -1,4 +1,19 @@
-var dbFuncs = {
+var cn = 'mongodb://localhost:17890/chessdb'
+var mongodb = require('mongodb');
+var ObjectID = mongodb.ObjectID
+
+
+
+
+module.exports = {
+    
+    ///////////////temp
+    
+    mongodb:mongodb,
+    cn:cn,
+    
+    
+    
     
 	saveLearnerResult: function(data) {
 
@@ -85,6 +100,8 @@ var dbFuncs = {
 
 	},
     
+   
+    
     
     getCollection: function(collectionName,cb) {
        
@@ -116,41 +133,51 @@ var dbFuncs = {
 
 	},
     
-    
-    
-    
-    
-    publishDisplayedGames: function(loginName, connection) {
-
+    updateDocument: function(collectionName,query,cb,savedCb) {
+       
 		mongodb.connect(cn, function(err, db) {
+            
+            db.collection(collectionName).findOne(query,function(err,doc){
+                
+                cb(doc)
+                
+                db.collection(collectionName).save(doc,function(err,doc2){
+                    
+                    savedCb(doc,err,doc2)
+                    
+                })
+                
+                
+                db.close()
+            
+            })
+			
+		})
 
-
-			db.collection("users")
-				.findOne({
-					name: loginName
-				}, function(err, doc) {
-					if (!(doc == null)) {
-
-
-						clients.send(connection, 'updateDisplayedGames', doc.games)
-
-					} else {
-
-						clients.send(connection, 'updateDisplayedGames', null)
-
-
-					}
-					db.close()
-				});
-
-
-
-
+	},
+    findOne: function(collectionName,query,cb) {
+       
+		mongodb.connect(cn, function(err, db) {
+            
+            db.collection(collectionName).findOne(query,function(err,doc){
+                
+                cb(doc)
+                
+                db.close()
+            
+            })
+			
 		})
 
 	},
     
-    knownClientReturned : function(data, connection,cback) {
+    
+    
+    
+    
+    
+    
+    knownClientReturned : function(data, connection,cback,userFuncs) {
 		
 	if(!cback)cback=function(){}
 	
@@ -194,14 +221,14 @@ var dbFuncs = {
 				if(doc.learnerCount){
 					
 					connection.addedData.learnerCount=doc.learnerCount
-					clients.send(connection,'setLearnerCount',doc.learnerCount)
+					//clients.send(connection,'setLearnerCount',doc.learnerCount)
 					
 				}
                 
                 if(doc.mod){
 					
 					connection.addedData.mod=doc.mod
-					//clients.send(connection,'setLearnerCount',doc.learnerCount)
+					
 					
 				}
 				
@@ -211,9 +238,9 @@ var dbFuncs = {
 			}
 			
 			if(doc&&doc.lastUser){
-				cback(doc.lastUser)
+				cback(doc.lastUser,doc.learnerCount)
 			}else{
-				cback('new client')
+				cback('new client',0)
 			}
             
             db.close()

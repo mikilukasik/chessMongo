@@ -1,4 +1,115 @@
-///////classes/////////////////
+///////temp/////////////////
+
+mongodb=dbFuncs.mongodb
+cn=dbFuncs.cn
+
+var userFuncs = {
+
+	removeDisplayedGame: function(connection, data) {
+        
+		//console.log('remove game from name:', connection.addedData.loggedInAs)
+		mongodb.connect(cn, function(err, db2) {
+			db2.collection("users")
+				.findOne({
+					name: connection.addedData.loggedInAs
+				}, function(err2, userInDb) {
+					if (!(userInDb == null)) {
+
+						var index = findUsersGameIndex(data, userInDb.games)
+						userInDb.games.splice(index, 1)
+							//unshift(initedTable._id)
+
+						db2.collection("users")
+							.save(userInDb, function(err3, res) {
+
+								clients.publishDisplayedGames(connection.addedData.loggedInAs, connection)
+
+							})
+
+					}
+					db2.close()
+						// res.json({
+
+					// });
+				});
+
+		});
+
+	},
+
+	logoff: function(connection, data) {
+
+		var name = data.name
+
+		clients.storeVal(connection, 'loggedInAs', undefined)
+		clients.storeVal(connection, 'isAdmin', undefined)
+		clients.storeVal(connection, 'stayLoggedIn', undefined)
+       
+		clients.logoff(name)      //this removes it from store.onlineUsers
+        
+        
+        clients.publishAddedData()
+		clients.publishDisplayedGames(undefined, connection)
+
+	},
+
+	loginUser: function(name, pwd, stayLoggedIn, connection, noPwd) {
+
+		mongodb.connect(cn, function(err, db) {
+			//db.collection("users")
+
+			db.collection("users")
+				.findOne({
+					name: name
+				}, function(err, thing) {
+					if (thing == null) {
+						if (name) clients.send(connection, 'userNotRegistered', {
+							name: name
+						})
+					} else {
+						//user exists, check pwd 
+
+						if (thing.pwd == pwd || noPwd) {
+							//password match, log him in
+
+							var isAdmin=(admins.indexOf(name)!=-1)
+
+							clients.send(connection, 'login', {
+									name: name,
+									isAdmin: isAdmin
+								})
+								//console.log('user logging in: ',name)
+							clients.storeVal(connection, 'loggedInAs', name)
+							clients.storeVal(connection, 'isAdmin', isAdmin)
+
+							if (name) clients.storeVal(connection, 'lastUser', name)
+							clients.storeVal(connection, 'stayLoggedIn', stayLoggedIn)
+							clients.publishAddedData()
+							clients.publishDisplayedGames(name, connection)
+
+							clients.login(connection, name)
+
+						} else {
+							//wrong pwd
+
+							clients.send(connection, 'wrongPwd', {
+								name: name
+							})
+
+						}
+
+					}
+					db.close()
+						//res.json(retJsn)
+				})
+
+		});
+
+	},
+
+	end: 0
+
+}
 
 
 

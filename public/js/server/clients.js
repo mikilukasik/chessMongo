@@ -32,8 +32,10 @@ var findUsersGameIndex = function(gameNo, games) {
 }
 
 
-var Clients=function(){
+var Clients=function(dbFuncs){
 	
+    dbFuncs.clients=this
+    
     this.adminLogging=false
     
     this.adminLogStore=[]
@@ -292,8 +294,54 @@ var Clients=function(){
 		
 		if(connection){
 			
-			dbFuncs.publishDisplayedGames(loginName,connection)
-			
+		  dbFuncs.findOne('users',{name:loginName},function(foundDoc) {
+              
+              if (!(foundDoc == null)) {
+
+
+						c.send(connection, 'updateDisplayedGames', foundDoc.games)
+
+					} else {
+
+						c.send(connection, 'updateDisplayedGames', null)
+
+
+					}
+              
+              
+          })
+          
+          
+    //         //            .publishDisplayedGames(loginName,connection)
+	// 		publishDisplayedGames: function(loginName, connection) {
+
+	// 	mongodb.connect(cn, function(err, db) {
+
+
+	// 		db.collection("users")
+	// 			.findOne({
+	// 				name: loginName
+	// 			}, function(err, doc) {
+	// 				if (!(doc == null)) {
+
+
+	// 					clients.send(connection, 'updateDisplayedGames', doc.games)
+
+	// 				} else {
+
+	// 					clients.send(connection, 'updateDisplayedGames', null)
+
+
+	// 				}
+	// 				db.close()
+	// 			});
+
+
+
+
+	// 	})
+
+	// },
 			
 			
 			
@@ -818,5 +866,9 @@ this.simpleActiveViews=function(){
 
     }
 }
+
+module.exports=Clients
+
+
 
 //
