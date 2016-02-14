@@ -195,16 +195,8 @@ updateDbClients = function(connectionData) {
 
 	connectionData._id = new dbFuncs.ObjectID(connectionData.clientMongoId)
 
-	mongodb.connect(cn, function(err, db) {
-		if(db)db.collection("clients")//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11
-			.save(connectionData, function(err, doc) {
-                
-                db.close()
-                
-            });
-		
+	dbFuncs.insert("clients",connectionData, function(doc) {});
 
-	});
 }
 
 registerNewClient = function(initialData, connection) {

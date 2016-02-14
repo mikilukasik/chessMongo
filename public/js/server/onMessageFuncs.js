@@ -609,11 +609,10 @@ var onMessageFuncs = {
 
 			case 'board.html':
 
-				mongodb.connect(cn, function(err, db) {
-					db.collection("tables")
-						.findOne({
+				//mongodb.connect(cn, function(err, db) {
+					dbFuncs.findOne("tables",{
 							_id: Number(data.newSubViewName)
-						}, function(err2, tableInDb) {
+						}, function(tableInDb) {
 							clients.send(connection, 'updateDbTable', tableInDb, 'updateDbTable', function() {}, function() {})
 
 							if (tableInDb.wName == connection.addedData.loggedInAs) {
@@ -642,11 +641,11 @@ var onMessageFuncs = {
 
 							}
 
-							db.close()
+							//db.close()
 
 						});
 
-				});
+				//});
 
 				break;
 

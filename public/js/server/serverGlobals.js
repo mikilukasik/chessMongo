@@ -53,7 +53,7 @@ var userFuncs = {
 
 	loginUser: function(name, pwd, stayLoggedIn, connection, noPwd) {
 
-		dbFuncs.updateDocument('users', {
+		dbFuncs.update('users', {
             
 					name: name
 				

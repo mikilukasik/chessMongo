@@ -134,7 +134,7 @@ module.exports = {
 
 	},
     
-    updateDocument: function(collectionName,query,cb,savedCb) {
+    update: function(collectionName,query,cb,savedCb) {
        
 		mongodb.connect(cn, function(err, db) {
             
@@ -142,7 +142,7 @@ module.exports = {
                 
                 cb(doc)
                 
-                db.collection(collectionName).save(doc,function(err,doc2){
+                doc&&db.collection(collectionName).save(doc,function(err,doc2){
                     
                     savedCb(doc,err,doc2)
                     
@@ -156,6 +156,25 @@ module.exports = {
 		})
 
 	},
+    
+    insert: function(collectionName,doc,savedCb) {
+       
+		mongodb.connect(cn, function(err, db) {
+            
+        
+            db.collection(collectionName).save(doc,function(err,doc2){
+                
+                savedCb(doc,err,doc2)
+                
+            })
+            
+        
+        db.close()
+         
+		})
+
+	},
+    
     findOne: function(collectionName,query,cb) {
        
 		mongodb.connect(cn, function(err, db) {
