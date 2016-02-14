@@ -97,11 +97,11 @@ var initRouter=function(router,app){
                                     stat.finalResult.modVal,
                                     //stat.finalResult.modConst,
                                     1500*stat.finalResult.winScore,
-                                    10*stat.finalResult.pieceScore,
+                                    50*stat.finalResult.pieceScore,
                                     stat.finalResult.moveCountScore,
                                     
                                     500*stat.finalResult.winScore+
-                                    10*stat.finalResult.pieceScore+
+                                    50*stat.finalResult.pieceScore+
                                     stat.finalResult.moveCountScore
                                     
                                     
