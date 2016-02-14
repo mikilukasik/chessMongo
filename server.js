@@ -110,6 +110,8 @@ wsServer.on('request', function(request) {
 		
         
 		clients.destroy(connection)
+        serverGlobals.learning.markGamesInactive.byConnectionID(connection.addedData.connectionID)
+        
 
 		clients.publishView('admin.html', 'default', 'activeViews', clients.simpleKnownClients())
 		clients.publishAddedData()
@@ -178,7 +180,7 @@ dbFuncs.mongodb.connect(dbFuncs.cn, function(err, db) {
 
 updateDbClients = function(connectionData) {
 
-	connectionData._id = new ObjectID(connectionData.clientMongoId)
+	connectionData._id = new dbFuncs.ObjectID(connectionData.clientMongoId)
 
 	mongodb.connect(cn, function(err, db) {
 		if(db)db.collection("clients")//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11

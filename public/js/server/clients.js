@@ -392,7 +392,7 @@ var Clients=function(dbFuncs){
 			
 			var connection=knownClients.views[viewIndex].subViews[subViewIndex].viewParts[viewPartIndex].connections[i]
 			
-			clients.send(connection,'updateView',{
+			c.send(connection,'updateView',{
 				
 				viewName:viewName,
 				subViewName:subViewName,
@@ -535,7 +535,6 @@ var Clients=function(dbFuncs){
 		
 		//connection must have .addedData.connectionID already
 		
-        serverGlobals.learning.markGamesInactive.byConnectionID(connection.addedData.connectionID)
         
 		c.logoff(connection)
 		
