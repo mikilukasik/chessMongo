@@ -2,21 +2,16 @@
 
 var registerUser = function(name, pwd, connection) {
 
-        mongodb.connect(cn, function(err, db) {
-            //db.collection("users")
-
-            db.collection("users")
-                .findOne({
+        dbFuncs.findOne("users",{
                     name: name
-                }, function(err, thing) {
+                }, function(thing) {
                     if (thing == null) {
 
                         //register this user
                         var user = new Dbuser(name, pwd)
 
 
-                        db.collection("users")
-                            .insert(user, function(err, doc) {
+                        dbFuncs.insert("users",user, function(err, doc) {
 
                                 clients.send(connection, 'userRegistered', {
                                     name: name
@@ -29,11 +24,11 @@ var registerUser = function(name, pwd, connection) {
                             name: name
                         })
                     }
-                    db.close()
+                    //db.close()
 
                 })
 
-        });
+        //});
 
 
 
@@ -730,65 +725,65 @@ var onMessageFuncs = {
 
 	},
 
-	movedtemp: function(connection, onTable) {
+	// movedtemp: function(connection, onTable) {
 
 		
-		onTable.moved = new Date()
-			.getTime()
+	// 	onTable.moved = new Date()
+	// 		.getTime()
 
-		var command = onTable.command
+	// 	var command = onTable.command
 
-		onTable.command = ''
+	// 	onTable.command = ''
         
-		mongodb.connect(cn, function(err, db) {
-			db.collection("tables")
+	// 	mongodb.connect(cn, function(err, db) {
+	// 		db.collection("tables")
             
-            .findOne({
-                _id:onTable._id
-            },function(err2,dat){
+    //         .findOne({
+    //             _id:onTable._id
+    //         },function(err2,dat){
                 
-                //console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',dat._id)
-                var tempID=dat._id
-                dat=onTable
-                dat._id=tempID
+    //             //console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',dat._id)
+    //             var tempID=dat._id
+    //             dat=onTable
+    //             dat._id=tempID
                 
-                db.collection("tables").save(dat, function(err3, res) {
-					//table moved and saved, let's check what to do
-					db.close()
+    //             db.collection("tables").save(dat, function(err3, res) {
+	// 				//table moved and saved, let's check what to do
+	// 				db.close()
                     
-                    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',err3)
+    //                 console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',err3)
                 
 
-					clients.publishView('board.html', onTable._id, 'dbTable.table', onTable.table)
+	// 				clients.publishView('board.html', onTable._id, 'dbTable.table', onTable.table)
 
-					clients.publishView('board.html', onTable._id, 'dbTable.wNext', onTable.wNext)
+	// 				clients.publishView('board.html', onTable._id, 'dbTable.wNext', onTable.wNext)
 
-					//popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
+	// 				//popThem(onTable._id, onTable, 'updated', 'table updated.') //respond to pending longpolls
 
-					switch (command) {
+	// 				switch (command) {
 
-						case 'makeAiMove':
+	// 					case 'makeAiMove':
 
-							splitMoves.makeAiMove(onTable)
+	// 						splitMoves.makeAiMove(onTable)
 
-						break;
+	// 					break;
 
-					}
+	// 				}
 
-				})
+	// 			})
                 
                 
                 
                 
-            })
+    //         })
             
             
             
 				
 
-		});
+	// 	});
 
-	},
+	// },
     
     
     
@@ -847,101 +842,101 @@ var onMessageFuncs = {
 
 	},
 	//var 
-	myPartIsDone: function(connection, data) {
+	// myPartIsDone: function(connection, data) {
 
-		connection = clients.fromStore(connection)
+	// 	connection = clients.fromStore(connection)
 
-		connection.addedData.speed = connection.addedData.speed * 100
+	// 	connection.addedData.speed = connection.addedData.speed * 100
 
-		var index = getTaskIndex(data[0]._id)
+	// 	var index = getTaskIndex(data[0]._id)
 
-		data.forEach(function(move) {
+	// 	data.forEach(function(move) {
 
-			splitTaskQ[index].returnedMoves.push(move)
-			splitTaskQ[index].pendingSolvedMoves--
+	// 		splitTaskQ[index].returnedMoves.push(move)
+	// 		splitTaskQ[index].pendingSolvedMoves--
 
-		})
+	// 	})
 
-		splitMoves.markSplitMoveDone(data[0]._id, data[0].thinker)
+	// 	splitMoves.markSplitMoveDone(data[0]._id, data[0].thinker)
 
-		if (splitTaskQ[index].pendingSolvedMoves == 0) {
+	// 	if (splitTaskQ[index].pendingSolvedMoves == 0) {
 
-			////////////////////////////////////////////////////////////all moves solved, check best and make a move
+	// 		////////////////////////////////////////////////////////////all moves solved, check best and make a move
 
 			
-            splitMoves.remove(splitTaskQ[index]._id)
+    //         splitMoves.remove(splitTaskQ[index]._id)
             
-            splitTaskQ[index].returnedMoves.sort(
-				moveSorter
-			)
+    //         splitTaskQ[index].returnedMoves.sort(
+	// 			moveSorter
+	// 		)
 
-			moveInTable(splitTaskQ[index].returnedMoves[0].move, splitTaskQ[index])
+	// 		moveInTable(splitTaskQ[index].returnedMoves[0].move, splitTaskQ[index])
 
-			splitTaskQ[index].chat = [~~((new Date() - splitTaskQ[index].splitMoveStarted) / 10) / 100 + 'sec'] //1st line in chat is timeItTook
+	// 		splitTaskQ[index].chat = [~~((new Date() - splitTaskQ[index].splitMoveStarted) / 10) / 100 + 'sec'] //1st line in chat is timeItTook
 
-			splitTaskQ[index].returnedMoves.forEach(function(returnedMove) {
-				splitTaskQ[index].chat = splitTaskQ[index].chat.concat({
-					//move: returnedMove.moveStr,
-					score: returnedMove.score,
-					hex: returnedMove.score.toString(16),
-					moves: returnedMove.moveTree
+	// 		splitTaskQ[index].returnedMoves.forEach(function(returnedMove) {
+	// 			splitTaskQ[index].chat = splitTaskQ[index].chat.concat({
+	// 				//move: returnedMove.moveStr,
+	// 				score: returnedMove.score,
+	// 				hex: returnedMove.score.toString(16),
+	// 				moves: returnedMove.moveTree
 
-				})
+	// 			})
 
-			})
+	// 		})
 
-			splitTaskQ[index].pendingMoveCount = undefined
+	// 		splitTaskQ[index].pendingMoveCount = undefined
 
-			splitTaskQ[index].returnedMoves = undefined
+	// 		splitTaskQ[index].returnedMoves = undefined
 
-			splitTaskQ[index].command = undefined
+	// 		splitTaskQ[index].command = undefined
 
-			splitTaskQ[index].aiType = undefined
+	// 		splitTaskQ[index].aiType = undefined
 
-			splitTaskQ[index].splitMoveStarted = undefined
+	// 		splitTaskQ[index].splitMoveStarted = undefined
 
-			splitTaskQ[index].oppKingPos = undefined
+	// 		splitTaskQ[index].oppKingPos = undefined
 
-			splitTaskQ[index].origProtect = undefined
+	// 		splitTaskQ[index].origProtect = undefined
 
-			splitTaskQ[index].origData = undefined
+	// 		splitTaskQ[index].origData = undefined
 
-			splitTaskQ[index].origDeepDatatt = undefined
+	// 		splitTaskQ[index].origDeepDatatt = undefined
 
-			splitTaskQ[index].origDeepDatatf = undefined
+	// 		splitTaskQ[index].origDeepDatatf = undefined
 
-			splitTaskQ[index].origDeepDataft = undefined
+	// 		splitTaskQ[index].origDeepDataft = undefined
 
-			splitTaskQ[index].origDeepDataff = undefined
+	// 		splitTaskQ[index].origDeepDataff = undefined
 
-			splitTaskQ[index].aiTable = undefined
-			splitTaskQ[index].pendingSolvedMoves = undefined
+	// 		splitTaskQ[index].aiTable = undefined
+	// 		splitTaskQ[index].pendingSolvedMoves = undefined
 
-			mongodb.connect(cn, function(err, db) {
-				db.collection("tables")
-					.save(splitTaskQ[index], function(err3, res) {
+	// 		mongodb.connect(cn, function(err, db) {
+	// 			db.collection("tables")
+	// 				.save(splitTaskQ[index], function(err3, res) {
 
-						////console.log('publishing-------------------------------->>> ',splitTaskQ[index]._id)
-						//clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.table',splitTaskQ[index].table)
+	// 					////console.log('publishing-------------------------------->>> ',splitTaskQ[index]._id)
+	// 					//clients.publishView('board.html',splitTaskQ[index]._id,'dbTable.table',splitTaskQ[index].table)
 
-						clients.publishView('board.html', splitTaskQ[index]._id, 'dbTable.table', splitTaskQ[index].table)
+	// 					clients.publishView('board.html', splitTaskQ[index]._id, 'dbTable.table', splitTaskQ[index].table)
 
-						clients.publishView('board.html', splitTaskQ[index]._id, 'dbTable.wNext', splitTaskQ[index].wNext)
+	// 					clients.publishView('board.html', splitTaskQ[index]._id, 'dbTable.wNext', splitTaskQ[index].wNext)
 
-						clients.publishView('board.html', splitTaskQ[index]._id, 'dbTable.chat', splitTaskQ[index].chat)
+	// 					clients.publishView('board.html', splitTaskQ[index]._id, 'dbTable.chat', splitTaskQ[index].chat)
 
-						clients.publishView('board.html', splitTaskQ[index]._id, 'dbTable.moves', splitTaskQ[index].moves)
+	// 					clients.publishView('board.html', splitTaskQ[index]._id, 'dbTable.moves', splitTaskQ[index].moves)
 
-						//popThem(splitTaskQ[index]._id, splitTaskQ[index], 'splitMove', 'splitMove')
+	// 					//popThem(splitTaskQ[index]._id, splitTaskQ[index], 'splitMove', 'splitMove')
 
-						db.close()
+	// 					db.close()
 
-						splitTaskQ.splice(index, 1)
+	// 					splitTaskQ.splice(index, 1)
 
-					})
-			})
-		}
+	// 				})
+	// 		})
+	// 	}
 
-	}
+	// }
 
 }
