@@ -98,7 +98,14 @@ var initRouter=function(router,app){
                                     //stat.finalResult.modConst,
                                     stat.finalResult.winScore,
                                     stat.finalResult.pieceScore,
-                                    stat.finalResult.moveCountScore])//,
+                                    stat.finalResult.moveCountScore,
+                                    
+                                    500*stat.finalResult.winScore+
+                                    10*stat.finalResult.pieceScore+
+                                    stat.finalResult.moveCountScore
+                                    
+                                    
+                        ])//,
                                     //stat.finalResult.modType])
                         
                         

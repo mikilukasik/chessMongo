@@ -982,7 +982,7 @@
                     data.addColumn('number', 'winScore');
                     data.addColumn('number', 'pieceScore');
                     data.addColumn('number', 'moveCountScore');
-                    //data.addColumn('string', '5');
+                    data.addColumn('number', 'score');
                     //data.addColumn('number', '6');
                     
                     
@@ -996,7 +996,7 @@
                         vAxis: {
                             title: 'results'
                         },
-                        colors: ['#a52714', '#097138']
+                        colors: ['red', 'green', 'blue', 'yellow']
                     };
 
                     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
