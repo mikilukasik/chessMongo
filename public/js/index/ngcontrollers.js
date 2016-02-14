@@ -1,159 +1,145 @@
 		function ApplicationController($rootScope, $scope, $timeout, $http, $interval, $compile) {
-			
-			$rootScope.imgPathStr1='cPiecesPng/'
-			$rootScope.imgPathStr2='.png'
-			
-			
-            testing.getDbTable=function(){
-                return $rootScope.dbTable
-            }
-            
-            testing.getAi=function(depth){
-                if(!depth)depth=3
-                return singleThreadAi(testing.getDbTable(),depth)
-            }
-            
-			$rootScope.temp1={}
-            $scope.temp2={}
-			
-			$rootScope.alertButton=function(thisCase,passData){
-				
-				switch (thisCase){
-					
-					case 'Accept challenge+Accept, play with white.':
-						
-						$scope.quickGame(passData.opponentsName,passData.challenger)
-						
-						
-					break;
-					
-					case 'Accept challenge+Accept, play with black.':
-						
-						$scope.quickGame(passData.challenger,passData.opponentsName)
-						
-						
-					break;
-					
-					case 'Accept challenge+Accept':
-					
-						if(passData.wPlayer){
-							$scope.quickGame(passData.opponentsName,passData.challenger)
-						}else{
-							$scope.quickGame(passData.challenger,passData.opponentsName)
-						}
-					
-					
-					break;
-					
-					case 'Challenge player+White':
-					
-						//console.log('challenging '+passData.opponentsName+' with white.')
-						
-						socketSend('challenge',{
-							opponentsName:passData.opponentsName,
-							wPlayer:true
-						})
-						
-						
-						
-					break;
-					case 'Challenge player+Black':
-					
-						//console.log('challenging '+passData.opponentsName+' with black.')
-						socketSend('challenge',{
-							opponentsName:passData.opponentsName,
-							wPlayer:false
-						})
-						
-					break;
-					case "Challenge player+Opponent's choice":
-						
-						//console.log('challenging '+passData.opponentsName+", who get's to chose color.")
-					socketSend('challenge',{
-							opponentsName:passData.opponentsName,
-							opponentsChoice:true
-						})
-						
-					break;
-					case "Challenge player+Random color":
-						socketSend('challenge',{
-							opponentsName:passData.opponentsName,
-							wPlayer:(Math.random()>0.5)
-						})
-						//console.log('jooo')
-					break;
-					
-					
-				}
-				
-				$rootScope.alertData=undefined
-				
+
+			$rootScope.imgPathStr1 = 'cPiecesPng/'
+			$rootScope.imgPathStr2 = '.png'
+
+			testing.getDbTable = function() {
+				return $rootScope.dbTable
 			}
-			
-            
-            
-			$rootScope.autoButtonOnCountDown=function(alertID,countDown,callWithText){
-				
-				if($rootScope.alertData&&$rootScope.alertData.alertID==alertID){
-					
-					if(countDown>0){
-						
-						$rootScope.alertCountDown=countDown
-						$timeout(function(){
-							$rootScope.autoButtonOnCountDown(alertID,countDown-1,callWithText)
-						},1000)
-					}else{
-						
-							$rootScope.alertButton(callWithText)
-						
+
+			testing.getAi = function(depth) {
+				if (!depth) depth = 3
+				return singleThreadAi(testing.getDbTable(), depth)
+			}
+
+			$rootScope.temp1 = {}
+			$scope.temp2 = {}
+
+			$rootScope.alertButton = function(thisCase, passData) {
+
+				switch (thisCase) {
+
+					case 'Accept challenge+Accept, play with white.':
+
+						$scope.quickGame(passData.opponentsName, passData.challenger)
+
+						break;
+
+					case 'Accept challenge+Accept, play with black.':
+
+						$scope.quickGame(passData.challenger, passData.opponentsName)
+
+						break;
+
+					case 'Accept challenge+Accept':
+
+						if (passData.wPlayer) {
+							$scope.quickGame(passData.opponentsName, passData.challenger)
+						} else {
+							$scope.quickGame(passData.challenger, passData.opponentsName)
+						}
+
+						break;
+
+					case 'Challenge player+White':
+
+						//console.log('challenging '+passData.opponentsName+' with white.')
+
+						socketSend('challenge', {
+							opponentsName: passData.opponentsName,
+							wPlayer: true
+						})
+
+						break;
+					case 'Challenge player+Black':
+
+						//console.log('challenging '+passData.opponentsName+' with black.')
+						socketSend('challenge', {
+							opponentsName: passData.opponentsName,
+							wPlayer: false
+						})
+
+						break;
+					case "Challenge player+Opponent's choice":
+
+						//console.log('challenging '+passData.opponentsName+", who get's to chose color.")
+						socketSend('challenge', {
+							opponentsName: passData.opponentsName,
+							opponentsChoice: true
+						})
+
+						break;
+					case "Challenge player+Random color":
+						socketSend('challenge', {
+								opponentsName: passData.opponentsName,
+								wPlayer: (Math.random() > 0.5)
+							})
+							//console.log('jooo')
+						break;
+
+				}
+
+				$rootScope.alertData = undefined
+
+			}
+
+			$rootScope.autoButtonOnCountDown = function(alertID, countDown, callWithText) {
+
+				if ($rootScope.alertData && $rootScope.alertData.alertID == alertID) {
+
+					if (countDown > 0) {
+
+						$rootScope.alertCountDown = countDown
+						$timeout(function() {
+							$rootScope.autoButtonOnCountDown(alertID, countDown - 1, callWithText)
+						}, 1000)
+					} else {
+
+						$rootScope.alertButton(callWithText)
+
 					}
 				}
 			}
-			
-			$rootScope.alertUser=function(heading,paragraph,buttons,passData,countDown,defaultButton){
-				
-				var alertID=Math.random()
-				
-				$rootScope.alertData={
-					
-					h:heading,
-					p:paragraph,
-				
-					buttons:buttons,
-					passData:passData,
-					
-					defaultButton:defaultButton,
-					
-					alertID:alertID
-					
+
+			$rootScope.alertUser = function(heading, paragraph, buttons, passData, countDown, defaultButton) {
+
+				var alertID = Math.random()
+
+				$rootScope.alertData = {
+
+					h: heading,
+					p: paragraph,
+
+					buttons: buttons,
+					passData: passData,
+
+					defaultButton: defaultButton,
+
+					alertID: alertID
+
 				}
-				
-				$timeout(function(){        //this should be some onload!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-					
-					 $( "#autoFoc" ).focus();
-				
-				},100) 
-				
-				$rootScope.autoButtonOnCountDown(alertID,countDown,heading+'+'+defaultButton)
-			
+
+				$timeout(function() { //this should be some onload!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+
+					$("#autoFoc").focus();
+
+				}, 100)
+
+				$rootScope.autoButtonOnCountDown(alertID, countDown, heading + '+' + defaultButton)
+
 			}
-			
-	
-			
+
 			if (!$rootScope.ran) {
-				
+
 				$rootScope.loginVals = {
 					inOrOut: 'Login',
 					viewName: 'login.html'
 				}
-                
-                $rootScope.depth = 3
+
+				$rootScope.depth = 3
 			}
 
 			if (!socketOn) sockets($rootScope, $scope)
-
-
-
 
 			var pollerMessage = function(event) {
 
@@ -175,13 +161,10 @@
 
 						break;
 
-
 				}
-
 
 			}
 
-			
 			$rootScope.cookieId = cookieId
 
 			$rootScope.setID = function(id) {
@@ -189,7 +172,6 @@
 				setID(id)
 
 				$rootScope.cookieId = id
-
 
 			}
 
@@ -205,11 +187,8 @@
 
 			$rootScope.updateSizes = function(cb) {
 
-				
-
 				//console.log('updateSizes')
 
-				
 				var sw = window.innerWidth
 				var sh = window.innerHeight
 
@@ -229,12 +208,9 @@
 							$rootScope.screenRatio = 3
 						}
 
-
 					}
 
 				}
-
-
 
 				var nw = $('.navvv').width()
 				var sbh = $('.statusBox').height()
@@ -246,8 +222,6 @@
 					'height': (sh - 50) + 'px'
 				});
 
-
-
 				switch ($rootScope.screenRatio) {
 
 					case 0:
@@ -255,7 +229,6 @@
 						$('.leftBar').css({
 							'width': 130 + 'px'
 						});
-
 
 						$('.iderakd').css({
 							'height': (1) + 'px'
@@ -270,7 +243,6 @@
 						$('.main-table').css({
 							'width': (sh - 72) + 'px'
 						});
-
 
 						$('.chatCell').css({
 							'width': (sw - sh - 90) + 'px'
@@ -287,7 +259,6 @@
 							'height': (sh - sbh - 75) + 'px'
 						});
 
-
 						break;
 
 					case 1:
@@ -296,12 +267,9 @@
 							'width': 230 + 'px'
 						});
 
-
-
 						$('.tableAndChat').css({
 							'width': (nw - 241) + 'px'
 						});
-
 
 						$('.chatCell').css({
 							'width': (nw - 214) + 'px'
@@ -314,14 +282,12 @@
 							'width': (nw - 268) + 'px'
 						});
 
-
 						$('.iderakd').css({
 							'height': (1) + 'px'
 						});
 						$('.iderakd').css({
 							'width': (1) + 'px'
 						});
-
 
 						$('.main-table').css({
 							'height': (nw - 215) + 'px'
@@ -330,12 +296,9 @@
 							'width': (nw - 215) + 'px'
 						});
 
-
 						$('.moves').css({
 							'height': (sh - sbh + 112) + 'px'
 						});
-
-						
 
 						break;
 
@@ -344,7 +307,6 @@
 						$('.leftBar').css({
 							'width': 130 + 'px'
 						});
-
 
 						$('.tableAndChat').css({
 							'width': (1) + 'px'
@@ -357,8 +319,6 @@
 							'width': (1) + 'px'
 						});
 
-
-
 						$('.chatCell').css({
 							'width': (nw - 150) + 'px'
 						});
@@ -369,8 +329,6 @@
 						$('.chatInpt').css({
 							'width': (nw - 214) + 'px'
 						});
-
-
 
 						$('.main-table').css({
 							'height': (nw - 150) + 'px'
@@ -383,14 +341,9 @@
 							'height': (sh - sbh - 82) + 'px'
 						});
 
-						
-
 						break;
 
 					case 3:
-
-
-
 
 						$('.leftBar').css({
 							'height': (sh - nw - 68) + 'px'
@@ -402,7 +355,6 @@
 						$('.chatInpt').css({
 							'width': (nw - 202) + 'px'
 						});
-
 
 						$('.chatCell').css({
 							'height': (sh - nw - 90) + 'px'
@@ -426,35 +378,30 @@
 							'height': (sh - sbh - nw - 73) + 'px'
 						});
 
-
-
 						break;
 
 				}
-				
+
 				if (cb) {
-					
+
 					cb()
 				}
-                if(!$scope.$$phase) {
-                    $scope.$apply()
-                }
+				if (!$scope.$$phase) {
+					$scope.$apply()
+				}
 			}
 
 			window.onresize = function() {
 
-
 				//http://stackoverflow.com/questions/14902321/how-to-determine-if-a-resize-event-was-triggered-by-soft-keyboard-in-mobile-brow
-
 
 				var t = $(document.activeElement).prop('type')
 				if (t === 'text' || t === 'password') {
 					// Logic for while keyboard is shown
 				} else {
 					// Logic for while keyboard is hidden
-                    
-					setTimeout($rootScope.updateSizes(), 800)
 
+					setTimeout($rootScope.updateSizes(), 800)
 
 				}
 
@@ -465,26 +412,22 @@
 			$scope.lobbyPollNum = 0
 
 			$rootScope.pollNum = -2 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			
-
 
 			$scope.askToStart = function(opponentsName) {
-				
+
 				if (opponentsName != $rootScope.loginName) {
-				
-					$rootScope.alertUser('Challenge player',"You're about to challenge "+opponentsName+". Choose your color:",['White','Black',"Opponent's choice","Random color",'Cancel'],{
-						opponentsName:opponentsName
-					},10,'Cancel')
-			
-				}else{
-					
+
+					$rootScope.alertUser('Challenge player', "You're about to challenge " + opponentsName + ". Choose your color:", ['White', 'Black', "Opponent's choice", "Random color", 'Cancel'], {
+						opponentsName: opponentsName
+					}, 10, 'Cancel')
+
+				} else {
+
 					//clicked to challange himself
-					
-					
+
 				}
-					
+
 			}
- 
 
 			$scope.askToWatch = function(gameID) {
 
@@ -500,17 +443,16 @@
 					//console.log('does apply')
 					$scope.$apply()
 
-				} 
+				}
 
 			}
 
-			$scope.quickGame = function(w,b) {
-
+			$scope.quickGame = function(w, b) {
 
 				socketSend('quickGame', {
 					w: w,
 					b: b
-				}, 'startQuickGame for w:' + w +' b:'+b, function() {
+				}, 'startQuickGame for w:' + w + ' b:' + b, function() {
 					//console.log("'startGame' callback")
 				})
 
@@ -528,66 +470,59 @@
 
 			}
 
-			
 			$scope.clickedItTrans = function(i, j) {
-				
+
 				//console.log('clickedItTrans',i,j)
-				
+
 				var clickedField = [j, 8 - i]
 				var clickedString = dletters[j] + (9 - i)
 
 				if (!($scope.opponentsName == "Spectator")) {
 					$scope.clickedIt(clickedField, clickedString)
 				}
-				
+
 			}
 
 			$scope.makeAMove = function(whatMove) {
 
-					var moveStr = whatMove
+				var moveStr = whatMove
 
-					var dbTable = $rootScope.dbTable 
-                       	
-                    dbTable.command = ''
-						
-                    store.oopsStates[$rootScope.dbTable._id]=$.extend(true, {}, dbTable)
-					
-					$scope.clearHighlights(store.oopsStates[$rootScope.dbTable._id].table)
-					
-                    
-                    console.log('before adding pastState:',dbTable.allPastTables.length)
-					dbTable = moveInTable(moveStr, dbTable, false)
-                       
-                     console.log('after adding pastState:',dbTable.allPastTables.length)
-					   
-                    dbTable._id = $rootScope.dbTable._id
-					dbTable.desiredDepth = $rootScope.depth
-                    
-                    
+				var dbTable = $rootScope.dbTable
 
+				dbTable.command = ''
 
-					if (dbTable.wName == 'Computer' || dbTable.bName == 'Computer') {
-						
-                        dbTable.command = 'makeAiMove'
-                        dbTable.moveTask=new MoveTaskN(dbTable)
-                      
-					}
+				store.oopsStates[$rootScope.dbTable._id] = $.extend(true, {}, dbTable)
 
+				$scope.clearHighlights(store.oopsStates[$rootScope.dbTable._id].table)
 
-					
-					socketSend('moved', dbTable, 'moved', function() {
+				console.log('before adding pastState:', dbTable.allPastTables.length)
+				dbTable = moveInTable(moveStr, dbTable, false)
 
-						$rootScope.dbTable.table = dbTable.table
-						$rootScope.dbTable.wNext = dbTable.wNext
-						$rootScope.dbTable.moves = dbTable.moves
-                        
-					})
+				console.log('after adding pastState:', dbTable.allPastTables.length)
+
+				dbTable._id = $rootScope.dbTable._id
+				dbTable.desiredDepth = $rootScope.depth
+
+				if (dbTable.wName == 'Computer' || dbTable.bName == 'Computer') {
+
+					dbTable.command = 'makeAiMove'
+					dbTable.moveTask = new MoveTaskN(dbTable)
+
+				}
+
+				socketSend('moved', dbTable, 'moved', function() {
+
+					$rootScope.dbTable.table = dbTable.table
+					$rootScope.dbTable.wNext = dbTable.wNext
+					$rootScope.dbTable.moves = dbTable.moves
+
+				})
 
 			}
 
 			$rootScope.takeItBack = function() {
 				socketSend('moved', store.oopsStates[$rootScope.dbTable._id], 'moved', function() {
-                    
+
 					$rootScope.dbTable.table = store.oopsStates[$rootScope.dbTable._id].table
 					$rootScope.dbTable.wNext = store.oopsStates[$rootScope.dbTable._id].wNext
 					$rootScope.dbTable.moves = store.oopsStates[$rootScope.dbTable._id].moves
@@ -599,8 +534,8 @@
 
 				$http.get('/getTPollNum?t=' + $rootScope.dbTable._id)
 					.success(function(response) {
-						
-                        if (!(response.tablepollnum == $rootScope.pollNum)) {
+
+						if (!(response.tablepollnum == $rootScope.pollNum)) {
 							$rootScope.pollNum = response.tablepollnum
 								//////console.log('calling getandshow')
 							$rootScope.longPollTable()
@@ -616,12 +551,11 @@
 			$rootScope.showTable = function(cb) { //this will update the displayed table
 
 				$rootScope.stable = $rootScope.dbTable.table
-               
-              
+
 				if (cb) {
-                    cb()
-                   
-                }
+					cb()
+
+				}
 
 			}
 
@@ -635,14 +569,12 @@
 					stayLoggedIn: user.stayLoggedIn
 				})
 
-
 			}
 
 			$scope.register = function(user) {
 
 				if (user.pwd1 == user.pwd2) {
 					if (!(user.pwd1 == undefined || user.rName == undefined || user.rName == "")) {
-
 
 						socketSend('registerUser', {
 							name: user.rName,
@@ -651,115 +583,106 @@
 
 					}
 				} else {
-					$rootScope.alertUser('Password mismatch',"Passwords don't match, try again!",['OK'],{},5,'OK')
+					$rootScope.alertUser('Password mismatch', "Passwords don't match, try again!", ['OK'], {}, 5, 'OK')
 				}
 			}
-			
-			
-			
-			$scope.adminButtons=function(func,client,data){
-                
-				switch(func){
-					
+
+			$scope.adminButtons = function(func, client, data) {
+
+				switch (func) {
+
 					case 'runClientSpeedTest':
-					
-						socketSend('clientSpeedTest',client)
-					
-					break;
-					
+
+						socketSend('clientSpeedTest', client)
+
+						break;
+
 					case 'refreshBrowser':
-					
-						socketSend('refreshBrowser',client)
-					
-					break;
-					
+
+						socketSend('refreshBrowser', client)
+
+						break;
+
 					case 'setLastUser':
-						client.setLastUserTo=data
-						socketSend('setLastUser',client)
-					
-					break;
-					
+						client.setLastUserTo = data
+						socketSend('setLastUser', client)
+
+						break;
+
 					case 'learnerCount':
-                        if(data>=0){
-                           client.learnerCount=Number(data)
-					   	   socketSend('learnerCount',client)
-                        }
-						
-					
-					break;
-					
-                    case 'removeFromAllMods':
-                    
-                        socketSend('removeFromAllMods',data)
-                    
-                    break;
-                    
-                    case 'setModValMin':
-                        client.setModValMin=data
-                        socketSend('setModValMin',client)
-                    
-                    break;
-                    
-                    case 'setModValMax':
-                        client.setModValMax=data
-                        socketSend('setModValMax',client)
-                    
-                    break;
-                    
-                    case 'addMod':
-                    
-                        if(data!=''&&data!=undefined){
-                            client.addMod=data
-                            socketSend('addMod',client)
-                            data=''
-                            
-                            if(client.connectionID=='default'){
-                                $rootScope.temp1.modToAdd=''
-                            }
-                            
-                        }
-                        
-                        // $rootScope.modToAdd=''
-                        
-                    break;
-                    
-                    case 'removeMod':
-                    
-                        client.removeModIndex=data
-                        socketSend('removeMod',client)
-                    
-                    break;
-                    
-                    case 'customModCheckbox':
-                    
-                    
-                        ////console.log(data)
-                        client.customModCheckbox=data
-                        socketSend('customModCheckbox',client)
-                    
-                    break;
-					
+						if (data >= 0) {
+							client.learnerCount = Number(data)
+							socketSend('learnerCount', client)
+						}
+
+						break;
+
+					case 'removeFromAllMods':
+
+						socketSend('removeFromAllMods', data)
+
+						break;
+
+					case 'setModValMin':
+						client.setModValMin = data
+						socketSend('setModValMin', client)
+
+						break;
+
+					case 'setModValMax':
+						client.setModValMax = data
+						socketSend('setModValMax', client)
+
+						break;
+
+					case 'addMod':
+
+						if (data != '' && data != undefined) {
+							client.addMod = data
+							socketSend('addMod', client)
+							data = ''
+
+							if (client.connectionID == 'default') {
+								$rootScope.temp1.modToAdd = ''
+							}
+
+						}
+
+						// $rootScope.modToAdd=''
+
+						break;
+
+					case 'removeMod':
+
+						client.removeModIndex = data
+						socketSend('removeMod', client)
+
+						break;
+
+					case 'customModCheckbox':
+
+						////console.log(data)
+						client.customModCheckbox = data
+						socketSend('customModCheckbox', client)
+
+						break;
+
 					case 'reporting':
-                    
-                    	client.connectionID=socketID
-						client.learningOn=indexGlobals.myLastUser
-                        //console.log('reporting',client)
-                        //client.customModCheckbox=data
-                        socketSend('reporting',client)
-                    
-                    break;
-					
-					
-					
-					
+
+						client.connectionID = socketID
+						client.learningOn = indexGlobals.myLastUser
+							//console.log('reporting',client)
+							//client.customModCheckbox=data
+						socketSend('reporting', client)
+
+						break;
+
 				}
-				
-				
+
 			}
 
 			$scope.newView = function(viewName) {
 				if (viewName == 'board.html') {
-
 
 					// $timeout($rootScope.updateSizes(), 800)
 
@@ -775,12 +698,9 @@
 
 					} else {
 
-
 						if (viewName == 'lobby.html') {
 
 						}
-
-
 
 					}
 				}
@@ -789,8 +709,6 @@
 			$scope.drTable = function(viewName) {
 				$rootScope.draTable = viewName;
 			}
-
-
 
 			$rootScope.showView = function(viewName, subViewName, requestUpdate) {
 
@@ -818,14 +736,13 @@
 							'default'
 						]
 
-
 						////console.log('inorout',$rootScope.inOrOut)
 						if ($rootScope.loginVals.inOrOut == 'Logoff') {
 
 							socketSend('logoff', {
 								name: $rootScope.loginName
 							})
-							
+
 							$rootScope.greetUser = ''
 							$rootScope.loginVals.inOrOut = 'Login'
 							$rootScope.loginName = 'someone'
@@ -833,9 +750,6 @@
 							$rootScope.isAdmin = false
 
 						}
-
-						
-
 
 						break;
 
@@ -847,7 +761,6 @@
 							'onlineUsers'
 						]
 
-
 						//
 						break;
 
@@ -856,13 +769,13 @@
 						newViewParts = [
 							'clients',
 							'activeViews',
-                            'splitMoves',
-                            'adminLog',
-                            'defaultMod',
-                            'allMods',
+							'splitMoves',
+							'adminLog',
+							'defaultMod',
+							'allMods',
 							'learningGames',
-                            'learningStats',
-                            'learnerTable'
+							'learningStats',
+							'learnerTable'
 						]
 
 						//
@@ -880,7 +793,7 @@
 							'busyThinkers',
 							'dbTable.wNext',
 							'wPlayer',
-                            'dbTable.allPastTables'
+							'dbTable.allPastTables'
 
 						]
 
@@ -908,40 +821,34 @@
 					$rootScope.loginVals.viewName = viewName;
 					$rootScope.subViewName = subViewName;
 					$rootScope.activeViewParts = newViewParts.slice()
-					
-					
+
 					if (requestUpdate) {
-					// socketSend('updateMe',{
-	
+						// socketSend('updateMe',{
+
 						// })
-	
+
 						//console.log('here would be "updateMe"')
-	
+
 						$rootScope.applyIt()
 					} else {
 						$rootScope.applyIt()
 					}
 
-
-
 				})
 
-				
-
 			}
-            
-            $scope.startAdminLog=function(){
-                socketSend('startAdminLog')
-            }
-            $scope.stopAdminLog=function(){
-                socketSend('stopAdminLog')
-            }
-            $scope.clearAdminLog=function(){
-                socketSend('clearAdminLog')
-            }
+
+			$scope.startAdminLog = function() {
+				socketSend('startAdminLog')
+			}
+			$scope.stopAdminLog = function() {
+				socketSend('stopAdminLog')
+			}
+			$scope.clearAdminLog = function() {
+				socketSend('clearAdminLog')
+			}
 
 			$scope.clickedIt = function(clickedField, clickedString) {
-
 
 				var x = clickedField[0]
 				var y = clickedField[1]
@@ -967,7 +874,6 @@
 
 								}
 							}
-
 
 							$rootScope.dbTable.table[x][y][5].forEach($scope.highLightThem) //5odik elem ahova lephet
 							$rootScope.showTable()
@@ -1021,55 +927,172 @@
 			}
 			$scope.sendChat = function(chatLine) {
 
-                //console.log('sending chat:',chatLine,$rootScope.dbTable._id)
-                
-				socketSend('boardChat',{
-                    chatLine:chatLine,
-                    gameNum:$rootScope.dbTable._id
-                },'boardChat: '+chatLine,function(){
-                    
-                    $rootScope.temp1.chatInput=''
-                    
-                })
+				//console.log('sending chat:',chatLine,$rootScope.dbTable._id)
+
+				socketSend('boardChat', {
+					chatLine: chatLine,
+					gameNum: $rootScope.dbTable._id
+				}, 'boardChat: ' + chatLine, function() {
+
+					$rootScope.temp1.chatInput = ''
+
+				})
 
 			}
 
-            $scope.sendLobbyChat = function(chatLine) {
-                
-                ////console.log('sending chat:',chatLine)
+			$scope.sendLobbyChat = function(chatLine) {
 
-				socketSend('lobbyChat',{
-                    chatLine:chatLine
-                },'lobbyChat: '+chatLine,function(){
-                    
-                    $rootScope.temp1.lobbyChatInput=''
-                    
-                })
-                
-                
+				////console.log('sending chat:',chatLine)
+
+				socketSend('lobbyChat', {
+					chatLine: chatLine
+				}, 'lobbyChat: ' + chatLine, function() {
+
+					$rootScope.temp1.lobbyChatInput = ''
+
+				})
 
 			}
-
-
 
 			$rootScope.updateSizes()
-			//console.log('appcontr ran')
-			
-			$scope.instantGame = function(w,b) {
+				//console.log('appcontr ran')
 
+			$scope.instantGame = function(w, b) {
 
 				// $scope.opponentsName = 'Computer'
 
 				socketSend('quickGame', {
 					w: $rootScope.loginName,
 					b: 'Computer'
-				}, 'startQuickGame for w:' + w +' b:'+b, function() {
+				}, 'startQuickGame for w:' + w + ' b:' + b, function() {
 					//console.log("'startGame' callback")
 				})
 
 			}
 
+			$scope.showChart = function() {
+                
+                $http.get('./api/mod/stats/fwV').then(function (res) {
+                    
+                    console.log(res)
+                    
+                    var data = new google.visualization.DataTable();
+				    data.addColumn('number', 'X');
+                    //data.addColumn('number', '1');
+                    data.addColumn('number', 'winScore');
+                    data.addColumn('number', 'pieceScore');
+                    data.addColumn('number', 'moveCountScore');
+                    //data.addColumn('string', '5');
+                    //data.addColumn('number', '6');
+                    
+                    
+                    data.addRows(res.data)
+                    
+                    
+                    var options = {
+                        hAxis: {
+                            title: 'modVal'
+                        },
+                        vAxis: {
+                            title: 'results'
+                        },
+                        colors: ['#a52714', '#097138']
+                    };
 
+                    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+                    chart.draw(data, options);
+                                        
+                })
+                
+				
+				// data.addColumn('number', 'Dogs');
+				// data.addColumn('number', 'Cats');
+
+				// data.addRows([
+				// 	[0, 0, 0],
+				// 	[1, 10, 5],
+				// 	[2, 23, 15],
+				// 	[3, 17, 9],
+				// 	[4, 18, 10],
+				// 	[5, 9, 5],
+				// 	[6, 11, 3],
+				// 	[7, 27, 19],
+				// 	[8, 33, 25],
+				// 	[9, 40, 32],
+				// 	[10, 32, 24],
+				// 	[11, 35, 27],
+				// 	[12, 30, 22],
+				// 	[13, 40, 32],
+				// 	[14, 42, 34],
+				// 	[15, 47, 39],
+				// 	[16, 44, 36],
+				// 	[17, 48, 40],
+				// 	[18, 52, 44],
+				// 	[19, 54, 46],
+				// 	[20, 42, 34],
+				// 	[21, 55, 47],
+				// 	[22, 56, 48],
+				// 	[23, 57, 49],
+				// 	[24, 60, 52],
+				// 	[25, 50, 42],
+				// 	[26, 52, 44],
+				// 	[27, 51, 43],
+				// 	[28, 49, 41],
+				// 	[29, 53, 45],
+				// 	[30, 55, 47],
+				// 	[31, 60, 52],
+				// 	[32, 61, 53],
+				// 	[33, 59, 51],
+				// 	[34, 62, 54],
+				// 	[35, 65, 57],
+				// 	[36, 62, 54],
+				// 	[37, 58, 50],
+				// 	[38, 55, 47],
+				// 	[39, 61, 53],
+				// 	[40, 64, 56],
+				// 	[41, 65, 57],
+				// 	[42, 63, 55],
+				// 	[43, 66, 58],
+				// 	[44, 67, 59],
+				// 	[45, 69, 61],
+				// 	[46, 69, 61],
+				// 	[47, 70, 62],
+				// 	[48, 72, 64],
+				// 	[49, 68, 60],
+				// 	[50, 66, 58],
+				// 	[51, 65, 57],
+				// 	[52, 67, 59],
+				// 	[53, 70, 62],
+				// 	[54, 71, 63],
+				// 	[55, 72, 64],
+				// 	[56, 73, 65],
+				// 	[57, 75, 67],
+				// 	[58, 70, 62],
+				// 	[59, 68, 60],
+				// 	[60, 64, 56],
+				// 	[61, 60, 52],
+				// 	[62, 65, 57],
+				// 	[63, 67, 59],
+				// 	[64, 68, 60],
+				// 	[65, 69, 61],
+				// 	[66, 70, 62],
+				// 	[67, 72, 64],
+				// 	[68, 75, 67],
+				// 	[69, 80, 72]
+				// ]);
+
+				// var options = {
+				// 	hAxis: {
+				// 		title: 'Time'
+				// 	},
+				// 	vAxis: {
+				// 		title: 'Popularity'
+				// 	},
+				// 	colors: ['#a52714', '#097138']
+				// };
+
+				// var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+				// chart.draw(data, options);
+			}
 
 		}
-		

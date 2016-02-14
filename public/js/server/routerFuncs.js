@@ -48,21 +48,22 @@ var initRouter=function(router,app){
         
             dbFuncs.query('learningStats',{},function(learningStats){
                 
-                var toSend=''
+                var toSend=[]
                 
                 learningStats.forEach(function(stat){
                     
                     if(stat.finalResult.modType){
                         
-                        var tempStr=stat.finalResult.modType + String.fromCharCode(9)+
-                                    stat.finalResult.modVal +String.fromCharCode(9)+
-                                    stat.finalResult.modConst +String.fromCharCode(9)+
-                                    stat.finalResult.winScore +String.fromCharCode(9)+
-                                    stat.finalResult.pieceScore +String.fromCharCode(9)+
-                                    stat.finalResult.moveCountScore +String.fromCharCode(13)
+                        toSend.push([//stat.finalResult.modType,
+                                    stat.finalResult.modVal,
+                                    //stat.finalResult.modConst,
+                                    stat.finalResult.winScore,
+                                    stat.finalResult.pieceScore,
+                                    stat.finalResult.moveCountScore])//,
+                                    //stat.finalResult.modType])
                         
                         //toSend=toSend.concat(tempStr)
-                        res.write(tempStr)
+                        
                         
                 }
                     
@@ -71,7 +72,7 @@ var initRouter=function(router,app){
             })
             
             
-            res.end()
+            res.json(toSend)
             
         })
         
@@ -85,19 +86,21 @@ var initRouter=function(router,app){
         
         dbFuncs.query('learningStats',{modType:modType},function(learningStats){
                 
+            var toSend=[]
+                 
                         
             learningStats.forEach(function(stat){
                     
                 if(stat.finalResult.modType){
                         
-                        var tempStr=stat.finalResult.modType + String.fromCharCode(9)+
-                                    stat.finalResult.modVal +String.fromCharCode(9)+
-                                    stat.finalResult.modConst +String.fromCharCode(9)+
-                                    stat.finalResult.winScore +String.fromCharCode(9)+
-                                    stat.finalResult.pieceScore +String.fromCharCode(9)+
-                                    stat.finalResult.moveCountScore +String.fromCharCode(13)
+                        toSend.push([//stat.finalResult.modType,
+                                    stat.finalResult.modVal,
+                                    //stat.finalResult.modConst,
+                                    stat.finalResult.winScore,
+                                    stat.finalResult.pieceScore,
+                                    stat.finalResult.moveCountScore])//,
+                                    //stat.finalResult.modType])
                         
-                        res.write(tempStr)
                         
                 }
                     
@@ -106,7 +109,7 @@ var initRouter=function(router,app){
             })
             
             
-            res.end()
+            res.json(toSend)
             
         })
     
