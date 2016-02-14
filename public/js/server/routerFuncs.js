@@ -96,7 +96,7 @@ var initRouter=function(router,app){
                         toSend.push([//stat.finalResult.modType,
                                     stat.finalResult.modVal,
                                     //stat.finalResult.modConst,
-                                    500*stat.finalResult.winScore,
+                                    1500*stat.finalResult.winScore,
                                     10*stat.finalResult.pieceScore,
                                     stat.finalResult.moveCountScore,
                                     
