@@ -347,14 +347,28 @@ serverGlobals.learning = {
 			while (i--) {
 
 				if (serverGlobals.learningGames[i].connectionID == id) {
+                    
 					serverGlobals.learningGames.splice(i, 1)
+                    
 				}
 
 			}
+            
+            
+            var i=serverGlobals.learningStats.length
+            while (i--) {
+                
+                if(serverGlobals.learningStats[i].currentConnectionID == id){
+                    
+                    serverGlobals.learningStats[i].currentStatus='inactive'
+                    
+                }
+                
+            }
 
 		}
 	},
-	add: function(game) {
+	add: function(game,connectionID) {
 
 		var modStr = game.wName
 		var wModded = true
@@ -371,7 +385,10 @@ serverGlobals.learning = {
 				statBeforeSaving.wModGame._id = game._id
 				statBeforeSaving.wModGame.learnedOn = game.learningOn
 				statBeforeSaving.wModGame.connectionID = game.connectionID
-				statBeforeSaving.wModGame.status = 'in progress'
+				
+                statBeforeSaving.wModGame.status = 'in progress'
+                statBeforeSaving.currentConnectionID=connectionID
+                
 
 			}, dbFuncs.newLearningStat, function(statWithId) {
 
@@ -388,7 +405,9 @@ serverGlobals.learning = {
 				foundDoc.bModGame._id = game._id
 				foundDoc.bModGame.learnedOn = game.learningOn
 				foundDoc.bModGame.connectionID = game.connectionID
+                
 				foundDoc.bModGame.status = 'in progress'
+                statBeforeSaving.currentConnectionID=connectionID
 
 			}, function(savedDoc) {
 

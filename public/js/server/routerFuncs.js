@@ -162,7 +162,7 @@ var initRouter=function(router,app){
                 
                 res.json({_id:dbTable._id})
                 
-                serverGlobals.learning.add(dbTable)
+                serverGlobals.learning.add(dbTable,connectionID)
                 
             })
           

@@ -8,13 +8,17 @@ var fs = require('fs');
 var http = require('http')
 var WebSocketServer = require('websocket').server;
 
+
+var dbFuncs = require('./public/js/server/dbFuncs.js')
+var dbError=dbFuncs.connect('mongodb://localhost:17890/chessdb')
+
+
+
 var SplitMoves = require('./public/js/server/splitMoves.js')
 var Engine=require('./public/js/all/engine.js')
 
-var dbFuncs = require('./public/js/server/dbFuncs.js')
 
-var Clients = require('./public/js/server/clients.js')//new Clients()
-
+var Clients = require('./public/js/server/clients.js')
 var clients=new Clients(dbFuncs)
 
 //console.log(dbFuncs)
@@ -117,6 +121,7 @@ wsServer.on('request', function(request) {
 		
         
 		clients.destroy(connection)
+        
         serverGlobals.learning.markGamesInactive.byConnectionID(connection.addedData.connectionID)
         
 

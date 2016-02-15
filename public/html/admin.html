@@ -165,7 +165,7 @@
                 
                 <hr>
                 
-                
+                <h4>active</h4>
                 <table class="atable">
 					
                     <tr>
@@ -174,7 +174,8 @@
                         <th>modType
                             modVal
                             modConst
-							modStr</th>
+							modStr
+                            currentStatus</th>
                         <th>finalResult</th>
                         <th>wModGame</th>
                         <th>bModGame</th>
@@ -183,13 +184,58 @@
 
                                 
 					</tr>
-					<tr ng-repeat="x in learningStats track by $index">
+					<tr ng-repeat="x in learningStats track by $index" ng-if="x.currentStatus!='inactive'">
 
 						<td>
                             <div>modType: {{x.modType}}</div>
                             <div>modVal: {{x.modVal}}</div>
                             <div>modConst: {{x.modConst}}</div>
 							<div>modStr: {{x.modStr}}</div>
+                            <div>currentStatus: {{x.currentStatus}}</div>
+                        </td>
+						<td>
+                            <div ng-repeat="(key,val) in x.finalResult">{{key}}: {{val}}</div>
+						</td>
+                        <td>
+                            <div ng-repeat="(key,val) in x.wModGame" ng-if="key!='moves'">{{key}}: {{val}}</div>
+							<div ng-repeat="(key,val) in x.wModGame" ng-if="key=='moves'">{{key}}.length: {{val.length}}</div>
+						</td>
+                        <td>
+                            <div ng-repeat="(key,val) in x.bModGame" ng-if="key!='moves'">{{key}}: {{val}}</div>
+							<div ng-repeat="(key,val) in x.bModGame" ng-if="key=='moves'">{{key}}.length: {{val.length}}</div>
+						</td>
+
+					</tr>
+
+				</table>
+                
+                <h4>inactive</h4>
+                <table class="atable">
+					
+                    <tr>
+
+						
+                        <th>modType
+                            modVal
+                            modConst
+							modStr
+                            currentStatus</th>
+                        <th>finalResult</th>
+                        <th>wModGame</th>
+                        <th>bModGame</th>
+                        
+
+
+                                
+					</tr>
+					<tr ng-repeat="x in learningStats track by $index" ng-if="x.currentStatu=!='inactive'">
+
+						<td>
+                            <div>modType: {{x.modType}}</div>
+                            <div>modVal: {{x.modVal}}</div>
+                            <div>modConst: {{x.modConst}}</div>
+							<div>modStr: {{x.modStr}}</div>
+                            <div>currentStatus: {{x.currentStatus}}</div>
                         </td>
 						<td>
                             <div ng-repeat="(key,val) in x.finalResult">{{key}}: {{val}}</div>
