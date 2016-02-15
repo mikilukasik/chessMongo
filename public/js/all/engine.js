@@ -162,11 +162,31 @@ function getMcFromMv(modVal) {
 	if (modVal <= 50) {
 		modConst = modVal / 50
 	} else {
-		modConst = 1 / ((100 - modVal) / 50)
+		modConst = 50 / (100 - modVal)
 	}
-	modConst = modConst * modConst * modConst
+	modConst = Math.pow(modConst,3)
 
 	return modConst
+    
+}
+
+
+function getMvFromMc(modConst) {
+    
+    modConst = Math.pow(modConst,1/3)
+	
+	var modVal = 0
+
+	if (modConst <= 1) {
+		modVal = modConst * 50
+	} else {
+		modVal = 100-50/modConst
+	}
+	
+    
+
+	return modVal
+    
 }
 
 var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]

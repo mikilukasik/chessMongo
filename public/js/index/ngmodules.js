@@ -6,6 +6,20 @@
             };
         }
         
+        var mc2mvFilter=function () {
+            return function (mc) {
+                return getMvFromMc(mc)
+                
+            }
+        }
+        
+        var mv2mcFilter=function () {
+            return function (mv) {
+                return getMcFromMv(mv)
+                
+            }
+        }
+        
         var wtable=function() {
 			return {
 				restrict: 'E',

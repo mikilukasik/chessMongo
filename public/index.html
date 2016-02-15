@@ -36,7 +36,11 @@
             
         var appModule = angular.module("appModule", []);
         appModule.controller("ApplicationController", ApplicationController)
+        
         appModule.filter('reverse', reverseFilter);
+        appModule.filter('mc2mv', mc2mvFilter);
+        appModule.filter('mv2mc', mv2mcFilter);
+        
         appModule.directive('wtable', [wtable])
         appModule.directive('btable', [btable])
         appModule.directive('moves', [movesDtv])
