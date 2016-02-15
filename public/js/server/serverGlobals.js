@@ -1,39 +1,30 @@
 ///////temp/////////////////
-mongodb = dbFuncs.mongodb
-cn = dbFuncs.cn
+// mongodb = dbFuncs.mongodb
+// cn = dbFuncs.cn
 
 var userFuncs = {
 
 	removeDisplayedGame: function(connection, data) {
 
 		//console.log('remove game from name:', connection.addedData.loggedInAs)
-		mongodb.connect(cn, function(err, db2) {
-			db2.collection("users")
-				.findOne({
+		dbFuncs.update("users",{
 					name: connection.addedData.loggedInAs
-				}, function(err2, userInDb) {
-					if (!(userInDb == null)) {
+				}, function(userInDb) {
+					if (userInDb != null) {
 
 						var index = findUsersGameIndex(data, userInDb.games)
 						userInDb.games.splice(index, 1)
-							//unshift(initedTable._id)
-
-						db2.collection("users")
-							.save(userInDb, function(err3, res) {
-
-								clients.publishDisplayedGames(connection.addedData.loggedInAs, connection)
-
-							})
-
+							
 					}
-					db2.close()
-						// res.json({
+					
+				},function (userInDb) {
+                    
+                    clients.publishDisplayedGames(connection.addedData.loggedInAs, connection)
 
-					// });
-				});
+							
+                });
 
-		});
-
+		
 	},
 
 	logoff: function(connection, data) {
