@@ -47,6 +47,15 @@ var wsOnmessageFunc= function(evt,$rootScope,$scope,ws,indexGlobals) {
                             
                             console.log('websocket closed')
                             
+                            var lwCount=0
+                            
+                            learnerGlobals.learnerWorkers.forEach(function(lworker){
+                                lworker.terminate()
+                                lwCount++
+                            })
+                            
+                            console.log(lwCount+' learnerWorkers terminated')
+                            
                             var swCount=0
                             
                             subWorkers.forEach(function (sworker) {
