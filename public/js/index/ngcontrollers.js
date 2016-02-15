@@ -996,7 +996,10 @@
                         vAxis: {
                             title: 'results'
                         },
-                        colors: ['red', 'green', 'blue', 'yellow']
+                        curveType: 'function',
+                        colors: ['green', 'blue', 'yellow', 'red'],
+                        width:1000,
+                        height:500
                     };
 
                     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
