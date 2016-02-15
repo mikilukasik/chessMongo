@@ -17,7 +17,7 @@ var exportThis = {
 
 		mongodb.connect(cn, function(gotErr, gotDb) {
             
-            console.log('connect called.')
+            console.log('connectind to DB...')
 
 			dbGlobals.err = gotErr
 			dbGlobals.db = gotDb
@@ -29,7 +29,7 @@ var exportThis = {
 			while (i--) {
 
 				var thisTask = dbGlobals.pendingStuff.pop()
-
+                console.log('coneected.')
                 console.log('db task from db Q:',thisTask)
 
 				switch (thisTask.funcToCall) {
