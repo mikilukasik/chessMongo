@@ -42,6 +42,32 @@ var initRouter=function(router,app){
         
     })
     
+    router.route('/mod/pendingGame').get(function(req,res){
+        
+        
+        dbFuncs.query('learningStats',{
+            currentStatus:'inactive'
+        },function(learningStats,saverFunc){
+            
+            var i=learningStats.length
+            
+            var j=0
+            
+            while(i--){
+                
+                j++
+                
+            }
+            
+            console.log(j,'inactive game found')
+            
+        })
+        
+        res.json({})
+        
+        
+    })
+    
     
     router.route('/mod/stats').get(function(req,res){
         

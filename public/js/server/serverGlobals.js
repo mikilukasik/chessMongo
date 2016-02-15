@@ -267,12 +267,13 @@ serverGlobals.learnerSmallReport = function(data) {
 
 			if (wModded) {
 
-				foundDoc.wModGame.moves = data.moves
+				//foundDoc.wModGame.moves = data.moves
+                foundDoc.wModGame.lastDbTable= data.lastDbTable
 
 			} else {
 
-				foundDoc.bModGame.moves = data.moves
-
+				//foundDoc.bModGame.moves = data.moves
+                foundDoc.bModGame.lastDbTable= data.lastDbTable
 			}
 
 		}
@@ -365,6 +366,10 @@ serverGlobals.learning = {
                 }
                 
             }
+            
+            dbFuncs.update('learningStats',{currentConnectionID:id},function(doc){
+                if(doc) doc.currentStatus='inactive'
+            })
 
 		}
 	},

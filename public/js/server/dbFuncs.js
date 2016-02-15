@@ -185,13 +185,23 @@ var exportThis = {
 
 	query: function(collectionName, query, cb) {
 
+        
+
 		//mongodb.connect(cn, function(err, dbGlobals.db) {
 		if (dbGlobals.db) {
 
 			dbGlobals.db.collection(collectionName).find(query).toArray(function(err, items) {
 
-				cb(items)
-					//dbGlobals.db.close()
+				cb(items,function(toSaveIndexes,saverCb){
+            
+                    toSaveIndexes.forEach(function(index){
+                        dbFuncs.insert(collectionName,items[index],function(){
+                            if(saverCb)saverCb(index)
+                        })
+                    })
+                    
+                })
+                            //dbGlobals.db.close()
 
 			})
 
@@ -216,7 +226,7 @@ var exportThis = {
 
 				doc && dbGlobals.db.collection(collectionName).save(doc, function(err, doc2) {
 
-					savedCb(doc, err, doc2)
+					if(savedCb)savedCb(doc, err, doc2)
 
 				})
 

@@ -64,9 +64,13 @@ var playGame=function(myGame, mod, wNx, wMod){
                     
                     learnerToServer('learnerSmallReport',{
                         _id:myGame._id,
-                        moves:myGame.moves,
+                        //moves:myGame.moves,
                         wName:myGame.wName,
-                        bName:myGame.bName
+                        bName:myGame.bName,
+                        
+                        lastDbTable:myGame
+                        
+                        
                         
                     })
                     
@@ -259,26 +263,54 @@ var playModGamePair=function(mod,scndGame){
 }
 
 var play=function(){
-    simpleGet('/api/mod/type?id='+learnerWorkerGlobals.myID,function(ret){
+    
+    simpleGet('/api/mod/pendingGame',function(ret){
         
-        var resp=JSON.parse(ret.response)
+         var resp=JSON.parse(ret.response)
         
-      
-        var modType=resp[~~(resp.length*Math.random())]
-        
-        if (modType==undefined)modType='---'
-        
-        simpleGet('/api/mod/limits?mod='+modType,function(ret2){
-            var mod=JSON.parse(ret2.response)
+        if(resp.currentStatus){
             
-            mod.modVal=mod.min+(~~(mod.max-mod.min)*Math.random()*1000)/1000
+            console.log('currentStatus',resp.currentStatus)
             
-            learnerWorkerGlobals.playing=true
             
-            playModGamePair(mod)
-        })
+            
+        }else{
+            console.log('no currentStatus')
+            
+            
+        }
+        
+        
+        
+        
         
     })
+        
+        
+        simpleGet('/api/mod/type?id='+learnerWorkerGlobals.myID,function(ret){
+            
+            var resp=JSON.parse(ret.response)
+            
+        
+            var modType=resp[~~(resp.length*Math.random())]
+            
+            if (modType==undefined)modType='---'
+            
+            simpleGet('/api/mod/limits?mod='+modType,function(ret2){
+                var mod=JSON.parse(ret2.response)
+                
+                mod.modVal=mod.min+(~~(mod.max-mod.min)*Math.random()*1000)/1000
+                
+                learnerWorkerGlobals.playing=true
+                
+                playModGamePair(mod)
+            })
+            
+        })
+        
+    
+    
+    
 }
 
 onmessage = function(event){
