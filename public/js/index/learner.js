@@ -20,12 +20,17 @@ var learnerFuncs={
                 while(stopCount--){
                     console.log('stop a learner')
                     
-                    var workerToStop=learnerGlobals.learnerWorkers.pop()
+                    var workerToStop=learnerGlobals.learnerWorkers[stopCount]
                     
-                    workerToStop.terminate()
+                    workerToStop.postMessage({
+                        command:'stop',
+                        
+                    })
+                    
+                    //workerToStop.terminate()
                     
                     //then
-                    learnerGlobals.learnerCount--
+                    //learnerGlobals.learnerCount--
                 }
                 
                 
@@ -43,15 +48,25 @@ var learnerFuncs={
                     var workerToPush=new Worker('js/worker/learnerWorker.js')
                     
                     //set onmessage
+                    
+                    
                     workerToPush.onmessage=function(event){
-                        
+                        console.log('learner message received',event.data.command)
+                         
                         switch(event.data.command){
                             
+                               
                             case 'toServer':
                             
                                 //console.log('toserver in learner.js')
                                 
                                 socketSend(event.data.data.command,event.data.data.data,event.data.data.message)
+                            
+                            break;
+                            
+                            case 'terminateMe':
+                            
+                                workerToPush.terminate()
                             
                             break;
                             

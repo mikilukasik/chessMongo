@@ -221,6 +221,12 @@ var onMessageFuncs = {
 		
 	},
     
+    stopLearningGame:function(connection,data){
+	
+	   serverGlobals.stopLearningGame(data)
+		
+	},
+    
     learnerResult:function(connection,data){
         
 		serverGlobals.learnerResult(data)

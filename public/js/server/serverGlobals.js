@@ -290,6 +290,43 @@ serverGlobals.learnerSmallReport = function(data) {
 
 }
 
+
+serverGlobals.stopLearningGame = function(data) {
+
+	var modStr=data.modStr
+    var wModded=data.wModded
+
+	dbFuncs.updateLearningStat(modStr, function(foundDoc) {
+
+		if (foundDoc) {
+            
+            foundDoc.currentStatus='inactive'
+
+			// if (wModded) {
+
+			// 	//foundDoc.wModGame.moves = data.moves
+            //     foundDoc.wModGame.lastDbTable= data.lastDbTable
+
+			// } else {
+
+			// 	//foundDoc.bModGame.moves = data.moves
+            //     foundDoc.bModGame.lastDbTable= data.lastDbTable
+			// }
+
+		}
+
+	}, function(savedDoc) {
+
+		serverGlobals.updateLearningStat(savedDoc, function(learningStats) {
+
+			clients.publishView('admin.html', 'default', 'learningStats', learningStats)
+
+		})
+
+	})
+
+}
+
 serverGlobals.updateLearningStat = function(savedDoc, cb) {
 
 	var i = serverGlobals.learningStats.length

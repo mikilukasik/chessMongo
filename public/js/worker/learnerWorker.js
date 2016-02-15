@@ -11,7 +11,9 @@ var learnerWorkerGlobals={
     gameNum:undefined,
     reporting:false,
     reportedAt:new Date(),
-    sentWResult:{}  
+    sentWResult:{} ,
+    modStr:'',
+    wModded:false
 }
 
 var playGame=function(myGame, mod, wNx, wMod){
@@ -237,11 +239,14 @@ var playModGamePair=function(mod,scndGame,partDone){
         }
         
         initedTable.learnerGame = true
+        initedTable.modStr=(wModded)?initedTable.wName:initedTable.bName
+        
         
     }
     
     
-
+    learnerWorkerGlobals.modStr=initedTable.modStr
+    learnerWorkerGlobals.wModded=wModded
     
     initedTable.learningOn = learnerWorkerGlobals.lastUser
     initedTable.connectionID = learnerWorkerGlobals.myID
@@ -362,6 +367,24 @@ onmessage = function(event){
             learnerWorkerGlobals.lastUser=event.data.lastUser
             
             play()
+            
+        
+        break;
+        
+        case 'stop':
+            
+            //console.log('starting learner')
+            
+            learnerToServer('stopLearningGame',{
+                gameNum:learnerWorkerGlobals.gameNum,
+                myID:learnerWorkerGlobals.myID,
+                modStr:learnerWorkerGlobals.modStr,
+                wModded:learnerWorkerGlobals.wModded
+            },'',function(){
+               
+                postMessage({command:'terminateMe'})
+                
+            })
             
         
         break;
