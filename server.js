@@ -148,28 +148,11 @@ var dletters = ["a", "b", "c", "d", "e", "f", "g", "h"]
 // var lobbyPollNum = 0
 // var lobbyChat = []
 
-function createXData() {
-	
-	mongodb.connect(cn, function(err, db) {
 
-		db.collection("tables")
-			.insert({
-				"_id": "xData",
-				"firstFreeTable": 1,
-				"lobbyChat": [],
-				"activeTables": [],
-				"modTypes": []
-			}, function(err3, res) {
-				db.close()
-			})
-
-
-	});
-}
 
 dbFuncs.findOne('tables',{_id:'xData'},function (doc) {
     if(doc==null){
-        createXData();
+        serverGlobals.createXData();
     }
 })
 

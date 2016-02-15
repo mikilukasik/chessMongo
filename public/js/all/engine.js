@@ -1714,7 +1714,8 @@ function newCanMove(k, l, c, moveTable, protectedArray, iHitMoves, protectScore)
 
 function getHitScores(origTable, wNext, flipIt, wPlayer, mod) {
 	
-	
+	var fwVdef=0.846
+    
     var fwV=1
     //console.log(mod)
     if(mod&&mod.modType==='fwV'){
@@ -1854,7 +1855,7 @@ function getHitScores(origTable, wNext, flipIt, wPlayer, mod) {
     //     pawnVal*=-1
     // }
     
-    pawnVal*=fwV
+    pawnVal*=fwV*fwVdef
 	
 	var result = new Int32Array(1)
 	result[0] = (myBestHit * 65536) - (hisBestHit * 4096)

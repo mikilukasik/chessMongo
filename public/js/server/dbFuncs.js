@@ -164,7 +164,7 @@ module.exports = {
         
             db.collection(collectionName).save(doc,function(err,doc2){
                 
-                savedCb(doc,err,doc2)
+                if(savedCb)savedCb(doc,err,doc2)
                 
             })
             

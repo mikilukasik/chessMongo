@@ -54,10 +54,10 @@ var userFuncs = {
 	loginUser: function(name, pwd, stayLoggedIn, connection, noPwd) {
 
 		dbFuncs.update('users', {
-            
-					name: name
-				
-                }, function (doc) {
+
+			name: name
+
+		}, function(doc) {
 
 			if (doc == null) {
 				if (name) clients.send(connection, 'userNotRegistered', {
@@ -97,64 +97,9 @@ var userFuncs = {
 
 			}
 
-		}, function (doc) {
+		}, function(doc) {
 
 		})
-
-		
-
-	},
-
-	temploginUser: function(name, pwd, stayLoggedIn, connection, noPwd) {
-
-		mongodb.connect(cn, function(err, db) {
-
-			db.collection("users")
-				.findOne({
-					name: name
-				}, function(err, thing) {
-					if (thing == null) {
-						if (name) clients.send(connection, 'userNotRegistered', {
-							name: name
-						})
-					} else {
-						//user exists, check pwd 
-
-						if (thing.pwd == pwd || noPwd) {
-							//password match, log him in
-
-							var isAdmin = (admins.indexOf(name) != -1)
-
-							clients.send(connection, 'login', {
-									name: name,
-									isAdmin: isAdmin
-								})
-								//console.log('user logging in: ',name)
-							clients.storeVal(connection, 'loggedInAs', name)
-							clients.storeVal(connection, 'isAdmin', isAdmin)
-
-							if (name) clients.storeVal(connection, 'lastUser', name)
-							clients.storeVal(connection, 'stayLoggedIn', stayLoggedIn)
-							clients.publishAddedData()
-							clients.publishDisplayedGames(name, connection)
-
-							clients.login(connection, name)
-
-						} else {
-							//wrong pwd
-
-							clients.send(connection, 'wrongPwd', {
-								name: name
-							})
-
-						}
-
-					}
-					db.close()
-						//res.json(retJsn)
-				})
-
-		});
 
 	},
 
@@ -222,6 +167,17 @@ var serverGlobals = {
 			}
 
 		},
+
+		createXData : function() {
+
+			dbFuncs.insert('tables', {
+				"_id": "xData",
+				"firstFreeTable": 1,
+				"lobbyChat": [],
+				"activeTables": [],
+				"modTypes": []
+			})
+		}
 
 	}
 	//
@@ -515,8 +471,6 @@ serverGlobals.learning = {
 					if (serverGlobals.learningGames[i]._id == data._id) {
 
 						serverGlobals.learningGames[i].reporting = false
-
-						//console.log('set to stop reporting:',serverGlobals.learningGames[i])
 
 						var connection = clients.fromStore({
 							addedData: {
