@@ -1000,7 +1000,9 @@
                     
                     
                     var options = {
-                        explorer: {},
+                        explorer: {
+                            actions: ['dragToZoom', 'rightClickToReset']
+                        },
                         hAxis: {
                             title: 'modVal',
                             logScale:true
