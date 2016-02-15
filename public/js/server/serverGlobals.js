@@ -409,7 +409,7 @@ serverGlobals.learning = {
 				foundDoc.bModGame.connectionID = game.connectionID
                 
 				foundDoc.bModGame.status = 'in progress'
-                statBeforeSaving.currentConnectionID=connectionID
+                foundDoc.currentConnectionID=connectionID
 
 			}, function(savedDoc) {
 
