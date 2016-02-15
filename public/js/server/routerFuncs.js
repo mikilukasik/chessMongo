@@ -54,15 +54,19 @@ var initRouter=function(router,app){
                     
                     if(stat.finalResult.modType){
                         
-                        toSend.push([//stat.finalResult.modType,
+                       toSend.push([//stat.finalResult.modType,
                                     stat.finalResult.modVal,
                                     //stat.finalResult.modConst,
-                                    stat.finalResult.winScore,
-                                    stat.finalResult.pieceScore,
-                                    stat.finalResult.moveCountScore])//,
-                                    //stat.finalResult.modType])
-                        
-                        //toSend=toSend.concat(tempStr)
+                                    1500*stat.finalResult.winScore,
+                                    50*stat.finalResult.pieceScore,
+                                    stat.finalResult.moveCountScore,
+                                    
+                                    500*stat.finalResult.winScore+
+                                    50*stat.finalResult.pieceScore+
+                                    stat.finalResult.moveCountScore
+                                    
+                                    
+                        ])//,
                         
                         
                 }
@@ -115,15 +119,7 @@ var initRouter=function(router,app){
                     
             })
             
-            toSend.sort(function (a,b) {
-                
-                if(a[0]>b[0]){
-                    return 1
-                }else{
-                    if(a[0]<b[0]) return -1
-                }
-                return 0
-            })
+            
             
             res.json(toSend)
             

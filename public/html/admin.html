@@ -150,7 +150,7 @@
                 
 				<h3>LearningStats:</h3>
                 
-                <button ng-click="showChart()">Chart</button>
+                <form ng-submit="showChart(mt)"><label>modType</label><input ng-model="mt"><button>Show stats<span ng-if="mt"> for {{mt}}</span></button>
                 
                 <div id="chart_div"></div>
                 
