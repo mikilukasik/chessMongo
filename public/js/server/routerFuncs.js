@@ -54,13 +54,19 @@ var initRouter=function(router,app){
             console.log(i,'inactive game(s) found')
             
             var sendGame=learningStats[0]
-            if(sendGame)sendGame.currentStatus='active'
+            if(sendGame){
+                
+                
+                sendGame.currentStatus='active'
             
-            saverFunc([0],function(index){
-                console.log('saverCb called for index',index)
-            })
-            
-            res.json()
+                saverFunc([0],function(index){
+                    res.json(sendGame)
+                })
+                
+            }else{
+                    res.json({noPending:true})
+            }
+           
             
         })
         
