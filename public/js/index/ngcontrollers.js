@@ -1001,7 +1001,8 @@
                     
                     var options = {
                         explorer: {
-                            actions: ['dragToZoom', 'rightClickToReset']
+                            actions: ['dragToZoom', 'rightClickToReset'],
+                            axis: 'horizontal'
                         },
                         hAxis: {
                             title: 'modVal',
