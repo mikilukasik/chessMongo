@@ -10,9 +10,7 @@ var WebSocketServer = require('websocket').server;
 
 
 var dbFuncs = require('./public/js/server/dbFuncs.js')
-var dbError=dbFuncs.connect('mongodb://localhost:17890/chessdb')
-
-
+dbFuncs.connect('mongodb://localhost:17890/chessdb')
 
 var SplitMoves = require('./public/js/server/splitMoves.js')
 var Engine=require('./public/js/all/engine.js')
@@ -20,8 +18,6 @@ var Engine=require('./public/js/all/engine.js')
 
 var Clients = require('./public/js/server/clients.js')
 var clients=new Clients(dbFuncs)
-
-//console.log(dbFuncs)
 
 var app = express()
 

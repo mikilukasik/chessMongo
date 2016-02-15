@@ -18,7 +18,7 @@ var exportThis = {
 		mongodb.connect(cn, function(gotErr, gotDb) {
             
             
-            console.log('coneected.')
+            console.log('connected.')
 			dbGlobals.err = gotErr
 			dbGlobals.db = gotDb
 
@@ -30,7 +30,7 @@ var exportThis = {
 
 				var thisTask = dbGlobals.pendingStuff.pop()
                 
-                console.log('db task from db Q:',thisTask)
+                console.log('processing db call from db Q:',thisTask)
 
 				switch (thisTask.funcToCall) {
 					case 'saveLearnerResult':
