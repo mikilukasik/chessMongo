@@ -40,10 +40,32 @@ var wsOnmessageFunc= function(evt,$rootScope,$scope,ws,indexGlobals) {
 						
 						case 'refreshBrowser':
                             
+                            console.log('page reload requested from the server')
+                            
                             ws.onclose = function () {}; // disable onclose handler first
                             ws.close()
                             
-							location.reload(true)
+                            console.log('websocket closed')
+                            
+                            var swCount=0
+                            
+                            subWorkers.forEach(function (sworker) {
+                                sworker.terminate()
+                                swCount++
+                            })
+                            
+                            console.log(swCount+' subWorkers terminated')
+                            
+                            mainWorker.terminate()
+                            
+                            console.log('mainWorker terminated')
+                            console.log('reload in 1s')
+                            
+                            setTimeout(function() {
+                                console.log('reloading...')
+                                location.reload(true)
+                            }, 1000);
+							
 
 							break;
 
