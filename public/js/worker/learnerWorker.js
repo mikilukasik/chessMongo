@@ -215,28 +215,34 @@ var prePlayGame = function(myGame, mod, wNx, wMod) {
 			}
 		}
 
-var playModGamePair=function(mod,scndGame){
+var playModGamePair=function(mod,scndGame,partDone){
     
-   
-    
-    /////////////////////////copied from old thinker
-    
-    var initedTable = {}
-
     var wModded = !scndGame
-  
     
-    if (wModded) { //this tells us if wmodded
-				
-        initedTable = new Dbtable(-1, mod.modType + " mod: " + mod.modVal, "standard")
-    } else {
+     var initedTable = {}
+    
+    if(partDone){
+        console.log('partDone',partDone)
+        initedTable= partDone.lastDbTable
+    }else{
         
-        initedTable = new Dbtable(-1, "standard", mod.modType + " mod: " + mod.modVal)
+        if (wModded) { //this tells us if wmodded
+				
+            initedTable = new Dbtable(-1, mod.modType + " mod: " + mod.modVal, "standard")
+        } else {
+            
+            initedTable = new Dbtable(-1, "standard", mod.modType + " mod: " + mod.modVal)
 
 
+        }
+        
+        initedTable.learnerGame = true
+        
     }
+    
+    
 
-    initedTable.learnerGame = true
+    
     initedTable.learningOn = learnerWorkerGlobals.lastUser
     initedTable.connectionID = learnerWorkerGlobals.myID
     
@@ -245,11 +251,11 @@ var playModGamePair=function(mod,scndGame){
                     
                     var resp=JSON.parse( response.response)
                     
-					initedTable._id = resp._id
+					if(initedTable._id==-1)initedTable._id = resp._id
 
 					mod.modConst = getMcFromMv(mod.modVal)
 
-					prePlayGame(initedTable, mod, true, wModded) //true stands for wNext
+					prePlayGame(initedTable, mod, initedTable.wNext, wModded) 
 				
                 }, function(data) {
                    
@@ -264,49 +270,72 @@ var playModGamePair=function(mod,scndGame){
 
 var play=function(){
     
-    // simpleGet('/api/mod/pendingGame',function(ret){
+    simpleGet('/api/mod/pendingGame',function(ret){
         
-    //      var resp=JSON.parse(ret.response)
+         var resp=JSON.parse(ret.response)
         
-    //     if(resp.currentStatus){
+        if(resp.noPending){
             
-    //         console.log('currentStatus',resp.currentStatus)
-            
-            
-            
-    //     }else{
-    //         console.log('no currentStatus')
+            console.log('no pending learnerGame, satrting new')
             
             
-    //     }
-        
-        
-        
-        
-        
-    // })
-        
-        
-        simpleGet('/api/mod/type?id='+learnerWorkerGlobals.myID,function(ret){
             
-            var resp=JSON.parse(ret.response)
-            
-        
-            var modType=resp[~~(resp.length*Math.random())]
-            
-            if (modType==undefined)modType='---'
-            
-            simpleGet('/api/mod/limits?mod='+modType,function(ret2){
-                var mod=JSON.parse(ret2.response)
+                    
+            simpleGet('/api/mod/type?id='+learnerWorkerGlobals.myID,function(ret){
                 
-                mod.modVal=mod.min+(~~(mod.max-mod.min)*Math.random()*1000)/1000
+                var resp=JSON.parse(ret.response)
                 
-                learnerWorkerGlobals.playing=true
+            
+                var modType=resp[~~(resp.length*Math.random())]
                 
-                playModGamePair(mod)
+                if (modType==undefined)modType='---'
+                
+                simpleGet('/api/mod/limits?mod='+modType,function(ret2){
+                    
+                    var mod=JSON.parse(ret2.response)
+                    
+                    mod.modVal=mod.min+(~~(mod.max-mod.min)*Math.random()*1000)/1000
+                    
+                    learnerWorkerGlobals.playing=true
+                    
+                    playModGamePair(mod)
+                })
+                
             })
             
-        })
+    
+            
+            
+            
+            
+            
+        }else{
+            console.log('received pending learnerGame')
+            
+            console.log(resp)
+            
+            var mod={
+                modType:resp.modStr.slice(0, 3),
+                min:Number(resp.modStr.slice(9)),
+                max:Number(resp.modStr.slice(9)),
+                modVal:Number(resp.modStr.slice(9))
+            }
+            
+            learnerWorkerGlobals.playing=true
+            
+            var scndGame=!resp.wModded
+            
+            playModGamePair(mod,scndGame,resp)
+            
+            
+            
+        }
+        
+        
+        
+        
+        
+    })
         
     
     

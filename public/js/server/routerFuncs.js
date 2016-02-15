@@ -58,9 +58,11 @@ var initRouter=function(router,app){
                 
                 
                 sendGame.currentStatus='active'
+                
+                var sendModGame=(sendGame.wModGame.status=='in progress')?sendGame.wModGame:sendGame.bModGame
             
                 saverFunc([0],function(index){
-                    res.json(sendGame)
+                    res.json(sendModGame)
                 })
                 
             }else{
@@ -193,6 +195,10 @@ var initRouter=function(router,app){
                 dbTable.learningOn=learningOn
                 dbTable.connectionID=connectionID
                 
+                //console.log('@@@@',dbTable.bName)
+                
+                dbTable.wModGame=(dbTable.bName=='standard')?true:false
+                
                 res.json({_id:dbTable._id})
                 
                 serverGlobals.learning.add(dbTable,connectionID)
@@ -203,6 +209,9 @@ var initRouter=function(router,app){
             
             //could update game here
             
+            res.json({
+                result:serverGlobals.learning.newLearnerForOldGame(dbTable,connectionID)
+            })
             
         }
       

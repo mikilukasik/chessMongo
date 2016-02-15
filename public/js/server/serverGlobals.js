@@ -402,9 +402,12 @@ serverGlobals.learning = {
 				statBeforeSaving.wModGame.connectionID = game.connectionID
 				
                 statBeforeSaving.wModGame.status = 'in progress'
+                statBeforeSaving.wModGame.wModded = true
+                
                 statBeforeSaving.currentConnectionID=connectionID
                 
                 statBeforeSaving.currentStatus='active on '+game.learningOn
+                statBeforeSaving.wModGame.lastDbTable=game
                 
 
 			}, dbFuncs.newLearningStat, function(statWithId) {
@@ -424,7 +427,9 @@ serverGlobals.learning = {
 				foundDoc.bModGame.connectionID = game.connectionID
                 
 				foundDoc.bModGame.status = 'in progress'
+                foundDoc.bModGame.wModded = false
                 foundDoc.currentConnectionID=connectionID
+                foundDoc.bModGame.lastDbTable=game
 
 			}, function(savedDoc) {
 
@@ -450,6 +455,80 @@ serverGlobals.learning = {
 		})
 		clients.publishView('admin.html', 'default', 'learningGames', serverGlobals.learningGames)
 	},
+
+
+    	newLearnerForOldGame: function(game,connectionID) {
+
+		var modStr = game.wName
+		var wModded = true
+
+		if (game.wName == 'standard') {
+			wModded = false
+			modStr = game.bName
+		}
+
+		if (wModded) {
+			//wmodded started
+			dbFuncs.updateLearningStat(modStr, function(foundDoc) {
+
+				foundDoc.wModGame._id = game._id
+				foundDoc.wModGame.learnedOn = game.learningOn
+				foundDoc.wModGame.connectionID = game.connectionID
+                
+				foundDoc.wModGame.status = 'in progress'
+                foundDoc.wModGame.wModded = true
+                foundDoc.wModGame.lastDbTable=game
+                foundDoc.currentConnectionID=connectionID
+
+			}, function(savedDoc) {
+
+				serverGlobals.updateLearningStat(savedDoc, function(learningStats) {
+
+					clients.publishView('admin.html', 'default', 'learningStats', learningStats)
+
+				})
+
+			})
+
+		} else {
+			//bmodded started
+			dbFuncs.updateLearningStat(modStr, function(foundDoc) {
+
+				foundDoc.bModGame._id = game._id
+				foundDoc.bModGame.learnedOn = game.learningOn
+				foundDoc.bModGame.connectionID = game.connectionID
+                
+				foundDoc.bModGame.status = 'in progress'
+                foundDoc.bModGame.wModded = false
+                foundDoc.currentConnectionID=connectionID
+                foundDoc.bModGame.lastDbTable=game
+
+			}, function(savedDoc) {
+
+				serverGlobals.updateLearningStat(savedDoc, function(learningStats) {
+
+					clients.publishView('admin.html', 'default', 'learningStats', learningStats)
+
+				})
+
+			})
+
+		}
+
+		serverGlobals.learningGames.push({
+			_id: game._id,
+			reporting: false,
+
+			modStr: modStr,
+			wModded: wModded,
+
+			learningOn: game.learningOn,
+			connectionID: game.connectionID
+		})
+		clients.publishView('admin.html', 'default', 'learningGames', serverGlobals.learningGames)
+	},
+
+
 
 	setReporter: function(data) {
 
