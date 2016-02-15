@@ -1000,6 +1000,7 @@
                     
                     
                     var options = {
+                        explorer: {},
                         hAxis: {
                             title: 'modVal',
                             logScale:true
