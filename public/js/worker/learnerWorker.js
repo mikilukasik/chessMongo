@@ -264,27 +264,27 @@ var playModGamePair=function(mod,scndGame){
 
 var play=function(){
     
-    simpleGet('/api/mod/pendingGame',function(ret){
+    // simpleGet('/api/mod/pendingGame',function(ret){
         
-         var resp=JSON.parse(ret.response)
+    //      var resp=JSON.parse(ret.response)
         
-        if(resp.currentStatus){
+    //     if(resp.currentStatus){
             
-            console.log('currentStatus',resp.currentStatus)
-            
-            
-            
-        }else{
-            console.log('no currentStatus')
+    //         console.log('currentStatus',resp.currentStatus)
             
             
-        }
+            
+    //     }else{
+    //         console.log('no currentStatus')
+            
+            
+    //     }
         
         
         
         
         
-    })
+    // })
         
         
         simpleGet('/api/mod/type?id='+learnerWorkerGlobals.myID,function(ret){

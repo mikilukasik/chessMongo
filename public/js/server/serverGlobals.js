@@ -367,8 +367,18 @@ serverGlobals.learning = {
                 
             }
             
-            dbFuncs.update('learningStats',{currentConnectionID:id},function(doc){
-                if(doc) doc.currentStatus='inactive'
+            dbFuncs.query('learningStats',{currentConnectionID:id},function(myGames,saverFunc){
+                
+                var modifiedIndexes=[]
+                
+                myGames.forEach(function (myGame,index) {
+                    myGame.currentStatus='inactive'
+                    modifiedIndexes.push(index)
+                })
+                
+                saverFunc(modifiedIndexes)
+                
+                
             })
 
 		}

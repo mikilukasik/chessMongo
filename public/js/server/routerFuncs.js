@@ -50,20 +50,21 @@ var initRouter=function(router,app){
         },function(learningStats,saverFunc){
             
             var i=learningStats.length
+           
+            console.log(i,'inactive game(s) found')
             
-            var j=0
+            var sendGame=learningStats[0]
+            if(sendGame)sendGame.currentStatus='active'
             
-            while(i--){
-                
-                j++
-                
-            }
+            saverFunc([0],function(index){
+                console.log('saverCb called for index',index)
+            })
             
-            console.log(j,'inactive game found')
+            res.json()
             
         })
         
-        res.json({})
+        
         
         
     })

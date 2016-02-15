@@ -195,7 +195,7 @@ var exportThis = {
 				cb(items,function(toSaveIndexes,saverCb){
             
                     toSaveIndexes.forEach(function(index){
-                        dbFuncs.insert(collectionName,items[index],function(){
+                        if(items[index])dbGlobals.db.collection(collectionName).save(items[index],function(){
                             if(saverCb)saverCb(index)
                         })
                     })
