@@ -389,6 +389,8 @@ serverGlobals.learning = {
                 statBeforeSaving.wModGame.status = 'in progress'
                 statBeforeSaving.currentConnectionID=connectionID
                 
+                statBeforeSaving.currentStatus='active on '+game.learningOn
+                
 
 			}, dbFuncs.newLearningStat, function(statWithId) {
 
