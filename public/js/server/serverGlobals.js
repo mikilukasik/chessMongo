@@ -2,6 +2,16 @@
 // mongodb = dbFuncs.mongodb
 // cn = dbFuncs.cn
 
+
+
+var findUsersGameIndex = function(gameNo, games) {
+
+	for (var i = games.length - 1; i >= 0; i--) {
+		if (games[i].gameNo == gameNo) return i
+	}
+	return -1
+}
+
 var userFuncs = {
 
 	removeDisplayedGame: function(connection, data) {
