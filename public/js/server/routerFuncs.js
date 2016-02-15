@@ -55,7 +55,7 @@ var initRouter=function(router,app){
                     if(stat.finalResult.modType){
                         
                        toSend.push([//stat.finalResult.modType,
-                                    stat.finalResult.modVal,
+                                    stat.finalResult.modConst,
                                     //stat.finalResult.modConst,
                                     1500*stat.finalResult.winScore,
                                     50*stat.finalResult.pieceScore,
@@ -63,8 +63,10 @@ var initRouter=function(router,app){
                                     
                                     500*stat.finalResult.winScore+
                                     50*stat.finalResult.pieceScore+
-                                    stat.finalResult.moveCountScore
+                                    stat.finalResult.moveCountScore,
                                     
+                                    
+                                    //stat.finalResult.modConst
                                     
                         ])//,
                         
@@ -98,7 +100,7 @@ var initRouter=function(router,app){
                 if(stat.finalResult.modType){
                         
                         toSend.push([//stat.finalResult.modType,
-                                    stat.finalResult.modVal,
+                                    stat.finalResult.modConst,
                                     //stat.finalResult.modConst,
                                     1500*stat.finalResult.winScore,
                                     50*stat.finalResult.pieceScore,
@@ -106,7 +108,10 @@ var initRouter=function(router,app){
                                     
                                     500*stat.finalResult.winScore+
                                     50*stat.finalResult.pieceScore+
-                                    stat.finalResult.moveCountScore
+                                    stat.finalResult.moveCountScore,
+                                    
+                                    
+                                    //stat.finalResult.modConst
                                     
                                     
                         ])//,

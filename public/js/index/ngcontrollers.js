@@ -993,7 +993,7 @@
                     data.addColumn('number', 'pieceScore');
                     data.addColumn('number', 'moveCountScore');
                     data.addColumn('number', 'score');
-                    //data.addColumn('number', '6');
+                    //data.addColumn('number', 'modConst');
                     
                     
                     data.addRows(res.data)
@@ -1001,7 +1001,8 @@
                     
                     var options = {
                         hAxis: {
-                            title: 'modVal'
+                            title: 'modVal',
+                            logScale:true
                         },
                         vAxis: {
                             title: 'results'
