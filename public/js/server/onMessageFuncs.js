@@ -607,6 +607,13 @@ var onMessageFuncs = {
 					dbFuncs.findOne("tables",{
 							_id: Number(data.newSubViewName)
 						}, function(tableInDb) {
+                            
+                            
+                            
+                            
+                            if(tableInDb){
+                                
+                                                        
 							clients.send(connection, 'updateDbTable', tableInDb, 'updateDbTable', function() {}, function() {})
 
 							if (tableInDb.wName == connection.addedData.loggedInAs) {
@@ -634,6 +641,16 @@ var onMessageFuncs = {
 								////console.log('rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr',tableInDb.wName,connection.addedData.loggedInAs)
 
 							}
+                                
+                                
+                            }else{
+                                
+                                userFuncs.removeDisplayedGame(connection, Number(data.newSubViewName))
+                                
+                                
+                                
+                            }
+    
 
 							//db.close()
 

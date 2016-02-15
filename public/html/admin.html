@@ -228,7 +228,7 @@
 
                                 
 					</tr>
-					<tr ng-repeat="x in learningStats track by $index" ng-if="x.currentStatu=!='inactive'">
+					<tr ng-repeat="x in learningStats track by $index" ng-if="x.currentStatus=='inactive'">
 
 						<td>
                             <div>modType: {{x.modType}}</div>

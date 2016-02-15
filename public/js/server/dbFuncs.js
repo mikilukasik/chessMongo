@@ -16,6 +16,8 @@ var exportThis = {
 		dbGlobals.db = undefined
 
 		mongodb.connect(cn, function(gotErr, gotDb) {
+            
+            console.log('connect called.')
 
 			dbGlobals.err = gotErr
 			dbGlobals.db = gotDb
