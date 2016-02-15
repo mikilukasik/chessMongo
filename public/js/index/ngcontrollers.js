@@ -1006,7 +1006,7 @@
                         vAxis: {
                             title: 'results'
                         },
-                        curveType: 'function',
+                        //curveType: 'function',
                         colors: ['green', 'blue', 'yellow', 'red'],
                         width:1000,
                         height:500
