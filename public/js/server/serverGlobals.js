@@ -183,49 +183,60 @@ var serverGlobals = {
 	}
 	//
 	
-serverGlobals.getLearningStats=function(){
+serverGlobals.getLearningStats=function(cb){
 	var result=[]
 	
-	serverGlobals.learningStats.forEach(function(learningStat){
-		result.push({
-			modType:learningStat.modType,
-			modVal:learningStat.modVal,
-			modConst:learningStat.modConst,
-			modStr:learningStat.modStr,
-			currentStatus:learningStat.currentStatus,
+	dbFuncs.query('learningStats',{currentStatus:'active'},function(resultArray,saverFunc){
+		
+		resultArray.forEach(function(learningStat){
 			
-			finalResult:learningStat.finalResult,
-			
-			wModGame:{
-				learnedOn:learningStat.wModGame.learnedOn,
-				movesLength:(learningStat.wModGame.lastDbTable)?learningStat.wModGame.lastDbTable.moves.length:0,
-				result:{
-					blackWon:learningStat.wModGame.result.blackWon,
-					whiteWon:learningStat.wModGame.result.whiteWon,
-					isDraw:learningStat.wModGame.result.isDraw,
-					totalMoves:learningStat.wModGame.result.totalMoves
+			result.push({
+				modType:learningStat.modType,
+				modVal:learningStat.modVal,
+				modConst:learningStat.modConst,
+				modStr:learningStat.modStr,
+				currentStatus:learningStat.currentStatus,
+				
+				finalResult:learningStat.finalResult,
+				
+				wModGame:{
+					_id:learningStat.wModGame._id,
+					learnedOn:learningStat.wModGame.learnedOn,
+					movesLength:(learningStat.wModGame.lastDbTable)?learningStat.wModGame.lastDbTable.moves.length:0,
+					result:{
+						blackWon:learningStat.wModGame.result.blackWon,
+						whiteWon:learningStat.wModGame.result.whiteWon,
+						isDraw:learningStat.wModGame.result.isDraw,
+						totalMoves:learningStat.wModGame.result.totalMoves
+					},
+					status:learningStat.wModGame.status
 				},
-				status:learningStat.wModGame.status
-			},
-			
-			
-			bModGame:{
-				learnedOn:learningStat.bModGame.learnedOn,
-				movesLength:(learningStat.bModGame.lastDbTable)?learningStat.bModGame.lastDbTable.moves.length:0,
-				result:{
-					blackWon:learningStat.bModGame.result.blackWon,
-					whiteWon:learningStat.bModGame.result.whiteWon,
-					isDraw:learningStat.bModGame.result.isDraw,
-					totalMoves:learningStat.bModGame.result.totalMoves
+				
+				
+				bModGame:{
+					_id:learningStat.bModGame._id,
+					learnedOn:learningStat.bModGame.learnedOn,
+					movesLength:(learningStat.bModGame.lastDbTable)?learningStat.bModGame.lastDbTable.moves.length:0,
+					result:{
+						blackWon:learningStat.bModGame.result.blackWon,
+						whiteWon:learningStat.bModGame.result.whiteWon,
+						isDraw:learningStat.bModGame.result.isDraw,
+						totalMoves:learningStat.bModGame.result.totalMoves
+					},
+					status:learningStat.bModGame.status
 				},
-				status:learningStat.bModGame.status
-			},
-			
-			
-					})
+				
+				
+			})
+		})
+		cb(result)
 	})
 	
-	return result
+	
+
+	
+	//console.log('###sglob @ 228',result )
+	
 	
 },
 
@@ -261,6 +272,8 @@ serverGlobals.learnerResult = function(data) {
 					foundData.wModGame.result = data.result
 				} else {
 					foundData.bModGame.result = data.result
+					foundData.currentStatus = 'done'
+					
 
 				}
 			}, function(learningStats) {
@@ -289,6 +302,7 @@ serverGlobals.learnerFinalResult = function(data) {
 			dbFuncs.updateLearningStat(modStr, function(foundData) {
 
 				foundData.finalResult = data
+				foundData.currentStatus = 'done'
 
 			}, function(learningStats) {
 
@@ -331,12 +345,18 @@ serverGlobals.learnerSmallReport = function(data) {
 		}
 
 	}, function(savedDoc) {
+		
+		serverGlobals.getLearningStats(function(learningStats){
+			
+			//serverGlobals.updateLearningStat(savedDoc, function(learningStats2) {
 
-		serverGlobals.updateLearningStat(savedDoc, function(learningStats) {
-
-			clients.publishView('admin.html', 'default', 'learningStats', serverGlobals.getLearningStats())
-
+				clients.publishView('admin.html', 'default', 'learningStats',learningStats )
+	
+			//})
+				
 		})
+
+		
 
 	})
 
@@ -346,7 +366,7 @@ serverGlobals.learnerSmallReport = function(data) {
 serverGlobals.stopLearningGame = function(data) {
 
 	var modStr=data.modStr
-    var wModded=data.wModded
+    //var wModded=data.wModded
 
 	dbFuncs.updateLearningStat(modStr, function(foundDoc) {
 
@@ -354,26 +374,15 @@ serverGlobals.stopLearningGame = function(data) {
             
             foundDoc.currentStatus='inactive'
 
-			// if (wModded) {
-
-			// 	//foundDoc.wModGame.moves = data.moves
-            //     foundDoc.wModGame.lastDbTable= data.lastDbTable
-
-			// } else {
-
-			// 	//foundDoc.bModGame.moves = data.moves
-            //     foundDoc.bModGame.lastDbTable= data.lastDbTable
-			// }
-
 		}
 
 	}, function(savedDoc) {
 
-		serverGlobals.updateLearningStat(savedDoc, function(learningStats) {
-
-			clients.publishView('admin.html', 'default', 'learningStats', serverGlobals.getLearningStats())
-
+	
+		serverGlobals.getLearningStats(function(learningStats){
+			clients.publishView('admin.html', 'default', 'learningStats', learningStats )
 		})
+	
 
 	})
 
@@ -495,14 +504,17 @@ serverGlobals.learning = {
                 
                 statBeforeSaving.currentConnectionID=connectionID
                 
-                statBeforeSaving.currentStatus='active on '+game.learningOn
+                statBeforeSaving.currentStatus='active'//+game.learningOn
                 statBeforeSaving.wModGame.lastDbTable=game
                 
 
 			}, dbFuncs.newLearningStat, function(statWithId) {
 
 				serverGlobals.learningStats.push(statWithId)
-				clients.publishView('admin.html', 'default', 'learningStats', serverGlobals.getLearningStats())
+				serverGlobals.getLearningStats(function(learningStats){
+					clients.publishView('admin.html', 'default', 'learningStats', learningStats )
+				})
+				
 					//console.log(statWithId)
 
 			})
@@ -522,11 +534,13 @@ serverGlobals.learning = {
 
 			}, function(savedDoc) {
 
-				serverGlobals.updateLearningStat(savedDoc, function(learningStats) {
-
-					clients.publishView('admin.html', 'default', 'learningStats', serverGlobals.getLearningStats())
-
+				//serverGlobals.updateLearningStat(savedDoc, function(learningStats) {
+				serverGlobals.getLearningStats(function(learningStats){
+					clients.publishView('admin.html', 'default', 'learningStats', learningStats)
 				})
+					
+
+				//})
 
 			})
 
@@ -571,11 +585,13 @@ serverGlobals.learning = {
 
 			}, function(savedDoc) {
 
-				serverGlobals.updateLearningStat(savedDoc, function(learningStats) {
-
-					clients.publishView('admin.html', 'default', 'learningStats', serverGlobals.getLearningStats())
-
+				//serverGlobals.updateLearningStat(savedDoc, function(learningStats) {
+				serverGlobals.getLearningStats(function(learningStats){
+					clients.publishView('admin.html', 'default', 'learningStats', learningStats)
 				})
+					
+
+				//})
 
 			})
 
@@ -594,11 +610,13 @@ serverGlobals.learning = {
 
 			}, function(savedDoc) {
 
-				serverGlobals.updateLearningStat(savedDoc, function(learningStats) {
-
-					clients.publishView('admin.html', 'default', 'learningStats', serverGlobals.getLearningStats())
-
+		//serverGlobals.updateLearningStat(savedDoc, function(learningStats) {
+				serverGlobals.getLearningStats(function(learningStats){
+					clients.publishView('admin.html', 'default', 'learningStats', learningStats)
 				})
+					
+
+				//})
 
 			})
 

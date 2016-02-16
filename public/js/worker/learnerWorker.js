@@ -226,6 +226,14 @@ var playModGamePair=function(mod,scndGame,partDone){
     if(partDone){
         console.log('partDone',partDone)
         initedTable= partDone.lastDbTable
+        
+        initedTable.modStr=partDone.modStr
+        initedTable.wModded=partDone.wModded
+        
+        // learnerWorkerGlobals.wModded=initedTable.wModded
+        
+        //learnerGlobals.gameNum=initedTable.gameNum
+        
     }else{
         
         if (wModded) { //this tells us if wmodded
@@ -240,13 +248,14 @@ var playModGamePair=function(mod,scndGame,partDone){
         
         initedTable.learnerGame = true
         initedTable.modStr=(wModded)?initedTable.wName:initedTable.bName
-        
+        initedTable.wModded=wModded
         
     }
     
     
     learnerWorkerGlobals.modStr=initedTable.modStr
-    learnerWorkerGlobals.wModded=wModded
+    learnerWorkerGlobals.wModded=initedTable.wModded
+    
     
     initedTable.learningOn = learnerWorkerGlobals.lastUser
     initedTable.connectionID = learnerWorkerGlobals.myID
@@ -375,12 +384,16 @@ onmessage = function(event){
             
             //console.log('starting learner')
             
-            learnerToServer('stopLearningGame',{
+            var obj={
                 gameNum:learnerWorkerGlobals.gameNum,
                 myID:learnerWorkerGlobals.myID,
                 modStr:learnerWorkerGlobals.modStr,
                 wModded:learnerWorkerGlobals.wModded
-            },'',function(){
+            }
+            
+            console.log(obj)
+            
+            learnerToServer('stopLearningGame',obj,'',function(){
                
                 postMessage({command:'terminateMe'})
                 

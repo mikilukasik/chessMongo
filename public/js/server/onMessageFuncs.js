@@ -728,12 +728,15 @@ var onMessageFuncs = {
                     data: serverGlobals.learningGames   
                 })
                 
-                clients.send(connection,'updateView',{
-                    viewName:'admin.html',
-                    subViewName:'default',
-                    viewPart: 'learningStats',
-                    data: serverGlobals.getLearningStats()   
-                })
+				serverGlobals.getLearningStats(function(learningStats){
+					clients.send(connection,'updateView',{
+						viewName:'admin.html',
+						subViewName:'default',
+						viewPart: 'learningStats',
+						data: learningStats   
+					})
+				})
+					
                 
                 clients.send(connection,'updateView',{
                     viewName:'admin.html',

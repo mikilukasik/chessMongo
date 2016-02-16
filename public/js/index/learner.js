@@ -20,17 +20,13 @@ var learnerFuncs={
                 while(stopCount--){
                     console.log('stop a learner')
                     
-                    var workerToStop=learnerGlobals.learnerWorkers[stopCount]
+                    var workerToStop=learnerGlobals.learnerWorkers.pop()//[stopCount]
                     
                     workerToStop.postMessage({
                         command:'stop',
                         
                     })
                     
-                    //workerToStop.terminate()
-                    
-                    //then
-                    //learnerGlobals.learnerCount--
                 }
                 
                 
@@ -66,7 +62,13 @@ var learnerFuncs={
                             
                             case 'terminateMe':
                             
+                                
+                                learnerGlobals.learnerCount--
+                                
                                 workerToPush.terminate()
+                                
+                                
+                                console.log('learnerGlobals.learnerCount',learnerGlobals.learnerCount)
                             
                             break;
                             
@@ -90,6 +92,8 @@ var learnerFuncs={
                     
                     
                     learnerGlobals.learnerCount++
+                    console.log('learnerGlobals.learnerCount',learnerGlobals.learnerCount)
+                    
                 }
                 
                 
