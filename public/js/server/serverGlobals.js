@@ -182,6 +182,58 @@ var serverGlobals = {
 
 	}
 	//
+	
+serverGlobals.getLearningStats=function(){
+	var result=[]
+	
+	serverGlobals.learningStats.forEach(function(learningStat){
+		result.push({
+			modType:learningStat.modType,
+			modVal:learningStat.modVal,
+			modConst:learningStat.modConst,
+			modStr:learningStat.modStr,
+			currentStatus:learningStat.currentStatus,
+			
+			finalResult:learningStat.finalResult,
+			
+			wModGame:{
+				learnedOn:learningStat.wModGame.learnedOn,
+				movesLength:(learningStat.wModGame.lastDbTable)?learningStat.wModGame.lastDbTable.moves.length:0,
+				result:{
+					blackWon:learningStat.wModGame.result.blackWon,
+					whiteWon:learningStat.wModGame.result.whiteWon,
+					isDraw:learningStat.wModGame.result.isDraw,
+					totalMoves:learningStat.wModGame.result.totalMoves
+				},
+				status:learningStat.wModGame.status
+			},
+			
+			
+			bModGame:{
+				learnedOn:learningStat.bModGame.learnedOn,
+				movesLength:(learningStat.bModGame.lastDbTable)?learningStat.bModGame.lastDbTable.moves.length:0,
+				result:{
+					blackWon:learningStat.bModGame.result.blackWon,
+					whiteWon:learningStat.bModGame.result.whiteWon,
+					isDraw:learningStat.bModGame.result.isDraw,
+					totalMoves:learningStat.bModGame.result.totalMoves
+				},
+				status:learningStat.bModGame.status
+			},
+			
+			
+					})
+	})
+	
+	return result
+	
+},
+
+serverGlobals.getLearningGames=function(){
+	
+},
+
+	
 serverGlobals.learnerResult = function(data) {
 
 	var modStr = data.modStr
@@ -282,7 +334,7 @@ serverGlobals.learnerSmallReport = function(data) {
 
 		serverGlobals.updateLearningStat(savedDoc, function(learningStats) {
 
-			clients.publishView('admin.html', 'default', 'learningStats', learningStats)
+			clients.publishView('admin.html', 'default', 'learningStats', serverGlobals.getLearningStats())
 
 		})
 
@@ -319,7 +371,7 @@ serverGlobals.stopLearningGame = function(data) {
 
 		serverGlobals.updateLearningStat(savedDoc, function(learningStats) {
 
-			clients.publishView('admin.html', 'default', 'learningStats', learningStats)
+			clients.publishView('admin.html', 'default', 'learningStats', serverGlobals.getLearningStats())
 
 		})
 
@@ -450,7 +502,7 @@ serverGlobals.learning = {
 			}, dbFuncs.newLearningStat, function(statWithId) {
 
 				serverGlobals.learningStats.push(statWithId)
-				clients.publishView('admin.html', 'default', 'learningStats', serverGlobals.learningStats)
+				clients.publishView('admin.html', 'default', 'learningStats', serverGlobals.getLearningStats())
 					//console.log(statWithId)
 
 			})
@@ -472,7 +524,7 @@ serverGlobals.learning = {
 
 				serverGlobals.updateLearningStat(savedDoc, function(learningStats) {
 
-					clients.publishView('admin.html', 'default', 'learningStats', learningStats)
+					clients.publishView('admin.html', 'default', 'learningStats', serverGlobals.getLearningStats())
 
 				})
 
@@ -521,7 +573,7 @@ serverGlobals.learning = {
 
 				serverGlobals.updateLearningStat(savedDoc, function(learningStats) {
 
-					clients.publishView('admin.html', 'default', 'learningStats', learningStats)
+					clients.publishView('admin.html', 'default', 'learningStats', serverGlobals.getLearningStats())
 
 				})
 
@@ -544,7 +596,7 @@ serverGlobals.learning = {
 
 				serverGlobals.updateLearningStat(savedDoc, function(learningStats) {
 
-					clients.publishView('admin.html', 'default', 'learningStats', learningStats)
+					clients.publishView('admin.html', 'default', 'learningStats', serverGlobals.getLearningStats())
 
 				})
 

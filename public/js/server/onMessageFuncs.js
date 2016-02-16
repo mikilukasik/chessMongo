@@ -732,7 +732,7 @@ var onMessageFuncs = {
                     viewName:'admin.html',
                     subViewName:'default',
                     viewPart: 'learningStats',
-                    data: serverGlobals.learningStats   
+                    data: serverGlobals.getLearningStats()   
                 })
                 
                 clients.send(connection,'updateView',{
