@@ -166,16 +166,14 @@ updateDbClients = function(connectionData) {
 }
 
 registerNewClient = function(initialData, connection) {
-	mongodb.connect(cn, function(err, db) {
-		db.collection("clients")
-			.insert(initialData, function(err, doc) {});
-		db.close()
+	dbFuncs.insert("clients",initialData, function(err, doc) {});
+		//db.close()
 		clients.send(connection, 'saveYourClientMongoId', {
 				clientMongoId: initialData._id
 
 			}, 'saveYourClientMongoId', function() {})
 			
-	});
+	//});
 }
 
 
