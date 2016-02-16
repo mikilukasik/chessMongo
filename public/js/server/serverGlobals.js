@@ -250,6 +250,18 @@ serverGlobals.learnerResult = function(data) {
 	var modStr = data.modStr
 	var wMod = data.wMod
 
+	var i = serverGlobals.learningGames.length
+		while (i--) {
+	
+			if (serverGlobals.learningGames[i]._id == data._id) {
+				
+				serverGlobals.learningGames.splice(i, 1)
+				
+				
+			}
+	
+		}
+
 	serverGlobals.learningStats.forEach(function(learningStat) {
 
 		if (learningStat.modStr == modStr) {
@@ -257,10 +269,12 @@ serverGlobals.learnerResult = function(data) {
 			if (wMod) {
 
 				learningStat.wModGame.result = data.result
+				learningStat.wModGame.status = 'done'
 
 			} else {
 
 				learningStat.bModGame.result = data.result
+				learningStat.bModGame.status = 'done'
 
 			}
 
@@ -448,7 +462,7 @@ serverGlobals.learning = {
 				if (serverGlobals.learningGames[i].connectionID == id) {
                     
 					serverGlobals.learningGames.splice(i, 1)
-                    
+                    clients.publishView('admin.html', 'default', 'learningGames', serverGlobals.learningGames)
 				}
 
 			}
