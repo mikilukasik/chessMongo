@@ -297,8 +297,6 @@ var exportThis = {
 			data._id = new ObjectID(data.clientMongoId)
 		}
 		catch (err) {
-			console.log(err);
-			console.log('@@@@@@@@@@@@', data.clientMongoId)
 			data._id = new ObjectID();
 		}
 		
