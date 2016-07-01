@@ -293,8 +293,15 @@ var exportThis = {
 	knownClientReturned: function(data, connection, cback, userFuncs) {
 
 		if (!cback) cback = function() {}
-
-		data._id = new ObjectID(data.clientMongoId)
+		try {
+			data._id = new ObjectID(data.clientMongoId)
+		}
+		catch (err) {
+			console.log(err);
+			console.log('@@@@@@@@@@@@', data.clientMongoId)
+			data._id = new ObjectID();
+		}
+		
 
 		//mongodb.connect(cn, function(err, dbGlobals.db) {
 		if (dbGlobals.db) {

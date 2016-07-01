@@ -114,7 +114,7 @@ wsServer.on('request', function(request) {
         // }
 
 		
-        
+    console.log('innen jott....')
 		clients.destroy(connection)
         
         serverGlobals.learning.markGamesInactive.byConnectionID(connection.addedData.connectionID)

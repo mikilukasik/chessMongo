@@ -554,7 +554,7 @@ var onMessageFuncs = {
 
 		} else {
 			//we must know this client already, look it up in DB!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			////console.log('known client came.......................................')
+			console.log('known client came..', data.clientMongoId)
 
 			dbFuncs.knownClientReturned(data, connection,function(lastUser,learnerCount){
                 

@@ -1,83 +1,63 @@
 <html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="chess.css">
 
-<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="chess.css">
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
-    
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    
-    
 
-	<script src="js/all/engine.js"></script>
-	<script src="js/all/brandNewAi.js"></script>
-	<script src="js/worker/deepening.js"></script>
-	<script src="js/all/classes.js"></script>
-	<script src="js/index/thinker.js"></script>
-	<script src="js/index/onmessageFuncs.js"></script>
+    		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
-	<script src="js/index/learner.js"></script>
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
-	<script src="js/index/ngmodules.js"></script>
-	<script src="js/index/ngcontrollers.js"></script>
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
-	<script src="js/index/indexglobals.js"></script>
-	<script src="js/index/clientsockets.js"></script>
-	<script src="js/index/clienttest.js"></script>
-    
+    <script src="js/all/engine.js"></script>
+    <script src="js/all/brandNewAi.js"></script>
+    <script src="js/worker/deepening.js"></script>
+    <script src="js/all/classes.js"></script>
+    <script src="js/index/thinker.js"></script>
+    <script src="js/index/onmessageFuncs.js"></script>
+    <script src="js/index/learner.js"></script>
+    <script src="js/index/ngmodules.js"></script>
+    <script src="js/index/ngcontrollers.js"></script>
+    <script src="js/index/indexglobals.js"></script>
+    <script src="js/index/clientsockets.js"></script>
+    <script src="js/index/clienttest.js"></script>
     <script src="js/index/chart.js"></script>
 
-
-
-	<script>
-            
-        var appModule = angular.module("appModule", []);
-        appModule.controller("ApplicationController", ApplicationController)
-        
-        appModule.filter('reverse', reverseFilter);
-        appModule.filter('mc2mv', mc2mvFilter);
-        appModule.filter('mv2mc', mv2mcFilter);
-        
-        appModule.directive('wtable', [wtable])
-        appModule.directive('btable', [btable])
-        appModule.directive('moves', [movesDtv])
-        appModule.directive('busythinkers', [busyThinkersDtv])
-        appModule.directive('learnerresults', [learnerResultsDtv])
-
-	</script>
-
-</head>
-
-<body ng-app="appModule" ng-controller="ApplicationController" class="docuBody">
-
-	<div class="main-div" style="padding-bottom:0px;border-spacing:0px">
-
-		<nav ng-if="ran" style="width: 100%;padding-bottom:0px;border-spacing:0px" class="navvv unselectable">
-
-			<div ng-include="'html/nav.html'"></div>
-
-		</nav>
-
-	</div>
-
-	<div>
-
-		<div ng-if="loginVals.viewName&&loginVals.viewName!=''" id="content" ng-include="'html/'+loginVals.viewName" onload="newView(viewName)">
-
-		</div>
-		<h1 ng-if="!(ran)">Please wait...</h1>
-
-	</div>
-
-	<div ng-if="alertData" class="alertcourtain">
-
-		<div ng-include="'/html/alert.html'">
-
-		</div>
-
-</body>
-
+    <script>
+      var appModule = angular.module("appModule", []);
+      appModule.controller("ApplicationController", ApplicationController)
+      
+      appModule.filter('reverse', reverseFilter);
+      appModule.filter('mc2mv', mc2mvFilter);
+      appModule.filter('mv2mc', mv2mcFilter);
+      
+      appModule.directive('wtable', [wtable])
+      appModule.directive('btable', [btable])
+      appModule.directive('moves', [movesDtv])
+      appModule.directive('busythinkers', [busyThinkersDtv])
+      appModule.directive('learnerresults', [learnerResultsDtv])
+    </script>
+  </head>
+  <body ng-app="appModule" ng-controller="ApplicationController" class="docuBody">
+    <div class="main-div" style="padding-bottom:0px;border-spacing:0px">
+      <nav ng-if="ran" style="width: 100%;padding-bottom:0px;border-spacing:0px" class="navvv unselectable">
+        <div ng-include="'html/nav.html'"></div>
+      </nav>
+    </div>
+    <div>
+      <div ng-if="loginVals.viewName&&loginVals.viewName!=''" id="content" ng-include="'html/'+loginVals.viewName" onload="newView(viewName)">
+      </div>
+      <h1 ng-if="!(ran)">Please wait...</h1>
+    </div>
+    <div ng-if="alertData" class="alertcourtain">
+    <div ng-include="'/html/alert.html'">
+    </div>
+  </body>
 </html>
