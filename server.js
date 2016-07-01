@@ -105,7 +105,7 @@ wsServer.on('request', function(request) {
 		}
 	});
 	
-	connection.on('close', function(connection2) {
+	connection.on('close', function(statusCode) {
         
         //var newConnectionID2 = request.key 
 
@@ -114,7 +114,7 @@ wsServer.on('request', function(request) {
         // }
 
 		
-    console.log('innen jott....', connection2)
+    console.log('Websocket closed, status code:', statusCode)
 		clients.destroy(connection)
         
         serverGlobals.learning.markGamesInactive.byConnectionID(connection.addedData.connectionID)
