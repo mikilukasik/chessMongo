@@ -248,7 +248,7 @@ var SplitMoves = function(clients,dbFuncs,Engine,mongo) {
 
 				adminLog('NO AVAILABLE THINKER: all busy, storing in new PendingThinker()')
                 
-                thinker=new PendingThinker()
+                thinker=new clients.PendingThinker()
                 
 				sendAll = true
 				

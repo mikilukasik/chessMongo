@@ -34,6 +34,8 @@ var Clients=function(dbFuncs){
 
     var c=this
 
+    this.PendingThinker = PendingThinker;
+
     this.adminLog=function(){
         
         if(c.adminLogging){
