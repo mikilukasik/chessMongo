@@ -9,13 +9,13 @@
 .selected {
   /*background-color: orange;*/
 
-  background: orange; /* For browsers that do not support gradients */
-  background: -webkit-radial-gradient(orange, rgba(0,0,0,0.0)); /* Safari 5.1 to 6.0 */
-  background: -o-radial-gradient(orange, rgba(0,0,0,0.0)); /* For Opera 11.6 to 12.0 */
-  background: -moz-radial-gradient(orange, rgba(0,0,0,0.0)); /* For Firefox 3.6 to 15 */
-  background: radial-gradient(orange, rgba(0,0,0,0.0)); /* Standard syntax (must be last) */
+  background-color: orange; /* For browsers that do not support gradients */
+  background-color: -webkit-radial-gradient(orange, rgba(0,0,0,0.0)); /* Safari 5.1 to 6.0 */
+  background-color: -o-radial-gradient(orange, rgba(0,0,0,0.0)); /* For Opera 11.6 to 12.0 */
+  background-color: -moz-radial-gradient(orange, rgba(0,0,0,0.0)); /* For Firefox 3.6 to 15 */
+  background-color: radial-gradient(orange, rgba(0,0,0,0.0)); /* Standard syntax (must be last) */
 
-    
+
 }
 
 .rotate90 {
@@ -28,41 +28,41 @@
 
 @-webkit-keyframes fadeIt {
   0% {
-    background: orange; /* For browsers that do not support gradients */
-	  background: -webkit-radial-gradient(orange, rgba(0,0,0,0.0)); /* Safari 5.1 to 6.0 */
-	  background: -o-radial-gradient(orange, rgba(0,0,0,0.0)); /* For Opera 11.6 to 12.0 */
-	  background: -moz-radial-gradient(orange, rgba(0,0,0,0.0)); /* For Firefox 3.6 to 15 */
-	  background: radial-gradient(orange, rgba(0,0,0,0.0)); /* Standard syntax (must be last) */
+    background-color: orange; /* For browsers that do not support gradients */
+	  background-color: -webkit-radial-gradient(orange, rgba(0,0,0,0.0)); /* Safari 5.1 to 6.0 */
+	  background-color: -o-radial-gradient(orange, rgba(0,0,0,0.0)); /* For Opera 11.6 to 12.0 */
+	  background-color: -moz-radial-gradient(orange, rgba(0,0,0,0.0)); /* For Firefox 3.6 to 15 */
+	  background-color: radial-gradient(orange, rgba(0,0,0,0.0)); /* Standard syntax (must be last) */
   }
 }
 
 @-moz-keyframes fadeIt {
   0% {
-    background: orange; /* For browsers that do not support gradients */
-	  background: -webkit-radial-gradient(orange, rgba(0,0,0,0.0)); /* Safari 5.1 to 6.0 */
-	  background: -o-radial-gradient(orange, rgba(0,0,0,0.0)); /* For Opera 11.6 to 12.0 */
-	  background: -moz-radial-gradient(orange, rgba(0,0,0,0.0)); /* For Firefox 3.6 to 15 */
-	  background: radial-gradient(orange, rgba(0,0,0,0.0)); /* Standard syntax (must be last) */
+    background-color: orange; /* For browsers that do not support gradients */
+	  background-color: -webkit-radial-gradient(orange, rgba(0,0,0,0.0)); /* Safari 5.1 to 6.0 */
+	  background-color: -o-radial-gradient(orange, rgba(0,0,0,0.0)); /* For Opera 11.6 to 12.0 */
+	  background-color: -moz-radial-gradient(orange, rgba(0,0,0,0.0)); /* For Firefox 3.6 to 15 */
+	  background-color: radial-gradient(orange, rgba(0,0,0,0.0)); /* Standard syntax (must be last) */
   }
 }
 
 @-o-keyframes fadeIt {
   0% {
-    background: orange; /* For browsers that do not support gradients */
-	  background: -webkit-radial-gradient(orange, rgba(0,0,0,0.0)); /* Safari 5.1 to 6.0 */
-	  background: -o-radial-gradient(orange, rgba(0,0,0,0.0)); /* For Opera 11.6 to 12.0 */
-	  background: -moz-radial-gradient(orange, rgba(0,0,0,0.0)); /* For Firefox 3.6 to 15 */
-	  background: radial-gradient(orange, rgba(0,0,0,0.0)); /* Standard syntax (must be last) */
+    background-color: orange; /* For browsers that do not support gradients */
+	  background-color: -webkit-radial-gradient(orange, rgba(0,0,0,0.0)); /* Safari 5.1 to 6.0 */
+	  background-color: -o-radial-gradient(orange, rgba(0,0,0,0.0)); /* For Opera 11.6 to 12.0 */
+	  background-color: -moz-radial-gradient(orange, rgba(0,0,0,0.0)); /* For Firefox 3.6 to 15 */
+	  background-color: radial-gradient(orange, rgba(0,0,0,0.0)); /* Standard syntax (must be last) */
   }
 }
 
 @keyframes fadeIt {
   0% {
-    background: orange; /* For browsers that do not support gradients */
-	  background: -webkit-radial-gradient(orange, rgba(0,0,0,0.0)); /* Safari 5.1 to 6.0 */
-	  background: -o-radial-gradient(orange, rgba(0,0,0,0.0)); /* For Opera 11.6 to 12.0 */
-	  background: -moz-radial-gradient(orange, rgba(0,0,0,0.0)); /* For Firefox 3.6 to 15 */
-	  background: radial-gradient(orange, rgba(0,0,0,0.0)); /* Standard syntax (must be last) */
+    background-color: orange; /* For browsers that do not support gradients */
+	  background-color: -webkit-radial-gradient(orange, rgba(0,0,0,0.0)); /* Safari 5.1 to 6.0 */
+	  background-color: -o-radial-gradient(orange, rgba(0,0,0,0.0)); /* For Opera 11.6 to 12.0 */
+	  background-color: -moz-radial-gradient(orange, rgba(0,0,0,0.0)); /* For Firefox 3.6 to 15 */
+	  background-color: radial-gradient(orange, rgba(0,0,0,0.0)); /* Standard syntax (must be last) */
   }
 }
 
